@@ -1,0 +1,419 @@
+@namespace(uri="http://anatlyzer/atlstatic", prefix="atlstatic")
+package atlstatic;
+
+@namespace(uri="http://anatlyzer/atlstatic/ATL", prefix="atl")
+package ATL {
+  abstract class LocatedElement {
+    !unique !ordered attr PrimitiveTypes.String location;
+    !unique attr PrimitiveTypes.String[*] commentsBefore;
+    !unique attr PrimitiveTypes.String[*] commentsAfter;
+  }
+
+  class Unit extends LocatedElement {
+    !ordered val LibraryRef[*]#unit libraries;
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class Library extends Unit {
+    val Helper[*]#library helpers;
+  }
+
+  class Query extends Unit {
+    !ordered val OCL.OclExpression[1] body;
+    val Helper[*]#query helpers;
+  }
+
+  class Module extends Unit {
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isRefining;
+    val OCL.OclModel[+] inModels;
+    !ordered val OCL.OclModel[+] outModels;
+    val ModuleElement[*] elements;
+  }
+
+  abstract class ModuleElement extends LocatedElement {
+  }
+
+  class Helper extends ModuleElement {
+    !ordered ref Query#helpers query;
+    !ordered ref Library#helpers library;
+    !ordered val OCL.OclFeatureDefinition[1] definition;
+  }
+
+  abstract class Rule extends ModuleElement {
+    !ordered val OutPattern#rule outPattern;
+    !ordered val ActionBlock#rule actionBlock;
+    val RuleVariableDeclaration[*]#rule variables;
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class MatchedRule extends Rule {
+    !ordered val InPattern#rule inPattern;
+    !ordered ref MatchedRule[*]#superRule children;
+    !ordered ref MatchedRule#children superRule;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isAbstract;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isRefining;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isNoDefault;
+  }
+
+  class LazyMatchedRule extends MatchedRule {
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isUnique;
+  }
+
+  class CalledRule extends Rule {
+    !ordered val OCL.Parameter[*] parameters;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isEntrypoint;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isEndpoint;
+  }
+
+  class InPattern extends LocatedElement {
+    !ordered val InPatternElement[+]#inPattern elements;
+    !ordered ref MatchedRule[1]#inPattern rule;
+    !ordered val OCL.OclExpression filter;
+  }
+
+  class OutPattern extends LocatedElement {
+    !ordered ref Rule[1]#outPattern rule;
+    val OutPatternElement[+]#outPattern elements;
+  }
+
+  abstract class PatternElement extends OCL.VariableDeclaration {
+  }
+
+  abstract class InPatternElement extends PatternElement {
+    !ordered ref OutPatternElement[1]#sourceElement mapsTo;
+    !ordered ref InPattern[1]#elements inPattern;
+    !ordered ref OCL.OclModel[*] models;
+  }
+
+  class SimpleInPatternElement extends InPatternElement {
+  }
+
+  abstract class OutPatternElement extends PatternElement {
+    !ordered ref OutPattern[1]#elements outPattern;
+    !ordered ref InPatternElement#mapsTo sourceElement;
+    val Binding[*]#outPatternElement bindings;
+    !ordered ref OCL.OclModel model;
+  }
+
+  class SimpleOutPatternElement extends OutPatternElement {
+    val OCL.OclExpression[*] reverseBindings;
+  }
+
+  class ForEachOutPatternElement extends OutPatternElement {
+    !ordered val OCL.OclExpression[1] collection;
+    !ordered val OCL.Iterator[1] iterator;
+  }
+
+  class Binding extends LocatedElement {
+    !ordered val OCL.OclExpression[1] value;
+    !ordered ref OutPatternElement[1]#bindings outPatternElement;
+    !unique !ordered attr PrimitiveTypes.String[1] propertyName;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isAssignment;
+  }
+
+  class RuleVariableDeclaration extends OCL.VariableDeclaration {
+    !ordered ref Rule[1]#variables rule;
+  }
+
+  class LibraryRef extends LocatedElement {
+    !ordered ref Unit[1]#libraries unit;
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class ActionBlock extends LocatedElement {
+    !ordered ref Rule[1]#actionBlock rule;
+    val Statement[*] statements;
+  }
+
+  abstract class Statement extends LocatedElement {
+  }
+
+  class ExpressionStat extends Statement {
+    !ordered val OCL.OclExpression[1] expression;
+  }
+
+  class BindingStat extends Statement {
+    !ordered val OCL.OclExpression[1] source;
+    !unique !ordered attr PrimitiveTypes.String[1] propertyName;
+    !unique !ordered attr PrimitiveTypes.Boolean[1] isAssignment;
+    !ordered val OCL.OclExpression[1] value;
+  }
+
+  class IfStat extends Statement {
+    !ordered val OCL.OclExpression[1] condition;
+    val Statement[*] thenStatements;
+    val Statement[*] elseStatements;
+  }
+
+  class ForStat extends Statement {
+    !ordered val OCL.Iterator[1] iterator;
+    !ordered val OCL.OclExpression[1] collection;
+    val Statement[*] statements;
+  }
+
+}
+
+@namespace(uri="http://anatlyzer/atlstatic/OCL", prefix="ocl")
+package OCL {
+  abstract class OclExpression extends ATL.LocatedElement {
+    !ordered val OclType#oclExpression type;
+    !ordered ref IfExp#elseExpression ifExp3;
+    !ordered ref PropertyCallExp#source appliedProperty;
+    !ordered ref CollectionExp#elements collection;
+    !ordered ref LetExp#in_ letExp;
+    !ordered ref LoopExp#body loopExp;
+    !ordered ref OperationCallExp#arguments parentOperation;
+    !ordered ref VariableDeclaration#initExpression initializedVariable;
+    !ordered ref IfExp#thenExpression ifExp2;
+    !ordered ref Operation#body owningOperation;
+    !ordered ref IfExp#condition ifExp1;
+    !ordered ref Attribute#initExpression owningAttribute;
+  }
+
+  class VariableExp extends OclExpression {
+    !ordered ref VariableDeclaration[1]#variableExp referredVariable;
+  }
+
+  class SuperExp extends OclExpression {
+  }
+
+  abstract class PrimitiveExp extends OclExpression {
+  }
+
+  class StringExp extends PrimitiveExp {
+    !unique !ordered attr PrimitiveTypes.String[1] stringSymbol;
+  }
+
+  class BooleanExp extends PrimitiveExp {
+    !unique !ordered attr PrimitiveTypes.Boolean[1] booleanSymbol;
+  }
+
+  abstract class NumericExp extends PrimitiveExp {
+  }
+
+  class RealExp extends NumericExp {
+    !unique !ordered attr PrimitiveTypes.Double[1] realSymbol;
+  }
+
+  class IntegerExp extends NumericExp {
+    !unique !ordered attr PrimitiveTypes.Integer[1] integerSymbol;
+  }
+
+  abstract class CollectionExp extends OclExpression {
+    val OclExpression[*]#collection elements;
+  }
+
+  class BagExp extends CollectionExp {
+  }
+
+  class OrderedSetExp extends CollectionExp {
+  }
+
+  class SequenceExp extends CollectionExp {
+  }
+
+  class SetExp extends CollectionExp {
+  }
+
+  class TupleExp extends OclExpression {
+    val TuplePart[*]#tuple tuplePart;
+  }
+
+  class TuplePart extends VariableDeclaration {
+    !ordered ref TupleExp[1]#tuplePart tuple;
+  }
+
+  class MapExp extends OclExpression {
+    val MapElement[*]#map elements;
+  }
+
+  class MapElement extends ATL.LocatedElement {
+    !ordered ref MapExp[1]#elements map;
+    !ordered val OclExpression[1] key;
+    !ordered val OclExpression[1] value;
+  }
+
+  class EnumLiteralExp extends OclExpression {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class OclUndefinedExp extends OclExpression {
+  }
+
+  abstract class PropertyCallExp extends OclExpression {
+    !ordered val OclExpression[1]#appliedProperty source;
+  }
+
+  class NavigationOrAttributeCallExp extends PropertyCallExp {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class OperationCallExp extends PropertyCallExp {
+    val OclExpression[*]#parentOperation arguments;
+    !unique !ordered attr PrimitiveTypes.String[1] operationName;
+  }
+
+  class OperatorCallExp extends OperationCallExp {
+  }
+
+  class CollectionOperationCallExp extends OperationCallExp {
+  }
+
+  abstract class LoopExp extends PropertyCallExp {
+    !ordered val OclExpression[1]#loopExp body;
+    !ordered val Iterator[+]#loopExpr iterators;
+  }
+
+  class IterateExp extends LoopExp {
+    !ordered val VariableDeclaration[1]#baseExp result;
+  }
+
+  class IteratorExp extends LoopExp {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class LetExp extends OclExpression {
+    !ordered val VariableDeclaration[1]#letExp variable;
+    !ordered val OclExpression[1]#letExp in_;
+  }
+
+  class IfExp extends OclExpression {
+    !ordered val OclExpression[1]#ifExp2 thenExpression;
+    !ordered val OclExpression[1]#ifExp1 condition;
+    !ordered val OclExpression[1]#ifExp3 elseExpression;
+  }
+
+  class VariableDeclaration extends ATL.LocatedElement {
+    !unique !ordered attr PrimitiveTypes.String ~id;
+    !unique !ordered attr PrimitiveTypes.String[1] varName;
+    !ordered val OclType#variableDeclaration type;
+    !ordered val OclExpression#initializedVariable initExpression;
+    !ordered ref LetExp#variable letExp;
+    !ordered ref IterateExp#result baseExp;
+    !ordered ref VariableExp[*]#referredVariable variableExp;
+  }
+
+  class Iterator extends VariableDeclaration {
+    !ordered ref LoopExp#iterators loopExpr;
+  }
+
+  class Parameter extends VariableDeclaration {
+  }
+
+  class CollectionType extends OclType {
+    !ordered val OclType[1]#collectionTypes elementType;
+  }
+
+  class OclType extends OclExpression {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+    !ordered ref OclContextDefinition#context_ definitions;
+    !ordered ref OclExpression#type oclExpression;
+    !ordered ref Operation#returnType operation;
+    !ordered ref MapType#valueType mapType2;
+    !ordered ref Attribute#type attribute;
+    !ordered ref MapType#keyType mapType;
+    !ordered ref CollectionType#elementType collectionTypes;
+    !ordered ref TupleTypeAttribute#type tupleTypeAttribute;
+    !ordered ref VariableDeclaration#type variableDeclaration;
+  }
+
+  abstract class Primitive extends OclType {
+  }
+
+  class StringType extends Primitive {
+  }
+
+  class BooleanType extends Primitive {
+  }
+
+  abstract class NumericType extends Primitive {
+  }
+
+  class IntegerType extends NumericType {
+  }
+
+  class RealType extends NumericType {
+  }
+
+  class BagType extends CollectionType {
+  }
+
+  class OrderedSetType extends CollectionType {
+  }
+
+  class SequenceType extends CollectionType {
+  }
+
+  class SetType extends CollectionType {
+  }
+
+  class OclAnyType extends OclType {
+  }
+
+  class TupleType extends OclType {
+    val TupleTypeAttribute[*]#tupleType attributes;
+  }
+
+  class TupleTypeAttribute extends ATL.LocatedElement {
+    !ordered val OclType[1]#tupleTypeAttribute type;
+    !ordered ref TupleType[1]#attributes tupleType;
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+  }
+
+  class OclModelElement extends OclType {
+    !ordered ref OclModel[1]#elements model;
+  }
+
+  class MapType extends OclType {
+    !ordered val OclType[1]#mapType2 valueType;
+    !ordered val OclType[1]#mapType keyType;
+  }
+
+  class OclFeatureDefinition extends ATL.LocatedElement {
+    !ordered val OclFeature[1]#definition feature;
+    !ordered val OclContextDefinition#definition context_;
+  }
+
+  class OclContextDefinition extends ATL.LocatedElement {
+    !ordered ref OclFeatureDefinition[1]#context_ definition;
+    !ordered val OclType[1]#definitions context_;
+  }
+
+  abstract class OclFeature extends ATL.LocatedElement {
+    !ordered ref OclFeatureDefinition#feature definition;
+  }
+
+  class Attribute extends OclFeature {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+    !ordered val OclExpression[1]#owningAttribute initExpression;
+    !ordered val OclType[1]#attribute type;
+  }
+
+  class Operation extends OclFeature {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+    val Parameter[*] parameters;
+    !ordered val OclType[1]#operation returnType;
+    !ordered val OclExpression[1]#owningOperation body;
+  }
+
+  class OclModel extends ATL.LocatedElement {
+    !unique !ordered attr PrimitiveTypes.String[1] name;
+    !ordered ref OclModel[1]#model metamodel;
+    !ordered ref OclModelElement[*]#model elements;
+    !ordered ref OclModel[*]#metamodel model;
+  }
+
+}
+
+@namespace(uri="http://anatlyzer/atlstatic/ATL-PrimitiveTypes", prefix="ptypes")
+package PrimitiveTypes {
+  datatype Boolean : boolean;
+
+  datatype Double : double;
+
+  datatype Integer : int;
+
+  datatype String : java.lang.String;
+
+}
+

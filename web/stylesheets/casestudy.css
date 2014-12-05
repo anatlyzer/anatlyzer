@@ -1,0 +1,33 @@
+
+body#casestudy h3 {
+    margin-bottom: 5px;
+}
+
+pre.binding {
+    font-family:Bitstream Vera Sans Mono, Lucida Console, Terminal, Monospace, Courier New, Courier, monospace;
+  color:#333;
+  font-size:12px;
+}
+
+.hmenu {
+    margin-bottom: 10px;
+}
+
+
+.metamodel-list {
+  list-style:none;
+  display: inline;
+  padding: 1px 5px 1px 5px;
+
+}
+
+.metamodel-list li {
+  display: inline;
+
+  background-color: #EEE;
+  border-radius:5px;
+  border:2px solid #e5e5e5;
+
+  padding: 1px 5px 1px 5px;
+  
+}

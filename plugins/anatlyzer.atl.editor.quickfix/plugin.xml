@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix">
+      </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix">
+      </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix">
+      </quickfix>
+   </extension>
+</plugin>

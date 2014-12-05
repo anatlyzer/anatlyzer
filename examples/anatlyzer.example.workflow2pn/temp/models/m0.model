@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:flow_concept="flow_concept">
+  <flow_concept:FlowEdge output="/2" input="/1"/>
+  <flow_concept:Task outs="/0" name="string1"/>
+  <flow_concept:Fork ins="/0"/>
+  <flow_concept:ThisModule/>
+</xmi:XMI>

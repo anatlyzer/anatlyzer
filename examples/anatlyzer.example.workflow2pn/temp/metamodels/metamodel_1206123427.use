@@ -1,0 +1,56 @@
+model metamodel_1206123427
+
+
+class ThisModule
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+abstract class Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Task < Node
+attributes
+  isInitial : Boolean
+  name : String
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class FlowEdge
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Fork < Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Join < Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class AuxiliaryClass4USE
+end
+
+association output_ins between
+  Node[1] role output
+  FlowEdge[*] role ins
+end
+
+association input_outs between
+  Node[1] role input
+  FlowEdge[*] role outs
+end
+
+constraints

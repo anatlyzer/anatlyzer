@@ -1,0 +1,69 @@
+model metamodel_1206123439
+
+
+class Join < Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+abstract class Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Task < Node
+attributes
+  isInitial : Boolean
+  name : String
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class ThisModule
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class FlowEdge
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Fork < Node
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class AuxiliaryClass4USE
+end
+
+association output_ins between
+  Node[1] role output
+  FlowEdge[*] role ins
+end
+
+association input_outs between
+  Node[1] role input
+  FlowEdge[*] role outs
+end
+
+constraints
+context AuxiliaryClass4USE inv graph1:
+ThisModule.allInstances()->exists(thisModule|FlowEdge.allInstances()->exists(e|if true
+	then let _problem_1 = e.output in
+	(if Fork.allInstances()->includes(_problem_1)
+	then true
+	else false
+	endif) or (if Join.allInstances()->includes(_problem_1)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+

@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/anatlyzer.atl.typing/src-gen" modelPluginID="anatlyzer.atl.typing"
+    modelName="Merged" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    usedGenPackages="../types.genmodel#//types" operationReflection="true" importOrganizing="true">
+  <foreignModel>merged.ecore</foreignModel>
+  <genPackages prefix="Atlext" basePackage="anatlyzer" disposableProviderFactory="true"
+      ecorePackage="merged.ecore#/">
+    <nestedGenPackages prefix="ATL" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
+        ecorePackage="merged.ecore#//ATL">
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/LocatedElement">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/location"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/commentsBefore"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/commentsAfter"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/Unit">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Unit/libraries"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Unit/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/Library">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Library/helpers"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/Query">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Query/body"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Query/helpers"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/Module">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Module/isRefining"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Module/inModels"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Module/outModels"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Module/elements"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/ModuleElement"/>
+      <genClasses ecoreClass="merged.ecore#//ATL/Helper">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/Helper/query"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/Helper/library"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Helper/definition"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Helper/hasContext"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Helper/isAttribute"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/Helper/inferredReturnType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/Helper/staticReturnType"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/StaticHelper"/>
+      <genClasses ecoreClass="merged.ecore#//ATL/ContextHelper">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/ContextHelper/contextType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/ContextHelper/polymorphicCalledBy"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/Rule">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Rule/outPattern"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Rule/actionBlock"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Rule/variables"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Rule/name"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/StaticRule"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/ModuleCallable"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/Callable">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/Callable/calledBy"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Callable/callableParameters"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/RuleWithPattern">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleWithPattern/inPattern"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleWithPattern/children"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleWithPattern/superRule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/RuleWithPattern/isAbstract"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/RuleWithPattern/isRefining"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/RuleWithPattern/isNoDefault"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/MatchedRule"/>
+      <genClasses ecoreClass="merged.ecore#//ATL/LazyRule">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LazyRule/isUnique"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/CalledRule">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/CalledRule/parameters"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/CalledRule/isEntrypoint"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/CalledRule/isEndpoint"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/InPattern">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/InPattern/elements"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/InPattern/filter"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/OutPattern">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPattern/rule"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPattern/elements"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/PatternElement"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/InPatternElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/InPatternElement/mapsTo"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/InPatternElement/inPattern"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/InPatternElement/models"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/SimpleInPatternElement"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/OutPatternElement">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPatternElement/outPattern"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPatternElement/sourceElement"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPatternElement/bindings"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPatternElement/model"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/SimpleOutPatternElement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/SimpleOutPatternElement/reverseBindings"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/ForEachOutPatternElement">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ForEachOutPatternElement/collection"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ForEachOutPatternElement/iterator"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/Binding">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/value"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/outPatternElement"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Binding/propertyName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Binding/isAssignment"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/writtenFeature"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/resolvedBy"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/RuleVariableDeclaration">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleVariableDeclaration/rule"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/LibraryRef">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/LibraryRef/unit"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LibraryRef/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/ActionBlock">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/ActionBlock/rule"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ActionBlock/statements"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//ATL/Statement"/>
+      <genClasses ecoreClass="merged.ecore#//ATL/ExpressionStat">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ExpressionStat/expression"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/BindingStat">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/BindingStat/source"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/BindingStat/propertyName"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/BindingStat/isAssignment"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/BindingStat/value"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/IfStat">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/IfStat/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/IfStat/thenStatements"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/IfStat/elseStatements"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/ForStat">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ForStat/iterator"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ForStat/collection"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/ForStat/statements"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/CallableParameter">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/CallableParameter/name"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/CallableParameter/staticType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/CallableParameter/paramDeclaration"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/RuleResolutionInfo">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleResolutionInfo/rule"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleResolutionInfo/allInvolvedRules"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="OCL" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
+        ecorePackage="merged.ecore#//OCL">
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/OclExpression">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/type"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/ifExp3"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/appliedProperty"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/collection"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/letExp"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/loopExp"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/parentOperation"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/initializedVariable"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/ifExp2"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/owningOperation"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/ifExp1"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/owningAttribute"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/VariableExp">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableExp/referredVariable"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/SuperExp"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/PrimitiveExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/StringExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/StringExp/stringSymbol"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/BooleanExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/BooleanExp/booleanSymbol"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/NumericExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/RealExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/RealExp/realSymbol"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/IntegerExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/IntegerExp/integerSymbol"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/CollectionExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/CollectionExp/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/BagExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/OrderedSetExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/SequenceExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/SetExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/TupleExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/TupleExp/tuplePart"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/TuplePart">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/TuplePart/tuple"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/MapExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapExp/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/MapElement">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapElement/map"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapElement/key"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapElement/value"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/EnumLiteralExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/EnumLiteralExp/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclUndefinedExp"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/PropertyCallExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/source"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/usedFeature"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/receptorType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/PropertyCallExp/isStaticCall"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/staticResolver"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/dynamicResolvers"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/NavigationOrAttributeCallExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/NavigationOrAttributeCallExp/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OperationCallExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OperationCallExp/arguments"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/OperationCallExp/operationName"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OperatorCallExp"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/CollectionOperationCallExp"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/LoopExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/LoopExp/body"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/LoopExp/iterators"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/IterateExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/IterateExp/result"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/IteratorExp">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/IteratorExp/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/LetExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/LetExp/variable"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/LetExp/in_"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/IfExp">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/IfExp/thenExpression"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/IfExp/condition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/IfExp/elseExpression"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/VariableDeclaration">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/VariableDeclaration/id"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/VariableDeclaration/varName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/type"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/initExpression"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/letExp"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/baseExp"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/variableExp"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/VariableDeclaration/staticType"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/Iterator">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/Iterator/loopExpr"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/Parameter"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/CollectionType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/CollectionType/elementType"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/OclType/name"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/definitions"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/oclExpression"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/operation"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/mapType2"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/attribute"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/mapType"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/collectionTypes"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/tupleTypeAttribute"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclType/variableDeclaration"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/Primitive"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/StringType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/BooleanType"/>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/NumericType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/IntegerType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/RealType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/BagType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/OrderedSetType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/SequenceType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/SetType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclAnyType"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/TupleType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/TupleType/attributes"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/TupleTypeAttribute">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/TupleTypeAttribute/type"/>
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/TupleTypeAttribute/tupleType"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/TupleTypeAttribute/name"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclModelElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/OclModelElement/model"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/MapType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapType/valueType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/MapType/keyType"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclFeatureDefinition">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclFeatureDefinition/feature"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclFeatureDefinition/context_"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclContextDefinition">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclContextDefinition/definition"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclContextDefinition/context_"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/OclFeature">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclFeature/definition"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/Attribute">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/Attribute/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/Attribute/initExpression"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/Attribute/type"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/Operation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/Operation/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/Operation/parameters"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/Operation/returnType"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/Operation/body"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/OclModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/OclModel/name"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/OclModel/metamodel"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/OclModel/elements"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/OclModel/model"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="merged.ecore#//OCL/TypedElement">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/TypedElement/inferredType"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="PrimitiveTypes" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
+        ecorePackage="merged.ecore#//PrimitiveTypes">
+      <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/Boolean"/>
+      <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/Double"/>
+      <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/Integer"/>
+      <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/String"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel_1206123425" nsURI="flow_concept" nsPrefix="flow_concept">
+  <eAnnotations source="Binding may be resolved by rule with invalid target type (src : Node). 112:2-112:20&#xA;&#x9;fork2transition 56:1-61:2&#xA;&#x9;join2transition 63:1-68:2&#xA;"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ins" upperBound="-1" eType="#//FlowEdge"
+        eOpposite="#//FlowEdge/output"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outs" upperBound="-1" eType="#//FlowEdge"
+        eOpposite="#//FlowEdge/input"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Task" eSuperTypes="#//Node">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="isInitial" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowEdge">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        eType="#//Node" eOpposite="#//Node/ins"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="input" lowerBound="1" eType="#//Node"
+        eOpposite="#//Node/outs"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fork" eSuperTypes="#//Node">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Join" eSuperTypes="#//Node">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisModule">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuxiliaryClass4USE"/>
+</ecore:EPackage>

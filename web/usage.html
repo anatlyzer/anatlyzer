@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>anATLyzer by Miso</title>
+
+    <link rel="stylesheet" href="stylesheets/custom.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+	 <h1><a class="title" href="index.html">anATLyzer</a></h1>
+         <p>Advanced analysis of ATL transformations</p>
+
+        <ul>
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/binaries/anatlyzer-0.1.0.zip">Download <strong>anATLyzer</strong></a></li>
+
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/sites/anatlyzer.updatesite">or use the<strong>Update site</strong></a></li>
+
+          <li><a href="https://github.com/jesusc/anatlyzer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+
+      <section>
+	
+      <h2>Usage</h2>
+      This page describes how to use the an<span class="atlyzer">atl</span>yzer Eclipse plug-in.
+      </section>
+      <section>
+        <h3>
+<a name="project" class="anchor" href="#project"><span class="octicon octicon-link"></span></a>Configuring the project</h3>
+
+<p>
+The an<span class="atlyzer">atl</span>yzer plug-in for Eclipse works as an extension of the
+regular ATL editor provided by the Eclipse modelling distribution. To enhance the ATL editor
+with an<span class="atlyzer">atl</span>yzer just do the following:
+</p>
+
+<ul>
+<li>Create new project (if it does not exist yet): File -> New -> ATL Project </li>
+<li>Activate anatlyzer: Right-click on the project -> Add anATLyzer nature</li>
+</ul>
+
+<p>
+Every ATL file in the project will be statically analysed every time it is saved,
+and errors will be reported in the problem view.
+</p>
+
+    </section>
+    <section>
+        <h3>
+<a name="conftrafo" class="anchor" href="#conftrafo"><span class="octicon octicon-link"></span></a>Configuring the transformation</h3>
+
+<p>
+The an<span class="atlyzer">atl</span>yzer requires the source and target meta-models to
+be able to work propertly. In ATL this is done by adding the path or URI or the meta-model
+at the beginning of the transformation file (as described <a href="http://wiki.eclipse.org/ATL/User_Guide_-_The_ATL_Tools#Content_assist">here</a>). For example, the two following lines declare the
+the WF workflow meta-model (using its project relative path), and the PN petri nets meta-model using its
+URI. It is important to be aware that then you need to register the meta-model.
+</p>
+
+<pre>
+-- @path WF=/anatlyzer.example.workflow2pn/metamodels/workflow.ecore
+-- @nsURI PN=http://anatlyzer/example/petri_nets
+</pre>
+
+<p>
+If you get many "Invalid meta-model" errors, then you probably have some error in the
+@path or @nsURI declarations (e.g., an erroneous path or URI, or if you are using the
+URI you may need to register the meta-model).
+</p>
+    </section>
+    <section>
+        <h3>
+<a name="disabling" class="anchor" href="#disabling"><span class="octicon octicon-link"></span></a>Disabling problem reports</h3>
+	<p>
+	By default the analyser reports all errors and warnings that it can find. Sometimes one is not
+        interested in getting reports about certain types of errors. To disable report by error type
+	or even error category, there is a special syntax that can be put at the beginning of the
+	transformation file.
+	</p>
+	<p>
+	  The following example disables "missing binding for compulsory feature" errors and
+	  every style warning.
+	</p>
+
+	<pre>-- @disable MissingBinding, style</pre>
+
+	<p>The complete list of error names and error categories will be added here soon...</p>
+
+  </section>
+  <section>
+        <h3>
+	  <a name="witness" class="anchor" href="#witness"><span class="octicon octicon-link"></span></a>Generating witness models</h3>
+	<p>Some errors signalled by the analyser are just "potential
+	  problems" which needs to be confirmed or discarded by
+	  running a constraint solver. The basic idea is to ask the
+	  constraint solver to find a model that will make the transformation
+	  control flow reach the problematic statement. Such model is called
+	  "a witness model", and if its found it confirms the problem. If
+	  not, the problem can be discarded.
+	</p>
+	
+	<p>Note: unfortunately the tool does not provide (yet) any way
+	  to distinguish whether the problem must be confirmed by the
+	  constraint solver, you need to figure out
+	</p>
+	<p>
+	  To try to find a witness model, just <span class="command">go to
+	    the problematic statement</span>, press 
+	  <span class="command">CTRL + 1</span> to show the quickfixes,
+	  and select <span class="command">generate witness</span>.
+	</p>
+	<p>
+	  The first time the constraint solver is caller for a given
+	  project, a folder called temp and file called
+	  transml.properties are created. The temp folder contains some
+	  intermediate files and the generated witness models (under
+	  folder models). Each time a new XMI file is generated with a new
+	  identifier, so you could find m0.model, m1.model, etc. 
+	</p>
+	<p>
+	  It is likely that you need to register the source meta-models
+	  before opening the witness models.
+	</p>
+
+  </section>
+  <section>
+    <h3>
+      <a name="trouble" class="anchor" href="#trouble"><span class="octicon octicon-link"></span></a>Troubleshooting</h3>
+
+    <ul>
+      <li>A witness model should be generated but <code>No witness
+      model can be found</code> message is shown. 
+	<br>
+	Probably there is an error or a limitation in our implementation
+	or in the USE Validator. Check the Error Log view.
+      </li>
+      <ul>
+	</section>
+  <section>
+ 
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>If you have any trouble installing or using Bent&#333, you can contact
+ <code>jesus dot sanchez dot cuadrado at uam dot es</code>
+</p>
+
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jesusc">jesusc</a></p>
+        <p><small>Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11389533-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

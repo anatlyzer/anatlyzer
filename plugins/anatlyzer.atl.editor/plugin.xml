@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="anatlyzer.atl.editor.quickfix" name="anATLyzer QuickFix" schema="schema/anatlyzer.atl.editor.quickfix.exsd"/>
+
+   <extension
+         id="anatlyzerATLBuilder"
+         name="anATLyzer Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="anatlyzer.atl.editor.builder.AnATLyzerBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="anatlyzerATLNature"
+         name="anATLyzer Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="anatlyzer.atl.editor.builder.AnATLyzerNature">
+         </run>
+      </runtime>
+      <builder
+            id="anatlyzer.atl.editor.anatlyzerATLBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="anatlyzer.atl.editor.contribution1">
+         <action
+               label="Add/Remove anATLyzer Nature"
+               class="anatlyzer.atl.editor.builder.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="anatlyzer.atl.editor.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         id="anatlyzer.atl.editor.anatlyzerATLProblem"
+         name="ATL Analysis Problem"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="false">
+      </persistent>
+   </extension>
+
+  <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="anatlyzer.atl.editor.problems.MarkerResolutionGenerator"
+            markerType="anatlyzer.atl.editor.anatlyzerATLProblem">
+      </markerResolutionGenerator>
+   </extension>
+   
+     <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="anatlyzer.atl.editor.AtlEditorExt"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="atl"
+            icon="icons/atl_file.gif"
+            id="org.eclipse.m2m.atl.adt.editor.AtlEditor"
+            name="anATLyzer ATL Editor">
+			<!--
+			class="org.eclipse.m2m.atl.adt.ui.editor.AtlEditor"
+            id="org.eclipse.m2m.atl.adt.editor.AtlEditor"
+			-->
+      </editor>
+   </extension>
+
+    <extension
+          point="org.eclipse.ui.editorActions">
+       <editorContribution
+             id="anatlyzer.ide.menuExtension"
+             targetID="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+
+             <menu
+                id="AnATLyzerEditorMenu"
+                label="anATLyzer">
+             <groupMarker
+                   name="AnATLyzerGroup">
+             </groupMarker>
+          </menu>
+
+	
+          <action
+                class="anatlyzer.ui.actions.CheckRuleConflicts"
+                definitionId="anatlyzer.ui.commands.CheckRuleConflicts"
+                id="anatlyzer.ui.actions.CheckRuleConflicts"
+                label="Check rule conflicts"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+		</editorContribution>
+
+   </extension>
+
+   <extension point="org.eclipse.ui.bindings">
+     <key
+        commandId="anatlyzer.ui.commands.CheckRuleConflicts"
+        contextId="org.eclipse.m2m.atl.adt.editor"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="Ctrl+Shift+C"/>
+  	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.CheckRuleConflicts"
+             name="Anatlyzer - Check rule conflicts"/>
+	</extension>
+
+
+</plugin>
+	

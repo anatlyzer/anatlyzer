@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: anATLyzer. Editor Quickfixes
+Bundle-SymbolicName: anatlyzer.atl.editor.quickfix;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Activator: anatlyzer.atl.editor.quickfix.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.workbench,
+ org.eclipse.ui.editors;bundle-version="3.7.0",
+ org.eclipse.ui.ide;bundle-version="3.7.0",
+ org.eclipse.m2m.atl.common,
+ anatlyzer.atl.typing,
+ anatlyzer.use.witness,
+ anatlyzer.atl.editor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Export-Package: anatlyzer.atl.editor.quickfix

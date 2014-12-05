@@ -1,0 +1,129 @@
+@namespace(uri="http://anatlyzer/atl/types", prefix="atl_types")
+package types;
+
+//import "http://www.eclipse.org/emf/2002/Ecore";
+
+abstract class Type {
+	attr boolean[1] multivalued = false;
+
+    transient attr Object[0..1] metamodelRef;
+
+}
+
+class OclUndefinedType extends Type {
+   
+}
+
+abstract class PrimitiveType extends Type {
+}
+
+class BooleanType extends PrimitiveType {
+	ref Metaclass[0..*] kindOfTypes;
+}
+
+class IntegerType extends PrimitiveType {
+}
+
+class StringType extends PrimitiveType {
+}
+
+class FloatType extends PrimitiveType {
+}
+
+class TupleType extends Type {
+   val TupleAttribute[*] attributes;
+}
+
+class MapType extends Type {
+   ref Type[1] keyType;
+   ref Type[1] valueType;
+}
+
+class TupleAttribute {
+   attr String[1] name;
+   ref Type[1] type;
+}
+
+class RefType extends Type {
+   
+}
+
+class Unknown extends RefType {
+   
+}
+
+class EmptyCollectionType extends Type {
+   
+}
+
+
+class TypeError extends Type {
+   
+}
+
+class UnresolvedTypeError extends TypeError, Metaclass {
+	
+}
+
+class UnknownFeature extends ecore.EStructuralFeature {
+   ref EClass[1] theContainingClass;
+}
+
+class EmptyCollection extends Type {
+   
+}
+
+/*
+class EnumLiteralType extends Type {
+   ref EnumType[1] type;
+   attr String[1] value;   
+}
+*/
+
+class EnumType extends Type {
+   attr String[1] name;
+   ref EObject[1] eenum;      
+}
+
+class MetaModel {
+   attr String[1] name; 
+}
+
+class Metaclass extends RefType {
+   attr String[1] name;
+   attr boolean explicitOcurrence;
+   ref EClass[1] klass;   
+
+   ref MetaModel[1] model;
+}
+
+abstract class ReflectiveType extends Type {
+   
+}
+
+class UnionType extends Type {
+	ref Type[*] possibleTypes;   
+}
+
+class ThisModuleType extends Type {
+   
+   
+}
+
+/**
+ * This is to support oclType()
+ */
+class ReflectiveClass extends ReflectiveType {
+   
+}
+
+abstract class CollectionType extends Type {
+   ref Type[1] containedType;
+}
+
+class SequenceType extends CollectionType {
+}
+
+class SetType extends CollectionType {  
+}
+

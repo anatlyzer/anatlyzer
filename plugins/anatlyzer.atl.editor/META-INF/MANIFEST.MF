@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: anATLyzer ATL Editor Extension
+Bundle-SymbolicName: anatlyzer.atl.editor;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Activator: anatlyzer.atl.editor.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide;bundle-version="3.7.0",
+ org.eclipse.m2m.atl.adt.editor;bundle-version="3.3.0",
+ org.eclipse.m2m.atl.engine;bundle-version="3.3.0",
+ org.eclipse.jface.text;bundle-version="3.7.0",
+ org.eclipse.ui.editors;bundle-version="3.7.0",
+ org.eclipse.m2m.atl.common;bundle-version="3.3.0",
+ anatlyzer.atl.typing
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: anatlyzer.atl.editor,
+ anatlyzer.atl.editor.builder,
+ anatlyzer.atl.editor.quickfix,
+ anatlyzer.ui.util

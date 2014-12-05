@@ -1,0 +1,49 @@
+@namespace(uri="flow_concept", prefix="flow_concept")
+package flow_diagrams;
+
+// REMOVE THIS CLASS ---------
+class FlowDiagram {
+   val  Node[*]     nodes;
+   val  FlowEdge[*] edges;
+   
+} 
+// ---------------------------
+
+// Names in/out changed for ins/outs to avoid conflict in double role het.
+abstract class Node {
+   ref FlowEdge[*]#input  outs;
+   ref FlowEdge[*]#output ins;
+}
+
+@cardinality(min="0",max="*")
+class Task extends Node {
+   attr String[1]  name;
+   attr boolean[1] isInitial;
+}
+
+//@cardinality(min="0",max="*")
+//class FinalTask extends Node {
+//   attr boolean[1] isTerminating; // when a final task is reached... true => existing running processes terminate; false => existing running processes continue
+//   attr boolean[1] isMandatory;   // true => a succesful execution always reaches one of these; false => there may be sucessful executions reaching none of these
+//}
+
+@cardinality(min="0",max="1")
+class Fork extends Node {
+   attr String[0..1]  name;
+
+   // one_input: self.ins->size() = 1   
+   // two_outputs: self.outs->size() >= 2
+}
+
+@cardinality(min="0",max="1")
+class Join extends Node {
+   attr String[0..1]  name;
+
+   // two_inputs: self.ins->size() >= 2
+   // one_output: self.outs->size() = 1   
+}
+
+class FlowEdge {
+   ref Node[1]#outs input; 
+   ref Node[1]#ins  output; 
+}

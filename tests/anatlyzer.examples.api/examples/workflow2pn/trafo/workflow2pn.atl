@@ -1,0 +1,115 @@
+-- @path WF=/issre-presentation/metamodels/workflow.ecore
+-- @path PN=/issre-presentation/metamodels/petri_nets.ecore
+-- @ignore InvalidTarget, style
+
+module abcd;
+create OUT : PN from IN : WF;
+
+
+rule model {
+  from diag  : WF!FlowDiagram 
+  to   model : PN!PetriNet (
+    elems <- diag.nodes->union(
+    	-- diag.edges -- This is not a good idea, because I get wrong targets in "elems" (the solver has problems generating the witness)
+    	diag.edges->select(e | e.input.oclIsKindOf(WF!Task) and 
+    		not e.output.oclIsKindOf(WF!Fork) and 
+			not e.output.oclIsKindOf(WF!Join)
+    	)	
+    ),
+	arcs <- diag.edges->select(e | 
+	  	e.input.oclIsKindOf(WF!Task) and
+		not e.output.oclIsKindOf(WF!Fork) and
+		not e.output.oclIsKindOf(WF!Join)
+	)->collect(e | thisModule.resolveTemp(e, 'a1') )
+	,
+
+	arcs <- diag.edges->select(e | 
+	  	e.input.oclIsKindOf(WF!Task) and
+		not e.output.oclIsKindOf(WF!Fork) and
+		not e.output.oclIsKindOf(WF!Join)
+	)->collect(e | thisModule.resolveTemp(e, 'a2') )
+	,
+	
+	arcs <- diag.edges->select(e | 
+	 (	(e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join))  and e.output.oclIsKindOf(WF!Task) ) or
+  	 ( e.input.oclIsKindOf(WF!Task) and (e.output.oclIsKindOf(WF!Fork) or  e.output.oclIsKindOf(WF!Join)) ) )
+	
+  )
+}
+
+rule task2place {
+  from t  : WF!Task ( not t.isInitial ) 
+  to   p : PN!Place (
+    name <- t.name
+	-- Not signalled as problem... perhaps for integers, should be a warning
+	-- tokens <- 1
+  )
+}
+
+rule initial_task2place {
+  from t  : WF!Task ( t.isInitial ) 
+  to   p : PN!Place (
+    name <- t.name,
+	tokens <- 1
+  )
+}
+
+rule fork2transition {
+  from n  : WF!Fork
+  to   p : PN!Transition (
+	name <- n.name 
+  )
+}
+
+rule join2transition {
+  from n  : WF!Join
+  to   p : PN!Transition (
+	name <- n.name
+  )
+}
+
+
+rule edge2transition {
+  from e : WF!FlowEdge ( 
+  	e.input.oclIsKindOf(WF!Task) and
+	not e.output.oclIsKindOf(WF!Fork) and
+	not e.output.oclIsKindOf(WF!Join)
+  )
+  to   t : PN!Transition (
+  	name <- e.input.name + ' -> ' + e.output.name
+  ),   
+  a1 : PN!PTArc (
+  	input  <- e.input,
+	output <- t
+  ), 
+  a2 : PN!TPArc (
+  	input  <- t,
+	output <- e.output
+  )  
+}
+
+rule edge2task_forkjoin_arc {
+  from e : WF!FlowEdge ( 
+  	e.input.oclIsKindOf(WF!Task) and
+	(e.output.oclIsKindOf(WF!Fork) or 
+	 e.output.oclIsKindOf(WF!Join))
+  )
+  to a: PN!PTArc (
+  	-- The analyser should be more clever here!
+  	input  <- e.input,
+	output <- e.output
+  )
+}
+
+
+rule edge2forkjoin_task_arc {
+  from e : WF!FlowEdge ( 
+  	(e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join)) 
+	and e.output.oclIsKindOf(WF!Task)
+  )
+  to a: PN!TPArc (
+  	-- The analyser should be more clever here!
+  	input  <- e.input,
+	output <- e.output
+  )
+}

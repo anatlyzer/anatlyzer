@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/anatlyzer.atl.typing/src-gen" modelPluginID="anatlyzer.atl.typing"
+    modelName="Types" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>types.ecore</foreignModel>
+  <genPackages prefix="Types" basePackage="anatlyzer.atl" disposableProviderFactory="true"
+      ecorePackage="types.ecore#/">
+    <genClasses image="false" ecoreClass="types.ecore#//Type">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Type/multivalued"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Type/metamodelRef"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//OclUndefinedType"/>
+    <genClasses image="false" ecoreClass="types.ecore#//PrimitiveType"/>
+    <genClasses ecoreClass="types.ecore#//BooleanType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//BooleanType/kindOfTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//IntegerType"/>
+    <genClasses ecoreClass="types.ecore#//StringType"/>
+    <genClasses ecoreClass="types.ecore#//FloatType"/>
+    <genClasses ecoreClass="types.ecore#//TupleType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference types.ecore#//TupleType/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//MapType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//MapType/keyType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//MapType/valueType"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//TupleAttribute">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//TupleAttribute/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//TupleAttribute/type"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//RefType"/>
+    <genClasses ecoreClass="types.ecore#//Unknown"/>
+    <genClasses ecoreClass="types.ecore#//EmptyCollectionType"/>
+    <genClasses ecoreClass="types.ecore#//TypeError"/>
+    <genClasses ecoreClass="types.ecore#//UnresolvedTypeError"/>
+    <genClasses ecoreClass="types.ecore#//UnknownFeature">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//UnknownFeature/theContainingClass"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//EmptyCollection"/>
+    <genClasses ecoreClass="types.ecore#//EnumType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//EnumType/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//EnumType/eenum"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//MetaModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//MetaModel/name"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//Metaclass">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Metaclass/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Metaclass/explicitOcurrence"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//Metaclass/klass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//Metaclass/model"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="types.ecore#//ReflectiveType"/>
+    <genClasses ecoreClass="types.ecore#//UnionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//UnionType/possibleTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//ThisModuleType"/>
+    <genClasses ecoreClass="types.ecore#//ReflectiveClass"/>
+    <genClasses image="false" ecoreClass="types.ecore#//CollectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//CollectionType/containedType"/>
+    </genClasses>
+    <genClasses ecoreClass="types.ecore#//SequenceType"/>
+    <genClasses ecoreClass="types.ecore#//SetType"/>
+  </genPackages>
+</genmodel:GenModel>

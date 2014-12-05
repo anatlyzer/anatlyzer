@@ -1,0 +1,13 @@
+context AuxiliaryClass4USE inv graph1:
+ThisModule.allInstances()->exists(thisModule|FlowEdge.allInstances()->exists(e|if ((e.input.oclIsKindOf(Fork)) or (e.input.oclIsKindOf(Join))) and (e.output.oclIsKindOf(Task))
+	then let _problem_1 = e.output in
+	(if Fork.allInstances()->includes(_problem_1)
+	then true
+	else false
+	endif) or (if Join.allInstances()->includes(_problem_1)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+

@@ -1,0 +1,80 @@
+@namespace(uri="http://anatlyzer/atl/ext", prefix="atlext")
+@merge(name="atlstatic")
+package atlext;
+
+import "platform:/resource/anatlyzer.atl.typing/model/types.ecore";
+
+@namespace(uri="http://anatlyzer/atlext/ATL", prefix="atl_ext_atl")
+package ATL {
+  class MatchedRule { } 
+  
+  class Callable {  	
+    ref OCL.PropertyCallExp[*]#staticResolver calledBy;	
+    val CallableParameter[*] callableParameters;    
+  }
+  
+  class CallableParameter {
+  	attr String[1] name;
+	ref types.Type[1] staticType;  	
+	ref OCL.VariableDeclaration paramDeclaration;
+  }
+  
+  class ContextHelper { 
+    ref types.Type[1] contextType;    
+  	ref OCL.PropertyCallExp[*]#dynamicResolvers polymorphicCalledBy; 
+  }  
+
+
+  class Helper {
+  	attr boolean[1] hasContext  = false;
+  	attr boolean[1] isAttribute = false;
+
+	// Does not inherit from OCL TypedElement because this
+	// has a different nature...
+  	ref types.Type[0..1] inferredReturnType;  	
+  	ref types.Type[0..1] staticReturnType;  	
+
+  }
+  
+  class Binding {
+	ref EObject[1] writtenFeature;
+	
+	val RuleResolutionInfo[*] resolvedBy;
+  }
+  
+  class RuleResolutionInfo {
+	ref MatchedRule[1] rule; // Assumes rules with one input pattern
+	ref MatchedRule[1..*] allInvolvedRules;  	
+  }
+  	
+  
+}
+
+@namespace(uri="http://anatlyzer/atl/ext/OCL", prefix="atl_ext_ocl")
+package OCL {
+  abstract class TypedElement {
+  	ref types.Type[0..1] inferredType;  	
+  }
+
+  class VariableDeclaration extends TypedElement {
+  	ref types.Type[0..1] staticType;
+  }
+
+  class OclExpression extends TypedElement {
+  }
+  
+  class PropertyCallExp {  	
+	// Reference to EStructuralFeature and the type of the static receptor
+	ref EObject[0..1] usedFeature;
+	ref EObject[0..1] receptorType;
+	
+	attr boolean[1] isStaticCall = false;
+	ref ATL.Callable[1]#calledBy staticResolver;
+	ref ATL.ContextHelper[0..*]#polymorphicCalledBy dynamicResolvers;		
+  }
+}
+
+@namespace(uri="http://anatlyzer/atl/ext/PrimitiveTypes", prefix="atl_ext_ptypes")
+package PrimitiveTypes {
+}
+

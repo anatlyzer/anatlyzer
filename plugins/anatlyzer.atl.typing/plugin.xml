@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated types -->
+      <package
+            uri="http://anatlyzer/atl/types"
+            class="anatlyzer.atl.types.TypesPackage"
+            genModel="model/types.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated errors -->
+      <package
+            uri="http://anatlyzer/atl/errors"
+            class="anatlyzer.atl.errors.AnalysisResultPackage"
+            genModel="model/errors.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated errors -->
+      <package
+            uri="http://bento/analysis/atl/analysis/errors"
+            class="anatlyzer.atl.errors.atl_error.AtlErrorPackage"
+            genModel="model/errors.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated errors -->
+      <package
+            uri="http://bento/analysis/atl/analysis/recovery"
+            class="anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage"
+            genModel="model/errors.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated merged -->
+      <package
+            uri="http://anatlyzer/atlext/ATL"
+            class="anatlyzer.atlext.ATL.ATLPackage"
+            genModel="model/generated/merged.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated merged -->
+      <package
+            uri="http://anatlyzer/atl/ext/OCL"
+            class="anatlyzer.atlext.OCL.OCLPackage"
+            genModel="model/generated/merged.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated merged -->
+      <package
+            uri="http://anatlyzer/atl/ext/PrimitiveTypes"
+            class="anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage"
+            genModel="model/generated/merged.genmodel"/>
+   </extension>
+</plugin>

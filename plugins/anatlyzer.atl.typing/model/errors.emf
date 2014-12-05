@@ -1,0 +1,226 @@
+@namespace(uri="http://anatlyzer/atl/errors", prefix="atl_errors")
+package errors;
+
+import "platform:/resource/anatlyzer.atl.typing/model/types.ecore";
+
+class AnalysisResult {
+   val Problem[*] problems;
+   
+}
+
+abstract class AnalysisInfo {
+   
+}
+
+abstract class Problem extends AnalysisInfo {
+	val Problem[*] dependents;   
+
+	attr String[1] description;
+	attr SeverityKind[1] severity;
+	attr boolean needsCSP = false;
+}
+
+enum SeverityKind {
+   ERROR = 0;
+   WARNING = 1;
+   STYLE_SUGGESTION  = 3;
+   PERFORMANCE_SUGGESTION = 4;
+}
+
+abstract class Recovery {   
+}
+
+@namespace(uri="http://bento/analysis/atl/analysis/errors", prefix="atl_error")
+package atl_error {
+	abstract class LocalProblem extends Problem {
+	   attr String[1] location;
+	   ref  EObject[1] element;
+	   
+	   val Recovery[0..1] recovery;
+	}
+	
+	abstract class NavigationProblem extends LocalProblem {	}
+	abstract class InvalidArgumentProblem extends LocalProblem { }
+	abstract class TargetModelConformanceProblem extends LocalProblem { }
+	 
+	//
+	// Example: aClass->select(x)
+	// 
+	class CollectionOperationOverNoCollectionError extends NavigationProblem {
+	      
+	}
+	
+	class FeatureAccessInCollection extends NavigationProblem {
+	    attr String[1] featureName;
+	}
+	
+	class FeatureNotFound extends NavigationProblem {
+		attr String[1] featureName;
+		attr String[1] className;
+		attr String[1] metamodelName;
+	}
+
+	class OperationNotFound extends NavigationProblem {
+		attr String[1] operationName;
+		ref  types.Type[1] type;	   
+
+		attr String[1] className;
+		attr String[1] metamodelName;
+	}
+	
+	class OperationNotFoundInThisModule extends NavigationProblem {
+		attr String[1] name;
+		attr boolean[1] maybeRule = false;
+	}
+	
+	class AttributeNotFoundInThisModule extends NavigationProblem {
+		attr String[1] name;
+	}
+	
+	class FeatureNotFoundInUnionType extends NavigationProblem {
+		attr String[1] featureName;	   
+	}
+	
+	class InvalidOperand extends InvalidArgumentProblem {
+	   attr String[1] operatorSymbol;	   
+	}	  
+
+    // Example: Given a root class, e.g., MyClassModel, the expression
+    //          aClassModel.refImmediateComposite() will always return null.
+	class NoContainerForRefImmediateComposite extends NavigationProblem {
+		attr String[1] className;
+		attr String[1] metamodelName;			   
+	}
+
+	class DifferentBranchTypes extends NavigationProblem {
+	   ref types.Type[1] thenType;
+	   ref types.Type[1] elseType;
+	}
+	
+	abstract class BindingProblem extends LocalProblem {
+		ref ecore.EStructuralFeature[0..1] feature;
+		attr String[1] featureName;
+	}
+
+	abstract class ResolveTempProblem extends LocalProblem {
+	}
+	
+	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {
+	   
+	}
+
+	class BindingExpectedOneAssignedMany extends BindingProblem {
+	   
+	}	
+
+	abstract class BindingResolution {
+	   	ref ecore.EClass[1] rightType;	
+		ref ecore.EClass[1] targetType;
+
+		val ResolvedRuleInfo[*] rules;
+	}
+
+	class BindingWithoutRule extends BindingProblem, BindingResolution {			   
+	}
+	
+	class BindingWithResolvedByIncompatibleRule extends BindingProblem, BindingResolution {
+	}
+
+	class BindingPossiblyUnresolved extends BindingProblem, BindingResolution {
+	   ref EClass[+] problematicClasses;
+	}
+	
+	class ResolvedRuleInfo {	   	
+	   	attr String[1] location;
+	   	ref  EObject[1] element;
+	   	ref  EObject[1..*] allInvolvedRules;
+	   	
+	   	attr String[1] ruleName;
+	   	
+		ref ecore.EClass[0..1] inputType;  
+		ref ecore.EClass[0..1] outputType;  
+	}
+
+	class ResolveTempWithoutRule extends ResolveTempProblem {			   
+	   	ref ecore.EClass[0..1] sourceType;
+	}
+
+	class ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {			   
+	   	ref ecore.EClass[0..1] sourceType;
+		val ResolvedRuleInfo[*] rules;	   	
+	}
+
+
+	class FlattenOverNonNestedCollection extends LocalProblem {
+	   
+	}
+	
+	class IteratorOverEmptySequence extends LocalProblem {
+	   
+	}
+	
+	class ReadingTargetModel extends LocalProblem {
+		attr String[1] modelName;
+	}
+
+	class AmbiguousTargetModelReference extends LocalProblem {
+		attr String[1] modelName;		
+	}
+
+	class NoModelFound extends LocalProblem {
+		attr String[1] modelName;				
+	}
+	
+	abstract class WrongType extends LocalProblem {
+		
+	}
+	
+	class IteratorBodyWrongType extends WrongType {
+		
+	}
+
+	class MatchedRuleWithoutOutputPattern extends LocalProblem {
+		// Possibly using the matched rule as entrypint rule (see Measure2XHTML)
+	}
+
+	class ExpectedCollectionInForEach extends LocalProblem {
+		
+	}
+
+	class NoClassFoundInMetamodel extends LocalProblem {
+		attr String[1] className;
+	}
+
+	class InvalidArgument extends LocalProblem {
+		
+	}
+
+	class CollectionOperationNotFound extends LocalProblem {
+		attr String[1] operationName;	
+	}
+
+	class IteratorOverNoCollectionType extends LocalProblem {
+		attr String[1] iteratorName;	
+	}
+
+	
+
+}
+
+@namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")
+package atl_recovery {
+	class FeatureFoundInSubclass extends Recovery {
+		attr String[1] subclassName;
+		ref  EClass[1] subclass;
+	}
+	
+	class TentativeTypeAssigned extends Recovery {
+	   ref types.Type[1] type;
+	}
+}
+// References to typing ... 
+
+
+/* Others errors that coud be checked */
+/* - Invalid uses of oclIsKindOf (those that do not make sense) */
+/* - Misuses of abstract classes */

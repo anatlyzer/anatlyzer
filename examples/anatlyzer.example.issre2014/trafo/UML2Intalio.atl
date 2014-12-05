@@ -1,0 +1,75 @@
+-- @path UML=/anatlyzer.example.issre2014/metamodels/UML2_3_0_0.ecore
+-- @path Intalio=/anatlyzer.example.issre2014/metamodels/bpmn.ecore
+
+-- Error: potentially invalid target in binding
+-- Error: missing rule for object flow
+-- Error: Sequence(Sequence) in binding assignment
+
+module UML2Intalio;
+create OUT : Intalio from IN : UML;
+
+helper context UML!Activity def : allPartitions : OclAny = 
+	self.partition->collect(p | p.allPartitions)->flatten();
+
+helper context UML!ActivityPartition def : allPartitions :  Sequence(UML!ActivityPartition) = 
+	self.subpartition->collect(p | p.allPartition)->flatten();
+
+-- rules
+
+rule activity2diagram {
+	from a : UML!Activity
+	to   m : Intalio!BpmnDiagram (
+			name <- a.name,
+			pools <- pool
+		), 
+		pool : Intalio!Pool (
+			name <- 'main (' + a.allPartitions->size() + ' lanes)',
+			lanes <- a.allPartitions,
+			sequenceEdges <- a.edge->select(e | e.oclIsKindOf(UML!ControlFlow))->
+				-- select(e | e.source.oclIsKindOf(UML!InitialNode) )->
+				-- collect(e | thisModule.controlflow_initial(e) ), 
+				collect(e | if e.source.oclIsKindOf(UML!InitialNode) then thisModule.controlflow_initial(e) else e endif  ),
+				vertices  <- a.partition->collect(p | p.node)
+		)
+}
+
+lazy rule controlflow_initial {
+	from  cf : UML!ControlFlow
+	to     b : Intalio!SequenceEdge (
+		-- name <- 'cflow_initial',
+		name <- if cf.name.oclIsUndefined() then 'initial' else cf.Name endif,
+		-- source <- if cf.source.oclIsKindOf(UML!InitialNode) then cf.source else OclUndefined endif,
+		source <- cf.source,
+		target <- cf.target		
+	)
+}
+
+rule initialnode {
+	from initial : UML!InitialNode (
+			initial.incoming->isEmpty()
+		--not initial.incoming->exists(edge | 
+		--	edge.source.oclIsKindOf(UML!AcceptEventAction)
+		--)
+		)
+
+	to	activity : Intalio!Activity (
+		activityType <- #EventStartEmpty--,
+		-- name <- initial.name.concat('-initial')
+	)
+}
+
+rule initialnode_timer {
+	from initial : UML!InitialNode (
+		initial.incoming->exists(edge | 
+			edge.source.oclIsKindOf(UML!AcceptEventAction)
+		) )
+	to	activity : Intalio!Activity (
+		activityType <- #EventStartMessage
+	)
+}
+
+rule objectnode {
+	from obj : UML!ObjectNode 
+	to   art : Intalio!Artifact 
+}
+

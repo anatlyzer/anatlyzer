@@ -1,0 +1,66 @@
+-- @path WF=/anatlyzer.example.workflow2pn/metamodels/workflow.ecore
+-- @path PN=/anatlyzer.example.workflow2pn/metamodels/petri_nets.ecore
+-- @ignore InvalidTarget, style
+
+module workflow2pnsimple;
+create OUT : PN from IN : WF;
+
+rule model {
+  from diag  : WF!FlowDiagram 
+  to   model : PN!PetriNet (
+    elems <- diag.nodes		
+  )
+}
+
+rule task2place {
+  from t  : WF!Task ( not t.isInitial ) 
+  to   p : PN!Place (
+    name <- t.name
+	-- Not signalled as problem... perhaps for integers, should be a warning
+	-- tokens <- 1
+  )
+}
+
+rule initial_task2place {
+  from t  : WF!Task ( t.isInitial ) 
+  to   p : PN!Place (
+    name <- t.name,
+	tokens <- 1
+  )
+}
+
+rule fork2transition {
+  from n  : WF!Fork
+  to   p : PN!Transition (
+	name <- n.name 
+  )
+}
+
+rule join2transition {
+  from n  : WF!Join
+  to   p : PN!Transition (
+	name <- n.name
+  )
+}
+
+
+rule edge2transition {
+  from e : WF!FlowEdge ( 
+-- 	e.input.oclIsKindOf22(WF!Task) and
+--	not e.output.oclIsKindOf(WF!Fork) and
+--	not e.output.oclIsKindOf(WF!Join)
+	 true
+  )
+  to   t : PN!Transition (
+  	name <- e.input.name + ' -> ' + e.output.name
+  ),   
+  a1 : PN!PTArc (
+  	input  <- e.input,
+	output <- t
+  ), 
+  a2 : PN!TPArc (
+  	input  <- t,
+	output <- e.output
+  )  
+}
+

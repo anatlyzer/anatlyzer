@@ -28,6 +28,13 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
+			
+			// Avoid checking transformations in "bin" directories, which
+			// are normally marked as derived.
+			if ( resource.isDerived(IResource.CHECK_ANCESTORS) ) {
+				return false;
+			}
+			
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
 				// handle added resource

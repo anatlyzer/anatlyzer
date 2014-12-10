@@ -24,10 +24,10 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IfExp;
@@ -188,8 +188,8 @@ public class ErrorPathGenerator {
 		ProblemNode node = new NoBindingAssignmentNode(p);
 		currentPath = new ProblemPath(p, node);
 		
-		OutPattern op = (OutPattern) p.getElement();
-		Rule rule = op.getRule();
+		SimpleOutPatternElement op = (SimpleOutPatternElement) p.getElement();
+		Rule rule = op.getOutPattern().getRule();
 		pathToRule(rule, node, new TraversedSet(), false);	
 	}
 

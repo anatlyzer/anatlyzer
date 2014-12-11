@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="anatlyzer.atl.editor.additionalanalysis">
+      <additional
+            provider="anatlyzer.atl.uml.AnalysisProviderByUML">
+      </additional>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated uml_errors -->
+      <package
+            uri="http://anatlyzer/atl/uml_errors"
+            class="anatlyzer.atl.umlerrors.UmlErrorsPackage"
+            genModel="model/uml_errors.genmodel"/>
+   </extension>
+
+</plugin>

@@ -60,6 +60,9 @@ public class IgnoredProblems {
 		
 		for (String ignoredCategory : ignored) {
 			Set<String> problemNames = categories.get(ignoredCategory);
+			if ( problemNames == null )
+				continue; // user wrote an invalid category
+			
 			ListIterator<Problem> it = result.listIterator();
 			while ( it.hasNext() ) {
 				Problem p = it.next();

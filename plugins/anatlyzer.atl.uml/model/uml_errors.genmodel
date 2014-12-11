@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/anatlyzer.atl.uml/src-gen" modelPluginID="anatlyzer.atl.uml"
+    modelName="Uml_errors" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../anatlyzer.atl.typing/model/errors.genmodel#//errors ../../anatlyzer.atl.typing/model/types.genmodel#//types"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>uml_errors.ecore</foreignModel>
+  <genPackages prefix="UmlErrors" basePackage="anatlyzer.atl" disposableProviderFactory="true"
+      ecorePackage="uml_errors.ecore#/">
+    <genClasses ecoreClass="uml_errors.ecore#//StereotypeNotFound">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute uml_errors.ecore#//StereotypeNotFound/stereotypeName"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

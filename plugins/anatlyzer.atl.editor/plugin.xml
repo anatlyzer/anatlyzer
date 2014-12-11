@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="anatlyzer.atl.editor.quickfix" name="anATLyzer QuickFix" schema="schema/anatlyzer.atl.editor.quickfix.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.additionalanalysis" name="Additional Analysis" schema="schema/anatlyzer.atl.editor.additionalanalysis.exsd"/>
 
    <extension
          id="anatlyzerATLBuilder"

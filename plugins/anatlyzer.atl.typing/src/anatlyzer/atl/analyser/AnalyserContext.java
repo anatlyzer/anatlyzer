@@ -51,4 +51,8 @@ public class AnalyserContext {
 		return isOclStrict ;
 	}
 
+	public static boolean debugMode() {
+		return true;
+	}
+
 }

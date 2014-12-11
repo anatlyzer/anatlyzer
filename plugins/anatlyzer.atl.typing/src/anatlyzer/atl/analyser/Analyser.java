@@ -1,13 +1,11 @@
 package anatlyzer.atl.analyser;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.graph.ErrorPathGenerator;
@@ -28,6 +26,8 @@ public class Analyser {
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
 	private int stage = 0;
+
+	private ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
 	public Analyser(GlobalNamespace mm, ATLModel atlModel) throws IOException {
 		this.mm    = mm;
@@ -55,7 +55,12 @@ public class Analyser {
 				for (Unit unit : units) {
 					new ExtendTransformation(trafo, mm, unit).perform();
 					new TypeAnalysisTraversal(trafo, mm, unit).perform();
+				
+					for(AnalyserExtension pass : additional) {
+						pass.perform(trafo, mm, unit);
+					}
 				}	
+				
 				
 				stage++;
 				if ( doDependency ) {
@@ -90,5 +95,9 @@ public class Analyser {
 
 	public ATLModel getATLModel() {
 		return trafo;
+	}
+	
+	public void addExtension(AnalyserExtension e) {
+		this.additional.add(e);
 	}
 }

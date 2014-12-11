@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: anatlyzer.atl.editor,
+Export-Package: anatlyzer.atl.analysisext,
+ anatlyzer.atl.editor,
  anatlyzer.atl.editor.builder,
  anatlyzer.atl.editor.quickfix,
  anatlyzer.ui.util

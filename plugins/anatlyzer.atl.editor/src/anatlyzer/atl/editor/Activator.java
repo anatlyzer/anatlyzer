@@ -14,6 +14,11 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	// Extension names
+	public static final String ATL_QUICKFIX_EXTENSION_POINT = "anatlyzer.atl.editor.quickfix"; 
+	public static final String ATL_ADDITIONAL_ANALYSIS_EXTENSION_POINT = "anatlyzer.atl.editor.additionalanalysis"; 
+	
 	
 	/**
 	 * The constructor

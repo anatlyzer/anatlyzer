@@ -9,15 +9,13 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.quickassist.IQuickAssistInvocationContext;
 import org.eclipse.jface.text.quickassist.IQuickAssistProcessor;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
 
+import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 
 
@@ -77,11 +75,9 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		// return new ICompletionProposal[] { qf };
 	}
 	
-	private static final String ATL_QUICKFIX_EXTENSION_POINT = "anatlyzer.atl.editor.quickfix"; 
-	
 	public static ICompletionProposal[] getQuickfixes(IMarker iMarker) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(ATL_QUICKFIX_EXTENSION_POINT);
+		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_QUICKFIX_EXTENSION_POINT);
 		ArrayList<ICompletionProposal> quickfixes = new ArrayList<ICompletionProposal>();
 		
 		for (IConfigurationElement ce : extensions) {

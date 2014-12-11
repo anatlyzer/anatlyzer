@@ -1,0 +1,12 @@
+@namespace(uri="http://anatlyzer/atl/uml_errors", prefix="uml_errors")
+package umlerrors;
+
+import "platform:/resource/anatlyzer.atl.typing/model/errors.ecore";
+	
+class StereotypeNotFound extends errors.atl_error.LocalProblem {
+	attr String[1] stereotypeName;
+}
+	
+// Other errors that could be checked
+// Restrictions about what can be stereotypes could be applied (in the target)
+

@@ -142,7 +142,7 @@ public class ATLUtils {
 
 	}
 
-	public static List<String> findTags(Module module, String tag) {
+	public static List<String> findCommaTags(Module module, String tag) {
 		List<String> result = new ArrayList<String>();
 		for (String str : module.getCommentsBefore()) {
 			String line = str.replaceAll("--", "").trim();

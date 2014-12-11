@@ -67,6 +67,14 @@ import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
 
+/**
+ * 
+ * Implementation note: internal methods like signalError and initProblems
+ * are declared as public to allow extensions to easily contribute new errors.
+ * 
+ * @author jesus
+ *
+ */
 public class ErrorModel {
 	
 	protected Resource r;
@@ -80,7 +88,7 @@ public class ErrorModel {
 	public AnalysisResult getAnalysis() {
 		return result;
 	}
-	
+
 	public void signalNoModel(String name, LocatedElement element) {
 		NoModelFound error = AtlErrorFactory.eINSTANCE.createNoModelFound();
 		initProblem(error, element);
@@ -236,7 +244,7 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
-	private void initProblem(LocalProblem p, LocatedElement element) {
+	public void initProblem(LocalProblem p, LocatedElement element) {
 		p.setLocation(element.getLocation());
 		p.setElement(element);
 		result.getProblems().add(p);
@@ -279,22 +287,25 @@ public class ErrorModel {
 		throw new NoRecoverableError(msg + ". " + l.getLocation());
 	}
 
-	private void signalError(Problem p, String msg, LocatedElement l) {
+	public void signalError(Problem p, String msg, LocatedElement l) {
 		p.setDescription(msg);
 		p.setSeverity(SeverityKind.ERROR);
 		
-		System.out.println("ERROR: " + msg + ". " + l.getLocation());		
+		if ( AnalyserContext.debugMode() )
+			System.out.println("ERROR: " + msg + ". " + l.getLocation());		
 	}
 	
-	private void signalWarning(Problem p, String msg, LocatedElement l) {
+	public void signalWarning(Problem p, String msg, LocatedElement l) {
 		p.setDescription(msg);
 		p.setSeverity(SeverityKind.WARNING);
-		
-		System.out.println("WARNING: " + msg + ". " + l.getLocation());		
+
+		if ( AnalyserContext.debugMode() )
+			System.out.println("WARNING: " + msg + ". " + l.getLocation());		
 	}
 
-	private void signalWarning_WITHOUTERROR_TODO( String msg, LocatedElement l) {
-		System.out.println("WARNING: " + msg + ". " + l.getLocation());		
+	public void signalWarning_WITHOUTERROR_TODO( String msg, LocatedElement l) {
+		if ( AnalyserContext.debugMode() )
+			System.out.println("WARNING: " + msg + ". " + l.getLocation());		
 	}
 
 	public void warningVarDclIncoherentTypes(Type exprType, Type declared, LocatedElement node) {
@@ -574,7 +585,6 @@ public class ErrorModel {
 		signalError(error, "Collection operation " + operationName + " not supported", node);		
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
-
 
 	
 }

@@ -1,6 +1,8 @@
 package anatlyzer.atl.analyser;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -51,21 +53,26 @@ public class ExtendTransformation {
 	}
 	
 	public void perform() {
+		HashSet<MetamodelNamespace> inputMetamodels = new HashSet<MetamodelNamespace>();
+		
 		// Precompute relationship between ATL meta-model declarations and loaded meta-models
+		// and gather meta-models acting as input
 		if ( unit instanceof Module ) { 
 			for(MetamodelNamespace m : mm.getMetamodels()) {
 				Module mod = (Module) unit;
 				for(OclModel in : mod.getInModels()) {
 					if ( in.getMetamodel().getName().equals(m.getName())) {
 						models.put(m, in.getMetamodel());
+						
+						inputMetamodels.add(m);
 					}
 				}
 			}
-		}
-		
-		for(MetamodelNamespace m : mm.getMetamodels()) {
-			extendWith(m);
-		}
+			
+			for(MetamodelNamespace m : inputMetamodels) {
+				extendWith(m);
+			}
+		}		
 	}
 
 	private void extendWith(MetamodelNamespace m) {

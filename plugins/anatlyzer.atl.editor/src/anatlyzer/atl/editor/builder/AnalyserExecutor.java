@@ -75,7 +75,7 @@ public class AnalyserExecutor {
 			String name = two[0].trim();
 			String uri = two[1].trim();
 			
-			Resource r = nrs.getResource(URI.createURI(uri), false);
+			Resource r = nrs.getResource(URI.createURI(uri), true);
 			logicalNamesToResources.put(name, r);			
 		}
 		
@@ -87,7 +87,7 @@ public class AnalyserExecutor {
 			String name = two[0].trim();
 			String uri = two[1].trim();
 			
-			Resource r = nrs.getResource(URI.createPlatformResourceURI(uri, false), false);
+			Resource r = nrs.getResource(URI.createPlatformResourceURI(uri, false), true);
 			logicalNamesToResources.put(name, r);			
 		}
 

@@ -46,9 +46,12 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	
 	
 	public MetamodelNamespace(String name, Resource resource) {
+		if ( resource == null ) 
+			throw new IllegalArgumentException();
+
 		this.name     = name;
 		this.resource = resource;
-		
+			
 		TreeIterator<EObject> it = resource.getAllContents();
 		while ( it.hasNext() ) {
 			EObject obj = it.next();

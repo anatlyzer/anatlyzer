@@ -177,7 +177,10 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	private void treatPendingCalledRule(CalledRule self) {
 		ExpressionStat last = getCalledRuleReturnStatement(self);
 		if ( last == null ) {
-			throw new UnsupportedOperationException(self.getLocation());
+			// throw new UnsupportedOperationException(self.getLocation());
+			mm.getTransformationNamespace().attachRule(self.getName(), typ().newUnknownType(), self);	 
+			// TODO: Indicate void in a better way!
+			return;
 		}
 
 		if ( last.getExpression() instanceof OperationCallExp && ((OperationCallExp) last.getExpression()).getSource() instanceof VariableExp ) {

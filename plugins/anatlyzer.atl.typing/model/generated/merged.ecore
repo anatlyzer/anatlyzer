@@ -35,16 +35,16 @@
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inferredReturnType">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="staticReturnType">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="StaticHelper" eSuperTypes="//ATL/Helper //ATL/ModuleCallable"/>
     <eClassifiers xsi:type="ecore:EClass" name="ContextHelper" eSuperTypes="//ATL/Helper">
       <eStructuralFeatures xsi:type="ecore:EReference" name="contextType" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="polymorphicCalledBy" upperBound="-1" eType="//OCL/PropertyCallExp" eOpposite="//OCL/PropertyCallExp/dynamicResolvers"/>
     </eClassifiers>
@@ -151,7 +151,7 @@
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="staticType" lowerBound="1">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
       <eStructuralFeatures xsi:type="ecore:EReference" name="paramDeclaration" eType="//OCL/VariableDeclaration"/>
     </eClassifiers>
@@ -269,7 +269,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="baseExp" ordered="false" eType="//OCL/IterateExp" eOpposite="//OCL/IterateExp/result"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="variableExp" ordered="false" upperBound="-1" eType="//OCL/VariableExp" eOpposite="//OCL/VariableExp/referredVariable"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="staticType">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Iterator" eSuperTypes="//OCL/VariableDeclaration">
@@ -347,9 +347,11 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="inferredType">
-        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore#//Type"/>
+        <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="//OCL/OclExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="GetAppliedStereotypesBody" eSuperTypes="//OCL/JavaBody"/>
   </eSubpackages>
   <eSubpackages name="PrimitiveTypes" nsURI="http://anatlyzer/atl/ext/PrimitiveTypes" nsPrefix="atl_ext_ptypes">
     <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="boolean"/>

@@ -21,13 +21,13 @@ public class GenerateCopier {
 		// GenModelPackage.eINSTANCE
 		rs.getPackageRegistry().put(GenModelPackage.eINSTANCE.getNsURI(), GenModelPackage.eINSTANCE);
 		
-		Resource r = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/original/ATLStatic.ecore"), true);
+		Resource r = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/original/ATLStatic.ecore"), true);
 		// Resource r2 = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/compiler/genericity.compiler.atl.typing/model/ATLExt.ecore"), true);
-		Resource r3 = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/merged.genmodel"), true);
+		Resource r3 = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/merged.genmodel"), true);
 		
 		CopierOptions options = new CopierOptions ();
 		// options.setBaseDir("tmp_");
-		options.setBaseDir("/home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/src-gen");
+		options.setBaseDir("/home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/src-gen");
 		options.setPackagePrefix("anatlyzer.atlext.processing");
 		options.setCopierClass("AbstractDynamicToStaticCopier");
 		options.setMatcher(new CopierForModifiedATL());

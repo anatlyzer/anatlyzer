@@ -6,6 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.eclipse.emf.ecore.EPackage.Registry;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -44,11 +47,13 @@ public class Analyser {
 			public void run() {
 				AnalyserContext.setErrorModel(errors);
 				AnalyserContext.setTypingModel(typ);				
-	
+				AnalyserContext.setGlobalNamespace(mm);
+				
 				stage++;
 				
 				List<? extends Unit> units = trafo.allObjectsOf(Unit.class);
 				for (Unit unit : units) {
+					new ExtendTransformation(trafo, mm, unit).perform();
 					new TypeAnalysisTraversal(trafo, mm, unit).perform();
 				}	
 				

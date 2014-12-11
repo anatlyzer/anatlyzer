@@ -13,6 +13,7 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ExpressionStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -103,6 +104,11 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inOperation(Operation self) {
 		extendTypeForOperation(self, mm, attr,  attr.typeOf(self.getReturnType()));
+	}
+	
+	@Override
+	public void inContextHelper(ContextHelper self) {
+		self.setContextType(attr.typeOf(self.getDefinition().getContext_().getContext_()));
 	}
 	
 	public static void extendTypeForOperation(Operation self, GlobalNamespace mm, ComputedAttributes attr, Type t) {	

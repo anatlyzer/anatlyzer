@@ -8,7 +8,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import anatlyzer.atl.util.Pair;
 
 public class GlobalNamespace {
 	private HashSet<Resource> resources = new HashSet<Resource>();
@@ -17,12 +25,18 @@ public class GlobalNamespace {
 	public static final String THIS_MODULE = "thisModule";
 	private TransformationNamespace tspace;
 	private Map<String, Resource>	logicalNamesToMetamodels;
-	
+	private ResourceSet rs;
 	
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels) {
+		
 		for (Resource resource : r) {
 			resources.add(resource);
+
+			// if ( rs == null ) {
+			// 	rs = resource.getResourceSet();
+			//}
 		}
+		
 		
 		for (String key : logicalNamesToMetamodels.keySet()) {
 			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key)));
@@ -31,6 +45,11 @@ public class GlobalNamespace {
 		this.logicalNamesToMetamodels = Collections.unmodifiableMap(logicalNamesToMetamodels);
 	}
 	
+	public GlobalNamespace(ResourceSet nrs, HashMap<String, Resource> logicalNamesToResources) {
+		this(nrs.getResources(), logicalNamesToResources);
+		this.rs = nrs;
+	}
+
 	public Map<String, Resource> getLogicalNamesToMetamodels() {
 		return logicalNamesToMetamodels;
 	}
@@ -40,6 +59,38 @@ public class GlobalNamespace {
 			tspace  = new TransformationNamespace(); // Lazy initialization to ensure it is created in the thread's context
 		}
 		return tspace;
+	}
+	
+	public Pair<EClassifier, MetamodelNamespace> resolve(EClassifier proxy) {
+		if ( rs == null )
+			throw new IllegalStateException();
+		
+		EClassifier c = (EClassifier) EcoreUtil.resolve(proxy, rs);
+		EPackage pkg = c.getEPackage();
+		for (MetamodelNamespace m : namesToMetamodels.values()) {
+			if ( m.loadedPackages.contains(pkg) ) {
+				return new Pair<EClassifier, MetamodelNamespace>(c, m);  
+			}
+		}
+		return null;
+		
+		
+//		for (MetamodelNamespace m : namesToMetamodels.values()) {
+//			/*
+//			EObject obj = m.resource.getResourceSet().getEObject(((InternalEObject) proxy).eProxyURI(), false);
+//			if ( obj != null ) {
+//				System.out.println("Propertly obtained!!!" + proxy);
+//				return new Pair<EClassifier, MetamodelNamespace>((EClassifier) obj, m);				
+//			}
+//			*/
+//			
+//			EClassifier c  = m.uriToClassifier.get(EMFUtils.getURI(proxy, m.resourceSet));
+//			if ( c != null ) {
+//				return new Pair<EClassifier, MetamodelNamespace>(c, m);
+//			}
+//		}
+//		return null;
+//	}
 	}
 	
 	public MetamodelNamespace getNamespace(String name) {

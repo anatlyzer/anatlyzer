@@ -3,7 +3,9 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -35,8 +37,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public ClassNamespace(MetamodelNamespace metamodel, EClass eclass) {
 		this.eClass = eclass;
 		this.metamodel = metamodel;
-	}
-
+	}		
 
 	/* (non-Javadoc)
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getMetamodelName()
@@ -358,7 +359,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 
 
 	private ArrayList<MatchedRule> attachedRules = new ArrayList<MatchedRule>();
-	private ArrayList<MatchedRule> resolvingRules = new ArrayList<MatchedRule>();
+	private Set<MatchedRule> resolvingRules = new HashSet<MatchedRule>();
 
 	/* (non-Javadoc)
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#attachRule(java.lang.String, anatlyzer.atl.types.Type, anatlyzer.atlext.ATL.Rule)
@@ -395,7 +396,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getResolvingRules()
 	 */
 	@Override
-	public List<MatchedRule> getResolvingRules() {
+	public Set<MatchedRule> getResolvingRules() {
 		return resolvingRules;
 	}
 

@@ -9,11 +9,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.analyser.namespaces.EnumNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IMetamodelNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.Pair;
 
 /**
  * This class converts Ecore types to ATL Types meta-model.
@@ -33,7 +35,7 @@ public class EcoreTypeConverter {
 	}
 
 	public Type convert(EStructuralFeature f, IMetamodelNamespace mspace) {
-		// System.out.println(f.getName());
+		// System.out.println(f);
 		Type t = convert(f.getEType(), mspace);
 		if ( f.isMany() ) {
 			return typ.newSequenceType(t);
@@ -41,13 +43,30 @@ public class EcoreTypeConverter {
 		return t;
 	}
 
-	public Type convert(EClassifier c, IMetamodelNamespace mspace) {
+	protected Type convert(EClassifier c, IMetamodelNamespace mspace) {		
+		// The second condition deals with the case that c is an already resolved proxy,
+		// and therefore c does not belong to the meta-model of its pointing reference
+		if ( c.eIsProxy() || (c instanceof EClass && mspace.getClass((EClass) c) == null) ) {
+			Pair<EClassifier, MetamodelNamespace> actual = AnalyserContext.getGlobalNamespace().resolve(c);
+			if ( actual == null ) {
+				// Should be reported as warnings at the beginning of the transformation
+				System.out.println("EcoreTypeConverter: Cannot find " + c);
+				return typ.newUnknownType();
+			}
+			
+			return convertNoProxy(actual._1, actual._2);
+		} else {
+			// Assume the type is in the passed meta-model namespace 
+			return convertNoProxy(c, mspace);
+		}			
+	}
+
+	protected Type convertNoProxy(EClassifier c, IMetamodelNamespace mspace) {
 		if ( c instanceof EClass ) {
-			return convertEClass((EClass) c, (IClassNamespace) mspace.getClassifier(c.getName()));
-		} else if ( c instanceof EDataType ) {
-			return convertEDataType((EDataType) c);
+			return convertEClass((EClass) c, mspace.getClass((EClass) c));
+		} else if ( c instanceof EDataType ){
+			return convertEDataType((EDataType) c );	
 		}
-		
 		throw new UnsupportedOperationException("Type " + c.getName() + " not supported");
 	}
 
@@ -62,7 +81,6 @@ public class EcoreTypeConverter {
 	
 	private Type convertEDataType(EDataType c) {
 		String instance = c.getInstanceClassName() == null ? "" : c.getInstanceClassName();
-		
 		if ( c instanceof EEnum ) {
 			return convertEEnum((EEnum) c);
 		} else if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {

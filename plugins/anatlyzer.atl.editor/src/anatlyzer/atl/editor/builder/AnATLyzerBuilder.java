@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.m2m.atl.engine.Messages;
 
+import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -96,6 +97,8 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				for (Problem problem : data.getNonIgnoredProblems()) {
 					addMarker(file, help, data, problem);
 				}
+			} catch (AnalyserInternalError e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CoreException e) {
 				e.printStackTrace();
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
@@ -132,19 +135,30 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		
 		String description = ErrorUtils.getShortError(lp);
 		String location = lp.getLocation();
-		String[] parts = location.split("-")[0].split(":"); //$NON-NLS-1$ //$NON-NLS-2$
-
+		String[] parts = null; // 
+		
+		// Location may be null if there are some elements introduced
+		// programatically
+		if ( location == null ) {
+			parts = new String[] { "0", "0" };
+		} else {
+			parts = location.split("-")[0].split(":"); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		
 		int lineNumber = Integer.parseInt(parts[0]);
 		int columnNumber = Integer.parseInt(parts[1]);
 		int charStart = 0;
 		int charEnd = 0;
 		try {
-			if (location.indexOf('-') == -1) {
+			if (location != null && location.indexOf('-') == -1) {
 				location += '-' + location;
 			}
+			
+			if ( location != null ) {
 			int[] pos = help.getIndexChar(location, tabWidth);
-			charStart = pos[0];
-			charEnd = pos[1];
+				charStart = pos[0];
+				charEnd = pos[1];
+			}
 
 			IMarker pbmMarker = file.createMarker(MARKER_TYPE);
 			pbmMarker.setAttribute(PROBLEM, problem);

@@ -50,6 +50,7 @@ import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.JavaBody;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.MapExp;
@@ -72,7 +73,6 @@ import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
-
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
@@ -794,5 +794,18 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 
 	// End-of Scopes
+	
+	
+	// Generated code and profile support
+	
+	@Override
+	public void inJavaBody(JavaBody self) {
+		// There is no inference for Java code, we just use the type
+		// declared in the operation as the inferred type
+		Operation op = (Operation) self.eContainer();
+		attr.linkExprType( attr.typeOf(op.getReturnType()) );
+	}
+	
+	// End-of generated code
 	
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -275,7 +276,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			Metaclass rightMetaclass = (Metaclass) rightType;
 			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();
 			
-			List<MatchedRule> rules = ns.getResolvingRules();
+			Set<MatchedRule> rules = ns.getResolvingRules();
 			boolean isAssignable    = TypeUtils.isClassAssignableTo(rightMetaclass.getKlass(), f.getEReferenceType());
 			if ( rules.size() == 0 && ! isAssignable ) {
 				errors().signalBindingWithoutRule(self, rightMetaclass.getKlass(), f.getEReferenceType());
@@ -296,7 +297,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		}
 	}
 
-	private void findRulesWithWrongTargetType(Binding b, Metaclass rightType, EClass targetType, List<MatchedRule> resolvingRules) {
+	private void findRulesWithWrongTargetType(Binding b, Metaclass rightType, EClass targetType, Set<MatchedRule> resolvingRules) {
 		ArrayList<MatchedRule> problematicRules = new ArrayList<MatchedRule>();
 		ArrayList<EClass> targetClasses = new ArrayList<EClass>();
 		ArrayList<EClass> sourceClasses = new ArrayList<EClass>();

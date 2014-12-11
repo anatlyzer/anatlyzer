@@ -610,6 +610,25 @@ public class OCLSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case OCLPackage.JAVA_BODY: {
+				JavaBody javaBody = (JavaBody)theEObject;
+				T result = caseJavaBody(javaBody);
+				if (result == null) result = caseOclExpression(javaBody);
+				if (result == null) result = caseLocatedElement(javaBody);
+				if (result == null) result = caseTypedElement(javaBody);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OCLPackage.GET_APPLIED_STEREOTYPES_BODY: {
+				GetAppliedStereotypesBody getAppliedStereotypesBody = (GetAppliedStereotypesBody)theEObject;
+				T result = caseGetAppliedStereotypesBody(getAppliedStereotypesBody);
+				if (result == null) result = caseJavaBody(getAppliedStereotypesBody);
+				if (result == null) result = caseOclExpression(getAppliedStereotypesBody);
+				if (result == null) result = caseLocatedElement(getAppliedStereotypesBody);
+				if (result == null) result = caseTypedElement(getAppliedStereotypesBody);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -1466,6 +1485,36 @@ public class OCLSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTypedElement(TypedElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Java Body</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Java Body</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseJavaBody(JavaBody object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Get Applied Stereotypes Body</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Get Applied Stereotypes Body</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGetAppliedStereotypesBody(GetAppliedStereotypesBody object) {
 		return null;
 	}
 

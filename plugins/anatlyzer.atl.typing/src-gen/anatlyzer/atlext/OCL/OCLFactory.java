@@ -445,6 +445,24 @@ public interface OCLFactory extends EFactory {
 	OclModel createOclModel();
 
 	/**
+	 * Returns a new object of class '<em>Java Body</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Java Body</em>'.
+	 * @generated
+	 */
+	JavaBody createJavaBody();
+
+	/**
+	 * Returns a new object of class '<em>Get Applied Stereotypes Body</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Get Applied Stereotypes Body</em>'.
+	 * @generated
+	 */
+	GetAppliedStereotypesBody createGetAppliedStereotypesBody();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

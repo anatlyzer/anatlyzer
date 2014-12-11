@@ -10,6 +10,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Attribute;
@@ -141,4 +142,19 @@ public class ATLUtils {
 
 	}
 
+	public static List<String> findTags(Module module, String tag) {
+		List<String> result = new ArrayList<String>();
+		for (String str : module.getCommentsBefore()) {
+			String line = str.replaceAll("--", "").trim();
+			int index   = line.indexOf(tag);
+			if ( index != -1 ) {
+				line = line.substring(index + tag.length());
+				for(String s : line.split(",")) {
+					result.add(s.trim());
+				}
+			}			
+		}
+		return result;
+	}
+		
 }

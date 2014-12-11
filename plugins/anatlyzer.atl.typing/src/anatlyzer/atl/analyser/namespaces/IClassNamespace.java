@@ -4,6 +4,7 @@ import anatlyzer.atl.types.Type;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -27,7 +28,7 @@ public interface IClassNamespace extends ITypeNamespace {
 	public abstract void attachResolvingRule(String ruleName, Type returnType,
 			MatchedRule rule);
 
-	public abstract List<MatchedRule> getResolvingRules();
+	public abstract Set<MatchedRule> getResolvingRules();
 
 	public abstract List<MatchedRule> getRules();
 

@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import org.eclipse.emf.ecore.EClass;
+
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Type;
 
@@ -48,6 +50,11 @@ public class PrimitiveGlobalNamespace implements IMetamodelNamespace {
 			return new SetNamespace(typ, nested);
 		}
 		return null;
+	}
+
+	@Override
+	public IClassNamespace getClass(EClass c) {
+		throw new UnsupportedOperationException();
 	}
 
 }

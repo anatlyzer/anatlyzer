@@ -21,11 +21,11 @@ public class GenerateVisitor {
 		// GenModelPackage.eINSTANCE
 		rs.getPackageRegistry().put(GenModelPackage.eINSTANCE.getNsURI(), GenModelPackage.eINSTANCE);
 		
-		Resource r3 = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/merged.genmodel"), true);
+		Resource r3 = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/merged.genmodel"), true);
 		
 		VisitorOptions options = new VisitorOptions ();
 		// options.setBaseDir("tmp_");
-		options.setBaseDir("/home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/src-gen");
+		options.setBaseDir("/home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/src-gen");
 		options.setPackagePrefix("anatlyzer.atlext.processing");
 		
 		VisitorCreator compiler = new VisitorCreator();

@@ -46,7 +46,10 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 				return AnalyserContext.getTypingModel().newSequenceType(AnalyserContext.getTypingModel().newStringType());
 			
 			
-			return AtlTypes.string().getOperationReturnType(operationName);
+			t = AtlTypes.string().getOperationReturnType(operationName);
+			if ( t == null ) {
+				t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);
+			}
 		}
 		return t;
 	}

@@ -27,7 +27,7 @@ public class ApplyPackageMerge {
 		
 //		rs.getURIConverter().getURIMap().put(
 //				URI.createURI("platform:/resource/anatlyzer.atl.typing/model/original/ATLStatic.ecore"),
-//				URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/original/ATLStatic.ecore"));
+//				URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/original/ATLStatic.ecore"));
 
 		rs.getURIConverter().getURIHandlers().add(new URIHandlerImpl() {
 			@Override
@@ -46,11 +46,11 @@ public class ApplyPackageMerge {
 		});
 		
 		rs.getURIConverter().getURIMap().put(
-				URI.createURI("/home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/types.ecore"),
+				URI.createURI("/home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore"),
 				URI.createURI("/resource/anatlyzer.atl.typing/model/types.ecore"));
 
-		Resource receiving = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/ATLmodified.ecore"), true);
-		Resource merged    = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/ext.ecore"), true);
+		Resource receiving = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/ATLmodified.ecore"), true);
+		Resource merged    = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/ext.ecore"), true);
 		// Resource merged    = rs.getResource(URI.createURI("platform:/resource/anatlyzer.atl.typing/model/ext.ecore"), true);
 		
 		MergerOptions options = new MergerOptions ();
@@ -59,11 +59,11 @@ public class ApplyPackageMerge {
 		Resource target = compiler.compile(receiving, merged, options);
 		rs.getResources().add(target);
 		rs.getURIConverter().getURIMap().put(
-				URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/ATLModified.ecore"),
+				URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/ATLModified.ecore"),
 				URI.createURI("platform:/resource/anatlyzer.atl.typing/model/original/ATLModified.ecore"));
 
 		
-		target.save(new FileOutputStream("/home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/merged.ecore"), null);
+		target.save(new FileOutputStream("/home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/merged.ecore"), null);
 	}
 
 }

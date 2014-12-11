@@ -361,6 +361,8 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//OCL/TypedElement/inferredType"/>
       </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/JavaBody"/>
+      <genClasses ecoreClass="merged.ecore#//OCL/GetAppliedStereotypesBody"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="PrimitiveTypes" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
         ecorePackage="merged.ecore#//PrimitiveTypes">

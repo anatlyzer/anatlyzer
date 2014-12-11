@@ -72,7 +72,23 @@ package OCL {
 	ref ATL.Callable[1]#calledBy staticResolver;
 	ref ATL.ContextHelper[0..*]#polymorphicCalledBy dynamicResolvers;		
   }
+  
+  // This is to represent the body of EOperations written in
+  // Java as part of a generated meta-model.
+  class JavaBody extends OclExpression { }
+
+  class GetAppliedStereotypesBody extends JavaBody { }		
+	
+  /*
+  @namespace(uri="http://anatlyzer/atl/ext/UML_Profiles", prefix="atl_ext_profiles")
+  package Profiles {
+    class GetAppliedStereotypesBody extends OCL.JavaBody { }		
+		
+  }
+  */
+
 }
+
 
 @namespace(uri="http://anatlyzer/atl/ext/PrimitiveTypes", prefix="atl_ext_ptypes")
 package PrimitiveTypes {

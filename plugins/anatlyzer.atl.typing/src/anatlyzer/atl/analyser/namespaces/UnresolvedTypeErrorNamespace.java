@@ -7,6 +7,7 @@ import anatlyzer.atl.types.TypeError;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -62,8 +63,8 @@ public class UnresolvedTypeErrorNamespace extends TypeErrorNamespace implements 
 	 * Returns an empty list.
 	 */
 	@Override
-	public List<MatchedRule> getResolvingRules() {
-		return Collections.emptyList();
+	public Set<MatchedRule> getResolvingRules() {
+		return Collections.emptySet();
 	}
 
 

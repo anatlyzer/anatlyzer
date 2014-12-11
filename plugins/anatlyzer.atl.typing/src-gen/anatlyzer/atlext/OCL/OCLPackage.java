@@ -11134,6 +11134,351 @@ public interface OCLPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.OCL.impl.JavaBodyImpl
+	 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getJavaBody()
+	 * @generated
+	 */
+	int JAVA_BODY = 57;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__LOCATION = OCL_EXPRESSION__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Comments Before</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__COMMENTS_BEFORE = OCL_EXPRESSION__COMMENTS_BEFORE;
+
+	/**
+	 * The feature id for the '<em><b>Comments After</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__INFERRED_TYPE = OCL_EXPRESSION__INFERRED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__TYPE = OCL_EXPRESSION__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>If Exp3</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__IF_EXP3 = OCL_EXPRESSION__IF_EXP3;
+
+	/**
+	 * The feature id for the '<em><b>Applied Property</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__APPLIED_PROPERTY = OCL_EXPRESSION__APPLIED_PROPERTY;
+
+	/**
+	 * The feature id for the '<em><b>Collection</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__COLLECTION = OCL_EXPRESSION__COLLECTION;
+
+	/**
+	 * The feature id for the '<em><b>Let Exp</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__LET_EXP = OCL_EXPRESSION__LET_EXP;
+
+	/**
+	 * The feature id for the '<em><b>Loop Exp</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__LOOP_EXP = OCL_EXPRESSION__LOOP_EXP;
+
+	/**
+	 * The feature id for the '<em><b>Parent Operation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__PARENT_OPERATION = OCL_EXPRESSION__PARENT_OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>Initialized Variable</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__INITIALIZED_VARIABLE = OCL_EXPRESSION__INITIALIZED_VARIABLE;
+
+	/**
+	 * The feature id for the '<em><b>If Exp2</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__IF_EXP2 = OCL_EXPRESSION__IF_EXP2;
+
+	/**
+	 * The feature id for the '<em><b>Owning Operation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__OWNING_OPERATION = OCL_EXPRESSION__OWNING_OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>If Exp1</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__IF_EXP1 = OCL_EXPRESSION__IF_EXP1;
+
+	/**
+	 * The feature id for the '<em><b>Owning Attribute</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
+
+	/**
+	 * The number of structural features of the '<em>Java Body</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY_FEATURE_COUNT = OCL_EXPRESSION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Java Body</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY_OPERATION_COUNT = OCL_EXPRESSION_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.GetAppliedStereotypesBodyImpl <em>Get Applied Stereotypes Body</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.OCL.impl.GetAppliedStereotypesBodyImpl
+	 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getGetAppliedStereotypesBody()
+	 * @generated
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY = 58;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__LOCATION = JAVA_BODY__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Comments Before</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__COMMENTS_BEFORE = JAVA_BODY__COMMENTS_BEFORE;
+
+	/**
+	 * The feature id for the '<em><b>Comments After</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__COMMENTS_AFTER = JAVA_BODY__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__INFERRED_TYPE = JAVA_BODY__INFERRED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__TYPE = JAVA_BODY__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>If Exp3</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__IF_EXP3 = JAVA_BODY__IF_EXP3;
+
+	/**
+	 * The feature id for the '<em><b>Applied Property</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__APPLIED_PROPERTY = JAVA_BODY__APPLIED_PROPERTY;
+
+	/**
+	 * The feature id for the '<em><b>Collection</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__COLLECTION = JAVA_BODY__COLLECTION;
+
+	/**
+	 * The feature id for the '<em><b>Let Exp</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__LET_EXP = JAVA_BODY__LET_EXP;
+
+	/**
+	 * The feature id for the '<em><b>Loop Exp</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__LOOP_EXP = JAVA_BODY__LOOP_EXP;
+
+	/**
+	 * The feature id for the '<em><b>Parent Operation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__PARENT_OPERATION = JAVA_BODY__PARENT_OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>Initialized Variable</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__INITIALIZED_VARIABLE = JAVA_BODY__INITIALIZED_VARIABLE;
+
+	/**
+	 * The feature id for the '<em><b>If Exp2</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__IF_EXP2 = JAVA_BODY__IF_EXP2;
+
+	/**
+	 * The feature id for the '<em><b>Owning Operation</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__OWNING_OPERATION = JAVA_BODY__OWNING_OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>If Exp1</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__IF_EXP1 = JAVA_BODY__IF_EXP1;
+
+	/**
+	 * The feature id for the '<em><b>Owning Attribute</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__OWNING_ATTRIBUTE = JAVA_BODY__OWNING_ATTRIBUTE;
+
+	/**
+	 * The number of structural features of the '<em>Get Applied Stereotypes Body</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY_FEATURE_COUNT = JAVA_BODY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Get Applied Stereotypes Body</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY_OPERATION_COUNT = JAVA_BODY_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.OclExpression <em>Ocl Expression</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12661,6 +13006,26 @@ public interface OCLPackage extends EPackage {
 	EReference getTypedElement_InferredType();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.JavaBody <em>Java Body</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Java Body</em>'.
+	 * @see anatlyzer.atlext.OCL.JavaBody
+	 * @generated
+	 */
+	EClass getJavaBody();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.GetAppliedStereotypesBody <em>Get Applied Stereotypes Body</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Get Applied Stereotypes Body</em>'.
+	 * @see anatlyzer.atlext.OCL.GetAppliedStereotypesBody
+	 * @generated
+	 */
+	EClass getGetAppliedStereotypesBody();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13948,6 +14313,26 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPED_ELEMENT__INFERRED_TYPE = eINSTANCE.getTypedElement_InferredType();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.OCL.impl.JavaBodyImpl
+		 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getJavaBody()
+		 * @generated
+		 */
+		EClass JAVA_BODY = eINSTANCE.getJavaBody();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.GetAppliedStereotypesBodyImpl <em>Get Applied Stereotypes Body</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.OCL.impl.GetAppliedStereotypesBodyImpl
+		 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getGetAppliedStereotypesBody()
+		 * @generated
+		 */
+		EClass GET_APPLIED_STEREOTYPES_BODY = eINSTANCE.getGetAppliedStereotypesBody();
 
 	}
 

@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text;bundle-version="3.7.0",
  org.eclipse.ui.editors;bundle-version="3.7.0",
  org.eclipse.m2m.atl.common;bundle-version="3.3.0",
- anatlyzer.atl.typing
+ anatlyzer.atl.typing,
+ org.eclipse.emf.ecore
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: anatlyzer.atl.editor,

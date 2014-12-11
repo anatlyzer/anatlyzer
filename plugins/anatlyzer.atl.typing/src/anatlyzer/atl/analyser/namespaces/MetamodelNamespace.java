@@ -13,7 +13,9 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.types.EnumType;
@@ -26,14 +28,22 @@ import anatlyzer.atl.types.Metaclass;
  */
 public class MetamodelNamespace implements IMetamodelNamespace {
 
-	private Resource	resource;
-	private HashMap<String, ITypeNamespace> classifiers = new HashMap<String, ITypeNamespace>();
-	private ArrayList<EClass> allClasses = new ArrayList<EClass>();
-	private ArrayList<EEnum> allEnums= new ArrayList<EEnum>();
+	protected Resource	resource;
+	protected HashMap<String, ITypeNamespace> classifiers = new HashMap<String, ITypeNamespace>();
+	protected ArrayList<EClass> allClasses = new ArrayList<EClass>();
+	protected ArrayList<EEnum> allEnums= new ArrayList<EEnum>();
+
+	protected HashSet<EPackage> loadedPackages = new HashSet<EPackage>();
 	
 	// this is just to have a quick look before iterating over superclasses looking for virtual features
 	protected Set<String> featureNames = new HashSet<String>(); 
-	private String	name;
+	protected String	name;
+	
+	// This is to handle cross-references overlooking EMF proxy resolution, which seems 
+	// broken in the ATL editor
+	// protected Map<String, EClassifier> uriToClassifier = new HashMap<String, EClassifier>();
+	// protected ResourceSet resourceSet;
+	
 	
 	public MetamodelNamespace(String name, Resource resource) {
 		this.name     = name;
@@ -55,9 +65,11 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 				} else {
 					// System.out.println("MetamodelNamespace: Type " + c.getName() + " not supported ");
 				}
-				
-				
+	
+				// uriToClassifier.put(EMFUtils.getURI(c, resourceSet), c);
 				// classifiers.put(c.getName(), c);
+			} else if ( obj instanceof EPackage ) {
+				loadedPackages.add((EPackage) obj);
 			}
 		}
 		
@@ -97,6 +109,34 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 		ITypeNamespace tn = classifiers.get(name);
 		return tn;
 	}
+	
+	@Override
+	public IClassNamespace getClass(EClass c) {
+		if ( ! c.eIsProxy() ) {
+			return (IClassNamespace) classifiers.get(c.getName());
+		} else {
+			c = (EClass) EcoreUtil.resolve(c, c.eResource());
+			if ( ! c.eIsProxy()) {			
+				for(MetamodelNamespace metamodel : AnalyserContext.getGlobalNamespace().getMetamodels()) {
+					if ( metamodel.belongsTo(c) ) {
+						return (IClassNamespace) classifiers.get(c.getName());
+					}				
+				}
+			} else {
+				// Weird case when meta-models are not properly loaded...
+				String s = EcoreUtil.getURI(c).fragment().replace("//", "");
+				for(MetamodelNamespace metamodel : AnalyserContext.getGlobalNamespace().getMetamodels()) {
+					ITypeNamespace possibleClass = metamodel.classifiers.get(s);
+					if ( possibleClass != null) {
+						return (IClassNamespace) possibleClass;
+					}				
+				}
+			}
+			
+			throw new IllegalStateException("Could not find " + EcoreUtil.getURI(c));
+		}
+	}
+
 	
 	public Metaclass getMetaclass(EClass c) {
 		return ((ClassNamespace) classifiers.get(c.getName())).getType();

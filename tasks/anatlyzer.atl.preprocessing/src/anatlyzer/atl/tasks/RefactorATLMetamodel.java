@@ -25,9 +25,9 @@ public class RefactorATLMetamodel {
 //		rs.getURIConverter().getURIMap().put(URI.createURI("model/generated/ATLmodified.ecore"), 
 //				URI.createURI("ATLmodified.ecore"));
 		
-		Resource original = rs.getResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/original/ATLStatic.ecore"), true);
+		Resource original = rs.getResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/original/ATLStatic.ecore"), true);
 		// Resource resource = rs.createResource(URI.createFileURI("model/generated/ATLmodified.ecore"));
-		Resource resource = rs.createResource(URI.createURI("file:///home/jesus/projects/genericity/atlide/anatlyzer.atl.typing/model/generated/ATLmodified.ecore"));		
+		Resource resource = rs.createResource(URI.createURI("file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/generated/ATLmodified.ecore"));		
 		resource.getContents().addAll(EcoreUtil.copyAll(original.getContents()));
 		
 		new RefactorATLMetamodel(resource).refactor();

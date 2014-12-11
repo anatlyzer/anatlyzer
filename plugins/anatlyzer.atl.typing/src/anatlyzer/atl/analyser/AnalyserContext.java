@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser;
 
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
 
@@ -7,6 +8,8 @@ public class AnalyserContext {
 	private static ThreadLocal<TypingModel> typingModelTL = new ThreadLocal<TypingModel>();
 	private static ThreadLocal<ErrorModel>  errorModelTL  = new ThreadLocal<ErrorModel>();
 	private static ThreadLocal<EcoreTypeConverter> converterTL  = new ThreadLocal<EcoreTypeConverter>();
+	private static ThreadLocal<GlobalNamespace> mmTL  = new ThreadLocal<GlobalNamespace>();
+
 	private static boolean	isVarDclInferencePreferred = true;
 	private static boolean	isOclStrict = true;
 	
@@ -21,6 +24,15 @@ public class AnalyserContext {
 	
 	public static void setErrorModel(ErrorModel value) {
 		errorModelTL.set(value);
+	}
+
+
+	public static void setGlobalNamespace(GlobalNamespace mm) {
+		mmTL.set(mm);
+	}
+	
+	public static GlobalNamespace getGlobalNamespace() {
+		return mmTL.get();
 	}
 	
 	public static ErrorModel getErrorModel() {
@@ -38,4 +50,5 @@ public class AnalyserContext {
 	public static boolean isOclStrict() {
 		return isOclStrict ;
 	}
+
 }

@@ -98,6 +98,9 @@ public class TypeUtils {
 	}
 	
 	public static String getTypeName(Type t) {
+		if ( t == null ) 
+			throw new IllegalArgumentException();
+		
 		if ( t instanceof Metaclass ) {
 			return ((Metaclass) t).getName();
 		} else if ( t instanceof StringType ) {

@@ -17,12 +17,14 @@ import anatlyzer.atlext.OCL.CollectionExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.CollectionType;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
+import anatlyzer.atlext.OCL.GetAppliedStereotypesBody;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.JavaBody;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.MapElement;
@@ -484,6 +486,20 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * @generated
 	 */
 	private EClass typedElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass javaBodyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass getAppliedStereotypesBodyEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1858,6 +1874,24 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getJavaBody() {
+		return javaBodyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGetAppliedStereotypesBody() {
+		return getAppliedStereotypesBodyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public OCLFactory getOCLFactory() {
 		return (OCLFactory)getEFactoryInstance();
 	}
@@ -2081,6 +2115,10 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 
 		typedElementEClass = createEClass(TYPED_ELEMENT);
 		createEReference(typedElementEClass, TYPED_ELEMENT__INFERRED_TYPE);
+
+		javaBodyEClass = createEClass(JAVA_BODY);
+
+		getAppliedStereotypesBodyEClass = createEClass(GET_APPLIED_STEREOTYPES_BODY);
 	}
 
 	/**
@@ -2174,6 +2212,8 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		attributeEClass.getESuperTypes().add(this.getOclFeature());
 		operationEClass.getESuperTypes().add(this.getOclFeature());
 		oclModelEClass.getESuperTypes().add(theATLPackage.getLocatedElement());
+		javaBodyEClass.getESuperTypes().add(this.getOclExpression());
+		getAppliedStereotypesBodyEClass.getESuperTypes().add(this.getJavaBody());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(oclExpressionEClass, OclExpression.class, "OclExpression", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2376,6 +2416,10 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 
 		initEClass(typedElementEClass, TypedElement.class, "TypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTypedElement_InferredType(), theTypesPackage.getType(), null, "inferredType", null, 0, 1, TypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(javaBodyEClass, JavaBody.class, "JavaBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(getAppliedStereotypesBodyEClass, GetAppliedStereotypesBody.class, "GetAppliedStereotypesBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

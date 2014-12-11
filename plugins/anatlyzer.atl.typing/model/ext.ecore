@@ -67,6 +67,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicResolvers" upperBound="-1"
           eType="#//ATL/ContextHelper" eOpposite="#//ATL/ContextHelper/polymorphicCalledBy"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="#//OCL/OclExpression"/>
+    <eClassifiers xsi:type="ecore:EClass" name="GetAppliedStereotypesBody" eSuperTypes="#//OCL/JavaBody"/>
   </eSubpackages>
   <eSubpackages name="PrimitiveTypes" nsURI="http://anatlyzer/atl/ext/PrimitiveTypes"
       nsPrefix="atl_ext_ptypes"/>

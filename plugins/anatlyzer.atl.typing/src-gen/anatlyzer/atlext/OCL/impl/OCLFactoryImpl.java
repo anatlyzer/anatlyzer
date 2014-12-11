@@ -103,6 +103,8 @@ public class OCLFactoryImpl extends EFactoryImpl implements OCLFactory {
 			case OCLPackage.ATTRIBUTE: return createAttribute();
 			case OCLPackage.OPERATION: return createOperation();
 			case OCLPackage.OCL_MODEL: return createOclModel();
+			case OCLPackage.JAVA_BODY: return createJavaBody();
+			case OCLPackage.GET_APPLIED_STEREOTYPES_BODY: return createGetAppliedStereotypesBody();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -576,6 +578,26 @@ public class OCLFactoryImpl extends EFactoryImpl implements OCLFactory {
 	public OclModel createOclModel() {
 		OclModelImpl oclModel = new OclModelImpl();
 		return oclModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JavaBody createJavaBody() {
+		JavaBodyImpl javaBody = new JavaBodyImpl();
+		return javaBody;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GetAppliedStereotypesBody createGetAppliedStereotypesBody() {
+		GetAppliedStereotypesBodyImpl getAppliedStereotypesBody = new GetAppliedStereotypesBodyImpl();
+		return getAppliedStereotypesBody;
 	}
 
 	/**

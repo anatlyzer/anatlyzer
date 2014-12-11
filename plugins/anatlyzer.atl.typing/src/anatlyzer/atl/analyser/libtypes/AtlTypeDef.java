@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.libtypes;
 
 import java.util.HashMap;
 
+import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.types.Type;
 
 public abstract class AtlTypeDef {
@@ -19,7 +20,10 @@ public abstract class AtlTypeDef {
 	
 	public Type getOperationReturnType(String operationName) {
 		AtlOperationDef op = operations.get(operationName);
-		if ( op == null ) throw new IllegalArgumentException("No operation " + operationName + " " + this.getClass().getName());
+		if ( op == null ) {
+			return null; 
+			// throw new IllegalArgumentException("No operation " + operationName + " " + this.getClass().getName());
+		}
 		
 		return op.getReturnType().getAnalyserType();
 	}

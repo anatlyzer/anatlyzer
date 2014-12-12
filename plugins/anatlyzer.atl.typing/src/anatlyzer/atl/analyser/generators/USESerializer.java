@@ -40,7 +40,7 @@ import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.VariableExp;
 
-public class OclGenerator {
+public class USESerializer {
 
 	public static String gen(OclExpression receptor) {
 		return gen(receptor, null);
@@ -80,7 +80,7 @@ public class OclGenerator {
 			CollectionExp col = (CollectionExp) expr;
 			String elems = "";
 			for(int i = 0; i < col.getElements().size(); i++) {
-				elems += OclGenerator.gen( col.getElements().get(i), analyser );
+				elems += USESerializer.gen( col.getElements().get(i), analyser );
 				if ( i + 1 < col.getElements().size() ) 
 					elems += ",";
 			}
@@ -94,8 +94,8 @@ public class OclGenerator {
 			MapExp me = (MapExp) expr;
 			String elems = "";
 			for(int i = 0; i < me.getElements().size(); i++) {
-				elems += "(" + OclGenerator.gen( me.getElements().get(i).getKey(), analyser ) + ";" + 
-						OclGenerator.gen( me.getElements().get(i).getValue(), analyser ) + ")";
+				elems += "(" + USESerializer.gen( me.getElements().get(i).getKey(), analyser ) + ";" + 
+						USESerializer.gen( me.getElements().get(i).getValue(), analyser ) + ")";
 				if ( i + 1 < me.getElements().size() ) 
 					elems += ",";
 			}
@@ -143,7 +143,8 @@ public class OclGenerator {
 		if ( analyser != null ) {
 			Type t = analyser.getTyping().getImplicitlyCasted(expr);
 			if ( t != null && t instanceof Metaclass ) {
-				casting = ".oclAsType(" + ((Metaclass) t).getName() + ")";
+				// casting = ".oclAsType(" + ((Metaclass) t).getName() + ")";
+				System.out.println("NOT APPLYING CASTING " + ".oclAsType(" + ((Metaclass) t).getName() + ") BECAUSE THIS SHOULD BE IN RETYPING.JAVA" );
 			}				
 		}
 

@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.model.ATLModel;
@@ -48,7 +48,7 @@ public class CallExprNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, OclGenerator.gen(call), leadsToExecution);
+		gv.addNode(this, USESerializer.gen(call), leadsToExecution);
 	}
 
 	@Override

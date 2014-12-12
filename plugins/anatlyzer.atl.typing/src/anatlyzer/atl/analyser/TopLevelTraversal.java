@@ -3,7 +3,7 @@ package anatlyzer.atl.analyser;
 import java.util.LinkedList;
 import java.util.List;
 
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
@@ -196,7 +196,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			mm.getTransformationNamespace().attachRule(self.getName(), t, self);				
 			return;
 		}
-		throw new UnsupportedOperationException(OclGenerator.gen(last.getExpression()) + " - " + self.getLocation());		
+		throw new UnsupportedOperationException(USESerializer.gen(last.getExpression()) + " - " + self.getLocation());		
 	}
 
 	

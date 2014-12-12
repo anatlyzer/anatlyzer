@@ -2,7 +2,7 @@ package anatlyzer.atl.analyser;
 
 import java.util.HashMap;
 
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
@@ -24,11 +24,11 @@ public class VariableScope {
 	
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type exprType) {
 		OclKindOfApplication app = new OclKindOfApplication(vd, source, exprType);
-		current.applications.put(OclGenerator.gen(source), app);
+		current.applications.put(USESerializer.gen(source), app);
 	}
 
 	public Type getKindOf(OclExpression expr) {
-		OclKindOfApplication r = current.applications.get(OclGenerator.gen(expr));
+		OclKindOfApplication r = current.applications.get(USESerializer.gen(expr));
 		if ( r != null && findStartingVarExp(expr).getReferredVariable() == r.vd ) {
 			/*
 			if ( findStartingVarExp(expr) != r.vd) {

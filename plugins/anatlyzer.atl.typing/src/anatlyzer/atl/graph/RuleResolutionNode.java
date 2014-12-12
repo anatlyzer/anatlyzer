@@ -3,7 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
@@ -28,7 +28,7 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, OclGenerator.gen(binding.getValue()) + 
+		gv.addNode(this, USESerializer.gen(binding.getValue()) + 
 				": " + TypeUtils.typeToString(ATLUtils.getSourceType(binding)) +"\\nresolvedBy", leadsToExecution);
 	}
 

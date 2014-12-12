@@ -3,7 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atlext.OCL.IfExp;
@@ -37,7 +37,7 @@ public class ConditionalNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, "if: " + OclGenerator.gen(ifExpr.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
+		gv.addNode(this, "if: " + USESerializer.gen(ifExpr.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
 	}
 
 	@Override

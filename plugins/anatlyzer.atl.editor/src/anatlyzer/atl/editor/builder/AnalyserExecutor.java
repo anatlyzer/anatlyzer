@@ -34,6 +34,8 @@ import anatlyzer.atl.analysisext.AnalysisProvider;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
+import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
@@ -46,7 +48,7 @@ import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public class AnalyserExecutor {
 
-	public AnalyserData exec(IResource resource) throws IOException, CoreException {
+	public AnalyserData exec(IResource resource) throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(resource.getFullPath());
 		ModelFactory      modelFactory = new EMFModelFactory();
 		EMFModel atlEMFModel = null;
@@ -81,7 +83,10 @@ public class AnalyserExecutor {
 			String name = two[0].trim();
 			String uri = two[1].trim();
 			
-			Resource r = nrs.getResource(URI.createURI(uri), true);
+			Resource r = nrs.getResource(URI.createURI(uri), false);
+			if ( r == null ) {
+				throw new CannotLoadMetamodel(uri);
+			}
 			logicalNamesToResources.put(name, r);			
 		}
 		
@@ -223,4 +228,23 @@ public class AnalyserExecutor {
 
 	}
 	
+	public static class CannotLoadMetamodel extends Exception {
+		private static final long serialVersionUID = 1L;
+		private String uri;
+		
+		public CannotLoadMetamodel(String uri) {
+			super("Could not load meta-model: " + uri);
+			this.uri = uri;
+		}
+		
+		public Problem getProblem() {
+			CouldNotLoadMetamodel p = IdeErrorFactory.eINSTANCE.createCouldNotLoadMetamodel();
+			p.setDescription(this.getMessage());
+			p.setNeedsCSP(false);
+			p.setUri(uri);
+			p.setLocation("1:1-1:1");
+			return p;
+		}
+		
+	}
 }

@@ -3,7 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atlext.OCL.Iterator;
@@ -30,7 +30,7 @@ public class LoopNode extends AbstractDependencyNode {
 
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
-		gv.addNode(this, "Loop: " + OclGenerator.gen(receptor), leadsToExecution);
+		gv.addNode(this, "Loop: " + USESerializer.gen(receptor), leadsToExecution);
 		super.genGraphviz(gv);
 	}
 

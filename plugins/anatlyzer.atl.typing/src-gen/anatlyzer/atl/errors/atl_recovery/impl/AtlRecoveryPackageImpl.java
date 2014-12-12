@@ -13,6 +13,8 @@ import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
 
+import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
+import anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl;
 import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
 
 import anatlyzer.atl.types.TypesPackage;
@@ -97,16 +99,19 @@ public class AtlRecoveryPackageImpl extends EPackageImpl implements AtlRecoveryP
 		// Obtain or create and register interdependencies
 		AnalysisResultPackageImpl theAnalysisResultPackage = (AnalysisResultPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AnalysisResultPackage.eNS_URI) instanceof AnalysisResultPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AnalysisResultPackage.eNS_URI) : AnalysisResultPackage.eINSTANCE);
 		AtlErrorPackageImpl theAtlErrorPackage = (AtlErrorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AtlErrorPackage.eNS_URI) instanceof AtlErrorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AtlErrorPackage.eNS_URI) : AtlErrorPackage.eINSTANCE);
+		IdeErrorPackageImpl theIdeErrorPackage = (IdeErrorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(IdeErrorPackage.eNS_URI) instanceof IdeErrorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(IdeErrorPackage.eNS_URI) : IdeErrorPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAtlRecoveryPackage.createPackageContents();
 		theAnalysisResultPackage.createPackageContents();
 		theAtlErrorPackage.createPackageContents();
+		theIdeErrorPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theAtlRecoveryPackage.initializePackageContents();
 		theAnalysisResultPackage.initializePackageContents();
 		theAtlErrorPackage.initializePackageContents();
+		theIdeErrorPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theAtlRecoveryPackage.freeze();

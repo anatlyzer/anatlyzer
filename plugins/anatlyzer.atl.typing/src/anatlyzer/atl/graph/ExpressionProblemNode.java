@@ -3,7 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.OclGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -32,7 +32,7 @@ public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProbl
 		super.genGraphviz(gv);
 		String msg = ErrorUtils.getShortError(problem);
 		
-		gv.addNode(this, msg + "\\n" + OclGenerator.gen(expr), leadsToExecution);
+		gv.addNode(this, msg + "\\n" + USESerializer.gen(expr), leadsToExecution);
 	}
 
 	@Override

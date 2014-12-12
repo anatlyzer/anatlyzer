@@ -75,8 +75,11 @@ public class TransformationSlice {
 			
 		}
 		*/
-		
-		Resource rs = new ResourceImpl();
+
+		ATLModel newModel = new ATLModel();
+		Resource rs = newModel.getResource();
+
+		// Resource rs = new ResourceImpl();
 
 		// Copy
 		Copier copier = new Copier();
@@ -92,8 +95,6 @@ public class TransformationSlice {
 		}
 
 		
-		ATLModel newModel = new ATLModel(rs);
-
 		/*
 		Module newModule = newModel.create(Module.class);
 		Module oriModule = atlModel.allObjectsOf(Module.class).get(0);

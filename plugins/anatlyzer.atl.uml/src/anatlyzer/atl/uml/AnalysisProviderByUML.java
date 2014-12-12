@@ -8,6 +8,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.umlprofiles.ProfileUsageExtension;
 import anatlyzer.atl.analysisext.AnalysisProvider;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils;
 
 public class AnalysisProviderByUML implements AnalysisProvider {
 
@@ -15,7 +16,9 @@ public class AnalysisProviderByUML implements AnalysisProvider {
 	public List<AnalyserExtension> getExtensions(ATLModel atlModel, GlobalNamespace mm) {
 		ArrayList<AnalyserExtension> extensions = new ArrayList<AnalyserExtension>();
 		
-		extensions.add(new ProfileUsageExtension());
+		List<String> profileTags = ATLUtils.findCommaTags(atlModel.getModule(), "profile");	
+		if ( profileTags.size() > 0 )
+			extensions.add(new ProfileUsageExtension());
 		
 		return extensions;
 	}

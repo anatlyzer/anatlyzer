@@ -18,6 +18,8 @@ import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
 
 import anatlyzer.atl.errors.atl_recovery.impl.AtlRecoveryPackageImpl;
 
+import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
+import anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl;
 import anatlyzer.atl.types.TypesPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -122,16 +124,19 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		// Obtain or create and register interdependencies
 		AtlErrorPackageImpl theAtlErrorPackage = (AtlErrorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AtlErrorPackage.eNS_URI) instanceof AtlErrorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AtlErrorPackage.eNS_URI) : AtlErrorPackage.eINSTANCE);
 		AtlRecoveryPackageImpl theAtlRecoveryPackage = (AtlRecoveryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AtlRecoveryPackage.eNS_URI) instanceof AtlRecoveryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AtlRecoveryPackage.eNS_URI) : AtlRecoveryPackage.eINSTANCE);
+		IdeErrorPackageImpl theIdeErrorPackage = (IdeErrorPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(IdeErrorPackage.eNS_URI) instanceof IdeErrorPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(IdeErrorPackage.eNS_URI) : IdeErrorPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theAnalysisResultPackage.createPackageContents();
 		theAtlErrorPackage.createPackageContents();
 		theAtlRecoveryPackage.createPackageContents();
+		theIdeErrorPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theAnalysisResultPackage.initializePackageContents();
 		theAtlErrorPackage.initializePackageContents();
 		theAtlRecoveryPackage.initializePackageContents();
+		theIdeErrorPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theAnalysisResultPackage.freeze();
@@ -303,10 +308,12 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		// Obtain other dependent packages
 		AtlErrorPackage theAtlErrorPackage = (AtlErrorPackage)EPackage.Registry.INSTANCE.getEPackage(AtlErrorPackage.eNS_URI);
 		AtlRecoveryPackage theAtlRecoveryPackage = (AtlRecoveryPackage)EPackage.Registry.INSTANCE.getEPackage(AtlRecoveryPackage.eNS_URI);
+		IdeErrorPackage theIdeErrorPackage = (IdeErrorPackage)EPackage.Registry.INSTANCE.getEPackage(IdeErrorPackage.eNS_URI);
 
 		// Add subpackages
 		getESubpackages().add(theAtlErrorPackage);
 		getESubpackages().add(theAtlRecoveryPackage);
+		getESubpackages().add(theIdeErrorPackage);
 
 		// Create type parameters
 

@@ -220,6 +220,12 @@ package atl_recovery {
 }
 // References to typing ... 
 
+@namespace(uri="http://bento/analysis/atl/analysis/errors/ide", prefix="ide_error")
+package ide_error {
+	class CouldNotLoadMetamodel extends atl_error.LocalProblem {
+		attr String[1] uri;	
+	}
+}
 
 /* Others errors that coud be checked */
 /* - Invalid uses of oclIsKindOf (those that do not make sense) */

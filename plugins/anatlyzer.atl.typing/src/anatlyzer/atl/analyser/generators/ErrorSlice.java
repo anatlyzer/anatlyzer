@@ -144,7 +144,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 
 		OclExpression body = ATLUtils.getBody(ctx);
-		s += OclGenerator.gen(body, analyser); 
+		s += USESerializer.gen(body, analyser); 
 		return s;
 	}
 

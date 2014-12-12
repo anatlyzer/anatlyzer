@@ -65,8 +65,8 @@ public class ErrorPathGenerator {
 				ProblemPath path = generatePath((LocalProblem) p);
 				if ( path != null )
 					graph.addProblemPath(path);
-				else 
-					System.err.println("ErrorPathGenerator: Ignored " + p.getClass().getSimpleName());
+				
+				// else System.err.println("ErrorPathGenerator: Ignored " + p.getClass().getSimpleName());
 			} else {
 				throw new UnsupportedOperationException();
 			}
@@ -74,14 +74,6 @@ public class ErrorPathGenerator {
 		
 		return graph;
 	}
-
-	/*
-	public ProblemPath perform(Problem p) {
-		currentGraph = new ProblemPath();
-		generatePath((LocalProblem) p);
-		return currentGraph;
-	}
-	*/
 
 	public ProblemPath generatePath(LocalProblem p) {
 		currentPath = null;

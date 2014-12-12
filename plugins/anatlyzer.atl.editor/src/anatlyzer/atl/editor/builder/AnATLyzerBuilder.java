@@ -19,6 +19,7 @@ import org.eclipse.m2m.atl.engine.Messages;
 
 import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorUtils;
@@ -90,10 +91,10 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			IFile file = (IFile) resource;
 			deleteMarkers(file);
 			
-			try {
+			AtlNbCharFile help = null;
+			try {				
+				help = new AtlNbCharFile(file.getContents());
 				AnalyserData data = new AnalyserExecutor().exec(resource);
-				
-				AtlNbCharFile help = new AtlNbCharFile(file.getContents());
 				for (Problem problem : data.getNonIgnoredProblems()) {
 					addMarker(file, help, data, problem);
 				}
@@ -104,6 +105,12 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
 			} catch (IOException e) {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
+			} catch (CannotLoadMetamodel e) {
+				try {
+					addMarker(file, help, null, e.getProblem());
+				} catch (CoreException e1) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

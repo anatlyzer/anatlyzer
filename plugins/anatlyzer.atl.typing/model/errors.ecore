@@ -185,4 +185,10 @@
           eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
   </eSubpackages>
+  <eSubpackages name="ide_error" nsURI="http://bento/analysis/atl/analysis/errors/ide"
+      nsPrefix="ide_error">
+    <eClassifiers xsi:type="ecore:EClass" name="CouldNotLoadMetamodel" eSuperTypes="#//atl_error/LocalProblem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

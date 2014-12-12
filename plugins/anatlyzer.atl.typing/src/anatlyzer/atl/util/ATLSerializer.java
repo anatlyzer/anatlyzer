@@ -23,7 +23,9 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
+import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -254,10 +256,15 @@ public class ATLSerializer extends AbstractVisitor {
 	public void inStringExp(StringExp self) {
 		s("'" + self.getStringSymbol() + "'");
 	}
-
+	
 	@Override
 	public void inIntegerExp(IntegerExp self) {
 		s(self.getIntegerSymbol()+"");
+	}
+	
+	@Override
+	public void inBooleanExp(BooleanExp self) {
+		s(self.isBooleanSymbol() ? "true" : "false");
 	}
 	
 	@Override
@@ -276,13 +283,17 @@ public class ATLSerializer extends AbstractVisitor {
 		
 		s += join(l) + " }";
 
-		s(s);
-		
+		s(s);		
 	}
 	
 	@Override
 	public void inOclModelElement(OclModelElement self) {
 		s(self.getModel().getName() + "!" + self.getName());
+	}
+	
+	@Override
+	public void inEnumLiteralExp(EnumLiteralExp self) {
+		s("#" + self.getName());
 	}
 	
 	//

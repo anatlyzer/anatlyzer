@@ -154,5 +154,11 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_recovery/TentativeTypeAssigned/type"/>
       </genClasses>
     </nestedGenPackages>
+    <nestedGenPackages prefix="IdeError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
+        ecorePackage="errors.ecore#//ide_error">
+      <genClasses ecoreClass="errors.ecore#//ide_error/CouldNotLoadMetamodel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//ide_error/CouldNotLoadMetamodel/uri"/>
+      </genClasses>
+    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

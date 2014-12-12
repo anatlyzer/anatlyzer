@@ -39,6 +39,14 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated errors -->
+      <package
+            uri="http://bento/analysis/atl/analysis/errors/ide"
+            class="anatlyzer.atl.errors.ide_error.IdeErrorPackage"
+            genModel="model/errors.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated merged -->
       <package
             uri="http://anatlyzer/atlext/ATL"

@@ -24,6 +24,7 @@ import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
@@ -764,6 +765,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void afterMatchedRule(MatchedRule self) {
+		attr.getVarScope().closeScope();
+	}
+	
+	@Override
+	public void beforeContextHelper(ContextHelper self) {
+		attr.getVarScope().openScope();
+		attr.getVarScope().putVariable("self", ATLUtils.getHelperType(self).getInferredType());
+	}
+	
+	public void afterContexHelper(ContextHelper self) {
 		attr.getVarScope().closeScope();
 	}
 	

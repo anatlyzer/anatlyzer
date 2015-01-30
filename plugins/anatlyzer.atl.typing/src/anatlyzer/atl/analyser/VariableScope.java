@@ -21,7 +21,17 @@ public class VariableScope {
 		VariableExp ve = (VariableExp) src;
 		return ve;
 	}
-	
+
+	/**
+	 * Adds a variable to the current scope.
+	 * 
+	 * @param name
+	 * @param type
+	 */
+	public void putVariable(String name, Type type) {
+		current.variables.put(name, type);
+	}
+
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type exprType) {
 		OclKindOfApplication app = new OclKindOfApplication(vd, source, exprType);
 		current.applications.put(USESerializer.gen(source), app);
@@ -29,13 +39,23 @@ public class VariableScope {
 
 	public Type getKindOf(OclExpression expr) {
 		OclKindOfApplication r = current.applications.get(USESerializer.gen(expr));
-		if ( r != null && findStartingVarExp(expr).getReferredVariable() == r.vd ) {
-			/*
-			if ( findStartingVarExp(expr) != r.vd) {
-				System.out.println("Additional! " + expr.getLocation() + OclGenerator.gen(expr)+ " : " + r.exprType);
+		if ( r != null ) {
+			VariableExp starting = findStartingVarExp(expr);
+			
+			// This is to make sure that the current expression refers to something in scope.
+			// It is done either with the variables in scope map or following direct links,
+			// just se there are two implementations of (roughly) the same thing. The problem of
+			// getReferredVariable is that it does not work with "self" because there are many
+			// different objects, the current.variables approach is not completely implemented...
+			if ( current.variables.containsKey(starting.getReferredVariable().getVarName()) || 
+				 starting.getReferredVariable() == r.vd ) {
+				/*
+				if ( findStartingVarExp(expr) != r.vd) {
+					System.out.println("Additional! " + expr.getLocation() + OclGenerator.gen(expr)+ " : " + r.exprType);
+				}
+				*/
+				return r.exprType;
 			}
-			*/
-			return r.exprType;
 		}
 		return null;
 	}
@@ -56,15 +76,18 @@ public class VariableScope {
 	
 	private class Scope {
 		private HashMap<String, OclKindOfApplication> applications;
+		private HashMap<String, Type> variables;
 		private Scope parent;
 		
 		public Scope() {
 			this.applications = new HashMap<String, VariableScope.OclKindOfApplication>();
+			this.variables = new HashMap<String, Type>();
 		}
 		
 		public Scope(Scope parent) {
 			this.parent = parent;
 			this.applications = new HashMap<String, VariableScope.OclKindOfApplication>(parent.applications);
+			this.variables    = new HashMap<String, Type>(parent.variables);
 		}
 		
 	}
@@ -80,6 +103,7 @@ public class VariableScope {
 			this.exprType = exprType;
 		}
 	}
+
 
 	
 }

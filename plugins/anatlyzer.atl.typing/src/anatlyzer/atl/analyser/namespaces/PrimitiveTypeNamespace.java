@@ -23,12 +23,20 @@ public abstract class PrimitiveTypeNamespace extends AbstractTypeNamespace imple
 		if ( t != null )
 			return t;
 
+		t = super.getFeatureType(featureName, node);
+		if ( t != null ) {
+			return t;
+		}
+		
 		// TODO: Should be no feature found!
 		return AnalyserContext.getErrorModel().signalNoOperationFound(this.createType(false), featureName, node, null);
 	}
 	
 	@Override
 	public boolean hasFeature(String featureName) {
+		if ( super.hasFeature(featureName) ) {
+			return true;
+		}
 		return features.containsKey(featureName);
 	}
 

@@ -1,5 +1,7 @@
 package anatlyzer.atl.util;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -30,6 +33,7 @@ import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
@@ -49,6 +53,13 @@ public class ATLSerializer extends AbstractVisitor {
 		return s.g(mod);
 	}
 
+	public static void serialize(ATLModel atlModel, String path) throws IOException {
+		String s = serialize(atlModel);
+		FileWriter writer = new FileWriter(path);
+		writer.append(s);
+		writer.close();
+	}
+	
 	private HashMap<Object, String> str = new HashMap<Object, String>();
 	
 	@Override
@@ -187,6 +198,18 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	//
+	// Helpers
+	//
+	@Override
+	public void inContextHelper(ContextHelper self) {
+		String s = "helper context " + g(ATLUtils.getHelperType(self)) + 
+				" def: " + ATLUtils.getHelperName(self) + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
+				g(ATLUtils.getHelperBody(self)) + ";";
+		s(s);
+	}
+	
+	
+	//
 	// Expressions
 	// This could be reusable
 	//
@@ -294,6 +317,11 @@ public class ATLSerializer extends AbstractVisitor {
 	@Override
 	public void inEnumLiteralExp(EnumLiteralExp self) {
 		s("#" + self.getName());
+	}
+	
+	@Override
+	public void inOclAnyType(OclAnyType self) {
+		s("OclAny");
 	}
 	
 	//

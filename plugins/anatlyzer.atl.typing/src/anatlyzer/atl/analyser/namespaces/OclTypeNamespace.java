@@ -5,6 +5,8 @@ import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Type;
 
@@ -31,7 +33,11 @@ public class OclTypeNamespace implements ITypeNamespace {
 
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
-		throw new UnsupportedOperationException();
+		Type t = AtlTypes.oclType().getOperationReturnType(operationName);
+		if ( t == null ) {
+			t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);
+		}
+		return t;
 	}
 
 	@Override

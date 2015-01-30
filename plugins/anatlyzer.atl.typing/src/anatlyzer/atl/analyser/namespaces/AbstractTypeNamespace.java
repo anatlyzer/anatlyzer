@@ -10,13 +10,30 @@ import anatlyzer.atlext.OCL.VariableExp;
 public abstract class AbstractTypeNamespace implements ITypeNamespace {
 
 	@Override
+	public boolean hasFeature(String featureName) {
+		return AnalyserContext.getOclAnyInheritedNamespace().hasFeature(featureName);
+	}
+	
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node) {
+		return AnalyserContext.getOclAnyInheritedNamespace().getFeatureType(featureName, node);
+	}
+	
+	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {
+		if ( AnalyserContext.getOclAnyInheritedNamespace().hasOperation(operationName, arguments) )
+			return true;
+		
 		return operationName.equals("oclIsUndefined") || operationName.equals("toString") ||
 				operationName.equals("oclIsKindOf") || operationName.equals("oclIsTypeOf");
 	}
 	
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
+		Type t = AnalyserContext.getOclAnyInheritedNamespace().getOperationType(operationName, arguments, node);
+		if ( t != null )
+			return t;
+		
 		if ( operationName.equals("oclIsUndefined") ) {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		} else if ( operationName.equals("toString") ) {

@@ -34,9 +34,8 @@ public class ErrorSliceGenerator {
 
 	public void generate(String metamodelName) {
 		for(ProblemPath path : graph.getProblemPaths()) {
-			ErrorSlice slice = new ErrorSlice(analyser, metamodelName);
+			ErrorSlice slice = new ErrorSlice(metamodelName);
 			path.getErrorNode().genErrorSlice(slice);
-			path.getErrorNode().setErrorSlice(slice);
 		}
 	}
 
@@ -44,11 +43,7 @@ public class ErrorSliceGenerator {
 		int i = 0;
 		for(ProblemPath path : graph.getProblemPaths()) {
 			if ( path.getProblem().getLocation().equals(location) ) {
-				ErrorSlice slice = new ErrorSlice(analyser, metamodelName);
-				path.getErrorNode().genErrorSlice(slice);
-				path.getErrorNode().setErrorSlice(slice);
-
-				slice = path.getErrorNode().getErrorSlice();
+				ErrorSlice slice = path.getErrorNode().getErrorSlice();
 				LocalProblem p = path.getProblem();
 				
 				String name = "error" + (i + 1);
@@ -79,10 +74,7 @@ public class ErrorSliceGenerator {
 	}
 	
 	public void generate(ProblemPath path, Resource r, String metamodelName) {
-		ErrorSlice slice = new ErrorSlice(analyser, metamodelName);
-		path.getErrorNode().genErrorSlice(slice);
-		path.getErrorNode().setErrorSlice(slice);
-
+		ErrorSlice slice = null;
 		LocalProblem problemOfNode   = path.getProblem();
 		slice = path.getErrorNode().getErrorSlice();
 

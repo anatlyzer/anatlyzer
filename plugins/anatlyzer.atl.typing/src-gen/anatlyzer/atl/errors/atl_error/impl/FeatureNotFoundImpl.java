@@ -5,10 +5,12 @@ package anatlyzer.atl.errors.atl_error.impl;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 
+import anatlyzer.atl.types.Type;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -19,6 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getFeatureName <em>Feature Name</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
@@ -46,6 +49,16 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 	 * @ordered
 	 */
 	protected String featureName = FEATURE_NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Type type;
 
 	/**
 	 * The default value of the '{@link #getClassName() <em>Class Name</em>}' attribute.
@@ -132,6 +145,44 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Type getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (Type)eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.FEATURE_NOT_FOUND__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Type basicGetType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(Type newType) {
+		Type oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.FEATURE_NOT_FOUND__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getClassName() {
 		return className;
 	}
@@ -179,6 +230,9 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 		switch (featureID) {
 			case AtlErrorPackage.FEATURE_NOT_FOUND__FEATURE_NAME:
 				return getFeatureName();
+			case AtlErrorPackage.FEATURE_NOT_FOUND__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 			case AtlErrorPackage.FEATURE_NOT_FOUND__CLASS_NAME:
 				return getClassName();
 			case AtlErrorPackage.FEATURE_NOT_FOUND__METAMODEL_NAME:
@@ -197,6 +251,9 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 		switch (featureID) {
 			case AtlErrorPackage.FEATURE_NOT_FOUND__FEATURE_NAME:
 				setFeatureName((String)newValue);
+				return;
+			case AtlErrorPackage.FEATURE_NOT_FOUND__TYPE:
+				setType((Type)newValue);
 				return;
 			case AtlErrorPackage.FEATURE_NOT_FOUND__CLASS_NAME:
 				setClassName((String)newValue);
@@ -219,6 +276,9 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 			case AtlErrorPackage.FEATURE_NOT_FOUND__FEATURE_NAME:
 				setFeatureName(FEATURE_NAME_EDEFAULT);
 				return;
+			case AtlErrorPackage.FEATURE_NOT_FOUND__TYPE:
+				setType((Type)null);
+				return;
 			case AtlErrorPackage.FEATURE_NOT_FOUND__CLASS_NAME:
 				setClassName(CLASS_NAME_EDEFAULT);
 				return;
@@ -239,6 +299,8 @@ public class FeatureNotFoundImpl extends NavigationProblemImpl implements Featur
 		switch (featureID) {
 			case AtlErrorPackage.FEATURE_NOT_FOUND__FEATURE_NAME:
 				return FEATURE_NAME_EDEFAULT == null ? featureName != null : !FEATURE_NAME_EDEFAULT.equals(featureName);
+			case AtlErrorPackage.FEATURE_NOT_FOUND__TYPE:
+				return type != null;
 			case AtlErrorPackage.FEATURE_NOT_FOUND__CLASS_NAME:
 				return CLASS_NAME_EDEFAULT == null ? className != null : !CLASS_NAME_EDEFAULT.equals(className);
 			case AtlErrorPackage.FEATURE_NOT_FOUND__METAMODEL_NAME:

@@ -4,20 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.emf.ecore.EObject;
+
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
-import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 
 public class ATLUtils {
@@ -48,6 +55,22 @@ public class ATLUtils {
 		}
 	}
 
+	public static OclType getHelperReturnType(Helper self) {
+		if ( self.getDefinition().getFeature() instanceof Attribute ) {
+			return ((Attribute) self.getDefinition().getFeature()).getType();
+		} else {
+			return ((Operation) self.getDefinition().getFeature()).getReturnType();
+		}
+	}
+	
+	public static OclExpression getHelperBody(Helper self) {
+		if ( self.getDefinition().getFeature() instanceof Attribute ) {
+			return ((Attribute) self.getDefinition().getFeature()).getInitExpression();
+		} else {
+			return ((Operation) self.getDefinition().getFeature()).getBody();
+		}
+	}
+	
 	public static boolean isContextHelper(Helper self) {
 		return self.getDefinition().getContext_() != null ;
 	}
@@ -142,9 +165,9 @@ public class ATLUtils {
 
 	}
 
-	public static List<String> findCommaTags(Module module, String tag) {
+	public static List<String> findCommaTags(Unit root, String tag) {
 		List<String> result = new ArrayList<String>();
-		for (String str : module.getCommentsBefore()) {
+		for (String str : root.getCommentsBefore()) {
 			String line = str.replaceAll("--", "").trim();
 			int index   = line.indexOf(tag);
 			if ( index != -1 ) {
@@ -156,5 +179,39 @@ public class ATLUtils {
 		}
 		return result;
 	}
+
+	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
+		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
+		for(ModuleElement r : model.getModule().getElements()) {
+			if ( r instanceof MatchedRule ) 
+				rules.add((MatchedRule) r);
+		}
+		return rules;
+	}
+
+	public static List<OclModel> getUnitModels(ATLModel atlModel) {
+		List<OclModel> models = new ArrayList<OclModel>();
+		Unit root = atlModel.getRoot();
+		if ( root instanceof Library ) {
+			System.err.println("Don't know how to get the library model");
+		} else if ( root instanceof Module ) {
+			models.addAll(((Module) root).getInModels());
+			models.addAll(((Module) root).getOutModels());			
+		}
+		return models;
+	}
+
+	
+	public static <T> T getContainer(EObject obj, Class<T> class1) {
+		if ( obj == null )
+			return null;
+		
+		obj = obj.eContainer();
+		if ( class1.isInstance(obj)) {
+			return class1.cast(obj);
+		}
+		return getContainer(obj, class1);
+	}
+
 		
 }

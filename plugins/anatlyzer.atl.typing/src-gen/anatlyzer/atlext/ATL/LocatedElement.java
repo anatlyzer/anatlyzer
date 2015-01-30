@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getCommentsBefore <em>Comments Before</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getCommentsAfter <em>Comments After</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileLocation <em>File Location</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileObject <em>File Object</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,5 +84,57 @@ public interface LocatedElement extends EObject {
 	 * @generated
 	 */
 	EList<String> getCommentsAfter();
+
+	/**
+	 * Returns the value of the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>File Location</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File Location</em>' attribute.
+	 * @see #setFileLocation(String)
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement_FileLocation()
+	 * @model
+	 * @generated
+	 */
+	String getFileLocation();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.ATL.LocatedElement#getFileLocation <em>File Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File Location</em>' attribute.
+	 * @see #getFileLocation()
+	 * @generated
+	 */
+	void setFileLocation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>File Object</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File Object</em>' attribute.
+	 * @see #setFileObject(Object)
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement_FileObject()
+	 * @model
+	 * @generated
+	 */
+	Object getFileObject();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.ATL.LocatedElement#getFileObject <em>File Object</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File Object</em>' attribute.
+	 * @see #getFileObject()
+	 * @generated
+	 */
+	void setFileObject(Object value);
 
 } // LocatedElement

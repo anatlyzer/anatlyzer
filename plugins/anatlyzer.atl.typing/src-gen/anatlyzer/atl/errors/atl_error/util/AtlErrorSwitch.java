@@ -426,6 +426,22 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.OCL_COMPLIANCE: {
+				OclCompliance oclCompliance = (OclCompliance)theEObject;
+				T result = caseOclCompliance(oclCompliance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: {
+				IncoherentVariableDeclaration incoherentVariableDeclaration = (IncoherentVariableDeclaration)theEObject;
+				T result = caseIncoherentVariableDeclaration(incoherentVariableDeclaration);
+				if (result == null) result = caseLocalProblem(incoherentVariableDeclaration);
+				if (result == null) result = caseOclCompliance(incoherentVariableDeclaration);
+				if (result == null) result = caseProblem(incoherentVariableDeclaration);
+				if (result == null) result = caseAnalysisInfo(incoherentVariableDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -997,6 +1013,36 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIteratorOverNoCollectionType(IteratorOverNoCollectionType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ocl Compliance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ocl Compliance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOclCompliance(OclCompliance object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Incoherent Variable Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Incoherent Variable Declaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIncoherentVariableDeclaration(IncoherentVariableDeclaration object) {
 		return null;
 	}
 

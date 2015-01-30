@@ -24,6 +24,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getOwningOperation <em>Owning Operation</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getIfExp1 <em>If Exp1</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getOwningAttribute <em>Owning Attribute</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
  * </ul>
  * </p>
  *
@@ -367,5 +368,32 @@ public interface OclExpression extends LocatedElement, TypedElement {
 	 * @generated
 	 */
 	void setOwningAttribute(Attribute value);
+
+	/**
+	 * Returns the value of the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Implicitly Casted</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Implicitly Casted</em>' attribute.
+	 * @see #setImplicitlyCasted(boolean)
+	 * @see anatlyzer.atlext.OCL.OCLPackage#getOclExpression_ImplicitlyCasted()
+	 * @model default="false"
+	 * @generated
+	 */
+	boolean isImplicitlyCasted();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted <em>Implicitly Casted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Implicitly Casted</em>' attribute.
+	 * @see #isImplicitlyCasted()
+	 * @generated
+	 */
+	void setImplicitlyCasted(boolean value);
 
 } // OclExpression

@@ -1,13 +1,13 @@
 package anatlyzer.atl.model;
 
 import anatlyzer.atl.types.Metaclass;
-
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -48,6 +48,7 @@ import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
@@ -89,6 +90,20 @@ public class ErrorModel {
 		return result;
 	}
 
+	public List<Problem> getProblems() {
+		return result.getProblems();
+	}
+	
+	public List<LocalProblem> getLocalProblems() {
+		ArrayList<LocalProblem> locals = new ArrayList<LocalProblem>();
+		for (Problem p : getProblems()) {
+			if ( p instanceof LocalProblem ) {
+				locals.add((LocalProblem) p);
+			}
+		}
+		return locals;
+	}
+	
 	public void signalNoModel(String name, LocatedElement element) {
 		NoModelFound error = AtlErrorFactory.eINSTANCE.createNoModelFound();
 		initProblem(error, element);
@@ -119,6 +134,14 @@ public class ErrorModel {
 		initProblem(error, element);
 		
 		signalError(error, "No feature " + "OclAny" + "." + featureName + " found", element);
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+	
+	public Type signalNoFeatureInOclUndefined(String featureName, LocatedElement element) {
+		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
+		initProblem(error, element);
+		
+		signalError(error, "No feature " + "OclUndefined" + "." + featureName + " found", element);
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
@@ -193,6 +216,17 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public Type signalNoFeatureFound(Type receptorType, String featureName, LocatedElement node) {
+		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
+		initProblem(error, node);
+
+		error.setFeatureName(featureName);
+		error.setType(receptorType);
+		
+		signalError(error, "No feature " + TypeUtils.typeToString(receptorType) + "." + featureName, node);	
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+
 	
 	public void warningFeatureFoundInSubType(Metaclass type, Metaclass subtype, String featureName, LocatedElement node) {
 		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
@@ -247,6 +281,7 @@ public class ErrorModel {
 	public void initProblem(LocalProblem p, LocatedElement element) {
 		p.setLocation(element.getLocation());
 		p.setElement(element);
+		p.setFileLocation(element.getFileLocation());
 		result.getProblems().add(p);
 	}
 
@@ -281,6 +316,13 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void warningVarDclIncoherentTypes(Type exprType, Type declared, LocatedElement node) {
+		IncoherentVariableDeclaration error = AtlErrorFactory.eINSTANCE.createIncoherentVariableDeclaration();
+		initProblem(error, node);
+		
+		signalError(error, "Incoherent declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(exprType) + ")" , node);
+	}
+	
 	
 	
 	public void signalNoRecoverableError(String msg, LocatedElement l) {
@@ -308,9 +350,6 @@ public class ErrorModel {
 			System.out.println("WARNING: " + msg + ". " + l.getLocation());		
 	}
 
-	public void warningVarDclIncoherentTypes(Type exprType, Type declared, LocatedElement node) {
-		signalWarning_WITHOUTERROR_TODO("Incoherent types in variable declaration " + TypeUtils.typeToString(exprType) + " - " + TypeUtils.typeToString(declared), node);
-	}
 	
 	/** Recovery methods **/ 
 	
@@ -401,7 +440,8 @@ public class ErrorModel {
 			List<MatchedRule> compatibleRules) {
 
 		ResolveTempOutputPatternElementNotFound error = AtlErrorFactory.eINSTANCE.createResolveTempOutputPatternElementNotFound();
-
+		initProblem(error, resolveTempOperation);
+		
 		for (MatchedRule r : compatibleRules) {
 			ResolvedRuleInfo rinfo = AtlErrorFactory.eINSTANCE.createResolvedRuleInfo();
 			rinfo.setLocation(r.getLocation());
@@ -420,6 +460,10 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void signalResolveTempGetsDifferentTargetTypes(String message, LocatedElement node) {
+		System.err.println("TODO: Check if this needs to go to the constraint solver");
+		System.err.println(message);
+	}
 	
 	public void signalBindingWithResolvedByIncompatibleRule(Binding b, EClass rightType, EClass targetType,
 			List<MatchedRule> problematicRules, List<EClass> sourceClasses, List<EClass> targetClasses) {
@@ -585,6 +629,9 @@ public class ErrorModel {
 		signalError(error, "Collection operation " + operationName + " not supported", node);		
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
+
+
+	
 
 	
 }

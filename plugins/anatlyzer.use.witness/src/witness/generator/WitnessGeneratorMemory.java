@@ -22,7 +22,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.oclConstraint = oclConstraint;
 	}
 	
-	public boolean generate() throws transException {
+	public boolean generate() throws transException {		
 		
 		// extend error meta-model with mandatory classes in effective meta-model 
 		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
@@ -49,11 +49,15 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				   100000000 * (c.get(Calendar.MONTH) + 1); // +
 				   // 10000000000 * c.get(Calendar.YEAR);
 		
-		
 		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, time);
 		return witness != null;
 	}
 	
+	private void changeConflictingClassNames(EPackage errorMM2) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public String getTempDirectoryPath() {
 		return projectPath == null ? "." : projectPath;
 	}

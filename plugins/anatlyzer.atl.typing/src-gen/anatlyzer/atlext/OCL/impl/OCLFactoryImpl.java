@@ -103,6 +103,7 @@ public class OCLFactoryImpl extends EFactoryImpl implements OCLFactory {
 			case OCLPackage.ATTRIBUTE: return createAttribute();
 			case OCLPackage.OPERATION: return createOperation();
 			case OCLPackage.OCL_MODEL: return createOclModel();
+			case OCLPackage.RESOLVE_TEMP_RESOLUTION: return createResolveTempResolution();
 			case OCLPackage.JAVA_BODY: return createJavaBody();
 			case OCLPackage.GET_APPLIED_STEREOTYPES_BODY: return createGetAppliedStereotypesBody();
 			default:
@@ -578,6 +579,16 @@ public class OCLFactoryImpl extends EFactoryImpl implements OCLFactory {
 	public OclModel createOclModel() {
 		OclModelImpl oclModel = new OclModelImpl();
 		return oclModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResolveTempResolution createResolveTempResolution() {
+		ResolveTempResolutionImpl resolveTempResolution = new ResolveTempResolutionImpl();
+		return resolveTempResolution;
 	}
 
 	/**

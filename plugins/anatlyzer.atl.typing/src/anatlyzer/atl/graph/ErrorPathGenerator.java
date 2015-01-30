@@ -102,12 +102,20 @@ public class ErrorPathGenerator {
 	}
 
 	private void generatePath_FeatureNotFound(FeatureNotFound p) {
-		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
-		FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);
-		currentPath = new ProblemPath(p, node);
-		
-		// System.out.println(p);
-		pathFromErrorExpression(atlExpr.getSource(), node);
+		if ( p.getElement() instanceof PropertyCallExp ) {
+			PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
+			FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);
+			currentPath = new ProblemPath(p, node);
+			
+			// System.out.println(p);
+			pathFromErrorExpression(atlExpr.getSource(), node);
+		} else if ( p.getElement() instanceof Binding ) {
+			Binding b = (Binding) p.getElement();
+			BindingTargetFeatureNotFound node = new BindingTargetFeatureNotFound(p);
+			currentPath = new ProblemPath(p, node);
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	private void generatePath_OperationNotFound(OperationNotFound p) {

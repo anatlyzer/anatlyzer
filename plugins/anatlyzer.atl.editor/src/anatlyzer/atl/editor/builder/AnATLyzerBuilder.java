@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.builder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -11,9 +12,11 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.m2m.atl.engine.Messages;
 
@@ -94,9 +97,29 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			AtlNbCharFile help = null;
 			try {				
 				help = new AtlNbCharFile(file.getContents());
+
+				HashMap<String, AtlNbCharFile> helpers = new HashMap<String, AtlNbCharFile>();
+				helpers.put(file.getLocation().toPortableString(), help);
+				
 				AnalyserData data = new AnalyserExecutor().exec(resource);
 				for (Problem problem : data.getNonIgnoredProblems()) {
-					addMarker(file, help, data, problem);
+					IFile problemFile = file;
+					if ( problem instanceof LocalProblem ) {
+						String loc = ((LocalProblem) problem).getFileLocation();
+						if ( loc == null ) {
+							System.err.println("Warning: No location assigned to " + problem);
+							loc = file.getLocation().toPortableString(); // Not sure when this might happen
+						}
+					
+						problemFile = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(loc));
+					
+						if ( ! helpers.containsKey(loc) ) {
+							helpers.put(loc, new AtlNbCharFile(problemFile.getContents()));
+						}
+						help = helpers.get(loc);
+					}
+					
+					addMarker(problemFile, help, data, problem);
 				}
 			} catch (AnalyserInternalError e) {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				

@@ -5,6 +5,12 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" ordered="false" unique="false" eType="//PrimitiveTypes/String"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="commentsBefore" unique="false" upperBound="-1" eType="//PrimitiveTypes/String"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="commentsAfter" unique="false" upperBound="-1" eType="//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileLocation">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileObject">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Unit" eSuperTypes="//ATL/LocatedElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="libraries" ordered="false" upperBound="-1" eType="//ATL/LibraryRef" containment="true" eOpposite="//ATL/LibraryRef/unit"/>
@@ -174,6 +180,9 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="owningOperation" ordered="false" eType="//OCL/Operation" eOpposite="//OCL/Operation/body"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ifExp1" ordered="false" eType="//OCL/IfExp" eOpposite="//OCL/IfExp/condition"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="owningAttribute" ordered="false" eType="//OCL/Attribute" eOpposite="//OCL/Attribute/initExpression"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="implicitlyCasted" defaultValueLiteral="false">
+        <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="VariableExp" eSuperTypes="//OCL/OclExpression">
       <eStructuralFeatures xsi:type="ecore:EReference" name="referredVariable" ordered="false" lowerBound="1" eType="//OCL/VariableDeclaration" eOpposite="//OCL/VariableDeclaration/variableExp"/>
@@ -238,6 +247,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallExp" eSuperTypes="//OCL/PropertyCallExp">
       <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1" eType="//OCL/OclExpression" containment="true" eOpposite="//OCL/OclExpression/parentOperation"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="operationName" ordered="false" unique="false" lowerBound="1" eType="//PrimitiveTypes/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resolveTempResolvedBy" upperBound="-1" eType="//OCL/ResolveTempResolution" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperatorCallExp" eSuperTypes="//OCL/OperationCallExp"/>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationCallExp" eSuperTypes="//OCL/OperationCallExp"/>
@@ -349,6 +359,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="inferredType">
         <eType xsi:type="ecore:EClass" href="file:///home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/types.ecore#//Type"/>
       </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempResolution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1" eType="//ATL/MatchedRule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1" eType="//ATL/OutPatternElement"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="//OCL/OclExpression"/>
     <eClassifiers xsi:type="ecore:EClass" name="GetAppliedStereotypesBody" eSuperTypes="//OCL/JavaBody"/>

@@ -1,13 +1,19 @@
 package anatlyzer.atl.analyser;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+
 import anatlyzer.atl.analyser.namespaces.CollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
-import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -16,26 +22,16 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.eclipse.emf.ecore.EObject;
-
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
-import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
-import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.ATL.PatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -55,6 +51,7 @@ import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.MapExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeature;
@@ -64,8 +61,8 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.OrderedSetExp;
-import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.RealExp;
+import anatlyzer.atlext.OCL.ResolveTempResolution;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
@@ -73,7 +70,6 @@ import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
@@ -94,7 +90,12 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		TopLevelTraversal helperOperations = new TopLevelTraversal(model, mm, root);
 		helperOperations.perform(attr);
 		
+		// 3. Assign types
 		startVisiting(root);
+
+		// 4. Ocl Compliance
+		OclCompliance compliance = new OclCompliance(model, mm, root);
+		compliance.perform(attr);
 
 		ComputeResolvers computeResolvers = new ComputeResolvers(model, mm, root);
 		computeResolvers.perform(attr);
@@ -229,20 +230,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 				if ( AnalyserContext.isVarDclInferencePreferred() && typ().moreConcrete(declared, exprType) == exprType ) {
 					attr.linkExprType(exprType);					
+				} else {
+					attr.linkExprType(declared);
 				}
 			} else {
-				attr.linkExprType(exprType);
+				Type t = typ().determineVariableType(declared, exprType,  AnalyserContext.isVarDclInferencePreferred());				
+				attr.linkExprType(t);
+				// attr.linkExprType(exprType);
 			}
 			
-			/*
-			// Try to find out the most concrete type...
-			// TODO: So far only a simple strategy
-			if ( declared instanceof Unknown ) {
-				attr.linkExprType(exprType);
-			} else {			
-				attr.linkExprType( declared ); 
-			}
-			*/
 		}
 	}
 	
@@ -390,14 +386,20 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 		Type srcType =  attr.typeOf( self.getSource() );
 		if ( !(srcType instanceof CollectionType) ) {
-			Type t = errors().signalIteratorOverNoCollectionType(srcType, (LoopExp) self.eContainer());
+			Type t = errors().signalIteratorOverNoCollectionType(srcType, self.getSource());
 			attr.linkExprType(t);
 		} else {
 			Type bodyType = attr.typeOf( self.getBody() ); 
 			
 			CollectionNamespace cspace = (CollectionNamespace) srcType.getMetamodelRef();
-			attr.linkExprType( cspace.getIteratorType(self.getName(), bodyType, self) );
+			Type iteratorType = cspace.getIteratorType(self.getName(), bodyType, self);
+			attr.linkExprType( iteratorType );
+
+			if ( iteratorType.getNoCastedType() != null ) {				
+				typ().markImplicitlyCasted(self, iteratorType);
+			}
 		}
+		
 	}
 	
 	@Override
@@ -460,7 +462,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			errors().signalOperationOverCollectionType(self);
 		}
 		
-		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
+		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();		
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		
 		if ( attr.wasCasted(self.getSource()) ){
@@ -492,7 +494,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 		Type selectedType = null;
 		Type type_ = attr.typeOf(resolvedObj);
-
+		
 		boolean sourceCompatibleRuleFound = false;
 		Module m = (Module) root;
 		for(ModuleElement e : m.getElements()) {
@@ -500,11 +502,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				MatchedRule mr = (MatchedRule) e;
 				if ( mr.getInPattern().getElements().size() == 1 ) {
 					SimpleInPatternElement pe = (SimpleInPatternElement) mr.getInPattern().getElements().get(0);
-					Type supertype = attr.typeOf(pe.getType());
-					
-					// System.out.println(self.getLocation() + ": " + type_ + " vs. " + supertype);
-					// System.out.println(TypeUtils.typeToString(type_) + " - " + TypeUtils.typeToString(supertype));
-					if ( typ().isCompatible(type_, supertype) ) {
+					Type subtype = attr.typeOf(pe.getType());
+		
+					if ( typ().isCompatible(subtype, type_) ) {
 						sourceCompatibleRuleFound = true;
 						
 						compatibleRules.add(mr);
@@ -517,8 +517,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 								
 								withSameVarRules += mr.getName() + ", ";
 								if ( selectedType != null && ! typ().equalTypes(t, selectedType)) {
-									errors().signalNoRecoverableError("Several rules may resolve the same resolveTemp with different target types: " + withSameVarRules, self);
+									errors().signalResolveTempGetsDifferentTargetTypes("Several rules may resolve the same resolveTemp with different target types: " + withSameVarRules, self);
 								}
+								
+								// Create a resolution info object, even when what it is resolved may be
+								// conflicting. Perhaps it could be marked what conflicts with what!
+								ResolveTempResolution resolution = OCLFactory.eINSTANCE.createResolveTempResolution();
+								resolution.setRule(mr);
+								resolution.setElement(sope);
+								self.getResolveTempResolvedBy().add(resolution);
 								
 								selectedType = t;								
 							}
@@ -748,7 +755,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		attr.linkExprType( typ().newTupleTuple(attNames, attTypes) );
 	}
-	
 	
 	// Begin-of Scopes
 	@Override

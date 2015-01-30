@@ -6,11 +6,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -21,31 +23,38 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.m2m.atl.core.emf.EMFModelFactory;
 import org.eclipse.m2m.atl.engine.parser.AtlParser;
 
+import witness.generator.WitnessGeneratorMemory;
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.generators.GraphvizGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public class BaseTest {
 
-	private ATLModel atlTransformation;
-	private String atlTransformationFile;
-	private GlobalNamespace mm;
-	private Analyser analyser;
+	protected ATLModel atlTransformation;
+	protected String atlTransformationFile;
+	protected GlobalNamespace mm;
+	protected Analyser analyser;
+	private List<OverlappingRules> possibleRuleConflicts;
 
 	public void typing(String atlTransformationFile, Object[] metamodels,
 			String[] names, boolean doDependencyAnalysis) throws Exception {
@@ -62,7 +71,7 @@ public class BaseTest {
 		atlParser.inject(atlModel, atlTransformationFile);
 
 		this.mm = loadMetamodels(metamodels, names);
-		this.atlTransformation = new ATLModel(atlModel.getResource());
+		this.atlTransformation = new ATLModel(atlModel.getResource(), atlTransformationFile);
 		this.analyser = new Analyser(mm, atlTransformation);
 		analyser.setDoDependencyAnalysis(doDependencyAnalysis);
 
@@ -91,8 +100,7 @@ public class BaseTest {
 		// if ( slice == null )
 		// throw new
 		// IllegalStateException("Error slice should be computed before generating CSP");
-		String s = new CSPGenerator(analyser.getDependencyGraph()).generateLoc(
-				location, analyser);
+		String s = new CSPGenerator(analyser.getDependencyGraph()).generateLoc(location);
 		if (location != null) {
 			// Debugging purposes
 			System.out.println(s);
@@ -118,7 +126,7 @@ public class BaseTest {
 	
     protected void generateEffectiveMetamodel(String logicalName, String outputPath) throws IOException {
         XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(outputPath));
-        TrafoMetamodelData data = new TrafoMetamodelData(atlTransformation, mm.getNamespace(logicalName), logicalName);
+        TrafoMetamodelData data = new TrafoMetamodelData(atlTransformation, mm.getNamespace(logicalName));
         new EffectiveMetamodelBuilder(data).extractSource(r, logicalName, logicalName, logicalName, logicalName);
         r.save(null);
     }
@@ -145,111 +153,91 @@ public class BaseTest {
 		return new GlobalNamespace(resources, logicalNamesToResources);
 	}
 
-	protected void printStatistics() {
-		int helpers = 0, matchedRules = 0, abstractRules = 0, lazyRules = 0, calledRules = 0;
-		Module module = atlTransformation.allObjectsOf(Module.class).get(0);
-		for (ModuleElement e : module.getElements()) {
-			if (e instanceof Helper)
-				helpers++;
-			else if (e instanceof LazyRule)
-				lazyRules++;
-			else if (e instanceof MatchedRule) {
-				MatchedRule mr = (MatchedRule) e;
-				if (mr.isIsAbstract())
-					abstractRules++;
-				else
-					matchedRules++;
-			} else if (e instanceof CalledRule)
-				calledRules++;
-			else
-				throw new UnsupportedOperationException();
-		}
-
-		int numberOfLines = countLOCs();
-
-		System.out.println("Transformation statistics");
-		System.out.println(" * LOC : " + numberOfLines);
-		if (helpers > 0)
-			System.out.println(" * Helpers : " + helpers);
-		if (matchedRules > 0)
-			System.out.println(" * Matched rules : "
-					+ matchedRules
-					+ (abstractRules > 0 ? "(abstract = " + abstractRules + ")"
-							: ""));
-		if (lazyRules > 0)
-			System.out.println(" * Lazy rules : " + lazyRules);
-		if (calledRules > 0)
-			System.out.println(" * Called rules : " + calledRules);
-
-		int sourceClasses = 0;
-		int targetClasses = 0;
-		for (OclModel model : module.getInModels()) {
-			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
-					.getName());
-			sourceClasses += ns.getAllClasses().size();
-		}
-
-		for (OclModel model : module.getOutModels()) {
-			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
-					.getName());
-			targetClasses += ns.getAllClasses().size();
-		}
-
-		System.out.println("Metamodel statistics");
-		System.out.println(" * Source meta-model(s) : " + sourceClasses);
-		System.out.println(" * Target meta-model(s) : " + targetClasses);
-
-		System.out.println();
+	//
+	// Rule conflicts
+	//
+	
+	protected List<OverlappingRules> possibleRuleConflicts() {
+		this.possibleRuleConflicts = this.analyser.ruleConflictAnalysis();
+		return possibleRuleConflicts;
 	}
 
-	protected int countLOCs() {
-		try {
-			FileReader r = new FileReader(atlTransformationFile.replace(".xmi",
-					""));
-			BufferedReader br = new BufferedReader(r);
-			String s = null;
-			int count = 0;
-			while ((s = br.readLine()) != null) {
-				s = s.trim();
-				if (!s.startsWith("--") && !s.isEmpty()) {
-					count++;
-				}
+	
+	
+	// Loaded meta-models, to invoke the constraint solver
+	private EPackage effective;
+	private EPackage language;
+
+	public boolean[] confirmOrDiscardProblems(Collection<? extends IDetectedProblem> problems) {
+
+		boolean confirmed[] = new boolean[problems.size()];
+		int i = 0;
+		for (IDetectedProblem p : problems) {		
+			XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("error"));
+			EPackage errorSlice = new EffectiveMetamodelBuilder(p.getErrorSlice()).extractSource(r1, "error", "http://error", "error", "error");
+			
+			// Effective meta-model
+			if ( effective == null ) {
+				XMIResourceImpl r2 =  new XMIResourceImpl(URI.createURI("overlap_effective"));
+				TrafoMetamodelData trafoData = new TrafoMetamodelData(this.atlTransformation, null);
+				
+				String logicalName = "effective_mm";
+				effective = new EffectiveMetamodelBuilder(trafoData).extractSource(r2, logicalName, logicalName, logicalName, logicalName);
 			}
-			br.close();
-			return count;
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+			
+			// Language meta-model
+			if ( language == null )
+				language  =  AnalyserUtils.getSingleSourceMetamodel(analyser);
 
+			String projectPath = ".";
+			
+			OclExpression constraint = p.getWitnessCondition();
+			String constraintStr = USESerializer.retypeAndGenerate(analyser.getNamespaces(), constraint);
+			
+			System.out.println("Constraint: " + constraintStr);
+			
+			WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraintStr);
+			generator.setTempDirectoryPath(projectPath);
+			try {
+				if ( ! generator.generate() ) {
+					confirmed[i] = false;
+				} else {
+					confirmed[i] = true;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
+		return confirmed;
+	}		
+
+	
+	public boolean[] confirmOrDiscardTypingProblems() {
+		return confirmOrDiscardProblems(analyser.getDependencyGraph().getProblemPaths());		
 	}
+	
+	// Error meta-model
+	public boolean[] confirmOrDiscardRuleConflicts() {
+		if ( possibleRuleConflicts == null )
+			possibleRuleConflicts = possibleRuleConflicts();
+		
+		return confirmOrDiscardProblems(possibleRuleConflicts);
+	}		
+		
+	//
+	// End-of rule conflicts
+	//
+		
 
 	protected void printErrorsByType() {
-		HashMap<Class<?>, List<Problem>> problemsByType = new HashMap<Class<?>, List<Problem>>();
-		for (anatlyzer.atl.errors.Problem p : analyser.getErrors()
-				.getAnalysis().getProblems()) {
-			Class<?> klass = p.getClass();
-			if (p instanceof LocalProblem
-					&& ((LocalProblem) p).getRecovery() != null) {
-				klass = ((LocalProblem) p).getRecovery().getClass();
-			}
-
-			if (!problemsByType.containsKey(klass))
-				problemsByType.put(klass, new ArrayList<Problem>());
-
-			problemsByType.get(klass).add(p);
-		}
-
-		System.out.println("Problems by type");
-		for (Entry<Class<?>, List<Problem>> e : problemsByType.entrySet()) {
-			System.out.print(" * " + e.getKey().getSimpleName() + " ");
-			System.out.println(e.getValue().size());
-		}
-		System.out.println();
-
+		ErrorReport.printErrorsByType(analyser);
 	}
 
+	protected void printStatistics() {
+		ErrorReport.printStatistics(analyser, atlTransformationFile);
+	}
+	
 	private void printToErrorFile(String s) throws IOException {
 		if (!s.trim().isEmpty()) {
 
@@ -261,5 +249,6 @@ public class BaseTest {
 			// System.out.println(s);
 		}
 	}
+
 
 }

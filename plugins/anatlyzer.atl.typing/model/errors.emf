@@ -34,6 +34,7 @@ abstract class Recovery {
 package atl_error {
 	abstract class LocalProblem extends Problem {
 	   attr String[1] location;
+	   attr String[0..1] fileLocation;
 	   ref  EObject[1] element;
 	   
 	   val Recovery[0..1] recovery;
@@ -56,6 +57,8 @@ package atl_error {
 	
 	class FeatureNotFound extends NavigationProblem {
 		attr String[1] featureName;
+		ref  types.Type[1] type;	   
+
 		attr String[1] className;
 		attr String[1] metamodelName;
 	}
@@ -204,7 +207,10 @@ package atl_error {
 	}
 
 	
-
+	abstract class OclCompliance { }	
+	class IncoherentVariableDeclaration extends LocalProblem, OclCompliance {
+		
+	}
 }
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")

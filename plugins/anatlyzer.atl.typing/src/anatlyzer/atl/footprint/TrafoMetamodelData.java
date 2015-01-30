@@ -15,8 +15,8 @@ import anatlyzer.footprint.IEffectiveMetamodelData;
 
 public class TrafoMetamodelData extends FootprintComputation implements IEffectiveMetamodelData {
 
-	public TrafoMetamodelData(ATLModel atlModel, MetamodelNamespace mm, String slicedURI) {
-		super(atlModel, mm, slicedURI);
+	public TrafoMetamodelData(ATLModel atlModel, MetamodelNamespace mm) {
+		super(atlModel, mm);
 		computeFootprint();
 	}
 

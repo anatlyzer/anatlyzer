@@ -56,8 +56,15 @@ public class OclGeneratorAST {
 	public OclGeneratorAST(ATLModel atlModel) {
 		this.atlModel = atlModel;
 	}
-	
+
 	public OclExpression gen(OclExpression expr, CSPModel.CSPModelScope vars) {
+		OclExpression copied = genAux(expr, vars);
+		copied.setInferredType( expr.getInferredType() );
+		copied.setImplicitlyCasted( expr.isImplicitlyCasted() );
+		return copied;
+	}
+	
+	private OclExpression genAux(OclExpression expr, CSPModel.CSPModelScope vars) {
 		if (expr instanceof PropertyCallExp) {
 			return genPropertyCall(expr, vars);
 		} else if (expr instanceof VariableExp) {

@@ -77,7 +77,7 @@ public class TypeErrorNamespace implements ITypeNamespace {
 
 	@Override
 	public void attachRule(String ruleName, Type returnType, Rule rule) {
-		throw new UnsupportedOperationException();
+		// Do nothing, the error has already been reported
 	}
 
 	@Override

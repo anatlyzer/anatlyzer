@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -40,6 +42,10 @@ public class Analyser {
 		this.doDependency = doDependency;
 	}
 
+	public GlobalNamespace getNamespaces() {
+		return mm;
+	}
+	
 	public void perform() {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Future<?> result = executor.submit(new Runnable() {			
@@ -77,10 +83,33 @@ public class Analyser {
 		} finally {			
 			executor.shutdown();
 		}
-		
-		
 	}
-	
+
+	private List<OverlappingRules> overlapping = null;
+	public List<OverlappingRules> ruleConflictAnalysis() {
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		Future<?> result = executor.submit(new Runnable() {			
+			@Override
+			public void run() {
+				AnalyserContext.setErrorModel(errors);
+				AnalyserContext.setTypingModel(typ);				
+				AnalyserContext.setGlobalNamespace(mm);
+				overlapping = new RuleConflictAnalysis(trafo, Analyser.this).perform();
+			}
+		});
+
+		try {
+			// wait;
+			result.get();
+		} catch (Exception e) {
+			throw new AnalyserInternalError(e, stage + 1);
+		} finally {			
+			executor.shutdown();
+		}
+		
+		return overlapping;
+	}
+
 	public ErrorModel getErrors() {
 		return errors;
 	}
@@ -100,4 +129,5 @@ public class Analyser {
 	public void addExtension(AnalyserExtension e) {
 		this.additional.add(e);
 	}
+
 }

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -102,6 +103,29 @@ public class GlobalNamespace {
 	
 	public List<MetamodelNamespace> getMetamodels() {
 		return new ArrayList<MetamodelNamespace>(namesToMetamodels.values());
+	}
+
+	private HashMap<EClass, ArrayList<ClassNamespace>> subtypes = new HashMap<EClass, ArrayList<ClassNamespace>>();
+	protected Collection<ClassNamespace> getDirectSubclasses(EClass eClass) {
+		ArrayList<ClassNamespace> result = subtypes.get(eClass);
+		if ( result != null)
+			return result;
+
+		result = new ArrayList<ClassNamespace>();
+		for(MetamodelNamespace m : namesToMetamodels.values()) {
+			for(ITypeNamespace t : m.classifiers.values()) {
+				if ( t instanceof ClassNamespace ) {
+					ClassNamespace c = (ClassNamespace) t;
+					
+					if ( c.eClass.getESuperTypes().contains(eClass)) {
+						result.add(c);
+					}					
+				}
+			}			
+		}
+		
+		subtypes.put(eClass, result);
+		return result;
 	}
 
 	

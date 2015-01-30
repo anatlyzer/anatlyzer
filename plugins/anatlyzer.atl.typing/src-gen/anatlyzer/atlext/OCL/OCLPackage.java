@@ -96,6 +96,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_EXPRESSION__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -213,13 +231,22 @@ public interface OCLPackage extends EPackage {
 	int OCL_EXPRESSION__OWNING_ATTRIBUTE = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__IMPLICITLY_CASTED = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 13;
+
+	/**
 	 * The number of structural features of the '<em>Ocl Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OCL_EXPRESSION_FEATURE_COUNT = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 13;
+	int OCL_EXPRESSION_FEATURE_COUNT = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
 	 * The number of operations of the '<em>Ocl Expression</em>' class.
@@ -266,6 +293,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -385,6 +430,15 @@ public interface OCLPackage extends EPackage {
 	int VARIABLE_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Referred Variable</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -447,6 +501,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SUPER_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -566,6 +638,15 @@ public interface OCLPackage extends EPackage {
 	int SUPER_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The number of structural features of the '<em>Super Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -619,6 +700,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -738,6 +837,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The number of structural features of the '<em>Primitive Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -791,6 +899,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_EXP__COMMENTS_AFTER = PRIMITIVE_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__FILE_LOCATION = PRIMITIVE_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -910,6 +1036,15 @@ public interface OCLPackage extends EPackage {
 	int STRING_EXP__OWNING_ATTRIBUTE = PRIMITIVE_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>String Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -972,6 +1107,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOLEAN_EXP__COMMENTS_AFTER = PRIMITIVE_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__FILE_LOCATION = PRIMITIVE_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1091,6 +1244,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_EXP__OWNING_ATTRIBUTE = PRIMITIVE_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Boolean Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1153,6 +1315,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NUMERIC_EXP__COMMENTS_AFTER = PRIMITIVE_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__FILE_LOCATION = PRIMITIVE_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1272,6 +1452,15 @@ public interface OCLPackage extends EPackage {
 	int NUMERIC_EXP__OWNING_ATTRIBUTE = PRIMITIVE_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The number of structural features of the '<em>Numeric Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1325,6 +1514,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int REAL_EXP__COMMENTS_AFTER = NUMERIC_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__FILE_LOCATION = NUMERIC_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__FILE_OBJECT = NUMERIC_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1444,6 +1651,15 @@ public interface OCLPackage extends EPackage {
 	int REAL_EXP__OWNING_ATTRIBUTE = NUMERIC_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__IMPLICITLY_CASTED = NUMERIC_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Real Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1506,6 +1722,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTEGER_EXP__COMMENTS_AFTER = NUMERIC_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__FILE_LOCATION = NUMERIC_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__FILE_OBJECT = NUMERIC_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1625,6 +1859,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_EXP__OWNING_ATTRIBUTE = NUMERIC_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__IMPLICITLY_CASTED = NUMERIC_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Integer Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1687,6 +1930,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1806,6 +2067,15 @@ public interface OCLPackage extends EPackage {
 	int COLLECTION_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1868,6 +2138,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BAG_EXP__COMMENTS_AFTER = COLLECTION_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__FILE_LOCATION = COLLECTION_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1987,6 +2275,15 @@ public interface OCLPackage extends EPackage {
 	int BAG_EXP__OWNING_ATTRIBUTE = COLLECTION_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2049,6 +2346,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_SET_EXP__COMMENTS_AFTER = COLLECTION_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__FILE_LOCATION = COLLECTION_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2168,6 +2483,15 @@ public interface OCLPackage extends EPackage {
 	int ORDERED_SET_EXP__OWNING_ATTRIBUTE = COLLECTION_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2230,6 +2554,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_EXP__COMMENTS_AFTER = COLLECTION_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__FILE_LOCATION = COLLECTION_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2349,6 +2691,15 @@ public interface OCLPackage extends EPackage {
 	int SEQUENCE_EXP__OWNING_ATTRIBUTE = COLLECTION_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2411,6 +2762,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_EXP__COMMENTS_AFTER = COLLECTION_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__FILE_LOCATION = COLLECTION_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2530,6 +2899,15 @@ public interface OCLPackage extends EPackage {
 	int SET_EXP__OWNING_ATTRIBUTE = COLLECTION_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2592,6 +2970,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2711,6 +3107,15 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Tuple Part</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2773,6 +3178,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE_DECLARATION__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_DECLARATION__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_DECLARATION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2909,6 +3332,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_PART__COMMENTS_AFTER = VARIABLE_DECLARATION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_PART__FILE_LOCATION = VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_PART__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3056,6 +3497,24 @@ public interface OCLPackage extends EPackage {
 	int MAP_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3173,6 +3632,15 @@ public interface OCLPackage extends EPackage {
 	int MAP_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3235,6 +3703,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_ELEMENT__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_ELEMENT__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_ELEMENT__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Map</b></em>' container reference.
@@ -3317,6 +3803,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUM_LITERAL_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3436,6 +3940,15 @@ public interface OCLPackage extends EPackage {
 	int ENUM_LITERAL_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3498,6 +4011,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_UNDEFINED_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3617,6 +4148,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_UNDEFINED_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The number of structural features of the '<em>Ocl Undefined Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3670,6 +4210,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_CALL_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3789,6 +4347,15 @@ public interface OCLPackage extends EPackage {
 	int PROPERTY_CALL_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3896,6 +4463,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__COMMENTS_AFTER = PROPERTY_CALL_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__FILE_LOCATION = PROPERTY_CALL_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4013,6 +4598,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__OWNING_ATTRIBUTE = PROPERTY_CALL_EXP__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -4133,6 +4727,24 @@ public interface OCLPackage extends EPackage {
 	int OPERATION_CALL_EXP__COMMENTS_AFTER = PROPERTY_CALL_EXP__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__FILE_LOCATION = PROPERTY_CALL_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4250,6 +4862,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATION_CALL_EXP__OWNING_ATTRIBUTE = PROPERTY_CALL_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4322,13 +4943,22 @@ public interface OCLPackage extends EPackage {
 	int OPERATION_CALL_EXP__OPERATION_NAME = PROPERTY_CALL_EXP_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Resolve Temp Resolved By</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY = PROPERTY_CALL_EXP_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Operation Call Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_CALL_EXP_FEATURE_COUNT = PROPERTY_CALL_EXP_FEATURE_COUNT + 2;
+	int OPERATION_CALL_EXP_FEATURE_COUNT = PROPERTY_CALL_EXP_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Operation Call Exp</em>' class.
@@ -4375,6 +5005,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATOR_CALL_EXP__COMMENTS_AFTER = OPERATION_CALL_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__FILE_LOCATION = OPERATION_CALL_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__FILE_OBJECT = OPERATION_CALL_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4494,6 +5142,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__OWNING_ATTRIBUTE = OPERATION_CALL_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__IMPLICITLY_CASTED = OPERATION_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4566,6 +5223,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__OPERATION_NAME = OPERATION_CALL_EXP__OPERATION_NAME;
 
 	/**
+	 * The feature id for the '<em><b>Resolve Temp Resolved By</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY = OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY;
+
+	/**
 	 * The number of structural features of the '<em>Operator Call Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4619,6 +5285,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_CALL_EXP__COMMENTS_AFTER = OPERATION_CALL_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__FILE_LOCATION = OPERATION_CALL_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__FILE_OBJECT = OPERATION_CALL_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4738,6 +5422,15 @@ public interface OCLPackage extends EPackage {
 	int COLLECTION_OPERATION_CALL_EXP__OWNING_ATTRIBUTE = OPERATION_CALL_EXP__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__IMPLICITLY_CASTED = OPERATION_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4810,6 +5503,15 @@ public interface OCLPackage extends EPackage {
 	int COLLECTION_OPERATION_CALL_EXP__OPERATION_NAME = OPERATION_CALL_EXP__OPERATION_NAME;
 
 	/**
+	 * The feature id for the '<em><b>Resolve Temp Resolved By</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY = OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY;
+
+	/**
 	 * The number of structural features of the '<em>Collection Operation Call Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4863,6 +5565,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LOOP_EXP__COMMENTS_AFTER = PROPERTY_CALL_EXP__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__FILE_LOCATION = PROPERTY_CALL_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4980,6 +5700,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LOOP_EXP__OWNING_ATTRIBUTE = PROPERTY_CALL_EXP__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5109,6 +5838,24 @@ public interface OCLPackage extends EPackage {
 	int ITERATE_EXP__COMMENTS_AFTER = LOOP_EXP__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__FILE_LOCATION = LOOP_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__FILE_OBJECT = LOOP_EXP__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5224,6 +5971,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_EXP__OWNING_ATTRIBUTE = LOOP_EXP__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__IMPLICITLY_CASTED = LOOP_EXP__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5362,6 +6118,24 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR_EXP__COMMENTS_AFTER = LOOP_EXP__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__FILE_LOCATION = LOOP_EXP__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__FILE_OBJECT = LOOP_EXP__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5477,6 +6251,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATOR_EXP__OWNING_ATTRIBUTE = LOOP_EXP__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__IMPLICITLY_CASTED = LOOP_EXP__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5615,6 +6398,24 @@ public interface OCLPackage extends EPackage {
 	int LET_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5732,6 +6533,15 @@ public interface OCLPackage extends EPackage {
 	int LET_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Variable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5803,6 +6613,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IF_EXP__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -5922,6 +6750,15 @@ public interface OCLPackage extends EPackage {
 	int IF_EXP__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The feature id for the '<em><b>Then Expression</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6002,6 +6839,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATOR__COMMENTS_AFTER = VARIABLE_DECLARATION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__FILE_LOCATION = VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -6149,6 +7004,24 @@ public interface OCLPackage extends EPackage {
 	int PARAMETER__COMMENTS_AFTER = VARIABLE_DECLARATION__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__FILE_LOCATION = VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6285,6 +7158,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_TYPE__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6400,6 +7291,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_TYPE__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -6547,6 +7447,24 @@ public interface OCLPackage extends EPackage {
 	int COLLECTION_TYPE__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6662,6 +7580,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -6818,6 +7745,24 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6933,6 +7878,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7080,6 +8034,24 @@ public interface OCLPackage extends EPackage {
 	int STRING_TYPE__COMMENTS_AFTER = PRIMITIVE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__FILE_LOCATION = PRIMITIVE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7195,6 +8167,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__OWNING_ATTRIBUTE = PRIMITIVE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7342,6 +8323,24 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_TYPE__COMMENTS_AFTER = PRIMITIVE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__FILE_LOCATION = PRIMITIVE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7457,6 +8456,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOLEAN_TYPE__OWNING_ATTRIBUTE = PRIMITIVE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7604,6 +8612,24 @@ public interface OCLPackage extends EPackage {
 	int NUMERIC_TYPE__COMMENTS_AFTER = PRIMITIVE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__FILE_LOCATION = PRIMITIVE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7719,6 +8745,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NUMERIC_TYPE__OWNING_ATTRIBUTE = PRIMITIVE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -7866,6 +8901,24 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_TYPE__COMMENTS_AFTER = NUMERIC_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__FILE_LOCATION = NUMERIC_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__FILE_OBJECT = NUMERIC_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7981,6 +9034,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTEGER_TYPE__OWNING_ATTRIBUTE = NUMERIC_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__IMPLICITLY_CASTED = NUMERIC_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8128,6 +9190,24 @@ public interface OCLPackage extends EPackage {
 	int REAL_TYPE__COMMENTS_AFTER = NUMERIC_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__FILE_LOCATION = NUMERIC_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__FILE_OBJECT = NUMERIC_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8243,6 +9323,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int REAL_TYPE__OWNING_ATTRIBUTE = NUMERIC_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__IMPLICITLY_CASTED = NUMERIC_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8390,6 +9479,24 @@ public interface OCLPackage extends EPackage {
 	int BAG_TYPE__COMMENTS_AFTER = COLLECTION_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__FILE_LOCATION = COLLECTION_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8505,6 +9612,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BAG_TYPE__OWNING_ATTRIBUTE = COLLECTION_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8661,6 +9777,24 @@ public interface OCLPackage extends EPackage {
 	int ORDERED_SET_TYPE__COMMENTS_AFTER = COLLECTION_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__FILE_LOCATION = COLLECTION_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8776,6 +9910,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_SET_TYPE__OWNING_ATTRIBUTE = COLLECTION_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8932,6 +10075,24 @@ public interface OCLPackage extends EPackage {
 	int SEQUENCE_TYPE__COMMENTS_AFTER = COLLECTION_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__FILE_LOCATION = COLLECTION_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9047,6 +10208,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_TYPE__OWNING_ATTRIBUTE = COLLECTION_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9203,6 +10373,24 @@ public interface OCLPackage extends EPackage {
 	int SET_TYPE__COMMENTS_AFTER = COLLECTION_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__FILE_LOCATION = COLLECTION_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9318,6 +10506,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_TYPE__OWNING_ATTRIBUTE = COLLECTION_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9474,6 +10671,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_ANY_TYPE__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9589,6 +10804,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_ANY_TYPE__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9736,6 +10960,24 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_TYPE__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9851,6 +11093,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -10007,6 +11258,24 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_TYPE_ATTRIBUTE__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE_ATTRIBUTE__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE_ATTRIBUTE__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10087,6 +11356,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_MODEL_ELEMENT__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -10204,6 +11491,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_MODEL_ELEMENT__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -10360,6 +11656,24 @@ public interface OCLPackage extends EPackage {
 	int MAP_TYPE__COMMENTS_AFTER = OCL_TYPE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__FILE_LOCATION = OCL_TYPE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10475,6 +11789,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__OWNING_ATTRIBUTE = OCL_TYPE__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -10640,6 +11963,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE_DEFINITION__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE_DEFINITION__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE_DEFINITION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Feature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10711,6 +12052,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_CONTEXT_DEFINITION__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONTEXT_DEFINITION__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONTEXT_DEFINITION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -10786,6 +12145,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10848,6 +12225,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ATTRIBUTE__COMMENTS_AFTER = OCL_FEATURE__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__FILE_LOCATION = OCL_FEATURE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__FILE_OBJECT = OCL_FEATURE__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -10939,6 +12334,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION__COMMENTS_AFTER = OCL_FEATURE__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__FILE_LOCATION = OCL_FEATURE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__FILE_OBJECT = OCL_FEATURE__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -11041,6 +12454,24 @@ public interface OCLPackage extends EPackage {
 	int OCL_MODEL__COMMENTS_AFTER = ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL__FILE_LOCATION = ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11134,6 +12565,52 @@ public interface OCLPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl <em>Resolve Temp Resolution</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl
+	 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getResolveTempResolution()
+	 * @generated
+	 */
+	int RESOLVE_TEMP_RESOLUTION = 57;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION__RULE = 0;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION__ELEMENT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Resolve Temp Resolution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Resolve Temp Resolution</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11141,7 +12618,7 @@ public interface OCLPackage extends EPackage {
 	 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getJavaBody()
 	 * @generated
 	 */
-	int JAVA_BODY = 57;
+	int JAVA_BODY = 58;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -11169,6 +12646,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int JAVA_BODY__COMMENTS_AFTER = OCL_EXPRESSION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__FILE_LOCATION = OCL_EXPRESSION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11288,6 +12783,15 @@ public interface OCLPackage extends EPackage {
 	int JAVA_BODY__OWNING_ATTRIBUTE = OCL_EXPRESSION__OWNING_ATTRIBUTE;
 
 	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
 	 * The number of structural features of the '<em>Java Body</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11313,7 +12817,7 @@ public interface OCLPackage extends EPackage {
 	 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getGetAppliedStereotypesBody()
 	 * @generated
 	 */
-	int GET_APPLIED_STEREOTYPES_BODY = 58;
+	int GET_APPLIED_STEREOTYPES_BODY = 59;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -11341,6 +12845,24 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int GET_APPLIED_STEREOTYPES_BODY__COMMENTS_AFTER = JAVA_BODY__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__FILE_LOCATION = JAVA_BODY__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__FILE_OBJECT = JAVA_BODY__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11458,6 +12980,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int GET_APPLIED_STEREOTYPES_BODY__OWNING_ATTRIBUTE = JAVA_BODY__OWNING_ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Implicitly Casted</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__IMPLICITLY_CASTED = JAVA_BODY__IMPLICITLY_CASTED;
 
 	/**
 	 * The number of structural features of the '<em>Get Applied Stereotypes Body</em>' class.
@@ -11619,6 +13150,17 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOclExpression_OwningAttribute();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted <em>Implicitly Casted</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Implicitly Casted</em>'.
+	 * @see anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted()
+	 * @see #getOclExpression()
+	 * @generated
+	 */
+	EAttribute getOclExpression_ImplicitlyCasted();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.VariableExp <em>Variable Exp</em>}'.
@@ -12081,6 +13623,17 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getOperationCallExp_OperationName();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link anatlyzer.atlext.OCL.OperationCallExp#getResolveTempResolvedBy <em>Resolve Temp Resolved By</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Resolve Temp Resolved By</em>'.
+	 * @see anatlyzer.atlext.OCL.OperationCallExp#getResolveTempResolvedBy()
+	 * @see #getOperationCallExp()
+	 * @generated
+	 */
+	EReference getOperationCallExp_ResolveTempResolvedBy();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.OperatorCallExp <em>Operator Call Exp</em>}'.
@@ -13006,6 +14559,38 @@ public interface OCLPackage extends EPackage {
 	EReference getTypedElement_InferredType();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.ResolveTempResolution <em>Resolve Temp Resolution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Resolve Temp Resolution</em>'.
+	 * @see anatlyzer.atlext.OCL.ResolveTempResolution
+	 * @generated
+	 */
+	EClass getResolveTempResolution();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Rule</em>'.
+	 * @see anatlyzer.atlext.OCL.ResolveTempResolution#getRule()
+	 * @see #getResolveTempResolution()
+	 * @generated
+	 */
+	EReference getResolveTempResolution_Rule();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Element</em>'.
+	 * @see anatlyzer.atlext.OCL.ResolveTempResolution#getElement()
+	 * @see #getResolveTempResolution()
+	 * @generated
+	 */
+	EReference getResolveTempResolution_Element();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.JavaBody <em>Java Body</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13153,6 +14738,14 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference OCL_EXPRESSION__OWNING_ATTRIBUTE = eINSTANCE.getOclExpression_OwningAttribute();
+
+		/**
+		 * The meta object literal for the '<em><b>Implicitly Casted</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OCL_EXPRESSION__IMPLICITLY_CASTED = eINSTANCE.getOclExpression_ImplicitlyCasted();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.VariableExpImpl <em>Variable Exp</em>}' class.
@@ -13549,6 +15142,14 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OPERATION_CALL_EXP__OPERATION_NAME = eINSTANCE.getOperationCallExp_OperationName();
+
+		/**
+		 * The meta object literal for the '<em><b>Resolve Temp Resolved By</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY = eINSTANCE.getOperationCallExp_ResolveTempResolvedBy();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.OperatorCallExpImpl <em>Operator Call Exp</em>}' class.
@@ -14313,6 +15914,32 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPED_ELEMENT__INFERRED_TYPE = eINSTANCE.getTypedElement_InferredType();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl <em>Resolve Temp Resolution</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl
+		 * @see anatlyzer.atlext.OCL.impl.OCLPackageImpl#getResolveTempResolution()
+		 * @generated
+		 */
+		EClass RESOLVE_TEMP_RESOLUTION = eINSTANCE.getResolveTempResolution();
+
+		/**
+		 * The meta object literal for the '<em><b>Rule</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOLVE_TEMP_RESOLUTION__RULE = eINSTANCE.getResolveTempResolution_Rule();
+
+		/**
+		 * The meta object literal for the '<em><b>Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOLVE_TEMP_RESOLUTION__ELEMENT = eINSTANCE.getResolveTempResolution_Element();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.

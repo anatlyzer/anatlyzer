@@ -32,7 +32,7 @@ public interface IClassNamespace extends ITypeNamespace {
 
 	public abstract List<MatchedRule> getRules();
 
-	public abstract Collection<ClassNamespace> getAllSubclasses();
+	public abstract Set<ClassNamespace> getAllSubclasses();
 
 	public abstract Collection<ClassNamespace> getDirectSubclasses();
 

@@ -6,6 +6,7 @@ import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
+import anatlyzer.atlext.OCL.ResolveTempResolution;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getArguments <em>Arguments</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getOperationName <em>Operation Name</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getResolveTempResolvedBy <em>Resolve Temp Resolved By</em>}</li>
  * </ul>
  * </p>
  *
@@ -65,6 +68,16 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * @ordered
 	 */
 	protected String operationName = OPERATION_NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getResolveTempResolvedBy() <em>Resolve Temp Resolved By</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getResolveTempResolvedBy()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ResolveTempResolution> resolveTempResolvedBy;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -123,6 +136,18 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ResolveTempResolution> getResolveTempResolvedBy() {
+		if (resolveTempResolvedBy == null) {
+			resolveTempResolvedBy = new EObjectContainmentEList<ResolveTempResolution>(ResolveTempResolution.class, this, OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY);
+		}
+		return resolveTempResolvedBy;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -143,6 +168,8 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 		switch (featureID) {
 			case OCLPackage.OPERATION_CALL_EXP__ARGUMENTS:
 				return ((InternalEList<?>)getArguments()).basicRemove(otherEnd, msgs);
+			case OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY:
+				return ((InternalEList<?>)getResolveTempResolvedBy()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -159,6 +186,8 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 				return getArguments();
 			case OCLPackage.OPERATION_CALL_EXP__OPERATION_NAME:
 				return getOperationName();
+			case OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY:
+				return getResolveTempResolvedBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -179,6 +208,10 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 			case OCLPackage.OPERATION_CALL_EXP__OPERATION_NAME:
 				setOperationName((String)newValue);
 				return;
+			case OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY:
+				getResolveTempResolvedBy().clear();
+				getResolveTempResolvedBy().addAll((Collection<? extends ResolveTempResolution>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -197,6 +230,9 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 			case OCLPackage.OPERATION_CALL_EXP__OPERATION_NAME:
 				setOperationName(OPERATION_NAME_EDEFAULT);
 				return;
+			case OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY:
+				getResolveTempResolvedBy().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -213,6 +249,8 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 				return arguments != null && !arguments.isEmpty();
 			case OCLPackage.OPERATION_CALL_EXP__OPERATION_NAME:
 				return OPERATION_NAME_EDEFAULT == null ? operationName != null : !OPERATION_NAME_EDEFAULT.equals(operationName);
+			case OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY:
+				return resolveTempResolvedBy != null && !resolveTempResolvedBy.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -113,6 +113,15 @@ public interface IdeErrorPackage extends EPackage {
 	int COULD_NOT_LOAD_METAMODEL__LOCATION = AtlErrorPackage.LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COULD_NOT_LOAD_METAMODEL__FILE_LOCATION = AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -16,7 +16,7 @@ public class AnalysisProviderByUML implements AnalysisProvider {
 	public List<AnalyserExtension> getExtensions(ATLModel atlModel, GlobalNamespace mm) {
 		ArrayList<AnalyserExtension> extensions = new ArrayList<AnalyserExtension>();
 		
-		List<String> profileTags = ATLUtils.findCommaTags(atlModel.getModule(), "profile");	
+		List<String> profileTags = ATLUtils.findCommaTags(atlModel.getRoot(), "profile");	
 		if ( profileTags.size() > 0 )
 			extensions.add(new ProfileUsageExtension());
 		

@@ -86,13 +86,22 @@ public interface TypesPackage extends EPackage {
 	int TYPE__METAMODEL_REF = 1;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE__NO_CASTED_TYPE = 2;
+
+	/**
 	 * The number of structural features of the '<em>Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_FEATURE_COUNT = 2;
+	int TYPE_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Type</em>' class.
@@ -130,6 +139,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_UNDEFINED_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Ocl Undefined Type</em>' class.
@@ -178,6 +196,15 @@ public interface TypesPackage extends EPackage {
 	int PRIMITIVE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Primitive Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -222,6 +249,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOLEAN_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__NO_CASTED_TYPE = PRIMITIVE_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Kind Of Types</b></em>' reference list.
@@ -279,6 +315,15 @@ public interface TypesPackage extends EPackage {
 	int INTEGER_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__NO_CASTED_TYPE = PRIMITIVE_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Integer Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -323,6 +368,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__NO_CASTED_TYPE = PRIMITIVE_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>String Type</em>' class.
@@ -371,6 +425,15 @@ public interface TypesPackage extends EPackage {
 	int FLOAT_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_TYPE__NO_CASTED_TYPE = PRIMITIVE_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Float Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -415,6 +478,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -470,6 +542,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Key Type</b></em>' reference.
@@ -582,6 +663,15 @@ public interface TypesPackage extends EPackage {
 	int REF_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REF_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Ref Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -626,6 +716,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNKNOWN__METAMODEL_REF = REF_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN__NO_CASTED_TYPE = REF_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>Unknown</em>' class.
@@ -674,6 +773,15 @@ public interface TypesPackage extends EPackage {
 	int EMPTY_COLLECTION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_COLLECTION_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Empty Collection Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -720,6 +828,15 @@ public interface TypesPackage extends EPackage {
 	int TYPE_ERROR__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_ERROR__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Type Error</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -764,6 +881,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNRESOLVED_TYPE_ERROR__METAMODEL_REF = TYPE_ERROR__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNRESOLVED_TYPE_ERROR__NO_CASTED_TYPE = TYPE_ERROR__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1074,6 +1200,15 @@ public interface TypesPackage extends EPackage {
 	int EMPTY_COLLECTION__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_COLLECTION__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Empty Collection</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1118,6 +1253,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUM_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1221,6 +1365,15 @@ public interface TypesPackage extends EPackage {
 	int METACLASS__METAMODEL_REF = REF_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METACLASS__NO_CASTED_TYPE = REF_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1303,6 +1456,15 @@ public interface TypesPackage extends EPackage {
 	int REFLECTIVE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFLECTIVE_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Reflective Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1347,6 +1509,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNION_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Possible Types</b></em>' reference list.
@@ -1404,6 +1575,15 @@ public interface TypesPackage extends EPackage {
 	int THIS_MODULE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THIS_MODULE_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>This Module Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1450,6 +1630,15 @@ public interface TypesPackage extends EPackage {
 	int REFLECTIVE_CLASS__METAMODEL_REF = REFLECTIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFLECTIVE_CLASS__NO_CASTED_TYPE = REFLECTIVE_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Reflective Class</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1494,6 +1683,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Contained Type</b></em>' reference.
@@ -1551,6 +1749,15 @@ public interface TypesPackage extends EPackage {
 	int SEQUENCE_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Contained Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1604,6 +1811,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Contained Type</b></em>' reference.
@@ -1664,6 +1880,17 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getType_MetamodelRef();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.types.Type#getNoCastedType <em>No Casted Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>No Casted Type</em>'.
+	 * @see anatlyzer.atl.types.Type#getNoCastedType()
+	 * @see #getType()
+	 * @generated
+	 */
+	EReference getType_NoCastedType();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.types.OclUndefinedType <em>Ocl Undefined Type</em>}'.
@@ -2149,6 +2376,14 @@ public interface TypesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TYPE__METAMODEL_REF = eINSTANCE.getType_MetamodelRef();
+
+		/**
+		 * The meta object literal for the '<em><b>No Casted Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TYPE__NO_CASTED_TYPE = eINSTANCE.getType_NoCastedType();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.OclUndefinedTypeImpl <em>Ocl Undefined Type</em>}' class.

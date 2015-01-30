@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Type;
@@ -43,7 +44,11 @@ public class MapTypeNamespace implements ITypeNamespace {
 			return type.getValueType();
 		}
 		
-		throw new UnsupportedOperationException(operationName);
+		Type t = AtlTypes.map().getOperationReturnType(operationName);
+		if ( t == null ) {
+			t = AnalyserContext.getErrorModel().signalNoOperationFound(type, operationName, node, null);
+		}
+		return t;
 	}
 
 	@Override

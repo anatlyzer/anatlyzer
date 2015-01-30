@@ -25,12 +25,12 @@ import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
 
 public class ClassNamespace extends AbstractTypeNamespace implements IClassNamespace {
-	private EClass	eClass;
-	private MetamodelNamespace	metamodel;
-	private HashMap<String, VirtualFeature<ClassNamespace, Attribute>> features = 
-			new HashMap<String, VirtualFeature<ClassNamespace, Attribute>>();
-	private HashMap<String, VirtualFeature<ClassNamespace, Operation>> operations = 
-			new HashMap<String, VirtualFeature<ClassNamespace, Operation>>();
+	protected EClass	eClass;
+	protected MetamodelNamespace	metamodel;
+	protected HashMap<String, VirtualFeature<ClassNamespace, Attribute>> features = 
+				new HashMap<String, VirtualFeature<ClassNamespace, Attribute>>();
+	protected HashMap<String, VirtualFeature<ClassNamespace, Operation>> operations = 
+				new HashMap<String, VirtualFeature<ClassNamespace, Operation>>();
 	private Metaclass	theType;
 
 	
@@ -61,7 +61,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	@Override
 	public boolean hasFeature(String featureName) {
 		return getExtendedFeature(featureName) != null ||
-				 eClass.getEStructuralFeature(featureName) != null;
+				 eClass.getEStructuralFeature(featureName) != null || 
+				 super.hasFeature(featureName);
 	}	
 
 
@@ -81,6 +82,11 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		Type t = getExtendedFeature(featureName);
 		if ( t != null) 
 			return t;
+		
+		t = super.getFeatureType(featureName, node);
+		if ( t != null ) {
+			return t;
+		}
 		
 		EStructuralFeature f = eClass.getEStructuralFeature(featureName);
 		if ( f == null ) {
@@ -219,7 +225,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return vf == null ? null : vf.definition;
 	}
 	
-	protected Metaclass getType() {
+	public Metaclass getType() {
 		if ( this.theType == null )
 			this.theType = (Metaclass) createType(true);		
 		return this.theType;
@@ -412,7 +418,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getAllSubclasses()
 	 */
 	@Override
-	public Collection<ClassNamespace> getAllSubclasses() {
+	public Set<ClassNamespace> getAllSubclasses() {
 		return metamodel.getAllSubclasses(eClass);
 	}
 

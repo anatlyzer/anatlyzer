@@ -10,6 +10,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -39,8 +40,11 @@ import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.IgnoredProblems;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OclModel;
@@ -50,23 +54,24 @@ public class AnalyserExecutor {
 
 	public AnalyserData exec(IResource resource) throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(resource.getFullPath());
-		ModelFactory      modelFactory = new EMFModelFactory();
-		EMFModel atlEMFModel = null;
-		try {
-			EMFReferenceModel atlMetamodel = (EMFReferenceModel)modelFactory.getBuiltInResource("ATL.ecore");
-			AtlParser         atlParser    = new AtlParser();
-			atlEMFModel = (EMFModel)modelFactory.newModel(atlMetamodel);
-			atlParser.inject(atlEMFModel, file.getContents(), null);
-		} catch (ATLCoreException e1) {
-			throw new RuntimeException(e1);
-		}
-		atlEMFModel.setIsTarget(true);
-		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource());
+		EMFModel atlEMFModel = loadATLFile(file);
+		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
 
+
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "lib")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			String name = two[0].trim();
+			String uri = two[1].trim();
+			
+			extendWithLibrary(atlModel, name, uri);		
+		}
+		
 		ResourceSet nrs = new ResourceSetImpl();
 		new ResourceSetImpl.MappedResourceLocator((ResourceSetImpl) nrs); 
 
-		for(String map : ATLUtils.findCommaTags(atlModel.getModule(), "map")) {
+		for(String map : ATLUtils.findCommaTags(atlModel.getRoot(), "map")) {
 			String[] two = map.split("=>");
 			if ( two.length != 2 ) 
 				continue; // bad format, should be notified in the UI
@@ -76,7 +81,7 @@ public class AnalyserExecutor {
 		
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
 
-		for(String tag : ATLUtils.findCommaTags(atlModel.getModule(), "nsURI")) {
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "nsURI")) {
 			String[] two = tag.split("=");
 			if ( two.length != 2 ) 
 				continue; // bad format, should be notified in the UI
@@ -91,22 +96,29 @@ public class AnalyserExecutor {
 		}
 		
 
-		for(String tag : ATLUtils.findCommaTags(atlModel.getModule(), "path")) {
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "path")) {
 			String[] two = tag.split("=");
 			if ( two.length != 2 ) 
 				continue; // bad format, should be notified in the UI
 			String name = two[0].trim();
 			String uri = two[1].trim();
 			
-			Resource r = nrs.getResource(URI.createPlatformResourceURI(uri, false), true);
-			logicalNamesToResources.put(name, r);			
+			try {
+				Resource r = nrs.getResource(URI.createPlatformResourceURI(uri, false), true);
+				logicalNamesToResources.put(name, r);			
+			} catch ( Exception e) { // Non-sense the way EMF handles IO exceptions
+				throw new CannotLoadMetamodel(uri);
+			}
 		}
 
-		for(String uri : ATLUtils.findCommaTags(atlModel.getModule(), "load")) {
+		for(String uri : ATLUtils.findCommaTags(atlModel.getRoot(), "load")) {
 			Resource r = nrs.getResource(URI.createURI(uri), false);
 			logicalNamesToResources.put(uri, r);
 		}
 
+		// Sanity check: all declared meta-models need to have a loaded resource
+		checkLoadedMetamodels(atlModel, logicalNamesToResources);
+		
 		GlobalNamespace mm = new GlobalNamespace(nrs, logicalNamesToResources);
 		Analyser analyser = new Analyser(mm, atlModel);
 		analyser.setDoDependencyAnalysis(false);		
@@ -120,7 +132,42 @@ public class AnalyserExecutor {
 			throw e;
 		}
 		
-		return new AnalyserData(analyser, mm);
+		AnalyserData result = new AnalyserData(analyser, mm);
+		AnalysisIndex.getInstance().register(file, result);
+		return result;
+	}
+
+	private EMFModel loadATLFile(IFile file) {
+		ModelFactory      modelFactory = new EMFModelFactory();
+		EMFModel atlEMFModel = null;
+		try {
+			EMFReferenceModel atlMetamodel = (EMFReferenceModel)modelFactory.getBuiltInResource("ATL.ecore");
+			AtlParser         atlParser    = new AtlParser();
+			atlEMFModel = (EMFModel)modelFactory.newModel(atlMetamodel);
+			atlParser.inject(atlEMFModel, file.getContents(), null);
+		} catch (ATLCoreException e1) {
+			throw new RuntimeException(e1);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
+		
+		atlEMFModel.setIsTarget(true);
+		return atlEMFModel;
+	}
+
+	private void extendWithLibrary(ATLModel atlModel, String name, String location) throws CoreException {
+		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(location));
+		EMFModel libModel = loadATLFile(file);
+		
+		atlModel.extendWithLibrary(libModel.getResource(), file.getFullPath().toPortableString());
+	}
+
+	private void checkLoadedMetamodels(ATLModel atlModel, HashMap<String, Resource> logicalNamesToResources) throws CannotLoadMetamodel {
+		for(OclModel m : ATLUtils.getUnitModels(atlModel)) {
+			if ( ! logicalNamesToResources.containsKey( m.getMetamodel().getName()) ) {
+				throw new CannotLoadMetamodel(m.getMetamodel().getName());
+			}			
+		}	
 	}
 
 	private void addExtensions(Analyser analyser, ATLModel m, GlobalNamespace ns) {
@@ -141,49 +188,26 @@ public class AnalyserExecutor {
 		}		
 	}
 
-	public static class AnalyserData {
-		private List<Problem> problems;
-		private Analyser analyser;
-		private GlobalNamespace namespace;
+	public static class AnalyserData extends AnalysisResult {
 		private ProblemPath path;
 
 		public AnalyserData(Analyser analyser, GlobalNamespace gn) {
-			this.analyser = analyser;
-			this.problems = analyser.getErrors().getAnalysis().getProblems();
-			this.namespace = gn;
+			super(analyser, gn);
 		}
 
 		public void computeProblemGraph(Problem p) {			
 			path = new ErrorPathGenerator(analyser.getATLModel()).generatePath((LocalProblem) p);
 		}
-		
-		public List<Problem> getProblems() {
-			return problems;
-		}
 			
 		public EPackage getSourceMetamodel() {
-			Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
-			String n = mod.getInModels().get(0).getMetamodel().getName();
-			
-			if ( namespace.getNamespace(n).getResource().getContents().size() > 1 ) {
-				EPackage selected = null;
-				for (EObject c : namespace.getNamespace(n).getResource().getContents()) {
-					EPackage pkg = (EPackage) c;
-					if ( selected == null ) selected = pkg;
-					
-					if ( pkg.getEClassifiers().size() > selected.getEClassifiers().size() ) 
-						selected = pkg;
-				}
-				 
-				System.out.println("TODO: AnalyserExecutor: Using a very naive stratategy to select one package among several");
-				
-				return selected;
-			} else {
-				return (EPackage) namespace.getNamespace(n).getResource().getContents().get(0);
-			}
+			// This should be improved somehow!
+			return AnalyserUtils.getSingleSourceMetamodel(analyser);
 		}
 
 		public EPackage generateErrorSlice(Problem p) {
+			if ( path == null )
+				throw new IllegalStateException();
+			
 			Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
 			OclModel m = mod.getInModels().get(0);
 			String mm  = m.getMetamodel().getName();
@@ -198,6 +222,9 @@ public class AnalyserExecutor {
 		}
 		
 		public EPackage generateEffectiveMetamodel(Problem p) { //throws IOException {
+			if ( path == null )
+				throw new IllegalStateException();
+
 			Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
 			OclModel m = mod.getInModels().get(0);
 			String mm  = m.getMetamodel().getName();
@@ -205,7 +232,7 @@ public class AnalyserExecutor {
 			
 			XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 			TrafoMetamodelData data = new TrafoMetamodelData(analyser.getATLModel(), 
-					namespace.getNamespace(mm), uri);
+					namespace.getNamespace(mm));
 			
 			String logicalName = mm;
 			new EffectiveMetamodelBuilder(data).extractSource(r, logicalName, logicalName, logicalName, logicalName);

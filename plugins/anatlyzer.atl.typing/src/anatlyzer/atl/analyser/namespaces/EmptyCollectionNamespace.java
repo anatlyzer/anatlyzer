@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -17,20 +18,12 @@ public class EmptyCollectionNamespace extends AbstractTypeNamespace {
 
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
-		throw new UnsupportedOperationException();
-		// return AnalyserContext.getErrorModel().signalNoFeatureInOclAny(featureName, node);
+		return AnalyserContext.getErrorModel().signalNoFeatureFound(selfType, featureName, node);
 	}
 
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
-		throw new UnsupportedOperationException();
-		/*
-		Type t = super.getOperationType(operationName, arguments, node);
-		if ( t == null ) {
-			return AnalyserContext.getErrorModel().signalNoOperationFound(selfType, operationName, node, null);
-		}
-		return t;
-		*/
+		return AnalyserContext.getErrorModel().signalNoOperationFound(selfType, operationName, node, null);
 	}
 
 	@Override

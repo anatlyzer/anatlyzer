@@ -8,6 +8,8 @@ abstract class Type {
 
     transient attr Object[0..1] metamodelRef;
 
+
+	ref Type[1] noCastedType;
 }
 
 class OclUndefinedType extends Type {

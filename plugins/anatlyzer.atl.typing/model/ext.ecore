@@ -5,7 +5,12 @@
     <details key="name" value="atlstatic"/>
   </eAnnotations>
   <eSubpackages name="ATL" nsURI="http://anatlyzer/atlext/ATL" nsPrefix="atl_ext_atl">
+    <eClassifiers xsi:type="ecore:EClass" name="LocatedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="MatchedRule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OutPatternElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="Callable">
       <eStructuralFeatures xsi:type="ecore:EReference" name="calledBy" upperBound="-1"
           eType="#//OCL/PropertyCallExp" eOpposite="#//OCL/PropertyCallExp/staticResolver"/>
@@ -55,7 +60,10 @@
     <eClassifiers xsi:type="ecore:EClass" name="VariableDeclaration" eSuperTypes="#//OCL/TypedElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="staticType" eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OclExpression" eSuperTypes="#//OCL/TypedElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OclExpression" eSuperTypes="#//OCL/TypedElement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="implicitlyCasted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PropertyCallExp">
       <eStructuralFeatures xsi:type="ecore:EReference" name="usedFeature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="receptorType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
@@ -66,6 +74,16 @@
           eType="#//ATL/Callable" eOpposite="#//ATL/Callable/calledBy"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicResolvers" upperBound="-1"
           eType="#//ATL/ContextHelper" eOpposite="#//ATL/ContextHelper/polymorphicCalledBy"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCallExp">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resolveTempResolvedBy"
+          upperBound="-1" eType="#//OCL/ResolveTempResolution" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempResolution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1"
+          eType="#//ATL/MatchedRule"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
+          eType="#//ATL/OutPatternElement"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="#//OCL/OclExpression"/>
     <eClassifiers xsi:type="ecore:EClass" name="GetAppliedStereotypesBody" eSuperTypes="#//OCL/JavaBody"/>

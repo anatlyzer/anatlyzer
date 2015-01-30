@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.core.runtime,
  anatlyzer.atl.typing;visibility:=reexport,
  org.eclipse.emf.ecore.xmi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: anatlyzer.atl.analyser,
+Export-Package: analyser.atl.problems,
+ anatlyzer.atl.analyser,
+ anatlyzer.atl.analyser.batch,
  anatlyzer.atl.analyser.generators,
  anatlyzer.atl.analyser.libtypes,
  anatlyzer.atl.analyser.namespaces,

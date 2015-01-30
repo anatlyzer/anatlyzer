@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import anatlyzer.atl.analyser.Analyser;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
@@ -40,13 +39,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashMap<String, java.util.Set<Helper>> helpers = 
 			new HashMap<String, java.util.Set<Helper>>();
 	
-	
-	private Analyser	analyser;
 	private String	metamodelName;
 	
-	public ErrorSlice(Analyser analyser, String metamodelName) {
-		if ( analyser == null ) throw new IllegalArgumentException();
-		this.analyser = analyser;
+	public ErrorSlice(String metamodelName) {
 		this.metamodelName = metamodelName;
 		
 		// Ugly hack
@@ -56,16 +51,13 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	public void addExplicitMetaclass(Metaclass type) {
-		if ( type.getModel().getName().equals(metamodelName) )
+		// If no meta-model name is given, then all classes are added
+		if ( metamodelName == null || type.getModel().getName().equals(metamodelName) )
 			explicitTypes.add(type.getKlass());
 	}
 	
 	public void addMetaclassNeededInError(EClass eClass) {
 		explicitTypes.add(eClass);
-	}
-	
-	public ATLModel getATLModel() {
-		return analyser.getATLModel();
 	}
 	
 	public void addExplicitFeature(EStructuralFeature f ) {
@@ -144,7 +136,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 
 		OclExpression body = ATLUtils.getBody(ctx);
-		s += USESerializer.gen(body, analyser); 
+		s += USESerializer.gen(body); 
 		return s;
 	}
 

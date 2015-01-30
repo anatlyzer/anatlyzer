@@ -12,14 +12,12 @@ public abstract class AbstractProblemNode<P extends Problem> extends AbstractDep
 		this.problem = p;
 	}
 	
-	
-	@Override
-	public void setErrorSlice(ErrorSlice slice) {
-		this.errorSlice = slice;
-	}
-	
 	@Override
 	public ErrorSlice getErrorSlice() {
+		if ( errorSlice == null ) {
+			errorSlice = new ErrorSlice(null);			
+			this.genErrorSlice(errorSlice);
+		}
 		return errorSlice;
 	}
 	

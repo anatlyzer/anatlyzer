@@ -84,6 +84,7 @@ public class ComputedAttributes {
 		if ( ! getVarScope().isEmpty() ) {
 			t = getVarScope().getKindOf(expr);
 		}	
+		
 		return t != null;
 	}
 	

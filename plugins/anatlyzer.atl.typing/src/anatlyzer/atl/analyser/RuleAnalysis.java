@@ -68,8 +68,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		List<? extends Binding> bindings = model.allObjectsOf(Binding.class);
 		for (Binding binding : bindings) {
 			EStructuralFeature f = (EStructuralFeature) binding.getWrittenFeature();
-			if ( TypeUtils.isFeatureMustBeInitialized(f) ) {
-				allWrittenCompulsoryFeatures.add(f);
+			if ( f != null ) {
+				allWrittenFeatures.add(f);
 			}
 		}
 
@@ -79,8 +79,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			OclExpression expr = bindingStat.getSource();
 			if ( expr instanceof PropertyCallExp && ((PropertyCallExp) expr).getUsedFeature() != null ) {
 				EStructuralFeature f = (EStructuralFeature) ((PropertyCallExp) expr).getUsedFeature();
-				if ( TypeUtils.isFeatureMustBeInitialized(f) ) {
-					allWrittenCompulsoryFeatures.add(f);
+				if ( f != null ) {
+					allWrittenFeatures.add(f);
 				}				
 			}
 		}
@@ -99,7 +99,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	}
 	
 	private HashSet<EStructuralFeature> compulsoryFeatures = null;
-	private HashSet<EStructuralFeature> allWrittenCompulsoryFeatures = new HashSet<EStructuralFeature>();
+	private HashSet<EStructuralFeature> allWrittenFeatures = new HashSet<EStructuralFeature>();
 	
 	@Override
 	public VisitingActions preSimpleOutPatternElement(SimpleOutPatternElement self) {
@@ -172,11 +172,10 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	private void checkCompulsoryFeature(OutPatternElement self) {
 		if ( compulsoryFeatures.size() != 0 ) {
 			for (EStructuralFeature f : compulsoryFeatures) {
-				if ( f instanceof EReference && allWrittenCompulsoryFeatures.contains( ((EReference) f).getEOpposite()) ) 
+				if ( f instanceof EReference && allWrittenFeatures.contains( ((EReference) f).getEOpposite()) ) 
 					continue; // Assumes that if the opposite is written in other rule, it is the one that corresponds to this object
-				
-				
-				if ( f.getDefaultValueLiteral() == null )
+					
+				if ( TypeUtils.isFeatureMustBeInitialized(f) )
 					errors().signalNoBindingForCompulsoryFeature(f, self);				
 			}
 		}
@@ -190,6 +189,11 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		Type targetVar = attr.typeOf( self.getOutPatternElement() );
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
+		
+		// An error indicating that the target feature of the binding is not valid
+		// should have been collected
+		if ( f == null )
+			return; 
 		
 		// The feature is removed from the current compulsoryFeatures set, which is
 		// checked later to be empty

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link anatlyzer.atl.types.Type#isMultivalued <em>Multivalued</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Type#getMetamodelRef <em>Metamodel Ref</em>}</li>
+ *   <li>{@link anatlyzer.atl.types.Type#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,5 +75,31 @@ public interface Type extends EObject {
 	 * @generated
 	 */
 	void setMetamodelRef(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>No Casted Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>No Casted Type</em>' reference.
+	 * @see #setNoCastedType(Type)
+	 * @see anatlyzer.atl.types.TypesPackage#getType_NoCastedType()
+	 * @model required="true"
+	 * @generated
+	 */
+	Type getNoCastedType();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.types.Type#getNoCastedType <em>No Casted Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>No Casted Type</em>' reference.
+	 * @see #getNoCastedType()
+	 * @generated
+	 */
+	void setNoCastedType(Type value);
 
 } // Type

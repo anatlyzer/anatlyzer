@@ -94,7 +94,6 @@
                    name="AnATLyzerGroup">
              </groupMarker>
           </menu>
-
 	
           <action
                 class="anatlyzer.ui.actions.CheckRuleConflicts"
@@ -103,6 +102,23 @@
                 label="Check rule conflicts"
                 menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
           </action>
+
+          <action
+                class="anatlyzer.ui.actions.DetectedUnconnectedElements"
+                definitionId="anatlyzer.ui.commands.DetectedUnconnectedElements"
+                id="anatlyzer.ui.actions.DetectedUnconnectedElements"
+                label="Detect unconnected elements"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+
+          <action
+                class="anatlyzer.ui.actions.DetectDeadCode"
+                definitionId="anatlyzer.ui.commands.DetectDeadCode"
+                id="anatlyzer.ui.actions.DetectDeadCode"
+                label="Detect dead code"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+          
 		</editorContribution>
 
    </extension>
@@ -121,6 +137,54 @@
              id="anatlyzer.ui.commands.CheckRuleConflicts"
              name="Anatlyzer - Check rule conflicts"/>
 	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.DetectedUnconnectedElements"
+             name="Anatlyzer - Detect unconnected elements"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.DetectDeadCode"
+             name="Anatlyzer - Detect dead code"/>
+	</extension>
+	
+	
+ <extension
+       point="org.eclipse.ui.views">
+    <category
+          id="anatlyzer.view.category"
+          name="anATLyzer">
+    </category>
+    <view
+          category="anatlyzer.view.category"
+          class="anatlyzer.atl.editor.views.AnalysisView"
+          icon="icons/sample.gif"
+          id="anatlyzer.atl.editor.views.AnalysisView"
+          name="Analysis View">
+    </view>
+ </extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="org.eclipse.jdt.ui.JavaPerspective">
+       <view
+             id="anatlyzer.atl.editor.views.AnalysisView"
+             ratio="0.5"
+             relationship="right"
+             relative="org.eclipse.ui.views.ProblemView">
+       </view>
+    </perspectiveExtension>
+ </extension>
+ <extension
+       point="org.eclipse.help.contexts">
+    <contexts
+          file="contexts.xml">
+    </contexts>
+ </extension>
 
 
 </plugin>

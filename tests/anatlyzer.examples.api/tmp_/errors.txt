@@ -24542,3 +24542,159 @@ ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->ex
 
 #########################################
 
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+
+third-party/largeprojects/modisco/java2kdm/javaToKdm.atl
+anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl (268:4-268:33): 
+ThisModule.allInstances()->exists(thisModule|ClassDeclaration.allInstances()->exists(src|let javaAttributes1 = src.bodyDeclarations->select(e|e.oclIsTypeOf(FieldDeclaration))->collect(f|if f.fragments->isEmpty()
+	then f
+	else f.fragments
+	endif) in
+	if src.typeParameters.isEmpty()
+	then let _problem_2 = javaAttributes1 in
+	(((if Archive.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif) or (if CompilationUnit.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if LabeledStatement.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)) or (if AnnotationMemberValuePair.allInstances()->includes(_problem_2)
+	then true
+	else false
+	endif)
+	else false
+	endif))
+
+#########################################
+

@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getLocation <em>Location</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getElement <em>Element</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getRecovery <em>Recovery</em>}</li>
  * </ul>
@@ -53,6 +54,26 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 	 * @ordered
 	 */
 	protected String location = LOCATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getFileLocation() <em>File Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFileLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String FILE_LOCATION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getFileLocation() <em>File Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFileLocation()
+	 * @generated
+	 * @ordered
+	 */
+	protected String fileLocation = FILE_LOCATION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getElement() <em>Element</em>}' reference.
@@ -112,6 +133,27 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		location = newLocation;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.LOCAL_PROBLEM__LOCATION, oldLocation, location));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFileLocation() {
+		return fileLocation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setFileLocation(String newFileLocation) {
+		String oldFileLocation = fileLocation;
+		fileLocation = newFileLocation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION, oldFileLocation, fileLocation));
 	}
 
 	/**
@@ -219,6 +261,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		switch (featureID) {
 			case AtlErrorPackage.LOCAL_PROBLEM__LOCATION:
 				return getLocation();
+			case AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION:
+				return getFileLocation();
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				if (resolve) return getElement();
 				return basicGetElement();
@@ -238,6 +282,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		switch (featureID) {
 			case AtlErrorPackage.LOCAL_PROBLEM__LOCATION:
 				setLocation((String)newValue);
+				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION:
+				setFileLocation((String)newValue);
 				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)newValue);
@@ -260,6 +307,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 			case AtlErrorPackage.LOCAL_PROBLEM__LOCATION:
 				setLocation(LOCATION_EDEFAULT);
 				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION:
+				setFileLocation(FILE_LOCATION_EDEFAULT);
+				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)null);
 				return;
@@ -280,6 +330,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		switch (featureID) {
 			case AtlErrorPackage.LOCAL_PROBLEM__LOCATION:
 				return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
+			case AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION:
+				return FILE_LOCATION_EDEFAULT == null ? fileLocation != null : !FILE_LOCATION_EDEFAULT.equals(fileLocation);
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				return element != null;
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
@@ -300,6 +352,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (location: ");
 		result.append(location);
+		result.append(", fileLocation: ");
+		result.append(fileLocation);
 		result.append(')');
 		return result.toString();
 	}

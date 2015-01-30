@@ -14,6 +14,7 @@ import anatlyzer.atl.analyser.generators.TransformationSlicer;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.ui.util.WorkbenchUtil;
 
 public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 
@@ -28,7 +29,7 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 			
 			String trafo = new TransformationSlicer(null).generateSlice(analysisData.getPath(), analysisData.getAnalyser());
 		
-			IFile f = getATLFile().getProject().getFile(getATLFile().getProjectRelativePath().removeFileExtension().addFileExtension("slice.atl"));
+			IFile f = WorkbenchUtil.getATLFile().getProject().getFile(WorkbenchUtil.getATLFile().getProjectRelativePath().removeFileExtension().addFileExtension("slice.atl"));
 			if ( f.exists() ) {
 				f.setContents(new ByteArrayInputStream(trafo.getBytes()), true, false, null);
 			} else {

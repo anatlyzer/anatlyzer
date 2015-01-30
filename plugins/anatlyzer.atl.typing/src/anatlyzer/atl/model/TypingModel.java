@@ -18,6 +18,7 @@ import anatlyzer.atl.analyser.namespaces.EnumNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.MapTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.OclTypeNamespace;
+import anatlyzer.atl.analyser.namespaces.OclUndefinedNamespace;
 import anatlyzer.atl.analyser.namespaces.PrimitiveGlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.TupleTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TypeErrorNamespace;
@@ -95,7 +96,9 @@ public class TypingModel {
 	}
 
 	public OclUndefinedType newOclUndefinedType() {
-		return add(TypesFactory.eINSTANCE.createOclUndefinedType());			
+		OclUndefinedType t = add(TypesFactory.eINSTANCE.createOclUndefinedType());			
+		t.setMetamodelRef(new OclUndefinedNamespace(t));
+		return t;
 	}
 
 	public Metaclass newMetaclassType(EClass c, boolean isExplicitOcurrence, IClassNamespace cspace) {
@@ -314,6 +317,12 @@ public class TypingModel {
 		if ( t1.getClass() != t2.getClass() ) 
 			return false;
 		
+		if ( t1 instanceof TypeError || t2 instanceof TypeError )
+			return true; 
+		// Returning true to try to minimize the "impact" in the sense
+		// of provoking less follow-up errors.
+		
+		
 		if ( t1 instanceof Metaclass ) {
 			return ( ((Metaclass) t1).getKlass().equals(((Metaclass) t2).getKlass()));
 		} else if ( t1 instanceof PrimitiveType ) {
@@ -375,7 +384,7 @@ public class TypingModel {
 		} else if ( (declaredType instanceof CollectionType) && (runtimeType instanceof CollectionType) ) {
 			CollectionType dcl = (CollectionType) declaredType;
 			CollectionType rtm = (CollectionType) runtimeType;
-			if ( rtm.getContainedType() instanceof Unknown ) return true; //
+			if ( rtm.getContainedType() instanceof EmptyCollectionType ) return true; //
 
 			return assignableTypes(dcl.getContainedType(), rtm.getContainedType());
 		} else if ( declaredType instanceof EnumType && runtimeType instanceof EnumType ) {
@@ -444,12 +453,32 @@ public class TypingModel {
 		return null;
 	}
 
+	/**
+	 * This function decides which type to use in a variable declaration,
+	 * trying to get the more concrete type.
+	 * 
+	 * @return
+	 */
+	public Type determineVariableType(Type declaredType, Type inferredType, boolean preferInferred) {
+		 if ( (declaredType instanceof CollectionType) && (inferredType instanceof CollectionType) ) {
+			CollectionType dcl = (CollectionType) declaredType;
+			CollectionType rtm = (CollectionType) inferredType;
+			if ( rtm.getContainedType() instanceof EmptyCollectionType ) return declaredType; 
+			
+			return inferredType;
+		}
+		 
+		if ( preferInferred )
+			return inferredType;
+		else
+			return declaredType;
+	}
 
 	public Type getCommonType(List<? extends Type> types) {
 		Type t1 = types.get(0);
 		for(int i = 1; i < types.size(); i++) {
 			Type t2 = types.get(0);
-			t1 = AnalyserContext.getTypingModel().getCommonType(t1, t2);
+			t1 = getCommonType(t1, t2);
 		}
 		return t1;
 	}
@@ -475,6 +504,7 @@ public class TypingModel {
 			} else if ( t instanceof PrimitiveType || t instanceof EnumType || t instanceof OclUndefinedType ) { 
 				// ignore
 			} else if ( t instanceof TypeError ) {
+			} else if ( t instanceof TupleType ) {
 			} else if ( t instanceof Unknown ) {
 				// System.err.println("TODO: OclAny in right part of the binding. Nothing done so far.");
 			} else if ( t instanceof EmptyCollectionType ) {
@@ -490,6 +520,7 @@ public class TypingModel {
 	private HashMap<OclExpression, Type> implicitlyCasted = new HashMap<OclExpression, Type>();
 	public void markImplicitlyCasted(OclExpression source, Type t) {
 		implicitlyCasted.put(source, t);
+		source.setImplicitlyCasted(true);
 	}
 
 	public Type getImplicitlyCasted(OclExpression expr) {

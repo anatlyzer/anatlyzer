@@ -445,6 +445,15 @@ public interface OCLFactory extends EFactory {
 	OclModel createOclModel();
 
 	/**
+	 * Returns a new object of class '<em>Resolve Temp Resolution</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resolve Temp Resolution</em>'.
+	 * @generated
+	 */
+	ResolveTempResolution createResolveTempResolution();
+
+	/**
 	 * Returns a new object of class '<em>Java Body</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

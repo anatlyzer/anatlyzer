@@ -75,8 +75,8 @@ public class UnresolvedTypeErrorNamespace extends TypeErrorNamespace implements 
 
 
 	@Override
-	public Collection<ClassNamespace> getAllSubclasses() {
-		return Collections.emptyList();
+	public Set<ClassNamespace> getAllSubclasses() {
+		return Collections.emptySet();
 	}
 
 	@Override

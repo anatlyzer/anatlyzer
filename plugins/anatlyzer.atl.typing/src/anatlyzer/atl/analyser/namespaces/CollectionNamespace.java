@@ -96,7 +96,11 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		}
 		
 		if ( operationName.equals("union") ) {
-			// TODO: Signal error if argument is not a collection
+			// TODO: This type checking should be done automatically (or at least check that there are few cases and it is worth doing it manually)
+			if ( ! (arguments[0] instanceof CollectionType) ) {
+				return AnalyserContext.getErrorModel().signalInvalidArgument("union", node);
+			}
+			
 			CollectionType ct = (CollectionType) arguments[0];
 			return newCollectionType(typ.getCommonType(this.nested, ct.getContainedType()));
 		}
@@ -148,7 +152,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 			return this.newCollectionType(bodyType);
 		} else if ( name.equals("sortedBy") ) {
 			return this.newCollectionType(nested);
-		} else if ( name.equals("exists") ||  name.equals("forAll") ) {
+		} else if ( name.equals("exists") || name.equals("one") ||  name.equals("forAll") ) {
 			return typ.newBooleanType();
 		}
 		throw new UnsupportedOperationException("Collection operation " + name + " not supported.");
@@ -168,10 +172,13 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 
 		
 		BooleanType b = (BooleanType) bodyType;
+		CollectionType normalType = this.newCollectionType(nested);
 		if ( b.getKindOfTypes().isEmpty() ) {
-			return this.newCollectionType(nested);
+			return normalType;
 		} else {
-			return this.newCollectionType( AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes() ) );
+			CollectionType implicitType = this.newCollectionType( AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes() ) );
+			implicitType.setNoCastedType(normalType);
+			return implicitType;
 		}
 	}
 
@@ -218,7 +225,12 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported");
+		if ( operatorSymbol.equals("=") ) {
+			return typ.newBooleanType();
+		} else if ( operatorSymbol.equals("<>") ) {
+			return typ.newBooleanType();
+		}
+		throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported. Location: " + node.getLocation());
 	}
 
 	@Override

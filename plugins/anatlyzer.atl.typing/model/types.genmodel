@@ -10,6 +10,7 @@
     <genClasses image="false" ecoreClass="types.ecore#//Type">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Type/multivalued"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute types.ecore#//Type/metamodelRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//Type/noCastedType"/>
     </genClasses>
     <genClasses ecoreClass="types.ecore#//OclUndefinedType"/>
     <genClasses image="false" ecoreClass="types.ecore#//PrimitiveType"/>

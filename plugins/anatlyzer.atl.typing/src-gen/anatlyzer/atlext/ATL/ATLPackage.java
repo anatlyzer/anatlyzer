@@ -96,13 +96,31 @@ public interface ATLPackage extends EPackage {
 	int LOCATED_ELEMENT__COMMENTS_AFTER = 2;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATED_ELEMENT__FILE_LOCATION = 3;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATED_ELEMENT__FILE_OBJECT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Located Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCATED_ELEMENT_FEATURE_COUNT = 3;
+	int LOCATED_ELEMENT_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Located Element</em>' class.
@@ -149,6 +167,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNIT__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -222,6 +258,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LIBRARY__COMMENTS_AFTER = UNIT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__FILE_LOCATION = UNIT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__FILE_OBJECT = UNIT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -304,6 +358,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int QUERY__COMMENTS_AFTER = UNIT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__FILE_LOCATION = UNIT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__FILE_OBJECT = UNIT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -395,6 +467,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODULE__COMMENTS_AFTER = UNIT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__FILE_LOCATION = UNIT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__FILE_OBJECT = UNIT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -506,6 +596,24 @@ public interface ATLPackage extends EPackage {
 	int MODULE_ELEMENT__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_ELEMENT__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_ELEMENT__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The number of structural features of the '<em>Module Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -559,6 +667,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int HELPER__COMMENTS_AFTER = MODULE_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HELPER__FILE_LOCATION = MODULE_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HELPER__FILE_OBJECT = MODULE_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
@@ -697,6 +823,24 @@ public interface ATLPackage extends EPackage {
 	int STATIC_HELPER__COMMENTS_AFTER = HELPER__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_HELPER__FILE_LOCATION = HELPER__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_HELPER__FILE_OBJECT = HELPER__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -831,6 +975,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTEXT_HELPER__COMMENTS_AFTER = HELPER__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTEXT_HELPER__FILE_LOCATION = HELPER__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTEXT_HELPER__FILE_OBJECT = HELPER__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
@@ -985,6 +1147,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE__COMMENTS_AFTER = MODULE_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__FILE_LOCATION = MODULE_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__FILE_OBJECT = MODULE_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -1188,13 +1368,31 @@ public interface ATLPackage extends EPackage {
 	int STATIC_RULE__COMMENTS_AFTER = MODULE_CALLABLE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_RULE__FILE_LOCATION = MODULE_CALLABLE_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_RULE__FILE_OBJECT = MODULE_CALLABLE_FEATURE_COUNT + 4;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__OUT_PATTERN = MODULE_CALLABLE_FEATURE_COUNT + 3;
+	int STATIC_RULE__OUT_PATTERN = MODULE_CALLABLE_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Action Block</b></em>' containment reference.
@@ -1203,7 +1401,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__ACTION_BLOCK = MODULE_CALLABLE_FEATURE_COUNT + 4;
+	int STATIC_RULE__ACTION_BLOCK = MODULE_CALLABLE_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Variables</b></em>' containment reference list.
@@ -1212,7 +1410,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__VARIABLES = MODULE_CALLABLE_FEATURE_COUNT + 5;
+	int STATIC_RULE__VARIABLES = MODULE_CALLABLE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1221,7 +1419,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__NAME = MODULE_CALLABLE_FEATURE_COUNT + 6;
+	int STATIC_RULE__NAME = MODULE_CALLABLE_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Static Rule</em>' class.
@@ -1230,7 +1428,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE_FEATURE_COUNT = MODULE_CALLABLE_FEATURE_COUNT + 7;
+	int STATIC_RULE_FEATURE_COUNT = MODULE_CALLABLE_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Static Rule</em>' class.
@@ -1277,6 +1475,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_WITH_PATTERN__COMMENTS_AFTER = RULE__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_WITH_PATTERN__FILE_LOCATION = RULE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_WITH_PATTERN__FILE_OBJECT = RULE__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -1424,6 +1640,24 @@ public interface ATLPackage extends EPackage {
 	int MATCHED_RULE__COMMENTS_AFTER = RULE_WITH_PATTERN__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE__FILE_LOCATION = RULE_WITH_PATTERN__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE__FILE_OBJECT = RULE_WITH_PATTERN__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1567,6 +1801,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LAZY_RULE__COMMENTS_AFTER = RULE_WITH_PATTERN__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE__FILE_LOCATION = RULE_WITH_PATTERN__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE__FILE_OBJECT = RULE_WITH_PATTERN__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -1759,6 +2011,24 @@ public interface ATLPackage extends EPackage {
 	int CALLED_RULE__COMMENTS_AFTER = STATIC_RULE__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALLED_RULE__FILE_LOCATION = STATIC_RULE__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALLED_RULE__FILE_OBJECT = STATIC_RULE__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1877,6 +2147,24 @@ public interface ATLPackage extends EPackage {
 	int IN_PATTERN__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1950,6 +2238,24 @@ public interface ATLPackage extends EPackage {
 	int OUT_PATTERN__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Rule</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2021,6 +2327,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PATTERN_ELEMENT__COMMENTS_AFTER = OCLPackage.VARIABLE_DECLARATION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_ELEMENT__FILE_LOCATION = OCLPackage.VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_ELEMENT__FILE_OBJECT = OCLPackage.VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2157,6 +2481,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IN_PATTERN_ELEMENT__COMMENTS_AFTER = PATTERN_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN_ELEMENT__FILE_LOCATION = PATTERN_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN_ELEMENT__FILE_OBJECT = PATTERN_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2322,6 +2664,24 @@ public interface ATLPackage extends EPackage {
 	int SIMPLE_IN_PATTERN_ELEMENT__COMMENTS_AFTER = IN_PATTERN_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_IN_PATTERN_ELEMENT__FILE_LOCATION = IN_PATTERN_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_IN_PATTERN_ELEMENT__FILE_OBJECT = IN_PATTERN_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2483,6 +2843,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OUT_PATTERN_ELEMENT__COMMENTS_AFTER = PATTERN_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN_ELEMENT__FILE_LOCATION = PATTERN_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN_ELEMENT__FILE_OBJECT = PATTERN_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2655,6 +3033,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMPLE_OUT_PATTERN_ELEMENT__COMMENTS_AFTER = OUT_PATTERN_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_OUT_PATTERN_ELEMENT__FILE_LOCATION = OUT_PATTERN_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_OUT_PATTERN_ELEMENT__FILE_OBJECT = OUT_PATTERN_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2836,6 +3232,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int FOR_EACH_OUT_PATTERN_ELEMENT__COMMENTS_AFTER = OUT_PATTERN_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH_OUT_PATTERN_ELEMENT__FILE_LOCATION = OUT_PATTERN_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH_OUT_PATTERN_ELEMENT__FILE_OBJECT = OUT_PATTERN_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3028,6 +3442,24 @@ public interface ATLPackage extends EPackage {
 	int BINDING__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3135,6 +3567,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_VARIABLE_DECLARATION__COMMENTS_AFTER = OCLPackage.VARIABLE_DECLARATION__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_VARIABLE_DECLARATION__FILE_LOCATION = OCLPackage.VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_VARIABLE_DECLARATION__FILE_OBJECT = OCLPackage.VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3282,6 +3732,24 @@ public interface ATLPackage extends EPackage {
 	int LIBRARY_REF__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY_REF__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY_REF__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3353,6 +3821,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTION_BLOCK__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_BLOCK__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_BLOCK__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' container reference.
@@ -3428,6 +3914,24 @@ public interface ATLPackage extends EPackage {
 	int STATEMENT__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
 	 * The number of structural features of the '<em>Statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3481,6 +3985,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int EXPRESSION_STAT__COMMENTS_AFTER = STATEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_STAT__FILE_LOCATION = STATEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_STAT__FILE_OBJECT = STATEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -3545,6 +4067,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_STAT__COMMENTS_AFTER = STATEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_STAT__FILE_LOCATION = STATEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_STAT__FILE_OBJECT = STATEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -3638,6 +4178,24 @@ public interface ATLPackage extends EPackage {
 	int IF_STAT__COMMENTS_AFTER = STATEMENT__COMMENTS_AFTER;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_STAT__FILE_LOCATION = STATEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_STAT__FILE_OBJECT = STATEMENT__FILE_OBJECT;
+
+	/**
 	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3718,6 +4276,24 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int FOR_STAT__COMMENTS_AFTER = STATEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_STAT__FILE_LOCATION = STATEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_STAT__FILE_OBJECT = STATEMENT__FILE_OBJECT;
 
 	/**
 	 * The feature id for the '<em><b>Iterator</b></em>' containment reference.
@@ -3908,6 +4484,28 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLocatedElement_CommentsAfter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atlext.ATL.LocatedElement#getFileLocation <em>File Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Location</em>'.
+	 * @see anatlyzer.atlext.ATL.LocatedElement#getFileLocation()
+	 * @see #getLocatedElement()
+	 * @generated
+	 */
+	EAttribute getLocatedElement_FileLocation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atlext.ATL.LocatedElement#getFileObject <em>File Object</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Object</em>'.
+	 * @see anatlyzer.atlext.ATL.LocatedElement#getFileObject()
+	 * @see #getLocatedElement()
+	 * @generated
+	 */
+	EAttribute getLocatedElement_FileObject();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.ATL.Unit <em>Unit</em>}'.
@@ -5140,6 +5738,22 @@ public interface ATLPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LOCATED_ELEMENT__COMMENTS_AFTER = eINSTANCE.getLocatedElement_CommentsAfter();
+
+		/**
+		 * The meta object literal for the '<em><b>File Location</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LOCATED_ELEMENT__FILE_LOCATION = eINSTANCE.getLocatedElement_FileLocation();
+
+		/**
+		 * The meta object literal for the '<em><b>File Object</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LOCATED_ELEMENT__FILE_OBJECT = eINSTANCE.getLocatedElement_FileObject();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.UnitImpl <em>Unit</em>}' class.

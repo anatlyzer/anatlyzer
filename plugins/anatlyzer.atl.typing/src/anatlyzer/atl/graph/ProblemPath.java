@@ -4,9 +4,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.generators.CSPGenerator;
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atlext.OCL.OclExpression;
 
-public class ProblemPath {
+public class ProblemPath implements IDetectedProblem {
 	public LinkedList<ExecutionNode> rules = new LinkedList<ExecutionNode>();
 	private LocalProblem problem;
 	private ProblemNode errorNode;
@@ -35,6 +39,20 @@ public class ProblemPath {
 
 	public List<? extends ExecutionNode> getExecutionNodes() {
 		return rules;
+	}
+	
+	//
+	// IDetectedProblem methods
+	//
+	
+	@Override
+	public ErrorSlice getErrorSlice() {
+		return this.errorNode.getErrorSlice();
+	}
+
+	@Override
+	public OclExpression getWitnessCondition() {
+		return CSPGenerator.generateCSPCondition(this);
 	}
 
 	

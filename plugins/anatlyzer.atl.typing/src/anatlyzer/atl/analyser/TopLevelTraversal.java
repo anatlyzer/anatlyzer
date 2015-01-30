@@ -6,6 +6,7 @@ import java.util.List;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
@@ -70,7 +71,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inBinding(Binding self) {
 		Metaclass targetVar = (Metaclass) attr.typeOf( self.getOutPatternElement().getType() );
-		ClassNamespace ns = (ClassNamespace) targetVar.getMetamodelRef();
+		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		
 		Type t = null;
 		if ( ! ns.hasFeature(self.getPropertyName()) ) {
@@ -211,11 +212,15 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			}
 		}
 		
-		throw new IllegalArgumentException("Cannot find rule " + operationName);
+		return errors().signalNoThisModuleOperation(operationName, node);
 	}
 
 	@Override
 	public void inLazyRule(LazyRule self) {
+		// Abstract lazy rules cannot be called, so they are not added to the transformation namespace
+		if ( self.isIsAbstract() ) 
+			return;
+		
 		Type t = attr.typeOf(self.getOutPattern().getElements().get(0).getType()); 
 		mm.getTransformationNamespace().attachRule(self.getName(), t, self);
 	}
@@ -230,7 +235,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		
 		Type t = attr.typeOf(self.getOutPattern().getElements().get(0).getType()); 
 		
-		ClassNamespace ns = (ClassNamespace) m.getMetamodelRef();
+		IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();
 		// System.out.println("TopLevelTraversal.inMatchedRule(): " + self.getName());
 		ns.attachRule(self.getName(), t, self);
 	}

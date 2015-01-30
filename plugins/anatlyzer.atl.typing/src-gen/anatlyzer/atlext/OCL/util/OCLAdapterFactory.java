@@ -298,6 +298,10 @@ public class OCLAdapterFactory extends AdapterFactoryImpl {
 				return createTypedElementAdapter();
 			}
 			@Override
+			public Adapter caseResolveTempResolution(ResolveTempResolution object) {
+				return createResolveTempResolutionAdapter();
+			}
+			@Override
 			public Adapter caseJavaBody(JavaBody object) {
 				return createJavaBodyAdapter();
 			}
@@ -1124,6 +1128,20 @@ public class OCLAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTypedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atlext.OCL.ResolveTempResolution <em>Resolve Temp Resolution</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atlext.OCL.ResolveTempResolution
+	 * @generated
+	 */
+	public Adapter createResolveTempResolutionAdapter() {
 		return null;
 	}
 

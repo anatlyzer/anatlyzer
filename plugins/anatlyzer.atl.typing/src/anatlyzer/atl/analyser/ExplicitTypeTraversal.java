@@ -22,6 +22,7 @@ import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OrderedSetType;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.RealType;
@@ -111,37 +112,39 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 
 		
 		// TODO: Reading target model: Not sure if this may catch false cases
-		Module m = (Module) root;
-		int numTargets = 0;
-		for(OclModel outModel : m.getOutModels()) {
-			if ( outModel.getMetamodel().getName().equals(metamodel.getName()) ) {
-				numTargets++;
+		if ( root instanceof Module ) {
+			Module m = (Module) root;
+			int numTargets = 0;
+			for(OclModel outModel : m.getOutModels()) {
+				if ( outModel.getMetamodel().getName().equals(metamodel.getName()) ) {
+					numTargets++;
+				}
 			}
-		}
 		
-		boolean isTarget = numTargets > 0;
-		if ( isTarget && self.eContainer() instanceof OclExpression ) {
-			// Check it is not in a do block, typically invoking a newInstance
-			//  	&& ! (self.container_() instanceof CalledRule)
-			EObject parent = self.eContainer();
-			while ( !(parent instanceof ModuleElement) ) {
-				// It is a do block?
-				if ( parent instanceof Statement ) {
-					return;
+			boolean isTarget = numTargets > 0;
+			if ( isTarget && self.eContainer() instanceof OclExpression ) {
+				// Check it is not in a do block, typically invoking a newInstance
+				//  	&& ! (self.container_() instanceof CalledRule)
+				EObject parent = self.eContainer();
+				while ( !(parent instanceof ModuleElement) ) {
+					// It is a do block?
+					if ( parent instanceof Statement ) {
+						return;
+					}
+					// Check it is in the parameters of a called rule
+					if ( parent instanceof Parameter && parent.eContainer() instanceof CalledRule ) {
+						return;
+					}
+					parent = parent.eContainer();
 				}
-				// Check it is in the parameters of a called rule
-				if ( parent instanceof Parameter && parent.eContainer() instanceof CalledRule ) {
-					return;
-				}
-				parent = parent.eContainer();
+				
+				
+				errors().signalReadingTargetModel(self);
 			}
 			
-			
-			errors().signalReadingTargetModel(self);
-		}
-		
-		if ( numTargets > 1 && metamodel.getModel().size() == 0 ) {
-			errors().signalAmbiguousTargetModelReference(self);
+			if ( numTargets > 1 && metamodel.getModel().size() == 0 ) {
+				errors().signalAmbiguousTargetModelReference(self);
+			}
 		}
 		
 		// I think there are ambiguous cases if the same meta-model
@@ -172,6 +175,11 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inRealType(RealType self) {
 		attr.linkExprType(typ().newFloatType());
+	}
+	
+	@Override
+	public void inOclType(OclType self) {
+		attr.linkExprType(typ().newOclType());
 	}
 	
 	//
@@ -219,4 +227,6 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 	public void inOclAnyType(OclAnyType self) {
 		attr.linkExprType(typ().newUnknownType());
 	}
+	
+
 }

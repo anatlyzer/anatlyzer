@@ -2,6 +2,8 @@
  */
 package anatlyzer.atl.errors.atl_error;
 
+import anatlyzer.atl.types.Type;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -12,6 +14,7 @@ package anatlyzer.atl.errors.atl_error;
  * The following features are supported:
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getFeatureName <em>Feature Name</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getClassName <em>Class Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
@@ -47,6 +50,32 @@ public interface FeatureNotFound extends NavigationProblem {
 	 * @generated
 	 */
 	void setFeatureName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(Type)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFeatureNotFound_Type()
+	 * @model required="true"
+	 * @generated
+	 */
+	Type getType();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getType <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(Type value);
 
 	/**
 	 * Returns the value of the '<em><b>Class Name</b></em>' attribute.

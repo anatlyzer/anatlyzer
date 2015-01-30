@@ -28,6 +28,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="LocalProblem" abstract="true" eSuperTypes="#//Problem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="location" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="recovery" eType="#//Recovery"
@@ -48,6 +49,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFound" eSuperTypes="#//atl_error/NavigationProblem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Type"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
@@ -171,6 +174,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iteratorName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OclCompliance" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IncoherentVariableDeclaration" eSuperTypes="#//atl_error/LocalProblem #//atl_error/OclCompliance"/>
   </eSubpackages>
   <eSubpackages name="atl_recovery" nsURI="http://bento/analysis/atl/analysis/recovery"
       nsPrefix="atl_recovery">

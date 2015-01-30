@@ -91,7 +91,7 @@ public class EcoreTypeConverter {
 				    c.getName().equals("UnlimitedNatural") ||
 				    c.getName().endsWith("Long") ) {
 			return typ.newIntegerType();
-		} else if ( c.getName().contains("Double") || c.getName().contains("Float")) {
+		} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real")) {
 			return typ.newFloatType();
 		}
 		throw new UnsupportedOperationException(getClass().getSimpleName() + ":" + "Type [" + c.getName() + "] not supported");

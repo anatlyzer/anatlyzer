@@ -16,6 +16,7 @@ import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.Unit;
 
 public class IgnoredProblems {
 	public static HashMap<String, Set<String>> categories = new HashMap<String, Set<String>>();
@@ -55,8 +56,8 @@ public class IgnoredProblems {
 	
 	public static List<Problem> getNonIgnoredProblems(Analyser analyser) {
 		ArrayList<Problem> result = new ArrayList<Problem>( analyser.getErrors().getAnalysis().getProblems() );
-		Module module = analyser.getATLModel().allObjectsOf(Module.class).get(0);
-		List<String> ignored = findIgnoredProblems(module);
+		Unit unit = analyser.getATLModel().getRoot();
+		List<String> ignored = findIgnoredProblems(unit);
 		
 		for (String ignoredCategory : ignored) {
 			Set<String> problemNames = categories.get(ignoredCategory);
@@ -76,9 +77,9 @@ public class IgnoredProblems {
 	}
 
 	private static final String DISABLE = "@disable";
-	private static List<String> findIgnoredProblems(Module module) {
+	private static List<String> findIgnoredProblems(Unit unit) {
 		List<String> result = new ArrayList<String>();
-		for (String str : module.getCommentsBefore()) {
+		for (String str : unit.getCommentsBefore()) {
 			String line = str.replaceAll("--", "").trim();
 			int index   = line.indexOf(DISABLE);
 			if ( index != -1 ) {

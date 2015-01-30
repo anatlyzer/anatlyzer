@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getLocation <em>Location</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getElement <em>Element</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getRecovery <em>Recovery</em>}</li>
  * </ul>
@@ -51,6 +52,32 @@ public interface LocalProblem extends Problem {
 	 * @generated
 	 */
 	void setLocation(String value);
+
+	/**
+	 * Returns the value of the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>File Location</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>File Location</em>' attribute.
+	 * @see #setFileLocation(String)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getLocalProblem_FileLocation()
+	 * @model
+	 * @generated
+	 */
+	String getFileLocation();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation <em>File Location</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>File Location</em>' attribute.
+	 * @see #getFileLocation()
+	 * @generated
+	 */
+	void setFileLocation(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Element</b></em>' reference.

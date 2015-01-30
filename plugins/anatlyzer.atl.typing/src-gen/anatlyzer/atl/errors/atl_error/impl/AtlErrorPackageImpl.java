@@ -22,6 +22,7 @@ import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
@@ -35,6 +36,7 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.OclCompliance;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
@@ -336,6 +338,20 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	private EClass iteratorOverNoCollectionTypeEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass oclComplianceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass incoherentVariableDeclarationEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -433,8 +449,17 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLocalProblem_FileLocation() {
+		return (EAttribute)localProblemEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getLocalProblem_Element() {
-		return (EReference)localProblemEClass.getEStructuralFeatures().get(1);
+		return (EReference)localProblemEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -443,7 +468,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	public EReference getLocalProblem_Recovery() {
-		return (EReference)localProblemEClass.getEStructuralFeatures().get(2);
+		return (EReference)localProblemEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -523,8 +548,17 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFeatureNotFound_Type() {
+		return (EReference)featureNotFoundEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getFeatureNotFound_ClassName() {
-		return (EAttribute)featureNotFoundEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)featureNotFoundEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -533,7 +567,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	public EAttribute getFeatureNotFound_MetamodelName() {
-		return (EAttribute)featureNotFoundEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)featureNotFoundEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -1126,6 +1160,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getOclCompliance() {
+		return oclComplianceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIncoherentVariableDeclaration() {
+		return incoherentVariableDeclarationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1151,6 +1203,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		// Create classes and their features
 		localProblemEClass = createEClass(LOCAL_PROBLEM);
 		createEAttribute(localProblemEClass, LOCAL_PROBLEM__LOCATION);
+		createEAttribute(localProblemEClass, LOCAL_PROBLEM__FILE_LOCATION);
 		createEReference(localProblemEClass, LOCAL_PROBLEM__ELEMENT);
 		createEReference(localProblemEClass, LOCAL_PROBLEM__RECOVERY);
 
@@ -1167,6 +1220,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		featureNotFoundEClass = createEClass(FEATURE_NOT_FOUND);
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__FEATURE_NAME);
+		createEReference(featureNotFoundEClass, FEATURE_NOT_FOUND__TYPE);
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__CLASS_NAME);
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__METAMODEL_NAME);
 
@@ -1265,6 +1319,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		iteratorOverNoCollectionTypeEClass = createEClass(ITERATOR_OVER_NO_COLLECTION_TYPE);
 		createEAttribute(iteratorOverNoCollectionTypeEClass, ITERATOR_OVER_NO_COLLECTION_TYPE__ITERATOR_NAME);
+
+		oclComplianceEClass = createEClass(OCL_COMPLIANCE);
+
+		incoherentVariableDeclarationEClass = createEClass(INCOHERENT_VARIABLE_DECLARATION);
 	}
 
 	/**
@@ -1339,10 +1397,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		invalidArgumentEClass.getESuperTypes().add(this.getLocalProblem());
 		collectionOperationNotFoundEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverNoCollectionTypeEClass.getESuperTypes().add(this.getLocalProblem());
+		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getLocalProblem());
+		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getOclCompliance());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLocalProblem_Location(), ecorePackage.getEString(), "location", null, 1, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLocalProblem_FileLocation(), ecorePackage.getEString(), "fileLocation", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocalProblem_Element(), ecorePackage.getEObject(), null, "element", null, 1, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocalProblem_Recovery(), theAnalysisResultPackage.getRecovery(), null, "recovery", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1359,6 +1420,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(featureNotFoundEClass, FeatureNotFound.class, "FeatureNotFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeatureNotFound_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureNotFound_Type(), theTypesPackage.getType(), null, "type", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFeatureNotFound_ClassName(), ecorePackage.getEString(), "className", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFeatureNotFound_MetamodelName(), ecorePackage.getEString(), "metamodelName", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1457,6 +1519,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(iteratorOverNoCollectionTypeEClass, IteratorOverNoCollectionType.class, "IteratorOverNoCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIteratorOverNoCollectionType_IteratorName(), ecorePackage.getEString(), "iteratorName", null, 1, 1, IteratorOverNoCollectionType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(oclComplianceEClass, OclCompliance.class, "OclCompliance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(incoherentVariableDeclarationEClass, IncoherentVariableDeclaration.class, "IncoherentVariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}
 
 } //AtlErrorPackageImpl

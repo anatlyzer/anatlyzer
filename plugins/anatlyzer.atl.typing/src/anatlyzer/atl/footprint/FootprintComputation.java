@@ -24,7 +24,6 @@ import anatlyzer.footprint.CallSite;
  */
 
 public abstract class FootprintComputation {
-	protected String slicedURI;
 	protected MetamodelNamespace mm;
 
 	protected HashSet<EClass> directUsedTypes   = new HashSet<EClass>();
@@ -36,10 +35,9 @@ public abstract class FootprintComputation {
 	protected HashSet<CallSite> callSites = new HashSet<CallSite>();
 	protected ATLModel	atlModel;
 
-	public FootprintComputation(ATLModel atlModel, MetamodelNamespace mm, String slicedURI) {
+	public FootprintComputation(ATLModel atlModel, MetamodelNamespace mm) {
 		// this.atlTransformation = atlTransformation;
 		this.mm = mm;
-		this.slicedURI = slicedURI;
 		this.atlModel = atlModel;
 	}
 	
@@ -52,7 +50,7 @@ public abstract class FootprintComputation {
 		// Compute direct used types
 		List<Metaclass> metaclasses = atlModel.allObjectsOf(Metaclass.class);
 		for (Metaclass m : metaclasses) {
-			if ( m.isExplicitOcurrence() && mm.hasClass(m.getKlass()) ) {
+			if ( m.isExplicitOcurrence() && classInMM(m.getKlass()) ) {
 				directUsedTypes.add(m.getKlass());
 			} else {
 				// System.out.println("Not ancestor");
@@ -62,7 +60,7 @@ public abstract class FootprintComputation {
 		// Compute indirect used types
 		
 		for (PropertyCallExp pcall : atlModel.allObjectsOf(PropertyCallExp.class)) {
-			if ( pcall.getUsedFeature() != null && mm.hasClass(((EStructuralFeature) pcall.getUsedFeature()).getEContainingClass()) ) {
+			if ( pcall.getUsedFeature() != null && classInMM(((EStructuralFeature) pcall.getUsedFeature()).getEContainingClass()) ) {
 
 				EStructuralFeature f = (EStructuralFeature) pcall.getUsedFeature();
 				if ( f instanceof EReference ) {
@@ -86,6 +84,16 @@ public abstract class FootprintComputation {
 		}		
 	}
 	
+
+	/**
+	 * If not meta-model is given, all classes are selected.
+	 * @param klass
+	 * @return
+	 */
+	private boolean classInMM(EClass klass) {
+		return mm == null || mm.hasClass(klass);
+	}
+
 
 	public HashSet<EStructuralFeature> getUsedFeatures() {
 		HashSet<EStructuralFeature> s = new HashSet<EStructuralFeature>();

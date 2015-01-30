@@ -25,12 +25,10 @@ public class CSPModel {
 
 	private ATLModel atlModel;
 	private OclGeneratorAST generator;
-	private Analyser analyser;
 
-	public CSPModel(Analyser analyser) {
+	public CSPModel() {
 		atlModel = new ATLModel();
 		generator = new OclGeneratorAST(atlModel);
-		this.analyser = analyser;
 	}
 	
 
@@ -61,7 +59,8 @@ public class CSPModel {
 		String iteratorVarName = "i" + genId();
 		IteratorExp iterator = OCLFactory.eINSTANCE.createIteratorExp();
 		iterator.setName(iteratorName);
-		iterator.setSource(source);
+		if ( source != null )
+			iterator.setSource(source);
 		Iterator it = OCLFactory.eINSTANCE.createIterator();
 		it.setVarName(iteratorVarName);
 		iterator.getIterators().add(it);

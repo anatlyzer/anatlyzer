@@ -17,6 +17,7 @@ public class StringTypeDef extends AtlTypeDef {
 		operation("toLower").returnType(AtlTypes.string());
 		operation("toUpper").returnType(AtlTypes.string());
 		operation("concat").returnType(AtlTypes.string());
+		operation("trim").returnType(AtlTypes.string());
 
 		operation("regexReplaceAll").returnType(AtlTypes.string());
 

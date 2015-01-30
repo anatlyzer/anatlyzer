@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -165,7 +166,31 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 		return type.eResource().equals(resource);
 	}
 
-	public Collection<ClassNamespace> getAllSubclasses(EClass eClass) {
+	/**
+	 * TODO: Consider subclass that may belong to different packages, and store the collection avoiding recomputation
+	 * @param eClass
+	 * @return
+	 */
+	public Set<ClassNamespace> getAllSubclasses(EClass eClass) {
+		LinkedList<ClassNamespace> toBeChecked = new LinkedList<ClassNamespace>();
+		HashSet<ClassNamespace> result = new HashSet<ClassNamespace>();
+		
+		result.addAll( getDirectSubclasses(eClass) );
+		toBeChecked.addAll( result );
+		
+		while ( ! toBeChecked.isEmpty() ) {
+			ClassNamespace cn = toBeChecked.removeFirst();
+			Collection<ClassNamespace> subclasses = cn.getDirectSubclasses();
+			for (ClassNamespace classNamespace : subclasses) {
+				if ( ! result.contains(classNamespace) ) {
+					result.add(classNamespace);
+					toBeChecked.add(classNamespace);
+				}
+			}
+		}
+
+		return result;
+		/*
 		ArrayList<ClassNamespace> result = new ArrayList<ClassNamespace>();
 		for (EClass klass : allClasses) {
 			if ( klass.getEAllSuperTypes().contains(eClass) ) {
@@ -173,17 +198,12 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 			}
 		}
 		return result;
+		*/
 	}
 
 	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass) {
-		ArrayList<ClassNamespace> result = new ArrayList<ClassNamespace>();
-		for (EClass klass : allClasses) {
-			if ( klass.getESuperTypes().contains(eClass) ) {
-				result.add((ClassNamespace) classifiers.get(klass.getName()));
-			}
-		}
-		return result;
+		return AnalyserContext.getGlobalNamespace().getDirectSubclasses(eClass);		
 	}
-
+	
 
 }

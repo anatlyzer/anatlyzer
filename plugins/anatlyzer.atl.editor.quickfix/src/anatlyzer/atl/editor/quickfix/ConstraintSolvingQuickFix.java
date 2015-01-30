@@ -12,9 +12,13 @@ import org.eclipse.swt.graphics.Point;
 
 import witness.generator.WitnessGeneratorMemory;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.ui.util.WorkbenchUtil;
 import anatlyzer.ui.util.WorkspaceLogger;
 
 public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
@@ -32,13 +36,19 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 			EPackage effective  = analysisData.generateEffectiveMetamodel(problem);
 			EPackage language   = analysisData.getSourceMetamodel();
 			
-			String projectPath = getProjectPath();
+			String projectPath = WorkbenchUtil.getProjectPath();
 			
-			String constraint = new CSPGenerator(null).generateCSP(analysisData.getPath(), analysisData.getAnalyser());
+			OclExpression constraint = new CSPGenerator(null).generateCSPCondition(analysisData.getPath());
+			if ( constraint == null ) {
+				MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
+				return;
+			}
+			
+			String strConstraint     = USESerializer.retypeAndGenerate(analysisData.getAnalyser().getNamespaces(), constraint);
 			
 			System.out.println("Quickfix: " + constraint);
 			
-			WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraint);
+			WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, strConstraint);
 			generator.setTempDirectoryPath(projectPath);
 			try {
 				if ( ! generator.generate() ) {

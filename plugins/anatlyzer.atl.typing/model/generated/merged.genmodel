@@ -13,6 +13,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/location"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/commentsBefore"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/commentsAfter"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/fileLocation"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/fileObject"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//ATL/Unit">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Unit/libraries"/>
@@ -183,6 +185,7 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/owningOperation"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/ifExp1"/>
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//OCL/OclExpression/owningAttribute"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/OclExpression/implicitlyCasted"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//OCL/VariableExp">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -246,6 +249,7 @@
       <genClasses ecoreClass="merged.ecore#//OCL/OperationCallExp">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OperationCallExp/arguments"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/OperationCallExp/operationName"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//OCL/OperationCallExp/resolveTempResolvedBy"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//OCL/OperatorCallExp"/>
       <genClasses ecoreClass="merged.ecore#//OCL/CollectionOperationCallExp"/>
@@ -360,6 +364,12 @@
       <genClasses image="false" ecoreClass="merged.ecore#//OCL/TypedElement">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//OCL/TypedElement/inferredType"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//OCL/ResolveTempResolution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/ResolveTempResolution/rule"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/ResolveTempResolution/element"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//OCL/JavaBody"/>
       <genClasses ecoreClass="merged.ecore#//OCL/GetAppliedStereotypesBody"/>

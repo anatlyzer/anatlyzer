@@ -114,13 +114,22 @@ public interface AtlErrorPackage extends EPackage {
 	int LOCAL_PROBLEM__LOCATION = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCAL_PROBLEM__FILE_LOCATION = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM__ELEMENT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
+	int LOCAL_PROBLEM__ELEMENT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -129,7 +138,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM__RECOVERY = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 2;
+	int LOCAL_PROBLEM__RECOVERY = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Local Problem</em>' class.
@@ -138,7 +147,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 3;
+	int LOCAL_PROBLEM_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Local Problem</em>' class.
@@ -203,6 +212,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -296,6 +314,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -385,6 +412,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int TARGET_MODEL_CONFORMANCE_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGET_MODEL_CONFORMANCE_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -478,6 +514,15 @@ public interface AtlErrorPackage extends EPackage {
 	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -567,6 +612,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_ACCESS_IN_COLLECTION__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -669,6 +723,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -696,13 +759,22 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND__FEATURE_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND__TYPE = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_NOT_FOUND__CLASS_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
+	int FEATURE_NOT_FOUND__CLASS_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
@@ -711,7 +783,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_NOT_FOUND__METAMODEL_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 2;
+	int FEATURE_NOT_FOUND__METAMODEL_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Feature Not Found</em>' class.
@@ -720,7 +792,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_NOT_FOUND_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 3;
+	int FEATURE_NOT_FOUND_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>Feature Not Found</em>' class.
@@ -785,6 +857,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_NOT_FOUND__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -914,6 +995,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND_IN_THIS_MODULE__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1023,6 +1113,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1121,6 +1220,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_NOT_FOUND_IN_UNION_TYPE__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1223,6 +1331,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_OPERAND__LOCATION = INVALID_ARGUMENT_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__FILE_LOCATION = INVALID_ARGUMENT_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1321,6 +1438,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1432,6 +1558,15 @@ public interface AtlErrorPackage extends EPackage {
 	int DIFFERENT_BRANCH_TYPES__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENT_BRANCH_TYPES__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1539,6 +1674,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1650,6 +1794,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1739,6 +1892,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_BINDING_FOR_COMPULSORY_FEATURE__LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__FILE_LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1848,6 +2010,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -2014,6 +2185,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITHOUT_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2150,6 +2330,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2284,6 +2473,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_POSSIBLY_UNRESOLVED__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -2513,6 +2711,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_WITHOUT_RULE__LOCATION = RESOLVE_TEMP_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_WITHOUT_RULE__FILE_LOCATION = RESOLVE_TEMP_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2611,6 +2818,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__LOCATION = RESOLVE_TEMP_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__FILE_LOCATION = RESOLVE_TEMP_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -2722,6 +2938,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FLATTEN_OVER_NON_NESTED_COLLECTION__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLATTEN_OVER_NON_NESTED_COLLECTION__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2813,6 +3038,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_EMPTY_SEQUENCE__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_EMPTY_SEQUENCE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2902,6 +3136,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int READING_TARGET_MODEL__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READING_TARGET_MODEL__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -3004,6 +3247,15 @@ public interface AtlErrorPackage extends EPackage {
 	int AMBIGUOUS_TARGET_MODEL_REFERENCE__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3102,6 +3354,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_MODEL_FOUND__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_MODEL_FOUND__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -3204,6 +3465,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRONG_TYPE__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRONG_TYPE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3293,6 +3563,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATOR_BODY_WRONG_TYPE__LOCATION = WRONG_TYPE__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_BODY_WRONG_TYPE__FILE_LOCATION = WRONG_TYPE__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -3386,6 +3665,15 @@ public interface AtlErrorPackage extends EPackage {
 	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3477,6 +3765,15 @@ public interface AtlErrorPackage extends EPackage {
 	int EXPECTED_COLLECTION_IN_FOR_EACH__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPECTED_COLLECTION_IN_FOR_EACH__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3566,6 +3863,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CLASS_FOUND_IN_METAMODEL__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CLASS_FOUND_IN_METAMODEL__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -3668,6 +3974,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3757,6 +4072,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_NOT_FOUND__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_NOT_FOUND__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -3859,6 +4183,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_NO_COLLECTION_TYPE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3905,6 +4238,135 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOclCompliance()
+	 * @generated
+	 */
+	int OCL_COMPLIANCE = 38;
+
+	/**
+	 * The number of structural features of the '<em>Ocl Compliance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_COMPLIANCE_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Ocl Compliance</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_COMPLIANCE_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION = 39;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Incoherent Variable Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Incoherent Variable Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.LocalProblem <em>Local Problem</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3924,6 +4386,17 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLocalProblem_Location();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation <em>File Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Location</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation()
+	 * @see #getLocalProblem()
+	 * @generated
+	 */
+	EAttribute getLocalProblem_FileLocation();
 
 	/**
 	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getElement <em>Element</em>}'.
@@ -4028,6 +4501,17 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getFeatureNotFound_FeatureName();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.FeatureNotFound#getType()
+	 * @see #getFeatureNotFound()
+	 * @generated
+	 */
+	EReference getFeatureNotFound_Type();
 
 	/**
 	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getClassName <em>Class Name</em>}'.
@@ -4736,6 +5220,26 @@ public interface AtlErrorPackage extends EPackage {
 	EAttribute getIteratorOverNoCollectionType_IteratorName();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OclCompliance <em>Ocl Compliance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ocl Compliance</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OclCompliance
+	 * @generated
+	 */
+	EClass getOclCompliance();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration <em>Incoherent Variable Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Incoherent Variable Declaration</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration
+	 * @generated
+	 */
+	EClass getIncoherentVariableDeclaration();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4775,6 +5279,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LOCAL_PROBLEM__LOCATION = eINSTANCE.getLocalProblem_Location();
+
+		/**
+		 * The meta object literal for the '<em><b>File Location</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LOCAL_PROBLEM__FILE_LOCATION = eINSTANCE.getLocalProblem_FileLocation();
 
 		/**
 		 * The meta object literal for the '<em><b>Element</b></em>' reference feature.
@@ -4867,6 +5379,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FEATURE_NOT_FOUND__FEATURE_NAME = eINSTANCE.getFeatureNotFound_FeatureName();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE_NOT_FOUND__TYPE = eINSTANCE.getFeatureNotFound_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
@@ -5465,6 +5985,26 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITERATOR_OVER_NO_COLLECTION_TYPE__ITERATOR_NAME = eINSTANCE.getIteratorOverNoCollectionType_IteratorName();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOclCompliance()
+		 * @generated
+		 */
+		EClass OCL_COMPLIANCE = eINSTANCE.getOclCompliance();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
+		 * @generated
+		 */
+		EClass INCOHERENT_VARIABLE_DECLARATION = eINSTANCE.getIncoherentVariableDeclaration();
 
 	}
 

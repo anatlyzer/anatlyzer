@@ -6,7 +6,12 @@ import "platform:/resource/anatlyzer.atl.typing/model/types.ecore";
 
 @namespace(uri="http://anatlyzer/atlext/ATL", prefix="atl_ext_atl")
 package ATL {
+  class LocatedElement {
+  	attr String[0..1] fileLocation;
+  	attr Object fileObject; 
+  } 
   class MatchedRule { } 
+  class OutPatternElement { }
   
   class Callable {  	
     ref OCL.PropertyCallExp[*]#staticResolver calledBy;	
@@ -46,7 +51,8 @@ package ATL {
 	ref MatchedRule[1] rule; // Assumes rules with one input pattern
 	ref MatchedRule[1..*] allInvolvedRules;  	
   }
-  	
+  
+  
   
 }
 
@@ -61,6 +67,7 @@ package OCL {
   }
 
   class OclExpression extends TypedElement {
+     attr boolean implicitlyCasted = false;
   }
   
   class PropertyCallExp {  	
@@ -72,6 +79,16 @@ package OCL {
 	ref ATL.Callable[1]#calledBy staticResolver;
 	ref ATL.ContextHelper[0..*]#polymorphicCalledBy dynamicResolvers;		
   }
+
+  class OperationCallExp {
+  	val ResolveTempResolution[*] resolveTempResolvedBy;	
+  }
+  
+  class ResolveTempResolution {
+	ref ATL.MatchedRule[1] rule; 
+	ref ATL.OutPatternElement[1] element;  	
+  }
+  
   
   // This is to represent the body of EOperations written in
   // Java as part of a generated meta-model.

@@ -28,6 +28,7 @@
         ecorePackage="errors.ecore#//atl_error">
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/location"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/fileLocation"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/LocalProblem/element"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/LocalProblem/recovery"/>
@@ -41,6 +42,8 @@
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureNotFound">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/featureName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureNotFound/type"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
       </genClasses>
@@ -141,6 +144,8 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverNoCollectionType">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/IteratorOverNoCollectionType/iteratorName"/>
       </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclCompliance"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">

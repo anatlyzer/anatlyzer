@@ -2,7 +2,6 @@ package anatlyzer.atl.analyser.generators;
 
 import java.util.List;
 
-import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ExecutionNode;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -19,11 +18,17 @@ public class CSPGenerator {
 		this.graph = g;
 	}
 
-	public String generate(Analyser analyser) {
-		return generateLoc(null, analyser);
+	public String generate() {
+		return generateLoc(null);
 	}
 	
-	public String generateLoc(String location, Analyser analyser) {
+	/**
+	 * TODO: Remove this function, because it does not even apply retyping to USE constraints
+	 * 
+	 * @param location
+	 * @return
+	 */
+	public String generateLoc(String location) {
 		List<ProblemPath> sorted = graph.getSortedPaths();
 		
 		String s = "";
@@ -34,20 +39,22 @@ public class CSPGenerator {
 				continue;
 			
 			s += ErrorUtils.getErrorMessage(lp) + " (" + lp.getLocation() +"): \n";
-			s += generateCSP(path, analyser);
+			s += USESerializer.gen(generateCSPCondition(path));
 			s += "\n\n";
 		}
 		return s;
 	}
+
 	
-	public String generateCSP(ProblemPath path, Analyser analyser) {
+	public static OclExpression generateCSPCondition(ProblemPath path) {
+		
 		if ( path.getExecutionNodes().size() == 0 ) {
-			// TODO: Signal this otherwise
-			return "Dead code";
+			// TODO: Dead code: Signal this otherwise
+			return null;
 		}
 		
 		// Create the thisModule context at the top level
-		CSPModel model = new CSPModel(analyser);
+		CSPModel model = new CSPModel();
 
 		IteratorExp ctx = model.createThisModuleContext();
 		model.setThisModuleVariable(ctx.getIterators().get(0));
@@ -70,8 +77,9 @@ public class CSPGenerator {
 		ctx.setBody(orOp);
 
 		//new Retyping(ctx).perform();
-		return USESerializer.gen(ctx);
 		
-		// return "Nothing generated";
+		return ctx;
 	}
+
+
 }

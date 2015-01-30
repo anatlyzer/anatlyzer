@@ -55,6 +55,7 @@ import anatlyzer.atlext.OCL.PrimitiveExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.RealType;
+import anatlyzer.atlext.OCL.ResolveTempResolution;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SequenceType;
 import anatlyzer.atlext.OCL.SetExp;
@@ -492,6 +493,13 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass resolveTempResolutionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass javaBodyEClass = null;
 
 	/**
@@ -688,6 +696,15 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 */
 	public EReference getOclExpression_OwningAttribute() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOclExpression_ImplicitlyCasted() {
+		return (EAttribute)oclExpressionEClass.getEStructuralFeatures().get(12);
 	}
 
 	/**
@@ -1084,6 +1101,15 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 */
 	public EAttribute getOperationCallExp_OperationName() {
 		return (EAttribute)operationCallExpEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationCallExp_ResolveTempResolvedBy() {
+		return (EReference)operationCallExpEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1874,6 +1900,33 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getResolveTempResolution() {
+		return resolveTempResolutionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempResolution_Rule() {
+		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempResolution_Element() {
+		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getJavaBody() {
 		return javaBodyEClass;
 	}
@@ -1928,6 +1981,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		createEReference(oclExpressionEClass, OCL_EXPRESSION__OWNING_OPERATION);
 		createEReference(oclExpressionEClass, OCL_EXPRESSION__IF_EXP1);
 		createEReference(oclExpressionEClass, OCL_EXPRESSION__OWNING_ATTRIBUTE);
+		createEAttribute(oclExpressionEClass, OCL_EXPRESSION__IMPLICITLY_CASTED);
 
 		variableExpEClass = createEClass(VARIABLE_EXP);
 		createEReference(variableExpEClass, VARIABLE_EXP__REFERRED_VARIABLE);
@@ -1994,6 +2048,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		operationCallExpEClass = createEClass(OPERATION_CALL_EXP);
 		createEReference(operationCallExpEClass, OPERATION_CALL_EXP__ARGUMENTS);
 		createEAttribute(operationCallExpEClass, OPERATION_CALL_EXP__OPERATION_NAME);
+		createEReference(operationCallExpEClass, OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY);
 
 		operatorCallExpEClass = createEClass(OPERATOR_CALL_EXP);
 
@@ -2116,6 +2171,10 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		typedElementEClass = createEClass(TYPED_ELEMENT);
 		createEReference(typedElementEClass, TYPED_ELEMENT__INFERRED_TYPE);
 
+		resolveTempResolutionEClass = createEClass(RESOLVE_TEMP_RESOLUTION);
+		createEReference(resolveTempResolutionEClass, RESOLVE_TEMP_RESOLUTION__RULE);
+		createEReference(resolveTempResolutionEClass, RESOLVE_TEMP_RESOLUTION__ELEMENT);
+
 		javaBodyEClass = createEClass(JAVA_BODY);
 
 		getAppliedStereotypesBodyEClass = createEClass(GET_APPLIED_STEREOTYPES_BODY);
@@ -2229,6 +2288,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		initEReference(getOclExpression_OwningOperation(), this.getOperation(), this.getOperation_Body(), "owningOperation", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOclExpression_IfExp1(), this.getIfExp(), this.getIfExp_Condition(), "ifExp1", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOclExpression_OwningAttribute(), this.getAttribute(), this.getAttribute_InitExpression(), "owningAttribute", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getOclExpression_ImplicitlyCasted(), ecorePackage.getEBoolean(), "implicitlyCasted", "false", 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(variableExpEClass, VariableExp.class, "VariableExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariableExp_ReferredVariable(), this.getVariableDeclaration(), this.getVariableDeclaration_VariableExp(), "referredVariable", null, 1, 1, VariableExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -2295,6 +2355,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		initEClass(operationCallExpEClass, OperationCallExp.class, "OperationCallExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperationCallExp_Arguments(), this.getOclExpression(), this.getOclExpression_ParentOperation(), "arguments", null, 0, -1, OperationCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOperationCallExp_OperationName(), thePrimitiveTypesPackage.getString(), "operationName", null, 1, 1, OperationCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getOperationCallExp_ResolveTempResolvedBy(), this.getResolveTempResolution(), null, "resolveTempResolvedBy", null, 0, -1, OperationCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operatorCallExpEClass, OperatorCallExp.class, "OperatorCallExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2416,6 +2477,10 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 
 		initEClass(typedElementEClass, TypedElement.class, "TypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTypedElement_InferredType(), theTypesPackage.getType(), null, "inferredType", null, 0, 1, TypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(resolveTempResolutionEClass, ResolveTempResolution.class, "ResolveTempResolution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getResolveTempResolution_Rule(), theATLPackage.getMatchedRule(), null, "rule", null, 1, 1, ResolveTempResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResolveTempResolution_Element(), theATLPackage.getOutPatternElement(), null, "element", null, 1, 1, ResolveTempResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(javaBodyEClass, JavaBody.class, "JavaBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

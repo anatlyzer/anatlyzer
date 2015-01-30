@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getOwningOperation <em>Owning Operation</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getIfExp1 <em>If Exp1</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getOwningAttribute <em>Owning Attribute</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
  * </ul>
  * </p>
  *
@@ -75,6 +76,26 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * @ordered
 	 */
 	protected OclType type;
+
+	/**
+	 * The default value of the '{@link #isImplicitlyCasted() <em>Implicitly Casted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplicitlyCasted()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IMPLICITLY_CASTED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isImplicitlyCasted() <em>Implicitly Casted</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isImplicitlyCasted()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean implicitlyCasted = IMPLICITLY_CASTED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -594,6 +615,27 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isImplicitlyCasted() {
+		return implicitlyCasted;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setImplicitlyCasted(boolean newImplicitlyCasted) {
+		boolean oldImplicitlyCasted = implicitlyCasted;
+		implicitlyCasted = newImplicitlyCasted;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED, oldImplicitlyCasted, implicitlyCasted));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Type getInferredType() {
 		if (inferredType != null && inferredType.eIsProxy()) {
 			InternalEObject oldInferredType = (InternalEObject)inferredType;
@@ -792,6 +834,8 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return getIfExp1();
 			case OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE:
 				return getOwningAttribute();
+			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
+				return isImplicitlyCasted();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -842,6 +886,9 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return;
 			case OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE:
 				setOwningAttribute((Attribute)newValue);
+				return;
+			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
+				setImplicitlyCasted((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -894,6 +941,9 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 			case OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE:
 				setOwningAttribute((Attribute)null);
 				return;
+			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
+				setImplicitlyCasted(IMPLICITLY_CASTED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -932,6 +982,8 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return getIfExp1() != null;
 			case OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE:
 				return getOwningAttribute() != null;
+			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
+				return implicitlyCasted != IMPLICITLY_CASTED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -966,6 +1018,22 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 			}
 		}
 		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (implicitlyCasted: ");
+		result.append(implicitlyCasted);
+		result.append(')');
+		return result.toString();
 	}
 
 } //OclExpressionImpl

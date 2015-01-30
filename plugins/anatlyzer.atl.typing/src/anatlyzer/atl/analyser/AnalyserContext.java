@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser;
 
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.OclAnyInheritedNamespace;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
 
@@ -9,6 +10,7 @@ public class AnalyserContext {
 	private static ThreadLocal<ErrorModel>  errorModelTL  = new ThreadLocal<ErrorModel>();
 	private static ThreadLocal<EcoreTypeConverter> converterTL  = new ThreadLocal<EcoreTypeConverter>();
 	private static ThreadLocal<GlobalNamespace> mmTL  = new ThreadLocal<GlobalNamespace>();
+	private static ThreadLocal<OclAnyInheritedNamespace> oclAnyInheritedNamespace  = new ThreadLocal<OclAnyInheritedNamespace>();
 
 	private static boolean	isVarDclInferencePreferred = true;
 	private static boolean	isOclStrict = true;
@@ -16,6 +18,7 @@ public class AnalyserContext {
 	public static void setTypingModel(TypingModel value) {
 		typingModelTL.set(value);
 		converterTL.set(new EcoreTypeConverter(value));
+		oclAnyInheritedNamespace.set(new OclAnyInheritedNamespace());
 	}
 	
 	public static TypingModel getTypingModel() {
@@ -43,6 +46,10 @@ public class AnalyserContext {
 		return converterTL.get();
 	}
 
+	public static OclAnyInheritedNamespace getOclAnyInheritedNamespace() {
+		return oclAnyInheritedNamespace.get();
+	}
+	
 	public static boolean isVarDclInferencePreferred() {
 		return isVarDclInferencePreferred ;
 	}
@@ -54,5 +61,7 @@ public class AnalyserContext {
 	public static boolean debugMode() {
 		return true;
 	}
+
+	
 
 }

@@ -45,21 +45,6 @@ public abstract class AbstractAtlQuickfix implements AtlProblemQuickfix {
 	}
 	
 	
-	public IFile getATLFile() {
-		IWorkbenchWindow window= PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IWorkbenchPage page = window.getActivePage();
-		IEditorPart editor = page.getActiveEditor();
-		IEditorInput input = editor.getEditorInput();
-		if (!(input instanceof IFileEditorInput))
-			throw new IllegalStateException();
-		
-		IFile file = ((IFileEditorInput)input).getFile();
-		return file;
-	}
-	
-	protected String getProjectPath() {
-	    return getATLFile().getProject().getLocation().toOSString();
-	}
 
 
 }

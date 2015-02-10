@@ -54,6 +54,7 @@ import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
@@ -359,13 +360,15 @@ public class ErrorModel {
 		return rec;
 	}
 
-	public void signalNoContainerForRefImmediateComposite(Metaclass clazz, LocatedElement node) {
+	public Type signalNoContainerForRefImmediateComposite(Metaclass clazz, LocatedElement node) {
 		NoContainerForRefImmediateComposite error = AtlErrorFactory.eINSTANCE.createNoContainerForRefImmediateComposite();
 		initProblem(error, node);
 		error.setClassName(clazz.getName());
 		error.setMetamodelName(((IClassNamespace) clazz.getMetamodelRef()).getMetamodelName());
 		
-		signalNoRecoverableError("No container is possible for class " + clazz.getName(), node);
+		signalError(error,  "No container is possible for class " + clazz.getName(), node);
+		
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
 	public void signalNoFeatureInUnionType(UnionType type, String featureName, LocatedElement node) {
@@ -410,16 +413,19 @@ public class ErrorModel {
 
 
 
-	public void signalBindingWithoutRule(Binding b, EClass rightType, EClass targetType) {
+	public void signalBindingWithoutRule(Binding b, ModelElement right, ModelElement left) {
 		BindingWithoutRule error = AtlErrorFactory.eINSTANCE.createBindingWithoutRule();
 		initProblem(error, b);
 		
-		error.setRightType(rightType);
-		error.setTargetType(targetType);
+		error.setRightType(right.getKlass());
+		error.setTargetType(left.getKlass());
+		error.setRight(right);		
+		error.setLeft(left);		
+		
 		error.setFeatureName(b.getPropertyName());
 		
 
-		signalWarning(error, "No rule for binding", b);		
+		signalError(error, "No rule for binding", b);		
 	}
 	
 	public Type signalResolveTempWithoutRule(OperationCallExp resolveTempOperation, Type sourceType) {
@@ -628,6 +634,20 @@ public class ErrorModel {
 		
 		signalError(error, "Collection operation " + operationName + " not supported", node);		
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+
+	public ModelElement newElement(Metaclass metaclass) {
+		ModelElement me = AtlErrorFactory.eINSTANCE.createModelElement();
+		me.setKlass(metaclass.getKlass());
+		me.setMetamodelName(metaclass.getModel().getName());
+		return me;
+	}
+
+	public ModelElement newElement(String mmName, EClass klass) {
+		ModelElement me = AtlErrorFactory.eINSTANCE.createModelElement();
+		me.setKlass(klass);
+		me.setMetamodelName(mmName);
+		return me;
 	}
 
 

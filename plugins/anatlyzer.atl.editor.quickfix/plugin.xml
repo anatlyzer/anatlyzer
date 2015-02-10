@@ -19,4 +19,10 @@
             apply="anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix">
+      </quickfix>
+   </extension>
 </plugin>

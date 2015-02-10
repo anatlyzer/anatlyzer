@@ -22,6 +22,15 @@ public interface AtlErrorFactory extends EFactory {
 	AtlErrorFactory eINSTANCE = anatlyzer.atl.errors.atl_error.impl.AtlErrorFactoryImpl.init();
 
 	/**
+	 * Returns a new object of class '<em>Model Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model Element</em>'.
+	 * @generated
+	 */
+	ModelElement createModelElement();
+
+	/**
 	 * Returns a new object of class '<em>Collection Operation Over No Collection Error</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

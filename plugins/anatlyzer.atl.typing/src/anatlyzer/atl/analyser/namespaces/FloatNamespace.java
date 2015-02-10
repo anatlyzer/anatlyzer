@@ -23,7 +23,10 @@ public class FloatNamespace extends PrimitiveTypeNamespace {
 			if ( operationName.equals("sin") ) return AnalyserContext.getTypingModel().newFloatType();
 			if ( operationName.equals("cos") ) return AnalyserContext.getTypingModel().newFloatType();
 			if ( operationName.equals("sqrt") ) return AnalyserContext.getTypingModel().newFloatType();
-					
+			if ( operationName.equals("toRadians") ) return AnalyserContext.getTypingModel().newFloatType();
+
+			if ( operationName.equals("max") ) return AnalyserContext.getTypingModel().newFloatType();
+
 			throw new UnsupportedOperationException(operationName + " - " + node.getLocation());
 		}
 		return t;

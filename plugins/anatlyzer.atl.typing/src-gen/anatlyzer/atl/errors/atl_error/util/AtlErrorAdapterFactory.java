@@ -75,6 +75,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createLocalProblemAdapter();
 			}
 			@Override
+			public Adapter caseModelElement(ModelElement object) {
+				return createModelElementAdapter();
+			}
+			@Override
 			public Adapter caseNavigationProblem(NavigationProblem object) {
 				return createNavigationProblemAdapter();
 			}
@@ -269,6 +273,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLocalProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ModelElement <em>Model Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ModelElement
+	 * @generated
+	 */
+	public Adapter createModelElementAdapter() {
 		return null;
 	}
 

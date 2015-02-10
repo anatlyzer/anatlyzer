@@ -9,7 +9,9 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
@@ -56,8 +58,11 @@ public class AnalyserUtils {
 		}
 		// 7
 		if ( p instanceof IncoherentVariableDeclaration ) return 7;
+		if ( p instanceof FlattenOverNonNestedCollection ) return 8;
+		if ( p instanceof CollectionOperationOverNoCollectionError ) return 9;
 		
-		throw new UnsupportedOperationException(p.getClass().getName());
+		return -1;
+		// throw new UnsupportedOperationException(p.getClass().getName());
 	}
 	
 }

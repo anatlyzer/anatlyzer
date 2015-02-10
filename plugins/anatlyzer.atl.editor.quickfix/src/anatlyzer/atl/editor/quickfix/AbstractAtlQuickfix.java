@@ -25,6 +25,15 @@ public abstract class AbstractAtlQuickfix implements AtlProblemQuickfix {
 	public void setErrorMarker(IMarker marker) {		
 		this.marker = marker;
 	}
+	
+	protected boolean checkProblemType(IMarker marker, Class<?> class1) {
+		try {
+			Object p = marker.getAttribute(AnATLyzerBuilder.PROBLEM); 
+			return class1.isInstance( p);
+		} catch (CoreException e) {
+			return false;
+		}
+	}
 
 	protected int getProblemStartOffset() throws CoreException {
 		return (Integer) marker.getAttribute(IMarker.CHAR_START);

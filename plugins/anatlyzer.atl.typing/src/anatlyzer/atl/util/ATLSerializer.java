@@ -12,7 +12,10 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
+import anatlyzer.atlext.ATL.CallableParameter;
+import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.ExpressionStat;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -27,21 +30,29 @@ import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
 import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
+import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclUndefinedExp;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.RealType;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -124,6 +135,30 @@ public class ATLSerializer extends AbstractVisitor {
 	public void inLazyRule(LazyRule self) {
 		ruleGenerator(self, "lazy rule");
 	}
+	
+	@Override
+	public void inCalledRule(CalledRule self) {
+		List<String> params = sl();
+		for (Parameter p : self.getParameters()) {
+			params.add( p.getVarName() + " : " + g(p.getType()) );
+		}
+
+		String s = "rule " + self.getName() + "( " +  join(params) + ")" + " {" + cr();
+		if ( self.getVariables().size() > 0 ) {
+			s += "using {" +  cr();
+			for(RuleVariableDeclaration rv : self.getVariables()) {
+				s += tab(1) + rv.getVarName() + " : " + g(rv.getType()) + " = " + g(rv.getInitExpression()) + ";";
+			}
+			s += "}" + cr();
+		}
+		s += tab(1) + "  to " + g(self.getOutPattern()) + cr();
+		
+		if ( self.getActionBlock() != null ) {
+			s += g(self.getActionBlock());
+		}
+		
+		s(s + cr() + "}");
+	}
 
 	
 	@Override
@@ -202,8 +237,19 @@ public class ATLSerializer extends AbstractVisitor {
 	//
 	@Override
 	public void inContextHelper(ContextHelper self) {
+		String paramsStr = "";
+
+		if ( self.getDefinition().getFeature() instanceof Operation ) {
+			List<String> params = sl();
+			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
+				System.out.println(p.getType());
+				params.add( p.getVarName() + " : " + g(p.getType()) );
+			}
+			paramsStr = "(" + join(params) + ")";
+		}
+		
 		String s = "helper context " + g(ATLUtils.getHelperType(self)) + 
-				" def: " + ATLUtils.getHelperName(self) + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
+				" def: " + ATLUtils.getHelperName(self) + paramsStr + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
 				g(ATLUtils.getHelperBody(self)) + ";";
 		s(s);
 	}
@@ -260,6 +306,17 @@ public class ATLSerializer extends AbstractVisitor {
 	public void inIfExp(IfExp self) {
 		String s = "if ( " + g(self.getCondition()) + " ) then" + cr() + tab(1) + g(self.getThenExpression()) + 
 				 cr() + tab(0) + "else" + cr() + tab(1) + g(self.getElseExpression()) + cr() + tab(0) + "endif";
+		s(s);
+	}
+	
+	@Override
+	public void inLetExp(LetExp self) {
+		String type = "";
+		if ( self.getVariable().getType() != null ) {
+			type = " : " + g(self.getVariable().getType());
+		}
+		String s = "let " + self.getVariable().getVarName() + type + " = " + g(self.getVariable().getInitExpression()) + 
+				cr() + tab(0) + " in " + g(self.getIn_());
 		s(s);
 	}
 	
@@ -324,6 +381,26 @@ public class ATLSerializer extends AbstractVisitor {
 		s("OclAny");
 	}
 	
+	@Override
+	public void inIntegerType(IntegerType self) {
+		s("Integer");
+	}
+	
+	@Override
+	public void inStringType(StringType self) {
+		s("String");
+	}
+	
+	@Override
+	public void inRealType(RealType self) {
+		s("Real");
+	}
+	
+	@Override
+	public void inBooleanType(BooleanType self) {
+		s("Boolean");
+	}
+	
 	//
 	// END-OF Expressions
 	//
@@ -334,6 +411,14 @@ public class ATLSerializer extends AbstractVisitor {
 		s(self.getMetamodel().getName() + "!" + self.getName());
 	}
 	*/
+	
+	//
+	// Imperative
+	//
+	@Override
+	public void inExpressionStat(ExpressionStat self) {
+		s(g(self.getExpression()) + ";");
+	}
 	
 	//
 	// Utilities

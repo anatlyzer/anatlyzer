@@ -4,6 +4,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
+import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 
 import java.util.Collection;
@@ -31,6 +32,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getTargetType <em>Target Type</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getRight <em>Right</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
@@ -57,6 +60,26 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 	 * @ordered
 	 */
 	protected EClass targetType;
+
+	/**
+	 * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRight()
+	 * @generated
+	 * @ordered
+	 */
+	protected ModelElement right;
+
+	/**
+	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLeft()
+	 * @generated
+	 * @ordered
+	 */
+	protected ModelElement left;
 
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
@@ -168,6 +191,92 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ModelElement getRight() {
+		return right;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRight(ModelElement newRight, NotificationChain msgs) {
+		ModelElement oldRight = right;
+		right = newRight;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_RESOLUTION__RIGHT, oldRight, newRight);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRight(ModelElement newRight) {
+		if (newRight != right) {
+			NotificationChain msgs = null;
+			if (right != null)
+				msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_RESOLUTION__RIGHT, null, msgs);
+			if (newRight != null)
+				msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_RESOLUTION__RIGHT, null, msgs);
+			msgs = basicSetRight(newRight, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_RESOLUTION__RIGHT, newRight, newRight));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelElement getLeft() {
+		return left;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLeft(ModelElement newLeft, NotificationChain msgs) {
+		ModelElement oldLeft = left;
+		left = newLeft;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_RESOLUTION__LEFT, oldLeft, newLeft);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeft(ModelElement newLeft) {
+		if (newLeft != left) {
+			NotificationChain msgs = null;
+			if (left != null)
+				msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_RESOLUTION__LEFT, null, msgs);
+			if (newLeft != null)
+				msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_RESOLUTION__LEFT, null, msgs);
+			msgs = basicSetLeft(newLeft, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_RESOLUTION__LEFT, newLeft, newLeft));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<ResolvedRuleInfo> getRules() {
 		if (rules == null) {
 			rules = new EObjectContainmentEList<ResolvedRuleInfo>(ResolvedRuleInfo.class, this, AtlErrorPackage.BINDING_RESOLUTION__RULES);
@@ -183,6 +292,10 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case AtlErrorPackage.BINDING_RESOLUTION__RIGHT:
+				return basicSetRight(null, msgs);
+			case AtlErrorPackage.BINDING_RESOLUTION__LEFT:
+				return basicSetLeft(null, msgs);
 			case AtlErrorPackage.BINDING_RESOLUTION__RULES:
 				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
 		}
@@ -203,6 +316,10 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 			case AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE:
 				if (resolve) return getTargetType();
 				return basicGetTargetType();
+			case AtlErrorPackage.BINDING_RESOLUTION__RIGHT:
+				return getRight();
+			case AtlErrorPackage.BINDING_RESOLUTION__LEFT:
+				return getLeft();
 			case AtlErrorPackage.BINDING_RESOLUTION__RULES:
 				return getRules();
 		}
@@ -223,6 +340,12 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 				return;
 			case AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE:
 				setTargetType((EClass)newValue);
+				return;
+			case AtlErrorPackage.BINDING_RESOLUTION__RIGHT:
+				setRight((ModelElement)newValue);
+				return;
+			case AtlErrorPackage.BINDING_RESOLUTION__LEFT:
+				setLeft((ModelElement)newValue);
 				return;
 			case AtlErrorPackage.BINDING_RESOLUTION__RULES:
 				getRules().clear();
@@ -246,6 +369,12 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 			case AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE:
 				setTargetType((EClass)null);
 				return;
+			case AtlErrorPackage.BINDING_RESOLUTION__RIGHT:
+				setRight((ModelElement)null);
+				return;
+			case AtlErrorPackage.BINDING_RESOLUTION__LEFT:
+				setLeft((ModelElement)null);
+				return;
 			case AtlErrorPackage.BINDING_RESOLUTION__RULES:
 				getRules().clear();
 				return;
@@ -265,6 +394,10 @@ public abstract class BindingResolutionImpl extends MinimalEObjectImpl.Container
 				return rightType != null;
 			case AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE:
 				return targetType != null;
+			case AtlErrorPackage.BINDING_RESOLUTION__RIGHT:
+				return right != null;
+			case AtlErrorPackage.BINDING_RESOLUTION__LEFT:
+				return left != null;
 			case AtlErrorPackage.BINDING_RESOLUTION__RULES:
 				return rules != null && !rules.isEmpty();
 		}

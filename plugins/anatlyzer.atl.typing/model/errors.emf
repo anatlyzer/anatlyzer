@@ -39,6 +39,11 @@ package atl_error {
 	   
 	   val Recovery[0..1] recovery;
 	}
+
+    class ModelElement {
+    	ref EClass[1] klass;
+    	attr String[1] metamodelName;
+    }
 	
 	abstract class NavigationProblem extends LocalProblem {	}
 	abstract class InvalidArgumentProblem extends LocalProblem { }
@@ -120,6 +125,10 @@ package atl_error {
 	   	ref ecore.EClass[1] rightType;	
 		ref ecore.EClass[1] targetType;
 
+        // Transitioning from eclass references to model elements
+	    val ModelElement[1] right;
+	    val ModelElement[1] left;
+	    
 		val ResolvedRuleInfo[*] rules;
 	}
 

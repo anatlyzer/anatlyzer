@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getTargetType <em>Target Type</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRight <em>Right</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRules <em>Rules</em>}</li>
  * </ul>
  * </p>
@@ -77,6 +79,58 @@ public interface BindingResolution extends EObject {
 	 * @generated
 	 */
 	void setTargetType(EClass value);
+
+	/**
+	 * Returns the value of the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Right</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Right</em>' containment reference.
+	 * @see #setRight(ModelElement)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingResolution_Right()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	ModelElement getRight();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRight <em>Right</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Right</em>' containment reference.
+	 * @see #getRight()
+	 * @generated
+	 */
+	void setRight(ModelElement value);
+
+	/**
+	 * Returns the value of the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Left</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Left</em>' containment reference.
+	 * @see #setLeft(ModelElement)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingResolution_Left()
+	 * @model containment="true" required="true"
+	 * @generated
+	 */
+	ModelElement getLeft();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.BindingResolution#getLeft <em>Left</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Left</em>' containment reference.
+	 * @see #getLeft()
+	 * @generated
+	 */
+	void setLeft(ModelElement value);
 
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' containment reference list.

@@ -34,6 +34,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="recovery" eType="#//Recovery"
           containment="true"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModelElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="klass" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NavigationProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidArgumentProblem" abstract="true"
@@ -112,6 +118,10 @@
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="targetType" lowerBound="1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="right" lowerBound="1"
+          eType="#//atl_error/ModelElement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="left" lowerBound="1"
+          eType="#//atl_error/ModelElement" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
           eType="#//atl_error/ResolvedRuleInfo" containment="true"/>
     </eClassifiers>

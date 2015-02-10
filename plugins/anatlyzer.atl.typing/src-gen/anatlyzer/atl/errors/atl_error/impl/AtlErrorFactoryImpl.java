@@ -56,6 +56,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
+			case AtlErrorPackage.MODEL_ELEMENT: return createModelElement();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
@@ -90,6 +91,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelElement createModelElement() {
+		ModelElementImpl modelElement = new ModelElementImpl();
+		return modelElement;
 	}
 
 	/**

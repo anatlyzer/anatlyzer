@@ -13,18 +13,12 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.m2m.atl.core.ATLCoreException;
-import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
-import org.eclipse.m2m.atl.core.emf.EMFModelFactory;
-import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
-import org.eclipse.m2m.atl.engine.parser.AtlParser;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalyserExtension;
@@ -44,19 +38,28 @@ import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.IgnoredProblems;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
+import anatlyzer.ui.util.AtlEngineUtils;
 
 public class AnalyserExecutor {
-
 	public AnalyserData exec(IResource resource) throws IOException, CoreException, CannotLoadMetamodel {
-		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(resource.getFullPath());
-		EMFModel atlEMFModel = loadATLFile(file);
-		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
+		return exec(resource, true);
+	}
 
+	public AnalyserData exec(IResource resource, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel {
+		IFile file = (IFile) resource;
+		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file);
+		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
+		return exec(file, atlModel, addToIndex);
+	}
+	
+	public AnalyserData exec(IResource resource, ATLModel atlModel, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel {
+		IFile file = (IFile) resource;
 
 		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "lib")) {
 			String[] two = tag.split("=");
@@ -133,39 +136,23 @@ public class AnalyserExecutor {
 		}
 		
 		AnalyserData result = new AnalyserData(analyser, mm);
-		AnalysisIndex.getInstance().register(file, result);
-		return result;
-	}
-
-	private EMFModel loadATLFile(IFile file) {
-		ModelFactory      modelFactory = new EMFModelFactory();
-		EMFModel atlEMFModel = null;
-		try {
-			EMFReferenceModel atlMetamodel = (EMFReferenceModel)modelFactory.getBuiltInResource("ATL.ecore");
-			AtlParser         atlParser    = new AtlParser();
-			atlEMFModel = (EMFModel)modelFactory.newModel(atlMetamodel);
-			atlParser.inject(atlEMFModel, file.getContents(), null);
-		} catch (ATLCoreException e1) {
-			throw new RuntimeException(e1);
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
+		if ( addToIndex ) {
+			AnalysisIndex.getInstance().register(file, result);
 		}
-		
-		atlEMFModel.setIsTarget(true);
-		return atlEMFModel;
+		return result;
 	}
 
 	private void extendWithLibrary(ATLModel atlModel, String name, String location) throws CoreException {
 		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(location));
-		EMFModel libModel = loadATLFile(file);
+		EMFModel libModel = AtlEngineUtils.loadATLFile(file);
 		
 		atlModel.extendWithLibrary(libModel.getResource(), file.getFullPath().toPortableString());
 	}
 
 	private void checkLoadedMetamodels(ATLModel atlModel, HashMap<String, Resource> logicalNamesToResources) throws CannotLoadMetamodel {
-		for(OclModel m : ATLUtils.getUnitModels(atlModel)) {
-			if ( ! logicalNamesToResources.containsKey( m.getMetamodel().getName()) ) {
-				throw new CannotLoadMetamodel(m.getMetamodel().getName());
+		for(ModelInfo m : ATLUtils.getModelInfo(atlModel) ) {
+			if ( ! logicalNamesToResources.containsKey( m.getMetamodelName()) ) {
+				throw new CannotLoadMetamodel(m.getMetamodelName());
 			}			
 		}	
 	}

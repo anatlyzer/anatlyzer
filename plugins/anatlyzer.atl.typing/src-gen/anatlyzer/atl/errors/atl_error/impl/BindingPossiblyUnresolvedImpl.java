@@ -5,6 +5,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
+import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 
 import java.util.Collection;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getTargetType <em>Target Type</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getRight <em>Right</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getProblematicClasses <em>Problematic Classes</em>}</li>
  * </ul>
@@ -59,6 +62,26 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 	 * @ordered
 	 */
 	protected EClass targetType;
+
+	/**
+	 * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRight()
+	 * @generated
+	 * @ordered
+	 */
+	protected ModelElement right;
+
+	/**
+	 * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLeft()
+	 * @generated
+	 * @ordered
+	 */
+	protected ModelElement left;
 
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' containment reference list.
@@ -180,6 +203,92 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ModelElement getRight() {
+		return right;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRight(ModelElement newRight, NotificationChain msgs) {
+		ModelElement oldRight = right;
+		right = newRight;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT, oldRight, newRight);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRight(ModelElement newRight) {
+		if (newRight != right) {
+			NotificationChain msgs = null;
+			if (right != null)
+				msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT, null, msgs);
+			if (newRight != null)
+				msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT, null, msgs);
+			msgs = basicSetRight(newRight, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT, newRight, newRight));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelElement getLeft() {
+		return left;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetLeft(ModelElement newLeft, NotificationChain msgs) {
+		ModelElement oldLeft = left;
+		left = newLeft;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT, oldLeft, newLeft);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeft(ModelElement newLeft) {
+		if (newLeft != left) {
+			NotificationChain msgs = null;
+			if (left != null)
+				msgs = ((InternalEObject)left).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT, null, msgs);
+			if (newLeft != null)
+				msgs = ((InternalEObject)newLeft).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT, null, msgs);
+			msgs = basicSetLeft(newLeft, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT, newLeft, newLeft));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<ResolvedRuleInfo> getRules() {
 		if (rules == null) {
 			rules = new EObjectContainmentEList<ResolvedRuleInfo>(ResolvedRuleInfo.class, this, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES);
@@ -207,6 +316,10 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT:
+				return basicSetRight(null, msgs);
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT:
+				return basicSetLeft(null, msgs);
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES:
 				return ((InternalEList<?>)getRules()).basicRemove(otherEnd, msgs);
 		}
@@ -227,6 +340,10 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE:
 				if (resolve) return getTargetType();
 				return basicGetTargetType();
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT:
+				return getRight();
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT:
+				return getLeft();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES:
 				return getRules();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES:
@@ -249,6 +366,12 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 				return;
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE:
 				setTargetType((EClass)newValue);
+				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT:
+				setRight((ModelElement)newValue);
+				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT:
+				setLeft((ModelElement)newValue);
 				return;
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES:
 				getRules().clear();
@@ -276,6 +399,12 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE:
 				setTargetType((EClass)null);
 				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT:
+				setRight((ModelElement)null);
+				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT:
+				setLeft((ModelElement)null);
+				return;
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES:
 				getRules().clear();
 				return;
@@ -298,6 +427,10 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 				return rightType != null;
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE:
 				return targetType != null;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT:
+				return right != null;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT:
+				return left != null;
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES:
 				return rules != null && !rules.isEmpty();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES:
@@ -317,6 +450,8 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 			switch (derivedFeatureID) {
 				case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT_TYPE: return AtlErrorPackage.BINDING_RESOLUTION__RIGHT_TYPE;
 				case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE: return AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE;
+				case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT: return AtlErrorPackage.BINDING_RESOLUTION__RIGHT;
+				case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT: return AtlErrorPackage.BINDING_RESOLUTION__LEFT;
 				case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES: return AtlErrorPackage.BINDING_RESOLUTION__RULES;
 				default: return -1;
 			}
@@ -335,6 +470,8 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 			switch (baseFeatureID) {
 				case AtlErrorPackage.BINDING_RESOLUTION__RIGHT_TYPE: return AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT_TYPE;
 				case AtlErrorPackage.BINDING_RESOLUTION__TARGET_TYPE: return AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE;
+				case AtlErrorPackage.BINDING_RESOLUTION__RIGHT: return AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RIGHT;
+				case AtlErrorPackage.BINDING_RESOLUTION__LEFT: return AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__LEFT;
 				case AtlErrorPackage.BINDING_RESOLUTION__RULES: return AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__RULES;
 				default: return -1;
 			}

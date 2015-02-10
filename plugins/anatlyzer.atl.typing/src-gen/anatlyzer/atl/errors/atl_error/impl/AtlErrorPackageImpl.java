@@ -31,6 +31,7 @@ import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
+import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
@@ -77,6 +78,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass localProblemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelElementEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -476,6 +484,33 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getModelElement() {
+		return modelElementEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelElement_Klass() {
+		return (EReference)modelElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElement_MetamodelName() {
+		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNavigationProblem() {
 		return navigationProblemEClass;
 	}
@@ -836,8 +871,26 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBindingResolution_Rules() {
+	public EReference getBindingResolution_Right() {
 		return (EReference)bindingResolutionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBindingResolution_Left() {
+		return (EReference)bindingResolutionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBindingResolution_Rules() {
+		return (EReference)bindingResolutionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1207,6 +1260,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(localProblemEClass, LOCAL_PROBLEM__ELEMENT);
 		createEReference(localProblemEClass, LOCAL_PROBLEM__RECOVERY);
 
+		modelElementEClass = createEClass(MODEL_ELEMENT);
+		createEReference(modelElementEClass, MODEL_ELEMENT__KLASS);
+		createEAttribute(modelElementEClass, MODEL_ELEMENT__METAMODEL_NAME);
+
 		navigationProblemEClass = createEClass(NAVIGATION_PROBLEM);
 
 		invalidArgumentProblemEClass = createEClass(INVALID_ARGUMENT_PROBLEM);
@@ -1264,6 +1321,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		bindingResolutionEClass = createEClass(BINDING_RESOLUTION);
 		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__RIGHT_TYPE);
 		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__TARGET_TYPE);
+		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__RIGHT);
+		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__LEFT);
 		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__RULES);
 
 		bindingWithoutRuleEClass = createEClass(BINDING_WITHOUT_RULE);
@@ -1407,6 +1466,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEReference(getLocalProblem_Element(), ecorePackage.getEObject(), null, "element", null, 1, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocalProblem_Recovery(), theAnalysisResultPackage.getRecovery(), null, "recovery", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getModelElement_Klass(), ecorePackage.getEClass(), null, "klass", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElement_MetamodelName(), ecorePackage.getEString(), "metamodelName", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(navigationProblemEClass, NavigationProblem.class, "NavigationProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(invalidArgumentProblemEClass, InvalidArgumentProblem.class, "InvalidArgumentProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1464,6 +1527,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(bindingResolutionEClass, BindingResolution.class, "BindingResolution", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingResolution_RightType(), ecorePackage.getEClass(), null, "rightType", null, 1, 1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBindingResolution_TargetType(), ecorePackage.getEClass(), null, "targetType", null, 1, 1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBindingResolution_Right(), this.getModelElement(), null, "right", null, 1, 1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBindingResolution_Left(), this.getModelElement(), null, "left", null, 1, 1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBindingResolution_Rules(), this.getResolvedRuleInfo(), null, "rules", null, 0, -1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bindingWithoutRuleEClass, BindingWithoutRule.class, "BindingWithoutRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

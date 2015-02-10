@@ -15,7 +15,10 @@ import org.eclipse.emf.ecore.EClass;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
 /**
@@ -33,8 +36,10 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 	protected HashMap<EClass, List<MatchedRule>> rulesByOutputType = new HashMap<EClass, List<MatchedRule>>();
 	
 	protected HashMap<EClass, MatchedRule> rulesOneToN = new HashMap<EClass, MatchedRule>();
+	private boolean hasResolveTemp = false;
 
 	protected HashSet<MatchedRule> oneToOne = new HashSet<MatchedRule>();
+	protected HashSet<Rule> imperativeRules = new HashSet<Rule>();
 	
 	public VerticalTrafoChecker(ATLModel model) {
 		this.model = model;
@@ -43,11 +48,17 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 	public Result perform() {
 		startVisiting(model.getRoot());
 		
+		if ( imperativeRules.size() > 0 ) {
+			return new ResultImperative(imperativeRules);
+		}
 		
 		if ( rulesOneToN.size() > 0 ) {
-			System.out.println("May be 1:N");
+			// Check if there are resolveTemp operations
+			
+			
+			System.out.println("May be 1:N - " + (hasResolveTemp ? "(with resolveTemp)" : "(no resolveTemp)") );
 			printRules(rulesOneToN.values(), System.out);
-			return new ResultOneToN(new HashSet<MatchedRule>(rulesOneToN.values()));
+			return new ResultOneToN(new HashSet<MatchedRule>(rulesOneToN.values()), hasResolveTemp);
 		}
 		
 		return checkAbstractionRefinement();
@@ -107,9 +118,9 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 		
 	}
 
-	private static void printRules(Collection<MatchedRule> set, PrintStream out) {
-		for (MatchedRule matchedRule : set) {
-			out.println("  - " + matchedRule.getName() + " (" + matchedRule.getLocation() + ")");
+	private static void printRules(Collection<? extends Rule> rules, PrintStream out) {
+		for (Rule r : rules) {
+			out.println("  - " + r.getName() + " (" + r.getLocation() + ")");
 		}
 	}
 
@@ -120,7 +131,7 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 		
 		Metaclass src = ATLUtils.getInPatternType(self);
 		if ( self.getActionBlock() != null ) {
-			// So far nothing...
+			imperativeRules.add(self);
 			return;
 		}
 		
@@ -134,6 +145,18 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 		}
 	}
 
+	@Override
+	public void inCalledRule(CalledRule self) {
+		imperativeRules.add(self);
+	}
+	
+	@Override
+	public void inOperationCallExp(OperationCallExp self) {
+		if ( self.getOperationName().equals("resolveTemp") ) {
+			hasResolveTemp = true;
+		}
+	}
+	
 	private void add(HashMap<EClass, List<MatchedRule>> rules, EClass klass, MatchedRule rule) {
 		if ( ! rules.containsKey(klass) ) {
 			rules.put(klass, new ArrayList<MatchedRule>());
@@ -143,8 +166,8 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 	}
 	
 	public static abstract class Result {
-		private Set<MatchedRule> rules;
-		public Result(Set<MatchedRule> rules) {
+		private Set<? extends Rule> rules;
+		public Result(Set<? extends Rule> rules) {
 			this.rules = rules;
 		}
 		
@@ -175,11 +198,14 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 		public String getTrafoType() { return "One-to-one"; }
 	}
 	public class ResultOneToN extends Result { 
-		public ResultOneToN(Set<MatchedRule> rules) {
+		private boolean hasResolveTemp;
+		public ResultOneToN(Set<MatchedRule> rules, boolean hasResolveTemp) {
 			super(rules);
+			this.hasResolveTemp = hasResolveTemp;
 		}
-		public String getTrafoType() { return "One-to-N (maybe)"; }
+		public String getTrafoType() { return hasResolveTemp ? "One-to-N (graph)" : "One-to-N (tree)" ; }
 	}
+	
 	public class ResultOther extends Result { 
 		public ResultOther() {
 			super(new HashSet<MatchedRule>());
@@ -190,5 +216,12 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 		public String getTrafoType() { return "Unknown"; }
 	}
 
+	public class ResultImperative extends Result { 
+		public ResultImperative(HashSet<Rule> rule) {
+			super(rule);
+		}
+		
+		public String getTrafoType() { return "Imperative (maybe)"; }
+	}
 }
 

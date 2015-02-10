@@ -33,7 +33,7 @@ public class IntegerNamespace extends PrimitiveTypeNamespace {
 		if ( t != null )
 			return t;
 			
-		if ( operatorSymbol.equals("+") || operatorSymbol.equals("*") || operatorSymbol.equals("/") ||
+		if ( operatorSymbol.equals("+") || operatorSymbol.equals("*") || operatorSymbol.equals("/") || operatorSymbol.equals("div") ||
 			(operatorSymbol.equals("-") && optionalArgument != null)) {
 			
 			if ( optionalArgument instanceof FloatType || 

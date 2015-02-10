@@ -40,6 +40,7 @@ import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -276,14 +277,18 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	 * @param f
 	 */
 	private void analyseRuleResolution(Binding self, Type rightType, EReference f) {
-		if ( rightType instanceof Metaclass ) {
+		if ( rightType instanceof Metaclass ) {			
 			Metaclass rightMetaclass = (Metaclass) rightType;
 			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();
 			
 			Set<MatchedRule> rules = ns.getResolvingRules();
 			boolean isAssignable    = TypeUtils.isClassAssignableTo(rightMetaclass.getKlass(), f.getEReferenceType());
 			if ( rules.size() == 0 && ! isAssignable ) {
-				errors().signalBindingWithoutRule(self, rightMetaclass.getKlass(), f.getEReferenceType());
+				String mmName = ((OclModelElement) self.getOutPatternElement().getType()).getModel().getName();
+				
+				errors().signalBindingWithoutRule(self, 
+						errors().newElement(rightMetaclass), 
+						errors().newElement(mmName, f.getEReferenceType()) );
 
 				// System.err.println("!!!!! WARNING!!! No rule for binding.  " + f.getEContainingClass().getName() + "." + f.getName() + " <- " + TypeUtils.typeToString(rightType) + ". " + self.getLocation());
 			} else if ( ! isAssignable ){

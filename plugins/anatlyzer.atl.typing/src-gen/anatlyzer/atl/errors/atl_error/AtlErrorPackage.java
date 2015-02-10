@@ -159,6 +159,52 @@ public interface AtlErrorPackage extends EPackage {
 	int LOCAL_PROBLEM_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ModelElementImpl <em>Model Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.ModelElementImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getModelElement()
+	 * @generated
+	 */
+	int MODEL_ELEMENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Klass</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT__KLASS = 0;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT__METAMODEL_NAME = 1;
+
+	/**
+	 * The number of structural features of the '<em>Model Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Model Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NavigationProblemImpl <em>Navigation Problem</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -166,7 +212,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNavigationProblem()
 	 * @generated
 	 */
-	int NAVIGATION_PROBLEM = 1;
+	int NAVIGATION_PROBLEM = 2;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -266,7 +312,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgumentProblem()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT_PROBLEM = 2;
+	int INVALID_ARGUMENT_PROBLEM = 3;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -366,7 +412,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getTargetModelConformanceProblem()
 	 * @generated
 	 */
-	int TARGET_MODEL_CONFORMANCE_PROBLEM = 3;
+	int TARGET_MODEL_CONFORMANCE_PROBLEM = 4;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -466,7 +512,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationOverNoCollectionError()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 4;
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 5;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -566,7 +612,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureAccessInCollection()
 	 * @generated
 	 */
-	int FEATURE_ACCESS_IN_COLLECTION = 5;
+	int FEATURE_ACCESS_IN_COLLECTION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -675,7 +721,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFound()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND = 6;
+	int FEATURE_NOT_FOUND = 7;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -811,7 +857,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFound()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND = 7;
+	int OPERATION_NOT_FOUND = 8;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -947,7 +993,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFoundInThisModule()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 8;
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1065,7 +1111,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAttributeNotFoundInThisModule()
 	 * @generated
 	 */
-	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 9;
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1174,7 +1220,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFoundInUnionType()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 10;
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1283,7 +1329,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperand()
 	 * @generated
 	 */
-	int INVALID_OPERAND = 11;
+	int INVALID_OPERAND = 12;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1392,7 +1438,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoContainerForRefImmediateComposite()
 	 * @generated
 	 */
-	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 12;
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1510,7 +1556,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getDifferentBranchTypes()
 	 * @generated
 	 */
-	int DIFFERENT_BRANCH_TYPES = 13;
+	int DIFFERENT_BRANCH_TYPES = 14;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1628,7 +1674,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingProblem()
 	 * @generated
 	 */
-	int BINDING_PROBLEM = 14;
+	int BINDING_PROBLEM = 15;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1746,7 +1792,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempProblem()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_PROBLEM = 15;
+	int RESOLVE_TEMP_PROBLEM = 16;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1846,7 +1892,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeature()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE = 16;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1964,7 +2010,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingExpectedOneAssignedMany()
 	 * @generated
 	 */
-	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 17;
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 18;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2082,7 +2128,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingResolution()
 	 * @generated
 	 */
-	int BINDING_RESOLUTION = 18;
+	int BINDING_RESOLUTION = 19;
 
 	/**
 	 * The feature id for the '<em><b>Right Type</b></em>' reference.
@@ -2103,13 +2149,31 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_RESOLUTION__TARGET_TYPE = 1;
 
 	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_RESOLUTION__RIGHT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_RESOLUTION__LEFT = 3;
+
+	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_RESOLUTION__RULES = 2;
+	int BINDING_RESOLUTION__RULES = 4;
 
 	/**
 	 * The number of structural features of the '<em>Binding Resolution</em>' class.
@@ -2118,7 +2182,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_RESOLUTION_FEATURE_COUNT = 3;
+	int BINDING_RESOLUTION_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Binding Resolution</em>' class.
@@ -2137,7 +2201,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithoutRule()
 	 * @generated
 	 */
-	int BINDING_WITHOUT_RULE = 19;
+	int BINDING_WITHOUT_RULE = 20;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2248,13 +2312,31 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITHOUT_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_WITHOUT_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 2;
+	int BINDING_WITHOUT_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Binding Without Rule</em>' class.
@@ -2263,7 +2345,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_WITHOUT_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+	int BINDING_WITHOUT_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Binding Without Rule</em>' class.
@@ -2282,7 +2364,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithResolvedByIncompatibleRule()
 	 * @generated
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 20;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 21;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2393,13 +2475,31 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 2;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
@@ -2408,7 +2508,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
@@ -2427,7 +2527,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingPossiblyUnresolved()
 	 * @generated
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED = 21;
+	int BINDING_POSSIBLY_UNRESOLVED = 22;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2538,13 +2638,31 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED__RULES = BINDING_PROBLEM_FEATURE_COUNT + 2;
+	int BINDING_POSSIBLY_UNRESOLVED__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Problematic Classes</b></em>' reference list.
@@ -2553,7 +2671,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = BINDING_PROBLEM_FEATURE_COUNT + 3;
+	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = BINDING_PROBLEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Binding Possibly Unresolved</em>' class.
@@ -2562,7 +2680,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 4;
+	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Binding Possibly Unresolved</em>' class.
@@ -2581,7 +2699,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolvedRuleInfo()
 	 * @generated
 	 */
-	int RESOLVED_RULE_INFO = 22;
+	int RESOLVED_RULE_INFO = 23;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2663,7 +2781,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempWithoutRule()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_WITHOUT_RULE = 23;
+	int RESOLVE_TEMP_WITHOUT_RULE = 24;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2772,7 +2890,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempOutputPatternElementNotFound()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 24;
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 25;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2890,7 +3008,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFlattenOverNonNestedCollection()
 	 * @generated
 	 */
-	int FLATTEN_OVER_NON_NESTED_COLLECTION = 25;
+	int FLATTEN_OVER_NON_NESTED_COLLECTION = 26;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2990,7 +3108,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverEmptySequence()
 	 * @generated
 	 */
-	int ITERATOR_OVER_EMPTY_SEQUENCE = 26;
+	int ITERATOR_OVER_EMPTY_SEQUENCE = 27;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3090,7 +3208,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 27;
+	int READING_TARGET_MODEL = 28;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3199,7 +3317,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 28;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 29;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3308,7 +3426,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 29;
+	int NO_MODEL_FOUND = 30;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3417,7 +3535,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 30;
+	int WRONG_TYPE = 31;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3517,7 +3635,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 31;
+	int ITERATOR_BODY_WRONG_TYPE = 32;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3617,7 +3735,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 32;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 33;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3717,7 +3835,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 33;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 34;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3817,7 +3935,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 34;
+	int NO_CLASS_FOUND_IN_METAMODEL = 35;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3926,7 +4044,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 35;
+	int INVALID_ARGUMENT = 36;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4026,7 +4144,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 36;
+	int COLLECTION_OPERATION_NOT_FOUND = 37;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4135,7 +4253,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 37;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 38;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4245,7 +4363,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOclCompliance()
 	 * @generated
 	 */
-	int OCL_COMPLIANCE = 38;
+	int OCL_COMPLIANCE = 39;
 
 	/**
 	 * The number of structural features of the '<em>Ocl Compliance</em>' class.
@@ -4273,7 +4391,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 39;
+	int INCOHERENT_VARIABLE_DECLARATION = 40;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4419,6 +4537,38 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLocalProblem_Recovery();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ModelElement <em>Model Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model Element</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ModelElement
+	 * @generated
+	 */
+	EClass getModelElement();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.ModelElement#getKlass <em>Klass</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Klass</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ModelElement#getKlass()
+	 * @see #getModelElement()
+	 * @generated
+	 */
+	EReference getModelElement_Klass();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.ModelElement#getMetamodelName <em>Metamodel Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Metamodel Name</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ModelElement#getMetamodelName()
+	 * @see #getModelElement()
+	 * @generated
+	 */
+	EAttribute getModelElement_MetamodelName();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.NavigationProblem <em>Navigation Problem</em>}'.
@@ -4841,6 +4991,28 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBindingResolution_TargetType();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRight <em>Right</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Right</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.BindingResolution#getRight()
+	 * @see #getBindingResolution()
+	 * @generated
+	 */
+	EReference getBindingResolution_Right();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link anatlyzer.atl.errors.atl_error.BindingResolution#getLeft <em>Left</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Left</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.BindingResolution#getLeft()
+	 * @see #getBindingResolution()
+	 * @generated
+	 */
+	EReference getBindingResolution_Left();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRules <em>Rules</em>}'.
@@ -5305,6 +5477,32 @@ public interface AtlErrorPackage extends EPackage {
 		EReference LOCAL_PROBLEM__RECOVERY = eINSTANCE.getLocalProblem_Recovery();
 
 		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ModelElementImpl <em>Model Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.ModelElementImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getModelElement()
+		 * @generated
+		 */
+		EClass MODEL_ELEMENT = eINSTANCE.getModelElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Klass</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_ELEMENT__KLASS = eINSTANCE.getModelElement_Klass();
+
+		/**
+		 * The meta object literal for the '<em><b>Metamodel Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_ELEMENT__METAMODEL_NAME = eINSTANCE.getModelElement_MetamodelName();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.NavigationProblemImpl <em>Navigation Problem</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5659,6 +5857,22 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BINDING_RESOLUTION__TARGET_TYPE = eINSTANCE.getBindingResolution_TargetType();
+
+		/**
+		 * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BINDING_RESOLUTION__RIGHT = eINSTANCE.getBindingResolution_Right();
+
+		/**
+		 * The meta object literal for the '<em><b>Left</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BINDING_RESOLUTION__LEFT = eINSTANCE.getBindingResolution_Left();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' containment reference list feature.

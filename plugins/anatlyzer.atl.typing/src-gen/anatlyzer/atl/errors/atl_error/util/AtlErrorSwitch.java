@@ -77,6 +77,12 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.MODEL_ELEMENT: {
+				ModelElement modelElement = (ModelElement)theEObject;
+				T result = caseModelElement(modelElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.NAVIGATION_PROBLEM: {
 				NavigationProblem navigationProblem = (NavigationProblem)theEObject;
 				T result = caseNavigationProblem(navigationProblem);
@@ -458,6 +464,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLocalProblem(LocalProblem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelElement(ModelElement object) {
 		return null;
 	}
 

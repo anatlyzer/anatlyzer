@@ -1,9 +1,11 @@
 package anatlyzer.atl.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.model.ATLModel;
@@ -20,11 +22,11 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
-import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 
 public class ATLUtils {
@@ -180,6 +182,64 @@ public class ATLUtils {
 		return result;
 	}
 
+	public static List<ModelInfo> getModelInfo(ATLModel atlModel) {		
+		HashMap<String, String> uris = new HashMap<String, String>();
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "nsURI")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			uris.put(two[0].trim(), two[1].trim());		
+		}
+
+		HashMap<String, String> paths = new HashMap<String, String>();
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "path")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			paths.put(two[0].trim(), two[1].trim());		
+		}
+
+		Unit root = atlModel.getRoot();
+		List<OclModel> inputModels = new ArrayList<OclModel>();
+		List<OclModel> outputModels = new ArrayList<OclModel>();
+		
+		if ( root instanceof Library ) {
+			OclModel m = createLibraryModel(atlModel);
+			if ( m != null )
+				inputModels.add(m);
+			// System.err.println("Don't know how to get the library model");
+		} else if ( root instanceof Module ) {
+			inputModels.addAll(((Module) root).getInModels());
+			outputModels.addAll(((Module) root).getOutModels());			
+		}
+		
+		List<ModelInfo> result = new ArrayList<ATLUtils.ModelInfo>();
+		
+		for(OclModel m : inputModels) {
+			boolean isURI = true;
+			String uriOrPath = uris.get(m.getMetamodel().getName());
+			if ( uriOrPath == null) {
+				uriOrPath = paths.get(m.getMetamodel().getName());
+				isURI = false;
+			}
+			
+			result.add(new ModelInfo(m, ModelInfo.INPUT, uriOrPath, isURI));
+		}
+		
+		for(OclModel m : outputModels) {
+			boolean isURI = true;
+			String uriOrPath = uris.get(m.getMetamodel().getName());
+			if ( uriOrPath == null) {
+				uriOrPath = paths.get(m.getMetamodel().getName());
+				isURI = false;
+			}
+			
+			result.add(new ModelInfo(m, ModelInfo.OUTPUT, uriOrPath, isURI));
+		}
+		
+		return result;
+	}
+	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
 		for(ModuleElement r : model.getModule().getElements()) {
@@ -189,19 +249,19 @@ public class ATLUtils {
 		return rules;
 	}
 
-	public static List<OclModel> getUnitModels(ATLModel atlModel) {
-		List<OclModel> models = new ArrayList<OclModel>();
-		Unit root = atlModel.getRoot();
-		if ( root instanceof Library ) {
-			System.err.println("Don't know how to get the library model");
-		} else if ( root instanceof Module ) {
-			models.addAll(((Module) root).getInModels());
-			models.addAll(((Module) root).getOutModels());			
+	private static OclModel createLibraryModel(ATLModel atlModel) {
+		OclModel m = OCLFactory.eINSTANCE.createOclModel();
+		TreeIterator<EObject> it = atlModel.getResource().getAllContents();
+		while ( it.hasNext() ) {
+			EObject obj = it.next();
+			if ( obj instanceof OclModel ) {
+				m.setName("LIBIN");
+				m.setMetamodel((OclModel) obj);
+			}
 		}
-		return models;
+		return null;
 	}
 
-	
 	public static <T> T getContainer(EObject obj, Class<T> class1) {
 		if ( obj == null )
 			return null;
@@ -213,5 +273,42 @@ public class ATLUtils {
 		return getContainer(obj, class1);
 	}
 
+
+	
+	public static class ModelInfo {
+		public static final int INPUT = 0;
+		public static final int OUTPUT = 1;
+		public static final int INOUT = 2;
+
+		private OclModel model;
+		private int modelKind;
+		private boolean isURI;
+		private String uriOrPath;
 		
+		public ModelInfo(OclModel m, int modelKind, String uriOrPath, boolean isURI) {
+			this(m, modelKind);
+			this.uriOrPath = uriOrPath;
+			this.isURI = isURI;
+		}
+		
+		public ModelInfo(OclModel m, int modelKind) {
+			this.model = m;
+			this.modelKind = modelKind;
+		}
+		
+		public boolean hasMetamodelInfo() {
+			return uriOrPath != null;
+		}
+		
+		public boolean isInput() { return modelKind == INPUT; }
+		public boolean isOutput() { return modelKind == OUTPUT; }
+		public boolean isInOut() { return modelKind == INOUT; }
+
+		public String getMetamodelName() { return model.getMetamodel().getName(); }
+		public String getModelName() { return model.getName(); }
+
+		public String getURIorPath() { return uriOrPath; }
+		
+	}
+	
 }

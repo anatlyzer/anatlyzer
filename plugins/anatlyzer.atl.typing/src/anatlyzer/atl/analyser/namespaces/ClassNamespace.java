@@ -336,7 +336,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		
 		if ( possibleContainers.size() == 0 ) {
 			// TODO: How to recover from a not having a container???
-			AnalyserContext.getErrorModel().signalNoContainerForRefImmediateComposite(getType(), node);
+			return AnalyserContext.getErrorModel().signalNoContainerForRefImmediateComposite(getType(), node);
 		} else if ( possibleContainers.size() == 1 ) {
 			return metamodel.getMetaclass(possibleContainers.get(0));
 		} else {
@@ -347,7 +347,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 
 			return AnalyserContext.getTypingModel().getCommonType(containerTypes);
 		}
-		throw new IllegalStateException(); // This should not happen (the compiler seems not see it...)
+		// throw new IllegalStateException(); // This should not happen (the compiler seems not see it...)
 	}
 
 

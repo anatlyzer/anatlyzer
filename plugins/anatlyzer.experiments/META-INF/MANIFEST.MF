@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Facility to execute batch experiments
+Bundle-SymbolicName: anatlyzer.experiments;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.experiments.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.navigator.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/yamlbeans-1.08.jar,
+ .
+Export-Package: anatlyzer.experiments.extensions

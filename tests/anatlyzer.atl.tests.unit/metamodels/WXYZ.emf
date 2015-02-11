@@ -1,0 +1,42 @@
+@namespace(uri="http://anatlyzer/test/wxyz", prefix="wxyz")
+package wxyz;
+
+abstract class NamedElt {
+  attr String[1] name;
+}
+
+class Model extends NamedElt {
+  val W[*] elements;
+}
+
+class W extends NamedElt {
+  attr String propOfW;
+}
+
+class X extends W {
+  attr String propOfX;
+}
+
+class Y extends X {
+  attr String propOfY;
+}
+
+class Y1 extends X {
+}
+
+class Y2 extends X {
+}
+
+class Z extends Y {
+  attr String propOfZ;
+}
+
+class Z1 extends Y {
+}
+
+class Z2 extends Y {
+}
+
+class Z3 extends Y {
+}
+

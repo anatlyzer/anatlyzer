@@ -1,0 +1,14 @@
+module retypingselect;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		-- Stupid expression, but this is just to force an implicit casting
+		not src.elements.isEmpty()
+	)
+    to   tgt : WXYZ!Model (
+    	name <- 'test',
+		-- Force an error
+    	elements <- src.elements 
+	)
+}

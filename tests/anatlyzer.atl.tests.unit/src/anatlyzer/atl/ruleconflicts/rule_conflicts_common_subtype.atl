@@ -1,0 +1,25 @@
+module conflictscommonsubtype;
+create OUT : WXYZ from IN : ABCD;
+
+-- D inherits from A
+rule rD {
+	from src : ABCD!D 
+    to   tgt : WXYZ!X (
+    	name <- 'D'
+	)
+}
+
+-- B inherits from A
+rule rB {
+    from src : ABCD!B    
+	to   tgt : WXYZ!X (
+    	name <- 'B'
+	)
+}
+
+rule rOther {
+	from src : ABCD!Other
+	to tgt : WXYZ!X (
+		name <- 'other'
+	)	
+}

@@ -1,0 +1,9 @@
+src/anatlyzer/atl/retyping/retyping_select.atl
+anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl (8:14-8:79): 
+ThisModule.allInstances()->exists(thisModule|Model.allInstances()->exists(src|if not (src.elements->select(e|e.oclIsKindOf(B))->at(1).isUndefined())
+	then not (D3_B.allInstances()->includes(src.elements->select(e|e.oclIsKindOf(B))->at(1)))
+	else false
+	endif))
+
+#########################################
+

@@ -1,0 +1,32 @@
+module retypingselect;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model 
+    to   tgt : WXYZ!Model (
+    	name <- 'test',
+		-- Force an error: expected mapping for var aX
+    	elements <- Set { aX }->union( src.elements )
+		
+    ), aX : WXYZ!X (
+		name <- 'aX'	
+	)
+}
+
+--rule model2 {
+--	from src : ABCD!Model 
+--    to   tgt2 : WXYZ!Model (
+--		-- This provokes a bug... different from the one above
+--		elements <- src.elements->including(aX)    	
+--    ), aX : WXYZ!X (
+--		name <- 'aX'	
+--	)
+--}
+
+
+-- Rule with invalid target
+rule a2model {
+	from src : ABCD!A 
+    to   tgt : WXYZ!Model (
+    	name <- 'will provoke a problem'
+}

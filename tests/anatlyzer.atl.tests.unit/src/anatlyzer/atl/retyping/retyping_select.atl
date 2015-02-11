@@ -1,0 +1,12 @@
+module retypingselect;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		-- Stupid expression, but this is just to force an implicit casting
+		src.elements->select(e | e.oclIsKindOf(ABCD!B) )->collect(b | b.propOfB )->isEmpty()	
+	)
+    to   tgt : WXYZ!Model (
+    	elements <- src.elements -- ->select(e | e.oclIsKindOf(ABCD!B) )->collect(b | b.propOfD )->first() 
+	)
+}

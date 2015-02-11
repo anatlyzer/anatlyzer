@@ -1,0 +1,11 @@
+module targetfeatureinbinding;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'test',
+		-- Target feature not found in binding: "element" should be "elements"
+    	element <- src.elements
+	)
+}

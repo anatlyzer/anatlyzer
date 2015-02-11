@@ -1,0 +1,15 @@
+module oclanyhelper;
+create OUT : WXYZ from IN : ABCD;
+
+helper context OclAny def: aHelper : String = 'aValue';
+
+
+-- This should not signal any error, although perhaps a warning could be in place
+-- Analysis if - branches (USE does, is this therefore an OCL compliance error?)
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'test'.aHelper + src.aHelper
+	)
+}
+

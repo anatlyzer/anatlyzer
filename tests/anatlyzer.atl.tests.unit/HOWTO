@@ -1,0 +1,21 @@
+
+Running tests that use the constraint solver
+============================================
+
+There is a conflict between the versions of ANTLR used by TCS and USE.
+In normal model all plug-in libraries are loaded by the same class loader
+and the TCS ANTLR "wins" provoking a runtime error in the USE parser.
+
+To avoid that the test should launched using the Eclipse infrastructure.
+Steps:
+	1. Create Junit Plug-in Test configuration
+	2. Uncheck "Run in UI thread"
+	3. Select "Main" tab -> "Run in application" -> [No application] Headless mode
+	4. To speed up the launching process:
+		- Goto "Plug-ins" tab
+		- Select "Launch with" -> Plugins selected below only
+		- Click "Deselect all"
+		- Uncheck "Include optional dependencies when computing required plugins"
+		- Click on "Required plugins"
+		- In the filter text box enter: org.antlr.runtime
+		  Only version v3.0.0 of the org.antlr.runtime plug-in should be checked

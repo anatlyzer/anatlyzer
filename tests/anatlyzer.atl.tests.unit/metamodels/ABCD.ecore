@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="abcd" nsURI="http://anatlyzer/test/abcd" nsPrefix="abcd">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElt" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//A" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="others" upperBound="-1"
+        eType="#//Other" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="#//StyleKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="A" eSuperTypes="#//NamedElt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="B" eSuperTypes="#//A">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C" eSuperTypes="#//A">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfC" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C1" eSuperTypes="#//C"/>
+  <eClassifiers xsi:type="ecore:EClass" name="C2" eSuperTypes="#//C"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D" eSuperTypes="#//A">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="D1" eSuperTypes="#//D"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D2" eSuperTypes="#//D"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D3" eSuperTypes="#//D"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D3_B" eSuperTypes="#//D3 #//B"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D3_B_C" eSuperTypes="#//D3_B #//C"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//NamedElt"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="StyleKind">
+    <eLiterals name="Style1"/>
+    <eLiterals name="Style2" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

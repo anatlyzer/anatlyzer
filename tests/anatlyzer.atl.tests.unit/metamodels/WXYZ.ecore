@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="wxyz" nsURI="http://anatlyzer/test/wxyz" nsPrefix="wxyz">
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElt" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
+        eType="#//W" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="W" eSuperTypes="#//NamedElt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfW" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="X" eSuperTypes="#//W">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Y" eSuperTypes="#//X">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Y1" eSuperTypes="#//X"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Y2" eSuperTypes="#//X"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Z" eSuperTypes="#//Y">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfZ" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Z1" eSuperTypes="#//Y"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Z2" eSuperTypes="#//Y"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Z3" eSuperTypes="#//Y"/>
+</ecore:EPackage>

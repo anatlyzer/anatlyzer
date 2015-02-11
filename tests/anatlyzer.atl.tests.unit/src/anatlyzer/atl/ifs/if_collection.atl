@@ -1,0 +1,18 @@
+module ifcollection;
+create OUT : WXYZ from IN : ABCD;
+
+-- This should not signal any error, although perhaps a warning could be in place
+-- Analysis if - branches (USE does, is this therefore an OCL compliance error?)
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'test',
+		-- Target feature not found in binding: "element" should be "elements"
+    	elements <- if ( true ) then 
+				src.elements 
+			else 
+				src.elements->first()
+			endif
+	)
+}
+

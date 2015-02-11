@@ -12,5 +12,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.atl.core.emf,
  anatlyzer.atl.typing;bundle-version="0.1.0",
  anatlyzer.atl.tests.api
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy

@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.ui.editors,
  org.eclipse.ui.workbench
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/yamlbeans-1.08.jar,
  .

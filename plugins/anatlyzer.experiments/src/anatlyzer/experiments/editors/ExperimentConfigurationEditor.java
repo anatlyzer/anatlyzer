@@ -255,14 +255,14 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 	
 	void executeExperiment() {
 		String confText = editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
-		ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);		
+		final ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);		
 		
-		for(IConfigurationElement c : Platform.getExtensionRegistry().getConfigurationElementsFor(NewExperimentExtension.ID)) {
+		for(final IConfigurationElement c : Platform.getExtensionRegistry().getConfigurationElementsFor(NewExperimentExtension.ID)) {
 			if ( ! conf.extensionID.equals(c.getDeclaringExtension().getUniqueIdentifier()) ) 
 				continue;
 			
 			String desc = c.getAttribute("resourceType");
-			String extension;
+			final String extension;
 			if ( desc.startsWith("file:") ) {
 				extension = desc.substring("file:".length());				
 			} else {

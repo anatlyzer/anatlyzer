@@ -150,7 +150,7 @@ public class USESerializer {
 			for(TuplePart p : te.getTuplePart()) {
 				parts.add( p.getVarName() + " = " + gen(p.getInitExpression()) );
 			}
-			return "Tuple { " + String.join(", ", parts) + " } ";
+			return "Tuple { " + join(", ", parts) + " } ";
 		} else {
 			throw new UnsupportedOperationException(expr.toString());
 		}
@@ -252,6 +252,13 @@ public class USESerializer {
 		return s;
 	}
 
+	private static String join(String delimiter, ArrayList<String> parts) {
+		String s = parts.isEmpty() ? "" : parts.get(0);
+		for(int i = 1; i < parts.size(); i++) {
+			s = delimiter + parts.get(i);
+		}
+		return s;
+	}
 	
 
 	

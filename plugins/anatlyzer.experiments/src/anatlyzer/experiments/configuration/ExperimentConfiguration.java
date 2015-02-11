@@ -20,9 +20,9 @@ public class ExperimentConfiguration {
 	public String extensionID;
 	public List<Project> projects = new ArrayList<Project>();
 
-	public void execute(String extension, IExperiment experiment, IProgressMonitor monitor) {
+	public void execute(final String extension, IExperiment experiment, IProgressMonitor monitor) {
 		IProject[] allProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (Project project : projects) {
+		for (final Project project : projects) {
 			IProject p = findProject(allProjects, project.name);
 			if ( p == null ) {
 				System.err.println("Project " + project.name + " not found");

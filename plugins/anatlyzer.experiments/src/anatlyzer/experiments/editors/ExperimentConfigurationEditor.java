@@ -156,6 +156,10 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		gd1.horizontalSpan = 2;
 				
 		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
+		
+		text.setFont( new Font(null, "Monospace", 11, SWT.NORMAL ) );
+		
+		
 		text.setLayoutData(gd1);
 		text.setEditable(true);
 		

@@ -2,11 +2,20 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         id="typing.experiment.countTrafoTypes"
          point="anatlyzer.experiments.newExperiment">
       <experiment
             delegate="anatlyzer.experiments.typing.CountTransformationTypes"
             resourceType="file:atl"
             type="extension:atl"></experiment>
+   </extension>
+   <extension
+         id="typing.experiment.countTypeErrors"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.typing.CountTypeErrors"
+            resourceType="file:atl">
+      </experiment>
    </extension>
 
 </plugin>

@@ -17,6 +17,7 @@ import anatlyzer.experiments.extensions.IExperiment;
 
 public class ExperimentConfiguration {
 	public String name;
+	public String extensionID;
 	public List<Project> projects = new ArrayList<Project>();
 
 	public void execute(String extension, IExperiment experiment, IProgressMonitor monitor) {

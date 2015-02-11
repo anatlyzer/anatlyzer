@@ -8,10 +8,12 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.PrimitiveType;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class DelimitedExpressionNode extends AbstractDependencyNode {
 
@@ -72,4 +74,10 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(start, v) != null 
+			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+
 }

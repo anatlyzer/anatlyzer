@@ -29,8 +29,10 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
+import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
+import anatlyzer.atlext.OCL.CollectionExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.IfExp;
@@ -48,9 +50,11 @@ import anatlyzer.atlext.OCL.OclUndefinedExp;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.OrderedSetExp;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.RealType;
 import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.VariableExp;
@@ -354,7 +358,26 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inSequenceExp(SequenceExp self) {
-		String s = "Sequence {";
+		doCollectionExp("Sequence", self);
+	}
+	
+	@Override
+	public void inSetExp(SetExp self) {
+		doCollectionExp("Set", self);
+	}
+	
+	@Override
+	public void inOrderedSetExp(OrderedSetExp self) {
+		doCollectionExp("OrderedSet", self);
+	}
+	
+	@Override
+	public void inBagExp(BagExp self) {
+		doCollectionExp("Bag", self);
+	}
+	
+	private void doCollectionExp(String atlText, CollectionExp self) {
+		String s = atlText + " {";
 		
 		List<String> l = sl();
 		for(OclExpression e : self.getElements()) {
@@ -365,6 +388,7 @@ public class ATLSerializer extends AbstractVisitor {
 
 		s(s);		
 	}
+	
 	
 	@Override
 	public void inOclModelElement(OclModelElement self) {

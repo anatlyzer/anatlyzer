@@ -88,4 +88,10 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 		}
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		throw new IllegalStateException();
+	}
+
+	
 }

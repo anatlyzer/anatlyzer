@@ -141,5 +141,10 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 	public void genTransformationSlice(TransformationSlice slice) {
 		slice.addRule(this.rule);
 	}
-	
+
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		throw new IllegalStateException();
+	}
+
 }

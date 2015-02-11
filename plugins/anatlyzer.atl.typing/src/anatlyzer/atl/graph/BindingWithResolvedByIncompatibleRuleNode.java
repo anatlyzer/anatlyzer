@@ -181,6 +181,10 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		return false;
 	}
 
-	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {
+		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
+	}
+		
 	
 }

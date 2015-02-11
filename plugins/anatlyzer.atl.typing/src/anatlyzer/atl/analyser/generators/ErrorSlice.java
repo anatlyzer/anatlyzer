@@ -39,10 +39,10 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashMap<String, java.util.Set<Helper>> helpers = 
 			new HashMap<String, java.util.Set<Helper>>();
 	
-	private String	metamodelName;
+	private Set<String>	metamodelNames;
 	
-	public ErrorSlice(String metamodelName) {
-		this.metamodelName = metamodelName;
+	public ErrorSlice(Set<String> sourceMetamodels) {
+		this.metamodelNames = sourceMetamodels;
 		
 		// Ugly hack
 		EClass thisModuleClass = EcoreFactory.eINSTANCE.createEClass();
@@ -52,8 +52,13 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 
 	public void addExplicitMetaclass(Metaclass type) {
 		// If no meta-model name is given, then all classes are added
-		if ( metamodelName == null || type.getModel().getName().equals(metamodelName) )
+		// if ( metamodelName == null || type.getModel().getName().equals(metamodelName) ) {
+		if ( metamodelNames.contains( type.getModel().getName() ) ) {
+		
+			// The metaclass object could also include the information whether it is
+			// a target object or not
 			explicitTypes.add(type.getKlass());
+		}
 	}
 	
 	public void addMetaclassNeededInError(EClass eClass) {

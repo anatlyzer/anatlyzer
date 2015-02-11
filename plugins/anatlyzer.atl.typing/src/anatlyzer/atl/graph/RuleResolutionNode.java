@@ -9,6 +9,7 @@ import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class RuleResolutionNode extends AbstractDependencyNode implements ConstraintNode {
 
@@ -45,4 +46,10 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 		}						
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(binding.getValue(), v) != null 
+			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+
 }

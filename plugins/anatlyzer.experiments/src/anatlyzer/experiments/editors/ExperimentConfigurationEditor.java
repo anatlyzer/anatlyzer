@@ -258,6 +258,9 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);		
 		
 		for(IConfigurationElement c : Platform.getExtensionRegistry().getConfigurationElementsFor(NewExperimentExtension.ID)) {
+			if ( ! conf.extensionID.equals(c.getDeclaringExtension().getUniqueIdentifier()) ) 
+				continue;
+			
 			String desc = c.getAttribute("resourceType");
 			String extension;
 			if ( desc.startsWith("file:") ) {
@@ -298,8 +301,8 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			
 			return; // TODO: Indicate the actual experiment to run
 		}
-		
-		System.err.println("No experiment has been run. No extension point implementation found");
+
+		text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
 	}
 	
 	/**

@@ -8,7 +8,9 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorUtils;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProblemNode<LocalProblem> {
 
@@ -48,6 +50,12 @@ public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProbl
 	@Override
 	public boolean isStraightforward() {
 		return true;
+	}
+
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(expr, v) != null 
+			|| getDepending().isVarRequiredByErrorPath(v);
 	}
 
 }

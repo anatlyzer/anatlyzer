@@ -14,6 +14,7 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -153,6 +154,11 @@ public class CallExprNode extends AbstractDependencyNode {
 				throw new UnsupportedOperationException("CalledRuleAnn not supported");
 			}
 		}
+	}
+	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(call, v) != null || getDepending().isVarRequiredByErrorPath(v);
 	}
 	
 }

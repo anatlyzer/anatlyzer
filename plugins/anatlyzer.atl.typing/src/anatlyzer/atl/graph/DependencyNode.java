@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public interface DependencyNode extends GraphNode {
 	/*
@@ -12,6 +13,8 @@ public interface DependencyNode extends GraphNode {
 	void addDepending(DependencyNode node);
 	void addConstraint(ConstraintNode constraint);
 	
+	
+	
 	public DependencyNode getDependency();
 	
 	void setProblem(Problem p);
@@ -20,6 +23,8 @@ public interface DependencyNode extends GraphNode {
 	
 	boolean leadsToExecution();
 	void    setLeadsToExecution(boolean leadsToExecution);
+	
+	boolean isVarRequiredByErrorPath(VariableDeclaration v);
 	
 	//String genCSP(String dependent);
 }

@@ -2,7 +2,10 @@ package witness.generator;
 
 import java.util.Calendar;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 
 import transML.exceptions.transException;
 
@@ -23,7 +26,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	public boolean generate() throws transException {		
-		
 		// extend error meta-model with mandatory classes in effective meta-model 
 		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
 	
@@ -39,6 +41,9 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		errorMM.setNsPrefix(languageMM.getNsPrefix());
 		errorMM.setNsURI   (languageMM.getNsURI()!=null?languageMM.getNsURI():effectiveMM.getNsURI());
 
+		addBaseObject(errorMM);
+		changeNamesToResolveConflicts(errorMM, new USENameModifyier());
+		
 		loadOclOperations(errorMM);
 		
 		Calendar c = Calendar.getInstance();
@@ -53,6 +58,32 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return witness != null;
 	}
 	
+	/**
+	 * Needed to have a common type different from OclAny which is not accepted by the validator...
+	 * @param errorMM2
+	 */
+	private void addBaseObject(EPackage errorMM2) {
+		EClass eclass = EcoreFactory.eINSTANCE.createEClass();
+		eclass.setName("BaseObject_");
+		eclass.setAbstract(true);
+		errorMM2.getEClassifiers().add(eclass);
+		for(EClassifier c : errorMM2.getEClassifiers()) {
+			if ( c instanceof EClass && c != eclass ) {
+				if ( ((EClass) c).getESuperTypes().size() == 0 ) {
+					((EClass) c).getESuperTypes().add(eclass);
+				}
+			}
+		}
+	}
+
+	private void changeNamesToResolveConflicts(EPackage errorMM2, USENameModifyier mod) {
+		for(EClassifier c : errorMM2.getEClassifiers()) {
+			if ( c instanceof EClass ) {
+				mod.adapt((EClass) c, true);
+			}
+		}
+	}
+
 	private void changeConflictingClassNames(EPackage errorMM2) {
 		// TODO Auto-generated method stub
 		

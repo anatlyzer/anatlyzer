@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.generators;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -10,6 +11,7 @@ import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemNode;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ErrorUtils;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 
@@ -32,18 +34,18 @@ public class ErrorSliceGenerator {
 		this.analyser = analyser;
 	}
 
-	public void generate(String metamodelName) {
+	public void generate() {
 		for(ProblemPath path : graph.getProblemPaths()) {
-			ErrorSlice slice = new ErrorSlice(metamodelName);
+			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(analyser.getATLModel()));
 			path.getErrorNode().genErrorSlice(slice);
 		}
 	}
 
-	public void generate(Resource r, String metamodelName, String location) {
+	public void generate(Resource r, String location) {
 		int i = 0;
 		for(ProblemPath path : graph.getProblemPaths()) {
 			if ( path.getProblem().getLocation().equals(location) ) {
-				ErrorSlice slice = path.getErrorNode().getErrorSlice();
+				ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser);
 				LocalProblem p = path.getProblem();
 				
 				String name = "error" + (i + 1);
@@ -55,14 +57,14 @@ public class ErrorSliceGenerator {
 		}
 	}
 	
-	public void generate(Resource r, String metamodelName) {
-		generate(metamodelName);
+	public void generate(Resource r) {
+		generate();
 
 		List<ProblemPath> sorted = graph.getSortedPaths();
 		
 		int i = 0;
 		for(ProblemPath path : sorted) {
-			ErrorSlice slice = path.getErrorNode().getErrorSlice();
+			ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser);
 			LocalProblem p = path.getProblem();
 			
 			String name = "error" + (i + 1);
@@ -73,10 +75,10 @@ public class ErrorSliceGenerator {
 		}
 	}
 	
-	public void generate(ProblemPath path, Resource r, String metamodelName) {
+	public void generate(ProblemPath path, Resource r) {
 		ErrorSlice slice = null;
 		LocalProblem problemOfNode   = path.getProblem();
-		slice = path.getErrorNode().getErrorSlice();
+		slice = path.getErrorNode().getErrorSlice(analyser);
 
 		String name = "error"; //  + (i + 1);
 		String info = ErrorUtils.getShortError(problemOfNode);

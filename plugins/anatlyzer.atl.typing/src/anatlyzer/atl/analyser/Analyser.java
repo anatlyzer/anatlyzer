@@ -17,7 +17,7 @@ import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atlext.ATL.Unit;
 
-public class Analyser {
+public class Analyser implements IAnalyserResult {
 	private GlobalNamespace	mm;
 	private TypingModel	typ;
 	private ATLModel	trafo;
@@ -110,6 +110,10 @@ public class Analyser {
 		return overlapping;
 	}
 
+	/* (non-Javadoc)
+	 * @see anatlyzer.atl.analyser.IAnalyserResult#getErrors()
+	 */
+	@Override
 	public ErrorModel getErrors() {
 		return errors;
 	}
@@ -122,6 +126,10 @@ public class Analyser {
 		return problemGraph;
 	}
 
+	/* (non-Javadoc)
+	 * @see anatlyzer.atl.analyser.IAnalyserResult#getATLModel()
+	 */
+	@Override
 	public ATLModel getATLModel() {
 		return trafo;
 	}

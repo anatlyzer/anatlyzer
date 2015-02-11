@@ -6,9 +6,11 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class LoopNode extends AbstractDependencyNode {
 
@@ -52,7 +54,12 @@ public class LoopNode extends AbstractDependencyNode {
 		for(DependencyNode n : dependencies) {
 			n.genTransformationSlice(slice);
 		}					
-
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(receptor, v) != null 
+			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+
 }

@@ -242,6 +242,10 @@ public class CSPModel {
 		// scope.setThisModuleVariable(thisModule);
 	}
 
+	public VariableDeclaration getThisModuleVariable() {
+		return scope.getThisModuleVar();
+	}
+	
 	public static class CSPModelScope extends HashMap<VariableDeclaration, VariableDeclaration> {
 		
 		private VariableDeclaration thisModule;

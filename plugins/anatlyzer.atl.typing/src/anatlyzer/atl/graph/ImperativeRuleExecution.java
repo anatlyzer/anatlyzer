@@ -75,7 +75,11 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 		return getDepending().genCSP(model);
 	}
 
-	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return getDepending().isVarRequiredByErrorPath(v);
+	}
+
 
 		
 }

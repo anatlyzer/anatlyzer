@@ -10,6 +10,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class HelperInvocationNode extends AbstractDependencyNode {
 
@@ -57,4 +58,9 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return getDepending().isVarRequiredByErrorPath(v);
+	}
+
 }

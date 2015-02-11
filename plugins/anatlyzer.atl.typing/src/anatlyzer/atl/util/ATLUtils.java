@@ -2,7 +2,9 @@ package anatlyzer.atl.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -19,6 +21,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
@@ -28,6 +31,8 @@ import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class ATLUtils {
 
@@ -239,6 +244,17 @@ public class ATLUtils {
 		
 		return result;
 	}
+
+
+	public static Set<String> getSourceMetamodelNames(ATLModel model) {
+		HashSet<String> result = new HashSet<String>();
+		for(ModelInfo m : getModelInfo(model)) {
+			if ( m.isInput() ) {
+				result.add(m.getMetamodelName());
+			}
+		}
+		return result;
+	}
 	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
@@ -310,5 +326,19 @@ public class ATLUtils {
 		public String getURIorPath() { return uriOrPath; }
 		
 	}
+
+
+
+	public static VariableExp findVariableReference(EObject init, VariableDeclaration v) {	
+		if ( init instanceof VariableExp && ((VariableExp) init).getReferredVariable() == v ) 
+			return (VariableExp) init;
+		for(EObject obj : init.eContents()) {
+			VariableExp vexp = findVariableReference(obj, v);
+			if ( vexp != null )
+				return vexp;
+		}
+		return null;
+	}
+
 	
 }

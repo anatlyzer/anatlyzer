@@ -8,6 +8,7 @@ import java.util.Set;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
@@ -105,7 +106,7 @@ public class RuleConflictAnalysis {
 			PossibleConflictingRulesNode node = new PossibleConflictingRulesNode(overlap.type, overlap.rules);
 		
 			// Compute error slice
-			ErrorSlice slice = new ErrorSlice(null);
+			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(this.model));
 			node.genErrorSlice(slice);			
 			overlap.errorSlice = slice;
 
@@ -219,7 +220,8 @@ public class RuleConflictAnalysis {
 		// IDetectedProblem methods
 		//
 		
-		public ErrorSlice getErrorSlice() {
+		@Override
+		public ErrorSlice getErrorSlice(IAnalyserResult result) {
 			return errorSlice;
 		}
 		

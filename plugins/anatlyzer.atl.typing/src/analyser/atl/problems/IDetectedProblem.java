@@ -1,5 +1,6 @@
 package analyser.atl.problems;
 
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -15,7 +16,7 @@ public interface IDetectedProblem {
 	 * Returns the error slice of the problem.
 	 * @return
 	 */
-	public ErrorSlice getErrorSlice();
+	public ErrorSlice getErrorSlice(IAnalyserResult result);
 	
 	/**
 	 * Returns the condition for the constraint solver

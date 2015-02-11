@@ -112,7 +112,7 @@ public class BaseTest {
 			String errorSliceMMUri) throws IOException {
 		XMIResourceImpl r = new XMIResourceImpl(URI.createURI(errorSliceMMUri));
 		new ErrorSliceGenerator(analyser, analyser.getDependencyGraph())
-				.generate(r, metamodelName);
+				.generate(r);
 		r.save(null);
 	}
 
@@ -120,7 +120,7 @@ public class BaseTest {
 			String errorSliceMMUri, String location) throws IOException {
 		XMIResourceImpl r = new XMIResourceImpl(URI.createURI(errorSliceMMUri));
 		new ErrorSliceGenerator(analyser, analyser.getDependencyGraph())
-				.generate(r, metamodelName, location);
+				.generate(r, location);
 		r.save(null);
 	}
 	
@@ -174,7 +174,7 @@ public class BaseTest {
 		int i = 0;
 		for (IDetectedProblem p : problems) {		
 			XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("error"));
-			EPackage errorSlice = new EffectiveMetamodelBuilder(p.getErrorSlice()).extractSource(r1, "error", "http://error", "error", "error");
+			EPackage errorSlice = new EffectiveMetamodelBuilder(p.getErrorSlice(this.analyser)).extractSource(r1, "error", "http://error", "error", "error");
 			
 			// Effective meta-model
 			if ( effective == null ) {

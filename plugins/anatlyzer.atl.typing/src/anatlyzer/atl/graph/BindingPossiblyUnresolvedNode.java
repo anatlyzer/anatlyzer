@@ -176,4 +176,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		throw new UnsupportedOperationException();
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {
+		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
+	}
+	
 }

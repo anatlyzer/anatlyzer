@@ -11,12 +11,14 @@ import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.RuleFilterNode;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 
@@ -127,4 +129,9 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		throw new IllegalStateException();
+	}
+
 }

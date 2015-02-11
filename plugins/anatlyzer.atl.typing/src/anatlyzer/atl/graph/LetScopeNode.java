@@ -5,8 +5,10 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class LetScopeNode extends AbstractDependencyNode {
 
@@ -39,5 +41,10 @@ public class LetScopeNode extends AbstractDependencyNode {
 		throw new UnsupportedOperationException();
 	}
 	
-	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
+		return ATLUtils.findVariableReference(let, v) != null 
+			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+
 }

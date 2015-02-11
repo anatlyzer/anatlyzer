@@ -1,5 +1,6 @@
 package anatlyzer.experiments.typing;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,10 +9,12 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.reveng.VerticalTrafoChecker;
 import anatlyzer.atl.reveng.VerticalTrafoChecker.Result;
@@ -19,7 +22,7 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.ui.util.AtlEngineUtils;
 
-public class CountTransformationTypes implements IExperiment {
+public class CountTransformationTypes extends AbstractATLExperiment implements IExperiment {
 
 	private HashMap<String, List<String>> results = new HashMap<String, List<String>>();
 	int total = 0;
@@ -32,14 +35,9 @@ public class CountTransformationTypes implements IExperiment {
 	@Override
 	public void perform(IResource resource) {
 		try {
-			IFile file = (IFile) resource;
-			EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file);
-			ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
-			if ( !( atlModel.getRoot() instanceof Module) ) {
+			AnalyserData data = executeAnalyser(resource);
+			if ( data == null )
 				return;
-			}
-
-			AnalyserData data = new AnalyserExecutor().exec(resource, atlModel, false);
 			
 			Result r = new VerticalTrafoChecker(data.getAnalyser().getATLModel()).perform();
 			

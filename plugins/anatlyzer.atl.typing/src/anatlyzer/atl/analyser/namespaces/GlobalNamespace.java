@@ -10,9 +10,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -32,10 +30,6 @@ public class GlobalNamespace {
 		
 		for (Resource resource : r) {
 			resources.add(resource);
-
-			// if ( rs == null ) {
-			// 	rs = resource.getResourceSet();
-			//}
 		}
 		
 		

@@ -63,7 +63,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 	private void processOverlap(OverlappingRules overlap, AnalyserData data) {
 		// Error meta-model
 		XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("overlap_error"));
-		EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice()).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
+		EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice(data.getAnalyser())).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
 		
 		// Effective meta-model
 		if ( effective == null ) {

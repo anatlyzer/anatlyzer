@@ -12,6 +12,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 
 public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<BindingWithoutRule> implements ProblemNode {
@@ -82,6 +83,10 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 		return false;
 	}
 	
+	@Override
+	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {
+		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
+	}
 	
 
 }

@@ -1,6 +1,8 @@
 package anatlyzer.atl.model;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -124,7 +126,18 @@ public class TypeUtils {
 	}
 
 	public static boolean isFeatureMustBeInitialized(EStructuralFeature f) {
-		return f.getLowerBound() != 0 && f.getDefaultValue() == null;
+		boolean boundsAndDefaults = f.getLowerBound() != 0 && f.getDefaultValue() == null;
+		if ( f instanceof EAttribute ) {
+			EDataType dt = ((EAttribute) f).getEAttributeType();
+			return !( 	dt.getInstanceClass() == Boolean.class || 
+						dt.getInstanceClass() == Integer.class ||
+						dt.getInstanceClass() == Float.class ||
+						dt.getInstanceClass() == Double.class ||
+						dt.getInstanceClass() == Long.class ) 
+						|| boundsAndDefaults;
+		} else {
+			return boundsAndDefaults;
+		}
 	}
 
 	public static EEnumLiteral getLiteralOf(EnumLiteralExp expr) {

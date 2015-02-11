@@ -1,4 +1,5 @@
-name: test experiment
+name: Count transformation types
+extensionID: typing.experiment.countTrafoTypes
 projects: 
 -  name: Ant2Maven
 -  name: Bibtex2Docbook

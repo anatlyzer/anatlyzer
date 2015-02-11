@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -46,8 +47,8 @@ public class ProblemPath implements IDetectedProblem {
 	//
 	
 	@Override
-	public ErrorSlice getErrorSlice() {
-		return this.errorNode.getErrorSlice();
+	public ErrorSlice getErrorSlice(IAnalyserResult analyserResult) {
+		return this.errorNode.getErrorSlice(analyserResult);
 	}
 
 	@Override

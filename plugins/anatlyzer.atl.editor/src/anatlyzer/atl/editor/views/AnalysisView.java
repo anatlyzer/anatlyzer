@@ -1,6 +1,11 @@
 package anatlyzer.atl.editor.views;
 
+import java.util.List;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -20,6 +25,8 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
+import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -28,23 +35,26 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
-import anatlyzer.atl.reveng.VerticalTrafoChecker;
-import anatlyzer.examples.api.ErrorReport;
+import anatlyzer.atlext.ATL.OutPatternElement;
 
 public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener {
 
@@ -74,27 +84,124 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public Object getParent() {
 			return parent;
 		}
+		
+		public String toColumn1() { return ""; }
 	}
 	
-	class BatchAnalysisNode extends TreeNode {
+	interface IBatchAnalysisNode {
+		void perform();		
+	}
+	interface IWithCodeLocation {
+		void goToLocation();		
+	}
+	
+	class BatchAnalysisNodeGroup extends TreeNode {
+		private TreeNode[] children;
 
-		public BatchAnalysisNode(TreeNode parent) {
+		public BatchAnalysisNodeGroup(TreeNode parent) {
 			super(parent);
+			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this) };
 		}
 
 		@Override
 		public Object[] getChildren() {
-			return new Object[0];
+			return children;
 		}
 
 		@Override
 		public boolean hasChildren() {
-			return false;
+			return true;
 		}
 		
 		@Override
 		public String toString() {
 			return "Batch analysis";
+		}
+	}
+	
+	class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
+		private UnconnectedElement[] elements;
+		public UnconnectedComponentsAnalysis(TreeNode parent) {
+			super(parent);
+		}
+
+		@Override
+		public Object[] getChildren() {
+			return elements;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return elements != null && elements.length > 0;
+		}
+		
+		@Override
+		public String toString() {
+			return "Unconnected components";
+		}
+
+		@Override
+		public String toColumn1() {
+			if ( elements == null )     return "Not analysed";
+			if ( elements.length == 0 ) return "Passed!";
+			return "Some not connected: " + elements.length;
+		}
+		
+		@Override
+		public void perform() {
+			List<OutPatternElement> l = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
+			elements = new UnconnectedElement[l.size()];
+			int i = 0;
+			for (OutPatternElement outPatternElement : l) {
+				elements[i++] = new UnconnectedElement(this, outPatternElement);
+			}
+			
+			viewer.refresh();
+		}
+	}
+	
+	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
+		private OutPatternElement element;
+
+		public UnconnectedElement(TreeNode parent, OutPatternElement element) {
+			super(parent);
+			this.element = element;
+		}		
+		
+		@Override
+		public Object[] getChildren() { return null; }
+		@Override
+		public boolean hasChildren()  { return false; }
+		
+		@Override
+		public String toString() {
+			return element.getType().getName() + " : " + element.getLocation(); 
+		}
+
+		@Override
+		public void goToLocation() {
+            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(element.getFileLocation()));
+            IEditorDescriptor desc = PlatformUI.getWorkbench().
+                    getEditorRegistry().getDefaultEditor(file.getName());
+            try {
+                    IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId());
+                    if ( part instanceof AtlEditor ) {
+                    	AtlEditor atlEditor = (AtlEditor) part;
+        				AtlNbCharFile help = new AtlNbCharFile(file.getContents());
+        				int[] pos = help.getIndexChar(element.getLocation(), -1);
+        				int charStart = pos[0];
+        				int charEnd = pos[1];
+        				atlEditor.selectAndReveal(charStart, charEnd - charStart); 
+        			}
+            } catch (PartInitException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+            } catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}   
+            
 		}
 	}
 	
@@ -152,14 +259,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	
 	class TreeParent extends TreeNode {
+		TreeNode[] children;
 		public TreeParent() {
 			super(null);
+			children = new TreeNode[] { new BatchAnalysisNodeGroup(this), new LocalProblemListNode(this) };
 		}
 
 		public Object[] getChildren() {
 			if ( currentAnalysis == null )
 				return new Object[] { };
-			return new TreeNode[] { new BatchAnalysisNode(this), new LocalProblemListNode(this) };
+			return children;
 		}
 
 		@Override
@@ -243,6 +352,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
+			if ( element instanceof TreeNode ) {
+				switch (columnIndex) {
+				case 0: return ((TreeNode) element).toString(); 
+				case 1: return ((TreeNode) element).toColumn1();
+				}
+			}
 			return element.toString();
 		}
 		
@@ -385,8 +500,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
+
+				if ( obj instanceof IBatchAnalysisNode ) {
+					((IBatchAnalysisNode) obj).perform();
+				}
+				if ( obj instanceof IWithCodeLocation ) {
+					((IWithCodeLocation) obj).goToLocation();					
+				}
 				
-				showMessage("Double-click detected on "+obj.toString());
+				// showMessage("Double-click detected on "+obj.toString());
 			}
 		};
 		
@@ -437,7 +559,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	@Override
 	public void partDeactivated(IWorkbenchPart part) {
-		System.out.println("AnalysisView.partDeactivated()" + part);
 	}
 
 	@Override

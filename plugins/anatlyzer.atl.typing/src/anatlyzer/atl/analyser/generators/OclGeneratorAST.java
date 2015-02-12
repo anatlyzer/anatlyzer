@@ -182,6 +182,7 @@ public class OclGeneratorAST {
 				((OperationCallExp) navT).getArguments().add(thisModuleRef);
 			} else {
 				navT = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+				navT.setUsedFeature(navS.getUsedFeature());
 				((NavigationOrAttributeCallExp) navT).setName(navS.getName());
 			}
 			

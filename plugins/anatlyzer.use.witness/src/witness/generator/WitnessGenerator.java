@@ -545,7 +545,10 @@ if (completeClass!=null) {
 		}	
 		
 		// 4. if there is an opposite reference, define it
-		if (ownerClass!=null && reference.getEOpposite()!=null) {
+		//    except if it is not a changeable reference. 
+		//       This is needed to deal with e.g., Ecore meta-model where some references
+		//       are filled automatically by the Java code		
+		if (ownerClass!=null && reference.getEOpposite()!=null && reference.getEOpposite().isChangeable() ) {
 			EReference targetReference = (EReference)targetClass.getEStructuralFeature(reference.getName());
 			String oppositeName = reference.getEOpposite().getName();
 			EReference opposite = (EReference)((EClass)refType).getEStructuralFeature(oppositeName);

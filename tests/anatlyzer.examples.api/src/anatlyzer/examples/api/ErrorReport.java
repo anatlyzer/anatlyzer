@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.ExtendTransformation;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
@@ -42,7 +43,7 @@ public class ErrorReport {
 		int helpers = 0, matchedRules = 0, abstractRules = 0, lazyRules = 0, calledRules = 0;
 		Module module = atlTransformation.allObjectsOf(Module.class).get(0);
 		for (ModuleElement e : module.getElements()) {
-			if (e instanceof Helper)
+			if (e instanceof Helper && ! (e.getCommentsBefore().contains(ExtendTransformation.EOPERATION_TAG)))
 				helpers++;
 			else if (e instanceof LazyRule)
 				lazyRules++;
@@ -54,8 +55,6 @@ public class ErrorReport {
 					matchedRules++;
 			} else if (e instanceof CalledRule)
 				calledRules++;
-			else
-				throw new UnsupportedOperationException();
 		}
 
 		

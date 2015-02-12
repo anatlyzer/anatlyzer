@@ -1,11 +1,17 @@
 package anatlyzer.atl.analyser.generators;
 
+import javax.sound.midi.Sequence;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -15,6 +21,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -30,6 +38,37 @@ public class Retyping extends AbstractVisitor {
 	
 	public void perform() {
 		startVisiting(root);
+		
+		// Adapt expressions generically
+//		TreeIterator<EObject> it = root.eAllContents();
+//		while ( it.hasNext() ) {
+//			EObject obj = it.next();
+//			if ( obj instanceof OclExpression ) {
+//				tryAdaptBooleanExpression((OclExpression) obj);
+//			}
+//		}
+	}
+	
+	/**
+	 * In USE there are no boolean types, but are converted to strings in the meta-model,
+	 * so every feature access with a boolean type must be converted to "expr == 'true'".
+	 */
+	@Override
+	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
+		System.out.println(self);
+		System.out.println("  - " + self.getInferredType());
+		System.out.println("  - " + self.getUsedFeature());
+		if ( self.getInferredType() instanceof BooleanType && self.getUsedFeature() != null) {
+			OperatorCallExp operator = OCLFactory.eINSTANCE.createOperatorCallExp();
+			StringExp stringExp = OCLFactory.eINSTANCE.createStringExp();
+			stringExp.setStringSymbol("true");
+			operator.setOperationName("=");
+			operator.getArguments().add(stringExp);
+			
+			EcoreUtil.replace(self, operator);
+			operator.setSource(self);
+		}
+
 	}
 	
 	@Override
@@ -49,6 +88,17 @@ public class Retyping extends AbstractVisitor {
 		// subsequently called
 		if ( self.getOperationName().equals("asSequence") ) {
 			self.setOperationName("asSet");
+			return;
+		}
+		
+		// Convert to a set before applying a set-only operation (e.g., union)
+		if ( self.getSource().getInferredType() instanceof SequenceType ) {
+			if ( self.getOperationName().equals("union") ) {
+				CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				colOp.setOperationName( "asSet" );
+				colOp.setSource( self.getSource() );				
+				self.setSource(colOp);
+			}
 		}
 	
 	}

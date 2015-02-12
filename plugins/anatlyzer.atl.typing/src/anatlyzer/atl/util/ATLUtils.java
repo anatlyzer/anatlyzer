@@ -187,6 +187,25 @@ public class ATLUtils {
 		return result;
 	}
 
+	public static void replacePathTag(Unit root, String name, String newPath) {
+		// Partly copied from findCommaTags
+		String tag = "@path";
+		//List<String> result = new ArrayList<String>();
+		int i = 0;
+		for (String str : root.getCommentsBefore()) {
+			String line = str.replaceAll("--", "").trim();
+			int index   = line.indexOf(tag);
+			if ( index != -1 ) {
+				line = line.substring(index + tag.length());
+				String[] parts = line.split("=");
+				if ( parts.length == 2 && parts[0].trim().equals(name)) {
+					root.getCommentsBefore().set(i, "-- " + tag + " " + name + "=" + newPath);
+				}
+			}		
+			i++;
+		}
+	}
+	
 	public static List<ModelInfo> getModelInfo(ATLModel atlModel) {		
 		HashMap<String, String> uris = new HashMap<String, String>();
 		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "nsURI")) {

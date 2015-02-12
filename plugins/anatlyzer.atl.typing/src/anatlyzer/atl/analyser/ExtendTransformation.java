@@ -41,6 +41,7 @@ import anatlyzer.atlext.OCL.SequenceType;
  */
 public class ExtendTransformation {
 
+	public static final String EOPERATION_TAG = "@eoperation";
 	private Unit unit;
 	private GlobalNamespace mm;
 	private ATLModel trafo;
@@ -96,6 +97,7 @@ public class ExtendTransformation {
 		
 
 		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
+		helper.getCommentsBefore().add(EOPERATION_TAG);
 		OclFeatureDefinition fd  = OCLFactory.eINSTANCE.createOclFeatureDefinition();
 		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
 		Operation oclOp          = OCLFactory.eINSTANCE.createOperation();

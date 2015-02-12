@@ -55,5 +55,8 @@ public class OclCompliance extends AbstractAnalyserVisitor {
 //		startVisiting(root);
 //		attr.popVisitor(this);
 	}
+	
+	// TODO:
+	//  - union operation not available in Sequence
 
 }

@@ -16,6 +16,7 @@ import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ExpressionStat;
+import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -29,6 +30,7 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
@@ -40,6 +42,9 @@ import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.MapElement;
+import anatlyzer.atlext.OCL.MapExp;
+import anatlyzer.atlext.OCL.MapType;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -169,7 +174,7 @@ public class ATLSerializer extends AbstractVisitor {
 	public void inActionBlock(ActionBlock self) {
 		String s = "do {" + cr();
 		for(Statement stmt : self.getStatements()) {
-			s += tab(1) + g(stmt) + ";" + cr();
+			s += tab(1) + g(stmt) + cr();
 		}
 		s += "}";
 		s(s);
@@ -177,7 +182,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inBindingStat(BindingStat self) {
-		s(g(self.getSource()) + " <- " + g(self.getValue()));
+		s(g(self.getSource()) + " <- " + g(self.getValue()) + ";");
 	}
 		
 	@Override
@@ -258,6 +263,24 @@ public class ATLSerializer extends AbstractVisitor {
 		s(s);
 	}
 	
+	@Override
+	public void inStaticHelper(StaticHelper self) {
+		String paramsStr = "";
+
+		if ( self.getDefinition().getFeature() instanceof Operation ) {
+			List<String> params = sl();
+			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
+				System.out.println(p.getType());
+				params.add( p.getVarName() + " : " + g(p.getType()) );
+			}
+			paramsStr = "(" + join(params) + ")";
+		}
+		
+		String s = "helper " + 
+				" def: " + ATLUtils.getHelperName(self) + paramsStr + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
+				g(ATLUtils.getHelperBody(self)) + ";";
+		s(s);
+	}
 	
 	//
 	// Expressions
@@ -389,6 +412,20 @@ public class ATLSerializer extends AbstractVisitor {
 		s(s);		
 	}
 	
+	@Override
+	public void inMapExp(MapExp self) {
+		String s = "Map" + " {";
+		
+		List<String> l = sl();
+		for(MapElement e : self.getElements()) {
+			l.add("(" + g(e.getKey()) + ", " + g(e.getValue()) + ")");
+		}
+		
+		s += join(l) + " }";
+
+		s(s);		
+
+	}
 	
 	@Override
 	public void inOclModelElement(OclModelElement self) {
@@ -425,6 +462,12 @@ public class ATLSerializer extends AbstractVisitor {
 		s("Boolean");
 	}
 	
+	@Override
+	public void inMapType(MapType self) {
+		String s = "Map(" + g(self.getKeyType()) + ", " + g(self.getValueType()) + ")";
+		s(s);
+	}
+	
 	//
 	// END-OF Expressions
 	//
@@ -442,6 +485,29 @@ public class ATLSerializer extends AbstractVisitor {
 	@Override
 	public void inExpressionStat(ExpressionStat self) {
 		s(g(self.getExpression()) + ";");
+	}
+	
+	@Override
+	public void inIfStat(IfStat self) {
+		String s = "if ( " + g(self.getCondition()) + " ) {" + cr() + tab(1);
+		List<String> l = sl();
+		for(Statement e : self.getThenStatements()) {
+			l.add(g(e));
+		}
+		
+		s += join(l, cr(1) + "\n") + " }";
+
+		if ( self.getElseStatements().size() > 0 ) {
+			s += "else {" + cr() + tab(1);
+			l = sl();
+			for(Statement e : self.getElseStatements()) {
+				l.add(g(e));
+			}
+			
+			s += join(l, cr(1) + "\n") + " }";
+			
+		}
+		s(s);
 	}
 	
 	//

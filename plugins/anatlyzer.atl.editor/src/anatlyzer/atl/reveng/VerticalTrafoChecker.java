@@ -16,6 +16,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -151,6 +152,11 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 	}
 	
 	@Override
+	public void inLazyRule(LazyRule self) {
+		imperativeRules.add(self);
+	}
+	
+	@Override
 	public void inOperationCallExp(OperationCallExp self) {
 		if ( self.getOperationName().equals("resolveTemp") ) {
 			hasResolveTemp = true;
@@ -221,7 +227,7 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 			super(rule);
 		}
 		
-		public String getTrafoType() { return "Imperative (maybe)"; }
+		public String getTrafoType() { return "Imperative (including lazy rules)"; }
 	}
 }
 

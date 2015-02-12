@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import anatlyzer.atl.analyser.EcoreTypeConverter;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
@@ -128,13 +129,24 @@ public class TypeUtils {
 	public static boolean isFeatureMustBeInitialized(EStructuralFeature f) {
 		boolean boundsAndDefaults = f.getLowerBound() != 0 && f.getDefaultValue() == null;
 		if ( f instanceof EAttribute ) {
-			EDataType dt = ((EAttribute) f).getEAttributeType();
-			return !( 	dt.getInstanceClass() == Boolean.class || 
-						dt.getInstanceClass() == Integer.class ||
-						dt.getInstanceClass() == Float.class ||
-						dt.getInstanceClass() == Double.class ||
-						dt.getInstanceClass() == Long.class ) 
-						|| boundsAndDefaults;
+			// Copied from EcoreConverter
+			EDataType c  = ((EAttribute) f).getEAttributeType();
+			String instance = c.getInstanceClassName() == null ? "" : c.getInstanceClassName();
+			
+			if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {
+				return boundsAndDefaults;
+			} else if ( c.getName().endsWith("Boolean") ) {
+				return false;
+			} else if ( c.getName().equals("EInt") || c.getName().endsWith("Integer") || 
+					    c.getName().equals("UnlimitedNatural") ||
+					    c.getName().endsWith("Long") ) {
+				return false;
+			} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real")) {
+				return false;
+			}
+		
+			return ((EAttribute) f).getEAttributeType().getDefaultValue() == null
+					||	boundsAndDefaults;
 		} else {
 			return boundsAndDefaults;
 		}

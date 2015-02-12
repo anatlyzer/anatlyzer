@@ -9,6 +9,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
@@ -60,6 +61,7 @@ public class AnalyserUtils {
 		if ( p instanceof IncoherentVariableDeclaration ) return 7;
 		if ( p instanceof FlattenOverNonNestedCollection ) return 8;
 		if ( p instanceof CollectionOperationOverNoCollectionError ) return 9;
+		if ( p instanceof BindingWithoutRule ) return 10;
 		
 		return -1;
 		// throw new UnsupportedOperationException(p.getClass().getName());

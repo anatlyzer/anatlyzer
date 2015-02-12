@@ -12,7 +12,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -180,29 +179,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 		@Override
 		public void goToLocation() {
-            IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(element.getFileLocation()));
-            IEditorDescriptor desc = PlatformUI.getWorkbench().
-                    getEditorRegistry().getDefaultEditor(file.getName());
-            try {
-                    IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId());
-                    if ( part instanceof AtlEditor ) {
-                    	AtlEditor atlEditor = (AtlEditor) part;
-        				AtlNbCharFile help = new AtlNbCharFile(file.getContents());
-        				int[] pos = help.getIndexChar(element.getLocation(), -1);
-        				int charStart = pos[0];
-        				int charEnd = pos[1];
-        				atlEditor.selectAndReveal(charStart, charEnd - charStart); 
-        			}
-            } catch (PartInitException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-            } catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   
-            
+			goToEditorLocation(element.getFileLocation(), element.getLocation());   
 		}
+
 	}
 	
 	class LocalProblemListNode extends TreeNode {
@@ -232,7 +211,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 	
-	class LocalProblemNode extends TreeNode {
+	class LocalProblemNode extends TreeNode implements IWithCodeLocation {
 
 		private LocalProblem p;
 
@@ -254,6 +233,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			return p.getDescription();
+		}
+
+		@Override
+		public String toColumn1() {
+			return p.getLocation(); // Return also the file, in case of libraries?
+		}
+		
+		@Override
+		public void goToLocation() {
+			goToEditorLocation(p.getFileLocation(), p.getLocation());   
 		}
 	}
 	
@@ -389,13 +378,13 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		TreeViewerColumn treeViewerColumn = new TreeViewerColumn(viewer, SWT.NONE);
 		TreeColumn trclmnElement = treeViewerColumn.getColumn();
-		trclmnElement.setWidth(63);
+		trclmnElement.setWidth(500);
 		trclmnElement.setText("Problem");
 		
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(viewer, SWT.NONE);
 		TreeColumn trclmnMetric = treeViewerColumn_1.getColumn();
-		trclmnMetric.setWidth(242);
-		trclmnMetric.setText("Description");
+		trclmnMetric.setWidth(50);
+		trclmnMetric.setText("Info.");
 
 		
 		drillDownAdapter = new DrillDownAdapter(viewer);
@@ -507,8 +496,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				if ( obj instanceof IWithCodeLocation ) {
 					((IWithCodeLocation) obj).goToLocation();					
 				}
-				
-				// showMessage("Double-click detected on "+obj.toString());
 			}
 		};
 		
@@ -522,13 +509,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			}
 		});
 	}
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Analysis View",
-			message);
-	}
-
+	
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
@@ -537,7 +518,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	
+	//
 	// IPartListener
+	//
 	
 	@Override
 	public void partActivated(IWorkbenchPart part) {
@@ -590,5 +573,33 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				}
 			});
 		}
+	}
+	
+	// Helper methods
+
+	private void goToEditorLocation(String fileLocation, String location) {
+
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(fileLocation));
+        IEditorDescriptor desc = PlatformUI.getWorkbench().
+                getEditorRegistry().getDefaultEditor(file.getName());
+        try {
+        	IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId());
+                if ( part instanceof AtlEditor ) {
+                	AtlEditor atlEditor = (AtlEditor) part;
+    				AtlNbCharFile help = new AtlNbCharFile(file.getContents());
+    				int[] pos = help.getIndexChar(location, -1);
+    				int charStart = pos[0];
+    				int charEnd = pos[1];
+    				atlEditor.selectAndReveal(charStart, charEnd - charStart); 
+    			}
+        } catch (PartInitException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+        } catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+     
 	}
 }

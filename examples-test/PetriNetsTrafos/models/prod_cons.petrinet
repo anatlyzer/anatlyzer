@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<PetriNet:PetriNet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:PetriNet="http://bento/PetriNet">
+  <places tokens="12"/>
+  <places/>
+  <places/>
+  <transitions/>
+  <transitions/>
+  <arcs xsi:type="PetriNet:PlaceToTransArc" weight="2" source="//@places.1" target="//@transitions.0"/>
+</PetriNet:PetriNet>

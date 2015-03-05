@@ -42,16 +42,28 @@ public class UnconnectedElementsAnalysis {
 		this.analyser = analyser;
 	}
 	
-	public List<OutPatternElement> perform() {
+	public static class Result {
+		List<OutPatternElement> unconnected;
+		
+		public Result(List<OutPatternElement> elements) {
+			this.unconnected = elements;
+		}
+		
+		public List<OutPatternElement> getUnconnected() {
+			return unconnected;
+		}
+	}
+	
+	public Result perform() {
 		Unit unit = analyser.getATLModel().getRoot();		
 		if ( unit instanceof Module ) {
 			new RuleVisitor().perform((Module) unit);
 			new BindingVisitor().perform((Module) unit);
 			List<OutPatternElement> elements = findConnectedComponents();
 			
-			return elements;
+			return new Result(elements);
 		}
-		return Collections.emptyList();
+		return new Result(new LinkedList<OutPatternElement>());
 	}
 	
 	private List<OutPatternElement> findConnectedComponents() {

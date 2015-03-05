@@ -1,18 +1,15 @@
 package anatlyzer.atl.analyser.generators;
 
-import javax.sound.midi.Sequence;
-
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
-import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -73,11 +70,12 @@ public class Retyping extends AbstractVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
-		// This could be detected in another place...
-		if ( self.getSource().getInferredType() instanceof CollectionType ) {
+		// if ( self.getSource().getInferredType() instanceof CollectionType ) {
+		if ( AnalyserUtils.hasProblem(self, OperationOverCollectionType.class) != null ) {			
 			CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
 			colOp.setOperationName( self.getOperationName() );
 			colOp.setSource( self.getSource() );
+			colOp.getArguments().addAll(self.getArguments());
 			EcoreUtil.replace(self, colOp);
 		}
 	}

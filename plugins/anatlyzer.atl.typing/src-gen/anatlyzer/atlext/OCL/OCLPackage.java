@@ -114,6 +114,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_EXPRESSION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -311,6 +320,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -521,6 +539,15 @@ public interface OCLPackage extends EPackage {
 	int SUPER_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -720,6 +747,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -917,6 +953,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1127,6 +1172,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1335,6 +1389,15 @@ public interface OCLPackage extends EPackage {
 	int NUMERIC_EXP__FILE_OBJECT = PRIMITIVE_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1532,6 +1595,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int REAL_EXP__FILE_OBJECT = NUMERIC_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__PROBLEMS = NUMERIC_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1742,6 +1814,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_EXP__FILE_OBJECT = NUMERIC_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__PROBLEMS = NUMERIC_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1948,6 +2029,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2158,6 +2248,15 @@ public interface OCLPackage extends EPackage {
 	int BAG_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2364,6 +2463,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_SET_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2574,6 +2682,15 @@ public interface OCLPackage extends EPackage {
 	int SEQUENCE_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2780,6 +2897,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_EXP__FILE_OBJECT = COLLECTION_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2990,6 +3116,15 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3198,6 +3333,15 @@ public interface OCLPackage extends EPackage {
 	int VARIABLE_DECLARATION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_DECLARATION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3350,6 +3494,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_PART__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_PART__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3513,6 +3666,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3723,6 +3885,15 @@ public interface OCLPackage extends EPackage {
 	int MAP_ELEMENT__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_ELEMENT__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Map</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3821,6 +3992,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUM_LITERAL_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4031,6 +4211,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_UNDEFINED_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4228,6 +4417,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_CALL_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4481,6 +4679,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4743,6 +4950,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -5025,6 +5241,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__FILE_OBJECT = OPERATION_CALL_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__PROBLEMS = OPERATION_CALL_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5303,6 +5528,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_CALL_EXP__FILE_OBJECT = OPERATION_CALL_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__PROBLEMS = OPERATION_CALL_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -5585,6 +5819,15 @@ public interface OCLPackage extends EPackage {
 	int LOOP_EXP__FILE_OBJECT = PROPERTY_CALL_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5854,6 +6097,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_EXP__FILE_OBJECT = LOOP_EXP__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__PROBLEMS = LOOP_EXP__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -6136,6 +6388,15 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR_EXP__FILE_OBJECT = LOOP_EXP__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__PROBLEMS = LOOP_EXP__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6416,6 +6677,15 @@ public interface OCLPackage extends EPackage {
 	int LET_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6631,6 +6901,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IF_EXP__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -6859,6 +7138,15 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7022,6 +7310,15 @@ public interface OCLPackage extends EPackage {
 	int PARAMETER__FILE_OBJECT = VARIABLE_DECLARATION__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7174,6 +7471,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_TYPE__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -7463,6 +7769,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -7763,6 +8078,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8050,6 +8374,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -8341,6 +8674,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8628,6 +8970,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NUMERIC_TYPE__FILE_OBJECT = PRIMITIVE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -8919,6 +9270,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_TYPE__FILE_OBJECT = NUMERIC_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__PROBLEMS = NUMERIC_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9208,6 +9568,15 @@ public interface OCLPackage extends EPackage {
 	int REAL_TYPE__FILE_OBJECT = NUMERIC_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__PROBLEMS = NUMERIC_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9495,6 +9864,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BAG_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -9795,6 +10173,15 @@ public interface OCLPackage extends EPackage {
 	int ORDERED_SET_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10091,6 +10478,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -10391,6 +10787,15 @@ public interface OCLPackage extends EPackage {
 	int SET_TYPE__FILE_OBJECT = COLLECTION_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10689,6 +11094,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_ANY_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10976,6 +11390,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11276,6 +11699,15 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_TYPE_ATTRIBUTE__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE_ATTRIBUTE__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11374,6 +11806,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_MODEL_ELEMENT__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11672,6 +12113,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__FILE_OBJECT = OCL_TYPE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11981,6 +12431,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE_DEFINITION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE_DEFINITION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Feature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12070,6 +12529,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_CONTEXT_DEFINITION__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONTEXT_DEFINITION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -12163,6 +12631,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 
 	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12243,6 +12720,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ATTRIBUTE__FILE_OBJECT = OCL_FEATURE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__PROBLEMS = OCL_FEATURE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -12352,6 +12838,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION__FILE_OBJECT = OCL_FEATURE__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__PROBLEMS = OCL_FEATURE__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -12470,6 +12965,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_MODEL__FILE_OBJECT = ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -12664,6 +13168,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int JAVA_BODY__FILE_OBJECT = OCL_EXPRESSION__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -12863,6 +13376,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int GET_APPLIED_STEREOTYPES_BODY__FILE_OBJECT = JAVA_BODY__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__PROBLEMS = JAVA_BODY__PROBLEMS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.

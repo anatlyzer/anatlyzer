@@ -40,6 +40,9 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OclCompliance" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OclComplianceProblem" abstract="true"
+        eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="NavigationProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidArgumentProblem" abstract="true"
@@ -184,8 +187,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iteratorName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OclCompliance" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="IncoherentVariableDeclaration" eSuperTypes="#//atl_error/LocalProblem #//atl_error/OclCompliance"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationOverCollectionType" eSuperTypes="#//atl_error/OclComplianceProblem"/>
   </eSubpackages>
   <eSubpackages name="atl_recovery" nsURI="http://bento/analysis/atl/analysis/recovery"
       nsPrefix="atl_recovery">

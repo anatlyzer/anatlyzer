@@ -1,15 +1,11 @@
 package anatlyzer.examples.api;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -32,20 +28,10 @@ import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.generators.GraphvizGenerator;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
-import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
-import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atlext.ATL.CalledRule;
-import anatlyzer.atlext.ATL.Helper;
-import anatlyzer.atlext.ATL.LazyRule;
-import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.Module;
-import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public class BaseTest {
@@ -192,7 +178,7 @@ public class BaseTest {
 			String projectPath = ".";
 			
 			OclExpression constraint = p.getWitnessCondition();
-			String constraintStr = USESerializer.retypeAndGenerate(analyser.getNamespaces(), constraint);
+			String constraintStr = USESerializer.retypeAndGenerate(constraint);
 			
 			System.out.println("Constraint: " + constraintStr);
 			

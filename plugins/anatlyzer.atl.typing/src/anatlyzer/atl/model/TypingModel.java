@@ -483,11 +483,15 @@ public class TypingModel {
 		return t1;
 	}
 
+	
+	public List<Metaclass> getInvolvedMetaclasses(Type srcType) {
+		return TypingModel.getInvolvedMetaclassesOfType(srcType);
+	}
 
 	/**
 	 * Given a type returns all metaclass involved.
 	 */
-	public List<Metaclass> getInvolvedMetaclasses(Type srcType) {
+	public static List<Metaclass> getInvolvedMetaclassesOfType(Type srcType) {
 		ArrayList<Metaclass> result = new ArrayList<Metaclass>();
 		ArrayList<Type> pending = new ArrayList<Type>();
 		pending.add(srcType);

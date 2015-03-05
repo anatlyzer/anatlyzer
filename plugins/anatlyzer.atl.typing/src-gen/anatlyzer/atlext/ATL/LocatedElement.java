@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getCommentsAfter <em>Comments After</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileObject <em>File Object</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getProblems <em>Problems</em>}</li>
  * </ul>
  * </p>
  *
@@ -136,5 +137,21 @@ public interface LocatedElement extends EObject {
 	 * @generated
 	 */
 	void setFileObject(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>Problems</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Problems</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Problems</em>' reference list.
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement_Problems()
+	 * @model
+	 * @generated
+	 */
+	EList<EObject> getProblems();
 
 } // LocatedElement

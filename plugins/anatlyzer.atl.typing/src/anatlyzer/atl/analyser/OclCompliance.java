@@ -11,6 +11,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
@@ -51,9 +52,20 @@ public class OclCompliance extends AbstractAnalyserVisitor {
 	}
 	
 	public void perform(ComputedAttributes attr) {
-//		this.attr = attr.pushVisitor(this);
-//		startVisiting(root);
-//		attr.popVisitor(this);
+		this.attr = attr.pushVisitor(this);
+		startVisiting(root);
+		attr.popVisitor(this);
+	}
+	
+	@Override
+	public void inOperationCallExp(OperationCallExp self) {
+		Type t = attr.typeOf( self.getSource() );
+
+		//    e.g., aCollection.isEmpty() 
+		// in ocl:  aCollection->isEmpty()
+		if ( t instanceof CollectionType ) {
+			errors().signalOperationOverCollectionType(self);
+		}
 	}
 	
 	// TODO:

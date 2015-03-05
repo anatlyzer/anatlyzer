@@ -40,6 +40,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			new HashMap<String, java.util.Set<Helper>>();
 	
 	private Set<String>	metamodelNames;
+	private boolean retype = true; // retype by default
 	
 	public ErrorSlice(Set<String> sourceMetamodels) {
 		this.metamodelNames = sourceMetamodels;
@@ -141,7 +142,12 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 
 		OclExpression body = ATLUtils.getBody(ctx);
-		s += USESerializer.gen(body); 
+		
+		if ( retype ) {
+			s += USESerializer.retypeAndGenerate(body);
+		} else {
+			s += USESerializer.gen(body); 
+		}
 		return s;
 	}
 

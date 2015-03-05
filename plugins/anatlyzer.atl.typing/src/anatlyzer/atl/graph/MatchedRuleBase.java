@@ -118,6 +118,8 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 	}
 
 	protected boolean isRequiredByErrorPath(VariableDeclaration v) {
+		if ( getDepending() == null ) 
+			return false;
 		return getDepending().isVarRequiredByErrorPath(v);
 	}
 	

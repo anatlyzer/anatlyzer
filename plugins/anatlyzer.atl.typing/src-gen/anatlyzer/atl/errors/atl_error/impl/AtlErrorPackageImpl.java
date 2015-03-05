@@ -38,8 +38,10 @@ import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.OclCompliance;
+import anatlyzer.atl.errors.atl_error.OclComplianceProblem;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
@@ -357,7 +359,21 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass oclComplianceProblemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass incoherentVariableDeclarationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationOverCollectionTypeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1222,8 +1238,26 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getOclComplianceProblem() {
+		return oclComplianceProblemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIncoherentVariableDeclaration() {
 		return incoherentVariableDeclarationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationOverCollectionType() {
+		return operationOverCollectionTypeEClass;
 	}
 
 	/**
@@ -1263,6 +1297,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		modelElementEClass = createEClass(MODEL_ELEMENT);
 		createEReference(modelElementEClass, MODEL_ELEMENT__KLASS);
 		createEAttribute(modelElementEClass, MODEL_ELEMENT__METAMODEL_NAME);
+
+		oclComplianceEClass = createEClass(OCL_COMPLIANCE);
+
+		oclComplianceProblemEClass = createEClass(OCL_COMPLIANCE_PROBLEM);
 
 		navigationProblemEClass = createEClass(NAVIGATION_PROBLEM);
 
@@ -1379,9 +1417,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		iteratorOverNoCollectionTypeEClass = createEClass(ITERATOR_OVER_NO_COLLECTION_TYPE);
 		createEAttribute(iteratorOverNoCollectionTypeEClass, ITERATOR_OVER_NO_COLLECTION_TYPE__ITERATOR_NAME);
 
-		oclComplianceEClass = createEClass(OCL_COMPLIANCE);
-
 		incoherentVariableDeclarationEClass = createEClass(INCOHERENT_VARIABLE_DECLARATION);
+
+		operationOverCollectionTypeEClass = createEClass(OPERATION_OVER_COLLECTION_TYPE);
 	}
 
 	/**
@@ -1417,6 +1455,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		// Add supertypes to classes
 		localProblemEClass.getESuperTypes().add(theAnalysisResultPackage.getProblem());
+		oclComplianceProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		navigationProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		invalidArgumentProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		targetModelConformanceProblemEClass.getESuperTypes().add(this.getLocalProblem());
@@ -1458,6 +1497,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		iteratorOverNoCollectionTypeEClass.getESuperTypes().add(this.getLocalProblem());
 		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getLocalProblem());
 		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getOclCompliance());
+		operationOverCollectionTypeEClass.getESuperTypes().add(this.getOclComplianceProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1469,6 +1509,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModelElement_Klass(), ecorePackage.getEClass(), null, "klass", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModelElement_MetamodelName(), ecorePackage.getEString(), "metamodelName", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(oclComplianceEClass, OclCompliance.class, "OclCompliance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(oclComplianceProblemEClass, OclComplianceProblem.class, "OclComplianceProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(navigationProblemEClass, NavigationProblem.class, "NavigationProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1585,9 +1629,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(iteratorOverNoCollectionTypeEClass, IteratorOverNoCollectionType.class, "IteratorOverNoCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIteratorOverNoCollectionType_IteratorName(), ecorePackage.getEString(), "iteratorName", null, 1, 1, IteratorOverNoCollectionType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(oclComplianceEClass, OclCompliance.class, "OclCompliance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(incoherentVariableDeclarationEClass, IncoherentVariableDeclaration.class, "IncoherentVariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(operationOverCollectionTypeEClass, OperationOverCollectionType.class, "OperationOverCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}
 
 } //AtlErrorPackageImpl

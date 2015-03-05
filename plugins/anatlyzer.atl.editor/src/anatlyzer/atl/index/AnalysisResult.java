@@ -26,6 +26,10 @@ public class AnalysisResult {
 		return analyser;
 	}
 	
+	public GlobalNamespace getNamespace() {
+		return namespace;
+	}
+	
 	public List<Problem> getProblems() {
 		return analyser.getErrors().getProblems();
 	}

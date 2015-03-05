@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -63,6 +64,18 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			
 			// out.println(data.getProblems())
 		}
+	}
+
+	@Override
+	public boolean canExportToExcel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void exportToExcel(String file) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

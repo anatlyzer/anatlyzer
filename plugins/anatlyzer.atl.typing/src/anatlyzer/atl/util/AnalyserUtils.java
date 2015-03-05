@@ -14,12 +14,26 @@ import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.OperationNotFound;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Module;
 
 public class AnalyserUtils {
-
+	public static LocalProblem hasProblem(LocatedElement e, Class<? extends LocalProblem> clazz) {
+		for(EObject p : e.getProblems()) {
+			if ( clazz.isInstance(p) ) {
+				return (LocalProblem) p;
+			}
+		}
+		return null;
+	}
+	
+	
 	public static EPackage getSingleSourceMetamodel(Analyser analyser) {
 		GlobalNamespace namespace = analyser.getNamespaces();
 		
@@ -60,8 +74,21 @@ public class AnalyserUtils {
 		// 7
 		if ( p instanceof IncoherentVariableDeclaration ) return 7;
 		if ( p instanceof FlattenOverNonNestedCollection ) return 8;
-		if ( p instanceof CollectionOperationOverNoCollectionError ) return 9;
 		if ( p instanceof BindingWithoutRule ) return 10;
+		if ( p instanceof OperationNotFound ) {
+			if ( ((OperationNotFound) p).getRecovery() instanceof FeatureFoundInSubclass ) 
+				return 11;
+			else {
+				return 12;
+			}
+		}
+		// 13
+		if ( p instanceof NoModelFound ) return 13;
+		
+		
+		// Ocl compliance
+		if ( p instanceof OperationOverCollectionType ) return 101;
+		if ( p instanceof CollectionOperationOverNoCollectionError ) return 102;
 		
 		return -1;
 		// throw new UnsupportedOperationException(p.getClass().getName());

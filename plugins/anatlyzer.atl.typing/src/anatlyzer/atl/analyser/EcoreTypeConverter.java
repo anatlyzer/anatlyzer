@@ -85,9 +85,9 @@ public class EcoreTypeConverter {
 			return convertEEnum((EEnum) c);
 		} else if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {
 			return typ.newStringType();
-		} else if ( c.getName().endsWith("Boolean") ) {
+		} else if ( c.getName().endsWith("Boolean") || c.getName().equals("EBooleanObject")) {
 			return typ.newBooleanType();
-		} else if ( c.getName().equals("EInt") || c.getName().endsWith("Integer") || 
+		} else if ( c.getName().equals("EInt") || c.getName().endsWith("Integer") || c.getName().equals("EIntegerObject") ||
 				    c.getName().equals("UnlimitedNatural") ||
 				    c.getName().endsWith("Long") ) {
 			return typ.newIntegerType();

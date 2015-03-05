@@ -38,6 +38,8 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ModelElement/klass"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ModelElement/metamodelName"/>
       </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclCompliance"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclComplianceProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
@@ -151,8 +153,8 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverNoCollectionType">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/IteratorOverNoCollectionType/iteratorName"/>
       </genClasses>
-      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OclCompliance"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">

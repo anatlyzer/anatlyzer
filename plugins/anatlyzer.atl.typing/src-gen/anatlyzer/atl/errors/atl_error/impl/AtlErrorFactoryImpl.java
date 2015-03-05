@@ -88,6 +88,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.COLLECTION_OPERATION_NOT_FOUND: return createCollectionOperationNotFound();
 			case AtlErrorPackage.ITERATOR_OVER_NO_COLLECTION_TYPE: return createIteratorOverNoCollectionType();
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: return createIncoherentVariableDeclaration();
+			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -411,6 +412,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public IncoherentVariableDeclaration createIncoherentVariableDeclaration() {
 		IncoherentVariableDeclarationImpl incoherentVariableDeclaration = new IncoherentVariableDeclarationImpl();
 		return incoherentVariableDeclaration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationOverCollectionType createOperationOverCollectionType() {
+		OperationOverCollectionTypeImpl operationOverCollectionType = new OperationOverCollectionTypeImpl();
+		return operationOverCollectionType;
 	}
 
 	/**

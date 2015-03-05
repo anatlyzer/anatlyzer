@@ -44,6 +44,9 @@ package atl_error {
     	ref EClass[1] klass;
     	attr String[1] metamodelName;
     }
+
+	abstract class OclCompliance { }	// needed?
+	abstract class OclComplianceProblem extends LocalProblem {}
 	
 	abstract class NavigationProblem extends LocalProblem {	}
 	abstract class InvalidArgumentProblem extends LocalProblem { }
@@ -216,8 +219,11 @@ package atl_error {
 	}
 
 	
-	abstract class OclCompliance { }	
 	class IncoherentVariableDeclaration extends LocalProblem, OclCompliance {
+		
+	}
+	
+	class OperationOverCollectionType extends OclComplianceProblem {
 		
 	}
 }

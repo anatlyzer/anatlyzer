@@ -19,6 +19,7 @@ import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
@@ -197,6 +198,10 @@ public class ExtendTransformation {
 			r = seq;
 		}
 		return r;
+	}
+
+	public static boolean isAddedEOperation(ModuleElement r) {
+		return r.getCommentsBefore().contains(ExtendTransformation.EOPERATION_TAG);
 	}
 	
 }

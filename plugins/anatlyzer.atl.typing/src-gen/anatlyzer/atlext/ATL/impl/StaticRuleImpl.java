@@ -19,12 +19,14 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -39,6 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getCommentsAfter <em>Comments After</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getFileObject <em>File Object</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getProblems <em>Problems</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getActionBlock <em>Action Block</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getVariables <em>Variables</em>}</li>
@@ -128,6 +131,16 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * @ordered
 	 */
 	protected Object fileObject = FILE_OBJECT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getProblems() <em>Problems</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProblems()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EObject> problems;
 
 	/**
 	 * The cached value of the '{@link #getOutPattern() <em>Out Pattern</em>}' containment reference.
@@ -283,6 +296,18 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 		fileObject = newFileObject;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ATLPackage.STATIC_RULE__FILE_OBJECT, oldFileObject, fileObject));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EObject> getProblems() {
+		if (problems == null) {
+			problems = new EObjectResolvingEList<EObject>(EObject.class, this, ATLPackage.STATIC_RULE__PROBLEMS);
+		}
+		return problems;
 	}
 
 	/**
@@ -463,6 +488,8 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				return getFileLocation();
 			case ATLPackage.STATIC_RULE__FILE_OBJECT:
 				return getFileObject();
+			case ATLPackage.STATIC_RULE__PROBLEMS:
+				return getProblems();
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				return getOutPattern();
 			case ATLPackage.STATIC_RULE__ACTION_BLOCK:
@@ -500,6 +527,10 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				return;
 			case ATLPackage.STATIC_RULE__FILE_OBJECT:
 				setFileObject(newValue);
+				return;
+			case ATLPackage.STATIC_RULE__PROBLEMS:
+				getProblems().clear();
+				getProblems().addAll((Collection<? extends EObject>)newValue);
 				return;
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				setOutPattern((OutPattern)newValue);
@@ -541,6 +572,9 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 			case ATLPackage.STATIC_RULE__FILE_OBJECT:
 				setFileObject(FILE_OBJECT_EDEFAULT);
 				return;
+			case ATLPackage.STATIC_RULE__PROBLEMS:
+				getProblems().clear();
+				return;
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				setOutPattern((OutPattern)null);
 				return;
@@ -575,6 +609,8 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				return FILE_LOCATION_EDEFAULT == null ? fileLocation != null : !FILE_LOCATION_EDEFAULT.equals(fileLocation);
 			case ATLPackage.STATIC_RULE__FILE_OBJECT:
 				return FILE_OBJECT_EDEFAULT == null ? fileObject != null : !FILE_OBJECT_EDEFAULT.equals(fileObject);
+			case ATLPackage.STATIC_RULE__PROBLEMS:
+				return problems != null && !problems.isEmpty();
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				return outPattern != null;
 			case ATLPackage.STATIC_RULE__ACTION_BLOCK:
@@ -601,6 +637,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				case ATLPackage.STATIC_RULE__COMMENTS_AFTER: return ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER;
 				case ATLPackage.STATIC_RULE__FILE_LOCATION: return ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
 				case ATLPackage.STATIC_RULE__FILE_OBJECT: return ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
+				case ATLPackage.STATIC_RULE__PROBLEMS: return ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 				default: return -1;
 			}
 		}
@@ -635,6 +672,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				case ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER: return ATLPackage.STATIC_RULE__COMMENTS_AFTER;
 				case ATLPackage.LOCATED_ELEMENT__FILE_LOCATION: return ATLPackage.STATIC_RULE__FILE_LOCATION;
 				case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT: return ATLPackage.STATIC_RULE__FILE_OBJECT;
+				case ATLPackage.LOCATED_ELEMENT__PROBLEMS: return ATLPackage.STATIC_RULE__PROBLEMS;
 				default: return -1;
 			}
 		}

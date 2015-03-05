@@ -83,6 +83,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.OCL_COMPLIANCE: {
+				OclCompliance oclCompliance = (OclCompliance)theEObject;
+				T result = caseOclCompliance(oclCompliance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OCL_COMPLIANCE_PROBLEM: {
+				OclComplianceProblem oclComplianceProblem = (OclComplianceProblem)theEObject;
+				T result = caseOclComplianceProblem(oclComplianceProblem);
+				if (result == null) result = caseLocalProblem(oclComplianceProblem);
+				if (result == null) result = caseProblem(oclComplianceProblem);
+				if (result == null) result = caseAnalysisInfo(oclComplianceProblem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.NAVIGATION_PROBLEM: {
 				NavigationProblem navigationProblem = (NavigationProblem)theEObject;
 				T result = caseNavigationProblem(navigationProblem);
@@ -432,12 +447,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.OCL_COMPLIANCE: {
-				OclCompliance oclCompliance = (OclCompliance)theEObject;
-				T result = caseOclCompliance(oclCompliance);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: {
 				IncoherentVariableDeclaration incoherentVariableDeclaration = (IncoherentVariableDeclaration)theEObject;
 				T result = caseIncoherentVariableDeclaration(incoherentVariableDeclaration);
@@ -445,6 +454,16 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseOclCompliance(incoherentVariableDeclaration);
 				if (result == null) result = caseProblem(incoherentVariableDeclaration);
 				if (result == null) result = caseAnalysisInfo(incoherentVariableDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: {
+				OperationOverCollectionType operationOverCollectionType = (OperationOverCollectionType)theEObject;
+				T result = caseOperationOverCollectionType(operationOverCollectionType);
+				if (result == null) result = caseOclComplianceProblem(operationOverCollectionType);
+				if (result == null) result = caseLocalProblem(operationOverCollectionType);
+				if (result == null) result = caseProblem(operationOverCollectionType);
+				if (result == null) result = caseAnalysisInfo(operationOverCollectionType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1053,6 +1072,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ocl Compliance Problem</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ocl Compliance Problem</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOclComplianceProblem(OclComplianceProblem object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Incoherent Variable Declaration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1064,6 +1098,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIncoherentVariableDeclaration(IncoherentVariableDeclaration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Over Collection Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Over Collection Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationOverCollectionType(OperationOverCollectionType object) {
 		return null;
 	}
 

@@ -8,6 +8,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="LocatedElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileLocation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problems" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="MatchedRule"/>
     <eClassifiers xsi:type="ecore:EClass" name="OutPatternElement"/>

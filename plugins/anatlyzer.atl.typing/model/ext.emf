@@ -9,6 +9,9 @@ package ATL {
   class LocatedElement {
   	attr String[0..1] fileLocation;
   	attr Object fileObject; 
+  	
+  	/* Points to a list of problems, if any */
+  	ref EObject[*] problems;
   } 
   class MatchedRule { } 
   class OutPatternElement { }

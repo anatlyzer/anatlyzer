@@ -47,13 +47,18 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.editor.AtlEditorExt;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.ui.actions.CheckRuleConflicts;
 
 public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener {
 
@@ -99,7 +104,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 		public BatchAnalysisNodeGroup(TreeNode parent) {
 			super(parent);
-			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this) };
+			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this), new RuleConflictAnalysisNode(this) };
 		}
 
 		@Override
@@ -117,6 +122,88 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			return "Batch analysis";
 		}
 	}
+
+	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
+		private ConflictingRules[] elements;
+		
+		public RuleConflictAnalysisNode(TreeNode parent) {
+			super(parent);
+		}
+		
+		@Override
+		public void perform() {
+			CheckRuleConflicts action = new CheckRuleConflicts();
+			AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser(), currentAnalysis.getAnalyser().getNamespaces());
+			List<OverlappingRules> result = action.performAction(data);	
+
+			int i = 0;
+			elements = new ConflictingRules[result.size()];
+			for (OverlappingRules overlappingRules : result) {
+				elements[i++] = new ConflictingRules(this, overlappingRules);
+			}
+			
+			viewer.refresh();
+		}
+
+		@Override
+		public Object[] getChildren() {
+			return elements;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return elements != null && elements.length > 0;
+		}
+		
+		@Override
+		public String toString() {
+			return "Rule conflict analysis";
+		}
+		
+		@Override
+		public String toColumn1() {
+			if ( elements == null )     return "Not analysed";
+			if ( elements.length == 0 ) return "Passed!";
+			return "Some conflicts: " + elements.length;		
+		}
+	}
+	
+	class ConflictingRules extends TreeNode implements IWithCodeLocation {
+		private OverlappingRules element;
+
+		public ConflictingRules(TreeNode parent, OverlappingRules element) {
+			super(parent);
+			this.element = element;
+		}		
+		
+		@Override
+		public Object[] getChildren() { return null; }
+		@Override
+		public boolean hasChildren()  { return false; }
+		
+		@Override
+		public String toString() {
+			String s = null;
+			switch ( element.getAnalysisResult() ) {
+			case OverlappingRules.ANALYSIS_NOT_PERFORMED: s = "Not analysed!"; break;
+			case OverlappingRules.ANALYSIS_SOLVER_CONFIRMED: s = "Confirmed (by solver)"; break;
+			case OverlappingRules.ANALYSIS_SOLVER_DISCARDED: s = "Discarded (by solver)"; break;
+			case OverlappingRules.ANALYSIS_STATIC_CONFIRMED: s = "Confirmed (statically)";break;		
+			case OverlappingRules.ANALYSIS_SOLVER_FAILED: s = "Cannot determine (solver failed)";break;		
+			}
+			
+			String r = element.toString();
+			return r + " : " + s;
+		}
+
+		@Override
+		public void goToLocation() {
+			List<MatchedRule> r = element.getRules();			
+			goToEditorLocation(r.get(0).getFileLocation(), r.get(0).getLocation());   
+		}
+
+	}
+	
 	
 	class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
 		private UnconnectedElement[] elements;
@@ -148,7 +235,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		@Override
 		public void perform() {
-			List<OutPatternElement> l = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
+			Result r = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
+			List<OutPatternElement> l = r.getUnconnected();
 			elements = new UnconnectedElement[l.size()];
 			int i = 0;
 			for (OutPatternElement outPatternElement : l) {

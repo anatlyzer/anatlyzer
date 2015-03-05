@@ -448,6 +448,15 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getLocatedElement_Problems() {
+		return (EReference)locatedElementEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUnit() {
 		return unitEClass;
 	}
@@ -1467,6 +1476,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		createEAttribute(locatedElementEClass, LOCATED_ELEMENT__COMMENTS_AFTER);
 		createEAttribute(locatedElementEClass, LOCATED_ELEMENT__FILE_LOCATION);
 		createEAttribute(locatedElementEClass, LOCATED_ELEMENT__FILE_OBJECT);
+		createEReference(locatedElementEClass, LOCATED_ELEMENT__PROBLEMS);
 
 		unitEClass = createEClass(UNIT);
 		createEReference(unitEClass, UNIT__LIBRARIES);
@@ -1691,6 +1701,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEAttribute(getLocatedElement_CommentsAfter(), thePrimitiveTypesPackage.getString(), "commentsAfter", null, 0, -1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocatedElement_FileLocation(), ecorePackage.getEString(), "fileLocation", null, 0, 1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocatedElement_FileObject(), ecorePackage.getEJavaObject(), "fileObject", null, 0, 1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLocatedElement_Problems(), ecorePackage.getEObject(), null, "problems", null, 0, -1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unitEClass, Unit.class, "Unit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUnit_Libraries(), this.getLibraryRef(), this.getLibraryRef_Unit(), "libraries", null, 0, -1, Unit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

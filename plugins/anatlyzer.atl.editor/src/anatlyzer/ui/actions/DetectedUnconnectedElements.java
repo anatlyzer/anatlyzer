@@ -13,6 +13,7 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
@@ -33,8 +34,8 @@ public class DetectedUnconnectedElements implements IEditorActionDelegate {
 		try {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
 
-			List<OutPatternElement> l = new UnconnectedElementsAnalysis(data.getAnalyser().getATLModel(), data.getAnalyser()).perform();
-			
+			Result result = new UnconnectedElementsAnalysis(data.getAnalyser().getATLModel(), data.getAnalyser()).perform();
+			List<OutPatternElement> l = result.getUnconnected();
 			
 			System.out.println("====> Unconnected elements");
 			for (OutPatternElement outPatternElement : l) {

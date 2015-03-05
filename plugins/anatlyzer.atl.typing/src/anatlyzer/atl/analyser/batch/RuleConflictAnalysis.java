@@ -11,7 +11,6 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.model.ATLModel;
@@ -110,11 +109,16 @@ public class RuleConflictAnalysis {
 			node.genErrorSlice(slice);			
 			overlap.errorSlice = slice;
 
-			// Compute path condition
+			// Compute path condition, wrapped into ThisModule.allInstances... to give the transformation
+			// context to the condition
 			CSPModel model = new CSPModel();
 			IteratorExp ctx = model.createThisModuleContext();
 			model.setThisModuleVariable(ctx.getIterators().get(0));
-			overlap.condition = node.genCSP(model);
+			
+			OclExpression theCondition = node.genCSP(model);
+			ctx.setBody(theCondition);
+			
+			overlap.condition = ctx;
 			
 			// Add to the result
 			result.add(overlap);
@@ -164,18 +168,29 @@ public class RuleConflictAnalysis {
 	public static class OverlappingRules implements IDetectedProblem {
 		protected Metaclass type;
 		protected HashSet<MatchedRule> rules = new HashSet<MatchedRule>();
+		
 		protected int analysisResult = ANALYSIS_NOT_PERFORMED;
+		
 		private ErrorSlice errorSlice;
 		private OclExpression condition;
 		
 		public static final int ANALYSIS_NOT_PERFORMED    = 0;
 		public static final int ANALYSIS_STATIC_CONFIRMED = 1;
-		public static final int ANALYSIS_STATIC_DISCARDED = 2;
-		public static final int ANALYSIS_REQUIRE_SOLVER   = 3;
+		public static final int ANALYSIS_SOLVER_CONFIRMED = 2;
+		public static final int ANALYSIS_SOLVER_DISCARDED = 3;
+		public static final int ANALYSIS_SOLVER_FAILED = 4;
 		
 		public OverlappingRules(Metaclass type, MatchedRule r) {
 			this.type = type;
 			this.rules.add(r);
+		}
+		
+		public void setAnalysisResult(int analysisResult) {
+			this.analysisResult = analysisResult;
+		}
+		
+		public int getAnalysisResult() {
+			return analysisResult;
 		}
 
 		/** 
@@ -189,21 +204,18 @@ public class RuleConflictAnalysis {
 			this.rules.addAll(overlap1.rules);
 			this.rules.addAll(overlap2.rules);			
 		}
-
-		public void setCondition(OclExpression condition) {
-			this.condition = condition;
-		}
 		
 		public OclExpression getCondition() {
 			return condition;
 		}
 
-		public void setErrorSlice(ErrorSlice slice) {
-			this.errorSlice = slice;
-		}
-
-		public String getConditionAsString() {
-			return USESerializer.gen(condition);
+		public boolean requireConstraintSolving() {
+			for (MatchedRule matchedRule : rules) {
+				if ( matchedRule.getInPattern() != null && matchedRule.getInPattern().getFilter() != null ) {
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		@Override
@@ -214,6 +226,10 @@ public class RuleConflictAnalysis {
 			}
 			str += " ]";
 			return str;
+		}
+		
+		public List<MatchedRule> getRules() {
+			return new ArrayList<MatchedRule>(rules);
 		}
 
 		// 

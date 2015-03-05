@@ -11,6 +11,9 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileObject">
         <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
       </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problems" upperBound="-1">
+        <eType xsi:type="ecore:EClass" href="http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      </eStructuralFeatures>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Unit" eSuperTypes="//ATL/LocatedElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="libraries" ordered="false" upperBound="-1" eType="//ATL/LibraryRef" containment="true" eOpposite="//ATL/LibraryRef/unit"/>

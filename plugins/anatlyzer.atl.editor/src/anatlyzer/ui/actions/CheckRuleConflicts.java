@@ -1,6 +1,7 @@
 package anatlyzer.ui.actions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -17,10 +18,12 @@ import org.eclipse.ui.IEditorPart;
 import witness.generator.WitnessGeneratorMemory;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 import anatlyzer.ui.util.WorkbenchUtil;
 
@@ -37,16 +40,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		IResource resource = editor.getUnderlyingResource();
 		try {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
-
-			List<OverlappingRules> overlaps = new RuleConflictAnalysis(data.getAnalyser().getATLModel(), data.getAnalyser()).perform();
-			for (OverlappingRules overlap : overlaps) {
-				processOverlap(overlap, data);
-			}
-			
-			// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
-			// new ErrorSliceGenerator(analyser, null).generate(path, r, mm);
-			
-
+			performAction(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {
@@ -54,13 +48,33 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		} catch (CannotLoadMetamodel e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<OverlappingRules> performAction(AnalyserData data) {
+		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
+		List<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
+		for (OverlappingRules overlap : overlaps) {
+			if ( processOverlap(overlap, data) ) {
+				result.add(overlap);
+			}
+		}			
 		
-		
-		//System.out.println(editor.getEditorInputContent());
-		//System.out.println("--");
+		return result;
 	}
 
-	private void processOverlap(OverlappingRules overlap, AnalyserData data) {
+	/**
+	 * Check whether a set of rules provoke a rule conflict. Return true if so.
+     *
+	 * @param overlap It is modified to indicate the result of the constraint solving process if needed.
+	 * @param data
+	 * @return
+	 */
+	private boolean processOverlap(OverlappingRules overlap, AnalyserData data) {
+		if ( ! overlap.requireConstraintSolving() ) {
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_STATIC_CONFIRMED);
+			return true;
+		}
+			
 		// Error meta-model
 		XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("overlap_error"));
 		EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice(data.getAnalyser())).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
@@ -80,18 +94,26 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 
 		String projectPath = WorkbenchUtil.getProjectPath();
 		
-		String constraint = overlap.getConditionAsString();
+		OclExpression constraint = overlap.getWitnessCondition();
+		String constraintStr = USESerializer.retypeAndGenerate( constraint);
 		
 		System.out.println("Constraint: " + constraint);
 		
-		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraint);
+		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraintStr);
 		generator.setTempDirectoryPath(projectPath);
 		try {
 			if ( ! generator.generate() ) {
 				System.out.println("Not witness found!");
+				overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED);
+				return false;
 			}
+			
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_CONFIRMED);
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
+			return true; // So that it is included
 		}
 		
 		

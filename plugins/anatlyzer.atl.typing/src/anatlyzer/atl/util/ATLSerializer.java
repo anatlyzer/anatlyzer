@@ -4,18 +4,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.ExtendTransformation;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
-import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ExpressionStat;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -25,6 +29,7 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -32,6 +37,7 @@ import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.BagExp;
+import anatlyzer.atlext.OCL.BagType;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -40,6 +46,7 @@ import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IntegerType;
+import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.MapElement;
@@ -48,7 +55,6 @@ import anatlyzer.atlext.OCL.MapType;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclUndefinedExp;
@@ -56,12 +62,20 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.OrderedSetExp;
+import anatlyzer.atlext.OCL.OrderedSetType;
 import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.RealType;
 import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.SequenceType;
 import anatlyzer.atlext.OCL.SetExp;
+import anatlyzer.atlext.OCL.SetType;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.StringType;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
+import anatlyzer.atlext.OCL.TupleType;
+import anatlyzer.atlext.OCL.TupleTypeAttribute;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -82,6 +96,30 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	private HashMap<Object, String> str = new HashMap<Object, String>();
 	
+	public VisitingActions preModule(anatlyzer.atlext.ATL.Module self) { 
+		return actions("libraries", "inModels", "outModels", 
+				filter("getHelpers", self), filter("getRules", self) );
+	} 
+
+	public List<Helper> getHelpers(anatlyzer.atlext.ATL.Module self) {
+		LinkedList<Helper> helpers = new LinkedList<Helper>();
+		for (ModuleElement me : self.getElements()) {
+			if ( me instanceof Helper && ! ExtendTransformation.isAddedEOperation(me) ) {
+				helpers.add((Helper) me);
+			}
+		}
+		return helpers;
+	}
+
+	public List<Rule> getRules(anatlyzer.atlext.ATL.Module self) {
+		ArrayList<Rule> rules = new ArrayList<Rule>();
+		for (ModuleElement me : self.getElements()) {
+			if ( me instanceof Rule ) 
+				rules.add((Rule) me);
+		}
+		return rules;
+	}
+
 	@Override
 	public void inModule(Module self) {
 		String s = "";
@@ -107,6 +145,9 @@ public class ATLSerializer extends AbstractVisitor {
 		s += join(l1) + " from " + join(l2) + ";" + cr(2);
 
 		for(ModuleElement r : self.getElements()) {
+			if ( ExtendTransformation.isAddedEOperation(r) )
+				continue;
+			
 			s += g(r) + cr(2);
 		}
 
@@ -152,7 +193,14 @@ public class ATLSerializer extends AbstractVisitor {
 			params.add( p.getVarName() + " : " + g(p.getType()) );
 		}
 
-		String s = "rule " + self.getName() + "( " +  join(params) + ")" + " {" + cr();
+		String prefix = "";
+		if ( self.isIsEndpoint() ) {
+			prefix = "endpoint ";
+		} else if ( self.isIsEntrypoint() ) {
+			prefix = "entrypoint ";
+		}
+		
+		String s = prefix + "rule " + self.getName() + "( " +  join(params) + ")" + " {" + cr();
 		if ( self.getVariables().size() > 0 ) {
 			s += "using {" +  cr();
 			for(RuleVariableDeclaration rv : self.getVariables()) {
@@ -160,7 +208,9 @@ public class ATLSerializer extends AbstractVisitor {
 			}
 			s += "}" + cr();
 		}
-		s += tab(1) + "  to " + g(self.getOutPattern()) + cr();
+		
+		if ( self.getOutPattern() != null )
+			s += tab(1) + "  to " + g(self.getOutPattern()) + cr();
 		
 		if ( self.getActionBlock() != null ) {
 			s += g(self.getActionBlock());
@@ -169,6 +219,20 @@ public class ATLSerializer extends AbstractVisitor {
 		s(s + cr() + "}");
 	}
 
+	@Override
+	public void inForEachOutPatternElement(ForEachOutPatternElement self) {
+		String s = self.getVarName() + " : " + "distinct " + g(self.getType()) + 
+				" foreach(" + self.getIterator().getVarName() + " in " + g(self.getCollection()) + ") (" + cr();
+		
+		List<String> l = sl();
+		for(Binding b : self.getBindings()) {
+			l.add(g(b));
+		}
+
+		s += join(l, "," + cr()) + cr() + ")";
+		
+		s(s);
+	}
 	
 	@Override
 	public void inActionBlock(ActionBlock self) {
@@ -287,12 +351,72 @@ public class ATLSerializer extends AbstractVisitor {
 	// This could be reusable
 	//
 	
+	private static HashMap<String, Integer> precedences = new HashMap<String, Integer>();
+	static {
+		
+		precedences.put("*", 100);
+		precedences.put("/", 100);
+
+		precedences.put("-", 90);
+		precedences.put("+", 90);
+		
+		precedences.put("<", 80);
+		precedences.put("<=", 80);
+		precedences.put(">=", 80);
+		precedences.put(">", 80);
+		
+		precedences.put("=", 70);
+		precedences.put("<>", 70);
+		
+		precedences.put("and", 60);
+		
+		precedences.put("or", 50);
+		
+		precedences.put("xor", 40);
+		
+		precedences.put("implies", 30);
+		
+		
+		/* Operator precedence */	
+		/*
+	    The NavigationOperators
+	    not +, -, unary
+	    *, / multiply and divide
+	    +, - add and subtract
+	    <, <=, >=, > relational comparisons
+	    =, <> equality and inequality
+	    and logical and
+	    or inclusive or
+	    xor exclusive or
+	    implies logical implication
+		*/
+
+	}
+	
 	@Override
 	public void inOperatorCallExp(OperatorCallExp self) {
+		int precedence1 = precedences.getOrDefault(self.getOperationName(), -1);
+		
 		if ( self.getArguments().size() == 0 ) {
 			s(self.getOperationName() + " " + g(self.getSource()));
 		} else {
-			s(g(self.getSource()) + " " + self.getOperationName() + " " + g(self.getArguments().get(0)));			
+			String src = g(self.getSource());
+			String arg = g(self.getArguments().get(0));
+						
+			if ( self.getSource() instanceof OperatorCallExp ) {
+				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getSource()).getOperationName(), -1);
+				if ( precedence1 > precedence2 ) {
+					src = "( " + src + " )";
+				}
+			}
+			if ( self.getArguments().get(0) instanceof OperatorCallExp ) {
+				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getArguments().get(0)).getOperationName(), -1);
+				if ( precedence1 > precedence2 ) {
+					arg = "( " + arg + " )";
+				}
+			}
+			
+			s(src + " " + self.getOperationName() + " " + arg);			
 		}
 	}
 	
@@ -355,6 +479,19 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	@Override
+	public void inIterateExp(IterateExp self) {
+		String itType = "";
+		if ( self.getIterators().get(0).getType() != null ) {
+			itType = " : " + g(self.getIterators().get(0).getType());
+		}
+		String s = g(self.getSource()) + "->" + "iterate" + "(" + 
+				self.getIterators().get(0).getVarName() + itType + ";" + 
+				self.getResult().getVarName() + ":" + g(self.getResult().getType()) + " = " + g(self.getResult().getInitExpression()) + 
+				" | " + g(self.getBody()) + ")";
+		s(s);
+	}
+	
+	@Override
 	public void inVariableExp(VariableExp self) {
 		s(self.getReferredVariable().getVarName());
 	}
@@ -367,6 +504,11 @@ public class ATLSerializer extends AbstractVisitor {
 	@Override
 	public void inIntegerExp(IntegerExp self) {
 		s(self.getIntegerSymbol()+"");
+	}
+	
+	@Override
+	public void inRealExp(RealExp self) {
+		s(self.getRealSymbol()+"");
 	}
 	
 	@Override
@@ -422,9 +564,18 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		
 		s += join(l) + " }";
-
 		s(s);		
-
+	}
+	
+	@Override
+	public void inTupleExp(TupleExp self) {
+		String s = "Tuple" + " {";
+		List<String> l = sl();
+		for(TuplePart e : self.getTuplePart()) {
+			l.add(e.getVarName() + " = " + g(e.getInitExpression()));
+		}
+		s += join(l) + " }";
+		s(s);			
 	}
 	
 	@Override
@@ -463,9 +614,40 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	@Override
+	public void inSequenceType(SequenceType self) {
+		s("Sequence(" + g(self.getElementType()) + ")");
+	}
+
+	@Override
+	public void inSetType(SetType self) {
+		s("Set(" + g(self.getElementType()) + ")");
+	}
+	
+	@Override
+	public void inOrderedSetType(OrderedSetType self) {
+		s("OrderedSet(" + g(self.getElementType()) + ")");
+	}
+	
+	@Override
+	public void inBagType(BagType self) {
+		s("Bag(" + g(self.getElementType()) + ")");
+	}	
+	
+	@Override
 	public void inMapType(MapType self) {
 		String s = "Map(" + g(self.getKeyType()) + ", " + g(self.getValueType()) + ")";
 		s(s);
+	}
+	
+	@Override
+	public void inTupleType(TupleType self) {
+		String s = "TupleType" + "(";
+		List<String> l = sl();
+		for(TupleTypeAttribute e : self.getAttributes()) {
+			l.add(e.getName() + " : " + g(e.getType()));
+		}
+		s += join(l) + ")";
+		s(s);			
 	}
 	
 	//
@@ -507,6 +689,18 @@ public class ATLSerializer extends AbstractVisitor {
 			s += join(l, cr(1) + "\n") + " }";
 			
 		}
+		s(s);
+	}
+	
+	@Override
+	public void inForStat(ForStat self) {
+		String s = "for (" + self.getIterator().getVarName() + " in " + g(self.getCollection()) + ") {" + cr();
+		List<String> l = sl();
+		for(Statement e : self.getStatements()) {
+			l.add(g(e));
+		}
+		s += join(l, cr(1) + "\n") + " }";		
+		s = s + "}";
 		s(s);
 	}
 	

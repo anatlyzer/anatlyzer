@@ -61,6 +61,7 @@ import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
@@ -284,6 +285,8 @@ public class ErrorModel {
 		p.setElement(element);
 		p.setFileLocation(element.getFileLocation());
 		result.getProblems().add(p);
+		
+		element.getProblems().add(p);
 	}
 
 	public Type signalIteratorOverNoCollectionType(Type receptorType, LocatedElement node) {
@@ -584,8 +587,11 @@ public class ErrorModel {
 		signalWarning_WITHOUTERROR_TODO("Invalid type for key in Map ", node);								
 	}
 
-	public void signalOperationOverCollectionType(OperationCallExp node) {
-		signalWarning_WITHOUTERROR_TODO("Operation over collection type. TODO: Not sure if this is error (try ATL execution) ", node);										
+	public void signalOperationOverCollectionType(OperationCallExp op) {
+		OperationOverCollectionType error = AtlErrorFactory.eINSTANCE.createOperationOverCollectionType();
+		initProblem(error, op);
+
+		signalError(error, "Operation " + op.getOperationName() + " over collection, perhaps you want to use \"->\"", op);		
 	}
 
 	public static class NoRecoverableError extends RuntimeException {

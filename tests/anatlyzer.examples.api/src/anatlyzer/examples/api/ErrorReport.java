@@ -43,7 +43,7 @@ public class ErrorReport {
 		int helpers = 0, matchedRules = 0, abstractRules = 0, lazyRules = 0, calledRules = 0;
 		Module module = atlTransformation.allObjectsOf(Module.class).get(0);
 		for (ModuleElement e : module.getElements()) {
-			if (e instanceof Helper && ! (e.getCommentsBefore().contains(ExtendTransformation.EOPERATION_TAG)))
+			if (e instanceof Helper && ! (ExtendTransformation.isAddedEOperation(e)))
 				helpers++;
 			else if (e instanceof LazyRule)
 				lazyRules++;

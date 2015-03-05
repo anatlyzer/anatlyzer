@@ -173,6 +173,9 @@ public class ATLUtils {
 	}
 
 	public static List<String> findCommaTags(Unit root, String tag) {
+		if ( ! tag.startsWith("@") )
+			tag = "@" + tag;
+		
 		List<String> result = new ArrayList<String>();
 		for (String str : root.getCommentsBefore()) {
 			String line = str.replaceAll("--", "").trim();
@@ -188,6 +191,10 @@ public class ATLUtils {
 	}
 
 	public static void replacePathTag(Unit root, String name, String newPath) {
+		replacePathTag(root, name, name, newPath);
+	}
+	
+	public static void replacePathTag(Unit root, String name, String newName, String newPath) {
 		// Partly copied from findCommaTags
 		String tag = "@path";
 		//List<String> result = new ArrayList<String>();
@@ -199,7 +206,7 @@ public class ATLUtils {
 				line = line.substring(index + tag.length());
 				String[] parts = line.split("=");
 				if ( parts.length == 2 && parts[0].trim().equals(name)) {
-					root.getCommentsBefore().set(i, "-- " + tag + " " + name + "=" + newPath);
+					root.getCommentsBefore().set(i, "-- " + tag + " " + newName + "=" + newPath);
 				}
 			}		
 			i++;

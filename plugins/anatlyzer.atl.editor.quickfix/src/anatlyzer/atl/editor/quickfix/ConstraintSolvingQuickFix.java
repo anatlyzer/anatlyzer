@@ -16,7 +16,6 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.ui.util.WorkbenchUtil;
 import anatlyzer.ui.util.WorkspaceLogger;
@@ -44,7 +43,7 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 				return;
 			}
 			
-			String strConstraint     = USESerializer.retypeAndGenerate(analysisData.getAnalyser().getNamespaces(), constraint);
+			String strConstraint     = USESerializer.retypeAndGenerate(constraint);
 			
 			System.out.println("Quickfix: " + constraint);
 			

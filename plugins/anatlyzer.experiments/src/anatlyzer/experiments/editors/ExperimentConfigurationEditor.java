@@ -2,6 +2,7 @@ package anatlyzer.experiments.editors;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
 import java.text.Collator;
@@ -9,17 +10,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -59,6 +65,8 @@ import anatlyzer.experiments.extensions.NewExperimentExtension;
  * </ul>
  */
 public class ExperimentConfigurationEditor extends MultiPageEditorPart implements IResourceChangeListener{
+
+	protected static IExperiment experiment;
 
 	/** The text editor used in page 0. */
 	private TextEditor editor;
@@ -105,29 +113,45 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 	 * Creates page 1 of the multi-page editor,
 	 * which allows you to change the font used in page 2.
 	 */
+	/*
 	void createPage1() {
 
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		GridLayout layout = new GridLayout();
 		composite.setLayout(layout);
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 
-		Button fontButton = new Button(composite, SWT.NONE);
+		Button executeButton = new Button(composite, SWT.NONE);
 		GridData gd = new GridData(GridData.BEGINNING);
-		gd.horizontalSpan = 2;
-		fontButton.setLayoutData(gd);
-		fontButton.setText("Execute");
+		gd.horizontalSpan = 1;
+		executeButton.setLayoutData(gd);
+		executeButton.setText("Execute");
 		
-		fontButton.addSelectionListener(new SelectionAdapter() {
+		executeButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				executeExperiment();
 			}
 		});
 
+		Button exportToExcel = new Button(composite, SWT.NONE);
+		GridData gdExcel = new GridData(GridData.BEGINNING);
+		gdExcel.horizontalSpan = 2;
+		exportToExcel.setLayoutData(gdExcel);
+		exportToExcel.setText("Export to Excel");
+		
+		exportToExcel.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				exportToExcel();
+			}
+		});
+
+		
+		
 		int index = addPage(composite);
 		setPageText(index, "Properties");
 	}
-
+	*/
+	
 	/**
 	 * Creates page 2 of the multi-page editor,
 	 * which shows the sorted text.
@@ -135,7 +159,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 	void createPage2() {
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		composite.setLayout(layout);
 		
 		// Execute
@@ -151,6 +175,17 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			}
 		});
 
+		Button exportToExcel = new Button(composite, SWT.NONE);
+		GridData gdExcel = new GridData(GridData.BEGINNING);
+		gdExcel.horizontalSpan = 2;
+		exportToExcel.setLayoutData(gdExcel);
+		exportToExcel.setText("Export to Excel");
+		
+		exportToExcel.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				exportToExcel();
+			}
+		});
 		// Text
 		GridData gd1 = new GridData(GridData.FILL_BOTH);
 		gd1.horizontalSpan = 2;
@@ -260,13 +295,15 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 	void executeExperiment() {
 		String confText = editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
 		final ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);		
+
+		IExperiment experiment = null;
+		String extension = null;
 		
 		for(final IConfigurationElement c : Platform.getExtensionRegistry().getConfigurationElementsFor(NewExperimentExtension.ID)) {
 			if ( ! conf.extensionID.equals(c.getDeclaringExtension().getUniqueIdentifier()) ) 
 				continue;
 			
 			String desc = c.getAttribute("resourceType");
-			final String extension;
 			if ( desc.startsWith("file:") ) {
 				extension = desc.substring("file:".length());				
 			} else {
@@ -274,62 +311,76 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 				System.err.println("Not supported: " + desc);
 			}
 			
-			
-			Job job = new Job("Experiment") {
-			    @Override
-			    protected IStatus run(IProgressMonitor monitor) {
-					IExperiment experiment;
-					try {
-						experiment = (IExperiment) c.createExecutableExtension("delegate");
-						conf.execute(extension, experiment, monitor);
-						
-						final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-						experiment.printResult(new PrintStream(bos));
-
-					    Display.getDefault().asyncExec(new Runnable() {
-					        public void run() {
-					        	text.setText(bos.toString());
-					        }
-					      });
-						
-					} catch (CoreException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-			        return Status.OK_STATUS;
-			    }
-			};
-			job.schedule();
-			
-			
-			return; // TODO: Indicate the actual experiment to run
+			try {
+				experiment = (IExperiment) c.createExecutableExtension("delegate");
+			} catch (CoreException e) {
+				text.setText(e.getMessage());
+				e.printStackTrace();
+				return;
+			}
+			break;
 		}
 
-		text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
+		if ( experiment != null ) {		
+			Job job = new ExperimentJob(conf, experiment, extension);
+			job.schedule();
+			job.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) { 
+					ExperimentConfigurationEditor.experiment = ((ExperimentJob) event.getJob()).experiment;
+				}				
+			});
+		} else {
+			text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
+		}
 	}
 	
-	/**
-	 * Sorts the words in page 0, and shows them in page 2.
-	 */
-	void sortWords() {
+	private class ExperimentJob extends Job {
 
-		String editorText =
-			editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
+		private IExperiment experiment;
+		private String extension;
+		private ExperimentConfiguration conf;
 
-		StringTokenizer tokenizer =
-			new StringTokenizer(editorText, " \t\n\r\f!@#\u0024%^&*()-_=+`~[]{};:'\",.<>/?|\\");
-		ArrayList editorWords = new ArrayList();
-		while (tokenizer.hasMoreTokens()) {
-			editorWords.add(tokenizer.nextToken());
+		public ExperimentJob(ExperimentConfiguration conf, IExperiment experiment, String extension) {
+			super("Experiment");
+			this.conf = conf;
+			this.experiment = experiment;
+			this.extension = extension;
 		}
 
-		Collections.sort(editorWords, Collator.getInstance());
-		StringWriter displayText = new StringWriter();
-		for (int i = 0; i < editorWords.size(); i++) {
-			displayText.write(((String) editorWords.get(i)));
-			displayText.write(System.getProperty("line.separator"));
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			conf.execute(extension, experiment, monitor);
+			
+			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			experiment.printResult(new PrintStream(bos));
+
+			Display.getDefault().asyncExec(new Runnable() {
+			    public void run() {
+			    	text.setText(bos.toString());
+			    }
+			  });
+
+	        return Status.OK_STATUS;
 		}
-		text.setText(displayText.toString());
+		
 	}
+	
+	protected void exportToExcel() {
+		if ( experiment != null && experiment.canExportToExcel()) {
+			FileEditorInput input = (FileEditorInput) getEditorInput();
+			IPath path = input.getFile().getFullPath().removeFileExtension().addFileExtension("xlsx");
+			
+			IFile xlsx = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			
+			try {
+				experiment.exportToExcel(xlsx.getLocation().toPortableString());
+				xlsx.refreshLocal(1, null);
+			} catch (IOException | CoreException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 }

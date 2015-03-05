@@ -3,14 +3,6 @@ package anatlyzer.atl.analyser.generators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EEnumLiteral;
-
-import anatlyzer.atl.analyser.Analyser;
-import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
-import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.model.TypeUtils;
-import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -49,7 +41,8 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class USESerializer {
 
-	public static String retypeAndGenerate(GlobalNamespace globalNamespace, OclExpression expr) {
+	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
+	public static String retypeAndGenerate(OclExpression expr) {
 		new Retyping(expr).perform();		
 		return gen(expr);
 	}
@@ -81,7 +74,7 @@ public class USESerializer {
 			LetExp let = (LetExp) expr;
 			String type = "";
 			if ( let.getVariable().getType() != null) {
-				type = gen(let.getVariable().getType());
+				type = " : " + gen(let.getVariable().getType());
 			}
 			return "let " + let.getVariable().getVarName() + type + " = " + gen(let.getVariable().getInitExpression()) + " in\n\t" + gen(let.getIn_());
 		} else if ( expr instanceof CollectionExp ) {

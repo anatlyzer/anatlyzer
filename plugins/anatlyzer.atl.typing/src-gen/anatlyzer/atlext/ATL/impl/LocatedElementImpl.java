@@ -13,10 +13,12 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getCommentsAfter <em>Comments After</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getFileObject <em>File Object</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getProblems <em>Problems</em>}</li>
  * </ul>
  * </p>
  *
@@ -115,6 +118,16 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * @ordered
 	 */
 	protected Object fileObject = FILE_OBJECT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getProblems() <em>Problems</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProblems()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EObject> problems;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -227,6 +240,18 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EObject> getProblems() {
+		if (problems == null) {
+			problems = new EObjectResolvingEList<EObject>(EObject.class, this, ATLPackage.LOCATED_ELEMENT__PROBLEMS);
+		}
+		return problems;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -240,6 +265,8 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 				return getFileLocation();
 			case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT:
 				return getFileObject();
+			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
+				return getProblems();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -270,6 +297,10 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 			case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT:
 				setFileObject(newValue);
 				return;
+			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
+				getProblems().clear();
+				getProblems().addAll((Collection<? extends EObject>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -297,6 +328,9 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 			case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT:
 				setFileObject(FILE_OBJECT_EDEFAULT);
 				return;
+			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
+				getProblems().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -319,6 +353,8 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 				return FILE_LOCATION_EDEFAULT == null ? fileLocation != null : !FILE_LOCATION_EDEFAULT.equals(fileLocation);
 			case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT:
 				return FILE_OBJECT_EDEFAULT == null ? fileObject != null : !FILE_OBJECT_EDEFAULT.equals(fileObject);
+			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
+				return problems != null && !problems.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

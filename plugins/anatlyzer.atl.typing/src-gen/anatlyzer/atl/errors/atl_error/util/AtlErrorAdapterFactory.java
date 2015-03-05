@@ -79,6 +79,14 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createModelElementAdapter();
 			}
 			@Override
+			public Adapter caseOclCompliance(OclCompliance object) {
+				return createOclComplianceAdapter();
+			}
+			@Override
+			public Adapter caseOclComplianceProblem(OclComplianceProblem object) {
+				return createOclComplianceProblemAdapter();
+			}
+			@Override
 			public Adapter caseNavigationProblem(NavigationProblem object) {
 				return createNavigationProblemAdapter();
 			}
@@ -227,12 +235,12 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createIteratorOverNoCollectionTypeAdapter();
 			}
 			@Override
-			public Adapter caseOclCompliance(OclCompliance object) {
-				return createOclComplianceAdapter();
-			}
-			@Override
 			public Adapter caseIncoherentVariableDeclaration(IncoherentVariableDeclaration object) {
 				return createIncoherentVariableDeclarationAdapter();
+			}
+			@Override
+			public Adapter caseOperationOverCollectionType(OperationOverCollectionType object) {
+				return createOperationOverCollectionTypeAdapter();
 			}
 			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
@@ -823,6 +831,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OclComplianceProblem <em>Ocl Compliance Problem</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.OclComplianceProblem
+	 * @generated
+	 */
+	public Adapter createOclComplianceProblemAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration <em>Incoherent Variable Declaration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -833,6 +855,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIncoherentVariableDeclarationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OperationOverCollectionType <em>Operation Over Collection Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.OperationOverCollectionType
+	 * @generated
+	 */
+	public Adapter createOperationOverCollectionTypeAdapter() {
 		return null;
 	}
 

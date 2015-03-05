@@ -310,6 +310,15 @@ public interface AtlErrorFactory extends EFactory {
 	IncoherentVariableDeclaration createIncoherentVariableDeclaration();
 
 	/**
+	 * Returns a new object of class '<em>Operation Over Collection Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Over Collection Type</em>'.
+	 * @generated
+	 */
+	OperationOverCollectionType createOperationOverCollectionType();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

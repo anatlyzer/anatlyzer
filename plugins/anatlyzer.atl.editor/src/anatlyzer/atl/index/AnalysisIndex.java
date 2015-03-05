@@ -18,19 +18,19 @@ public class AnalysisIndex {
 	private HashMap<String, AnalysisResult> index = new HashMap<String, AnalysisResult>();
 	private Set<IndexChangeListener> listeners = new HashSet<IndexChangeListener>();
 	
-	public void register(IResource file, AnalysisResult result) {
+	public synchronized void register(IResource file, AnalysisResult result) {
 		this.register(file.getLocation().toPortableString(), result);
 	}
 
-	public void addListener(IndexChangeListener listener) {
+	public synchronized void addListener(IndexChangeListener listener) {
 		this.listeners.add(listener);
 	}
 	
-	public void removeListener(IndexChangeListener listener) {
+	public synchronized void removeListener(IndexChangeListener listener) {
 		this.listeners.remove(listener);
 	}
 	
-	public void register(String location, AnalysisResult result) {
+	public synchronized void register(String location, AnalysisResult result) {
 		boolean firstTime = index.containsKey(location);
 		index.put(location, result);
 		
@@ -39,11 +39,11 @@ public class AnalysisIndex {
 		}
 	}
 	
-	public AnalysisResult getAnalysis(String location) {
+	public synchronized AnalysisResult getAnalysis(String location) {
 		return index.get(location);
 	}
 	
-	public AnalysisResult getAnalysis(IResource file) {
+	public synchronized AnalysisResult getAnalysis(IResource file) {
 		return getAnalysis(file.getLocation().toPortableString());
 	}
 

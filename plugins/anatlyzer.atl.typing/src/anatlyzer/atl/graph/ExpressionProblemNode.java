@@ -55,7 +55,7 @@ public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProbl
 	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return ATLUtils.findVariableReference(expr, v) != null 
-			|| getDepending().isVarRequiredByErrorPath(v);
+			|| (getDepending() != null && getDepending().isVarRequiredByErrorPath(v));
 	}
 
 }

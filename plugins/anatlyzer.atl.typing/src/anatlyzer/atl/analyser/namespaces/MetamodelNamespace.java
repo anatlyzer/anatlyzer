@@ -48,7 +48,7 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	
 	public MetamodelNamespace(String name, Resource resource) {
 		if ( resource == null ) 
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No resource for " + name);
 
 		this.name     = name;
 		this.resource = resource;

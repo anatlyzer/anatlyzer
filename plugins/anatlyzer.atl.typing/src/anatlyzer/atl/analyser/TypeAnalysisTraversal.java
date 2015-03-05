@@ -458,11 +458,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		for(int i = 0; i < self.getArguments().size(); i++) {
 			arguments[i] = attr.typeOf(self.getArguments().get(i));
 		}
-	
-		if ( t instanceof CollectionType && AnalyserContext.isOclStrict() ) {
-			errors().signalOperationOverCollectionType(self);
-		}
-		
+			
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();		
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		

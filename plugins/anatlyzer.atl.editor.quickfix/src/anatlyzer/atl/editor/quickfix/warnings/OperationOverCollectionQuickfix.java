@@ -9,35 +9,58 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
-public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix {
+/**
+ * Collection operations must be accessed with "->", but ATL supports ".".
+ * This quickfix makes the code OCL compliant.
+ * 
+ * Example:
+ * <pre>
+ * 		Sequence { }.operation()   =>  Sequence { }->operation()
+ * </pre>
+ * 
+ * 
+ * 
+ * @author jesus
+ *
+ */
+public class OperationOverCollectionQuickfix extends AbstractAtlQuickfix {
 
-	public FlattenOverNonNestedCollectionQuickFix() {
+	public OperationOverCollectionQuickfix() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, FlattenOverNonNestedCollection.class);	
+		return checkProblemType(marker, OperationOverCollectionType.class);		
 	}
 
 	@Override
 	public void apply(IDocument document) {
 
 		try {
-			int offsetStart = getProblemStartOffset();
 			int offsetEnd   = getProblemEndOffset();
-		
-			CollectionOperationCallExp call = (CollectionOperationCallExp) getProblem().getElement();
 			
+			OperationCallExp call = (OperationCallExp) getProblem().getElement();
 			int[] sourceOffset = getElementOffset(call.getSource(), document);
-			int sourceOffsetStart = sourceOffset[0];
+
 			int sourceOffsetEnd = sourceOffset[1];
 			
-			document.replace(sourceOffsetEnd, offsetEnd - sourceOffsetEnd, "");
+			int distance = -1;
+			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
+			for(int i = 0; i < rest.length(); i++) {
+				if ( rest.charAt(i) == '.' ) {
+					distance = i;
+				}
+			}
 			
+			if ( distance != -1 ) {
+				document.replace(sourceOffsetEnd, distance + 1, "->");
+			} else {
+				System.err.println("Cannot find . in " + rest);
+			}
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		} catch (BadLocationException e) {
@@ -54,12 +77,12 @@ public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix 
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Remove a flatten applied to a non-nested collection";
+		return "Replace dot notation ('.') with collection operation call ('->') ";
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Remove flatten";
+		return "Replace '.' with '->'";
 	}
 
 	@Override

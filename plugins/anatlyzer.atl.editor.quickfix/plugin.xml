@@ -25,4 +25,12 @@
             apply="anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix">
       </quickfix>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix"
+         name="Quickfix: Change dot for arrow"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix">
+      </quickfix>
+   </extension>
 </plugin>

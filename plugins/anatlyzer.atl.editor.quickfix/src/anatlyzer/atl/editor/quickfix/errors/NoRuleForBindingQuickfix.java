@@ -4,19 +4,15 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
-import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Rule;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
 public class NoRuleForBindingQuickfix extends AbstractAtlQuickfix {
 

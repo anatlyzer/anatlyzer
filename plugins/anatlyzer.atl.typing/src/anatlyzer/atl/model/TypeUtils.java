@@ -100,7 +100,7 @@ public class TypeUtils {
 		return false;
 	}
 	
-	public static String getTypeName(Type t) {
+	public static String getNonQualifiedTypeName(Type t) {
 		if ( t == null ) 
 			throw new IllegalArgumentException();
 		
@@ -121,11 +121,11 @@ public class TypeUtils {
 			if ( t instanceof SequenceType ) typeName = "Sequence";
 			if ( t instanceof SetType ) typeName = "Set";
 			
-			return typeName + "(" + getTypeName(((CollectionType) t).getContainedType()) +")";
+			return typeName + "(" + getNonQualifiedTypeName(((CollectionType) t).getContainedType()) +")";
 		}
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
-
+	
 	public static boolean isFeatureMustBeInitialized(EStructuralFeature f) {
 		boolean boundsAndDefaults = f.getLowerBound() != 0 && f.getDefaultValue() == null;
 		if ( f instanceof EAttribute ) {

@@ -220,7 +220,8 @@ package atl_error {
 
 	
 	class IncoherentVariableDeclaration extends LocalProblem, OclCompliance {
-		
+		ref  types.Type[1] inferred;	   
+		ref  types.Type[1] declared;	   		
 	}
 	
 	class OperationOverCollectionType extends OclComplianceProblem {

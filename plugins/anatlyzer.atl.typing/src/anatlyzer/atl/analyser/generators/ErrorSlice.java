@@ -81,7 +81,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	public boolean addHelper(ContextHelper contextHelperAnn) {
-		String ctxTypeName = TypeUtils.getTypeName(contextHelperAnn.getContextType());
+		String ctxTypeName = TypeUtils.getNonQualifiedTypeName(contextHelperAnn.getContextType());
 		
 		return addHelperAux(contextHelperAnn, ctxTypeName);
 	}
@@ -128,7 +128,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		String[] argNames = ATLUtils.getArgumentNames(ctx);
 		Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
 		for(int i = 0; i < argNames.length; i++) {
-			s += "," + argNames[i] + " : " + TypeUtils.getTypeName(argTypes[i]);
+			s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
 //			if ( i + 1 < ctx.getNames().size() ) {
 //				s += ","; 
 //			}

@@ -11,8 +11,16 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.types.BooleanType;
+import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.FloatType;
+import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.SequenceType;
+import anatlyzer.atl.types.SetType;
+import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -35,7 +43,38 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
 public class ATLUtils {
-
+	
+	/**
+	 * Returns a string representing a given type in ATL format.
+	 * @param t
+	 * @return
+	 */
+	public static String getTypeName(Type t) {
+		if ( t == null ) 
+			throw new IllegalArgumentException();
+		
+		if ( t instanceof Metaclass ) {
+			return ((Metaclass) t).getModel().getName() + "!" + ((Metaclass) t).getName();
+		} else if ( t instanceof StringType ) {
+			return "String";
+		} else if ( t instanceof BooleanType ) {
+			return "Boolean";
+		} else if ( t instanceof IntegerType ) {
+			return "Integer";
+		} else if ( t instanceof FloatType ) {
+			return "Float";
+		} else if ( t instanceof Unknown ) {
+			return "OclAny";
+		} else if ( t instanceof CollectionType ) {
+			String typeName = null;
+			if ( t instanceof SequenceType ) typeName = "Sequence";
+			if ( t instanceof SetType ) typeName = "Set";
+			
+			return typeName + "(" + getTypeName(((CollectionType) t).getContainedType()) +")";
+		}
+		throw new UnsupportedOperationException(t.getClass().getName());
+	}
+	
 	public static List<MatchedRule> allSuperRules(MatchedRule r) {
 		List<MatchedRule> result = new ArrayList<MatchedRule>();
 		do {

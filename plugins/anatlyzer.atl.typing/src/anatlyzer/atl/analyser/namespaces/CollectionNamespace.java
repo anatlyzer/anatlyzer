@@ -52,7 +52,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	
 	@Override
 	public Type createType(boolean explicitOcurrence) {
-		throw new UnsupportedOperationException();
+		return newCollectionType(nested);
 	}
 
 

@@ -323,7 +323,8 @@ public class ErrorModel {
 	public void warningVarDclIncoherentTypes(Type exprType, Type declared, LocatedElement node) {
 		IncoherentVariableDeclaration error = AtlErrorFactory.eINSTANCE.createIncoherentVariableDeclaration();
 		initProblem(error, node);
-		
+		error.setDeclared(declared);
+		error.setInferred(exprType);
 		signalError(error, "Incoherent declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(exprType) + ")" , node);
 	}
 	

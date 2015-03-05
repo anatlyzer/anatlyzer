@@ -63,7 +63,7 @@ public class OclCompliance extends AbstractAnalyserVisitor {
 
 		//    e.g., aCollection.isEmpty() 
 		// in ocl:  aCollection->isEmpty()
-		if ( t instanceof CollectionType ) {
+		if ( t instanceof CollectionType && !self.getOperationName().equals("debug" )) {
 			errors().signalOperationOverCollectionType(self);
 		}
 	}

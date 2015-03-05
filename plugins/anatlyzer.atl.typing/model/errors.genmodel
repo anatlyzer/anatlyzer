@@ -153,7 +153,12 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverNoCollectionType">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/IteratorOverNoCollectionType/iteratorName"/>
       </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/IncoherentVariableDeclaration/inferred"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/IncoherentVariableDeclaration/declared"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"

@@ -33,4 +33,12 @@
             apply="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix">
       </quickfix>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix"
+         name="Quickfix: Align declared type with the inferred type"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix">
+      </quickfix>
+   </extension>
 </plugin>

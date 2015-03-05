@@ -4565,13 +4565,31 @@ public interface AtlErrorPackage extends EPackage {
 	int INCOHERENT_VARIABLE_DECLARATION__RECOVERY = LOCAL_PROBLEM__RECOVERY;
 
 	/**
+	 * The feature id for the '<em><b>Inferred</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__INFERRED = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Declared</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DECLARED = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Incoherent Variable Declaration</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+	int INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Incoherent Variable Declaration</em>' class.
@@ -5622,6 +5640,28 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getIncoherentVariableDeclaration();
 
 	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getInferred <em>Inferred</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Inferred</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getInferred()
+	 * @see #getIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	EReference getIncoherentVariableDeclaration_Inferred();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getDeclared <em>Declared</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Declared</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getDeclared()
+	 * @see #getIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	EReference getIncoherentVariableDeclaration_Declared();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationOverCollectionType <em>Operation Over Collection Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6449,6 +6489,22 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass INCOHERENT_VARIABLE_DECLARATION = eINSTANCE.getIncoherentVariableDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Inferred</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INCOHERENT_VARIABLE_DECLARATION__INFERRED = eINSTANCE.getIncoherentVariableDeclaration_Inferred();
+
+		/**
+		 * The meta object literal for the '<em><b>Declared</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INCOHERENT_VARIABLE_DECLARATION__DECLARED = eINSTANCE.getIncoherentVariableDeclaration_Declared();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.

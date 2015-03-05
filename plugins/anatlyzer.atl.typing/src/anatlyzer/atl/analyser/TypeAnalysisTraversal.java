@@ -459,7 +459,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			arguments[i] = attr.typeOf(self.getArguments().get(i));
 		}
 			
-		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();		
+		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();	
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		
 		if ( attr.wasCasted(self.getSource()) ){

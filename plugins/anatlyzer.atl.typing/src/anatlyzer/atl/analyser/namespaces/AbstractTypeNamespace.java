@@ -71,7 +71,7 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 
 	private Type getType() {
 		// This should be change for a "type" reference in the hierarchy, instead of
-		// creating a type each type, then createType() replace for cloneType in case this is actually needed
+		// creating a type each time, then createType() replace for cloneType in case this is actually needed
 		return createType(false);
 	}
 }

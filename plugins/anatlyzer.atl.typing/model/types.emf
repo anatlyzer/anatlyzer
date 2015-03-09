@@ -8,7 +8,10 @@ abstract class Type {
 
     transient attr Object[0..1] metamodelRef;
 
-
+	// Indicate whether the node to which this type is associated might be
+	// a null value.
+	attr boolean[1] mayBeUndefined = false;
+	
 	ref Type[1] noCastedType;
 }
 

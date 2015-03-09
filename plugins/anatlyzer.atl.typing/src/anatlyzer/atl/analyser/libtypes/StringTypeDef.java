@@ -24,6 +24,8 @@ public class StringTypeDef extends AtlTypeDef {
 		operation("startsWith").returnType(AtlTypes.boolean_());
 		operation("endsWith").returnType(AtlTypes.boolean_());
 
+		operation("toInteger").returnType(AtlTypes.integer());
+		
 		// Just convenience to deal with queries to file
 		operation("writeTo").returnType(AtlTypes.boolean_());
 		

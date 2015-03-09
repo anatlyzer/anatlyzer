@@ -1,7 +1,17 @@
 package anatlyzer.atl.util;
 
+import java.util.HashMap;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
@@ -19,7 +29,12 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
+import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
+import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Module;
 
@@ -57,7 +72,118 @@ public class AnalyserUtils {
 			return (EPackage) namespace.getNamespace(n).getResource().getContents().get(0);
 		}
 	}
+	
+	public static GlobalNamespace prepare(ATLModel atlModel, IAtlFileLoader loader) throws CoreException, CannotLoadMetamodel {
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "lib")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			String name = two[0].trim();
+			String uri = two[1].trim();
+			
+			extendWithLibrary(atlModel, name, uri, loader);		
+		}
+		
+		ResourceSet nrs = new ResourceSetImpl();
+		new ResourceSetImpl.MappedResourceLocator((ResourceSetImpl) nrs); 
 
+		for(String map : ATLUtils.findCommaTags(atlModel.getRoot(), "map")) {
+			String[] two = map.split("=>");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+
+			nrs.getURIConverter().getURIMap().put(URI.createURI(two[0].trim()), URI.createURI(two[1].trim()) );
+		}
+		
+		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
+
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "nsURI")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			String name = two[0].trim();
+			String uri = two[1].trim();
+			
+			Resource r = nrs.getResource(URI.createURI(uri), false);
+			if ( r == null ) {
+				throw new CannotLoadMetamodel(uri);
+			}
+			logicalNamesToResources.put(name, r);			
+		}
+		
+
+		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "path")) {
+			String[] two = tag.split("=");
+			if ( two.length != 2 ) 
+				continue; // bad format, should be notified in the UI
+			String name = two[0].trim();
+			String uri = two[1].trim();
+			
+			try {
+				Resource r = nrs.getResource(URI.createPlatformResourceURI(uri, false), true);
+				logicalNamesToResources.put(name, r);			
+			} catch ( Exception e) { // Non-sense the way EMF handles IO exceptions
+				throw new CannotLoadMetamodel(uri);
+			}
+		}
+
+		for(String uri : ATLUtils.findCommaTags(atlModel.getRoot(), "load")) {
+			Resource r = nrs.getResource(URI.createURI(uri), false);
+			logicalNamesToResources.put(uri, r);
+		}
+
+		// Sanity check: all declared meta-models need to have a loaded resource
+		checkLoadedMetamodels(atlModel, logicalNamesToResources);
+		
+		GlobalNamespace mm = new GlobalNamespace(nrs, logicalNamesToResources);
+		return mm;
+	}
+
+	private static void extendWithLibrary(ATLModel atlModel, String name, String location, IAtlFileLoader loader) throws CoreException {
+		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(location));
+		Resource r = loader.load(file);
+		
+		atlModel.extendWithLibrary(r, file.getFullPath().toPortableString());
+	}
+
+	public static interface IAtlFileLoader {
+		/**
+		 * Loads an ATL file and returns the resource with its abstract syntax,
+		 * as it given by the ATL parser (i.e., using the ATL.ecore meta-model).
+		 * 
+		 * @param f
+		 * @return
+		 */
+		public Resource load(IFile f);
+	}
+	
+	private static void checkLoadedMetamodels(ATLModel atlModel, HashMap<String, Resource> logicalNamesToResources) throws CannotLoadMetamodel {
+		for(ModelInfo m : ATLUtils.getModelInfo(atlModel) ) {
+			if ( ! logicalNamesToResources.containsKey( m.getMetamodelName()) ) {
+				throw new CannotLoadMetamodel(m.getMetamodelName());
+			}			
+		}	
+	}
+
+	public static class CannotLoadMetamodel extends Exception {
+		private static final long serialVersionUID = 1L;
+		private String uri;
+		
+		public CannotLoadMetamodel(String uri) {
+			super("Could not load meta-model: " + uri);
+			this.uri = uri;
+		}
+		
+		public Problem getProblem() {
+			CouldNotLoadMetamodel p = IdeErrorFactory.eINSTANCE.createCouldNotLoadMetamodel();
+			p.setDescription(this.getMessage());
+			p.setNeedsCSP(false);
+			p.setUri(uri);
+			p.setLocation("1:1-1:1");
+			return p;
+		}
+		
+	}
 	
 	public static int getProblemId(Problem p) {
 		if ( p instanceof NoBindingForCompulsoryFeature ) return 1;
@@ -84,7 +210,7 @@ public class AnalyserUtils {
 		}
 		// 13
 		if ( p instanceof NoModelFound ) return 13;
-		
+		if ( p instanceof ReadingTargetModel ) return 14;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

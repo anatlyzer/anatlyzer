@@ -56,6 +56,9 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
+import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.ui.actions.CheckRuleConflicts;
@@ -70,6 +73,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
 	private Action runAnalyserAction;
+	private Action runWitnessAction;
 	private Action transformationInformationAction;
 	
 	private Action doubleClickAction;
@@ -302,6 +306,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	class LocalProblemNode extends TreeNode implements IWithCodeLocation {
 
 		private LocalProblem p;
+		private WitnessResult status = null;
 
 		public LocalProblemNode(LocalProblemListNode parent, LocalProblem p) {
 			super(parent);
@@ -320,7 +325,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		@Override
 		public String toString() {
-			return p.getDescription();
+			String prefix = "";
+			if ( status != null ) {
+				switch(status) {
+				case CANNOT_DETERMINE: prefix = "[?] "; break;
+				case ERROR_CONFIRMED: prefix = "[C] "; break;
+				case ERROR_DISCARDED: prefix = "[D] "; break;
+				case INTERNAL_ERROR: prefix = "[E] "; break;
+				}
+			}
+			return prefix + p.getDescription();
 		}
 
 		@Override
@@ -331,6 +345,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public void goToLocation() {
 			goToEditorLocation(p.getFileLocation(), p.getLocation());   
+		}
+
+		public void setStatus(WitnessResult status) {
+			this.status  = status;
 		}
 	}
 	
@@ -523,12 +541,17 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
+		manager.add(runWitnessAction);
+		drillDownAdapter.addNavigationActions(manager);
+		
+		/*
 		manager.add(runAnalyserAction);
 		manager.add(transformationInformationAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		*/
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -558,6 +581,45 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		runAnalyserAction.setToolTipText("Run analyser");
 		runAnalyserAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		
+		runWitnessAction = new Action() {
+			public void run() {
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+				if ( selection != null && ( selection.getFirstElement() instanceof LocalProblemNode )) {
+					LocalProblemNode lpn = (LocalProblemNode) selection.getFirstElement();
+					
+					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+					if ( wf != null ) {
+						WitnessResult status = wf.find(lpn.p, currentAnalysis);
+						lpn.setStatus(status);
+						viewer.refresh(lpn, true);
+					}
+					
+					System.out.println( selection.getFirstElement() );
+					
+				}
+				/*
+				IWorkbenchPage page = getSite().getPage();
+				IEditorPart part = page.getActiveEditor();
+				if ( part instanceof AtlEditorExt ) {
+					try {
+						// Not sure if this is the cleanest way of forcing a rebuild
+						((AtlEditorExt) part).getUnderlyingResource().touch(null);
+					} catch (CoreException e) {
+						e.printStackTrace();
+					}
+				}
+				*/
+			}
+		};
+		
+		runWitnessAction.setText("Confirm problem");
+		runWitnessAction.setToolTipText("Find witness to confirm problem");
+		runWitnessAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+			getImageDescriptor(ISharedImages.IMG_ETOOL_CLEAR));
+		
+		
+
 		
 		transformationInformationAction = new Action() {
 			public void run() {

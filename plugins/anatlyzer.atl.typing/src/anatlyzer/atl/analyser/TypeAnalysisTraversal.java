@@ -182,6 +182,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		Helper h = (Helper) self.eContainer().eContainer();
 		h.setStaticReturnType(declared);
 		h.setInferredReturnType(inferred);
+
+		if ( ! typ().assignableTypes(declared, inferred) ) {
+			errors().warningIncoherentHelperReturnType(self, inferred, declared);
+		}
 	}
 	
 	@Override
@@ -196,6 +200,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		Helper h = (Helper) self.eContainer().eContainer();
 		h.setStaticReturnType(declared);
 		h.setInferredReturnType(inferred);
+
+		if ( ! typ().assignableTypes(declared, inferred) ) {
+			errors().warningIncoherentHelperReturnType(self, inferred, declared);
+		}
 	}
 	
 	

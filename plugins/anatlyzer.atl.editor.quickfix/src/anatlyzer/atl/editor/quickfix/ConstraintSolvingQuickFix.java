@@ -2,29 +2,33 @@ package anatlyzer.atl.editor.quickfix;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
-import witness.generator.WitnessGeneratorMemory;
-import anatlyzer.atl.analyser.generators.CSPGenerator;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.witness.UseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.ui.util.WorkbenchUtil;
-import anatlyzer.ui.util.WorkspaceLogger;
 
 public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 	
 	@Override
 	public void apply(IDocument document) {
+		try {
+			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
+			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
 
+			new UseWitnessFinder().find(problem, analysisData);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+/*
 		try {
 			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
@@ -59,7 +63,7 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
-
+*/
 	}
 
 

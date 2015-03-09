@@ -447,13 +447,35 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.ABSTRACT_INCOHERENT_VARIABLE_DECLARATION: {
+				AbstractIncoherentVariableDeclaration abstractIncoherentVariableDeclaration = (AbstractIncoherentVariableDeclaration)theEObject;
+				T result = caseAbstractIncoherentVariableDeclaration(abstractIncoherentVariableDeclaration);
+				if (result == null) result = caseLocalProblem(abstractIncoherentVariableDeclaration);
+				if (result == null) result = caseOclCompliance(abstractIncoherentVariableDeclaration);
+				if (result == null) result = caseProblem(abstractIncoherentVariableDeclaration);
+				if (result == null) result = caseAnalysisInfo(abstractIncoherentVariableDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: {
 				IncoherentVariableDeclaration incoherentVariableDeclaration = (IncoherentVariableDeclaration)theEObject;
 				T result = caseIncoherentVariableDeclaration(incoherentVariableDeclaration);
+				if (result == null) result = caseAbstractIncoherentVariableDeclaration(incoherentVariableDeclaration);
 				if (result == null) result = caseLocalProblem(incoherentVariableDeclaration);
 				if (result == null) result = caseOclCompliance(incoherentVariableDeclaration);
 				if (result == null) result = caseProblem(incoherentVariableDeclaration);
 				if (result == null) result = caseAnalysisInfo(incoherentVariableDeclaration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.INCOHERENT_HELPER_RETURN_TYPE: {
+				IncoherentHelperReturnType incoherentHelperReturnType = (IncoherentHelperReturnType)theEObject;
+				T result = caseIncoherentHelperReturnType(incoherentHelperReturnType);
+				if (result == null) result = caseAbstractIncoherentVariableDeclaration(incoherentHelperReturnType);
+				if (result == null) result = caseLocalProblem(incoherentHelperReturnType);
+				if (result == null) result = caseOclCompliance(incoherentHelperReturnType);
+				if (result == null) result = caseProblem(incoherentHelperReturnType);
+				if (result == null) result = caseAnalysisInfo(incoherentHelperReturnType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1057,6 +1079,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Incoherent Variable Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Incoherent Variable Declaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAbstractIncoherentVariableDeclaration(AbstractIncoherentVariableDeclaration object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Ocl Compliance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1098,6 +1135,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIncoherentVariableDeclaration(IncoherentVariableDeclaration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Incoherent Helper Return Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Incoherent Helper Return Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIncoherentHelperReturnType(IncoherentHelperReturnType object) {
 		return null;
 	}
 

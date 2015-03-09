@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link anatlyzer.atl.types.Type#isMultivalued <em>Multivalued</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Type#getMetamodelRef <em>Metamodel Ref</em>}</li>
+ *   <li>{@link anatlyzer.atl.types.Type#isMayBeUndefined <em>May Be Undefined</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Type#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
  * </p>
@@ -75,6 +76,33 @@ public interface Type extends EObject {
 	 * @generated
 	 */
 	void setMetamodelRef(Object value);
+
+	/**
+	 * Returns the value of the '<em><b>May Be Undefined</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>May Be Undefined</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>May Be Undefined</em>' attribute.
+	 * @see #setMayBeUndefined(boolean)
+	 * @see anatlyzer.atl.types.TypesPackage#getType_MayBeUndefined()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	boolean isMayBeUndefined();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.types.Type#isMayBeUndefined <em>May Be Undefined</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>May Be Undefined</em>' attribute.
+	 * @see #isMayBeUndefined()
+	 * @generated
+	 */
+	void setMayBeUndefined(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>No Casted Type</b></em>' reference.

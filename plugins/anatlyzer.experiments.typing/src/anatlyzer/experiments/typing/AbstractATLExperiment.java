@@ -9,8 +9,8 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.ui.util.AtlEngineUtils;
 

@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.BooleanNamespace;
@@ -235,6 +236,16 @@ public class TypingModel {
 		if ( equalTypes(t1, t2) ) {
 			return t1;
 		}
+		
+		if ( t1 instanceof OclUndefinedType ) {
+			Type t2c = EcoreUtil.copy(t2);
+			t2c.setMayBeUndefined(true);
+			return t2c;
+		} else if ( t2 instanceof OclUndefinedType ) {
+			Type t1c = EcoreUtil.copy(t1);
+			t1c.setMayBeUndefined(true);
+			return t1c;
+		}
 
 		// Ignore empty collection types
 		if ( t1 instanceof EmptyCollectionType ) return t2;
@@ -374,10 +385,18 @@ public class TypingModel {
 	}
 
 	public boolean assignableTypes(Type declaredType, Type runtimeType) {
+		if ( runtimeType instanceof OclUndefinedType ) {
+			// But the declared type should be modified to carry the "undefined" value
+			return true;
+		}
+		
 		if ( declaredType.getClass() != runtimeType.getClass() )  // TODO: Refine this, some cases they may be compatible
 			return false;
 
-		if ( declaredType instanceof Metaclass ) {
+		if ( declaredType instanceof Unknown ) {
+			// You can always assign anything to a variable declared as OclAny
+			return true;
+		} else if ( declaredType instanceof Metaclass ) {
 			return TypeUtils.isClassAssignableTo(((Metaclass) runtimeType).getKlass(), ((Metaclass) declaredType).getKlass());
 		} else if ( declaredType instanceof PrimitiveType ) {
 			return true;

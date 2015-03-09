@@ -3,25 +3,26 @@
 package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Incoherent Variable Declaration</b></em>'.
+ * An implementation of the model object '<em><b>Incoherent Helper Return Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class IncoherentVariableDeclarationImpl extends AbstractIncoherentVariableDeclarationImpl implements IncoherentVariableDeclaration {
+public class IncoherentHelperReturnTypeImpl extends AbstractIncoherentVariableDeclarationImpl implements IncoherentHelperReturnType {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IncoherentVariableDeclarationImpl() {
+	protected IncoherentHelperReturnTypeImpl() {
 		super();
 	}
 
@@ -32,7 +33,7 @@ public class IncoherentVariableDeclarationImpl extends AbstractIncoherentVariabl
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AtlErrorPackage.Literals.INCOHERENT_VARIABLE_DECLARATION;
+		return AtlErrorPackage.Literals.INCOHERENT_HELPER_RETURN_TYPE;
 	}
 
-} //IncoherentVariableDeclarationImpl
+} //IncoherentHelperReturnTypeImpl

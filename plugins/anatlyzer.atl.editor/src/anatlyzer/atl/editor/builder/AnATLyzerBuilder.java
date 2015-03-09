@@ -22,10 +22,10 @@ import org.eclipse.m2m.atl.engine.Messages;
 
 import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorUtils;
+import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.ui.util.WorkspaceLogger;
 
 public class AnATLyzerBuilder extends IncrementalProjectBuilder {

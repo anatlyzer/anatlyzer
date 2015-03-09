@@ -10,7 +10,8 @@ Bundle-Activator: anatlyzer.atl.typing.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  anatlyzer.atl.typing;visibility:=reexport,
- org.eclipse.emf.ecore.xmi
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: analyser.atl.problems,
  anatlyzer.atl.analyser,

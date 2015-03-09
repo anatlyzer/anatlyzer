@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser.generators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -152,14 +154,6 @@ public class USESerializer {
 	private static String genPropertyCall(OclExpression expr) {
 		String receptor = gen(((PropertyCallExp) expr).getSource());
 		String casting = "";
-		// THIS IS NOW DONE IN A PREVIOUS PHASE
-//		if ( analyser != null ) {
-//			Type t = analyser.getTyping().getImplicitlyCasted(expr);
-//			if ( t != null && t instanceof Metaclass ) {
-//				// casting = ".oclAsType(" + ((Metaclass) t).getName() + ")";
-//				System.out.println("NOT APPLYING CASTING " + ".oclAsType(" + ((Metaclass) t).getName() + ") BECAUSE THIS SHOULD BE IN RETYPING.JAVA" );
-//			}				
-//		}
 
 		if (expr instanceof OperatorCallExp) {
 			OperatorCallExp op = (OperatorCallExp) expr;
@@ -175,6 +169,18 @@ public class USESerializer {
 			// if ( nav.getUsedFeature() == null ) // This condition does not work...
 			if ( nav.getStaticResolver() != null ) {
 				op = op + "(thisModule)";
+			} else {
+				if ( nav.getUsedFeature() != null ) {
+					EStructuralFeature f = (EStructuralFeature) nav.getUsedFeature();
+					if ( f.isMany() ) {
+						// This is to emulate ATL semantics, which always retrieves a sequence
+						// for features. Perhaps could be avoided in some cases.
+						// casting = "->asSequence()";
+						//
+						// Cannot be done, because "asSequence()" provokes an error
+						// in Kodkod validator
+					}
+				}
 			}
 
 			return receptor + "." + op + casting;
@@ -189,8 +195,6 @@ public class USESerializer {
 				// adaptation = "->asSequence()";
 				prefix = "Sequence { ";
 				postfix = "}->flatten";
-			} else if ( call.getOperationName().equals("first") ) {
-				return receptor + "->at(1)" + casting;
 			}
 			
 			return prefix + receptor + postfix + "(" + genArgs(call.getArguments() )+ ")" + casting;

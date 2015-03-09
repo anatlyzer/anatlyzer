@@ -16,7 +16,7 @@ import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 

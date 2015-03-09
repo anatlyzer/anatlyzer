@@ -120,6 +120,11 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	private String genUSEOperation(Helper ctx, String className) {
+
+		if ( retype ) {
+			new Retyping(ctx).perform();		
+		}
+		
 		String s = ATLUtils.getHelperName(ctx) + "(";
 		
 		// The first parameter is always the ThisModule object */
@@ -143,11 +148,8 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 
 		OclExpression body = ATLUtils.getBody(ctx);
 		
-		if ( retype ) {
-			s += USESerializer.retypeAndGenerate(body);
-		} else {
-			s += USESerializer.gen(body); 
-		}
+		s += USESerializer.gen(body); 
+		
 		return s;
 	}
 
@@ -166,10 +168,13 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			return "OclAny";
 		} else if (t instanceof CollectionType) {
 			String typeName = null;
-			if (t instanceof SequenceType)
-				typeName = "Set"; //"Sequence";
-			if (t instanceof SetType)
+			if (t instanceof SequenceType) {
+				typeName = "Sequence";
+			} else if (t instanceof SetType) {
 				typeName = "Set";
+			} else {
+				throw new UnsupportedOperationException();
+			}
 
 			return typeName + "("
 					+ toUSETypeName(((CollectionType) t).getContainedType())

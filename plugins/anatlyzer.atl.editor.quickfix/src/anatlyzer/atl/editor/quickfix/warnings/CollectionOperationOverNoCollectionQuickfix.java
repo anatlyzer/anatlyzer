@@ -9,8 +9,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 /**
  * Collection operations must be accessed with "->", but ATL supports ".".
@@ -18,7 +18,7 @@ import anatlyzer.atlext.OCL.CollectionOperationCallExp;
  * 
  * Example:
  * <pre>
- * 		anObject->operation()   =>  anObject.operation()
+ * 		Sequence { }.operation()   =>  Sequence { }->operation()
  * </pre>
  * 
  * 
@@ -26,15 +26,15 @@ import anatlyzer.atlext.OCL.CollectionOperationCallExp;
  * @author jesus
  *
  */
-public class OperationOverCollectionQuickfix extends AbstractAtlQuickfix {
+public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuickfix {
 
-	public OperationOverCollectionQuickfix() {
+	public CollectionOperationOverNoCollectionQuickfix() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, CollectionOperationOverNoCollectionError.class);		
+		return checkProblemType(marker, OperationOverCollectionType.class);		
 	}
 
 	@Override
@@ -43,21 +43,21 @@ public class OperationOverCollectionQuickfix extends AbstractAtlQuickfix {
 		try {
 			int offsetEnd   = getProblemEndOffset();
 			
-			CollectionOperationCallExp call = (CollectionOperationCallExp) getProblem().getElement();
+			OperationCallExp call = (OperationCallExp) getProblem().getElement();
 			int[] sourceOffset = getElementOffset(call.getSource(), document);
 
 			int sourceOffsetEnd = sourceOffset[1];
 			
 			int distance = -1;
 			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
-			for(int i = 0; i < rest.length() - 1; i++) {
-				if ( rest.charAt(i) == '-' && rest.charAt(i + 1) == '>') {
+			for(int i = 0; i < rest.length(); i++) {
+				if ( rest.charAt(i) == '.' ) {
 					distance = i;
 				}
 			}
 			
 			if ( distance != -1 ) {
-				document.replace(sourceOffsetEnd, distance + 2, ".");
+				document.replace(sourceOffsetEnd, distance + 1, "->");
 			} else {
 				System.err.println("Cannot find . in " + rest);
 			}
@@ -77,12 +77,12 @@ public class OperationOverCollectionQuickfix extends AbstractAtlQuickfix {
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Replace arrow notation ('->') with dot notation ('.') ";
+		return "Replace dot notation ('.') with collection operation call ('->') ";
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Replace '->' with '.'";
+		return "Replace '.' with '->'";
 	}
 
 	@Override

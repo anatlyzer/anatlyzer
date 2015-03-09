@@ -61,6 +61,10 @@ public class TypeUtils {
 		if ( t instanceof EmptyCollectionType )
 			return "-";
 		
+		if ( t instanceof OclUndefinedType ) {
+			return "OclUndefined";
+		}
+		
 		return t.toString();
 	}
 

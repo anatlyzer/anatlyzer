@@ -1,5 +1,8 @@
 package anatlyzer.atl.analyser.generators;
 
+import java.util.HashSet;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
@@ -8,10 +11,20 @@ import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
+import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -25,25 +38,66 @@ import anatlyzer.atlext.processing.AbstractVisitor;
 
 public class Retyping extends AbstractVisitor {
 
-	private OclExpression root;
+	private EObject root;
 	private CSPModel builder = new CSPModel();
 	
-	public Retyping(OclExpression expr) {
-		
-		this.root = expr;
+	HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
+
+	public Retyping(EObject root) {
+		this.root = root;
 	}	
 	
 	public void perform() {
 		startVisiting(root);
-		
-		// Adapt expressions generically
-//		TreeIterator<EObject> it = root.eAllContents();
-//		while ( it.hasNext() ) {
-//			EObject obj = it.next();
-//			if ( obj instanceof OclExpression ) {
-//				tryAdaptBooleanExpression((OclExpression) obj);
-//			}
-//		}
+	}
+	
+	public boolean isApproximation() {
+		return ! seqAsSetModifications.isEmpty();
+	}
+	
+	/**
+	 * Sequences are not supported in USE.
+	 * 
+	 * If the return type is Sequence(X), it is transformed into Set(X),
+	 * checking if the expressions needs to be converted into a set as well
+	 * 
+	 */
+	
+	@Override
+	public void inContextHelper(ContextHelper self) {
+		retypeHelper(self);
+	}
+	
+	@Override
+	public void inStaticHelper(StaticHelper self) {
+		retypeHelper(self);
+	}
+	
+	public void retypeHelper(Helper self) {
+		if ( self.getStaticReturnType() instanceof SequenceType ) {
+			markSeqAsSet(self);
+			
+			SetType t = TypesFactory.eINSTANCE.createSetType();
+			t.setContainedType(((CollectionType) self.getStaticReturnType()).getContainedType());
+			self.setStaticReturnType(t);
+			
+			OclExpression body = ATLUtils.getBody(self);
+			if ( body.getInferredType() instanceof SequenceType ) {
+				CollectionOperationCallExp opcall = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				opcall.setOperationName("asSet");
+				EcoreUtil.replace(body, opcall);
+				opcall.setSource(body);
+			}
+		}
+	}
+	
+	/**
+	 * Make the declared type be the inferred type, which is more likely to be
+	 * the correct one. A simple way is to remove the declared type.
+	 */
+	@Override
+	public void inLetExp(LetExp self) {
+		self.getVariable().setType(null);
 	}
 	
 	/**
@@ -52,9 +106,6 @@ public class Retyping extends AbstractVisitor {
 	 */
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
-		System.out.println(self);
-		System.out.println("  - " + self.getInferredType());
-		System.out.println("  - " + self.getUsedFeature());
 		if ( self.getInferredType() instanceof BooleanType && self.getUsedFeature() != null) {
 			OperatorCallExp operator = OCLFactory.eINSTANCE.createOperatorCallExp();
 			StringExp stringExp = OCLFactory.eINSTANCE.createStringExp();
@@ -87,7 +138,39 @@ public class Retyping extends AbstractVisitor {
 		if ( self.getOperationName().equals("asSequence") ) {
 			self.setOperationName("asSet");
 			return;
+		} 
+		/**
+		 * first()  ==>  any(true)
+		 */
+		else if ( self.getOperationName().equals("first") ) {
+			markSeqAsSet(self);
+			
+			IteratorExp any = OCLFactory.eINSTANCE.createIteratorExp();
+			any.setName("any");
+			Iterator it = OCLFactory.eINSTANCE.createIterator();
+			it.setVarName("it_");
+			any.getIterators().add(it);
+			BooleanExp b = OCLFactory.eINSTANCE.createBooleanExp();
+			b.setBooleanSymbol(true);
+			any.setBody(b);
+			
+			any.setSource(self.getSource());
+			EcoreUtil.replace(self, any);
+			
+			return;
 		}
+		
+		// In USESerializer there is:
+		/**
+		 * 	if ( call.getOperationName().equals("asSequence") && (
+				  call.getSource() instanceof NavigationOrAttributeCallExp ||
+				 (call.getSource() instanceof OperationCallExp && ((OperationCallExp) call.getSource()).getOperationName().equals("allInstances")) ) ) {
+				// adaptation = "->asSequence()";
+				prefix = "Sequence { ";
+				postfix = "}->flatten";
+			}
+		 */
+		
 		
 		// Convert to a set before applying a set-only operation (e.g., union)
 		if ( self.getSource().getInferredType() instanceof SequenceType ) {
@@ -101,6 +184,11 @@ public class Retyping extends AbstractVisitor {
 	
 	}
 	
+	
+	private void markSeqAsSet(LocatedElement self) {
+		seqAsSetModifications.add(self);
+	}
+
 	@Override
 	public void inIteratorExp(IteratorExp self) {
 		// self.getInferredType()

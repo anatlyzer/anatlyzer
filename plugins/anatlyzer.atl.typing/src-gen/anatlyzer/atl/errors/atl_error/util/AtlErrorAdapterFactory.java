@@ -235,8 +235,16 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createIteratorOverNoCollectionTypeAdapter();
 			}
 			@Override
+			public Adapter caseAbstractIncoherentVariableDeclaration(AbstractIncoherentVariableDeclaration object) {
+				return createAbstractIncoherentVariableDeclarationAdapter();
+			}
+			@Override
 			public Adapter caseIncoherentVariableDeclaration(IncoherentVariableDeclaration object) {
 				return createIncoherentVariableDeclarationAdapter();
+			}
+			@Override
+			public Adapter caseIncoherentHelperReturnType(IncoherentHelperReturnType object) {
+				return createIncoherentHelperReturnTypeAdapter();
 			}
 			@Override
 			public Adapter caseOperationOverCollectionType(OperationOverCollectionType object) {
@@ -817,6 +825,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration <em>Abstract Incoherent Variable Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration
+	 * @generated
+	 */
+	public Adapter createAbstractIncoherentVariableDeclarationAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OclCompliance <em>Ocl Compliance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -855,6 +877,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIncoherentVariableDeclarationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType <em>Incoherent Helper Return Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType
+	 * @generated
+	 */
+	public Adapter createIncoherentHelperReturnTypeAdapter() {
 		return null;
 	}
 

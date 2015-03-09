@@ -328,8 +328,17 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getType_MayBeUndefined() {
+		return (EAttribute)typeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getType_NoCastedType() {
-		return (EReference)typeEClass.getEStructuralFeatures().get(2);
+		return (EReference)typeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -741,6 +750,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		typeEClass = createEClass(TYPE);
 		createEAttribute(typeEClass, TYPE__MULTIVALUED);
 		createEAttribute(typeEClass, TYPE__METAMODEL_REF);
+		createEAttribute(typeEClass, TYPE__MAY_BE_UNDEFINED);
 		createEReference(typeEClass, TYPE__NO_CASTED_TYPE);
 
 		oclUndefinedTypeEClass = createEClass(OCL_UNDEFINED_TYPE);
@@ -870,6 +880,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		initEClass(typeEClass, Type.class, "Type", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getType_Multivalued(), ecorePackage.getEBoolean(), "multivalued", "false", 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getType_MetamodelRef(), ecorePackage.getEJavaObject(), "metamodelRef", null, 0, 1, Type.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getType_MayBeUndefined(), ecorePackage.getEBoolean(), "mayBeUndefined", "false", 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getType_NoCastedType(), this.getType(), null, "noCastedType", null, 1, 1, Type.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(oclUndefinedTypeEClass, OclUndefinedType.class, "OclUndefinedType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

@@ -33,6 +33,14 @@
             apply="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix">
       </quickfix>
    </extension>
+      <extension
+         id="anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix"
+         name="Quickfix: Change arrow for dot"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix">
+      </quickfix>
+   </extension>
    <extension
          id="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix"
          name="Quickfix: Align declared type with the inferred type"
@@ -40,5 +48,11 @@
       <quickfix
             apply="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix">
       </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.witnessfinder">
+      <finder
+            finder="anatlyzer.atl.editor.witness.UseWitnessFinder">
+      </finder>
    </extension>
 </plugin>

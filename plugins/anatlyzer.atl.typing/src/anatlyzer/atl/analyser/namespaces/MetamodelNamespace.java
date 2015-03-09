@@ -103,6 +103,10 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	public String getName() {
 		return name;
 	}
+
+	public HashSet<EPackage> getLoadedPackages() {
+		return loadedPackages;
+	}
 	
 	/**
 	 * Returns a type of the meta-model given its name.

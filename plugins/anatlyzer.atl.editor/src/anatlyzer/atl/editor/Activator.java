@@ -18,6 +18,7 @@ public class Activator extends AbstractUIPlugin {
 	// Extension names
 	public static final String ATL_QUICKFIX_EXTENSION_POINT = "anatlyzer.atl.editor.quickfix"; 
 	public static final String ATL_ADDITIONAL_ANALYSIS_EXTENSION_POINT = "anatlyzer.atl.editor.additionalanalysis"; 
+	public static final String ATL_WITNESSFINDER_EXTENSION_POINT = "anatlyzer.atl.editor.witnessfinder"; 
 	
 	
 	/**

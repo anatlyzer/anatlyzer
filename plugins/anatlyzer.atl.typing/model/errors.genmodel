@@ -153,12 +153,14 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverNoCollectionType">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/IteratorOverNoCollectionType/iteratorName"/>
       </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration">
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/IncoherentVariableDeclaration/inferred"/>
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration/inferred"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/IncoherentVariableDeclaration/declared"/>
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/AbstractIncoherentVariableDeclaration/declared"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentHelperReturnType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"

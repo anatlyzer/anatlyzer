@@ -4483,14 +4483,14 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
+	 * @see anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 41;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 41;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4499,7 +4499,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -4508,7 +4508,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -4517,7 +4517,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__SEVERITY = LOCAL_PROBLEM__SEVERITY;
 
 	/**
 	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
@@ -4526,7 +4526,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4535,7 +4535,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__LOCATION = LOCAL_PROBLEM__LOCATION;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__LOCATION = LOCAL_PROBLEM__LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>File Location</b></em>' attribute.
@@ -4544,7 +4544,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -4553,7 +4553,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -4562,7 +4562,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__RECOVERY = LOCAL_PROBLEM__RECOVERY;
 
 	/**
 	 * The feature id for the '<em><b>Inferred</b></em>' reference.
@@ -4571,7 +4571,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__INFERRED = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__INFERRED = LOCAL_PROBLEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Declared</b></em>' reference.
@@ -4580,7 +4580,125 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION__DECLARED = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DECLARED = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Abstract Incoherent Variable Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Abstract Incoherent Variable Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION = 42;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__SEVERITY = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__LOCATION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__RECOVERY = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Inferred</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__INFERRED = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__INFERRED;
+
+	/**
+	 * The feature id for the '<em><b>Declared</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DECLARED = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DECLARED;
 
 	/**
 	 * The number of structural features of the '<em>Incoherent Variable Declaration</em>' class.
@@ -4589,7 +4707,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 2;
+	int INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Incoherent Variable Declaration</em>' class.
@@ -4598,8 +4716,126 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+	int INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT + 0;
 
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
+	 * @generated
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE = 43;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__DEPENDENTS = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__DESCRIPTION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__SEVERITY = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__NEEDS_CSP = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__LOCATION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__FILE_LOCATION = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__RECOVERY = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Inferred</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__INFERRED = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__INFERRED;
+
+	/**
+	 * The feature id for the '<em><b>Declared</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__DECLARED = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DECLARED;
+
+	/**
+	 * The number of structural features of the '<em>Incoherent Helper Return Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE_FEATURE_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Incoherent Helper Return Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE_OPERATION_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
@@ -4609,7 +4845,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
 	 * @generated
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE = 42;
+	int OPERATION_OVER_COLLECTION_TYPE = 44;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5610,6 +5846,38 @@ public interface AtlErrorPackage extends EPackage {
 	EAttribute getIteratorOverNoCollectionType_IteratorName();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration <em>Abstract Incoherent Variable Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Abstract Incoherent Variable Declaration</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration
+	 * @generated
+	 */
+	EClass getAbstractIncoherentVariableDeclaration();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getInferred <em>Inferred</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Inferred</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getInferred()
+	 * @see #getAbstractIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	EReference getAbstractIncoherentVariableDeclaration_Inferred();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getDeclared <em>Declared</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Declared</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getDeclared()
+	 * @see #getAbstractIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	EReference getAbstractIncoherentVariableDeclaration_Declared();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OclCompliance <em>Ocl Compliance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5640,26 +5908,14 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getIncoherentVariableDeclaration();
 
 	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getInferred <em>Inferred</em>}'.
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType <em>Incoherent Helper Return Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Inferred</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getInferred()
-	 * @see #getIncoherentVariableDeclaration()
+	 * @return the meta object for class '<em>Incoherent Helper Return Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType
 	 * @generated
 	 */
-	EReference getIncoherentVariableDeclaration_Inferred();
-
-	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getDeclared <em>Declared</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Declared</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration#getDeclared()
-	 * @see #getIncoherentVariableDeclaration()
-	 * @generated
-	 */
-	EReference getIncoherentVariableDeclaration_Declared();
+	EClass getIncoherentHelperReturnType();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationOverCollectionType <em>Operation Over Collection Type</em>}'.
@@ -6461,6 +6717,32 @@ public interface AtlErrorPackage extends EPackage {
 		EAttribute ITERATOR_OVER_NO_COLLECTION_TYPE__ITERATOR_NAME = eINSTANCE.getIteratorOverNoCollectionType_IteratorName();
 
 		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
+		 * @generated
+		 */
+		EClass ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = eINSTANCE.getAbstractIncoherentVariableDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Inferred</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__INFERRED = eINSTANCE.getAbstractIncoherentVariableDeclaration_Inferred();
+
+		/**
+		 * The meta object literal for the '<em><b>Declared</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DECLARED = eINSTANCE.getAbstractIncoherentVariableDeclaration_Declared();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6491,20 +6773,14 @@ public interface AtlErrorPackage extends EPackage {
 		EClass INCOHERENT_VARIABLE_DECLARATION = eINSTANCE.getIncoherentVariableDeclaration();
 
 		/**
-		 * The meta object literal for the '<em><b>Inferred</b></em>' reference feature.
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 		 * @generated
 		 */
-		EReference INCOHERENT_VARIABLE_DECLARATION__INFERRED = eINSTANCE.getIncoherentVariableDeclaration_Inferred();
-
-		/**
-		 * The meta object literal for the '<em><b>Declared</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INCOHERENT_VARIABLE_DECLARATION__DECLARED = eINSTANCE.getIncoherentVariableDeclaration_Declared();
+		EClass INCOHERENT_HELPER_RETURN_TYPE = eINSTANCE.getIncoherentHelperReturnType();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.

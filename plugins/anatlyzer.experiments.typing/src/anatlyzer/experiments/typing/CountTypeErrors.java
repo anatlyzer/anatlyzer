@@ -6,15 +6,12 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.CannotLoadMetamodel;
 import anatlyzer.examples.api.ErrorReport;
 import anatlyzer.experiments.extensions.IExperiment;
 

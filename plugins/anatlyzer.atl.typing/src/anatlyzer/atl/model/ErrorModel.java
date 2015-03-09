@@ -20,7 +20,9 @@ import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atl.analyser.AnalyserContext;
@@ -48,6 +50,7 @@ import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
@@ -328,7 +331,14 @@ public class ErrorModel {
 		signalError(error, "Incoherent declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(exprType) + ")" , node);
 	}
 	
-	
+	public void warningIncoherentHelperReturnType(OclFeature feature, Type inferred, Type declared) {
+		IncoherentHelperReturnType error = AtlErrorFactory.eINSTANCE.createIncoherentHelperReturnType();
+		initProblem(error, feature);
+		error.setDeclared(declared);
+		error.setInferred(inferred);
+		signalError(error, "Incoherent return type. Declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(inferred) + ")" , feature);		
+		
+	}
 	
 	public void signalNoRecoverableError(String msg, LocatedElement l) {
 		throw new NoRecoverableError(msg + ". " + l.getLocation());
@@ -656,6 +666,8 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
+
+	
 
 
 	

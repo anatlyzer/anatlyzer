@@ -86,13 +86,22 @@ public interface TypesPackage extends EPackage {
 	int TYPE__METAMODEL_REF = 1;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE__MAY_BE_UNDEFINED = 2;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE__NO_CASTED_TYPE = 2;
+	int TYPE__NO_CASTED_TYPE = 3;
 
 	/**
 	 * The number of structural features of the '<em>Type</em>' class.
@@ -101,7 +110,7 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_FEATURE_COUNT = 3;
+	int TYPE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Type</em>' class.
@@ -139,6 +148,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_UNDEFINED_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -196,6 +214,15 @@ public interface TypesPackage extends EPackage {
 	int PRIMITIVE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -249,6 +276,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int BOOLEAN_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__MAY_BE_UNDEFINED = PRIMITIVE_TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -315,6 +351,15 @@ public interface TypesPackage extends EPackage {
 	int INTEGER_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__MAY_BE_UNDEFINED = PRIMITIVE_TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -368,6 +413,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__MAY_BE_UNDEFINED = PRIMITIVE_TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -425,6 +479,15 @@ public interface TypesPackage extends EPackage {
 	int FLOAT_TYPE__METAMODEL_REF = PRIMITIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOAT_TYPE__MAY_BE_UNDEFINED = PRIMITIVE_TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -478,6 +541,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -542,6 +614,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -663,6 +744,15 @@ public interface TypesPackage extends EPackage {
 	int REF_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REF_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -716,6 +806,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNKNOWN__METAMODEL_REF = REF_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNKNOWN__MAY_BE_UNDEFINED = REF_TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -773,6 +872,15 @@ public interface TypesPackage extends EPackage {
 	int EMPTY_COLLECTION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_COLLECTION_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -828,6 +936,15 @@ public interface TypesPackage extends EPackage {
 	int TYPE_ERROR__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_ERROR__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -881,6 +998,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNRESOLVED_TYPE_ERROR__METAMODEL_REF = TYPE_ERROR__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNRESOLVED_TYPE_ERROR__MAY_BE_UNDEFINED = TYPE_ERROR__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -1200,6 +1326,15 @@ public interface TypesPackage extends EPackage {
 	int EMPTY_COLLECTION__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EMPTY_COLLECTION__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1253,6 +1388,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUM_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -1365,6 +1509,15 @@ public interface TypesPackage extends EPackage {
 	int METACLASS__METAMODEL_REF = REF_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METACLASS__MAY_BE_UNDEFINED = REF_TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1456,6 +1609,15 @@ public interface TypesPackage extends EPackage {
 	int REFLECTIVE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFLECTIVE_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1509,6 +1671,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNION_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -1575,6 +1746,15 @@ public interface TypesPackage extends EPackage {
 	int THIS_MODULE_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int THIS_MODULE_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1630,6 +1810,15 @@ public interface TypesPackage extends EPackage {
 	int REFLECTIVE_CLASS__METAMODEL_REF = REFLECTIVE_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFLECTIVE_CLASS__MAY_BE_UNDEFINED = REFLECTIVE_TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1683,6 +1872,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -1749,6 +1947,15 @@ public interface TypesPackage extends EPackage {
 	int SEQUENCE_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
 
 	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__MAY_BE_UNDEFINED = COLLECTION_TYPE__MAY_BE_UNDEFINED;
+
+	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1811,6 +2018,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__MAY_BE_UNDEFINED = COLLECTION_TYPE__MAY_BE_UNDEFINED;
 
 	/**
 	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
@@ -1880,6 +2096,17 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getType_MetamodelRef();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.types.Type#isMayBeUndefined <em>May Be Undefined</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>May Be Undefined</em>'.
+	 * @see anatlyzer.atl.types.Type#isMayBeUndefined()
+	 * @see #getType()
+	 * @generated
+	 */
+	EAttribute getType_MayBeUndefined();
 
 	/**
 	 * Returns the meta object for the reference '{@link anatlyzer.atl.types.Type#getNoCastedType <em>No Casted Type</em>}'.
@@ -2376,6 +2603,14 @@ public interface TypesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute TYPE__METAMODEL_REF = eINSTANCE.getType_MetamodelRef();
+
+		/**
+		 * The meta object literal for the '<em><b>May Be Undefined</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TYPE__MAY_BE_UNDEFINED = eINSTANCE.getType_MayBeUndefined();
 
 		/**
 		 * The meta object literal for the '<em><b>No Casted Type</b></em>' reference feature.

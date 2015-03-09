@@ -4,6 +4,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.AnalysisResultPackage;
 
+import anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
@@ -22,6 +23,7 @@ import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
@@ -352,6 +354,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass abstractIncoherentVariableDeclarationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass oclComplianceEClass = null;
 
 	/**
@@ -367,6 +376,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass incoherentVariableDeclarationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass incoherentHelperReturnTypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1229,6 +1245,33 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAbstractIncoherentVariableDeclaration() {
+		return abstractIncoherentVariableDeclarationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAbstractIncoherentVariableDeclaration_Inferred() {
+		return (EReference)abstractIncoherentVariableDeclarationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAbstractIncoherentVariableDeclaration_Declared() {
+		return (EReference)abstractIncoherentVariableDeclarationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOclCompliance() {
 		return oclComplianceEClass;
 	}
@@ -1256,17 +1299,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIncoherentVariableDeclaration_Inferred() {
-		return (EReference)incoherentVariableDeclarationEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIncoherentVariableDeclaration_Declared() {
-		return (EReference)incoherentVariableDeclarationEClass.getEStructuralFeatures().get(1);
+	public EClass getIncoherentHelperReturnType() {
+		return incoherentHelperReturnTypeEClass;
 	}
 
 	/**
@@ -1435,9 +1469,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		iteratorOverNoCollectionTypeEClass = createEClass(ITERATOR_OVER_NO_COLLECTION_TYPE);
 		createEAttribute(iteratorOverNoCollectionTypeEClass, ITERATOR_OVER_NO_COLLECTION_TYPE__ITERATOR_NAME);
 
+		abstractIncoherentVariableDeclarationEClass = createEClass(ABSTRACT_INCOHERENT_VARIABLE_DECLARATION);
+		createEReference(abstractIncoherentVariableDeclarationEClass, ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__INFERRED);
+		createEReference(abstractIncoherentVariableDeclarationEClass, ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DECLARED);
+
 		incoherentVariableDeclarationEClass = createEClass(INCOHERENT_VARIABLE_DECLARATION);
-		createEReference(incoherentVariableDeclarationEClass, INCOHERENT_VARIABLE_DECLARATION__INFERRED);
-		createEReference(incoherentVariableDeclarationEClass, INCOHERENT_VARIABLE_DECLARATION__DECLARED);
+
+		incoherentHelperReturnTypeEClass = createEClass(INCOHERENT_HELPER_RETURN_TYPE);
 
 		operationOverCollectionTypeEClass = createEClass(OPERATION_OVER_COLLECTION_TYPE);
 	}
@@ -1515,8 +1553,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		invalidArgumentEClass.getESuperTypes().add(this.getLocalProblem());
 		collectionOperationNotFoundEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverNoCollectionTypeEClass.getESuperTypes().add(this.getLocalProblem());
-		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getLocalProblem());
-		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getOclCompliance());
+		abstractIncoherentVariableDeclarationEClass.getESuperTypes().add(this.getLocalProblem());
+		abstractIncoherentVariableDeclarationEClass.getESuperTypes().add(this.getOclCompliance());
+		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
+		incoherentHelperReturnTypeEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		operationOverCollectionTypeEClass.getESuperTypes().add(this.getOclComplianceProblem());
 
 		// Initialize classes, features, and operations; add parameters
@@ -1649,9 +1689,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(iteratorOverNoCollectionTypeEClass, IteratorOverNoCollectionType.class, "IteratorOverNoCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIteratorOverNoCollectionType_IteratorName(), ecorePackage.getEString(), "iteratorName", null, 1, 1, IteratorOverNoCollectionType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(abstractIncoherentVariableDeclarationEClass, AbstractIncoherentVariableDeclaration.class, "AbstractIncoherentVariableDeclaration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAbstractIncoherentVariableDeclaration_Inferred(), theTypesPackage.getType(), null, "inferred", null, 1, 1, AbstractIncoherentVariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractIncoherentVariableDeclaration_Declared(), theTypesPackage.getType(), null, "declared", null, 1, 1, AbstractIncoherentVariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(incoherentVariableDeclarationEClass, IncoherentVariableDeclaration.class, "IncoherentVariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIncoherentVariableDeclaration_Inferred(), theTypesPackage.getType(), null, "inferred", null, 1, 1, IncoherentVariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIncoherentVariableDeclaration_Declared(), theTypesPackage.getType(), null, "declared", null, 1, 1, IncoherentVariableDeclaration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(incoherentHelperReturnTypeEClass, IncoherentHelperReturnType.class, "IncoherentHelperReturnType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(operationOverCollectionTypeEClass, OperationOverCollectionType.class, "OperationOverCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}

@@ -187,12 +187,15 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iteratorName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IncoherentVariableDeclaration" eSuperTypes="#//atl_error/LocalProblem #//atl_error/OclCompliance">
+    <eClassifiers xsi:type="ecore:EClass" name="AbstractIncoherentVariableDeclaration"
+        abstract="true" eSuperTypes="#//atl_error/LocalProblem #//atl_error/OclCompliance">
       <eStructuralFeatures xsi:type="ecore:EReference" name="inferred" lowerBound="1"
           eType="ecore:EClass types.ecore#//Type"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="declared" lowerBound="1"
           eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IncoherentVariableDeclaration" eSuperTypes="#//atl_error/AbstractIncoherentVariableDeclaration"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IncoherentHelperReturnType" eSuperTypes="#//atl_error/AbstractIncoherentVariableDeclaration"/>
     <eClassifiers xsi:type="ecore:EClass" name="OperationOverCollectionType" eSuperTypes="#//atl_error/OclComplianceProblem"/>
   </eSubpackages>
   <eSubpackages name="atl_recovery" nsURI="http://bento/analysis/atl/analysis/recovery"

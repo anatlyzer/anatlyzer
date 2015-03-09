@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="anatlyzer.evaluation.contribution1"
+            nameFilter="*.atl"
+            objectClass="org.eclipse.core.resources.IFile">
+         <menu
+               id="anatlyzer.evaluation.menu1"
+               label="Evaluate anATLyzer"
+               path="additions">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="anatlyzer.evaluation.popup.actions.EvaluationAction"
+               enablesFor="1"
+               id="anatlyzer.evaluation.EvaluationAction"
+               label="Evaluate"
+               menubarPath="anatlyzer.evaluation.menu1/group1">
+         </action>
+      </objectContribution>
+   </extension>
+
+</plugin>

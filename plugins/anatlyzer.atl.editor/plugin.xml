@@ -38,6 +38,7 @@
             id="anatlyzer.atl.editor.contribution1">
          <action
                label="Add/Remove anATLyzer Nature"
+				icon="icons/analysis_16x16.png"
                class="anatlyzer.atl.editor.builder.ToggleNatureAction"
                menubarPath="additions"
                enablesFor="+"
@@ -163,7 +164,7 @@
     <view
           category="anatlyzer.view.category"
           class="anatlyzer.atl.editor.views.AnalysisView"
-          icon="icons/sample.gif"
+          icon="icons/analysis_16x16.png"
           id="anatlyzer.atl.editor.views.AnalysisView"
           name="Analysis View">
     </view>

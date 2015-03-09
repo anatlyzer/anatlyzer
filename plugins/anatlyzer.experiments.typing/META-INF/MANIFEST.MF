@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Experiments related to transformations & typing
 Bundle-SymbolicName: anatlyzer.experiments.typing;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: anatlyzer.experiments.typing.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- anatlyzer.experiments;bundle-version="1.0.0",
+ anatlyzer.experiments;bundle-version="0.2.0",
  org.eclipse.core.resources,
  anatlyzer.atl.editor;bundle-version="0.1.0",
  org.eclipse.m2m.atl.core.emf,

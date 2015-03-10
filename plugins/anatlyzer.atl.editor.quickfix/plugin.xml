@@ -50,6 +50,14 @@
       </quickfix>
    </extension>
    <extension
+         id="anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix"
+         name="Quickfix: Find collection operation with similar name"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix">
+      </quickfix>
+   </extension>
+   <extension
          point="anatlyzer.atl.editor.witnessfinder">
       <finder
             finder="anatlyzer.atl.editor.witness.UseWitnessFinder">

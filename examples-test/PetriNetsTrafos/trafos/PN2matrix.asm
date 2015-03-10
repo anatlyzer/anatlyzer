@@ -81,8 +81,8 @@
 		<constant value="12:4-12:34"/>
 		<constant value="13:18-13:19"/>
 		<constant value="13:18-13:31"/>
-		<constant value="13:18-13:39"/>
-		<constant value="13:4-13:39"/>
+		<constant value="13:18-13:38"/>
+		<constant value="13:4-13:38"/>
 		<constant value="14:12-14:13"/>
 		<constant value="14:12-14:25"/>
 		<constant value="14:4-14:25"/>

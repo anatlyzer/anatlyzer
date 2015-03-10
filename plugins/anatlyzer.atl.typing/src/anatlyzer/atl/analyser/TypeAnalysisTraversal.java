@@ -175,16 +175,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		Type declared = attr.typeOf(self.getReturnType());
 		Type inferred = attr.typeOf(self.getBody());
 		
-		if ( declared instanceof Unknown ) {
-			TopLevelTraversal.extendTypeForOperation(self, mm, attr, inferred);
-		}
-		
 		Helper h = (Helper) self.eContainer().eContainer();
 		h.setStaticReturnType(declared);
 		h.setInferredReturnType(inferred);
 
-		if ( ! typ().assignableTypes(declared, inferred) ) {
+		if ( declared instanceof Unknown ) {
+			TopLevelTraversal.extendTypeForOperation(self, mm, attr, inferred);
+		} else if ( ! typ().assignableTypes(declared, inferred) ) {
 			errors().warningIncoherentHelperReturnType(self, inferred, declared);
+			TopLevelTraversal.extendTypeForOperation(self, mm, attr, determineBestInIncoherentType(declared, inferred));
 		}
 	}
 	
@@ -193,16 +192,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		Type declared = attr.typeOf(self.getType());
 		Type inferred = attr.typeOf(self.getInitExpression());
 
-		if ( declared instanceof Unknown ) {
-			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, inferred);
-		}
-
 		Helper h = (Helper) self.eContainer().eContainer();
 		h.setStaticReturnType(declared);
 		h.setInferredReturnType(inferred);
 
-		if ( ! typ().assignableTypes(declared, inferred) ) {
+		
+		if ( declared instanceof Unknown ) {
+			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, inferred);
+		} else if ( ! typ().assignableTypes(declared, inferred) ) {
 			errors().warningIncoherentHelperReturnType(self, inferred, declared);
+			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, determineBestInIncoherentType(declared, inferred));
 		}
 	}
 	
@@ -236,12 +235,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 			if ( ! typ().assignableTypes(declared, exprType) ) {
 				errors().warningVarDclIncoherentTypes(exprType, declared, self);
-			
-				if ( AnalyserContext.isVarDclInferencePreferred() && typ().moreConcrete(declared, exprType) == exprType ) {
-					attr.linkExprType(exprType);					
-				} else {
-					attr.linkExprType(declared);
-				}
+				attr.linkExprType(determineBestInIncoherentType(declared, exprType));
+				
 			} else {
 				Type t = typ().determineVariableType(declared, exprType,  AnalyserContext.isVarDclInferencePreferred());				
 				attr.linkExprType(t);
@@ -251,6 +246,20 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 	}
 	
+	private Type determineBestInIncoherentType(Type declared, Type exprType) {
+		if ( AnalyserContext.isVarDclInferencePreferred() ) {
+			Type moreConcrete = typ().moreConcrete(declared, exprType);
+			if ( moreConcrete == exprType || moreConcrete == null) {
+				return exprType;					
+			} else {
+				return declared;
+			}
+		} else {
+			return declared;
+		}
+	}
+
+
 	@Override
 	public void inRuleVariableDeclaration(RuleVariableDeclaration self) {
 		treatVariableDeclaration(self);
@@ -684,32 +693,31 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		//   - Unknown
 
 		if ( self.getElements().isEmpty() ) {
-			/*
-			self._refContainer.kind_of(atl!VariableDeclaration).if_else({
-				type[self] <- type[self._refContainer.type]
-			}, {
-				t = typ!EmptyCollection.new
-						t.multivalued = true
-						type[self] <- t
-			})
-			*/
 			attr.linkExprType( typ().newSequenceType( typ().newEmptyCollectionType() ) );
 		} else {
-			// TODO: Generalize computing the union of all expression elements
-			// For the moment just taking the first
-			OclExpression representative = self.getElements().get(0);
-			attr.linkExprType( typ().newSequenceType( attr.typeOf(representative) ) );
+			Type commonType = computeCommonType(self.getElements());			
+			attr.linkExprType( typ().newSequenceType( commonType ) );
 		}		
 	}
 		
+	private Type computeCommonType(List<OclExpression> elements) {
+		List<Type> values = new ArrayList<Type>();
+		for(int i = 0; i < elements.size(); i++) {
+			values.add(attr.typeOf(elements.get(i)));
+		}
+		
+		return typ().getCommonType(values);
+	}
+
+
 	/* Same as SequenceExp */
 	@Override
 	public void inSetExp(SetExp self) {
 		if ( self.getElements().isEmpty() ) {
 			attr.linkExprType( typ().newSetType( typ().newUnknownType() ) );
 		} else {
-			OclExpression representative = self.getElements().get(0);
-			attr.linkExprType( typ().newSetType( attr.typeOf(representative) ) );
+			Type commonType = computeCommonType(self.getElements());
+			attr.linkExprType( typ().newSetType( commonType ) );
 		}		
 	}
 	
@@ -720,8 +728,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( self.getElements().isEmpty() ) {
 			attr.linkExprType( typ().newSetType( typ().newUnknownType() ) );
 		} else {
-			OclExpression representative = self.getElements().get(0);
-			attr.linkExprType( typ().newSetType( attr.typeOf(representative) ) );
+			Type commonType = computeCommonType(self.getElements());
+			attr.linkExprType( typ().newSetType( commonType ) );
 		}		
 	}
 
@@ -736,7 +744,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				values.add(attr.typeOf(self.getElements().get(i).getValue()));
 			}
 			
-			attr.linkExprType( typ().newMapType( typ().getCommonType(keys), typ().getCommonType(values)) );
+			Type commonType = typ().getCommonType(keys);
+			attr.linkExprType( typ().newMapType( commonType, typ().getCommonType(values)) );
 		} else {
 			attr.linkExprType( typ().newMapType( typ().newUnknownType(), typ().newUnknownType()) );
 		}

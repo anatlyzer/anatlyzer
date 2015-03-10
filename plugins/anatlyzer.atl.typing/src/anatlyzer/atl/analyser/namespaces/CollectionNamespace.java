@@ -8,6 +8,7 @@ import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
@@ -108,6 +109,8 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		if ( operationName.equals("flatten") ) {
 			if ( nested instanceof CollectionType ) {
 				return nested;
+			} else if ( nested instanceof UnionType ) {
+				return newCollectionType(AnalyserContext.getTypingModel().flattenUnion((UnionType) nested));
 			} else {
 				AnalyserContext.getErrorModel().signalFlattenOverNonNestedCollection(nested, node);
 				// System.out.println("CollectionNamespace.getOperationType(): TODO: Signal warning, flatten over non-nested collection." + node.getLocation() );

@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.BooleanNamespace;
 import anatlyzer.atl.analyser.namespaces.EmptyCollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.EnumNamespace;
@@ -323,6 +322,29 @@ public class TypingModel {
 		ut.setMetamodelRef(new UnionTypeNamespace(ut));
 		return ut;
 	}
+	
+	public Type flattenUnion(UnionType union) {
+		List<Type> flattenedTypes = new ArrayList<Type>();
+		for(Type t : union.getPossibleTypes()) {
+			if ( t instanceof CollectionType ) {
+				flattenedTypes.add( flattenCollection((CollectionType) t) );
+			} else if ( t instanceof UnionType ) {
+				throw new IllegalStateException("Union types cannot be contained inside each other");
+			} else {
+				flattenedTypes.add( t ); 
+			}
+		}
+		return getCommonType(flattenedTypes);
+	}
+	
+	public Type flattenCollection(CollectionType c) {
+		if ( c.getContainedType() instanceof UnionType ) {
+			return flattenUnion((UnionType) c.getContainedType());
+		} else if ( c.getContainedType() instanceof CollectionType ) {
+			return flattenCollection((CollectionType) c.getContainedType());
+		}
+		return c.getContainedType();
+	}
 
 	public boolean equalTypes(Type t1, Type t2) {
 		if ( t1.getClass() != t2.getClass() ) 
@@ -496,7 +518,7 @@ public class TypingModel {
 	public Type getCommonType(List<? extends Type> types) {
 		Type t1 = types.get(0);
 		for(int i = 1; i < types.size(); i++) {
-			Type t2 = types.get(0);
+			Type t2 = types.get(i);
 			t1 = getCommonType(t1, t2);
 		}
 		return t1;
@@ -554,5 +576,6 @@ public class TypingModel {
 		impl.getContents().add(t);
 		return (T) t;
 	}
+
 	
 }

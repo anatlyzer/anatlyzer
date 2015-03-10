@@ -334,7 +334,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				case INTERNAL_ERROR: prefix = "[E] "; break;
 				}
 			}
-			return prefix + p.getDescription();
+			String desc = p.getDescription();
+			int idx = desc.indexOf('\n');
+			if ( idx != -1 )
+				desc = desc.substring(0, idx);
+			return prefix + desc;
 		}
 
 		@Override
@@ -346,7 +350,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public void goToLocation() {
 			goToEditorLocation(p.getFileLocation(), p.getLocation());   
 		}
-
+		
 		public void setStatus(WitnessResult status) {
 			this.status  = status;
 		}

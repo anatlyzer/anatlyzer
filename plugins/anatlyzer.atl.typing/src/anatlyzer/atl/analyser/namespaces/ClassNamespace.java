@@ -16,6 +16,7 @@ import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.recovery.RecoverOperationNotFound;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -375,7 +376,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		if ( ! (rule instanceof MatchedRule) ) throw new IllegalArgumentException();
 		
 		attachedRules.add((MatchedRule) rule);	
-		attachResolvingRule(ruleName, returnType, (MatchedRule) rule);
+		if ( ATLUtils.isOneOneRule((MatchedRule) rule))
+			attachResolvingRule(ruleName, returnType, (MatchedRule) rule);
 	}
 	
 	/* (non-Javadoc)

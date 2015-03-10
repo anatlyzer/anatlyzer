@@ -114,10 +114,10 @@
           </action>
 
           <action
-                class="anatlyzer.ui.actions.DetectDeadCode"
-                definitionId="anatlyzer.ui.commands.DetectDeadCode"
-                id="anatlyzer.ui.actions.DetectDeadCode"
-                label="Detect dead code"
+                class="anatlyzer.ui.actions.CleanAllMarkers"
+                definitionId="anatlyzer.ui.commands.CleanAllMarkers"
+                id="anatlyzer.ui.actions.CleanAllMarkers"
+                label="Clean all markers"
                 menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
           </action>
           
@@ -150,8 +150,8 @@
 	<extension point="org.eclipse.ui.commands">
     	<command
              categoryId="anatlyzerCategory"
-             id="anatlyzer.ui.commands.DetectDeadCode"
-             name="Anatlyzer - Detect dead code"/>
+             id="anatlyzer.ui.commands.CleanAllMarkers"
+             name="Anatlyzer - Clean all markers"/>
 	</extension>
 	
 	

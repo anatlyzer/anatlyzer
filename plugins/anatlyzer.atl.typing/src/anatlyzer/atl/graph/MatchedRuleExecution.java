@@ -1,5 +1,7 @@
 package anatlyzer.atl.graph;
 
+import java.util.HashMap;
+
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
@@ -10,7 +12,6 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
-import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -50,6 +51,38 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 
 	@Override
 	public OclExpression genCSP(CSPModel model) {
+		Metaclass[] patternTypes = ATLUtils.getAllPatternTypes(rule);
+		IteratorExp exists = null;
+		IteratorExp existsOuter = null;
+
+		HashMap<String, VariableDeclaration> mappedVars = new HashMap<String, VariableDeclaration>(); 
+		
+		// T::allInstances->exists(t | <? : allInstancesBody> )
+		for(int i = 0; i < patternTypes.length; i++) {
+			Metaclass metaclass = patternTypes[i];
+			VariableDeclaration varDcl = rule.getInPattern().getElements().get(i);
+
+			OperationCallExp allInstancesCall = model.createAllInstances(metaclass);
+			IteratorExp existsInner = model.createExists(allInstancesCall, varDcl.getVarName());
+			VariableDeclaration varDclMappedVar = existsInner.getIterators().get(0);
+			model.addToScope(varDcl, varDclMappedVar);
+
+			mappedVars.put(varDcl.getVarName(), varDclMappedVar);
+			
+			if ( exists != null ) {
+				exists.setBody(existsInner);
+			}
+			exists = existsInner;
+			
+			if ( existsOuter == null ) {
+				existsOuter = exists;
+			}
+		}
+		
+		
+		
+		
+		/*
 		Metaclass metaclass = null;
 		VariableDeclaration varDcl = rule.getInPattern().getElements().get(0);
 		
@@ -60,28 +93,33 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			metaclass = ATLUtils.getAllPatternTypes(rule)[0];
 		}
 
-		if ( ! ATLUtils.isOneOneRule(rule) ) {
-			System.err.println("MatchedRuleExecution: rules with several input types not supported yet");
-			// throw new IllegalArgumentException();
-			
-			/*
-			for(int i = 1; i < ((MatchedRuleManyAnn) rule).getInPatternTypes().size(); i++) {
-				metaclass = ((MatchedRuleManyAnn) rule).getInPatternTypes().get(i);
-				varDcl    = atlRule.getInPattern().getElements().get(i);
-
-				String s = metaclass.getName() + ".allInstances()"; 
-				buf.generateLoop(s, "exists", varDcl.getVarName());
-			}
-			*/
-		}
-
 		// T::allInstances->exists(t | <? : allInstancesBody> )
 		OperationCallExp allInstancesCall = model.createAllInstances(metaclass);
 		IteratorExp exists = model.createExists(allInstancesCall, varDcl.getVarName());
-		
 		VariableDeclaration varDclMappedVar = exists.getIterators().get(0);
 		model.addToScope(varDcl, varDclMappedVar);
+
+		// If there are more that one input metaclass in the pattern, extend the exists iterator
+		// with more AllInstances->exists
+		if ( ! ATLUtils.isOneOneRule(rule) ) {
+			Metaclass[] patternTypes = ATLUtils.getAllPatternTypes(rule);
+			for(int i = 1; i < patternTypes.length; i++) {
+				Metaclass m = patternTypes[i];
+				
+				VariableDeclaration varDcl2 = rule.getInPattern().getElements().get(i);
+				OperationCallExp allInstancesCall2 = model.createAllInstances(m);
+				IteratorExp exists2 = model.createExists(allInstancesCall2, varDcl2.getVarName());
+
+				
+			}
+
+			System.err.println("MatchedRuleExecution: rules with several input types not supported yet");
+			// throw new IllegalArgumentException();
 			
+		}
+		*/
+
+					
 		Pair<LetExp, LetExp> letPair = genLocalVarsLet(model);
 		
 		LetExp letUsingDeclarations = letPair._1;
@@ -104,12 +142,12 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				letUsingDeclarationInnerLet.setIn_(ifExp);
 			
 			// => set <? : whenFilter>
-			mapSuperRuleVariables(varDclMappedVar, (MatchedRule) rule.getSuperRule(), model);
+			mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
 			OclExpression whenFilterExpr = getDepending().genCSP(model);
 			ifExp.setThenExpression(whenFilterExpr);
 		} else {
 			// set <? : allInstancesBody>
-			mapSuperRuleVariables(varDclMappedVar, (MatchedRule) rule.getSuperRule(), model);
+			mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
 			OclExpression whenFilterExpr = getDepending().genCSP(model);
 
 			// set <? : allInstancesBody>
@@ -119,21 +157,21 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				letUsingDeclarationInnerLet.setIn_(whenFilterExpr);
 		}
 		
-		return exists;
+		return existsOuter;
 	}
 
-	private void mapSuperRuleVariables(VariableDeclaration varDclMappedVar, MatchedRule superRule, CSPModel model) {
+	private void mapSuperRuleVariables(HashMap<String, VariableDeclaration> mappedVars, MatchedRule superRule, CSPModel model) {
 		if ( superRule == null )
 			return;
 		
-		if ( superRule.getInPattern().getElements().size() > 1 )
-			throw new UnsupportedOperationException("Only super rules with one input elements supported");
-		
-		
-		SimpleInPatternElement e = (SimpleInPatternElement) superRule.getInPattern().getElements().get(0);
-		model.addToScope(e, varDclMappedVar);
-		
-		mapSuperRuleVariables(varDclMappedVar, (MatchedRule) superRule.getSuperRule(), model);
+		for(VariableDeclaration supVar :  superRule.getInPattern().getElements()) {
+			VariableDeclaration mappedVar = mappedVars.get(supVar.getVarName());
+			if ( mappedVar != null ) {
+				model.addToScope(supVar, mappedVar);				
+			}
+		}
+	
+		mapSuperRuleVariables(mappedVars, (MatchedRule) superRule.getSuperRule(), model);
 		
 	}
 		

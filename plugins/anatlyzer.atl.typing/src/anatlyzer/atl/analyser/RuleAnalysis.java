@@ -27,6 +27,7 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
@@ -312,7 +313,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		ArrayList<EClass> sourceClasses = new ArrayList<EClass>();
 		
 		for (MatchedRule matchedRule : resolvingRules) {
-			if ( matchedRule.isIsAbstract() )
+			if ( matchedRule.isIsAbstract() || ! ATLUtils.isOneOneRule(matchedRule) )
 				continue;
 			
 			Metaclass srcMetaclass = (Metaclass) attr.typeOf( matchedRule.getInPattern().getElements().get(0) );

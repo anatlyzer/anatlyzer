@@ -127,8 +127,11 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 
 	@Override
 	public void inMatchedRule(MatchedRule self) {
-		if ( ! ATLUtils.isOneOneRule(self) ) 
-			throw new UnsupportedOperationException("Don't know how to handle rules with more than one input pattern");
+		if ( ! ATLUtils.isOneOneRule(self) ) {
+		//	throw new UnsupportedOperationException("Don't know how to handle rules with more than one input pattern");
+			System.err.println("Don't know how to handle rules with more than one input pattern");
+			return;
+		}
 		
 		Metaclass src = ATLUtils.getInPatternType(self);
 		if ( self.getActionBlock() != null ) {

@@ -4,6 +4,7 @@ package anatlyzer.atl.types.impl;
 
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.ConstrainedType;
 import anatlyzer.atl.types.EmptyCollection;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -199,6 +200,13 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * @generated
 	 */
 	private EClass unionTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass constrainedTypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -670,6 +678,42 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getConstrainedType() {
+		return constrainedTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConstrainedType_RootType() {
+		return (EReference)constrainedTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConstrainedType_IsType() {
+		return (EReference)constrainedTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConstrainedType_IsNotType() {
+		return (EReference)constrainedTypeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getThisModuleType() {
 		return thisModuleTypeEClass;
 	}
@@ -810,6 +854,11 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		unionTypeEClass = createEClass(UNION_TYPE);
 		createEReference(unionTypeEClass, UNION_TYPE__POSSIBLE_TYPES);
 
+		constrainedTypeEClass = createEClass(CONSTRAINED_TYPE);
+		createEReference(constrainedTypeEClass, CONSTRAINED_TYPE__ROOT_TYPE);
+		createEReference(constrainedTypeEClass, CONSTRAINED_TYPE__IS_TYPE);
+		createEReference(constrainedTypeEClass, CONSTRAINED_TYPE__IS_NOT_TYPE);
+
 		thisModuleTypeEClass = createEClass(THIS_MODULE_TYPE);
 
 		reflectiveClassEClass = createEClass(REFLECTIVE_CLASS);
@@ -870,6 +919,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		metaclassEClass.getESuperTypes().add(this.getRefType());
 		reflectiveTypeEClass.getESuperTypes().add(this.getType());
 		unionTypeEClass.getESuperTypes().add(this.getType());
+		constrainedTypeEClass.getESuperTypes().add(this.getType());
 		thisModuleTypeEClass.getESuperTypes().add(this.getType());
 		reflectiveClassEClass.getESuperTypes().add(this.getReflectiveType());
 		collectionTypeEClass.getESuperTypes().add(this.getType());
@@ -939,6 +989,11 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 
 		initEClass(unionTypeEClass, UnionType.class, "UnionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUnionType_PossibleTypes(), this.getType(), null, "possibleTypes", null, 0, -1, UnionType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(constrainedTypeEClass, ConstrainedType.class, "ConstrainedType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getConstrainedType_RootType(), this.getType(), null, "rootType", null, 1, 1, ConstrainedType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConstrainedType_IsType(), this.getType(), null, "isType", null, 0, -1, ConstrainedType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConstrainedType_IsNotType(), this.getType(), null, "isNotType", null, 0, -1, ConstrainedType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(thisModuleTypeEClass, ThisModuleType.class, "ThisModuleType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

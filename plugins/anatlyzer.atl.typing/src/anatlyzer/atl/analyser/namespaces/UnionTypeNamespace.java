@@ -43,7 +43,7 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 		Type t1 = AnalyserContext.getTypingModel().getCommonType(results);
 		
 		if ( noFeatureTypes.size() != 0 ) {
-			AnalyserContext.getErrorModel().warningMissingFeatureInUnionType(noFeatureTypes, node);
+			AnalyserContext.getErrorModel().warningMissingFeatureInUnionType(noFeatureTypes, featureName, node);
 		}
 		
 		return t1;

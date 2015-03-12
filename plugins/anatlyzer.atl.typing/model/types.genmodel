@@ -58,6 +58,11 @@
     <genClasses ecoreClass="types.ecore#//UnionType">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//UnionType/possibleTypes"/>
     </genClasses>
+    <genClasses ecoreClass="types.ecore#//ConstrainedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//ConstrainedType/rootType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//ConstrainedType/isType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//ConstrainedType/isNotType"/>
+    </genClasses>
     <genClasses ecoreClass="types.ecore#//ThisModuleType"/>
     <genClasses ecoreClass="types.ecore#//ReflectiveClass"/>
     <genClasses image="false" ecoreClass="types.ecore#//CollectionType">

@@ -233,6 +233,13 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypesPackage.CONSTRAINED_TYPE: {
+				ConstrainedType constrainedType = (ConstrainedType)theEObject;
+				T result = caseConstrainedType(constrainedType);
+				if (result == null) result = caseType(constrainedType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case TypesPackage.THIS_MODULE_TYPE: {
 				ThisModuleType thisModuleType = (ThisModuleType)theEObject;
 				T result = caseThisModuleType(thisModuleType);
@@ -602,6 +609,21 @@ public class TypesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseUnionType(UnionType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Constrained Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Constrained Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConstrainedType(ConstrainedType object) {
 		return null;
 	}
 

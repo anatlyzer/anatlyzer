@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.BooleanNamespace;
+import anatlyzer.atl.analyser.namespaces.ConstrainedTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.EmptyCollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.EnumNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
@@ -28,6 +29,7 @@ import anatlyzer.atl.analyser.namespaces.UnresolvedTypeErrorNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.ConstrainedType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.FloatType;
@@ -230,8 +232,11 @@ public class TypingModel {
 	//
 	// Type comparisons
 	//
-	
 	public Type getCommonType(Type t1, Type t2) {
+		return getCommonType(t1, t2, true);
+	}
+	
+	public Type getCommonType(Type t1, Type t2, boolean compact) {
 		if ( equalTypes(t1, t2) ) {
 			return t1;
 		}
@@ -578,4 +583,15 @@ public class TypingModel {
 	}
 
 	
+	//
+	// Constrained types
+	//
+	
+	public ConstrainedType newConstrainedType(Type baseType) {
+		ConstrainedType t = add(TypesFactory.eINSTANCE.createConstrainedType());
+		t.setMetamodelRef(new ConstrainedTypeNamespace(t));
+		t.setRootType(baseType);
+		return t;
+	}
+
 }

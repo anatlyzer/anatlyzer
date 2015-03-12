@@ -20,7 +20,7 @@ helper context ABCD!Model def : name1() : String = self.elements->collect(e |
 
 
 -- The second branch may provoke an error if e.oclIsKindOf(D)
--- 
+
 helper context ABCD!Model def : name2() : String = self.elements->collect(e |
     		if e.oclIsKindOf(ABCD!B) then
 				e.propOfB

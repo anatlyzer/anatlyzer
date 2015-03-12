@@ -430,10 +430,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		Type t2 = tspace.getFeatureType(self.getName(), self);
 	
 		attr.linkExprType(t2);
-		/*
-		// Get the navigated feature, cached by featureType
-		navFeature[self] <- self.getLastNavigatedFeature
-		*/
 		
 		if ( attr.wasCasted(self.getSource()) ){
 			typ().markImplicitlyCasted(self.getSource(), t);
@@ -451,9 +447,19 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			return;
 		}
 		
+		Type t = attr.typeOf( self.getSource() );
+		Type[] arguments  = new Type[self.getArguments().size()];
+		for(int i = 0; i < self.getArguments().size(); i++) {
+			arguments[i] = attr.typeOf(self.getArguments().get(i));
+		}
+			
+		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();	
+		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
+		
+		
 		// Treating oclIsKindOf
 		if ( self.getOperationName().equals("oclIsKindOf") || self.getOperationName().equals("oclIsTypeOf") ) {
-			Type exprType = attr.typeOf(self.getArguments().get(0));
+			Type kindOfType = attr.typeOf(self.getArguments().get(0));
 			
 			// Discard those with a negation
 			boolean hasNegation = false;
@@ -466,20 +472,13 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			}
 			
 			if ( ! hasNegation ) {
+				// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
 				VariableExp ve = VariableScope.findStartingVarExp(self);
-				attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), exprType);
+				attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
 			}
 		}
 		
-		Type t = attr.typeOf( self.getSource() );
-		Type[] arguments  = new Type[self.getArguments().size()];
-		for(int i = 0; i < self.getArguments().size(); i++) {
-			arguments[i] = attr.typeOf(self.getArguments().get(i));
-		}
-			
-		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();	
-		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
-		
+		// marking already casted elements...
 		if ( attr.wasCasted(self.getSource()) ){
 			typ().markImplicitlyCasted(self.getSource(), t);
 		}
@@ -793,11 +792,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	public void openIfScope(IfExp self) {
-			attr.getVarScope().openScope();
+		attr.getVarScope().openScope();
 	}
 
 	public void openElseScope(IfExp self) {
-		// attr.getVarScope().closeScope();
+		attr.getVarScope().negateCurrentScope();
 	}
 
 

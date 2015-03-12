@@ -580,12 +580,18 @@ public class ErrorModel {
 		signalNoRecoverableError("No enum literal " + name, node);
 	}
 
-	public void warningMissingFeatureInUnionType(List<Type> noFeatureTypes, LocatedElement node) {
+	public void warningMissingFeatureInUnionType(List<Type> noFeatureTypes, String featureName, LocatedElement node) {
 		String strTypes = "";
 		for (Type type : noFeatureTypes) {
 			strTypes += TypeUtils.typeToString(type) + " ";
 		}
-		signalWarning_WITHOUTERROR_TODO("Missing feature in these types: [" + strTypes + "]", node);
+		// signalWarning_WITHOUTERROR_TODO("Missing feature in these types: [" + strTypes + "]", node);
+
+		FeatureNotFoundInUnionType error = AtlErrorFactory.eINSTANCE.createFeatureNotFoundInUnionType();
+		initProblem(error, node);
+		error.setFeatureName(featureName);
+		
+		signalError(error, "No feature " + featureName + " for { " + strTypes + "}", node);
 	}
 
 	

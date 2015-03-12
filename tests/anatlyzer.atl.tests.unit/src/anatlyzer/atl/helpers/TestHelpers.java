@@ -1,12 +1,9 @@
 package anatlyzer.atl.helpers;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.unit.UnitTest;
 
 public class TestHelpers extends UnitTest {
@@ -18,6 +15,14 @@ public class TestHelpers extends UnitTest {
 		String T = trafo("oclany_helper");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
 		
+	}
+
+	@Test
+	public void testParameterPassing() throws Exception {
+		String T = trafo("parameter_passing");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		
+		assertEquals(3, problems().size());
 	}
 
 	

@@ -155,13 +155,46 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.OPERATION_CALL_INVALID: {
+				OperationCallInvalid operationCallInvalid = (OperationCallInvalid)theEObject;
+				T result = caseOperationCallInvalid(operationCallInvalid);
+				if (result == null) result = caseNavigationProblem(operationCallInvalid);
+				if (result == null) result = caseLocalProblem(operationCallInvalid);
+				if (result == null) result = caseProblem(operationCallInvalid);
+				if (result == null) result = caseAnalysisInfo(operationCallInvalid);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.OPERATION_NOT_FOUND: {
 				OperationNotFound operationNotFound = (OperationNotFound)theEObject;
 				T result = caseOperationNotFound(operationNotFound);
+				if (result == null) result = caseOperationCallInvalid(operationNotFound);
 				if (result == null) result = caseNavigationProblem(operationNotFound);
 				if (result == null) result = caseLocalProblem(operationNotFound);
 				if (result == null) result = caseProblem(operationNotFound);
 				if (result == null) result = caseAnalysisInfo(operationNotFound);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS: {
+				OperationCallInvalidNumberOfParameters operationCallInvalidNumberOfParameters = (OperationCallInvalidNumberOfParameters)theEObject;
+				T result = caseOperationCallInvalidNumberOfParameters(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseOperationCallInvalid(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseNavigationProblem(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseLocalProblem(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseProblem(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseAnalysisInfo(operationCallInvalidNumberOfParameters);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_CALL_INVALID_PARAMETER: {
+				OperationCallInvalidParameter operationCallInvalidParameter = (OperationCallInvalidParameter)theEObject;
+				T result = caseOperationCallInvalidParameter(operationCallInvalidParameter);
+				if (result == null) result = caseOperationCallInvalid(operationCallInvalidParameter);
+				if (result == null) result = caseNavigationProblem(operationCallInvalidParameter);
+				if (result == null) result = caseLocalProblem(operationCallInvalidParameter);
+				if (result == null) result = caseProblem(operationCallInvalidParameter);
+				if (result == null) result = caseAnalysisInfo(operationCallInvalidParameter);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -614,6 +647,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Call Invalid</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Call Invalid</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationCallInvalid(OperationCallInvalid object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Operation Not Found</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -625,6 +673,36 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseOperationNotFound(OperationNotFound object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Call Invalid Number Of Parameters</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Call Invalid Number Of Parameters</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationCallInvalidNumberOfParameters(OperationCallInvalidNumberOfParameters object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Call Invalid Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Call Invalid Parameter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationCallInvalidParameter(OperationCallInvalidParameter object) {
 		return null;
 	}
 

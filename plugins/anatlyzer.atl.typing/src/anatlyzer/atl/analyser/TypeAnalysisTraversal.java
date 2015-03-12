@@ -278,11 +278,12 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public VisitingActions preIfExp(IfExp self) {
 		return actions("type", 
-				method("createIfScope", self, true),
+				method("openIfScope", self),
 				"condition", 
 				"thenExpression" , 
-				method("createIfScope", self, false), 
-				"elseExpression");
+				method("openElseScope", self), 
+				"elseExpression",
+				method("closeIfElseScope", self));
 	}	
 	
 	
@@ -791,25 +792,17 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		attr.getVarScope().closeScope();
 	}
 	
-	public void createIfScope(IfExp self, java.lang.Boolean open) {
-		if ( open ) {
+	public void openIfScope(IfExp self) {
 			attr.getVarScope().openScope();
-		} else {
-			attr.getVarScope().closeScope();
-		}
-		
-		/*
-		if ( attr.typeOf(self.getCondition()) instanceof BooleanType ) {		
-			BooleanType t = (BooleanType) attr.typeOf(self.getCondition());
-			if ( t.getKindOfTypes().isEmpty() ) 
-				return;
-		}
-		*/
-		
-		
-		// System.out.println(t);
-		//if ( open ) attr.pushScope();
-		//else        attr.popScope();
+	}
+
+	public void openElseScope(IfExp self) {
+		// attr.getVarScope().closeScope();
+	}
+
+
+	public void closeIfElseScope(IfExp self) {
+		attr.getVarScope().closeScope();
 	}
 
 	@Override

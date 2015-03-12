@@ -23,6 +23,7 @@ import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -213,6 +214,7 @@ public class AnalyserUtils {
 		if ( p instanceof NoModelFound ) return 13;
 		if ( p instanceof ReadingTargetModel ) return 14;
 		if ( p instanceof IteratorOverEmptySequence ) return 15;
+		if ( p instanceof IncoherentHelperReturnType ) return 16;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

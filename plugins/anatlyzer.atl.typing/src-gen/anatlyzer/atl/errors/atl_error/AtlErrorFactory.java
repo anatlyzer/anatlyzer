@@ -67,6 +67,24 @@ public interface AtlErrorFactory extends EFactory {
 	OperationNotFound createOperationNotFound();
 
 	/**
+	 * Returns a new object of class '<em>Operation Call Invalid Number Of Parameters</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Call Invalid Number Of Parameters</em>'.
+	 * @generated
+	 */
+	OperationCallInvalidNumberOfParameters createOperationCallInvalidNumberOfParameters();
+
+	/**
+	 * Returns a new object of class '<em>Operation Call Invalid Parameter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Call Invalid Parameter</em>'.
+	 * @generated
+	 */
+	OperationCallInvalidParameter createOperationCallInvalidParameter();
+
+	/**
 	 * Returns a new object of class '<em>Operation Not Found In This Module</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

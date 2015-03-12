@@ -61,6 +61,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
 			case AtlErrorPackage.OPERATION_NOT_FOUND: return createOperationNotFound();
+			case AtlErrorPackage.OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS: return createOperationCallInvalidNumberOfParameters();
+			case AtlErrorPackage.OPERATION_CALL_INVALID_PARAMETER: return createOperationCallInvalidParameter();
 			case AtlErrorPackage.OPERATION_NOT_FOUND_IN_THIS_MODULE: return createOperationNotFoundInThisModule();
 			case AtlErrorPackage.ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE: return createAttributeNotFoundInThisModule();
 			case AtlErrorPackage.FEATURE_NOT_FOUND_IN_UNION_TYPE: return createFeatureNotFoundInUnionType();
@@ -143,6 +145,26 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public OperationNotFound createOperationNotFound() {
 		OperationNotFoundImpl operationNotFound = new OperationNotFoundImpl();
 		return operationNotFound;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationCallInvalidNumberOfParameters createOperationCallInvalidNumberOfParameters() {
+		OperationCallInvalidNumberOfParametersImpl operationCallInvalidNumberOfParameters = new OperationCallInvalidNumberOfParametersImpl();
+		return operationCallInvalidNumberOfParameters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationCallInvalidParameter createOperationCallInvalidParameter() {
+		OperationCallInvalidParameterImpl operationCallInvalidParameter = new OperationCallInvalidParameterImpl();
+		return operationCallInvalidParameter;
 	}
 
 	/**

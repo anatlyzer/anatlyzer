@@ -272,7 +272,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFound()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND = 10;
+	int OPERATION_NOT_FOUND = 11;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundInThisModuleImpl <em>Operation Not Found In This Module</em>}' class.
@@ -282,7 +282,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFoundInThisModule()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 11;
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 14;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AttributeNotFoundInThisModuleImpl <em>Attribute Not Found In This Module</em>}' class.
@@ -292,7 +292,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAttributeNotFoundInThisModule()
 	 * @generated
 	 */
-	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 12;
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 15;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundInUnionTypeImpl <em>Feature Not Found In Union Type</em>}' class.
@@ -302,7 +302,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFoundInUnionType()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 13;
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 16;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperandImpl <em>Invalid Operand</em>}' class.
@@ -312,7 +312,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperand()
 	 * @generated
 	 */
-	int INVALID_OPERAND = 14;
+	int INVALID_OPERAND = 17;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoContainerForRefImmediateCompositeImpl <em>No Container For Ref Immediate Composite</em>}' class.
@@ -322,7 +322,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoContainerForRefImmediateComposite()
 	 * @generated
 	 */
-	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 15;
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 18;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.DifferentBranchTypesImpl <em>Different Branch Types</em>}' class.
@@ -332,7 +332,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getDifferentBranchTypes()
 	 * @generated
 	 */
-	int DIFFERENT_BRANCH_TYPES = 16;
+	int DIFFERENT_BRANCH_TYPES = 19;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingProblemImpl <em>Binding Problem</em>}' class.
@@ -342,7 +342,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingProblem()
 	 * @generated
 	 */
-	int BINDING_PROBLEM = 17;
+	int BINDING_PROBLEM = 20;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempProblemImpl <em>Resolve Temp Problem</em>}' class.
@@ -352,7 +352,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempProblem()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_PROBLEM = 18;
+	int RESOLVE_TEMP_PROBLEM = 21;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl <em>No Binding For Compulsory Feature</em>}' class.
@@ -362,7 +362,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeature()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE = 19;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE = 22;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingExpectedOneAssignedManyImpl <em>Binding Expected One Assigned Many</em>}' class.
@@ -372,7 +372,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingExpectedOneAssignedMany()
 	 * @generated
 	 */
-	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 20;
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 23;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl <em>Binding Resolution</em>}' class.
@@ -382,7 +382,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingResolution()
 	 * @generated
 	 */
-	int BINDING_RESOLUTION = 21;
+	int BINDING_RESOLUTION = 24;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithoutRuleImpl <em>Binding Without Rule</em>}' class.
@@ -392,7 +392,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithoutRule()
 	 * @generated
 	 */
-	int BINDING_WITHOUT_RULE = 22;
+	int BINDING_WITHOUT_RULE = 25;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl <em>Binding With Resolved By Incompatible Rule</em>}' class.
@@ -402,7 +402,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithResolvedByIncompatibleRule()
 	 * @generated
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 23;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 26;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl <em>Binding Possibly Unresolved</em>}' class.
@@ -412,7 +412,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingPossiblyUnresolved()
 	 * @generated
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED = 24;
+	int BINDING_POSSIBLY_UNRESOLVED = 27;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl <em>Resolved Rule Info</em>}' class.
@@ -422,7 +422,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolvedRuleInfo()
 	 * @generated
 	 */
-	int RESOLVED_RULE_INFO = 25;
+	int RESOLVED_RULE_INFO = 28;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempWithoutRuleImpl <em>Resolve Temp Without Rule</em>}' class.
@@ -432,7 +432,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempWithoutRule()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_WITHOUT_RULE = 26;
+	int RESOLVE_TEMP_WITHOUT_RULE = 29;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempOutputPatternElementNotFoundImpl <em>Resolve Temp Output Pattern Element Not Found</em>}' class.
@@ -442,7 +442,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempOutputPatternElementNotFound()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 27;
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 30;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FlattenOverNonNestedCollectionImpl <em>Flatten Over Non Nested Collection</em>}' class.
@@ -452,7 +452,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFlattenOverNonNestedCollection()
 	 * @generated
 	 */
-	int FLATTEN_OVER_NON_NESTED_COLLECTION = 28;
+	int FLATTEN_OVER_NON_NESTED_COLLECTION = 31;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverEmptySequenceImpl <em>Iterator Over Empty Sequence</em>}' class.
@@ -462,7 +462,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverEmptySequence()
 	 * @generated
 	 */
-	int ITERATOR_OVER_EMPTY_SEQUENCE = 29;
+	int ITERATOR_OVER_EMPTY_SEQUENCE = 32;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ReadingTargetModelImpl <em>Reading Target Model</em>}' class.
@@ -472,7 +472,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 30;
+	int READING_TARGET_MODEL = 33;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.
@@ -482,7 +482,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 31;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 34;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -492,7 +492,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 32;
+	int NO_MODEL_FOUND = 35;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -502,7 +502,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 33;
+	int WRONG_TYPE = 36;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -512,7 +512,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 34;
+	int ITERATOR_BODY_WRONG_TYPE = 37;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -522,7 +522,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 35;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 38;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -532,7 +532,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 36;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 39;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -542,7 +542,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 37;
+	int NO_CLASS_FOUND_IN_METAMODEL = 40;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -552,7 +552,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 38;
+	int INVALID_ARGUMENT = 41;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -562,7 +562,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 39;
+	int COLLECTION_OPERATION_NOT_FOUND = 42;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -572,7 +572,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 40;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 43;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -1288,13 +1288,23 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl <em>Operation Call Invalid</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalid()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID = 10;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
+	int OPERATION_CALL_INVALID__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1303,7 +1313,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
+	int OPERATION_CALL_INVALID__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -1312,7 +1322,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
+	int OPERATION_CALL_INVALID__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
 
 	/**
 	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
@@ -1321,7 +1331,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+	int OPERATION_CALL_INVALID__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1330,7 +1340,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+	int OPERATION_CALL_INVALID__LOCATION = NAVIGATION_PROBLEM__LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>File Location</b></em>' attribute.
@@ -1339,7 +1349,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+	int OPERATION_CALL_INVALID__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1348,7 +1358,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+	int OPERATION_CALL_INVALID__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -1357,7 +1367,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
+	int OPERATION_CALL_INVALID__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
 
 	/**
 	 * The feature id for the '<em><b>Operation Name</b></em>' attribute.
@@ -1366,7 +1376,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__OPERATION_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
+	int OPERATION_CALL_INVALID__OPERATION_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -1375,7 +1385,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__TYPE = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
+	int OPERATION_CALL_INVALID__TYPE = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
@@ -1384,7 +1394,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__CLASS_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 2;
+	int OPERATION_CALL_INVALID__CLASS_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
@@ -1393,7 +1403,169 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND__METAMODEL_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 3;
+	int OPERATION_CALL_INVALID__METAMODEL_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Formal Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID__FORMAL_PARAMETERS = NAVIGATION_PROBLEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Actual Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID__ACTUAL_PARAMETERS = NAVIGATION_PROBLEM_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>Operation Call Invalid</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of operations of the '<em>Operation Call Invalid</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__DEPENDENTS = OPERATION_CALL_INVALID__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__DESCRIPTION = OPERATION_CALL_INVALID__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__SEVERITY = OPERATION_CALL_INVALID__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__LOCATION = OPERATION_CALL_INVALID__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__FILE_LOCATION = OPERATION_CALL_INVALID__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__RECOVERY = OPERATION_CALL_INVALID__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Operation Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__OPERATION_NAME = OPERATION_CALL_INVALID__OPERATION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__TYPE = OPERATION_CALL_INVALID__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__CLASS_NAME = OPERATION_CALL_INVALID__CLASS_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__METAMODEL_NAME = OPERATION_CALL_INVALID__METAMODEL_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Formal Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__FORMAL_PARAMETERS = OPERATION_CALL_INVALID__FORMAL_PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Actual Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__ACTUAL_PARAMETERS = OPERATION_CALL_INVALID__ACTUAL_PARAMETERS;
 
 	/**
 	 * The number of structural features of the '<em>Operation Not Found</em>' class.
@@ -1402,7 +1574,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 4;
+	int OPERATION_NOT_FOUND_FEATURE_COUNT = OPERATION_CALL_INVALID_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Operation Not Found</em>' class.
@@ -1411,7 +1583,324 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_NOT_FOUND_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
+	int OPERATION_NOT_FOUND_OPERATION_COUNT = OPERATION_CALL_INVALID_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl <em>Operation Call Invalid Number Of Parameters</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidNumberOfParameters()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = 12;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__DEPENDENTS = OPERATION_CALL_INVALID__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__DESCRIPTION = OPERATION_CALL_INVALID__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__SEVERITY = OPERATION_CALL_INVALID__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__LOCATION = OPERATION_CALL_INVALID__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__FILE_LOCATION = OPERATION_CALL_INVALID__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__RECOVERY = OPERATION_CALL_INVALID__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Operation Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__OPERATION_NAME = OPERATION_CALL_INVALID__OPERATION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__TYPE = OPERATION_CALL_INVALID__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__CLASS_NAME = OPERATION_CALL_INVALID__CLASS_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__METAMODEL_NAME = OPERATION_CALL_INVALID__METAMODEL_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Formal Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__FORMAL_PARAMETERS = OPERATION_CALL_INVALID__FORMAL_PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Actual Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__ACTUAL_PARAMETERS = OPERATION_CALL_INVALID__ACTUAL_PARAMETERS;
+
+	/**
+	 * The number of structural features of the '<em>Operation Call Invalid Number Of Parameters</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS_FEATURE_COUNT = OPERATION_CALL_INVALID_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Operation Call Invalid Number Of Parameters</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS_OPERATION_COUNT = OPERATION_CALL_INVALID_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl <em>Operation Call Invalid Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidParameter()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER = 13;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__DEPENDENTS = OPERATION_CALL_INVALID__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__DESCRIPTION = OPERATION_CALL_INVALID__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__SEVERITY = OPERATION_CALL_INVALID__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__LOCATION = OPERATION_CALL_INVALID__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__FILE_LOCATION = OPERATION_CALL_INVALID__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__RECOVERY = OPERATION_CALL_INVALID__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Operation Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__OPERATION_NAME = OPERATION_CALL_INVALID__OPERATION_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__TYPE = OPERATION_CALL_INVALID__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__CLASS_NAME = OPERATION_CALL_INVALID__CLASS_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__METAMODEL_NAME = OPERATION_CALL_INVALID__METAMODEL_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Formal Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__FORMAL_PARAMETERS = OPERATION_CALL_INVALID__FORMAL_PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Actual Parameters</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__ACTUAL_PARAMETERS = OPERATION_CALL_INVALID__ACTUAL_PARAMETERS;
+
+	/**
+	 * The feature id for the '<em><b>Blamed Parameter Names</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__BLAMED_PARAMETER_NAMES = OPERATION_CALL_INVALID_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Operation Call Invalid Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER_FEATURE_COUNT = OPERATION_CALL_INVALID_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Operation Call Invalid Parameter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER_OPERATION_COUNT = OPERATION_CALL_INVALID_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4490,7 +4979,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 41;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 44;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4608,7 +5097,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 42;
+	int INCOHERENT_VARIABLE_DECLARATION = 45;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4727,7 +5216,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 	 * @generated
 	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 43;
+	int INCOHERENT_HELPER_RETURN_TYPE = 46;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4845,7 +5334,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
 	 * @generated
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE = 44;
+	int OPERATION_OVER_COLLECTION_TYPE = 47;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5140,6 +5629,82 @@ public interface AtlErrorPackage extends EPackage {
 	EAttribute getFeatureNotFound_MetamodelName();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid <em>Operation Call Invalid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation Call Invalid</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid
+	 * @generated
+	 */
+	EClass getOperationCallInvalid();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getOperationName <em>Operation Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operation Name</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getOperationName()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EAttribute getOperationCallInvalid_OperationName();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getType()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EReference getOperationCallInvalid_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getClassName <em>Class Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Class Name</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getClassName()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EAttribute getOperationCallInvalid_ClassName();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getMetamodelName <em>Metamodel Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Metamodel Name</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getMetamodelName()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EAttribute getOperationCallInvalid_MetamodelName();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getFormalParameters <em>Formal Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Formal Parameters</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getFormalParameters()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EReference getOperationCallInvalid_FormalParameters();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getActualParameters <em>Actual Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Actual Parameters</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid#getActualParameters()
+	 * @see #getOperationCallInvalid()
+	 * @generated
+	 */
+	EReference getOperationCallInvalid_ActualParameters();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationNotFound <em>Operation Not Found</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5150,48 +5715,35 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getOperationNotFound();
 
 	/**
-	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationNotFound#getOperationName <em>Operation Name</em>}'.
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters <em>Operation Call Invalid Number Of Parameters</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operation Name</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.OperationNotFound#getOperationName()
-	 * @see #getOperationNotFound()
+	 * @return the meta object for class '<em>Operation Call Invalid Number Of Parameters</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters
 	 * @generated
 	 */
-	EAttribute getOperationNotFound_OperationName();
+	EClass getOperationCallInvalidNumberOfParameters();
 
 	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.OperationNotFound#getType <em>Type</em>}'.
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter <em>Operation Call Invalid Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Type</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.OperationNotFound#getType()
-	 * @see #getOperationNotFound()
+	 * @return the meta object for class '<em>Operation Call Invalid Parameter</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter
 	 * @generated
 	 */
-	EReference getOperationNotFound_Type();
+	EClass getOperationCallInvalidParameter();
 
 	/**
-	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationNotFound#getClassName <em>Class Name</em>}'.
+	 * Returns the meta object for the attribute list '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter#getBlamedParameterNames <em>Blamed Parameter Names</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Class Name</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.OperationNotFound#getClassName()
-	 * @see #getOperationNotFound()
+	 * @return the meta object for the attribute list '<em>Blamed Parameter Names</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter#getBlamedParameterNames()
+	 * @see #getOperationCallInvalidParameter()
 	 * @generated
 	 */
-	EAttribute getOperationNotFound_ClassName();
-
-	/**
-	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.OperationNotFound#getMetamodelName <em>Metamodel Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Metamodel Name</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.OperationNotFound#getMetamodelName()
-	 * @see #getOperationNotFound()
-	 * @generated
-	 */
-	EAttribute getOperationNotFound_MetamodelName();
+	EAttribute getOperationCallInvalidParameter_BlamedParameterNames();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule <em>Operation Not Found In This Module</em>}'.
@@ -6119,6 +6671,64 @@ public interface AtlErrorPackage extends EPackage {
 		EAttribute FEATURE_NOT_FOUND__METAMODEL_NAME = eINSTANCE.getFeatureNotFound_MetamodelName();
 
 		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl <em>Operation Call Invalid</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalid()
+		 * @generated
+		 */
+		EClass OPERATION_CALL_INVALID = eINSTANCE.getOperationCallInvalid();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATION_CALL_INVALID__OPERATION_NAME = eINSTANCE.getOperationCallInvalid_OperationName();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CALL_INVALID__TYPE = eINSTANCE.getOperationCallInvalid_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATION_CALL_INVALID__CLASS_NAME = eINSTANCE.getOperationCallInvalid_ClassName();
+
+		/**
+		 * The meta object literal for the '<em><b>Metamodel Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute OPERATION_CALL_INVALID__METAMODEL_NAME = eINSTANCE.getOperationCallInvalid_MetamodelName();
+
+		/**
+		 * The meta object literal for the '<em><b>Formal Parameters</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CALL_INVALID__FORMAL_PARAMETERS = eINSTANCE.getOperationCallInvalid_FormalParameters();
+
+		/**
+		 * The meta object literal for the '<em><b>Actual Parameters</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CALL_INVALID__ACTUAL_PARAMETERS = eINSTANCE.getOperationCallInvalid_ActualParameters();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundImpl <em>Operation Not Found</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -6129,36 +6739,32 @@ public interface AtlErrorPackage extends EPackage {
 		EClass OPERATION_NOT_FOUND = eINSTANCE.getOperationNotFound();
 
 		/**
-		 * The meta object literal for the '<em><b>Operation Name</b></em>' attribute feature.
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl <em>Operation Call Invalid Number Of Parameters</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidNumberOfParameters()
 		 * @generated
 		 */
-		EAttribute OPERATION_NOT_FOUND__OPERATION_NAME = eINSTANCE.getOperationNotFound_OperationName();
+		EClass OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = eINSTANCE.getOperationCallInvalidNumberOfParameters();
 
 		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl <em>Operation Call Invalid Parameter</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidParameter()
 		 * @generated
 		 */
-		EReference OPERATION_NOT_FOUND__TYPE = eINSTANCE.getOperationNotFound_Type();
+		EClass OPERATION_CALL_INVALID_PARAMETER = eINSTANCE.getOperationCallInvalidParameter();
 
 		/**
-		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Blamed Parameter Names</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute OPERATION_NOT_FOUND__CLASS_NAME = eINSTANCE.getOperationNotFound_ClassName();
-
-		/**
-		 * The meta object literal for the '<em><b>Metamodel Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute OPERATION_NOT_FOUND__METAMODEL_NAME = eINSTANCE.getOperationNotFound_MetamodelName();
+		EAttribute OPERATION_CALL_INVALID_PARAMETER__BLAMED_PARAMETER_NAMES = eINSTANCE.getOperationCallInvalidParameter_BlamedParameterNames();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundInThisModuleImpl <em>Operation Not Found In This Module</em>}' class.

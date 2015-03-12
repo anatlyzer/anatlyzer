@@ -13,6 +13,14 @@ public class VariableScope {
 
 	private Scope current = new Scope();
 	
+	/**
+	 * Given an expression, that is formed by a tree of PropertyCalls,
+	 * it traverses the "source" reference until reaching the VariableExp
+	 * that actually starts the expressions.
+	 * 
+	 * @param src
+	 * @return
+	 */
 	public static VariableExp findStartingVarExp(OclExpression src) {
 		// find the start of the expression
 		while ( ! (src instanceof VariableExp )) {

@@ -54,12 +54,21 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
       </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFound/operationName"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OperationCallInvalid">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/operationName"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationNotFound/type"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFound/className"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFound/metamodelName"/>
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/metamodelName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/formalParameters"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/actualParameters"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidNumberOfParameters"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidParameter">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalidParameter/blamedParameterNames"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFoundInThisModule">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationNotFoundInThisModule/name"/>

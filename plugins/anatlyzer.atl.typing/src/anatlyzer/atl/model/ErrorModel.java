@@ -24,11 +24,13 @@ import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.namespaces.TypeErrorNamespace;
+import anatlyzer.atl.analyser.namespaces.VirtualFeature;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.AnalysisResult;
 import anatlyzer.atl.errors.AnalysisResultFactory;
@@ -62,6 +64,8 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
+import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
@@ -635,6 +639,37 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void signalOperationCallInvalidNumberOfParameters(Operation op, Type[] formalArguments, Type[] arguments, LocatedElement node) {
+		OperationCallInvalidNumberOfParameters error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidNumberOfParameters();
+		initProblem(error, node);
+		
+		for (Type type : arguments)       { error.getActualParameters().add(type); }
+		for (Type type : formalArguments) { error.getFormalParameters().add(type); }
+		
+		signalError(error, "Invalid number of arguments, " + arguments.length + ", expected " + formalArguments.length + ". Operation: " + op.getName(), node);
+	}
+	
+
+	public void signalOperationCallInvalidParameter(Operation op, Type[] formalArguments, Type[] arguments, List<String> blamedParameters, LocatedElement node) {
+		OperationCallInvalidParameter error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidParameter();
+		initProblem(error, node);
+		
+		for (Type type : arguments)       { error.getActualParameters().add(type); }
+		for (Type type : formalArguments) { error.getFormalParameters().add(type); }
+		
+		String s1 = blamedParameters.get(0);
+		for(int i = 1; i < blamedParameters.size(); i++) s1 = ", " + blamedParameters.get(i);
+		
+		String s2 = TypeUtils.typeToString(arguments[0]);
+		for(int i = 1; i < blamedParameters.size(); i++) s2 = ", " + TypeUtils.typeToString(arguments[i]);
+		
+		String s3 = TypeUtils.typeToString(formalArguments[0]);
+		for(int i = 1; i < blamedParameters.size(); i++) s3 = ", " + TypeUtils.typeToString(formalArguments[i]);
+		
+		signalError(error, "Invalid parameter types: " + s1 + ". Expected " + op.getName() + "(" + s3 +"), given " + op.getName() + "(" + s2 + ")", node);
+	}
+
+	
 	public Type signalFeatureAccessInCollection(String featureName, LocatedElement node) {
 		FeatureAccessInCollection error = AtlErrorFactory.eINSTANCE.createFeatureAccessInCollection();
 		initProblem(error, node);
@@ -666,11 +701,6 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
-
-	
-
-
-	
 
 	
 }

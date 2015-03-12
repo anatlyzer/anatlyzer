@@ -1,0 +1,38 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module implicitifelse;
+create OUT : WXYZ from IN : ABCD;
+
+-- No error "Feature found in subclass error" should be
+-- signalled. This is to test that the "else" part of 
+-- implicit casting works properly
+helper context ABCD!Model def : name1() : String = self.elements->collect(e |
+    		if e.oclIsKindOf(ABCD!B) then
+				e.propOfB
+			else
+				if e.oclIsKindOf(ABCD!C) then
+					e.propOfC
+				else
+					e.propOfD
+				endif
+			endif
+    	)->first();
+
+
+-- The second branch may provoke an error if e.oclIsKindOf(D)
+-- 
+helper context ABCD!Model def : name2() : String = self.elements->collect(e |
+    		if e.oclIsKindOf(ABCD!B) then
+				e.propOfB
+			else
+				e.propOfC
+			endif
+    	)->first();
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- src.name1() + '_' + src.name2()
+    )
+}
+

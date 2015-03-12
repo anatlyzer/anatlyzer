@@ -29,4 +29,5 @@ rule a2model {
 	from src : ABCD!A 
     to   tgt : WXYZ!Model (
     	name <- 'will provoke a problem'
+	)
 }

@@ -1,12 +1,9 @@
 package anatlyzer.atl.implicitcasting;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.unit.UnitTest;
 
 public class TestImplicitCasting extends UnitTest {
@@ -20,5 +17,12 @@ public class TestImplicitCasting extends UnitTest {
 		
 	}
 
+	@Test
+	public void testImplicitCasting_IfElse() throws Exception {
+		String T = trafo("implicit_if_else");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		
+		assertEquals(1, problems().size());		
+	}
 	
 }

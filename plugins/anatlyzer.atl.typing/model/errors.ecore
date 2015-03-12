@@ -65,7 +65,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFound" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalid" abstract="true"
+        eSuperTypes="#//atl_error/NavigationProblem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="operationName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
@@ -74,6 +75,17 @@
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="formalParameters" upperBound="-1"
+          eType="ecore:EClass types.ecore#//Type"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="actualParameters" upperBound="-1"
+          eType="ecore:EClass types.ecore#//Type"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFound" eSuperTypes="#//atl_error/OperationCallInvalid"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidNumberOfParameters"
+        eSuperTypes="#//atl_error/OperationCallInvalid"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidParameter" eSuperTypes="#//atl_error/OperationCallInvalid">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="blamedParameterNames"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationNotFoundInThisModule" eSuperTypes="#//atl_error/NavigationProblem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"

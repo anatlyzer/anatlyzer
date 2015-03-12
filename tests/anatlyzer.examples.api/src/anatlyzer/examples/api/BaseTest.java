@@ -28,6 +28,7 @@ import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.generators.GraphvizGenerator;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -67,6 +68,10 @@ public class BaseTest {
 		diffs += (finishTime - initTime);
 		// }
 		System.out.println("Time: " + (diffs / 1000.0) / 20);
+	}
+	
+	protected List<LocalProblem> problems() {
+		return analyser.getErrors().getLocalProblems();
 	}
 
 	protected void generateGraphviz() {

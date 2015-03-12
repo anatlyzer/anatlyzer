@@ -111,8 +111,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createFeatureNotFoundAdapter();
 			}
 			@Override
+			public Adapter caseOperationCallInvalid(OperationCallInvalid object) {
+				return createOperationCallInvalidAdapter();
+			}
+			@Override
 			public Adapter caseOperationNotFound(OperationNotFound object) {
 				return createOperationNotFoundAdapter();
+			}
+			@Override
+			public Adapter caseOperationCallInvalidNumberOfParameters(OperationCallInvalidNumberOfParameters object) {
+				return createOperationCallInvalidNumberOfParametersAdapter();
+			}
+			@Override
+			public Adapter caseOperationCallInvalidParameter(OperationCallInvalidParameter object) {
+				return createOperationCallInvalidParameterAdapter();
 			}
 			@Override
 			public Adapter caseOperationNotFoundInThisModule(OperationNotFoundInThisModule object) {
@@ -391,6 +403,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid <em>Operation Call Invalid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalid
+	 * @generated
+	 */
+	public Adapter createOperationCallInvalidAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OperationNotFound <em>Operation Not Found</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -401,6 +427,34 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOperationNotFoundAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters <em>Operation Call Invalid Number Of Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters
+	 * @generated
+	 */
+	public Adapter createOperationCallInvalidNumberOfParametersAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter <em>Operation Call Invalid Parameter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter
+	 * @generated
+	 */
+	public Adapter createOperationCallInvalidParameterAdapter() {
 		return null;
 	}
 

@@ -71,13 +71,28 @@ package atl_error {
 		attr String[1] metamodelName;
 	}
 
-	class OperationNotFound extends NavigationProblem {
+	abstract class OperationCallInvalid extends NavigationProblem {
 		attr String[1] operationName;
 		ref  types.Type[1] type;	   
 
 		attr String[1] className;
-		attr String[1] metamodelName;
+		attr String[1] metamodelName;		
+		
+		ref types.Type[*] formalParameters;
+		ref types.Type[*] actualParameters;
 	}
+	
+	class OperationNotFound extends OperationCallInvalid {
+	}
+
+
+	class OperationCallInvalidNumberOfParameters extends OperationCallInvalid {					
+	}
+	
+	class OperationCallInvalidParameter extends OperationCallInvalid {		
+		attr String[*] blamedParameterNames;				
+	}
+	
 	
 	class OperationNotFoundInThisModule extends NavigationProblem {
 		attr String[1] name;

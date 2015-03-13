@@ -263,6 +263,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createOperationOverCollectionTypeAdapter();
 			}
 			@Override
+			public Adapter caseAccessToUndefinedValue(AccessToUndefinedValue object) {
+				return createAccessToUndefinedValueAdapter();
+			}
+			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
 				return createAnalysisInfoAdapter();
 			}
@@ -959,6 +963,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createOperationOverCollectionTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue <em>Access To Undefined Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.AccessToUndefinedValue
+	 * @generated
+	 */
+	public Adapter createAccessToUndefinedValueAdapter() {
 		return null;
 	}
 

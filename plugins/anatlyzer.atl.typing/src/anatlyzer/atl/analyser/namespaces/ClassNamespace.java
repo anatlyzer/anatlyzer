@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.lang.model.type.ErrorType;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
@@ -14,6 +16,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.recovery.RecoverOperationNotFound;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
+import anatlyzer.atl.analyser.typeconstraints.MetaclassTypeConstraint;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
@@ -81,6 +85,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	 */
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
+		/*
 		Type t = getExtendedFeature(featureName);
 		if ( t != null) 
 			return t;
@@ -96,8 +101,51 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		}
 		
 		return AnalyserContext.getConverter().convert(f, metamodel);
+		*/
+		FeatureInfo info = getFeatureInfo(featureName);
+		// This check is needed because getFeatureType has the side effect of signalling
+		// an error is the feature is finally not found. Thus, if in a previous execution
+		// of getFeatureInfo that was the case, then subsequent errors (in other nodes) must
+		// be signalled as well.
+		if ( info == null ) {
+			return tryRecovery(featureName, node);
+		}		
+		return info.getType();
 	}
 
+	/**
+	 * Return information about a feature.
+	 *  
+	 * This method does not have any side effect, w.r.t the error model. If the
+	 * feature cannot be found it just returns null.
+	 * 
+	 * @param featureName The name of the feature.
+	 * @param node
+	 * @return the information about the feature or null if it cannot be found.
+	 */
+	public FeatureInfo getFeatureInfo(String featureName) {
+		FeatureInfo info = featureInfos.get(featureInfos);
+		if ( info != null ) {
+			return info;
+		}
+		
+		Type t = getExtendedFeature(featureName);
+		if ( t != null) {
+			return addFeatureInfo(featureName, t);
+		}
+		
+		t = super.getFeatureType(featureName, null);
+		if ( t != null ) {
+			return addFeatureInfo(featureName, t);
+		}
+		
+		EStructuralFeature f = eClass.getEStructuralFeature(featureName);
+		if ( f == null ) {
+			return null;
+		}
+		
+		return addFeatureInfo(featureName, AnalyserContext.getConverter().convert(f, metamodel), f);
+	}
 
 	private Type getExtendedFeature(String featureName) {
 		if ( metamodel.featureNames.contains(featureName) ) {
@@ -484,4 +532,9 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return result;
 	}
 
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		return new MetaclassTypeConstraint(getType());
+	}
+	
 }

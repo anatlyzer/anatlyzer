@@ -346,6 +346,15 @@ public interface AtlErrorFactory extends EFactory {
 	OperationOverCollectionType createOperationOverCollectionType();
 
 	/**
+	 * Returns a new object of class '<em>Access To Undefined Value</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Access To Undefined Value</em>'.
+	 * @generated
+	 */
+	AccessToUndefinedValue createAccessToUndefinedValue();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

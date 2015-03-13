@@ -92,6 +92,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: return createIncoherentVariableDeclaration();
 			case AtlErrorPackage.INCOHERENT_HELPER_RETURN_TYPE: return createIncoherentHelperReturnType();
 			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
+			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -455,6 +456,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public OperationOverCollectionType createOperationOverCollectionType() {
 		OperationOverCollectionTypeImpl operationOverCollectionType = new OperationOverCollectionTypeImpl();
 		return operationOverCollectionType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AccessToUndefinedValue createAccessToUndefinedValue() {
+		AccessToUndefinedValueImpl accessToUndefinedValue = new AccessToUndefinedValueImpl();
+		return accessToUndefinedValue;
 	}
 
 	/**

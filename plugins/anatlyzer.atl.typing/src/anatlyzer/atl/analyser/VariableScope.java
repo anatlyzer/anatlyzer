@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.namespaces.ConstrainedTypeNamespace;
-import anatlyzer.atl.types.ConstrainedType;
+import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
+import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
@@ -14,7 +15,8 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class VariableScope {
 
-	private Scope current = new Scope();
+	private Scope currentKindOf    = new Scope();
+	private Scope currentUndefined = new Scope();
 	
 	/**
 	 * Given an expression, that is formed by a tree of PropertyCalls,
@@ -40,38 +42,77 @@ public class VariableScope {
 	 * @param type
 	 */
 	public void putVariable(String name, Type type) {
-		current.addVariable(name, type);
+		currentKindOf.addVariable(name, type);
+		currentUndefined.addVariable(name, type);
 	}
 
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
-		current.addOclKindOf(vd, source, typeOfType);
+		currentKindOf.addOclKindOf(vd, source, typeOfType);
+	}
+	
+	public void putIsUndefined(VariableDeclaration vd, OclExpression source) {
+		currentUndefined.addIsUndefined(vd, source);
+	}
+	
+	public void putIsNotUndefined(VariableDeclaration vd, OclExpression source) {
+		currentUndefined.addIsNotUndefined(vd, source);	
 	}
 
+	public boolean isCasted(OclExpression expr) {
+		return currentKindOf.findOclKindOfDefinition(expr, false) != null;
+	}
+	
 	public Type getKindOf(OclExpression expr) {
-		OclKindOfApplication r = current.findOclKindOfDefinition(expr, false);
+		OclKindOfApplication r = currentKindOf.findOclKindOfDefinition(expr, false);
 		if ( r != null ) {
 			// System.out.println(expr.getLocation());
-			return ((ConstrainedTypeNamespace) r.exprType.getMetamodelRef()).toType();
+			return r.exprType.toType();
 		}
 		return null;
 	}
 
+	public enum UndefinedStatus {
+		NOT_CHECKED,
+		MAY_BE_UNDEFINED,
+		CANNOT_BE_UNDEFINED
+	}
+	
+	public UndefinedStatus getUndefinedStatus(OclExpression expr) {
+		if ( expr instanceof VariableExp && ((VariableExp) expr).getReferredVariable().getVarName().equals("self") ) {
+			return UndefinedStatus.CANNOT_BE_UNDEFINED;
+		}
+		
+		OclKindOfApplication r = currentUndefined.findOclKindOfDefinition(expr, false);
+		if ( r != null ) {
+			if ( ((UndefinedTypeConstraint) r.exprType).isNotUndefinedEnsured() ) {
+				return UndefinedStatus.CANNOT_BE_UNDEFINED;
+			} else {
+				return UndefinedStatus.MAY_BE_UNDEFINED;
+			}
+		}
+		return UndefinedStatus.NOT_CHECKED;
+	}
+	
 	public void openScope() {
-		current = new Scope(current); 
+		currentKindOf = new Scope(currentKindOf); 
+		currentUndefined = new Scope(currentUndefined); 		
 	}
 	
 	public void negateCurrentScope() {
-		current.negate();
+		currentKindOf.negate();
+		currentUndefined.negate();				
 	}
 	
 	public void closeScope() {
-		current = current.parent;
-		if ( current == null )
+		currentKindOf    = currentKindOf.parent;
+		currentUndefined = currentUndefined.parent;		
+		if ( currentKindOf == null || currentUndefined == null )
 			new IllegalStateException();
 	}
 	
 	public boolean isEmpty() {
-		return current.isEmpty();
+		assert(currentUndefined.isEmpty() == currentKindOf.isEmpty());
+		return currentKindOf.isEmpty();
 	}
 	
 	private class Scope {
@@ -119,7 +160,7 @@ public class VariableScope {
 				// so there are two implementations of (roughly) the same thing. The problem of
 				// getReferredVariable is that it does not work with "self" because there are many
 				// different objects, the current.variables approach is not completely implemented...
-				if ( current.hasVariable(starting.getReferredVariable().getVarName()) || 
+				if ( hasVariable(starting.getReferredVariable().getVarName()) || 
 					 starting.getReferredVariable() == r.vd ) {
 					/*
 					if ( findStartingVarExp(expr) != r.vd) {
@@ -150,10 +191,32 @@ public class VariableScope {
 				app = new OclKindOfApplication(vd, expr, kindOfType);
 				addOclKindOf(expr, app);
 			} else {
-				((ConstrainedTypeNamespace) app.exprType.getMetamodelRef()).addIsType(kindOfType);
+				app.exprType.addIsType(kindOfType);
 				// In case it is not in the current scope, but comes from a parent, it is 
 				// added here to current so that it can be negated if necessary
 				addOclKindOf(expr, app);
+			}
+		}
+		
+		public void addIsUndefined(VariableDeclaration vd, OclExpression expr) {
+			OclKindOfApplication app = findOclKindOfDefinition(expr, true);
+			if ( app == null ) {
+				app = new OclKindOfApplication(vd, expr, new UndefinedTypeConstraint(true));
+				addOclKindOf(expr, app);
+			} else {
+				// This is may be an inconsistency if first isUndefined is tried
+				// and then "not isUndefined".
+			}
+		}
+		
+		public void addIsNotUndefined(VariableDeclaration vd, OclExpression expr) {
+			OclKindOfApplication app = findOclKindOfDefinition(expr, true);
+			if ( app == null ) {
+				app = new OclKindOfApplication(vd, expr, new UndefinedTypeConstraint(false));
+				addOclKindOf(expr, app);
+			} else {
+				// This is may be an inconsistency if first isUndefined is tried
+				// and then "not isUndefined".
 			}
 		}
 
@@ -171,24 +234,26 @@ public class VariableScope {
 		public void negate() {
 			// for(OclKindOfApplication app : currentApplications.values()) {
 			for(OclKindOfApplication app : currentApplications.values()) {
-				((ConstrainedTypeNamespace) app.exprType.getMetamodelRef()).negate();
+				app.exprType = app.exprType.negate();
 			}
 		}
 		
 	}
 	
 	private class OclKindOfApplication implements Cloneable {
-		private ConstrainedType exprType;
+		private ITypeConstraint exprType;
 		private OclExpression source;
 		private VariableDeclaration vd;
 
 		public OclKindOfApplication(VariableDeclaration vd, OclExpression source, Type kindOfType) {
-			this.vd = vd;
-			this.source = source;
-			
-			ConstrainedType ct = AnalyserContext.getTypingModel().newConstrainedType(source.getInferredType());
-			ct.getIsType().add(kindOfType);
-			this.exprType = ct;
+			this(vd, source, ((ITypeNamespace) source.getInferredType().getMetamodelRef()).newTypeConstraint());
+			this.exprType.addIsType(kindOfType);
+		}
+
+		public OclKindOfApplication(VariableDeclaration vd, OclExpression source, ITypeConstraint constraint) {
+			this.vd       = vd;
+			this.source   = source;
+			this.exprType = constraint;
 		}
 
 		@Override
@@ -196,13 +261,10 @@ public class VariableScope {
 			OclKindOfApplication app;
 			try {
 				app = (OclKindOfApplication) super.clone();
+				app.exprType = app.exprType.clone();
 			} catch (CloneNotSupportedException e) {
 				throw new RuntimeException(e);
-			}
-			ConstrainedType ct = AnalyserContext.getTypingModel().newConstrainedType(source.getInferredType());
-			ct.getIsType().addAll(exprType.getIsType());
-			ct.getIsNotType().addAll(exprType.getIsNotType());			
-			app.exprType = ct;
+			}			
 			return app;
 		}
 
@@ -214,7 +276,5 @@ public class VariableScope {
 			return source.getInferredType();
 		}
 	}
-
-
 	
 }

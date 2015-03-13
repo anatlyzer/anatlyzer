@@ -1,12 +1,17 @@
 package anatlyzer.atl.analyser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.CollectionNamespace;
+import anatlyzer.atl.analyser.namespaces.FeatureInfo;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
@@ -62,6 +67,7 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.OrderedSetExp;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.ResolveTempResolution;
 import anatlyzer.atlext.OCL.SequenceExp;
@@ -421,23 +427,65 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 	}
 	
+	Set<OclExpression> mayBeUndefined = new HashSet<OclExpression>();
+	
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
+		checkAccessToUndefined(self);
+
 		Type t = attr.typeOf( self.getSource() );
-		
-		// TODO: FIX: Warn about navigation of collection with "." (ATL just crash)
+				
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		Type t2 = tspace.getFeatureType(self.getName(), self);
-	
+		
+		computeUndefinedAttribute(self, tspace);
+		
 		attr.linkExprType(t2);
 		
 		if ( attr.wasCasted(self.getSource()) ){
 			typ().markImplicitlyCasted(self.getSource(), t);
 		}
 	}
+
+
+	private void checkAccessToUndefined(PropertyCallExp self) {
+		if ( mayBeUndefined.contains(self.getSource()) ) {
+			AnalyserContext.getErrorModel().signalAccessToUndefinedValue(self);
+		}
+	}
+
+
+	private void computeUndefinedAttribute(NavigationOrAttributeCallExp self,
+			ITypeNamespace tspace) {
+		// Check cardinalities
+		// This could go in another pass
+		if ( tspace instanceof ClassNamespace ) {
+			ClassNamespace cn = (ClassNamespace) tspace;
+			FeatureInfo info = cn.getFeatureInfo(self.getName());
+			if ( info != null && info.mayBeUndefined() ) {
+				switch ( attr.getVarScope().getUndefinedStatus(self) ) {
+				case MAY_BE_UNDEFINED: 
+					mayBeUndefined.add(self);
+					// System.out.println("May be undefined! " + self.getLocation());
+					break;
+				case NOT_CHECKED:
+					mayBeUndefined.add(self);
+					// System.out.println("Undefined not checked! " + self.getLocation());
+					break;
+				case CANNOT_BE_UNDEFINED:
+					break;
+				}
+				
+			}
+		}
+	}
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
+		// Removed until I have a good way of checking that the operation is not one of the
+		// available in OclUndefined!
+		// checkAccessToUndefined(self);
+
 		if ( self.getOperationName().equals("resolveTemp") ) {
 			resolveResolveTemp(self);
 			return;
@@ -457,9 +505,13 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		
 		
+		// TODO Shouldnt' I check that this is in an ifCondition?? Perhaps add this to openScope after condition has been
+		// evaluated and add a traversal to fill the scope if needed??
+					
 		// Treating oclIsKindOf
-		if ( self.getOperationName().equals("oclIsKindOf") || self.getOperationName().equals("oclIsTypeOf") ) {
-			Type kindOfType = attr.typeOf(self.getArguments().get(0));
+		if ( self.getOperationName().equals("oclIsKindOf") || 
+			 self.getOperationName().equals("oclIsTypeOf") || // This is not completely accurate!
+			 self.getOperationName().equals("oclIsUndefined") ) {
 			
 			// Discard those with a negation
 			boolean hasNegation = false;
@@ -471,10 +523,19 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				parent = parent.eContainer();
 			}
 			
+			VariableExp ve = VariableScope.findStartingVarExp(self);
 			if ( ! hasNegation ) {
 				// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
-				VariableExp ve = VariableScope.findStartingVarExp(self);
-				attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+				if ( self.getOperationName().equals("oclIsUndefined") ) {
+					attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
+				} else {
+					Type kindOfType = attr.typeOf(self.getArguments().get(0));
+					attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+				}
+			} else {
+				if ( self.getOperationName().equals("oclIsUndefined") ) {
+					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+				}				
 			}
 		}
 		

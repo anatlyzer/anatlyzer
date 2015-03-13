@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.namespaces;
 
 import java.util.HashMap;
 
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -82,4 +83,8 @@ public class OclAnyInheritedNamespace implements ITypeNamespace {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException();
+	}
 }

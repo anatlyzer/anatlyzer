@@ -9,6 +9,10 @@ class Model extends NamedElt {
   val A[*] elements;
   val Other[*] others;
   attr StyleKind style;
+  
+  val A[0..1] optionalA;
+  val A[0..1] optionalB;
+  val A[0..1] optionalC; 
 }
 
 class A extends NamedElt {

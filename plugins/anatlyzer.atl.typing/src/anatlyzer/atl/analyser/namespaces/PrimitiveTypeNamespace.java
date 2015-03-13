@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.HashMap;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -98,5 +99,8 @@ public abstract class PrimitiveTypeNamespace extends AbstractTypeNamespace imple
 		throw new UnsupportedOperationException(operationName);				
 	}
 
-
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException();
+	}
 }

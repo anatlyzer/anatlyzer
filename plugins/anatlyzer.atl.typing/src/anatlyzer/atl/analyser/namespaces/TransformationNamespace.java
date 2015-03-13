@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.HashMap;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.CalledRule;
@@ -130,5 +131,14 @@ public class TransformationNamespace implements ITypeNamespace {
 			vf = features.get(attributeOrOperationName);
 		}
 		return vf == null ? null : vf.definition;
+	}
+	
+	/**
+	 * It always raises UnsupportedOperationException, since it is not possible to
+	 * pass "the transformation type" explicitly to e.g., oclIsKindOf
+	 */
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException();
 	}
 }

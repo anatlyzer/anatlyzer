@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -215,6 +216,7 @@ public class AnalyserUtils {
 		if ( p instanceof ReadingTargetModel ) return 14;
 		if ( p instanceof IteratorOverEmptySequence ) return 15;
 		if ( p instanceof IncoherentHelperReturnType ) return 16;
+		if ( p instanceof AccessToUndefinedValue ) return 17;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

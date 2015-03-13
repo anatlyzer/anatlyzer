@@ -22,10 +22,12 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
@@ -37,6 +39,7 @@ import anatlyzer.atl.errors.AnalysisResultFactory;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.Recovery;
 import anatlyzer.atl.errors.SeverityKind;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
@@ -656,6 +659,14 @@ public class ErrorModel {
 	}
 	
 
+	public void signalAccessToUndefinedValue(PropertyCallExp node) {
+		AccessToUndefinedValue error = AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue();
+		initProblem(error, node);
+		
+		signalError(error, "Possible access to undefined value", node);
+		
+	}
+	
 	public void signalOperationCallInvalidParameter(Operation op, Type[] formalArguments, Type[] arguments, List<String> blamedParameters, LocatedElement node) {
 		OperationCallInvalidParameter error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidParameter();
 		initProblem(error, node);
@@ -707,6 +718,7 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
+
 
 	
 }

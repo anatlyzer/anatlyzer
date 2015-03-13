@@ -193,15 +193,6 @@ public interface TypesFactory extends EFactory {
 	UnionType createUnionType();
 
 	/**
-	 * Returns a new object of class '<em>Constrained Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Constrained Type</em>'.
-	 * @generated
-	 */
-	ConstrainedType createConstrainedType();
-
-	/**
 	 * Returns a new object of class '<em>This Module Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

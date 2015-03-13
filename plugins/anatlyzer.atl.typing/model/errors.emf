@@ -59,6 +59,7 @@ package atl_error {
 	      
 	}
 	
+	// This provokes a runtime error!
 	class FeatureAccessInCollection extends NavigationProblem {
 	    attr String[1] featureName;
 	}
@@ -247,6 +248,12 @@ package atl_error {
 	class OperationOverCollectionType extends OclComplianceProblem {
 		
 	}
+
+    // Not sure if it sometimes requires constraint solving...
+	class AccessToUndefinedValue extends LocalProblem {
+		
+	}	
+	
 }
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")

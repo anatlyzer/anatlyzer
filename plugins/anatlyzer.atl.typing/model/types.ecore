@@ -62,14 +62,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="possibleTypes" upperBound="-1"
         eType="#//Type"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ConstrainedType" eSuperTypes="#//Type">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rootType" lowerBound="1"
-        eType="#//Type"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="isType" upperBound="-1"
-        eType="#//Type"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="isNotType" upperBound="-1"
-        eType="#//Type"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ThisModuleType" eSuperTypes="#//Type"/>
   <eClassifiers xsi:type="ecore:EClass" name="ReflectiveClass" eSuperTypes="#//ReflectiveType"/>
   <eClassifiers xsi:type="ecore:EClass" name="CollectionType" abstract="true" eSuperTypes="#//Type">

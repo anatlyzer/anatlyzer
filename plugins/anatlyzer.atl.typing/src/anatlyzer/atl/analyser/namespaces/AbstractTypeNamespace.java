@@ -1,6 +1,11 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.HashMap;
+
+import org.eclipse.emf.ecore.EStructuralFeature;
+
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -9,11 +14,31 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class AbstractTypeNamespace implements ITypeNamespace {
 
+	protected HashMap<String, FeatureInfo> featureInfos = new HashMap<String, FeatureInfo>();
+	
+	protected FeatureInfo addFeatureInfo(String featureName, Type t) {
+		FeatureInfo info = new FeatureInfo(featureName, t);
+		featureInfos.put(featureName, info);
+		return info;
+	}
+	
+	protected FeatureInfo addFeatureInfo(String featureName, Type t, EStructuralFeature f) {
+		FeatureInfo info = new FeatureInfo(featureName, t, f);
+		featureInfos.put(featureName, info);
+		return info;
+	}
+	
 	@Override
 	public boolean hasFeature(String featureName) {
 		return AnalyserContext.getOclAnyInheritedNamespace().hasFeature(featureName);
 	}
 	
+	/**
+	 * Checks for common inherited operations. 
+	 * Does not have any side effect.
+	 * @param featureName
+	 * @param node Can be null.
+	 */
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
 		return AnalyserContext.getOclAnyInheritedNamespace().getFeatureType(featureName, node);
@@ -73,5 +98,10 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		// This should be change for a "type" reference in the hierarchy, instead of
 		// creating a type each time, then createType() replace for cloneType in case this is actually needed
 		return createType(false);
+	}
+	
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException(this.getClass().getName());
 	}
 }

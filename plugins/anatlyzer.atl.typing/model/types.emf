@@ -110,16 +110,6 @@ class UnionType extends Type {
 	ref Type[*] possibleTypes;   
 }
 
-
-// A collection of possible types for a variable, given by a base type,
-// a collection of possible subclasses the variable may belongs to, and 
-// a collection os subclasses than cannot belongs to.
-class ConstrainedType extends Type {
-	ref Type[1] rootType;
-	ref Type[*] isType;
-	ref Type[*] isNotType;
-}
-
 class ThisModuleType extends Type {
    
    

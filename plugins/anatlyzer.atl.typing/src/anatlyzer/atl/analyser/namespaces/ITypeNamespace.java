@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -27,5 +28,7 @@ public interface ITypeNamespace {
 	
 	
 	Type createType(boolean explicitOcurrence);
-
+	
+	ITypeConstraint newTypeConstraint();
+		
 }

@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.libtypes.AtlTypes;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Type;
@@ -103,4 +104,8 @@ public class MapTypeNamespace implements ITypeNamespace {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException();
+	}
 }

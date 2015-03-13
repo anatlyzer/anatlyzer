@@ -80,12 +80,8 @@ public class ComputedAttributes {
 	}
 
 	public boolean wasCasted(OclExpression expr) {
-		Type t = null;
-		if ( ! getVarScope().isEmpty() ) {
-			t = getVarScope().getKindOf(expr);
-		}	
-		
-		return t != null;
+		return ! (getVarScope().isEmpty()) &&
+			getVarScope().isCasted(expr);
 	}
 	
 	/*

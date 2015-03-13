@@ -171,6 +171,7 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentHelperReturnType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">

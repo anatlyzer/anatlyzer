@@ -3,8 +3,8 @@
 package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.AnalysisResultPackage;
-
 import anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
@@ -54,22 +54,16 @@ import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_error.TargetModelConformanceProblem;
 import anatlyzer.atl.errors.atl_error.WrongType;
-
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
-
 import anatlyzer.atl.errors.atl_recovery.impl.AtlRecoveryPackageImpl;
-
 import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
 import anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl;
 import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
-
 import anatlyzer.atl.types.TypesPackage;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -414,6 +408,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass operationOverCollectionTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass accessToUndefinedValueEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1395,6 +1396,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAccessToUndefinedValue() {
+		return accessToUndefinedValueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1565,6 +1575,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		incoherentHelperReturnTypeEClass = createEClass(INCOHERENT_HELPER_RETURN_TYPE);
 
 		operationOverCollectionTypeEClass = createEClass(OPERATION_OVER_COLLECTION_TYPE);
+
+		accessToUndefinedValueEClass = createEClass(ACCESS_TO_UNDEFINED_VALUE);
 	}
 
 	/**
@@ -1648,6 +1660,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		incoherentHelperReturnTypeEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		operationOverCollectionTypeEClass.getESuperTypes().add(this.getOclComplianceProblem());
+		accessToUndefinedValueEClass.getESuperTypes().add(this.getLocalProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1797,6 +1810,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(incoherentHelperReturnTypeEClass, IncoherentHelperReturnType.class, "IncoherentHelperReturnType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(operationOverCollectionTypeEClass, OperationOverCollectionType.class, "OperationOverCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(accessToUndefinedValueEClass, AccessToUndefinedValue.class, "AccessToUndefinedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 	}
 
 } //AtlErrorPackageImpl

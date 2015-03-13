@@ -7,6 +7,7 @@ import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.libtypes.AtlTypes;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Type;
 
@@ -83,6 +84,9 @@ public class OclTypeNamespace implements ITypeNamespace {
 		throw new UnsupportedOperationException();
 	}
 
-	
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		throw new UnsupportedOperationException();
+	}
 
 }

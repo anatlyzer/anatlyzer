@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.ArrayList;
 import java.util.List;
 
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
@@ -116,6 +117,13 @@ public class TypeErrorNamespace implements ITypeNamespace {
 	@Override
 	public OclFeature getAttachedOclFeature(String attributeOrOperationName) {
 		throw new UnsupportedOperationException();
+	}
+
+
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

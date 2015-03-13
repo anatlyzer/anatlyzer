@@ -160,10 +160,6 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 				return createUnionTypeAdapter();
 			}
 			@Override
-			public Adapter caseConstrainedType(ConstrainedType object) {
-				return createConstrainedTypeAdapter();
-			}
-			@Override
 			public Adapter caseThisModuleType(ThisModuleType object) {
 				return createThisModuleTypeAdapter();
 			}
@@ -524,20 +520,6 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createUnionTypeAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.types.ConstrainedType <em>Constrained Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see anatlyzer.atl.types.ConstrainedType
-	 * @generated
-	 */
-	public Adapter createConstrainedTypeAdapter() {
 		return null;
 	}
 

@@ -1718,97 +1718,6 @@ public interface TypesPackage extends EPackage {
 	int UNION_TYPE_OPERATION_COUNT = TYPE_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.types.impl.ConstrainedTypeImpl <em>Constrained Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.types.impl.ConstrainedTypeImpl
-	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getConstrainedType()
-	 * @generated
-	 */
-	int CONSTRAINED_TYPE = 22;
-
-	/**
-	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__MULTIVALUED = TYPE__MULTIVALUED;
-
-	/**
-	 * The feature id for the '<em><b>Metamodel Ref</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__METAMODEL_REF = TYPE__METAMODEL_REF;
-
-	/**
-	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__MAY_BE_UNDEFINED = TYPE__MAY_BE_UNDEFINED;
-
-	/**
-	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Root Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__ROOT_TYPE = TYPE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Is Type</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__IS_TYPE = TYPE_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Is Not Type</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE__IS_NOT_TYPE = TYPE_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Constrained Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE_FEATURE_COUNT = TYPE_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of operations of the '<em>Constrained Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONSTRAINED_TYPE_OPERATION_COUNT = TYPE_OPERATION_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link anatlyzer.atl.types.impl.ThisModuleTypeImpl <em>This Module Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1816,7 +1725,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getThisModuleType()
 	 * @generated
 	 */
-	int THIS_MODULE_TYPE = 23;
+	int THIS_MODULE_TYPE = 22;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -1880,7 +1789,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getReflectiveClass()
 	 * @generated
 	 */
-	int REFLECTIVE_CLASS = 24;
+	int REFLECTIVE_CLASS = 23;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -1944,7 +1853,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getCollectionType()
 	 * @generated
 	 */
-	int COLLECTION_TYPE = 25;
+	int COLLECTION_TYPE = 24;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -2017,7 +1926,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getSequenceType()
 	 * @generated
 	 */
-	int SEQUENCE_TYPE = 26;
+	int SEQUENCE_TYPE = 25;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -2090,7 +1999,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getSetType()
 	 * @generated
 	 */
-	int SET_TYPE = 27;
+	int SET_TYPE = 26;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -2586,49 +2495,6 @@ public interface TypesPackage extends EPackage {
 	EReference getUnionType_PossibleTypes();
 
 	/**
-	 * Returns the meta object for class '{@link anatlyzer.atl.types.ConstrainedType <em>Constrained Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Constrained Type</em>'.
-	 * @see anatlyzer.atl.types.ConstrainedType
-	 * @generated
-	 */
-	EClass getConstrainedType();
-
-	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atl.types.ConstrainedType#getRootType <em>Root Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Root Type</em>'.
-	 * @see anatlyzer.atl.types.ConstrainedType#getRootType()
-	 * @see #getConstrainedType()
-	 * @generated
-	 */
-	EReference getConstrainedType_RootType();
-
-	/**
-	 * Returns the meta object for the reference list '{@link anatlyzer.atl.types.ConstrainedType#getIsType <em>Is Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Is Type</em>'.
-	 * @see anatlyzer.atl.types.ConstrainedType#getIsType()
-	 * @see #getConstrainedType()
-	 * @generated
-	 */
-	EReference getConstrainedType_IsType();
-
-	/**
-	 * Returns the meta object for the reference list '{@link anatlyzer.atl.types.ConstrainedType#getIsNotType <em>Is Not Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Is Not Type</em>'.
-	 * @see anatlyzer.atl.types.ConstrainedType#getIsNotType()
-	 * @see #getConstrainedType()
-	 * @generated
-	 */
-	EReference getConstrainedType_IsNotType();
-
-	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.types.ThisModuleType <em>This Module Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3083,40 +2949,6 @@ public interface TypesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference UNION_TYPE__POSSIBLE_TYPES = eINSTANCE.getUnionType_PossibleTypes();
-
-		/**
-		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.ConstrainedTypeImpl <em>Constrained Type</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see anatlyzer.atl.types.impl.ConstrainedTypeImpl
-		 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getConstrainedType()
-		 * @generated
-		 */
-		EClass CONSTRAINED_TYPE = eINSTANCE.getConstrainedType();
-
-		/**
-		 * The meta object literal for the '<em><b>Root Type</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONSTRAINED_TYPE__ROOT_TYPE = eINSTANCE.getConstrainedType_RootType();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Type</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONSTRAINED_TYPE__IS_TYPE = eINSTANCE.getConstrainedType_IsType();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Not Type</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CONSTRAINED_TYPE__IS_NOT_TYPE = eINSTANCE.getConstrainedType_IsNotType();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.ThisModuleTypeImpl <em>This Module Type</em>}' class.

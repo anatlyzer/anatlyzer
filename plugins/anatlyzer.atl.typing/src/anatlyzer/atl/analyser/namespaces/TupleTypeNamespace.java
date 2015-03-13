@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
@@ -83,6 +84,12 @@ public class TupleTypeNamespace implements ITypeNamespace {
 	@Override
 	public OclFeature getAttachedOclFeature(String attributeOrOperationName) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

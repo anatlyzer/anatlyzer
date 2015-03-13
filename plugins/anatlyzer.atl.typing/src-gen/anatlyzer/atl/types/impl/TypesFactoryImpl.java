@@ -75,7 +75,6 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 			case TypesPackage.META_MODEL: return createMetaModel();
 			case TypesPackage.METACLASS: return createMetaclass();
 			case TypesPackage.UNION_TYPE: return createUnionType();
-			case TypesPackage.CONSTRAINED_TYPE: return createConstrainedType();
 			case TypesPackage.THIS_MODULE_TYPE: return createThisModuleType();
 			case TypesPackage.REFLECTIVE_CLASS: return createReflectiveClass();
 			case TypesPackage.SEQUENCE_TYPE: return createSequenceType();
@@ -273,16 +272,6 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 	public UnionType createUnionType() {
 		UnionTypeImpl unionType = new UnionTypeImpl();
 		return unionType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ConstrainedType createConstrainedType() {
-		ConstrainedTypeImpl constrainedType = new ConstrainedTypeImpl();
-		return constrainedType;
 	}
 
 	/**

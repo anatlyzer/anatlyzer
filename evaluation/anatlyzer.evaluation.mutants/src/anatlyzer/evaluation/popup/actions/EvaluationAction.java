@@ -39,7 +39,7 @@ public class EvaluationAction implements IObjectActionDelegate {
 	public void run(IAction action) {
 		IPath completePath = file.getRawLocation();
 		String trafo  = completePath.toString();
-		String folder = completePath.removeLastSegments(1).toString();
+		String folder = completePath.removeFileExtension().toString() + "_Evaluation";
 	    try {
 	    	Tester tester = new Tester(trafo, folder);
 	    	tester.runEvaluation();

@@ -502,6 +502,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 			
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();	
+		System.out.println(self.getLocation());
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		
 		
@@ -515,27 +516,37 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			// Discard those with a negation
 			boolean hasNegation = false;
+			boolean inIfCondition = false;
+			OclExpression child = self;
 			EObject parent = self.eContainer();
 			while ( parent instanceof OclExpression && ! hasNegation ) {
 				if ( parent instanceof OperatorCallExp ) {
 					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
 				}
+				if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
+					inIfCondition = true;
+					break;
+				}
+				
+				child  = (OclExpression) parent;
 				parent = parent.eContainer();
 			}
 			
-			VariableExp ve = VariableScope.findStartingVarExp(self);
-			if ( ! hasNegation ) {
-				// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
-				if ( self.getOperationName().equals("oclIsUndefined") ) {
-					attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
+			if ( inIfCondition ) {
+				VariableExp ve = VariableScope.findStartingVarExp(self);
+				if ( ! hasNegation ) {
+					// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
+					if ( self.getOperationName().equals("oclIsUndefined") ) {
+						attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
+					} else {
+						Type kindOfType = attr.typeOf(self.getArguments().get(0));
+						attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+					}
 				} else {
-					Type kindOfType = attr.typeOf(self.getArguments().get(0));
-					attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+					if ( self.getOperationName().equals("oclIsUndefined") ) {
+						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+					}				
 				}
-			} else {
-				if ( self.getOperationName().equals("oclIsUndefined") ) {
-					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
-				}				
 			}
 		}
 		

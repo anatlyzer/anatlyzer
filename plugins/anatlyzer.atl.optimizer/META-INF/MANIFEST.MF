@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ATL Optimizer
+Bundle-SymbolicName: anatlyzer.atl.optimizer
+Bundle-Version: 0.2.0.qualifier
+Bundle-Activator: anatlyzer.atl.optimizer.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ anatlyzer.atl.typing;bundle-version="0.2.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: anatlyzer.atl.optimizer

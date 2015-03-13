@@ -38,7 +38,6 @@ import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
@@ -50,12 +49,15 @@ import org.eclipse.ui.part.ViewPart;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.optimizer.AtlOptimizer;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.atl.witness.WitnessUtil;
@@ -79,6 +81,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private Action doubleClickAction;
 
 	private AnalysisResult currentAnalysis;
+
+	private Action optimizerAction;
 	
 	abstract class TreeNode {
 		private TreeNode parent;
@@ -539,9 +543,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
+		// Not sure what is the local pull down
 		manager.add(runAnalyserAction);
 		manager.add(new Separator());
 		manager.add(transformationInformationAction);
+		manager.add(optimizerAction);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
@@ -562,7 +568,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(runAnalyserAction);
 		manager.add(transformationInformationAction);
 		manager.add(new Separator());
+		manager.add(optimizerAction);
 		drillDownAdapter.addNavigationActions(manager);
+		// drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
@@ -633,12 +641,28 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					result.open();	
 				}
 			}
-		};
-		
+		};		
 		transformationInformationAction.setText("Error report");
 		transformationInformationAction.setToolTipText("Generate an error as a text file");
 		transformationInformationAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJ_FILE));
+		
+
+		optimizerAction = new Action() {
+			public void run() {
+				if ( currentAnalysis != null ) {
+					ATLModel atlModel = currentAnalysis.getAnalyser().getATLModel();
+					GlobalNamespace ns = currentAnalysis.getNamespace();
+					
+					new AtlOptimizer(atlModel, ns).perform();
+				}
+			}
+		};
+		
+		optimizerAction.setText("Optimize transformation");
+		optimizerAction.setToolTipText("Optimize transformation");
+		optimizerAction.setImageDescriptor(Images.optimization_16x16);
+		
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();

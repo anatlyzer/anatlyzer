@@ -62,11 +62,38 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
-		Type t = super.getOperationType(operationName, arguments, node);
-		if ( t == null ) {
-			return null;
+		Type tsup = super.getOperationType(operationName, arguments, node);
+		if ( tsup != null ) {
+			return tsup;
 		}
-		return t;
+		
+		ArrayList<Type> results = new ArrayList<Type>();
+		ArrayList<Type> noFeatureTypes = new ArrayList<Type>();
+		
+		// This is complicated and problematic, because a getFeature to e.g., a ClassNamespace
+		// may create a "recovery error"...
+		for(Type t : type.getPossibleTypes()) {
+			ITypeNamespace ns = (ITypeNamespace) t.getMetamodelRef();
+			if ( ns.hasOperation(operationName, arguments) ) {
+				results.add(ns.getOperationType(operationName, arguments, node));
+			} else {
+				noFeatureTypes.add(t);
+			}
+		}
+		
+		if ( results.size() == 0 ) {
+			// TODO: Be more precise, it is not a feature, it is an operation
+			AnalyserContext.getErrorModel().signalNoFeatureInUnionType(type, operationName, node);
+			throw new IllegalStateException();
+		}
+		
+		Type t1 = AnalyserContext.getTypingModel().getCommonType(results);
+		
+		if ( noFeatureTypes.size() != 0 ) {
+			AnalyserContext.getErrorModel().warningMissingFeatureInUnionType(noFeatureTypes, operationName, node);
+		}
+		
+		return t1;
 	}
 
 	@Override

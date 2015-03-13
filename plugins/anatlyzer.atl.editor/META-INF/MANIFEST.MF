@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.use.witness;bundle-version="0.1.0",
  anatlyzer.atl.tests.api;bundle-version="0.1.0",
  org.eclipse.jface,
- org.eclipse.swt
+ org.eclipse.swt,
+ anatlyzer.atl.optimizer;bundle-version="0.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: anatlyzer.atl.analysisext,

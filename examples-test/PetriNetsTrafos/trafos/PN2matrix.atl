@@ -10,7 +10,7 @@ rule Net2Matrix {
 	to 
 		s : MTX!Matrix (			
 			horzLength <- n.places->size(),
-			vertLength <- n.transitions->first(),
+			vertLength <- n.transitions->sizs(3),
 			rows <- n.transitions
 		)
 }

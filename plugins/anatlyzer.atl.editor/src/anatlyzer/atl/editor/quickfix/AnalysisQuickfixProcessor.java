@@ -81,12 +81,25 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		ArrayList<ICompletionProposal> quickfixes = new ArrayList<ICompletionProposal>();
 		
 		for (IConfigurationElement ce : extensions) {
-			AtlProblemQuickfix qf;
 			try {
-				qf = (AtlProblemQuickfix) ce.createExecutableExtension("apply");
-				if ( qf.isApplicable(iMarker) ) {
-					qf.setErrorMarker(iMarker);
-					quickfixes.add(qf);
+				if ( ce.getName().equals("quickfix") ) {
+					AtlProblemQuickfix qf = (AtlProblemQuickfix) ce.createExecutableExtension("apply");
+					if ( qf.isApplicable(iMarker) ) {
+						qf.setErrorMarker(iMarker);
+						quickfixes.add(qf);
+					}
+				} 
+				else if ( ce.getName().equals("quickfixset") ) {
+					AtlProblemQuickfixSet detector = (AtlProblemQuickfixSet) ce.createExecutableExtension("detector");
+					if ( detector.isApplicable(iMarker) ) {
+						for(AtlProblemQuickfix q : detector.getQuickfixes(iMarker) ) {
+							if ( ! q.isApplicable(iMarker) ) {
+								throw new IllegalStateException();
+							}
+							q.setErrorMarker(iMarker);
+							quickfixes.add(q);							
+						}
+					}
 				}
 			} catch (CoreException e) {
 				e.printStackTrace();

@@ -21,9 +21,9 @@
    </extension>
    <extension
          point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix">
-      </quickfix>
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.NoRuleForBindingQuickfixSet">
+      </quickfixset>
    </extension>
    <extension
          id="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix"

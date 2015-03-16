@@ -173,7 +173,13 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
-		throw new UnsupportedOperationException();
+		slice.addRule(ATLUtils.getRule(binding));
+		for(RuleResolutionInfo info : binding.getResolvedBy()) {
+			slice.addRule(info.getRule());			
+		}
+		
+		
+		// TODO: Do I need to add the binding somehow??
 	}
 	
 	@Override

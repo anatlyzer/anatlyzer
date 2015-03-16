@@ -18,7 +18,7 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.ATL.LocatedElement;
 
-public abstract class AbstractAtlQuickfix implements AtlProblemQuickfix {
+public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlProblemQuickfix {
 
 	protected IMarker marker;
 	
@@ -26,14 +26,6 @@ public abstract class AbstractAtlQuickfix implements AtlProblemQuickfix {
 		this.marker = marker;
 	}
 	
-	protected boolean checkProblemType(IMarker marker, Class<?> class1) {
-		try {
-			Object p = marker.getAttribute(AnATLyzerBuilder.PROBLEM); 
-			return class1.isInstance( p);
-		} catch (CoreException e) {
-			return false;
-		}
-	}
 
 	protected int getProblemStartOffset() throws CoreException {
 		return (Integer) marker.getAttribute(IMarker.CHAR_START);
@@ -53,7 +45,13 @@ public abstract class AbstractAtlQuickfix implements AtlProblemQuickfix {
 		return help.getIndexChar(obj.getLocation());
 	}
 	
-	
+	protected int getEnd(int[] elementOffset) {
+		return elementOffset[1];
+	}
 
+
+	protected int getStart(int[] elementOffset) {
+		return elementOffset[0];
+	}
 
 }

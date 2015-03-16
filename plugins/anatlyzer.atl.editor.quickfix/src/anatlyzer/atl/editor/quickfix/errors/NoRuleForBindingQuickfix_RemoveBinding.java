@@ -10,13 +10,12 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 
-public class NoRuleForBindingQuickfix extends AbstractAtlQuickfix {
+public class NoRuleForBindingQuickfix_RemoveBinding extends AbstractAtlQuickfix {
 
-	public NoRuleForBindingQuickfix() {
+	public NoRuleForBindingQuickfix_RemoveBinding() {
 	}
 
 	@Override
@@ -29,34 +28,28 @@ public class NoRuleForBindingQuickfix extends AbstractAtlQuickfix {
 
 		try {
 			BindingWithoutRule p = (BindingWithoutRule) getProblem();
-			//p.getRightType()
-			//p.get
-			ModelElement tgt = p.getLeft();
-			ModelElement src = p.getRight();
-			
-			
-			String newRule = "\nrule " + src.getKlass().getName() + "2" + tgt.getKlass().getName() + "{\n" +
-					"\tfrom src : " + src.getMetamodelName() + "!" + src.getKlass().getName() + "\n" +
-					"\t  to tgt : " + tgt.getMetamodelName() + "!" + tgt.getKlass().getName() + "(\n" +
-					"\t  )\n}\n";					
-			
 			Binding b = (Binding) p.getElement();
-			Rule r = b.getOutPatternElement().getOutPattern().getRule();
+			
+			int problemStart = getProblemStartOffset();
+			int problemEnd   = getProblemEndOffset();
+			
+			OutPatternElement ope = b.getOutPatternElement();
+			if ( ope.getBindings().size() > 1 ) {
+				int idx = ope.getBindings().indexOf(b);
+				// Not the first binding
+				if ( idx != 0 ) {
+					Binding previousBinding = ope.getBindings().get(idx - 1);
+					problemStart = getEnd(getElementOffset(previousBinding, document));
+				}
+				// Not the last binding
+				if ( idx != ope.getBindings().size() - 1 ) {
+					Binding nextBinding = ope.getBindings().get(idx + 1);
+					problemEnd = getStart(getElementOffset(nextBinding, document));					
+				}
+			}
 			
 			
-			int[] sourceOffset = getElementOffset(r, document);
-			int sourceOffsetStart = sourceOffset[0];
-			int sourceOffsetEnd = sourceOffset[1];
-
-			// Setting length to 0 means "insert", that is, replacing 0 characters
-			document.replace(sourceOffsetEnd + 1, 0, newRule);			
-
-			/*
-			int last = document.getLineOffset(document.getNumberOfLines() - 1);
-			
-			
-			document.replace(last, 0, newRule);			
-			*/
+			document.replace(problemStart, problemEnd - problemStart, "");			
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		} catch (BadLocationException e) {
@@ -73,12 +66,12 @@ public class NoRuleForBindingQuickfix extends AbstractAtlQuickfix {
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Add a new rule to resolve the binding";
+		return "Remove binding";
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Add new rule";
+		return "Remove binding";
 	}
 
 	@Override

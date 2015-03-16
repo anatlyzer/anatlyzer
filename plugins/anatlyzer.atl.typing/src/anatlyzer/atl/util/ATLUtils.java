@@ -29,6 +29,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
@@ -403,6 +404,10 @@ public class ATLUtils {
 				return vexp;
 		}
 		return null;
+	}
+
+	public static Rule getRule(Binding binding) {
+		return binding.getOutPatternElement().getOutPattern().getRule();
 	}
 
 	

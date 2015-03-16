@@ -139,6 +139,18 @@ package atl_error {
 	class BindingExpectedOneAssignedMany extends BindingProblem {
 	   
 	}	
+	
+	class PrimitiveBindingButObjectAssigned extends BindingProblem {
+		
+	}
+	
+	class ObjectBindingButPrimitiveAssigned extends BindingProblem {
+		
+	}
+
+	class PrimitiveBindingInvalidAssignment extends BindingProblem {
+		
+	}
 
 	abstract class BindingResolution {
 	   	ref ecore.EClass[1] rightType;	

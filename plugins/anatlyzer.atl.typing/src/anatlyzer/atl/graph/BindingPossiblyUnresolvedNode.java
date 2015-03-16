@@ -3,7 +3,9 @@ package anatlyzer.atl.graph;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -15,9 +17,12 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -83,7 +88,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		OclExpression value = genBindingRightPart(model, binding);		
 		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding)) ) {
 			result = createReferenceConstraint(model, rules, value);
-		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
+		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {		
 			IteratorExp exists = model.createExists(value, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			

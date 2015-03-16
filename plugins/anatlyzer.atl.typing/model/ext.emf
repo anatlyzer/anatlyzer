@@ -46,6 +46,7 @@ package ATL {
   
   class Binding {
 	ref EObject[1] writtenFeature;
+	ref types.Type[1] leftType;
 	
 	val RuleResolutionInfo[*] resolvedBy;
   }

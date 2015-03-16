@@ -245,6 +245,18 @@ public class CSPModel {
 	public VariableDeclaration getThisModuleVariable() {
 		return scope.getThisModuleVar();
 	}
+
+	/**
+	 * For the moment, it uses the thisModule variable...
+	 * @return
+	 */
+	public VariableDeclaration getTargetDummyVariable() {
+		return this.getThisModuleVariable();
+	}
+
+	public String getTargetDummyClass() {
+		return Analyser.USE_THIS_MODULE_CLASS;
+	}
 	
 	public static class CSPModelScope extends HashMap<VariableDeclaration, VariableDeclaration> {
 		
@@ -284,6 +296,7 @@ public class CSPModel {
 		}
 
 	}
+
 
 	
 }

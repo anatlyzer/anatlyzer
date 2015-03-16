@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.impl.AnalysisResultImpl#getProblems <em>Problems</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass#getSubclassName <em>Subclass Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass#getSubclass <em>Subclass</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage#getFeatureFoundInSubclass()
  * @model

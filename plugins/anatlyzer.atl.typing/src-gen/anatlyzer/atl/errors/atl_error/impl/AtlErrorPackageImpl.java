@@ -39,6 +39,7 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OclCompliance;
 import anatlyzer.atl.errors.atl_error.OclComplianceProblem;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalid;
@@ -47,6 +48,8 @@ import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
@@ -226,6 +229,27 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass bindingExpectedOneAssignedManyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass primitiveBindingButObjectAssignedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass objectBindingButPrimitiveAssignedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass primitiveBindingInvalidAssignmentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -955,6 +979,33 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPrimitiveBindingButObjectAssigned() {
+		return primitiveBindingButObjectAssignedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getObjectBindingButPrimitiveAssigned() {
+		return objectBindingButPrimitiveAssignedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPrimitiveBindingInvalidAssignment() {
+		return primitiveBindingInvalidAssignmentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBindingResolution() {
 		return bindingResolutionEClass;
 	}
@@ -1505,6 +1556,12 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		bindingExpectedOneAssignedManyEClass = createEClass(BINDING_EXPECTED_ONE_ASSIGNED_MANY);
 
+		primitiveBindingButObjectAssignedEClass = createEClass(PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED);
+
+		objectBindingButPrimitiveAssignedEClass = createEClass(OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED);
+
+		primitiveBindingInvalidAssignmentEClass = createEClass(PRIMITIVE_BINDING_INVALID_ASSIGNMENT);
+
 		bindingResolutionEClass = createEClass(BINDING_RESOLUTION);
 		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__RIGHT_TYPE);
 		createEReference(bindingResolutionEClass, BINDING_RESOLUTION__TARGET_TYPE);
@@ -1634,6 +1691,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getTargetModelConformanceProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingExpectedOneAssignedManyEClass.getESuperTypes().add(this.getBindingProblem());
+		primitiveBindingButObjectAssignedEClass.getESuperTypes().add(this.getBindingProblem());
+		objectBindingButPrimitiveAssignedEClass.getESuperTypes().add(this.getBindingProblem());
+		primitiveBindingInvalidAssignmentEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingWithoutRuleEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingWithoutRuleEClass.getESuperTypes().add(this.getBindingResolution());
 		bindingWithResolvedByIncompatibleRuleEClass.getESuperTypes().add(this.getBindingProblem());
@@ -1739,6 +1799,12 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(noBindingForCompulsoryFeatureEClass, NoBindingForCompulsoryFeature.class, "NoBindingForCompulsoryFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bindingExpectedOneAssignedManyEClass, BindingExpectedOneAssignedMany.class, "BindingExpectedOneAssignedMany", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(primitiveBindingButObjectAssignedEClass, PrimitiveBindingButObjectAssigned.class, "PrimitiveBindingButObjectAssigned", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(objectBindingButPrimitiveAssignedEClass, ObjectBindingButPrimitiveAssigned.class, "ObjectBindingButPrimitiveAssigned", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(primitiveBindingInvalidAssignmentEClass, PrimitiveBindingInvalidAssignment.class, "PrimitiveBindingInvalidAssignment", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bindingResolutionEClass, BindingResolution.class, "BindingResolution", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingResolution_RightType(), ecorePackage.getEClass(), null, "rightType", null, 1, 1, BindingResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

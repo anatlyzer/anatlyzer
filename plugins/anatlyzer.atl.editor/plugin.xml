@@ -4,6 +4,7 @@
    <extension-point id="anatlyzer.atl.editor.quickfix" name="anATLyzer QuickFix" schema="schema/anatlyzer.atl.editor.quickfix.exsd"/>
    <extension-point id="anatlyzer.atl.editor.additionalanalysis" name="Additional Analysis" schema="schema/anatlyzer.atl.editor.additionalanalysis.exsd"/>
    <extension-point id="anatlyzer.atl.editor.witnessfinder" name="Witness finder" schema="schema/anatlyzer.atl.editor.witnessfinder.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.views.additionalactions" name="Additional actions" schema="schema/anatlyzer.atl.editor.views.additionalactions.exsd"/>
 
    <extension
          id="anatlyzerATLBuilder"

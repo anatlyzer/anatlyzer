@@ -10,11 +10,11 @@ package anatlyzer.atlext.ATL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.LibraryRef#getUnit <em>Unit</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LibraryRef#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getLibraryRef()
  * @model

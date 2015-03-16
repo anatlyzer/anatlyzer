@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getCommentsBefore <em>Comments Before</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

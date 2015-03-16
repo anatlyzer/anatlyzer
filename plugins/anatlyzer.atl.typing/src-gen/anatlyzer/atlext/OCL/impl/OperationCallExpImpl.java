@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getArguments <em>Arguments</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getOperationName <em>Operation Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getResolveTempResolvedBy <em>Resolve Temp Resolved By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

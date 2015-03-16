@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getCommentsBefore <em>Comments Before</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getFileObject <em>File Object</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getProblems <em>Problems</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

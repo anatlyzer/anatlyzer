@@ -3721,13 +3721,22 @@ public interface ATLPackage extends EPackage {
 	int BINDING__WRITTEN_FEATURE = LOCATED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Left Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING__LEFT_TYPE = LOCATED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The feature id for the '<em><b>Resolved By</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING__RESOLVED_BY = LOCATED_ELEMENT_FEATURE_COUNT + 5;
+	int BINDING__RESOLVED_BY = LOCATED_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Binding</em>' class.
@@ -3736,7 +3745,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_FEATURE_COUNT = LOCATED_ELEMENT_FEATURE_COUNT + 6;
+	int BINDING_FEATURE_COUNT = LOCATED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Binding</em>' class.
@@ -5640,6 +5649,17 @@ public interface ATLPackage extends EPackage {
 	EReference getBinding_WrittenFeature();
 
 	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atlext.ATL.Binding#getLeftType <em>Left Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Left Type</em>'.
+	 * @see anatlyzer.atlext.ATL.Binding#getLeftType()
+	 * @see #getBinding()
+	 * @generated
+	 */
+	EReference getBinding_LeftType();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link anatlyzer.atlext.ATL.Binding#getResolvedBy <em>Resolved By</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6735,6 +6755,14 @@ public interface ATLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BINDING__WRITTEN_FEATURE = eINSTANCE.getBinding_WrittenFeature();
+
+		/**
+		 * The meta object literal for the '<em><b>Left Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BINDING__LEFT_TYPE = eINSTANCE.getBinding_LeftType();
 
 		/**
 		 * The meta object literal for the '<em><b>Resolved By</b></em>' containment reference list feature.

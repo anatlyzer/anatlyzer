@@ -50,7 +50,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -294,6 +294,36 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(bindingExpectedOneAssignedMany);
 				if (result == null) result = caseProblem(bindingExpectedOneAssignedMany);
 				if (result == null) result = caseAnalysisInfo(bindingExpectedOneAssignedMany);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED: {
+				PrimitiveBindingButObjectAssigned primitiveBindingButObjectAssigned = (PrimitiveBindingButObjectAssigned)theEObject;
+				T result = casePrimitiveBindingButObjectAssigned(primitiveBindingButObjectAssigned);
+				if (result == null) result = caseBindingProblem(primitiveBindingButObjectAssigned);
+				if (result == null) result = caseLocalProblem(primitiveBindingButObjectAssigned);
+				if (result == null) result = caseProblem(primitiveBindingButObjectAssigned);
+				if (result == null) result = caseAnalysisInfo(primitiveBindingButObjectAssigned);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED: {
+				ObjectBindingButPrimitiveAssigned objectBindingButPrimitiveAssigned = (ObjectBindingButPrimitiveAssigned)theEObject;
+				T result = caseObjectBindingButPrimitiveAssigned(objectBindingButPrimitiveAssigned);
+				if (result == null) result = caseBindingProblem(objectBindingButPrimitiveAssigned);
+				if (result == null) result = caseLocalProblem(objectBindingButPrimitiveAssigned);
+				if (result == null) result = caseProblem(objectBindingButPrimitiveAssigned);
+				if (result == null) result = caseAnalysisInfo(objectBindingButPrimitiveAssigned);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.PRIMITIVE_BINDING_INVALID_ASSIGNMENT: {
+				PrimitiveBindingInvalidAssignment primitiveBindingInvalidAssignment = (PrimitiveBindingInvalidAssignment)theEObject;
+				T result = casePrimitiveBindingInvalidAssignment(primitiveBindingInvalidAssignment);
+				if (result == null) result = caseBindingProblem(primitiveBindingInvalidAssignment);
+				if (result == null) result = caseLocalProblem(primitiveBindingInvalidAssignment);
+				if (result == null) result = caseProblem(primitiveBindingInvalidAssignment);
+				if (result == null) result = caseAnalysisInfo(primitiveBindingInvalidAssignment);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -862,6 +892,51 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBindingExpectedOneAssignedMany(BindingExpectedOneAssignedMany object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Primitive Binding But Object Assigned</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Primitive Binding But Object Assigned</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePrimitiveBindingButObjectAssigned(PrimitiveBindingButObjectAssigned object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Object Binding But Primitive Assigned</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Object Binding But Primitive Assigned</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseObjectBindingButPrimitiveAssigned(ObjectBindingButPrimitiveAssigned object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Primitive Binding Invalid Assignment</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Primitive Binding Invalid Assignment</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePrimitiveBindingInvalidAssignment(PrimitiveBindingInvalidAssignment object) {
 		return null;
 	}
 

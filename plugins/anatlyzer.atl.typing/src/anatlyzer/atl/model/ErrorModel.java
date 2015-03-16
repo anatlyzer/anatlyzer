@@ -67,11 +67,14 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
@@ -600,11 +603,24 @@ public class ErrorModel {
 	
 
 	public void signalBindingPrimitiveExpectedButObjectAssigned(Binding binding, Metaclass targetVar, String propertyName) {
-		signalWarning_WITHOUTERROR_TODO("In binding " + targetVar.getName() + "." + propertyName + ", expected primitive type, received objects", binding);		
+		PrimitiveBindingButObjectAssigned error = AtlErrorFactory.eINSTANCE.createPrimitiveBindingButObjectAssigned();
+		initProblem(error, binding);
+
+		signalError(error, "In binding " + targetVar.getName() + "." + propertyName + " : " + TypeUtils.typeToString(binding.getLeftType())+ ", expected primitive type, received objects", binding);		
 	}
 
 	public void signalBindingObjectExpectedButPrimitiveAssigned(Binding binding, Metaclass targetVar, String propertyName) {
-		signalWarning_WITHOUTERROR_TODO("In binding " + targetVar.getName() + "." + propertyName + ", expected object type, received primitive value", binding);				
+		ObjectBindingButPrimitiveAssigned error = AtlErrorFactory.eINSTANCE.createObjectBindingButPrimitiveAssigned();
+		initProblem(error, binding);
+		
+		signalError(error, "In binding " + targetVar.getName() + "." + propertyName + " : " + TypeUtils.typeToString(binding.getLeftType()) + ", expected object type, received primitive value", binding);				
+	}
+
+	public void signalPrimitiveBindingInvalidAssignement(Binding binding,  Metaclass targetVar, String propertyName) {
+		PrimitiveBindingInvalidAssignment error = AtlErrorFactory.eINSTANCE.createPrimitiveBindingInvalidAssignment();
+		initProblem(error, binding);
+		
+		signalError(error, "In binding " + targetVar.getName() + "." + propertyName + " : " + TypeUtils.typeToString(binding.getLeftType()) + ", but received " + TypeUtils.typeToString(binding.getValue().getInferredType()), binding);						
 	}
 
 	public void signalWarningInvalidMapKeyType(LocatedElement node) {
@@ -718,6 +734,7 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
+
 
 
 	

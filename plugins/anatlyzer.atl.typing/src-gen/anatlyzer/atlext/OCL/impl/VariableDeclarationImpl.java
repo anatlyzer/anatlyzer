@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getInferredType <em>Inferred Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getId <em>Id</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getVariableExp <em>Variable Exp</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getStaticType <em>Static Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

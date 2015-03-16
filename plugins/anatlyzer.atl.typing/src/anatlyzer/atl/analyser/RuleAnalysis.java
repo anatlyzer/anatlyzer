@@ -249,13 +249,18 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			} else {
 				errors().signalBindingPrimitiveExpectedButObjectAssigned(self, (Metaclass) targetVar, self.getPropertyName());
 			}
+		} else if ( f instanceof EAttribute && rightType instanceof PrimitiveType ) {
+			// Invalid primitive assignments
+			if ( ! typ().assignableTypes(self.getLeftType(), rightType) ) {
+				errors().signalPrimitiveBindingInvalidAssignement(self, (Metaclass) targetVar, self.getPropertyName());
+			}
 		}
 		
 		// Assignment of references with primitive values
 		if ( f instanceof EReference && 
 				(rightType instanceof PrimitiveType || rightType instanceof EnumType ||
 				(rightType instanceof CollectionType && ((CollectionType) rightType).getContainedType() instanceof PrimitiveType) )) {
-
+			
 			errors().signalBindingObjectExpectedButPrimitiveAssigned(self, (Metaclass) targetVar, self.getPropertyName());
 		}		
 		

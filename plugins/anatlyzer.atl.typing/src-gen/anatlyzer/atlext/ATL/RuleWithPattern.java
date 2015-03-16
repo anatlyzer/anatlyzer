@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.RuleWithPattern#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.RuleWithPattern#getChildren <em>Children</em>}</li>
@@ -19,7 +20,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atlext.ATL.RuleWithPattern#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.RuleWithPattern#isIsNoDefault <em>Is No Default</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getRuleWithPattern()
  * @model abstract="true"

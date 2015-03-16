@@ -2,6 +2,7 @@
  */
 package anatlyzer.atlext.ATL.impl;
 
+import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -32,15 +33,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getValue <em>Value</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getOutPatternElement <em>Out Pattern Element</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getPropertyName <em>Property Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#isIsAssignment <em>Is Assignment</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getWrittenFeature <em>Written Feature</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getLeftType <em>Left Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getResolvedBy <em>Resolved By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -104,6 +106,16 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * @ordered
 	 */
 	protected EObject writtenFeature;
+
+	/**
+	 * The cached value of the '{@link #getLeftType() <em>Left Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLeftType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Type leftType;
 
 	/**
 	 * The cached value of the '{@link #getResolvedBy() <em>Resolved By</em>}' containment reference list.
@@ -303,6 +315,44 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Type getLeftType() {
+		if (leftType != null && leftType.eIsProxy()) {
+			InternalEObject oldLeftType = (InternalEObject)leftType;
+			leftType = (Type)eResolveProxy(oldLeftType);
+			if (leftType != oldLeftType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ATLPackage.BINDING__LEFT_TYPE, oldLeftType, leftType));
+			}
+		}
+		return leftType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Type basicGetLeftType() {
+		return leftType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLeftType(Type newLeftType) {
+		Type oldLeftType = leftType;
+		leftType = newLeftType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ATLPackage.BINDING__LEFT_TYPE, oldLeftType, leftType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<RuleResolutionInfo> getResolvedBy() {
 		if (resolvedBy == null) {
 			resolvedBy = new EObjectContainmentEList<RuleResolutionInfo>(RuleResolutionInfo.class, this, ATLPackage.BINDING__RESOLVED_BY);
@@ -377,6 +427,9 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 			case ATLPackage.BINDING__WRITTEN_FEATURE:
 				if (resolve) return getWrittenFeature();
 				return basicGetWrittenFeature();
+			case ATLPackage.BINDING__LEFT_TYPE:
+				if (resolve) return getLeftType();
+				return basicGetLeftType();
 			case ATLPackage.BINDING__RESOLVED_BY:
 				return getResolvedBy();
 		}
@@ -406,6 +459,9 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 				return;
 			case ATLPackage.BINDING__WRITTEN_FEATURE:
 				setWrittenFeature((EObject)newValue);
+				return;
+			case ATLPackage.BINDING__LEFT_TYPE:
+				setLeftType((Type)newValue);
 				return;
 			case ATLPackage.BINDING__RESOLVED_BY:
 				getResolvedBy().clear();
@@ -438,6 +494,9 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 			case ATLPackage.BINDING__WRITTEN_FEATURE:
 				setWrittenFeature((EObject)null);
 				return;
+			case ATLPackage.BINDING__LEFT_TYPE:
+				setLeftType((Type)null);
+				return;
 			case ATLPackage.BINDING__RESOLVED_BY:
 				getResolvedBy().clear();
 				return;
@@ -463,6 +522,8 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 				return isAssignment != IS_ASSIGNMENT_EDEFAULT;
 			case ATLPackage.BINDING__WRITTEN_FEATURE:
 				return writtenFeature != null;
+			case ATLPackage.BINDING__LEFT_TYPE:
+				return leftType != null;
 			case ATLPackage.BINDING__RESOLVED_BY:
 				return resolvedBy != null && !resolvedBy.isEmpty();
 		}

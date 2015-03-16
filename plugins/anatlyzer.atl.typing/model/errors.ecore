@@ -128,6 +128,12 @@
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="NoBindingForCompulsoryFeature" eSuperTypes="#//atl_error/TargetModelConformanceProblem #//atl_error/BindingProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="BindingExpectedOneAssignedMany" eSuperTypes="#//atl_error/BindingProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PrimitiveBindingButObjectAssigned"
+        eSuperTypes="#//atl_error/BindingProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectBindingButPrimitiveAssigned"
+        eSuperTypes="#//atl_error/BindingProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PrimitiveBindingInvalidAssignment"
+        eSuperTypes="#//atl_error/BindingProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="BindingResolution" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="rightType" lowerBound="1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>

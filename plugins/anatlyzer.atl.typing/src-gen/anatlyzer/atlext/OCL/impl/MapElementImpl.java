@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getMap <em>Map</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getKey <em>Key</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -125,6 +125,8 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/Binding/isAssignment"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/writtenFeature"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/leftType"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/Binding/resolvedBy"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//ATL/RuleVariableDeclaration">

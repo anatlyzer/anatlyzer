@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IntegerExpImpl#getIntegerSymbol <em>Integer Symbol</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

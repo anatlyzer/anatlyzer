@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getThenStatements <em>Then Statements</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getElseStatements <em>Else Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

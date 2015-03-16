@@ -101,6 +101,9 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/ResolveTempProblem"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingExpectedOneAssignedMany"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingButObjectAssigned"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ObjectBindingButPrimitiveAssigned"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingInvalidAssignment"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/BindingResolution">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/rightType"/>

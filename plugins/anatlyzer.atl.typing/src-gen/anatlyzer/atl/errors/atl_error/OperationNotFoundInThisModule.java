@@ -10,11 +10,11 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule#isMaybeRule <em>Maybe Rule</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationNotFoundInThisModule()
  * @model

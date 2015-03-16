@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getInModels <em>In Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getOutModels <em>Out Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

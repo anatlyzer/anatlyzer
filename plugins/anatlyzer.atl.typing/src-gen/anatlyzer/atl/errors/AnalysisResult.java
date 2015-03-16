@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.AnalysisResult#getProblems <em>Problems</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getAnalysisResult()
  * @model

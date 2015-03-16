@@ -71,6 +71,9 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.DIFFERENT_BRANCH_TYPES: return createDifferentBranchTypes();
 			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: return createNoBindingForCompulsoryFeature();
 			case AtlErrorPackage.BINDING_EXPECTED_ONE_ASSIGNED_MANY: return createBindingExpectedOneAssignedMany();
+			case AtlErrorPackage.PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED: return createPrimitiveBindingButObjectAssigned();
+			case AtlErrorPackage.OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED: return createObjectBindingButPrimitiveAssigned();
+			case AtlErrorPackage.PRIMITIVE_BINDING_INVALID_ASSIGNMENT: return createPrimitiveBindingInvalidAssignment();
 			case AtlErrorPackage.BINDING_WITHOUT_RULE: return createBindingWithoutRule();
 			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: return createBindingWithResolvedByIncompatibleRule();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: return createBindingPossiblyUnresolved();
@@ -246,6 +249,36 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public BindingExpectedOneAssignedMany createBindingExpectedOneAssignedMany() {
 		BindingExpectedOneAssignedManyImpl bindingExpectedOneAssignedMany = new BindingExpectedOneAssignedManyImpl();
 		return bindingExpectedOneAssignedMany;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrimitiveBindingButObjectAssigned createPrimitiveBindingButObjectAssigned() {
+		PrimitiveBindingButObjectAssignedImpl primitiveBindingButObjectAssigned = new PrimitiveBindingButObjectAssignedImpl();
+		return primitiveBindingButObjectAssigned;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ObjectBindingButPrimitiveAssigned createObjectBindingButPrimitiveAssigned() {
+		ObjectBindingButPrimitiveAssignedImpl objectBindingButPrimitiveAssigned = new ObjectBindingButPrimitiveAssignedImpl();
+		return objectBindingButPrimitiveAssigned;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public PrimitiveBindingInvalidAssignment createPrimitiveBindingInvalidAssignment() {
+		PrimitiveBindingInvalidAssignmentImpl primitiveBindingInvalidAssignment = new PrimitiveBindingInvalidAssignmentImpl();
+		return primitiveBindingInvalidAssignment;
 	}
 
 	/**

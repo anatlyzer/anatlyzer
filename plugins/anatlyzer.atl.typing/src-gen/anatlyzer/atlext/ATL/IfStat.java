@@ -13,12 +13,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.IfStat#getCondition <em>Condition</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.IfStat#getThenStatements <em>Then Statements</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.IfStat#getElseStatements <em>Else Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getIfStat()
  * @model

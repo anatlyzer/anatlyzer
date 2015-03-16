@@ -11,6 +11,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getIfExp3 <em>If Exp3</em>}</li>
@@ -26,7 +27,6 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getOwningAttribute <em>Owning Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOclExpression()
  * @model abstract="true"

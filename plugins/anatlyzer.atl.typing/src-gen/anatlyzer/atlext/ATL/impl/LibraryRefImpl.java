@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryRefImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryRefImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IteratorImpl#getLoopExpr <em>Loop Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

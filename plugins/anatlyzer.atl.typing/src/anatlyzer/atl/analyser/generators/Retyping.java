@@ -32,6 +32,8 @@ import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
@@ -237,5 +239,58 @@ public class Retyping extends AbstractVisitor {
 		}
 	}
 	
+	/** 
+	 * It seems that USE has problems typechecking nested collections. For example (taken from Ant2Maven),
+	 * <pre>
+	 * let dependencies1 = ThisModule in -- ThisModule represents a dummy target element
+	 * 		Sequence { dependencies1, a.tasks }
+	 * </pre>
+	 * provokes a problem because USE cannot find a common supertype: it requires all elements of the
+	 * collection of having either a collection type or an object type.
+	 * 
+	 * This rewriting checks if there are discrepancies in the types of the sequence expression,
+	 * and if so, it wraps every object type into a Set { }, applying a flatten the whole expression at the end.
+	 * 
+	 * In addition, the Sequence must be converted into a Set, to avoid problems with feature access which,
+	 * in USE, returns a Set.
+	 */
+	@Override
+	public void inSequenceExp(SequenceExp self) {
+		int discrepancy = 0;
+		
+		for(int i = 0; i < self.getElements().size(); i++) {
+			if ( self.getElements().get(i).getInferredType() instanceof Metaclass ) {
+				discrepancy++;
+			} 
+			if ( self.getElements().get(i).getInferredType() instanceof CollectionType ) {
+				discrepancy--;
+			}
+		
+			// TODO: What happens with primitive types!!
+		}
+		
+		if ( discrepancy != self.getElements().size() ) {
+			for(int i = 0; i < self.getElements().size(); i++) {
+				if ( self.getElements().get(i).getInferredType() instanceof Metaclass ) {
+					SetExp set = OCLFactory.eINSTANCE.createSetExp();
+					OclExpression element = self.getElements().set(i, set);					
+					set.getElements().add(element);
+				} 
+			}
+			
+			SetExp set = OCLFactory.eINSTANCE.createSetExp();
+			set.getElements().addAll(self.getElements());
+			
+			CollectionOperationCallExp flattenOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			flattenOp.setOperationName("flatten");
+			flattenOp.setSource(set);
+			
+			EcoreUtil.replace(self, flattenOp);
+			
+			
+		}
+		
+		
+	}
 	
 }

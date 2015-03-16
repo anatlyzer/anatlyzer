@@ -1159,8 +1159,17 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getBinding_ResolvedBy() {
+	public EReference getBinding_LeftType() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBinding_ResolvedBy() {
+		return (EReference)bindingEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1580,6 +1589,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		createEAttribute(bindingEClass, BINDING__PROPERTY_NAME);
 		createEAttribute(bindingEClass, BINDING__IS_ASSIGNMENT);
 		createEReference(bindingEClass, BINDING__WRITTEN_FEATURE);
+		createEReference(bindingEClass, BINDING__LEFT_TYPE);
 		createEReference(bindingEClass, BINDING__RESOLVED_BY);
 
 		ruleVariableDeclarationEClass = createEClass(RULE_VARIABLE_DECLARATION);
@@ -1805,6 +1815,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEAttribute(getBinding_PropertyName(), thePrimitiveTypesPackage.getString(), "propertyName", null, 1, 1, Binding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getBinding_IsAssignment(), thePrimitiveTypesPackage.getBoolean(), "isAssignment", null, 1, 1, Binding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getBinding_WrittenFeature(), ecorePackage.getEObject(), null, "writtenFeature", null, 1, 1, Binding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBinding_LeftType(), theTypesPackage.getType(), null, "leftType", null, 1, 1, Binding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBinding_ResolvedBy(), this.getRuleResolutionInfo(), null, "resolvedBy", null, 0, -1, Binding.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ruleVariableDeclarationEClass, RuleVariableDeclaration.class, "RuleVariableDeclaration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

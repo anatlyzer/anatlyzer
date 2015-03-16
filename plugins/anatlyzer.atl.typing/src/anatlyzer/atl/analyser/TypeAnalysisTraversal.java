@@ -218,7 +218,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inBinding(Binding self) {
-	//	System.out.println("Binding: " + self.getLocation() + " is " + TypeUtils.typeToString(attr.typeOf(self.getValue())) + " - " + attr.typeOf(self.getValue()));
 	}
 	
 	@Override

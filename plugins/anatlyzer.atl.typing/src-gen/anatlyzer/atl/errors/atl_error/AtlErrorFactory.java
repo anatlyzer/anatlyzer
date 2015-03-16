@@ -157,6 +157,33 @@ public interface AtlErrorFactory extends EFactory {
 	BindingExpectedOneAssignedMany createBindingExpectedOneAssignedMany();
 
 	/**
+	 * Returns a new object of class '<em>Primitive Binding But Object Assigned</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Primitive Binding But Object Assigned</em>'.
+	 * @generated
+	 */
+	PrimitiveBindingButObjectAssigned createPrimitiveBindingButObjectAssigned();
+
+	/**
+	 * Returns a new object of class '<em>Object Binding But Primitive Assigned</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Object Binding But Primitive Assigned</em>'.
+	 * @generated
+	 */
+	ObjectBindingButPrimitiveAssigned createObjectBindingButPrimitiveAssigned();
+
+	/**
+	 * Returns a new object of class '<em>Primitive Binding Invalid Assignment</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Primitive Binding Invalid Assignment</em>'.
+	 * @generated
+	 */
+	PrimitiveBindingInvalidAssignment createPrimitiveBindingInvalidAssignment();
+
+	/**
 	 * Returns a new object of class '<em>Binding Without Rule</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

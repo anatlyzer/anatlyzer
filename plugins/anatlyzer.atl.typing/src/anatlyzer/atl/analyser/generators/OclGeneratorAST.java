@@ -327,6 +327,21 @@ public class OclGeneratorAST {
 		}
 	}
 
+	public static class LazyRuleToDummyValue extends LazyRuleCallTransformationStrategy {
+		private VariableDeclaration dummyDcl;
+
+		public LazyRuleToDummyValue(VariableDeclaration dummyDcl) {
+			this.dummyDcl = dummyDcl;
+		}
+		
+		@Override
+		public OclExpression gen(ATLModel model, OperationCallExp opCall) {
+			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
+			varRef.setReferredVariable(dummyDcl);
+			return varRef;
+		}
+	}
+
 	public LazyRuleCallTransformationStrategy getLazyRuleStrategy() {
 		return lazyRuleStrategy;
 	}

@@ -79,6 +79,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		} else {
 			t = ns.getFeatureType(self.getPropertyName(), self);
 		}
+		self.setLeftType(t);
 		
 		attr.linkStructType(t);
 	}

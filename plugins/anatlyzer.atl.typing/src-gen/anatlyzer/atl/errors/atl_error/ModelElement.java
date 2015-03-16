@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ModelElement#getKlass <em>Klass</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ModelElement#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getModelElement()
  * @model

@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#isIsEntrypoint <em>Is Entrypoint</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#isIsEndpoint <em>Is Endpoint</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

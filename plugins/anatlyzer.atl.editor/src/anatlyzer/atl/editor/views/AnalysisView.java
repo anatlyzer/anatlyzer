@@ -5,7 +5,10 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -50,6 +53,7 @@ import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -65,7 +69,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 
-public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener {
+public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener, IAnalysisView {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -548,10 +552,13 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(new Separator());
 		manager.add(transformationInformationAction);
 		manager.add(optimizerAction);
+		
+		addExtensionActions(manager);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(runWitnessAction);
+		addExtensionActions(manager);
 		drillDownAdapter.addNavigationActions(manager);
 		
 		/*
@@ -569,6 +576,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(transformationInformationAction);
 		manager.add(new Separator());
 		manager.add(optimizerAction);
+		manager.add(new Separator());
+		// addExtensionActions(manager);
 		drillDownAdapter.addNavigationActions(manager);
 		// drillDownAdapter.addNavigationActions(manager);
 	}
@@ -780,4 +789,24 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}   
      
 	}
+	
+	private void addExtensionActions(IMenuManager manager) {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_VIEW_ACTIONS_EXTENSION_POINT);
+
+		for (IConfigurationElement ce : extensions) {
+			if ( ce.getName().equals("viewaction") ) {
+				try {
+					IAnalysisViewAction act = (IAnalysisViewAction) ce.createExecutableExtension("action");
+					act.setAnalysisView(this);
+					manager.add(act);
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	
+	}
+	
 }

@@ -11,10 +11,10 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.RuleVariableDeclaration#getRule <em>Rule</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getRuleVariableDeclaration()
  * @model

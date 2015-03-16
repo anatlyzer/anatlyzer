@@ -45,6 +45,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="Binding">
       <eStructuralFeatures xsi:type="ecore:EReference" name="writtenFeature" lowerBound="1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="leftType" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Type"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedBy" upperBound="-1"
           eType="#//ATL/RuleResolutionInfo" containment="true"/>
     </eClassifiers>

@@ -167,6 +167,18 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createBindingExpectedOneAssignedManyAdapter();
 			}
 			@Override
+			public Adapter casePrimitiveBindingButObjectAssigned(PrimitiveBindingButObjectAssigned object) {
+				return createPrimitiveBindingButObjectAssignedAdapter();
+			}
+			@Override
+			public Adapter caseObjectBindingButPrimitiveAssigned(ObjectBindingButPrimitiveAssigned object) {
+				return createObjectBindingButPrimitiveAssignedAdapter();
+			}
+			@Override
+			public Adapter casePrimitiveBindingInvalidAssignment(PrimitiveBindingInvalidAssignment object) {
+				return createPrimitiveBindingInvalidAssignmentAdapter();
+			}
+			@Override
 			public Adapter caseBindingResolution(BindingResolution object) {
 				return createBindingResolutionAdapter();
 			}
@@ -599,6 +611,48 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createBindingExpectedOneAssignedManyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned <em>Primitive Binding But Object Assigned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned
+	 * @generated
+	 */
+	public Adapter createPrimitiveBindingButObjectAssignedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned <em>Object Binding But Primitive Assigned</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned
+	 * @generated
+	 */
+	public Adapter createObjectBindingButPrimitiveAssignedAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment <em>Primitive Binding Invalid Assignment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment
+	 * @generated
+	 */
+	public Adapter createPrimitiveBindingInvalidAssignmentAdapter() {
 		return null;
 	}
 

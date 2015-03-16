@@ -97,7 +97,7 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 					// The only issue is that, somehow, objects must later be filtered to ensure that they 
 					// are not thisModule elements
 					VariableExp undefined = OCLFactory.eINSTANCE.createVariableExp();
-					undefined.setReferredVariable(model.getThisModuleVariable());
+					undefined.setReferredVariable(model.getTargetDummyVariable());
 					
 					LetExp let = model.createLetScope(undefined, null, v.getVarName());
 	

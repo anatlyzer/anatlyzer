@@ -18,12 +18,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getStaticType <em>Static Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getParamDeclaration <em>Param Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -2,6 +2,7 @@
  */
 package anatlyzer.atlext.ATL;
 
+import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.OclExpression;
 
 import org.eclipse.emf.common.util.EList;
@@ -15,15 +16,16 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getValue <em>Value</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getOutPatternElement <em>Out Pattern Element</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getPropertyName <em>Property Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#isIsAssignment <em>Is Assignment</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getWrittenFeature <em>Written Feature</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.Binding#getLeftType <em>Left Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getResolvedBy <em>Resolved By</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getBinding()
  * @model
@@ -161,6 +163,32 @@ public interface Binding extends LocatedElement {
 	 * @generated
 	 */
 	void setWrittenFeature(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Left Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Left Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Left Type</em>' reference.
+	 * @see #setLeftType(Type)
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getBinding_LeftType()
+	 * @model required="true"
+	 * @generated
+	 */
+	Type getLeftType();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.ATL.Binding#getLeftType <em>Left Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Left Type</em>' reference.
+	 * @see #getLeftType()
+	 * @generated
+	 */
+	void setLeftType(Type value);
 
 	/**
 	 * Returns the value of the '<em><b>Resolved By</b></em>' containment reference list.

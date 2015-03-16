@@ -10,11 +10,11 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.MapType#getValueType <em>Value Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.MapType#getKeyType <em>Key Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getMapType()
  * @model

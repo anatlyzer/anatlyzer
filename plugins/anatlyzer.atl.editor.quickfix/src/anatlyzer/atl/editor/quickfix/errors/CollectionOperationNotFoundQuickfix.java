@@ -27,21 +27,30 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 	private static final int threshold = 3;		// threshold distance to try an operation name with +1 or -1 params
 	// number of parameters X operation name
 	private static LinkedHashMap<Integer, List<String>> collectionOps = new LinkedHashMap<>();
+	private static HashMap<String, List<PrimTypes>> primitiveParam = new HashMap<>();
+	
+	enum PrimTypes { 
+		Integer ("0"), 
+		String("''");
+		
+		private String defaultLiteral;
+		
+		PrimTypes(String dl) { this.defaultLiteral = dl; }		
+		public String defaultLiteral() { return this.defaultLiteral;}
+	}
 	
 	static {
 	    collectionOps.put(0, Arrays.asList("first", "flatten", "last", "asBag", "asOrderedSet", "asSequence", "asSet", "isEmpty", "notEmpty", "size", "sum", "debug", "oclIsUndefined", "oclType", "refImmediateComposite", "toString"));
 		collectionOps.put(1, Arrays.asList("append", "at", "indexOf", "prepend", "union", "count", "excludes", "excludesAll", "excluding", "includes", "includesAll", "including", "oclIsKindOf", "oclIsTypeOf", "refGetValue"));
 		collectionOps.put(2, Arrays.asList("insertAt", "subsequence", "refInvokeOperation", "refSetValue", "refUnsetValue"));
 	}
-	/*private List<String> collectionOps = 
-			Arrays.asList("append", "at", "first", "flatten", "indexOf", "insertAt", "last",
-						  "prepend", "subSequence", "union", "asBag", "asOrderedSet", "asSequence", "asSet",
-						  "count", "excludes", "excludesAll", "excluding", "includes", "includesAll", "including",
-						  "isEmpty", "notEmpty", "size", "sum",
-						  "debug", "oclIsKindOf", "oclIsTypeOf", "oclIsUndefined",
-						  "oclType", "refGetValue", "refImmediateComposite",
-						  "refInvokeOperation", "refSetValue", "refUnsetValue", "toString");
-	*/
+	
+	static {
+		primitiveParam.put("at", Collections.singletonList(PrimTypes.Integer));
+		primitiveParam.put("subsequence", Arrays.asList(PrimTypes.Integer, PrimTypes.Integer));
+		primitiveParam.put("refGetValue", Collections.singletonList(PrimTypes.String));
+	}
+	
 	private int distance(String a, String b) { // Levenshtein distance
         a = a.toLowerCase();
         b = b.toLowerCase();
@@ -110,12 +119,12 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 			
 		int closestIndex = distances.get(numPar).indexOf(minDistance);
 		String closestOp = collectionOps.get(numPar).get(closestIndex);
-		System.out.println("Closest "+closestOp);
+		System.out.println("Closest is "+closestOp);
 		return closestOp;			
 		
 	}
 
-	private void checkParams(int numP, String closest) {  // a bit redundant that we calculate this again...
+	private void fixParams(int numP, String closest, IDocument document, int startPos, int endPos) {  // a bit redundant that we calculate this again...
 		int paramsClosest = 0;
 		
 		for (int par : Arrays.asList(0, 1, 2)) {
@@ -125,8 +134,33 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 			}
 		}
 		
-		if (paramsClosest > numP) System.out.println("You need to add "+(paramsClosest - numP )+" params");
-		else if (paramsClosest < numP) System.out.println("You need to remove "+(numP - paramsClosest )+" params");
+		if (paramsClosest > numP) {
+			System.out.println("You need to add "+(paramsClosest - numP )+" params");
+			if (numP == 0) {	// We know how to do this: we just add a dummy var 'param' or the default literal in case of primitive types...
+				try {
+					int closeParIdx = document.get(startPos, endPos).indexOf(")");
+					
+					String param = primitiveParam.get(closest) == null ? "param" : primitiveParam.get(closest).get(0).defaultLiteral();
+					
+					document.replace(startPos+1, closeParIdx, param+")");
+				}
+				catch (BadLocationException e) {
+					
+				}
+			}
+		}
+		else if (paramsClosest < numP) {
+			System.out.println("You need to remove "+(numP - paramsClosest )+" params");
+			if (numP == 1) {	// we know how to do this
+				try {
+					int closeParIdx = document.get(startPos, endPos).indexOf(")");
+					document.replace(startPos+1, closeParIdx, ")");
+				}
+				catch (BadLocationException e) {
+					
+				}
+			}
+		}
 		else System.out.println("number of params match.");
 	}
 	
@@ -153,7 +187,7 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 			
 			document.replace(sourceOffsetEnd, parent, "->"+closest);
 			
-			this.checkParams(elm.getArguments().size(), closest);
+			this.fixParams(elm.getArguments().size(), closest, document, sourceOffsetEnd+("->"+closest).length(), offsetEnd-parent+("->"+closest).length());
 			
 		} catch (CoreException e) {
 			throw new RuntimeException(e);

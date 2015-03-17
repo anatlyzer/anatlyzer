@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="anatlyzer.atl.editor.views.additionalactions">
+      <viewaction
+            action="anatlyzer.visualizer.actions.VisualizeUnconnectedElements">
+      </viewaction>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="anatlyzer.view.category"
+            name="anATLyzer">
+      </category>
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.ElementConnectionsView"
+            icon="icons/sample.gif"
+            id="anatlyzer.visualizer.views.ElementConnectionsView"
+            name="Elements Connections View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+</plugin>

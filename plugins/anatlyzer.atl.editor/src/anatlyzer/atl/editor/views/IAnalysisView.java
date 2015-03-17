@@ -1,5 +1,7 @@
 package anatlyzer.atl.editor.views;
 
-public interface IAnalysisView {
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 
+public interface IAnalysisView {
+	public Result getUnconnectedElementAnalysis();
 }

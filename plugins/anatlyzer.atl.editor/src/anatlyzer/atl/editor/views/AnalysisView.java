@@ -87,6 +87,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private AnalysisResult currentAnalysis;
 
 	private Action optimizerAction;
+
+	// Set from the tree...
+	private Result unconnectedElementsResult;
+
 	
 	abstract class TreeNode {
 		private TreeNode parent;
@@ -256,6 +260,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			}
 			
 			viewer.refresh();
+			
+			// field setter
+			unconnectedElementsResult = r;
 		}
 	}
 	
@@ -807,6 +814,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			}
 		}
 	
+	}
+	
+	// IAnalysisView
+	public Result getUnconnectedElementAnalysis() {
+		return this.unconnectedElementsResult;
 	}
 	
 }

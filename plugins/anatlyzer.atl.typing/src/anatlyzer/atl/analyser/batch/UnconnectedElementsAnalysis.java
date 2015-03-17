@@ -1,7 +1,6 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -43,15 +42,32 @@ public class UnconnectedElementsAnalysis {
 	}
 	
 	public static class Result {
-		List<OutPatternElement> unconnected;
+		HashSet<Node> unconnected;
 		
-		public Result(List<OutPatternElement> elements) {
-			this.unconnected = elements;
+		public Result(HashSet<Node> nodes) {
+			this.unconnected = nodes;
+		}
+		
+		public List<Node> getRootNodes() {
+			return new ArrayList<UnconnectedElementsAnalysis.Node>(unconnected);
 		}
 		
 		public List<OutPatternElement> getUnconnected() {
-			return unconnected;
+			ArrayList<OutPatternElement> result = new ArrayList<OutPatternElement>();
+			for (Node node : unconnected) {
+				result.add(node.out);
+			}
+			return result;
 		}
+	}
+	
+	/**
+	 * Represents a set of target elements connected by the bindings.
+	 * @author jesus
+	 *
+	 */
+	public static class Cluster {
+		
 	}
 	
 	public Result perform() {
@@ -59,14 +75,14 @@ public class UnconnectedElementsAnalysis {
 		if ( unit instanceof Module ) {
 			new RuleVisitor().perform((Module) unit);
 			new BindingVisitor().perform((Module) unit);
-			List<OutPatternElement> elements = findConnectedComponents();
+			HashSet<Node> nodes = findConnectedComponents();
 			
-			return new Result(elements);
+			return new Result(nodes);
 		}
-		return new Result(new LinkedList<OutPatternElement>());
+		return new Result(new HashSet<Node>());
 	}
 	
-	private List<OutPatternElement> findConnectedComponents() {
+	private HashSet<Node> findConnectedComponents() {
 		HashSet<Node> notConnected = new HashSet<UnconnectedElementsAnalysis.Node>(nodes.values());
 		for(Node n : nodes.values()) {
 			for(Link l : n.links) {
@@ -74,11 +90,11 @@ public class UnconnectedElementsAnalysis {
 			}
 		}
 		
-		ArrayList<OutPatternElement> result = new ArrayList<OutPatternElement>();
 		for (Node node : notConnected) {
-			result.add(node.out);
+			node.setClusterBeginning(true);
 		}
-		return result;
+		
+		return notConnected;
 	}
 
 	// Common variables
@@ -185,9 +201,17 @@ public class UnconnectedElementsAnalysis {
 		
 	}
 	
-	public abstract class Node {
+	/**
+	 * Represents a created element, with links to the other target elements
+	 * that are linked to it through a reference set by a binding.
+	 * 
+	 * @author jesus
+	 *
+	 */
+	public static abstract class Node {
 		protected OutPatternElement out;
 		protected LinkedList<Link> links = new LinkedList<UnconnectedElementsAnalysis.Link>();
+		private boolean isClusterBeginning;
 		
 		public Node(OutPatternElement out) {
 			this.out = out;
@@ -198,9 +222,26 @@ public class UnconnectedElementsAnalysis {
 			Link l = new Link(this, dest);
 			links.add(l);
 		}
+		
+		public OutPatternElement getOut() {
+			return out;
+		}
+		
+		public LinkedList<Link> getLinks() {
+			return links;
+		}
+
+
+		public void setClusterBeginning(boolean isClusterBeginning) {
+			this.isClusterBeginning = isClusterBeginning;
+		}
+		
+		public boolean isClusterBeginning() {
+			return isClusterBeginning;
+		}
 	}
 	
-	public class MainTarget extends Node {
+	public static class MainTarget extends Node {
 
 		public MainTarget(OutPatternElement out) {
 			super(out);
@@ -208,7 +249,7 @@ public class UnconnectedElementsAnalysis {
 		
 	}
 	
-	public class SecondaryTarget extends Node {
+	public static class SecondaryTarget extends Node {
 
 		public SecondaryTarget(OutPatternElement out) {
 			super(out);
@@ -216,14 +257,27 @@ public class UnconnectedElementsAnalysis {
 		
 	}
 	
-	class Link {
-		@SuppressWarnings("unused")
+	/**
+	 * A directed link between two nodes.
+	 * 
+	 * @author jesus
+	 *
+	 */
+	public static class Link {
 		private Node src;
 		private Node tgt;
 
 		public Link(Node src, Node tgt) {
 			this.src = src;
 			this.tgt = tgt;
+		}
+
+		public Node getSrc() {
+			return src;
+		}
+		
+		public Node getTarget() {
+			return tgt;
 		}
 	}
 	

@@ -8,7 +8,7 @@ rule Net2Matrix {
 	from
 		n : PN!PetriNet
 	to 
-		s : MTX!Matrixsss (			
+		s : MTX!Matrixss (			
 			horzLength <- n.places->size(),
 			vertLength <- n.transitions->size(),
 			rows <- n.transitions

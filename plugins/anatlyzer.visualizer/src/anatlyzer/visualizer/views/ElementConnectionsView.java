@@ -4,6 +4,8 @@ package anatlyzer.visualizer.views;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -23,8 +25,10 @@ import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.ui.util.WorkbenchUtil;
 
 
 /**
@@ -72,6 +76,43 @@ public class ElementConnectionsView extends ViewPart {
 		graph.setContentProvider(new ElementConnectionsContentProvider());
 		graph.setLabelProvider(new ElementConnectionsLabelProvider());
 		graph.setLayoutAlgorithm(new GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING));
+		
+		graph.getGraphControl().addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(e);
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(e);
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent event) {
+				System.out.println(event.getClass());
+				if ( event.getSource() instanceof Node ) {
+					System.out.println(event.getSource());
+				}
+			}
+		});
+		
+		graph.addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				if ( event.getSelection() instanceof IStructuredSelection ) {
+					IStructuredSelection s = (IStructuredSelection) event.getSelection();
+					if ( s.getFirstElement() instanceof Node ) {
+						Node n = (Node) s.getFirstElement();
+						WorkbenchUtil.goToEditorLocation(n.getOut().getFileLocation(), n.getOut().getLocation());
+					}
+				}
+			}
+		});
 		
 		// graph.setLayoutAlgorithm(new HorizontalTreeLayoutAlgorithm());
 		// graph.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING));

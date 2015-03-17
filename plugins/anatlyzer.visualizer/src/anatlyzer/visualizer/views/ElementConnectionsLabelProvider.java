@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.MainTarget;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.model.TypeUtils;
@@ -55,7 +56,11 @@ public class ElementConnectionsLabelProvider implements ILabelProvider, IColorPr
 
 	@Override
 	public Color getBackground(Object element) {
-		if ( element instanceof Node && ((Node) element).isClusterBeginning() ) {
+		if ( element instanceof Cluster ) {
+			Device device = Display.getCurrent ();
+			return new Color(device, 90, 64, 128);			
+		}
+		else if ( element instanceof Node && ((Node) element).isRootNode() ) {
 			Device device = Display.getCurrent ();
 			return new Color(device, 64, 128, 90);
 		}
@@ -71,7 +76,9 @@ public class ElementConnectionsLabelProvider implements ILabelProvider, IColorPr
 
 	@Override
 	public String getText(Object element) {
-		if ( element instanceof Node ) {
+		if ( element instanceof Cluster ) {
+			return ((Cluster) element).getId() + "";
+		} if ( element instanceof Node ) {
 			OutPatternElement out = ((Node) element).getOut();
 			return out.getOutPattern().getRule().getName() + "\n" + out.getVarName() + " : " + TypeUtils.typeToString(out.getInferredType());
 		}

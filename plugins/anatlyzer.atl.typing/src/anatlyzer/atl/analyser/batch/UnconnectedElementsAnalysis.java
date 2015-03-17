@@ -1,10 +1,14 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -42,23 +46,37 @@ public class UnconnectedElementsAnalysis {
 	}
 	
 	public static class Result {
-		HashSet<Node> unconnected;
+		HashSet<Node> rootNodes;
+		private LinkedList<Cluster> clusters;
+		private Collection<Node> allNodes;
 		
-		public Result(HashSet<Node> nodes) {
-			this.unconnected = nodes;
+		public Result(Collection<Node> allNodes, LinkedList<Cluster> clusters, HashSet<Node> nodes) {
+			this.allNodes = allNodes;
+			this.clusters = clusters;
+			this.rootNodes = nodes;
 		}
 		
 		public List<Node> getRootNodes() {
-			return new ArrayList<UnconnectedElementsAnalysis.Node>(unconnected);
+			return new ArrayList<UnconnectedElementsAnalysis.Node>(rootNodes);
 		}
 		
+		public LinkedList<Cluster> getClusters() {
+			return clusters;
+		}
+		
+		public ArrayList<Node> getAllNodes() {
+			return new ArrayList<Node>(allNodes);
+		}
+		
+		/*
 		public List<OutPatternElement> getUnconnected() {
 			ArrayList<OutPatternElement> result = new ArrayList<OutPatternElement>();
-			for (Node node : unconnected) {
+			for (Node node : rootNodes) {
 				result.add(node.out);
 			}
 			return result;
 		}
+		*/
 	}
 	
 	/**
@@ -67,6 +85,28 @@ public class UnconnectedElementsAnalysis {
 	 *
 	 */
 	public static class Cluster {
+		private HashSet<Node> nodes = new HashSet<UnconnectedElementsAnalysis.Node>();
+		private int id;
+		
+		public Cluster(int id) {
+			this.id = id;
+		}
+		
+		public void addNode(Node n) {
+			nodes.add(n);
+		}
+		
+		public HashSet<Node> getNodes() {
+			return new HashSet<UnconnectedElementsAnalysis.Node>(nodes);
+		}
+		
+		public HashSet<Node> getRootNodes() {
+			return findRootNodes(nodes);
+		}
+
+		public int getId() {
+			return id;
+		}
 		
 	}
 	
@@ -75,31 +115,80 @@ public class UnconnectedElementsAnalysis {
 		if ( unit instanceof Module ) {
 			new RuleVisitor().perform((Module) unit);
 			new BindingVisitor().perform((Module) unit);
-			HashSet<Node> nodes = findConnectedComponents();
 			
-			return new Result(nodes);
+			HashSet<Node> nodes = findRootNodes(this.nodes.values());
+			LinkedList<Cluster> clusters = findConnectedComponents();
+			
+			return new Result(this.nodes.values(), clusters, nodes);
 		}
-		return new Result(new HashSet<Node>());
+		return new Result(new ArrayList<UnconnectedElementsAnalysis.Node>(), new LinkedList<Cluster>(), new HashSet<Node>());
 	}
 	
-	private HashSet<Node> findConnectedComponents() {
-		HashSet<Node> notConnected = new HashSet<UnconnectedElementsAnalysis.Node>(nodes.values());
+
+	private LinkedList<Cluster> findConnectedComponents() {
+		// Compute connected components
+		HashMap<Node, Cluster> visited = new HashMap<Node, Cluster>();
+		LinkedList<Cluster> components = new LinkedList<UnconnectedElementsAnalysis.Cluster>();	
+		
+		int clusterId = 0;
 		for(Node n : nodes.values()) {
+			if ( visited.containsKey(n) ) {
+				// already assigned
+				continue;
+			}
+			
+			Cluster cluster = new Cluster(clusterId++);
+			components.add(cluster);
+			
+			Deque<Node> toVisit = new LinkedList<UnconnectedElementsAnalysis.Node>();
+			toVisit.add(n);
+			
+			while ( ! toVisit.isEmpty() ) {
+				Node current = toVisit.pop();
+				if ( visited.containsKey(current) ) {
+					if ( visited.get(n) != cluster )
+						throw new IllegalStateException();
+					continue;
+				}
+				
+				cluster.addNode(n);
+				visited.put(current, cluster);
+				
+				for(Link l : allLinks) {
+					if ( l.getSrc() == current ) {
+						toVisit.add(l.getTarget());
+					}
+					else if ( l.getTarget() == current ) {
+						toVisit.add(l.getSrc());
+					}
+				}
+			}
+
+		}
+
+		return components;
+	}
+	
+	private static HashSet<Node> findRootNodes(Collection<Node> collection) {
+		// This loop give the root elements
+		HashSet<Node> rootNodes = new HashSet<UnconnectedElementsAnalysis.Node>(collection);
+		for(Node n : collection) {
 			for(Link l : n.links) {
-				notConnected.remove(l.tgt);
+				rootNodes.remove(l.tgt);
 			}
 		}
 		
-		for (Node node : notConnected) {
-			node.setClusterBeginning(true);
+		
+		for (Node node : rootNodes) {
+			node.setRootNode(true);
 		}
 		
-		return notConnected;
+		return rootNodes;
 	}
 
 	// Common variables
 	HashMap<OutPatternElement, Node> nodes = new HashMap<OutPatternElement, UnconnectedElementsAnalysis.Node>();
-	
+	ArrayList<Link> allLinks = new ArrayList<UnconnectedElementsAnalysis.Link>();
 	
 	// Auxiliary classes
 	
@@ -156,7 +245,7 @@ public class UnconnectedElementsAnalysis {
 					if (found) {
 						// The node containing the binding that points to the
 						// passed node is linked to it
-						nodes.get(out).linkTo(node);
+						allLinks.add(nodes.get(out).linkTo(node));
 					}
 				}
 
@@ -180,7 +269,7 @@ public class UnconnectedElementsAnalysis {
 				OutPatternElement mainOutput = getMainOutputElement(r.getRule());
 				Node dest = nodes.get(mainOutput);
 							
-				src.linkTo(dest);
+				allLinks.add(src.linkTo(dest));
 			}
 		}
 		
@@ -194,7 +283,7 @@ public class UnconnectedElementsAnalysis {
 					OutPatternElement resolvedOutput = r.getElement();
 					Node dest = nodes.get(resolvedOutput);
 					
-					src.linkTo(dest);
+					allLinks.add(src.linkTo(dest));
 				}
 			}
 		}
@@ -211,16 +300,17 @@ public class UnconnectedElementsAnalysis {
 	public static abstract class Node {
 		protected OutPatternElement out;
 		protected LinkedList<Link> links = new LinkedList<UnconnectedElementsAnalysis.Link>();
-		private boolean isClusterBeginning;
+		private boolean isRootNode;
 		
 		public Node(OutPatternElement out) {
 			this.out = out;
 		}
 		
 
-		public void linkTo(Node dest) {
+		public Link linkTo(Node dest) {
 			Link l = new Link(this, dest);
 			links.add(l);
+			return l;
 		}
 		
 		public OutPatternElement getOut() {
@@ -232,12 +322,12 @@ public class UnconnectedElementsAnalysis {
 		}
 
 
-		public void setClusterBeginning(boolean isClusterBeginning) {
-			this.isClusterBeginning = isClusterBeginning;
+		public void setRootNode(boolean isClusterBeginning) {
+			this.isRootNode = isClusterBeginning;
 		}
 		
-		public boolean isClusterBeginning() {
-			return isClusterBeginning;
+		public boolean isRootNode() {
+			return isRootNode;
 		}
 	}
 	

@@ -13,6 +13,7 @@ import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
@@ -35,13 +36,13 @@ public class DetectedUnconnectedElements implements IEditorActionDelegate {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
 
 			Result result = new UnconnectedElementsAnalysis(data.getAnalyser().getATLModel(), data.getAnalyser()).perform();
-			List<OutPatternElement> l = result.getUnconnected();
+			List<Cluster> l = result.getClusters();
 			
-			System.out.println("====> Unconnected elements");
-			for (OutPatternElement outPatternElement : l) {
-				Rule r = outPatternElement.getOutPattern().getRule();				
-				System.out.println(r.getName() + " => " + outPatternElement.getLocation());
-			}
+			System.out.println("====> Unconnected elements: " + l.size());
+//			for (OutPatternElement outPatternElement : l) {
+//				Rule r = outPatternElement.getOutPattern().getRule();				
+//				System.out.println(r.getName() + " => " + outPatternElement.getLocation());
+//			}
 			
 			// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 			// new ErrorSliceGenerator(analyser, null).generate(path, r, mm);

@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.views;
 
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -51,6 +52,8 @@ import org.eclipse.ui.part.ViewPart;
 
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.Activator;
@@ -68,6 +71,7 @@ import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.ui.actions.CheckRuleConflicts;
+import anatlyzer.ui.util.WorkbenchUtil;
 
 public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener, IAnalysisView {
 
@@ -215,7 +219,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public void goToLocation() {
 			List<MatchedRule> r = element.getRules();			
-			goToEditorLocation(r.get(0).getFileLocation(), r.get(0).getLocation());   
+			WorkbenchUtil.goToEditorLocation(r.get(0).getFileLocation(), r.get(0).getLocation());   
 		}
 
 	}
@@ -245,18 +249,19 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toColumn1() {
 			if ( elements == null )     return "Not analysed";
-			if ( elements.length == 0 ) return "Passed!";
+			if ( elements.length == 0 ) return "0 components. Something went wrong!";
+			if ( elements.length == 1 ) return "Passed!";
 			return "Some not connected: " + elements.length;
 		}
 		
 		@Override
 		public void perform() {
 			Result r = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
-			List<OutPatternElement> l = r.getUnconnected();
+			List<Cluster> l = r.getClusters();
 			elements = new UnconnectedElement[l.size()];
 			int i = 0;
-			for (OutPatternElement outPatternElement : l) {
-				elements[i++] = new UnconnectedElement(this, outPatternElement);
+			for (Cluster c : l) {
+				elements[i++] = new UnconnectedElement(this, c);
 			}
 			
 			viewer.refresh();
@@ -267,11 +272,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	
 	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
-		private OutPatternElement element;
+		private Cluster element;
 
-		public UnconnectedElement(TreeNode parent, OutPatternElement element) {
+		public UnconnectedElement(TreeNode parent, Cluster c) {
 			super(parent);
-			this.element = element;
+			this.element = c;
 		}		
 		
 		@Override
@@ -281,12 +286,21 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		@Override
 		public String toString() {
-			return element.getType().getName() + " : " + element.getLocation(); 
+			String s = "";
+			for(Node n : element.getRootNodes()) {
+				s += "[" + n.getOut().getType().getName() + " : " + n.getOut().getLocation() + "]";
+			}
+			
+			return s; 
 		}
 
 		@Override
 		public void goToLocation() {
-			goToEditorLocation(element.getFileLocation(), element.getLocation());   
+			// TODO: Expand the tree with possible locations
+			HashSet<Node> nodes = element.getRootNodes();
+			Node first = nodes.iterator().next();
+			
+			WorkbenchUtil.goToEditorLocation(first.getOut().getFileLocation(), first.getOut().getLocation());   
 		}
 
 	}
@@ -363,7 +377,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		@Override
 		public void goToLocation() {
-			goToEditorLocation(p.getFileLocation(), p.getLocation());   
+			WorkbenchUtil.goToEditorLocation(p.getFileLocation(), p.getLocation());   
 		}
 		
 		public void setStatus(WitnessResult status) {
@@ -771,32 +785,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	// Helper methods
 
-	private void goToEditorLocation(String fileLocation, String location) {
-
-        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(fileLocation));
-        IEditorDescriptor desc = PlatformUI.getWorkbench().
-                getEditorRegistry().getDefaultEditor(file.getName());
-        try {
-        	IEditorPart part = page.openEditor(new FileEditorInput(file), desc.getId());
-                if ( part instanceof AtlEditor ) {
-                	AtlEditor atlEditor = (AtlEditor) part;
-    				AtlNbCharFile help = new AtlNbCharFile(file.getContents());
-    				int[] pos = help.getIndexChar(location, -1);
-    				int charStart = pos[0];
-    				int charEnd = pos[1];
-    				atlEditor.selectAndReveal(charStart, charEnd - charStart); 
-    			}
-        } catch (PartInitException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-        } catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
-     
-	}
-	
 	private void addExtensionActions(IMenuManager manager) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_VIEW_ACTIONS_EXTENSION_POINT);

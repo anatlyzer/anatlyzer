@@ -69,4 +69,10 @@
             apply="anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix">
+      </quickfix>
+   </extension>
 </plugin>

@@ -63,4 +63,10 @@
             finder="anatlyzer.atl.editor.witness.UseWitnessFinder">
       </finder>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix">
+      </quickfix>
+   </extension>
 </plugin>

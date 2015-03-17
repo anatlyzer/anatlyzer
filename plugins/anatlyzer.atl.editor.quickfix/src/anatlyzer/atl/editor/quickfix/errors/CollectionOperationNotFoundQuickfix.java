@@ -16,14 +16,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
-import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.impl.SequenceTypeImpl;
-import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
 public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
@@ -57,39 +53,16 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 		primitiveParam.put("subsequence", Arrays.asList(CollType.Integer, CollType.Integer));
 		primitiveParam.put("refGetValue", Collections.singletonList(CollType.String));
 	}
-	
-	private int distance(String a, String b) { // Levenshtein distance
-        a = a.toLowerCase();
-        b = b.toLowerCase();
-        // i == 0
-        int [] costs = new int [b.length() + 1];
-        for (int j = 0; j < costs.length; j++)
-            costs[j] = j;
-        for (int i = 1; i <= a.length(); i++) {
-            // j == 0; nw = lev(i - 1, j)
-            costs[0] = i;
-            int nw = i - 1;
-            for (int j = 1; j <= b.length(); j++) {
-                int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]), a.charAt(i - 1) == b.charAt(j - 1) ? nw : nw + 1);
-                nw = costs[j];
-                costs[j] = cj;
-            }
-        }
-        return costs[b.length()];
-    }
-	
+		
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, CollectionOperationNotFound.class);
 	}
 	
 	private int getClosestDistance(String op, int numPar, List<Integer> distance) {
-		
-		for (String candidate : collectionOps.get(numPar))
-			distance.add(this.distance(op, candidate));
-		
-		System.out.println(collectionOps.get(numPar)+"\n"+distance);
-		
+	
+		distance.addAll(Levenshtein.distance(op, collectionOps.get(numPar)));	
+		System.out.println(collectionOps.get(numPar)+"\n"+distance);		
 		return Collections.min(distance);
 	}
 	
@@ -218,12 +191,9 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 			
 			this.fixParams(elm.getArguments().size(), closest, document, sourceOffsetEnd+("->"+closest).length(), offsetEnd-parent+("->"+closest).length());
 			
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
-		} catch (BadLocationException e) {
+		} catch (CoreException | BadLocationException e) {
 			throw new RuntimeException(e);
 		}
-		
 	}
 
 	@Override

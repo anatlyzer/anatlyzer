@@ -4,6 +4,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.index.AnalysisResult;
 
 public abstract class QuickfixUtil {
 	protected boolean checkProblemType(IMarker marker, Class<?> class1) {
@@ -13,5 +15,13 @@ public abstract class QuickfixUtil {
 		} catch (CoreException e) {
 			return false;
 		}
+	}
+	
+	protected AnalysisResult getAnalyserData(IMarker marker) {
+		try {
+			return (AnalysisResult) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}		
 	}
 }

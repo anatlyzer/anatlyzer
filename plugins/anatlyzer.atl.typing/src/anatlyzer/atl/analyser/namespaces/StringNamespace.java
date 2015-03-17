@@ -27,28 +27,15 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = super.getOperationType(operationName, arguments, node);
-		if ( t == null ) {
-			/*
-			if ( operationName.equals("size")     ) return AnalyserContext.getTypingModel().newIntegerType();
-			if ( operationName.equals("substring")) return AnalyserContext.getTypingModel().newStringType();
-			if ( operationName.equals("firstToLower")) return AnalyserContext.getTypingModel().newStringType();
-			if ( operationName.equals("toInteger")) return AnalyserContext.getTypingModel().newIntegerType();
-			if ( operationName.equals("toReal")) return AnalyserContext.getTypingModel().newFloatType();
-			if ( operationName.equals("concat")) return AnalyserContext.getTypingModel().newStringType(); // TODO: Check concat's arguments
-			if ( operationName.equals("startsWith")) return AnalyserContext.getTypingModel().newBooleanType(); // TODO: Check startsWith arguments
-			if ( operationName.equals("indexOf")) return AnalyserContext.getTypingModel().newIntegerType(); 
-
-			throw new UnsupportedOperationException(operationName + " - " + node.getLocation());
-			*/
-			
-			// TODO: Represent this in AtlTypeDef
-			if ( operationName.equals("split") ) 
-				return AnalyserContext.getTypingModel().newSequenceType(AnalyserContext.getTypingModel().newStringType());
-			
-			
-			t = AtlTypes.string().getOperationReturnType(operationName);
-			if ( t == null ) {
-				t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);
+		if ( t == null ) {					
+			if ( ! AtlTypes.string().hasOperation(operationName) ) {
+				t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);				
+			} else {
+				checkArguments(operationName, 
+						AtlTypes.string().getOperationParameters(operationName), 
+						AtlTypes.string().getOperationParametersNames(operationName), 
+						arguments, node);
+				t = AtlTypes.string().getOperationReturnType(operationName);				
 			}
 		}
 		return t;

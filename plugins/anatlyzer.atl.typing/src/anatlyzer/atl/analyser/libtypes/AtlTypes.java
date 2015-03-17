@@ -24,4 +24,8 @@ public class AtlTypes {
 	public static OclTypeDef oclType() { return ocltype_instance; }
 	public static MapTypeDef map() { return maptype_instance; }
 	
+	public static SequenceTypeDef seq(AtlTypeDef t) {
+		return new SequenceTypeDef(t);
+	}
+	
 }

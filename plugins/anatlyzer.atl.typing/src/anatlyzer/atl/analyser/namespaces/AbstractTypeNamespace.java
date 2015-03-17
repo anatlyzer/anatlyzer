@@ -1,6 +1,8 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -80,6 +82,25 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		return null;
 	}
 
+	protected void checkArguments(String operationName, Type[] formalArguments, String[] formalArgumentsNames, Type[] arguments, LocatedElement node) {
+		if ( formalArguments.length != arguments.length ) {
+			AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters(operationName, formalArguments, arguments, node);
+			return;
+		}
+
+		List<String> blamedParameters = new ArrayList<String>();
+		for(int i = 0; i < formalArguments.length; i++) {
+			if ( ! AnalyserContext.getTypingModel().assignableTypes(formalArguments[i], arguments[i]) ) {
+				blamedParameters.add(formalArgumentsNames[i]);
+			}
+		}
+
+		if ( blamedParameters.size() > 0 ) {
+			AnalyserContext.getErrorModel().signalOperationCallInvalidParameter(operationName, formalArguments, arguments, blamedParameters, node);
+		}
+	}
+	
+	
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
 		if ( operatorSymbol.equals("=") ||

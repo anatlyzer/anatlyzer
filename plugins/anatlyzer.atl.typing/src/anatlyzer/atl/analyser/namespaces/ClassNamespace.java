@@ -320,7 +320,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 
 		if ( this.hasOperation(operationName, arguments) ) {
 			VirtualFeature<ClassNamespace, Operation> op = operations.get(operationName);			
-			checkOperationArguments(op, arguments, node);
+			checkHelperArguments(op, arguments, node);
 			return op.returnType;
 		}
 		
@@ -344,29 +344,16 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 				new RecoverOperationNotFound(this, operationName, node));
 	}
 	
-	private void checkOperationArguments(VirtualFeature<ClassNamespace, Operation> op, Type[] arguments, LocatedElement node) {
+	private void checkHelperArguments(VirtualFeature<ClassNamespace, Operation> op, Type[] arguments, LocatedElement node) {
 		EList<Parameter> params = op.definition.getParameters();
 		Type[] formalArguments = new Type[params.size()];
+		String[] formalArgumentNames = new String[params.size()];
 		for(int i = 0; i < params.size(); i++) {
 			formalArguments[i] = params.get(i).getStaticType();
+			formalArgumentNames[i] = params.get(i).getVarName();
 		}
 		
-		if ( params.size() != arguments.length ) {
-			AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters(op.definition, formalArguments, arguments, node);
-			return;
-		}
-
-		List<String> blamedParameters = new ArrayList<String>();
-		for(int i = 0; i < formalArguments.length; i++) {
-			if ( ! AnalyserContext.getTypingModel().assignableTypes(formalArguments[i], arguments[i]) ) {
-				blamedParameters.add(op.definition.getParameters().get(i).getVarName());
-			}
-			
-		}
-
-		if ( blamedParameters.size() > 0 ) {
-			AnalyserContext.getErrorModel().signalOperationCallInvalidParameter(op.definition, formalArguments, arguments, blamedParameters, node);
-		}
+		checkArguments(op.definition.getName(), formalArguments, formalArgumentNames, arguments, node);	
 	}
 
 	private Type tryRecoveryGetOperation(String operationName, Type[] arguments, LocatedElement node) {

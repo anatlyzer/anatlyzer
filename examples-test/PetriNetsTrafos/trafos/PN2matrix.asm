@@ -59,7 +59,7 @@
 		<constant value="n"/>
 		<constant value="NTransientLink;.addSourceElement(SJ):V"/>
 		<constant value="s"/>
-		<constant value="Matrixss"/>
+		<constant value="Matrix"/>
 		<constant value="MTX"/>
 		<constant value="NTransientLink;.addTargetElement(SJ):V"/>
 		<constant value="NTransientLinkSet;.addLink2(NTransientLink;B):V"/>

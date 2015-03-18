@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 
 	private IMarker marker;
+	private String  closest = null;
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -48,22 +50,44 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 		return null;
 	}
 	
-	@Override
-	public void apply(IDocument document) {
-		OclModelElement me = this.getElement();
-		OclModel model = me.getModel();
-
+	private List<String> getPossibleNames (OclModel model) {
 		System.out.println("Meta-models: "+this.getAnalyserData(this.marker).getNamespace().getMetamodels());
-				
+		
 		for (MetamodelNamespace mns : this.getAnalyserData(this.marker).getNamespace().getMetamodels()) {
 			if (mns.getName().equals(model.getName())) {
 				List<String> possible = mns.getAllClasses().stream().map(EClass::getName).collect(Collectors.toList());
 				
 				System.out.println("Possible names: "+possible);
+				return possible;
 			}
 		}
+		return Collections.emptyList();
+	}
+	
+	private String getClosest(OclModelElement me) {
+		if (this.closest != null) return this.closest;
+		List<String> names = this.getPossibleNames(me.getModel());
+		this.closest = Levenshtein.closest(me.getName(), names);
+		return this.closest;
+	}
+	
+	@Override
+	public void apply(IDocument document) {
+		OclModelElement me = this.getElement();
 		
-		System.out.println("Class not found: "+me.getName());		
+		System.out.println("Class not found: "+me.getName()+", replace by "+this.getClosest(me));
+		
+		int[] sourceOffset = getElementOffset(me, document);
+
+		try {
+			int offsetEnd = getProblemEndOffset();
+		
+			String rest = document.get(sourceOffset[0], offsetEnd - sourceOffset[0]);
+			
+			document.replace(sourceOffset[0], rest.length(), me.getModel().getName()+"!"+this.getClosest(me));
+		} catch (CoreException | BadLocationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -74,12 +98,12 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Class "+this.getElement().getName()+" not found";
+		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Class "+this.getElement().getName()+" not found";
+		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
 	}
 
 	@Override

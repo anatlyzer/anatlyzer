@@ -151,7 +151,7 @@ public class UnconnectedElementsAnalysis {
 					continue;
 				}
 				
-				cluster.addNode(n);
+				cluster.addNode(current);
 				visited.put(current, cluster);
 				
 				for(Link l : allLinks) {

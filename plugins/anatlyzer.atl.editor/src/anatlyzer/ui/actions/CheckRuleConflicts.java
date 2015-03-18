@@ -54,9 +54,10 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
 		List<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
 		for (OverlappingRules overlap : overlaps) {
-			if ( processOverlap(overlap, data) ) {
-				result.add(overlap);
-			}
+			// if ( processOverlap(overlap, data) ) {
+			processOverlap(overlap, data);
+			result.add(overlap);
+			//}
 		}			
 		
 		return result;
@@ -97,7 +98,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		OclExpression constraint = overlap.getWitnessCondition();
 		String constraintStr = USESerializer.retypeAndGenerate( constraint);
 		
-		System.out.println("Constraint: " + constraint);
+		System.out.println("Constraint: " + constraintStr);
 		
 		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraintStr);
 		generator.setTempDirectoryPath(projectPath);

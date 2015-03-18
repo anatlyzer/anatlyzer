@@ -22,7 +22,9 @@ import org.eclipse.m2m.atl.engine.parser.AtlParser;
 import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.generators.GraphvizGenerator;
@@ -69,6 +71,7 @@ public class BaseTest {
 		// }
 		System.out.println("Time: " + (diffs / 1000.0) / 20);
 	}
+	
 	
 	protected List<LocalProblem> problems() {
 		return analyser.getErrors().getLocalProblems();
@@ -153,7 +156,10 @@ public class BaseTest {
 		return possibleRuleConflicts;
 	}
 
-	
+	protected Result unconnectedAnalysis() {
+		return new UnconnectedElementsAnalysis(this.analyser.getATLModel(), analyser).perform();		
+	}
+
 	
 	// Loaded meta-models, to invoke the constraint solver
 	private EPackage effective;

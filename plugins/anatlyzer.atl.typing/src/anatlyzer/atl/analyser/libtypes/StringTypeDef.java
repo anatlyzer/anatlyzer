@@ -21,7 +21,7 @@ public class StringTypeDef extends AtlTypeDef {
 			param("lower", integer()).
 			param("upper", integer()).
 			returnType(AtlTypes.string());
-		operation("toInteger").returnType(AtlTypes.string());
+		operation("toInteger").returnType(AtlTypes.integer());
 		operation("toReal").returnType(AtlTypes.float_());
 		
 		// Hard-coded in the corresponding namespace...

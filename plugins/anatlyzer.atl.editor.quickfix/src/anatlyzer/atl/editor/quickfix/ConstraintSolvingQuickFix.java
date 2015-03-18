@@ -2,6 +2,7 @@ package anatlyzer.atl.editor.quickfix;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
@@ -11,6 +12,7 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.witness.UseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 	
@@ -20,7 +22,13 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
 
-			new UseWitnessFinder().find(problem, analysisData);
+			WitnessResult result = new UseWitnessFinder().find(problem, analysisData);
+			switch ( result ) {
+			case ERROR_DISCARDED: MessageDialog.openInformation(null, "Constraint solving", "No error. Witness model could be found");
+			case ERROR_CONFIRMED: MessageDialog.openInformation(null, "Constraint solving", "Error confirmed!");
+			case INTERNAL_ERROR: MessageDialog.openInformation(null, "Constraint solving", "Internal error.");
+			case CANNOT_DETERMINE: MessageDialog.openInformation(null, "Constraint solving", "Cannot be determined.");
+			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

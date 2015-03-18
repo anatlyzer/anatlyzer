@@ -221,8 +221,12 @@ public class RuleConflictAnalysis {
 		@Override
 		public String toString() {
 			String str = TypeUtils.typeToString(type) + ": [";
+			int i = 0;
 			for (MatchedRule matchedRule : rules) {
 				str += " " + matchedRule.getName();
+				if ( i + 1 != rules.size() ) 
+					str += ", ";
+				i++;
 			}
 			str += " ]";
 			return str;

@@ -187,8 +187,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 		if ( declared instanceof Unknown ) {
 			TopLevelTraversal.extendTypeForOperation(self, mm, attr, inferred);
-		} else if ( ! typ().assignableTypes(declared, inferred) ) {
+		} else if ( !(inferred instanceof TypeError) && ! typ().assignableTypes(declared, inferred) ) {
 			errors().warningIncoherentHelperReturnType(self, inferred, declared);
+			// The operation is redefined to use the inferred type if it is best
 			TopLevelTraversal.extendTypeForOperation(self, mm, attr, determineBestInIncoherentType(declared, inferred));
 		}
 	}
@@ -252,6 +253,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	private Type determineBestInIncoherentType(Type declared, Type exprType) {
+		if ( exprType instanceof TypeError ) {
+			return declared;
+		}
 		if ( AnalyserContext.isVarDclInferencePreferred() ) {
 			Type moreConcrete = typ().moreConcrete(declared, exprType);
 			if ( moreConcrete == exprType || moreConcrete == null) {
@@ -501,7 +505,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 			
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();	
-		System.out.println(self.getLocation());
 		attr.linkExprType( tspace.getOperationType(self.getOperationName(), arguments, self) );
 		
 		

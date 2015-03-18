@@ -50,6 +50,7 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -145,6 +146,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
 		private ConflictingRules[] elements;
+		int numberOfConflicts = 0;
 		
 		public RuleConflictAnalysisNode(TreeNode parent) {
 			super(parent);
@@ -156,10 +158,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser(), currentAnalysis.getAnalyser().getNamespaces());
 			List<OverlappingRules> result = action.performAction(data);	
 
+			numberOfConflicts = 0;
 			int i = 0;
 			elements = new ConflictingRules[result.size()];
 			for (OverlappingRules overlappingRules : result) {
 				elements[i++] = new ConflictingRules(this, overlappingRules);
+				if ( overlappingRules.getAnalysisResult() != OverlappingRules.ANALYSIS_SOLVER_DISCARDED ) {
+					// It has not been discarded
+					numberOfConflicts++;
+				}
 			}
 			
 			viewer.refresh();
@@ -183,8 +190,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toColumn1() {
 			if ( elements == null )     return "Not analysed";
-			if ( elements.length == 0 ) return "Passed!";
-			return "Some conflicts: " + elements.length;		
+			if ( numberOfConflicts == 0 ) return "Passed! " + numberOfConflicts + "/" + elements.length;
+			return "Some conflicts: " + numberOfConflicts + "/" + elements.length;		
 		}
 	}
 	
@@ -287,7 +294,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			String s = "";
-			for(Node n : element.getRootNodes()) {
+			HashSet<Node> rootNodes = element.getRootNodes();
+			for(Node n : rootNodes) {
 				s += "[" + n.getOut().getType().getName() + " : " + n.getOut().getLocation() + "]";
 			}
 			

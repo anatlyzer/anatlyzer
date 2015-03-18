@@ -46,7 +46,7 @@ public class UseWitnessFinder implements IWitnessFinder {
 		generator.setTempDirectoryPath(projectPath);
 		try {
 			if ( ! generator.generate() ) {
-				MessageDialog.openInformation(null, "Constraint solving", "No witness model could be found");
+				// MessageDialog.openInformation(null, "Constraint solving", "No witness model could be found");
 				return WitnessResult.ERROR_DISCARDED;
 			} else {
 				return WitnessResult.ERROR_CONFIRMED;

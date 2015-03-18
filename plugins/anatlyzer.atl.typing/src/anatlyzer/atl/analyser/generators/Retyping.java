@@ -256,6 +256,21 @@ public class Retyping extends AbstractVisitor {
 	 */
 	@Override
 	public void inSequenceExp(SequenceExp self) {
+		boolean areSameType = true;
+		if ( self.getElements().size() > 0 ) {
+			Class<?> sameType = self.getElements().get(0).getInferredType().getClass();
+			for(int i = 1; i < self.getElements().size(); i++) {
+				if ( sameType != self.getElements().get(i).getInferredType().getClass() ) {
+					areSameType = false;
+					break;
+				}
+			}
+			
+			if ( areSameType ) {
+				return; // do nothing
+			}
+		}
+		
 		int discrepancy = 0;
 		
 		for(int i = 0; i < self.getElements().size(); i++) {

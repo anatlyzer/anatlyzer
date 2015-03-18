@@ -30,8 +30,11 @@ import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
@@ -217,6 +220,10 @@ public class AnalyserUtils {
 		if ( p instanceof IteratorOverEmptySequence ) return 15;
 		if ( p instanceof IncoherentHelperReturnType ) return 16;
 		if ( p instanceof AccessToUndefinedValue ) return 17;
+		
+		if ( p instanceof PrimitiveBindingButObjectAssigned ) return 18;
+		if ( p instanceof ObjectBindingButPrimitiveAssigned ) return 19;
+		if ( p instanceof PrimitiveBindingInvalidAssignment ) return 20;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

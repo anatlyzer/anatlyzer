@@ -386,7 +386,7 @@ public class Tester {
 				String oFolder = transformation.substring(transformation.lastIndexOf("m"), transformation.lastIndexOf("."));
 				String oModel  = this.folderTemp + oFolder + File.pathSeparator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
 				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
-				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(immAlias).getURIorPath());
+				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
 
 				// execute transformation
 				try {

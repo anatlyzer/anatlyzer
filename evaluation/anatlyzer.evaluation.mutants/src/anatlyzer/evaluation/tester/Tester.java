@@ -91,7 +91,8 @@ public class Tester {
 	private GlobalNamespace namespace; // meta-models used by the transformation (union of inputMetamodels and outputMetamodels)
 	private List<String> inputMetamodels  = new ArrayList<String>(); // input metamodels (IN)
 	private List<String> outputMetamodels = new ArrayList<String>(); // output metamodels (OUT)
-    private ResourceSet rs;
+    private HashMap<String, ModelInfo> aliasToPaths = new HashMap<String, ModelInfo>();
+	private ResourceSet rs;
 	private Report report;
 	
 	// temporal folders
@@ -365,8 +366,8 @@ public class Tester {
 				String iModel  = inputModel.getPath();
 				String oFolder = transformation.substring(transformation.lastIndexOf("m"), transformation.lastIndexOf("."));
 				String oModel  = this.folderTemp + oFolder + File.pathSeparator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
-				engine.loadSourcemodel(immAlias, iModel, this.namespace.getLogicalNamesToMetamodels().get(immAlias).getURI().path()); 
-				engine.loadTargetmodel(ommAlias, oModel, this.namespace.getLogicalNamesToMetamodels().get(ommAlias).getURI().path());
+				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
+				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(immAlias).getURIorPath());
 
 				// execute transformation
 				try {
@@ -545,6 +546,7 @@ public class Tester {
 				} else {
 					this.outputMetamodels.add(info.getMetamodelName());
 				}
+				aliasToPaths.put(info.getMetamodelName(), info);
 			}
 			
 			

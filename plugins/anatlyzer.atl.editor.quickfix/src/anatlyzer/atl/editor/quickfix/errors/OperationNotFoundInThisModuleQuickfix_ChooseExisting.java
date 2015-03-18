@@ -21,8 +21,13 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -41,6 +46,17 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Abstra
 		try {
 			OperationNotFoundInThisModule p = (OperationNotFoundInThisModule) getProblem();
 		
+			ATLModel model = getAnalyserData(marker).getAnalyser().getATLModel();
+			if ( model.getRoot() instanceof Module ) {
+				Module m = (Module) model.getRoot();
+				m.getElements().stream().filter(e -> e instanceof Helper).
+					map(e -> (Helper) e).
+					forEach(h -> System.out.println(ATLUtils.getHelperName(h)));
+			} else if ( model.getRoot() instanceof Library ) {
+				// Same for library... 
+			}
+			
+			
 			// p.getOperationName() is null at this point 
 			return (OperationCallExp)p.getElement();
 		} catch (CoreException e) {

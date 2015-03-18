@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -23,6 +24,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -130,7 +132,7 @@ public class Tester {
 		this.generateMutants ();
 		this.generateTestModels ();
 		this.evaluate();
-		this.deleteDirectory(this.folderTemp, true); // delete temporal folder
+		//this.deleteDirectory(this.folderTemp, true); // delete temporal folder
 	}
 	
 	/**
@@ -223,35 +225,33 @@ public class Tester {
 		this.deleteDirectory(this.folderModels, true);
 		this.createDirectory(this.folderTemp);
 		
-		// configure parameters for model generation
-		try {
-			File file = new File(this.folderTemp, "transml.properties");
-			FileOutputStream fileOut = new FileOutputStream(file);
-			Properties properties    = new Properties();
-    		properties.put("solver", "use");
-    		properties.put("solver.scope", "10");
-	    	properties.put("temp", new File(this.folderTemp).getAbsolutePath()); 
-			properties.store(fileOut, "--"); 
-			fileOut.close();
-		}
-		catch (IOException e) { e.printStackTrace(); }
-		transMLProperties.loadPropertiesFile(this.folderTemp);
-		
 		// build array with the name of classes (it will be used to generate the scope for the
-		// number of objects for each class, which will be different in each generates model
+		// number of objects for each class, which will be different in each generated model
 		List<String> classes = new ArrayList<String>();
 		for (EClassifier classifier : metamodel.getEClassifiers()) {
 			if (classifier instanceof EClass && !((EClass)classifier).isAbstract())
 				classes.add(classifier.getName());
 		}
-		List<Integer> combination = new ArrayList<Integer>();
-		String oclScopeExpression = null;
+		
+		// build array with the meta-model references (it will be used to generate constraints 
+		// requiring either the references to be empty or not)
+		List<EReference> references = new ArrayList<EReference>();
+		for (EClassifier classifier : metamodel.getEClassifiers()) {
+			if (classifier instanceof EClass && !((EClass)classifier).isAbstract())
+				references.addAll(((EClass)classifier).getEReferences()); 
+		}
+		
+		// initialize parameters for model generation
+		Properties properties = new Properties(); 
+		saveTransMLProperties(properties);
 		
 		// generate models
-		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
-		while ((oclScopeExpression = nextCombination(classes, combination)) != null) {
+		List<Integer> combination = new ArrayList<Integer>();
+		SolverWrapper solver      = FactorySolver.getInstance().createSolverWrapper();
+		while (nextCombination(classes, combination, properties) == true) {
+			saveTransMLProperties(properties);
 			try {
-				String model = solver.find(metamodel, Arrays.asList(oclScopeExpression));
+				String model = solver.find(metamodel, Collections.<String>emptyList());
 				System.out.println("generated model: " + ( model!=null? model : "NONE" ));
 			}
 			catch (transException e) {
@@ -266,48 +266,67 @@ public class Tester {
 	}
 	
 	/**
+	 * It stores the received properties object as a transML properties file. 
+	 * @throws transException 
+	 */
+	private void saveTransMLProperties(Properties properties) throws transException {
+		try {
+			File file = new File(this.folderTemp, "transml.properties");
+			FileOutputStream fileOut = new FileOutputStream(file);
+    		properties.put("solver", "use");
+			properties.put("solver.scope", "10");
+	    	properties.put("temp", new File(this.folderTemp).getAbsolutePath()); 
+			properties.store(fileOut, "--"); 
+			fileOut.close();
+		}
+		catch (IOException e) { e.printStackTrace(); }
+		transMLProperties.loadPropertiesFile(this.folderTemp);
+	}
+
+	/**
 	 * Method used by generateTestModels to produce a new scope (i.e. number of objects) for the
-	 * next model generation. In each call to this method, a different scope is returned, until
+	 * next model generation. In each call to this method, a different scope is calculated, until
 	 * all possible combinations up to the given scope have been returned. Each position in the
-	 * parameter 'combination' corresponds to a different class.
+	 * argument 'combination' corresponds to a different class. The new scope is stored in the
+	 * properties object received as last argument.
 	 * @param classes name of classes 
 	 * @param combination it corresponds to a combination, e.g. [1, 0] meaning 0 objects of class c1 and 0 objects of class c2
-	 * @return ocl expression (x.allInstances()->size()=1 and...) if a new combination was calculated; null otherwise
+	 * @param useProperties it will be updated with the calculated scope for each meta-model class 
+	 * @return true if a new combination was calculated; false otherwise
 	 */
-	private String nextCombination (List<String> classes, List<Integer> combination) {
-		if (classes==null || combination==null || classes.size()==0) return null;
+	private boolean nextCombination (List<String> classes, List<Integer> combination, Properties useProperties) {
+		if (classes==null || combination==null || classes.size()==0) return false;
 		
-		// 1. initialization of parameter combination
-		if (combination.isEmpty()) 
-			for (int i=0; i<classes.size(); i++) 
+		// initialization of parameter combination and properties file
+		String propertyPreffix = "solver.scope."; 
+		if (combination.isEmpty()) {
+			for (String clazz : classes) {
 				combination.add(0);
+				useProperties.put(propertyPreffix + clazz, "0");
+			}
+		}
 		
-		// 2. computation of the next valid combination
+		// computation of the next valid combination and update of properties file
 		boolean end = false;
 		for (int i=0; i<combination.size() && end==false; i++) {
 			// if max_scope reached: add 1, and propagate to the consecutive position
 			if (combination.get(i)+1 > this.MAX_OBJECT_SCOPE) {
 				combination.set(i, 0);
+				useProperties.put(propertyPreffix + classes.get(i), "0");
 			}
 			// otherwise: add 1, and return
 			else {
-				combination.set(i, combination.get(i)+1);
+				int newValue = combination.get(i) + 1;
+				combination.set(i, newValue);
+				useProperties.put(propertyPreffix + classes.get(i), "" + newValue);
 				end = true;
 			}
 		}
 
-		// 3. construction of the OCL expression corresponding to the obtained combination
-		if (end) { 
-			String ocl = "";
-			for (int i=0; i<classes.size(); i++) 
-				ocl += " and " + classes.get(i) + ".allInstances()->size() = " + combination.get(i);
-			return ocl.substring(5);
-		}
-		
-		// return null if there are no more valid combinations
-		return null;
+		// return true if there are more valid combinations, and false otherwise
+		return end;
 	}
-
+	
 	/**
 	 * For each transformation in folderTransformations, it checks whether its anatlysis yields a correct result. 
 	 */

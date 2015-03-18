@@ -20,7 +20,8 @@ public class CountOptimizations extends AbstractATLExperiment implements IExperi
 	private CountingModel<DetectedOptimization> counting = new CountingModel<DetectedOptimization>();
 
 	public CountOptimizations() {
-		// TODO Auto-generated constructor stub
+		counting.setRepetitions(true);
+		counting.showRepetitionDetails(false);
 	}
 
 	@Override
@@ -40,8 +41,8 @@ public class CountOptimizations extends AbstractATLExperiment implements IExperi
 			opt.perform();
 			
 			for(IOptimizationOpportunity op : opt.getOptimizations()) {
-				DetectedOptimization e = new DetectedOptimization(op);
-				counting.addByCategory(e.getId(), e);
+				DetectedOptimization e = new DetectedOptimization(op, fileName);
+				counting.addByCategory(e.getOptimizationName(), e);
 			}
 			
 		} catch (Exception e) {
@@ -69,19 +70,25 @@ public class CountOptimizations extends AbstractATLExperiment implements IExperi
 	public class DetectedOptimization implements IClassifiedArtefact {
 
 		private IOptimizationOpportunity opt;
+		private String fileName;
 
-		public DetectedOptimization(IOptimizationOpportunity op) {
+		public DetectedOptimization(IOptimizationOpportunity op, String fileName) {
 			this.opt = op;		
+			this.fileName  = fileName;
+		}
+
+		public String getOptimizationName() {
+			return opt.getClass().getName();
 		}
 
 		@Override
 		public String getId() {
-			return opt.getClass().getName();
+			return fileName;
 		}
 
 		@Override
 		public String getName() {
-			return opt.getClass().getName();
+			return fileName;
 		}
 
 		@Override

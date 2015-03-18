@@ -4,7 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -21,7 +23,8 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 	
 	// From path to errors
 	protected  HashMap<String, Exception> errors = new HashMap<String, Exception>();
-
+	private boolean withRepetitions;
+	private boolean showRepetitionDetails;
 	
 	public void addCategory(String name) {
 		
@@ -59,6 +62,11 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 	}
 
 	
+	/**
+	 * Return the categories, indexed by artefact id.
+	 * @param all
+	 * @return
+	 */
 	private HashMap<String, List<Category>> computeOverlappingDetectedCategories(boolean all) {
 		HashMap<String, List<Category>> overlapping = new HashMap<String, List<Category>>();
 
@@ -81,6 +89,14 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		return overlapping;
 	}
 
+	
+	public void setRepetitions(boolean b) {
+		this.withRepetitions = b;
+	}
+	
+	public void showRepetitionDetails(boolean b) {
+		this.showRepetitionDetails = b;
+	}
 	
 	public void printResult(PrintStream out) {
 		out.println("Summary");
@@ -116,21 +132,47 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		out.println("=============================");
 		for (Entry<Category, List<ART>> entry : results.entrySet()) {
 			out.println("- " + entry.getKey() + " : ");
-			for (ART artifact : entry.getValue()) {
+
+			if ( withRepetitions ) {
+				HashMap<String, List<ART>> artefactsById = groupByArtefactId(entry.getValue());
 				
-				// List the hints for the artefact classification 
-				String hintStr = "";
-				List<IHint> hints = artifact.getHints();
-				if ( hints.size() > 0 ) {
-					hintStr = " : " + hints.get(0).toString();
-					for(int i = 1; i < hints.size(); i++) {
-						hintStr += ", " + hints.get(i).getShortDescription();
+				for (Entry<String, List<ART>> idAndArtefacts : artefactsById.entrySet()) {
+					// Output the artefact info
+					
+					int numberOfOccurences = idAndArtefacts.getValue().size();
+					out.println("   * " + idAndArtefacts.getKey() + "(" + numberOfOccurences + ")");
+					
+					if ( showRepetitionDetails ) {
+						for (ART artifact : entry.getValue()) {
+							// List the hints for the artefact classification 
+							String hintStr = "";
+							List<IHint> hints = artifact.getHints();
+							if ( hints.size() > 0 ) {
+								hintStr = " : " + hints.get(0).toString();
+								for(int i = 1; i < hints.size(); i++) {
+									hintStr += ", " + hints.get(i).getShortDescription();
+								}
+							}
+							
+							out.println("      -" + artifact.getName() + hintStr);					
+						}					
 					}
 				}
-				
-				// Output the artefact info
-				out.println("   * " + artifact.getName() + hintStr);
-				
+			} else {
+				for (ART artifact : entry.getValue()) {
+					// List the hints for the artefact classification 
+					String hintStr = "";
+					List<IHint> hints = artifact.getHints();
+					if ( hints.size() > 0 ) {
+						hintStr = " : " + hints.get(0).toString();
+						for(int i = 1; i < hints.size(); i++) {
+							hintStr += ", " + hints.get(i).getShortDescription();
+						}
+					}
+					
+					// Output the artefact info
+					out.println("   * " + artifact.getName() + hintStr);		
+				}				
 			}
 		}
 
@@ -144,6 +186,19 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		}
 		
 	}
+
+	private HashMap<String, List<ART>> groupByArtefactId(List<ART> value) {
+		HashMap<String, List<ART>> results = new HashMap<String, List<ART>>();
+		for (ART art : value) {
+			if ( ! results.containsKey(art.getId())) {
+				results.put(art.getId(), new ArrayList<ART>());
+			}
+			
+			results.get(art.getId()).add(art);
+		}
+		return results;
+	}
+
 
 	public void toExcel(String fileName) throws IOException {
 		Workbook wb = new XSSFWorkbook();
@@ -264,13 +319,26 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 					if ( pos < 0 )
 						throw new IllegalStateException();
 					
-					st.cell(s, row, col + pos, 1L).centering();
+					long numberOfCategoryOcurrences = 1L; // default;
+					numberOfCategoryOcurrences = countOccurences(entry.getKey(), results.get(c));					
+					st.cell(s, row, col + pos, numberOfCategoryOcurrences).centering();
 				}
 				
 				row++;
 			}
 		}
 		
+	}
+
+
+	private int countOccurences(String artefactId, List<ART> list) {
+		int counter = 0;
+		for (ART art : list) {
+			if ( art.getId().equals(artefactId)) {
+				counter++;
+			}
+		}
+		return counter;
 	}
 
 

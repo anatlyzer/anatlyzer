@@ -28,6 +28,24 @@ public abstract class AtlTypeDef {
 		return op.getReturnType().getAnalyserType();
 	}
 
+
+	public Type[] getOperationParameters(String operationName) {
+		AtlOperationDef op = operations.get(operationName);
+		if ( op == null ) {
+			throw new IllegalArgumentException("No operation " + operationName + " " + this.getClass().getName());
+		}
+		
+		return op.getParameterTypes();
+	}
+	
+	public String[] getOperationParametersNames(String operationName) {
+		AtlOperationDef op = operations.get(operationName);
+		if ( op == null ) {
+			throw new IllegalArgumentException("No operation " + operationName + " " + this.getClass().getName());
+		}
+		
+		return op.getParameterNames();
+	}
 	protected abstract Type getAnalyserType();
 	
 }

@@ -1,0 +1,15 @@
+name: Count possible optimizations
+extensionID: typing.experiment.countOptimizations
+projects: 
+-  name: Ant2Maven
+-  name: Bibtex2Docbook
+-  name: Book2Publication
+-  name: Class2Relational
+-  name: CPL2SPL
+-  name: DSLBridge
+-  name: EMF2KM3
+-  name: Families2Persons
+-  name: Geometry
+-  name: Grafcet2PetriNet
+-  name: IEEE1471_2_MoDAF
+-  name: JavaSource2Table

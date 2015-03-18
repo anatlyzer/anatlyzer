@@ -27,6 +27,7 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.types.UnresolvedTypeError;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
@@ -124,12 +125,18 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	@Override
 	public void beforeSimpleOutPatternElement(SimpleOutPatternElement self) {
 		Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		if ( mc instanceof UnresolvedTypeError ) 
+			return;
+		
 		setCurrentCompulsoryFeatures(mc);
 	}
 
 	@Override
 	public void beforeForEachOutPatternElement(ForEachOutPatternElement self) {
 		Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		if ( mc instanceof UnresolvedTypeError ) 
+			return;
+
 		setCurrentCompulsoryFeatures(mc);
 	}
 
@@ -172,7 +179,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	}
 
 	private void checkCompulsoryFeature(OutPatternElement self) {
-		if ( compulsoryFeatures.size() != 0 ) {
+		// compulsoryFeatures may be null if there is an unresolved type in the outputpattern
+		if ( compulsoryFeatures != null && compulsoryFeatures.size() != 0 ) {
 			for (EStructuralFeature f : compulsoryFeatures) {
 				if ( f instanceof EReference && allWrittenFeatures.contains( ((EReference) f).getEOpposite()) ) 
 					continue; // Assumes that if the opposite is written in other rule, it is the one that corresponds to this object

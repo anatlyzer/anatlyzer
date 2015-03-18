@@ -27,7 +27,8 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 
 	
 	public CountTypeErrors() {
-		// TODO Auto-generated constructor stub
+		counting.setRepetitions(true);
+		counting.showRepetitionDetails(false);
 	}
 
 	@Override

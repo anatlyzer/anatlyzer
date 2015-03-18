@@ -664,14 +664,14 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
-	public void signalOperationCallInvalidNumberOfParameters(Operation op, Type[] formalArguments, Type[] arguments, LocatedElement node) {
+	public void signalOperationCallInvalidNumberOfParameters(String operationName, Type[] formalArguments, Type[] arguments, LocatedElement node) {
 		OperationCallInvalidNumberOfParameters error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidNumberOfParameters();
 		initProblem(error, node);
 		
 		for (Type type : arguments)       { error.getActualParameters().add(type); }
 		for (Type type : formalArguments) { error.getFormalParameters().add(type); }
 		
-		signalError(error, "Invalid number of arguments, " + arguments.length + ", expected " + formalArguments.length + ". Operation: " + op.getName(), node);
+		signalError(error, "Invalid number of arguments, " + arguments.length + ", expected " + formalArguments.length + ". Operation: " + operationName, node);
 	}
 	
 
@@ -683,7 +683,7 @@ public class ErrorModel {
 		
 	}
 	
-	public void signalOperationCallInvalidParameter(Operation op, Type[] formalArguments, Type[] arguments, List<String> blamedParameters, LocatedElement node) {
+	public void signalOperationCallInvalidParameter(String operationName, Type[] formalArguments, Type[] arguments, List<String> blamedParameters, LocatedElement node) {
 		OperationCallInvalidParameter error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidParameter();
 		initProblem(error, node);
 		
@@ -699,7 +699,7 @@ public class ErrorModel {
 		String s3 = TypeUtils.typeToString(formalArguments[0]);
 		for(int i = 1; i < blamedParameters.size(); i++) s3 = ", " + TypeUtils.typeToString(formalArguments[i]);
 		
-		signalError(error, "Invalid parameter types: " + s1 + ". Expected " + op.getName() + "(" + s3 +"), given " + op.getName() + "(" + s2 + ")", node);
+		signalError(error, "Invalid parameter types: " + s1 + ". Expected " + operationName + "(" + s3 +"), given " + operationName + "(" + s2 + ")", node);
 	}
 
 	

@@ -30,6 +30,8 @@ lazy rule PlaceValue {
 	 )
 }
 
+-- helper def: PlacseValue( p : PN!Place, t : PN!Transitio ) : Integer = 0;
+
 helper def: inPlaceVal( p : PN!Place, t : PN!Transition ) : Integer =
 	--let inPlaces : Set(PN!Place) = PN!TransToPlaceArc.allInstances()->select( arc | arc.source = t and arc.target = p ) in
 	let inPlaces : Sequence(PN!TransToPlaceArc) = PN!TransToPlaceArc.allInstances()->select( arc | arc.source = t and arc.target = p ) in

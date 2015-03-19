@@ -72,6 +72,7 @@ import anatlyzer.evaluation.mutators.modification.feature.BindingModificationMut
 import anatlyzer.evaluation.mutators.modification.feature.NavigationModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.CollectionOperationModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.HelperOperationModificationMutator;
+import anatlyzer.evaluation.mutators.modification.invocation.IteratorModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.OperatorModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.PredefinedOperationModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.ArgumentModificationMutator;
@@ -144,9 +145,10 @@ public class Tester {
 	
 	/**
 	 * It generates mutants of a transformation.
+	 * @throws transException 
 	 * @throws ATLCoreException 
 	 */
-	private void generateMutants () {
+	private void generateMutants () throws transException {
 		MetaModel iMetaModel, oMetaModel;
 		/*
 		try {
@@ -161,7 +163,6 @@ public class Tester {
 		// jesusc: To avoid problem with paths, using the meta-models already loaded in the transformation namespace
 		iMetaModel = new MetaModel(new ArrayList<EPackage>(this.namespace.getNamespace(this.inputMetamodels.get(0)).getLoadedPackages()));
 		oMetaModel = new MetaModel(new ArrayList<EPackage>(this.namespace.getNamespace(this.outputMetamodels.get(0)).getLoadedPackages()));
-		
 		
 		// create output folder
 		this.deleteDirectory(this.folderMutants, true);
@@ -198,6 +199,7 @@ public class Tester {
 				new OperatorModificationMutator(),
 				new PredefinedOperationModificationMutator(),
 				new HelperOperationModificationMutator(),
+				new IteratorModificationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);
@@ -559,22 +561,17 @@ public class Tester {
 				}
 			});
 			
-			for(ModelInfo info : ATLUtils.getModelInfo(tmpAtlModel)) {
-				if ( info.isInput() ) {
-					this.inputMetamodels.add(info.getMetamodelName());
-				} else {
-					this.outputMetamodels.add(info.getMetamodelName());
-				}
+			for (ModelInfo info : ATLUtils.getModelInfo(tmpAtlModel)) {
+				if (info.isInput()) 
+					 this.inputMetamodels.add (info.getMetamodelName());
+				else this.outputMetamodels.add(info.getMetamodelName());
 				aliasToPaths.put(info.getMetamodelName(), info);
+				this.loadMetamodel(info.getURIorPath());
 			}
-			
-			
-		} catch (CoreException | CannotLoadMetamodel e) {
-			e.printStackTrace();
+		} 
+		catch (CoreException | CannotLoadMetamodel e) {
 			throw new transException(transException.ERROR.GENERIC_ERROR, e.getMessage());
 		}
-
-		
 	}
 	
 	/**

@@ -74,7 +74,7 @@ public abstract class AbstractInvocationModificationMutator extends AbstractModi
 		return replacements;	   
 	}
 	
-	protected enum TYPE { UNDEFINED, NONE, ANY, BOOLEAN, NUMBER, COLLECTION, STRING, OCLTYPE } 
+	protected enum TYPE { UNDEFINED, NONE, ANY, BOOLEAN, NUMBER, COLLECTION, STRING, OCLTYPE, EXPRESSION } 
 
 	/**
 	 * It returns an operation with compatible return type and compatible parameter type. 

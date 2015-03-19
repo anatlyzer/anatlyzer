@@ -55,6 +55,9 @@ import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.evaluation.models.FullModelGenerationStrategy;
+import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
+import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 import anatlyzer.evaluation.mutators.deletion.ArgumentDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.BindingDeletionMutator;
@@ -215,7 +218,7 @@ public class Tester {
 		// TODO: consider several input models
 		EPackage metamodel   = null;
 		for (EObject obj : resource.getContents()) {
-			if (obj instanceof EPackage) {						
+			if (obj instanceof EPackage && ((EPackage)obj).getName().equals(metamodelName)) {						
 				metamodel = (EPackage)obj;
 				break;
 			}
@@ -230,13 +233,14 @@ public class Tester {
 		// build arrays with the name of classes and references; they will be used to generate 
 		// the scope for the number of objects for each class, and the number of links for each
 		// reference, which will be different in each generated model.
-		List<String>     classes    = new ArrayList<String>();
-		List<EReference> references = new ArrayList<EReference>();
+		List<String> classes    = new ArrayList<String>();
+		List<String> references = new ArrayList<String>();
 		for (EClassifier classifier : metamodel.getEClassifiers()) {
 			if (classifier instanceof EClass) {
 				if (!((EClass)classifier).isAbstract()) 
 					classes.add(classifier.getName());
-				references.addAll(((EClass)classifier).getEReferences()); 
+				for (EReference ref : ((EClass)classifier).getEReferences())
+					references.add(((EClass)classifier).getName()+"."+ref.getName()); 
 			}
 		}
 		
@@ -245,11 +249,11 @@ public class Tester {
 		saveTransMLProperties(properties);
 		
 		// generate models
-		List<Integer> combination = new ArrayList<Integer>();
-		SolverWrapper solver      = FactorySolver.getInstance().createSolverWrapper();
-		while (nextCombination(classes, combination, properties) == true) {
-			saveTransMLProperties(properties);
+		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
+		ModelGenerationStrategy modelGenerationStrategy = new LiteModelGenerationStrategy(classes, references);
+		for (Properties propertiesUse : modelGenerationStrategy) {
 			try {
+				saveTransMLProperties(propertiesUse);
 				String model = solver.find(metamodel, Collections.<String>emptyList());
 				System.out.println("generated model: " + ( model!=null? model : "NONE" ));
 			}
@@ -280,50 +284,6 @@ public class Tester {
 		}
 		catch (IOException e) { e.printStackTrace(); }
 		transMLProperties.loadPropertiesFile(this.folderTemp);
-	}
-
-	/**
-	 * Method used by generateTestModels to produce a new scope (i.e. number of objects) for the
-	 * next model generation. In each call to this method, a different scope is calculated, until
-	 * all possible combinations up to the given scope have been returned. Each position in the
-	 * argument 'combination' corresponds to a different class. The new scope is stored in the
-	 * properties object received as last argument.
-	 * @param classes name of classes 
-	 * @param combination it corresponds to a combination, e.g. [1, 0] meaning 0 objects of class c1 and 0 objects of class c2
-	 * @param useProperties it will be updated with the calculated scope for each meta-model class 
-	 * @return true if a new combination was calculated; false otherwise
-	 */
-	private boolean nextCombination (List<String> classes, List<Integer> combination, Properties useProperties) {
-		if (classes==null || combination==null || classes.size()==0) return false;
-		
-		// initialization of parameter combination and properties file
-		String propertyPreffix = "solver.scope."; 
-		if (combination.isEmpty()) {
-			for (String clazz : classes) {
-				combination.add(0);
-				useProperties.put(propertyPreffix + clazz, "0");
-			}
-		}
-		
-		// computation of the next valid combination and update of properties file
-		boolean end = false;
-		for (int i=0; i<combination.size() && end==false; i++) {
-			// if max_scope reached: add 1, and propagate to the consecutive position
-			if (combination.get(i)+1 > this.MAX_OBJECT_SCOPE) {
-				combination.set(i, 0);
-				useProperties.put(propertyPreffix + classes.get(i), "0");
-			}
-			// otherwise: add 1, and return
-			else {
-				int newValue = combination.get(i) + 1;
-				combination.set(i, newValue);
-				useProperties.put(propertyPreffix + classes.get(i), "" + newValue);
-				end = true;
-			}
-		}
-
-		// return true if there are more valid combinations, and false otherwise
-		return end;
 	}
 	
 	/**
@@ -567,11 +527,10 @@ public class Tester {
 				else this.outputMetamodels.add(info.getMetamodelName());
 				aliasToPaths.put(info.getMetamodelName(), info);
 
-				// register metamodels
+				// register metamodel
 				List<EPackage> metamodels = EMFUtils.loadEcoreMetamodel(info.getURIorPath());
 		        for (EPackage p: metamodels) {
 		        	if (p.getNsURI()!=null && !p.getNsURI().equals("")) rs.getPackageRegistry().put(p.getNsURI(), p);
-		        	if (aliasToPaths.containsKey(p.getName()))          rs.getPackageRegistry().put(aliasToPaths.get(p.getName()).getURIorPath(), p); // UNNECESSARY?
 		        	if (p.getName().equals(info.getMetamodelName()))    rs.getPackageRegistry().put(info.getMetamodelName(), p);    
 		        }
 			}

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -221,26 +220,24 @@ public class Tester {
 				break;
 			}
 		}
+		if (metamodel.getNsURI()==null) metamodel.setNsURI(aliasToPaths.get(metamodel.getName()).getURIorPath());
 		
 		// create temporal and output folders
 		this.deleteDirectory(this.folderTemp, true);
 		this.deleteDirectory(this.folderModels, true);
 		this.createDirectory(this.folderTemp);
 		
-		// build array with the name of classes (it will be used to generate the scope for the
-		// number of objects for each class, which will be different in each generated model
-		List<String> classes = new ArrayList<String>();
-		for (EClassifier classifier : metamodel.getEClassifiers()) {
-			if (classifier instanceof EClass && !((EClass)classifier).isAbstract())
-				classes.add(classifier.getName());
-		}
-		
-		// build array with the meta-model references (it will be used to generate constraints 
-		// requiring either the references to be empty or not)
+		// build arrays with the name of classes and references; they will be used to generate 
+		// the scope for the number of objects for each class, and the number of links for each
+		// reference, which will be different in each generated model.
+		List<String>     classes    = new ArrayList<String>();
 		List<EReference> references = new ArrayList<EReference>();
 		for (EClassifier classifier : metamodel.getEClassifiers()) {
-			if (classifier instanceof EClass && !((EClass)classifier).isAbstract())
+			if (classifier instanceof EClass) {
+				if (!((EClass)classifier).isAbstract()) 
+					classes.add(classifier.getName());
 				references.addAll(((EClass)classifier).getEReferences()); 
+			}
 		}
 		
 		// initialize parameters for model generation
@@ -395,7 +392,7 @@ public class Tester {
 					// check whether the transformation does not crash
 					if (engine.execute()) {						
 						// check whether the output model is conformant to the output metamodel
-						// TODO: check OCL constraints of the meta-model as well
+						// TODO: check OCL constraints of the meta-model as well						
 						URI uri = URI.createFileURI(oModel);
 						Resource resource = rs.getResource(uri, true);
 						for (EObject eObject : resource.getContents()) {
@@ -551,6 +548,9 @@ public class Tester {
 		this.namespace = new GlobalNamespace(resources, logicalNamesToResources);
 		*/
 		
+		// register ecore factory
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
+		
 		try {
 			ATLModel tmpAtlModel = new ATLModel(atlModel.getResource());
 			this.namespace = AnalyserUtils.prepare(tmpAtlModel, new IAtlFileLoader() {			
@@ -566,7 +566,14 @@ public class Tester {
 					 this.inputMetamodels.add (info.getMetamodelName());
 				else this.outputMetamodels.add(info.getMetamodelName());
 				aliasToPaths.put(info.getMetamodelName(), info);
-				this.loadMetamodel(info.getURIorPath());
+
+				// register metamodels
+				List<EPackage> metamodels = EMFUtils.loadEcoreMetamodel(info.getURIorPath());
+		        for (EPackage p: metamodels) {
+		        	if (p.getNsURI()!=null && !p.getNsURI().equals("")) rs.getPackageRegistry().put(p.getNsURI(), p);
+		        	if (aliasToPaths.containsKey(p.getName()))          rs.getPackageRegistry().put(aliasToPaths.get(p.getName()).getURIorPath(), p); // UNNECESSARY?
+		        	if (p.getName().equals(info.getMetamodelName()))    rs.getPackageRegistry().put(info.getMetamodelName(), p);    
+		        }
 			}
 		} 
 		catch (CoreException | CannotLoadMetamodel e) {
@@ -575,18 +582,18 @@ public class Tester {
 	}
 	
 	/**
-	 * It loads an ecore emetamodel.
+	 * It loads an ecore metamodel.
 	 * @param uri 
 	 * @throws transException 
 	 */
 	private void loadMetamodel (String uri) throws transException {
 		// register ecore factory
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-		
+
 		// register metamodel URI
 		List<EPackage> metamodels = EMFUtils.loadEcoreMetamodel(uri);
         for (EPackage p: metamodels) 
-        	rs.getPackageRegistry().put(p.getNsURI(), p);
+        	rs.getPackageRegistry().put(aliasToPaths.containsKey(p.getName())? aliasToPaths.get(p.getName()).getURIorPath() : p.getNsURI(), p);
 	}
 	
 	/**

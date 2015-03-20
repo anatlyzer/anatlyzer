@@ -67,58 +67,6 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 		return checkProblemType(marker, CollectionOperationNotFound.class);
 	}
 	
-//	private int getClosestDistance(String op, int numPar, List<Integer> distance) {
-//	
-//		distance.addAll(Levenshtein.distance(op, collectionOps.get(numPar)));	
-//		System.out.println(collectionOps.get(numPar)+"\n"+distance);		
-//		return Collections.min(distance);
-//	}
-//	
-//	private String getClosest(String op, int numPar) {
-//		HashMap<Integer, List<Integer>> distances = new HashMap<>();
-//		distances.put(numPar, new ArrayList<Integer>());
-//		
-//		int minDistance = this.getClosestDistance(op, numPar, distances.get(numPar));
-//		
-//		if (minDistance >= CollectionOperationNotFoundQuickfix.threshold) {		
-//			List<Integer> pars2explore = new ArrayList<Integer>();
-//			switch (numPar) {
-//				case 1: pars2explore.addAll(Arrays.asList(0, 2)); break;
-//				case 0:
-//				case 2: pars2explore.add(1); break;
-//			}
-//			
-//			int minD = 10;
-//			int param = -1;
-//			
-//			for (int p : pars2explore) {
-//				distances.put(p, new ArrayList<Integer>());
-//				int currentD = this.getClosestDistance(op, p, distances.get(p)); 
-//				if (currentD < minD) {
-//					param = p;
-//					minD = currentD;
-//				}
-//			}
-//			if (minD < minDistance) {
-//				numPar = param;
-//				minDistance = minD;
-//			}
-//		}
-//			
-//		int closestIndex = distances.get(numPar).indexOf(minDistance);
-//		String closestOp = collectionOps.get(numPar).get(closestIndex);
-//		System.out.println("Closest is "+closestOp);
-//		return closestOp;					
-//	}
-	
-//	private int getParamsClosest(String closest) {
-//		for (int par : Arrays.asList(0, 1, 2)) {
-//			if (collectionOps.get(par).contains(closest)) 
-//				return par;			
-//		}
-//		return 0;
-//	}
-
 	private void fixParams(int numP, String closest, IDocument document, int startPos, int endPos) {  // a bit redundant that we calculate this again...
 		int paramsClosest = this.getParamsClosest(closest);
 		

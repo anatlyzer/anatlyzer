@@ -123,7 +123,17 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 
 	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {
-		return false;
+		// This has to be put into a library
+		return operationName.equals("size") || operationName.equals("first") || operationName.equals("last") || 
+				operationName.equals("at") || operationName.equals("sum") || operationName.equals("subSequence") ||
+				operationName.equals("asSequence") || operationName.equals("asSet") ||
+				operationName.equals("isEmpty") || operationName.equals("notEmpty") ||
+				operationName.equals("includes") || operationName.equals("excludes") || 
+				operationName.equals("indexOf") ||	
+				operationName.equals("append") || operationName.equals("including") || operationName.equals("prepend") || 
+				operationName.equals("excluding") ||
+				operationName.equals("union") || 
+				operationName.equals("flatten");
 	}
 	
 	public Operation getAttachedOperation(String operationName) {

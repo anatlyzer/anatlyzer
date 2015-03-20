@@ -83,8 +83,7 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 		
 		if ( results.size() == 0 ) {
 			// TODO: Be more precise, it is not a feature, it is an operation
-			AnalyserContext.getErrorModel().signalNoFeatureInUnionType(type, operationName, node);
-			throw new IllegalStateException();
+			return AnalyserContext.getErrorModel().signalNoFeatureInUnionType(type, operationName, node);
 		}
 		
 		Type t1 = AnalyserContext.getTypingModel().getCommonType(results);

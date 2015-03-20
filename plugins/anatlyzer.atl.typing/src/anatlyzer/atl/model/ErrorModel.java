@@ -395,12 +395,13 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
-	public void signalNoFeatureInUnionType(UnionType type, String featureName, LocatedElement node) {
+	public Type signalNoFeatureInUnionType(UnionType type, String featureName, LocatedElement node) {
 		FeatureNotFoundInUnionType error = AtlErrorFactory.eINSTANCE.createFeatureNotFoundInUnionType();
 		initProblem(error, node);
 		error.setFeatureName(featureName);
 		
 		signalNoRecoverableError("No feature " + featureName + " for " + TypeUtils.typeToString(type), node);
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
 	// Binding problems

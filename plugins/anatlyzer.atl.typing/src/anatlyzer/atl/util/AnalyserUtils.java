@@ -23,6 +23,7 @@ import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
@@ -224,6 +225,7 @@ public class AnalyserUtils {
 		if ( p instanceof PrimitiveBindingButObjectAssigned ) return 18;
 		if ( p instanceof ObjectBindingButPrimitiveAssigned ) return 19;
 		if ( p instanceof PrimitiveBindingInvalidAssignment ) return 20;
+		if ( p instanceof FeatureNotFoundInUnionType ) return 21;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

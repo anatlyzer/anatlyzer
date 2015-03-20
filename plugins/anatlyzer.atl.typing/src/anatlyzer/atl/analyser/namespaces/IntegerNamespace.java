@@ -37,7 +37,7 @@ public class IntegerNamespace extends PrimitiveTypeNamespace {
 			(operatorSymbol.equals("-") && optionalArgument != null)) {
 			
 			if ( optionalArgument instanceof FloatType || 
-				 ( optionalArgument instanceof IntegerType && (operatorSymbol.equals("/") || operatorSymbol.equals("*") )) ) {
+				 ( optionalArgument instanceof IntegerType && operatorSymbol.equals("/")) ) {
 				return AnalyserContext.getTypingModel().newFloatType();
 			} else if ( optionalArgument instanceof IntegerType ) {
 				return AnalyserContext.getTypingModel().newIntegerType();

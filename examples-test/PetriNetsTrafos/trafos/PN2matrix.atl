@@ -18,7 +18,7 @@ rule Net2Matrix {
 rule Transition2Row {
 	from t: PN!Transition
 	to   r: MTX!Row (
-		cells <- PN!Place.allInstances()->collect ( p | thisModule.PlaceValue(p, t))
+		cells <- PN!Place.allInstances()->collect ( p | thisModule.PlaceValue(p, t) )
 	)		
 }
 
@@ -45,3 +45,5 @@ helper def: outPlaceVal(p : PN!Place, t : PN!Transition) : Integer =
 	if (outPlaces->size()>0) then outPlaces->collect ( a | a.weight )->sum()
 	else 0
 	endif;
+	
+-- helper context PN!Place def: doubleTokens : Integer = self.tokens*2;

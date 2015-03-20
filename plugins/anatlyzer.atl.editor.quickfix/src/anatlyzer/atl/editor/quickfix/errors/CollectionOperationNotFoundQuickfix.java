@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -22,12 +24,17 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
-public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
-	private static final int threshold = 3;		// threshold distance to try an operation name with +1 or -1 params
+public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstractQuickFix {
 	// number of parameters X operation name
-	private static LinkedHashMap<Integer, List<String>> collectionOps = new LinkedHashMap<>();
-	private static HashMap<String, List<CollType>> primitiveParam = new HashMap<>();
+	private static HashMap<String, List<CollType>> primitiveParam = new HashMap<>();		// probably move this to superclass
 	private String typeOfCollection;
+	
+	static {
+		primitiveParam.put("append", Collections.singletonList(CollType.UserDefined));
+		primitiveParam.put("at", Collections.singletonList(CollType.Integer));
+		primitiveParam.put("subsequence", Arrays.asList(CollType.Integer, CollType.Integer));
+		primitiveParam.put("refGetValue", Collections.singletonList(CollType.String));
+	}
 	
 	enum CollType { 
 		Integer ("0"), 
@@ -41,75 +48,76 @@ public class CollectionOperationNotFoundQuickfix extends AbstractAtlQuickfix {
 		public void setDefaultLiteral(String dl) { this.defaultLiteral = dl; }
 	}
 	
-	static {
-	    collectionOps.put(0, Arrays.asList("first", "flatten", "last", "asBag", "asOrderedSet", "asSequence", "asSet", "isEmpty", "notEmpty", "size", "sum", "debug", "oclIsUndefined", "oclType", "refImmediateComposite", "toString"));
-		collectionOps.put(1, Arrays.asList("append", "at", "indexOf", "prepend", "union", "count", "excludes", "excludesAll", "excluding", "includes", "includesAll", "including", "oclIsKindOf", "oclIsTypeOf", "refGetValue"));
-		collectionOps.put(2, Arrays.asList("insertAt", "subsequence", "refInvokeOperation", "refSetValue", "refUnsetValue"));
+	public CollectionOperationNotFoundQuickfix() {
+		this.populateCandidateOps();		// we can do this immediately
 	}
 	
-	static {
-		primitiveParam.put("append", Collections.singletonList(CollType.UserDefined));
-		primitiveParam.put("at", Collections.singletonList(CollType.Integer));
-		primitiveParam.put("subsequence", Arrays.asList(CollType.Integer, CollType.Integer));
-		primitiveParam.put("refGetValue", Collections.singletonList(CollType.String));
+	@Override protected Map<Integer, List<String>> populateCandidateOps() {
+		this.candidateOps = new TreeMap<>();
+		this.candidateOps.put(0, Arrays.asList("first", "flatten", "last", "asBag", "asOrderedSet", "asSequence", "asSet", "isEmpty", "notEmpty", "size", "sum", "debug", "oclIsUndefined", "oclType", "refImmediateComposite", "toString"));
+		this.candidateOps.put(1, Arrays.asList("append", "at", "indexOf", "prepend", "union", "count", "excludes", "excludesAll", "excluding", "includes", "includesAll", "including", "oclIsKindOf", "oclIsTypeOf", "refGetValue"));
+		this.candidateOps.put(2, Arrays.asList("insertAt", "subsequence", "refInvokeOperation", "refSetValue", "refUnsetValue"));
+		
+		return this.candidateOps;
 	}
+		
 		
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, CollectionOperationNotFound.class);
 	}
 	
-	private int getClosestDistance(String op, int numPar, List<Integer> distance) {
+//	private int getClosestDistance(String op, int numPar, List<Integer> distance) {
+//	
+//		distance.addAll(Levenshtein.distance(op, collectionOps.get(numPar)));	
+//		System.out.println(collectionOps.get(numPar)+"\n"+distance);		
+//		return Collections.min(distance);
+//	}
+//	
+//	private String getClosest(String op, int numPar) {
+//		HashMap<Integer, List<Integer>> distances = new HashMap<>();
+//		distances.put(numPar, new ArrayList<Integer>());
+//		
+//		int minDistance = this.getClosestDistance(op, numPar, distances.get(numPar));
+//		
+//		if (minDistance >= CollectionOperationNotFoundQuickfix.threshold) {		
+//			List<Integer> pars2explore = new ArrayList<Integer>();
+//			switch (numPar) {
+//				case 1: pars2explore.addAll(Arrays.asList(0, 2)); break;
+//				case 0:
+//				case 2: pars2explore.add(1); break;
+//			}
+//			
+//			int minD = 10;
+//			int param = -1;
+//			
+//			for (int p : pars2explore) {
+//				distances.put(p, new ArrayList<Integer>());
+//				int currentD = this.getClosestDistance(op, p, distances.get(p)); 
+//				if (currentD < minD) {
+//					param = p;
+//					minD = currentD;
+//				}
+//			}
+//			if (minD < minDistance) {
+//				numPar = param;
+//				minDistance = minD;
+//			}
+//		}
+//			
+//		int closestIndex = distances.get(numPar).indexOf(minDistance);
+//		String closestOp = collectionOps.get(numPar).get(closestIndex);
+//		System.out.println("Closest is "+closestOp);
+//		return closestOp;					
+//	}
 	
-		distance.addAll(Levenshtein.distance(op, collectionOps.get(numPar)));	
-		System.out.println(collectionOps.get(numPar)+"\n"+distance);		
-		return Collections.min(distance);
-	}
-	
-	private String getClosest(String op, int numPar) {
-		HashMap<Integer, List<Integer>> distances = new HashMap<>();
-		distances.put(numPar, new ArrayList<Integer>());
-		
-		int minDistance = this.getClosestDistance(op, numPar, distances.get(numPar));
-		
-		if (minDistance >= CollectionOperationNotFoundQuickfix.threshold) {		
-			List<Integer> pars2explore = new ArrayList<Integer>();
-			switch (numPar) {
-				case 1: pars2explore.addAll(Arrays.asList(0, 2)); break;
-				case 0:
-				case 2: pars2explore.add(1); break;
-			}
-			
-			int minD = 10;
-			int param = -1;
-			
-			for (int p : pars2explore) {
-				distances.put(p, new ArrayList<Integer>());
-				int currentD = this.getClosestDistance(op, p, distances.get(p)); 
-				if (currentD < minD) {
-					param = p;
-					minD = currentD;
-				}
-			}
-			if (minD < minDistance) {
-				numPar = param;
-				minDistance = minD;
-			}
-		}
-			
-		int closestIndex = distances.get(numPar).indexOf(minDistance);
-		String closestOp = collectionOps.get(numPar).get(closestIndex);
-		System.out.println("Closest is "+closestOp);
-		return closestOp;					
-	}
-	
-	private int getParamsClosest(String closest) {
-		for (int par : Arrays.asList(0, 1, 2)) {
-			if (collectionOps.get(par).contains(closest)) 
-				return par;			
-		}
-		return 0;
-	}
+//	private int getParamsClosest(String closest) {
+//		for (int par : Arrays.asList(0, 1, 2)) {
+//			if (collectionOps.get(par).contains(closest)) 
+//				return par;			
+//		}
+//		return 0;
+//	}
 
 	private void fixParams(int numP, String closest, IDocument document, int startPos, int endPos) {  // a bit redundant that we calculate this again...
 		int paramsClosest = this.getParamsClosest(closest);

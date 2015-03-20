@@ -28,6 +28,8 @@ public class LiteModelGenerationStrategy extends ModelGenerationStrategy {
 
 	@Override
 	public Properties next() {
+		if (!hasNext()) return null;
+		
 		// computation of the next valid combination and update of properties file
 		boolean end = false;
 		for (int i=0; i<combination.size() && end==false; i++) {
@@ -47,7 +49,7 @@ public class LiteModelGenerationStrategy extends ModelGenerationStrategy {
 			}
 		}
 
-		// return true if there are more valid combinations, and false otherwise
+		// return properties if there are more valid combinations, and null otherwise
 		return end? properties : null;
 	}
 }

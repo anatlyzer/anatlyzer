@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -89,8 +90,6 @@ import anatlyzer.evaluation.report.Report;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class Tester {
-
-	private final int MAX_OBJECT_SCOPE = 2; // maximum number of objects of each class in the generated test models
 	
 	private EMFModel atlModel;         // model of the original transformation
 	private GlobalNamespace namespace; // meta-models used by the transformation (union of inputMetamodels and outputMetamodels)
@@ -99,6 +98,7 @@ public class Tester {
     private HashMap<String, ModelInfo> aliasToPaths = new HashMap<String, ModelInfo>();
 	private ResourceSet rs;
 	private Report report;
+	private ModelGenerationStrategy.STRATEGY modelGenerationStrategy;
 	
 	// temporal folders
 	private String folderMutants;
@@ -107,15 +107,18 @@ public class Tester {
 	
 	/**
 	 * @param trafo transformation to be used in the evaluation
-	 * @param temporalFolder temporal folder used to store the generated mutants and input test models 
+	 * @param temporalFolder temporal folder used to store the generated mutants and input test models
+	 * @param strategy model generation strategy (Lite by default) 
 	 * @throws ATLCoreException 
 	 * @throws transException 
 	 */
-	public Tester (String trafo, String temporalFolder) throws ATLCoreException, transException {
+	public Tester (String trafo, String temporalFolder) throws ATLCoreException, transException { this (trafo, temporalFolder, ModelGenerationStrategy.STRATEGY.Lite);	}
+	public Tester (String trafo, String temporalFolder, ModelGenerationStrategy.STRATEGY strategy) throws ATLCoreException, transException {
 		this.rs       = new ResourceSetImpl();
 		this.report   = new Report();
 		this.atlModel = this.loadTransformationModel(trafo);
 		this.loadMetamodelsFromTransformation();
+		this.modelGenerationStrategy = strategy;
 		// initialize temporal folders
 		this.folderMutants = temporalFolder + "mutants/";
 		this.folderModels  = temporalFolder + "testmodels/";
@@ -250,7 +253,10 @@ public class Tester {
 		
 		// generate models
 		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
-		ModelGenerationStrategy modelGenerationStrategy = new LiteModelGenerationStrategy(classes, references);
+		ModelGenerationStrategy modelGenerationStrategy =
+				this.modelGenerationStrategy == ModelGenerationStrategy.STRATEGY.Full?
+				new FullModelGenerationStrategy(classes, references) :
+				new LiteModelGenerationStrategy(classes, references) ;
 		for (Properties propertiesUse : modelGenerationStrategy) {
 			try {
 				saveTransMLProperties(propertiesUse);
@@ -531,28 +537,21 @@ public class Tester {
 				List<EPackage> metamodels = EMFUtils.loadEcoreMetamodel(info.getURIorPath());
 		        for (EPackage p: metamodels) {
 		        	if (p.getNsURI()!=null && !p.getNsURI().equals("")) rs.getPackageRegistry().put(p.getNsURI(), p);
-		        	if (p.getName().equals(info.getMetamodelName()))    rs.getPackageRegistry().put(info.getMetamodelName(), p);    
+		        	if (p.getName().equals(info.getMetamodelName()))    rs.getPackageRegistry().put(info.getMetamodelName(), p);
+		        	
+		        	// assign instance class name to data types (it is empty in uml/kermeta meta-models)
+		        	for (EClassifier classifier : p.getEClassifiers())
+		        		if (classifier instanceof EDataType)
+		        			if (((EDataType)classifier).getInstanceClassName() == null)
+		        				if      (classifier.getName().equals("String"))  ((EDataType)classifier).setInstanceClassName("java.lang.String");
+		        				else if (classifier.getName().equals("Integer")) ((EDataType)classifier).setInstanceClassName("java.lang.Integer");
+		        				else if (classifier.getName().equals("Boolean")) ((EDataType)classifier).setInstanceClassName("java.lang.Boolean");
 		        }
 			}
 		} 
 		catch (CoreException | CannotLoadMetamodel e) {
 			throw new transException(transException.ERROR.GENERIC_ERROR, e.getMessage());
 		}
-	}
-	
-	/**
-	 * It loads an ecore metamodel.
-	 * @param uri 
-	 * @throws transException 
-	 */
-	private void loadMetamodel (String uri) throws transException {
-		// register ecore factory
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
-
-		// register metamodel URI
-		List<EPackage> metamodels = EMFUtils.loadEcoreMetamodel(uri);
-        for (EPackage p: metamodels) 
-        	rs.getPackageRegistry().put(aliasToPaths.containsKey(p.getName())? aliasToPaths.get(p.getName()).getURIorPath() : p.getNsURI(), p);
 	}
 	
 	/**

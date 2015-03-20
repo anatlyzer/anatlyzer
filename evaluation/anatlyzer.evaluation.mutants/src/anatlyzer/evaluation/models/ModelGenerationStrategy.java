@@ -9,8 +9,10 @@ public abstract class ModelGenerationStrategy implements Iterator<Properties>, I
 	protected List<String> classes, references;
 	protected Properties   properties;
 	
-	protected final String PROPERTY_PREFFIX = "solver.scope."; 
-
+	public enum STRATEGY { Lite, Full }
+	
+	protected final String PROPERTY_PREFFIX = "solver.scope.";
+	
 	public ModelGenerationStrategy (List<String> classes, List<String> references) {
 		this.classes    = classes;
 		this.references = references;

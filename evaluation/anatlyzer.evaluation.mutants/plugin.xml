@@ -19,8 +19,15 @@
          <action
                class="anatlyzer.evaluation.popup.actions.EvaluationAction"
                enablesFor="1"
-               id="anatlyzer.evaluation.EvaluationAction"
-               label="Evaluate"
+               id="anatlyzer.evaluation.EvaluationAction.full"
+               label="Full evaluation"
+               menubarPath="anatlyzer.evaluation.menu1/group1">
+         </action>
+         <action
+               class="anatlyzer.evaluation.popup.actions.EvaluationAction"
+               enablesFor="1"
+               id="anatlyzer.evaluation.EvaluationAction.lite"
+               label="Lite evaluation"
                menubarPath="anatlyzer.evaluation.menu1/group1">
          </action>
       </objectContribution>

@@ -12,6 +12,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.tester.Tester;
 
 public class EvaluationAction implements IObjectActionDelegate {
@@ -41,7 +42,12 @@ public class EvaluationAction implements IObjectActionDelegate {
 		String trafo  = completePath.toString();
 		String folder = completePath.removeFileExtension().toString() + "_Evaluation";
 	    try {
-	    	Tester tester = new Tester(trafo, folder);
+	    	ModelGenerationStrategy.STRATEGY modelGenerationStrategy = 
+	    			action.getId().endsWith(".full")?
+	    			ModelGenerationStrategy.STRATEGY.Full : 
+	    			ModelGenerationStrategy.STRATEGY.Lite;
+	    	
+	    	Tester tester = new Tester(trafo, folder, modelGenerationStrategy);
 	    	tester.runEvaluation();
 	    	tester.printReport();
 	    }

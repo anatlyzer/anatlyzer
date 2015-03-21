@@ -117,6 +117,9 @@ public class Retyping extends AbstractVisitor {
 			
 			EcoreUtil.replace(self, operator);
 			operator.setSource(self);
+			
+			System.out.println("=> " + USESerializer.gen(operator));
+			System.out.println("--");
 		}
 
 	}

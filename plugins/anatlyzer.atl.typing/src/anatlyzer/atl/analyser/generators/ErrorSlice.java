@@ -9,8 +9,12 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.model.TypeUtils;
@@ -94,6 +98,8 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		if ( ! helpers.containsKey(ctxTypeName) ) {
 			helpers.put(ctxTypeName, new HashSet<Helper>());
 		}
+
+		System.out.println("Added ===>" + USESerializer.gen( ATLUtils.getBody(helper)) );
 		
 		return helpers.get(ctxTypeName).add(helper);	
 	}
@@ -120,12 +126,19 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	private String genUSEOperation(Helper ctx, String className) {
+		String s = ATLUtils.getHelperName(ctx) + "(";
 
 		if ( retype ) {
+			// copy before retype, to avoid modifying objects that will later
+			// be used in other analysis
+		    MyCopier copier = new MyCopier(ctx);
+		    EObject result = copier.copy(ctx);
+		    copier.copyReferences();
+
+		    ctx = (Helper) result;
+			
 			new Retyping(ctx).perform();		
 		}
-		
-		String s = ATLUtils.getHelperName(ctx) + "(";
 		
 		// The first parameter is always the ThisModule object */
 		s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
@@ -183,5 +196,47 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
 
-	
+	public static class MyCopier extends EcoreUtil.Copier {
+		private EObject root;
+
+		public MyCopier(EObject object) {
+			super();
+			this.root = object;
+		}
+
+		protected void copyReference(EReference eReference, EObject eObject,
+				EObject copyEObject) {
+			super.copyReference(eReference, eObject, copyEObject);
+
+			if (eObject.eIsSet(eReference)) {
+				if (eReference.isMany()) {
+				} else {
+					Object referencedEObject = eObject.eGet(eReference,
+							resolveProxies);
+					if (referencedEObject == null) {
+					} else {
+						Object copyReferencedEObject = get(referencedEObject);
+						if (copyReferencedEObject == null) {
+							if (useOriginalReferences
+									&& eReference.getEOpposite() == null) {
+							}
+							// added to make a cross-reference to objects
+							// outside the copy
+							else {
+								boolean isContained = EcoreUtil.isAncestor(
+										root, (EObject) referencedEObject);
+								if (useOriginalReferences && !isContained) {
+									copyEObject.eSet(eReference,
+											referencedEObject);
+								}
+							}
+						} else {
+						}
+					}
+				}
+			}
+		}
+
+	}
+
 }

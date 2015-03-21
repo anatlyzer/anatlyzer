@@ -1,6 +1,7 @@
 package anatlyzer.atl.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
@@ -50,6 +52,13 @@ public class ATLModel {
 		typing = new TypingModel(resource);
 	}
 
+	public ATLModel() {
+		resource = new ResourceImpl();
+
+		errors = new ErrorModel(resource);
+		typing = new TypingModel(resource);
+	}
+
 	public void extendWithLibrary(Resource libResource, String fileLocation) {
 		DynamicToStaticCopier copier = new DynamicToStaticCopier(fileLocation);
 		ResourceSet rs = new ResourceSetImpl();
@@ -82,13 +91,6 @@ public class ATLModel {
 		return new ArrayList<String>(fileLocations);
 	}
 	
-	public ATLModel() {
-		resource = new ResourceImpl();
-
-		errors = new ErrorModel(resource);
-		typing = new TypingModel(resource);
-	}
-
 	public Module getModule() {
 		for(EObject obj : resource.getContents()) {
 			if ( obj instanceof Module ) {
@@ -135,5 +137,22 @@ public class ATLModel {
 	public ErrorModel getErrors() {
 		return errors;
 	}
+
+	/**
+	 * Creates a copy of the abstract syntax.
+	 * @return
+	 */
+//  Removed because it is not well-implemented, references between problems and the AST are not properly redirected.
+//	public ATLModel copy() {
+//		ATLModel atlModel = new ATLModel();
+//	
+//		Collection<EObject> c = EcoreUtil.copyAll(this.resource.getContents());
+//		atlModel.resource.getContents().addAll(c);
+//		atlModel.fileLocations.addAll(this.fileLocations);
+//		atlModel.errors = new ErrorModel(atlModel.resource);
+//		atlModel.typing = new TypingModel(atlModel.resource);
+//		
+//		return atlModel;
+//	}
 	
 }

@@ -15,6 +15,7 @@ rule Net2Matrix {
 		)
 }
 
+
 rule Transition2Row {
 	from t: PN!Transition
 	to   r: MTX!Row (
@@ -29,6 +30,7 @@ lazy rule PlaceValue {
 	 	value <- thisModule.inPlaceVal(p, tt) - thisModule.outPlaceVal(p, tt)
 	 )
 }
+
 
 -- helper def: PlacseValue( p : PN!Place, t : PN!Transitio ) : Integer = 0;
 

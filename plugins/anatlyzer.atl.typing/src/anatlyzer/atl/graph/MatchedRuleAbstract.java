@@ -17,7 +17,6 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class MatchedRuleAbstract extends MatchedRuleBase {
 
-
 	public MatchedRuleAbstract(MatchedRule atlRule) {
 		super(atlRule);
 	}

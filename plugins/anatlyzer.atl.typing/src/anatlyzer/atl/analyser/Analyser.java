@@ -23,7 +23,6 @@ public class Analyser implements IAnalyserResult {
 	private ATLModel	trafo;
 	private ErrorModel	errors;
 	
-	private boolean doDependency = true;
 	private ProblemGraph problemGraph;
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
@@ -36,10 +35,6 @@ public class Analyser implements IAnalyserResult {
 		this.trafo = atlModel;
 		this.typ   = atlModel.getTyping();
 		this.errors = atlModel.getErrors();
-	}
-	
-	public void setDoDependencyAnalysis(boolean doDependency) {
-		this.doDependency = doDependency;
 	}
 
 	public GlobalNamespace getNamespaces() {
@@ -69,9 +64,6 @@ public class Analyser implements IAnalyserResult {
 				
 				
 				stage++;
-				if ( doDependency ) {
-					problemGraph = new ErrorPathGenerator(trafo).perform();
-				}
 			}
 		});
 
@@ -123,6 +115,9 @@ public class Analyser implements IAnalyserResult {
 	}
 
 	public ProblemGraph getDependencyGraph() {
+		if ( problemGraph == null ) {
+			problemGraph = new ErrorPathGenerator(trafo).perform();
+		}
 		return problemGraph;
 	}
 

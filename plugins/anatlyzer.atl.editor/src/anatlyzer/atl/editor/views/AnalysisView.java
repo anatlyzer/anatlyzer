@@ -215,6 +215,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			case OverlappingRules.ANALYSIS_NOT_PERFORMED: s = "Not analysed!"; break;
 			case OverlappingRules.ANALYSIS_SOLVER_CONFIRMED: s = "Confirmed (by solver)"; break;
 			case OverlappingRules.ANALYSIS_SOLVER_DISCARDED: s = "Discarded (by solver)"; break;
+			case OverlappingRules.ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
 			case OverlappingRules.ANALYSIS_STATIC_CONFIRMED: s = "Confirmed (statically)";break;		
 			case OverlappingRules.ANALYSIS_SOLVER_FAILED: s = "Cannot determine (solver failed)";break;		
 			}
@@ -368,6 +369,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				case CANNOT_DETERMINE: prefix = "[?] "; break;
 				case ERROR_CONFIRMED: prefix = "[C] "; break;
 				case ERROR_DISCARDED: prefix = "[D] "; break;
+				case ERROR_DISCARDED_DUE_TO_METAMODEL: prefix = "[DM] "; break;
 				case INTERNAL_ERROR: prefix = "[E] "; break;
 				}
 			}

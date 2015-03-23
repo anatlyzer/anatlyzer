@@ -60,7 +60,7 @@ public class ErrorSliceGenerator {
 	public void generate(Resource r) {
 		generate();
 
-		List<ProblemPath> sorted = graph.getSortedPaths();
+		List<ProblemPath> sorted = graph.getSortedPathsByLocation();
 		
 		int i = 0;
 		for(ProblemPath path : sorted) {
@@ -75,6 +75,7 @@ public class ErrorSliceGenerator {
 		}
 	}
 	
+	/*
 	public void generate(ProblemPath path, Resource r) {
 		ErrorSlice slice = null;
 		LocalProblem problemOfNode   = path.getProblem();
@@ -85,7 +86,7 @@ public class ErrorSliceGenerator {
 
 		new EffectiveMetamodelBuilder(slice).extractSource(r, name, name, name, info);
 	}
-	
+	*/
 	
 	
 }

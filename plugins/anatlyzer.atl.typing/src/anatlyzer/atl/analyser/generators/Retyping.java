@@ -31,10 +31,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
-import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
-import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -79,6 +77,8 @@ public class Retyping extends AbstractVisitor {
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
 			markSeqAsSet(self);
 			
+			System.out.println("Retyping helper: " + ATLUtils.getHelperName(self));
+			
 			SetType t = TypesFactory.eINSTANCE.createSetType();
 			t.setContainedType(((CollectionType) self.getStaticReturnType()).getContainedType());
 			self.setStaticReturnType(t);
@@ -108,7 +108,10 @@ public class Retyping extends AbstractVisitor {
 	 */
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
+
 		if ( self.getInferredType() instanceof BooleanType && self.getUsedFeature() != null) {
+			System.out.println("Not retyping, because it seems that USE supports Booleans!");
+			/*
 			OperatorCallExp operator = OCLFactory.eINSTANCE.createOperatorCallExp();
 			StringExp stringExp = OCLFactory.eINSTANCE.createStringExp();
 			stringExp.setStringSymbol("true");
@@ -117,9 +120,7 @@ public class Retyping extends AbstractVisitor {
 			
 			EcoreUtil.replace(self, operator);
 			operator.setSource(self);
-			
-			System.out.println("=> " + USESerializer.gen(operator));
-			System.out.println("--");
+			*/
 		}
 
 	}
@@ -236,6 +237,9 @@ public class Retyping extends AbstractVisitor {
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(collect.getIterators().get(0));
 			oclAsType.setSource(varRef);
+			
+			// The new expression has 
+			collect.setInferredType(self.getInferredType());
 			
 			EcoreUtil.replace(self, collect);
 			collect.setSource(self);

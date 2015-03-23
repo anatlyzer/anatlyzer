@@ -5,6 +5,8 @@ import java.util.Calendar;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import transML.exceptions.transException;
@@ -80,7 +82,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		for(EClassifier c : errorMM2.getEClassifiers()) {
 			if ( c instanceof EClass ) {
 				mod.adapt((EClass) c, true);
+
+				for(EStructuralFeature f : ((EClass) c).getEStructuralFeatures()) {
+					mod.adapt(f, true);
+				}
 			}
+			
 		}
 	}
 

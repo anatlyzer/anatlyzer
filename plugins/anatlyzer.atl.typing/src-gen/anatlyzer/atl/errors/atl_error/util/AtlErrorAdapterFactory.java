@@ -219,6 +219,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createReadingTargetModelAdapter();
 			}
 			@Override
+			public Adapter caseLazyRuleWithFilter(LazyRuleWithFilter object) {
+				return createLazyRuleWithFilterAdapter();
+			}
+			@Override
 			public Adapter caseAmbiguousTargetModelReference(AmbiguousTargetModelReference object) {
 				return createAmbiguousTargetModelReferenceAdapter();
 			}
@@ -793,6 +797,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReadingTargetModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.LazyRuleWithFilter <em>Lazy Rule With Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.LazyRuleWithFilter
+	 * @generated
+	 */
+	public Adapter createLazyRuleWithFilterAdapter() {
 		return null;
 	}
 

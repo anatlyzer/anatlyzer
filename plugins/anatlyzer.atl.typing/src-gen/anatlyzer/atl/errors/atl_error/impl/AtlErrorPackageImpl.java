@@ -31,6 +31,7 @@ import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
+import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
@@ -320,6 +321,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass readingTargetModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass lazyRuleWithFilterEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1240,6 +1248,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getLazyRuleWithFilter() {
+		return lazyRuleWithFilterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAmbiguousTargetModelReference() {
 		return ambiguousTargetModelReferenceEClass;
 	}
@@ -1598,6 +1615,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		readingTargetModelEClass = createEClass(READING_TARGET_MODEL);
 		createEAttribute(readingTargetModelEClass, READING_TARGET_MODEL__MODEL_NAME);
 
+		lazyRuleWithFilterEClass = createEClass(LAZY_RULE_WITH_FILTER);
+
 		ambiguousTargetModelReferenceEClass = createEClass(AMBIGUOUS_TARGET_MODEL_REFERENCE);
 		createEAttribute(ambiguousTargetModelReferenceEClass, AMBIGUOUS_TARGET_MODEL_REFERENCE__MODEL_NAME);
 
@@ -1705,6 +1724,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		flattenOverNonNestedCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverEmptySequenceEClass.getESuperTypes().add(this.getLocalProblem());
 		readingTargetModelEClass.getESuperTypes().add(this.getLocalProblem());
+		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
 		ambiguousTargetModelReferenceEClass.getESuperTypes().add(this.getLocalProblem());
 		noModelFoundEClass.getESuperTypes().add(this.getLocalProblem());
 		wrongTypeEClass.getESuperTypes().add(this.getLocalProblem());
@@ -1841,6 +1861,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(readingTargetModelEClass, ReadingTargetModel.class, "ReadingTargetModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadingTargetModel_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, ReadingTargetModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(lazyRuleWithFilterEClass, LazyRuleWithFilter.class, "LazyRuleWithFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ambiguousTargetModelReferenceEClass, AmbiguousTargetModelReference.class, "AmbiguousTargetModelReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAmbiguousTargetModelReference_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, AmbiguousTargetModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

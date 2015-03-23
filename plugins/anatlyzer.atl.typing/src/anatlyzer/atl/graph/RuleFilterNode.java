@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public class RuleFilterNode implements ConstraintNode {
@@ -19,6 +20,11 @@ public class RuleFilterNode implements ConstraintNode {
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, expr);
+	}
+	
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return AbstractDependencyNode.problemInExpression(lp, expr);
 	}
 	
 	@Override

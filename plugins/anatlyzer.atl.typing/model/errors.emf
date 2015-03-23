@@ -86,7 +86,6 @@ package atl_error {
 	class OperationNotFound extends OperationCallInvalid {
 	}
 
-
 	class OperationCallInvalidNumberOfParameters extends OperationCallInvalid {					
 	}
 	
@@ -204,6 +203,10 @@ package atl_error {
 	
 	class ReadingTargetModel extends LocalProblem {
 		attr String[1] modelName;
+	}
+
+	class LazyRuleWithFilter extends LocalProblem {
+		
 	}
 
 	class AmbiguousTargetModelReference extends LocalProblem {

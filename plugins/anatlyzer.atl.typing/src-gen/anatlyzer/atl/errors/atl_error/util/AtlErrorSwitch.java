@@ -419,6 +419,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: {
+				LazyRuleWithFilter lazyRuleWithFilter = (LazyRuleWithFilter)theEObject;
+				T result = caseLazyRuleWithFilter(lazyRuleWithFilter);
+				if (result == null) result = caseLocalProblem(lazyRuleWithFilter);
+				if (result == null) result = caseProblem(lazyRuleWithFilter);
+				if (result == null) result = caseAnalysisInfo(lazyRuleWithFilter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.AMBIGUOUS_TARGET_MODEL_REFERENCE: {
 				AmbiguousTargetModelReference ambiguousTargetModelReference = (AmbiguousTargetModelReference)theEObject;
 				T result = caseAmbiguousTargetModelReference(ambiguousTargetModelReference);
@@ -1087,6 +1096,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseReadingTargetModel(ReadingTargetModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Lazy Rule With Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Lazy Rule With Filter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLazyRuleWithFilter(LazyRuleWithFilter object) {
 		return null;
 	}
 

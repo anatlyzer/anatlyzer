@@ -7,6 +7,7 @@ import java.util.List;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.RuleFilterNode;
@@ -33,6 +34,15 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		}
 	}
 
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		for (InternalRuleExecution node : nodes) {
+			if ( node.isInPath(lp) ) 
+				return true;
+		}
+		return 	checkDependenciesAndConstraints(lp);
+	}
+	
 	@Override
 	public OclExpression genCSP(CSPModel model) {
 

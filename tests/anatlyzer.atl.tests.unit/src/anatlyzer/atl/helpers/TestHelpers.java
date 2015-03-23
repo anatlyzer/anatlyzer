@@ -13,14 +13,14 @@ public class TestHelpers extends UnitTest {
 	@Test
 	public void testOclAnyHelper() throws Exception {
 		String T = trafo("oclany_helper");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 	}
 
 	@Test
 	public void testParameterPassing() throws Exception {
 		String T = trafo("parameter_passing");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(3, problems().size());
 	}

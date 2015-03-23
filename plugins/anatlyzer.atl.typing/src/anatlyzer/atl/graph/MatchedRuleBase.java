@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -11,9 +12,6 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OclUndefinedExp;
-import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -22,6 +20,13 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 
 	public MatchedRuleBase(MatchedRule atlRule) {
 		this.rule = atlRule;		
+	}
+	
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return 	(rule.getInPattern().getFilter() != null ? 
+					problemInExpression(lp, rule.getInPattern().getFilter()) : false) ||
+				checkDependenciesAndConstraints(lp);
 	}
 	
 	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model) {

@@ -16,7 +16,7 @@ public class TestIfs extends UnitTest {
 	@Test
 	public void testConflictionIfs_Collection() throws Exception {
 		String T = trafo("if_collection");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 	}
 

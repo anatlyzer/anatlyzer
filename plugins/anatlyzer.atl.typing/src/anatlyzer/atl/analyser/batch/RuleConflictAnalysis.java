@@ -179,6 +179,7 @@ public class RuleConflictAnalysis {
 		public static final int ANALYSIS_SOLVER_CONFIRMED = 2;
 		public static final int ANALYSIS_SOLVER_DISCARDED = 3;
 		public static final int ANALYSIS_SOLVER_FAILED = 4;
+		public static final int ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL = 5;
 		
 		public OverlappingRules(Metaclass type, MatchedRule r) {
 			this.type = type;

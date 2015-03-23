@@ -15,7 +15,7 @@ public class TestRetyping extends UnitTest {
 		String errorLocation =  "8:14-8:79";
 		
 		String T = trafo("retyping_select");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		boolean[] result = confirmOrDiscardTypingProblems();
 		
@@ -25,7 +25,7 @@ public class TestRetyping extends UnitTest {
 	@Test
 	public void testCollectionOperations() throws Exception {
 		String T = trafo("retyping_collection_operations");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		boolean[] result = confirmOrDiscardTypingProblems();
 		assertTrue(result[0]);

@@ -25,7 +25,7 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
 
-			analysisData.computeProblemGraph(problem);
+			// analysisData.computeProblemGraph(problem);
 			
 			String trafo = new TransformationSlicer(null).generateSlice(analysisData.getPath(), analysisData.getAnalyser());
 		

@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -30,8 +31,12 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 			n.genErrorSlice(slice);
 		}		
 		
-		OclSlice.slice(slice, binding.getValue());
-		
+		OclSlice.slice(slice, binding.getValue());		
+	}
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ public class TestImplicitCasting extends UnitTest {
 	@Test
 	public void testImplicitCasting() throws Exception {
 		String T = trafo("implicit_ocl_kind_of");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(1, problems().size());	
 		assertTrue(problems().get(0) instanceof FeatureNotFound);
@@ -27,7 +27,7 @@ public class TestImplicitCasting extends UnitTest {
 	@Test
 	public void testImplicitCasting_IfElse() throws Exception {
 		String T = trafo("implicit_if_else");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(1, problems().size());		
 	}
@@ -35,11 +35,19 @@ public class TestImplicitCasting extends UnitTest {
 	@Test
 	public void testImplicitOclIsUndefined() throws Exception {
 		String T = trafo("implicit_ocl_is_undefined");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
-		assertEquals(2, problems().size());		
+		assertEquals(1, problems().size());		
 		assertTrue(problems().get(0) instanceof AccessToUndefinedValue);
-		assertTrue(problems().get(1) instanceof AccessToUndefinedValue);
 	}
 	
+	
+	@Test
+	public void testImplicitInRule() throws Exception {
+		String T = trafo("implicit_in_rule");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());		
+		assertTrue(problems().get(0) instanceof FeatureNotFound);
+	}
 }

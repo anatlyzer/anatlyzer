@@ -62,9 +62,7 @@ public class AnalyserExecutor {
 			}
 		});
 		
-		Analyser analyser = new Analyser(mm, atlModel);
-		analyser.setDoDependencyAnalysis(false);		
-		
+		Analyser analyser = new Analyser(mm, atlModel);		
 		addExtensions(analyser, atlModel, mm);
 		
 		try {
@@ -106,53 +104,7 @@ public class AnalyserExecutor {
 		public AnalyserData(Analyser analyser, GlobalNamespace gn) {
 			super(analyser, gn);
 		}
-
-		public void computeProblemGraph(Problem p) {			
-			path = new ErrorPathGenerator(analyser.getATLModel()).generatePath((LocalProblem) p);
-		}
 			
-		public EPackage getSourceMetamodel() {
-			// This should be improved somehow!
-			return AnalyserUtils.getSingleSourceMetamodel(analyser);
-		}
-
-		public EPackage generateErrorSlice(Problem p) {
-			if ( path == null )
-				throw new IllegalStateException();
-			
-			Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
-			OclModel m = mod.getInModels().get(0);
-			String mm  = m.getMetamodel().getName();
-			String uri = mm + "_" + "error";
-			
-			XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
-			new ErrorSliceGenerator(analyser, null).generate(path, r);
-
-			return (EPackage) r.getContents().get(0);
-			// r.getContents()
-			// r.save(null);
-		}
-		
-		public EPackage generateEffectiveMetamodel(Problem p) { //throws IOException {
-			if ( path == null )
-				throw new IllegalStateException();
-
-			Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
-			OclModel m = mod.getInModels().get(0);
-			String mm  = m.getMetamodel().getName();
-			String uri = mm + "_" + "effective";
-			
-			XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
-			TrafoMetamodelData data = new TrafoMetamodelData(analyser.getATLModel(), 
-					namespace.getNamespace(mm));
-			
-			String logicalName = mm;
-			new EffectiveMetamodelBuilder(data).extractSource(r, logicalName, logicalName, logicalName, logicalName);
-			
-			return (EPackage) r.getContents().get(0);
-			
-		}
-
 		public ProblemPath getPath() {
 			return path;
 		}

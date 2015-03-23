@@ -15,7 +15,7 @@ public class Modisco extends BaseTest {
 	private void run() throws Exception {
 		String selectedError = "268:4-268:33";
 		typing(Java2KDM_TRANSFORMATION, new Object[] { JAVA_METAMODEL, KDM_METAMODEL }, 
-				   new String[] { "java", "kdm" }, true);
+				   new String[] { "java", "kdm" });
 		
 		printStatistics();
 		printErrorsByType();

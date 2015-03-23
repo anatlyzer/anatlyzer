@@ -13,6 +13,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
@@ -44,7 +45,12 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		this.binding = binding;
 		this.atlModel   = model;
 	}
-	
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
+	}
+
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		for(DependencyNode n : dependencies) {

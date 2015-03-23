@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -36,6 +37,15 @@ public class ConditionalNode extends AbstractDependencyNode {
 		generatedDependencies(slice);
 	}
 
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, ifExpr.getCondition()) 
+				|| (branch == TRUE_BRANCH ? 
+						problemInExpression(lp, ifExpr.getThenExpression()) :  
+						problemInExpression(lp, ifExpr.getElseExpression()))				
+				|| checkDependenciesAndConstraints(lp);
+	}
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);

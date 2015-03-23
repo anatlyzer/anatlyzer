@@ -8,6 +8,7 @@ import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -54,6 +55,21 @@ public class ProblemPath implements IDetectedProblem {
 	@Override
 	public OclExpression getWitnessCondition() {
 		return CSPGenerator.generateCSPCondition(this);
+	}
+
+	
+	/**
+	 * Checks whether a given problem is in the path.
+	 * @param lp the problem to be checked.
+	 * @return 
+	 */
+	public boolean isInPath(LocalProblem lp) {
+		for (ExecutionNode executionNode : rules) {
+			if ( executionNode.isInPath(lp) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	

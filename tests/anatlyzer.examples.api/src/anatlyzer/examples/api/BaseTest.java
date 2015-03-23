@@ -32,6 +32,7 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
+import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -45,8 +46,7 @@ public class BaseTest {
 	protected Analyser analyser;
 	private List<OverlappingRules> possibleRuleConflicts;
 
-	public void typing(String atlTransformationFile, Object[] metamodels,
-			String[] names, boolean doDependencyAnalysis) throws Exception {
+	public void typing(String atlTransformationFile, Object[] metamodels, String[] names) throws Exception {
 		this.atlTransformationFile = atlTransformationFile;
 
 		long diffs = 0;
@@ -62,7 +62,6 @@ public class BaseTest {
 		this.mm = loadMetamodels(metamodels, names);
 		this.atlTransformation = new ATLModel(atlModel.getResource(), atlTransformationFile);
 		this.analyser = new Analyser(mm, atlTransformation);
-		analyser.setDoDependencyAnalysis(doDependencyAnalysis);
 
 		long initTime = System.currentTimeMillis();
 		analyser.perform();
@@ -77,6 +76,10 @@ public class BaseTest {
 		return analyser.getErrors().getLocalProblems();
 	}
 
+	protected ProblemGraph getProblemGraph() {
+		return analyser.getDependencyGraph();
+	}
+	
 	protected void generateGraphviz() {
 		generateGraphviz(null);
 	}

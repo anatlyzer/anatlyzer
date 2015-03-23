@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
+import javax.lang.model.type.ErrorType;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;

@@ -12,7 +12,7 @@ public class Workflow2PN extends BaseTest {
 
 	private void run() throws Exception {
 		typing(TRANSFORMATION, new Object[] { WF_METAMODEL, PN_METAMODEL }, 
-				   new String[] { "WF", "PN" }, true);
+				   new String[] { "WF", "PN" });
 
 		// 99:4-99:21
 		

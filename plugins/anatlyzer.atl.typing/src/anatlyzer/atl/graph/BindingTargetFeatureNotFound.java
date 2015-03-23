@@ -5,6 +5,7 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -21,6 +22,11 @@ public class BindingTargetFeatureNotFound extends AbstractBindingAssignmentNode<
 		for(DependencyNode n : dependencies) {
 			n.genErrorSlice(slice);
 		}		
+	}
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return checkDependenciesAndConstraints(lp);
 	}
 
 	@Override

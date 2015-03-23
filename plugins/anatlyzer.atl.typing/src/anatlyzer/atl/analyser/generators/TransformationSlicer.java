@@ -23,7 +23,7 @@ public class TransformationSlicer {
 	}
 	
 	public String generateLoc(String location, Analyser analyser) {
-		List<ProblemPath> sorted = graph.getSortedPaths();
+		List<ProblemPath> sorted = graph.getSortedPathsByLocation();
 		
 		String s = "";
 		for(ProblemPath path : sorted) {

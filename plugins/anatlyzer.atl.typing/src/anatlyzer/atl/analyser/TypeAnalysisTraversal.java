@@ -33,6 +33,7 @@ import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
@@ -206,7 +207,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		if ( declared instanceof Unknown ) {
 			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, inferred);
-		} else if ( ! typ().assignableTypes(declared, inferred) ) {
+		} else if ( !(inferred instanceof TypeError) && ! typ().assignableTypes(declared, inferred) ) {
 			errors().warningIncoherentHelperReturnType(self, inferred, declared);
 			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, determineBestInIncoherentType(declared, inferred));
 		}
@@ -518,23 +519,28 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			// Discard those with a negation
 			boolean hasNegation = false;
-			boolean inIfCondition = false;
+			boolean inConditionPosition = false;
 			OclExpression child = self;
 			EObject parent = self.eContainer();
-			while ( parent instanceof OclExpression && ! hasNegation ) {
-				if ( parent instanceof OperatorCallExp ) {
+			while ( parent instanceof OclExpression ) {
+				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
 					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
 				}
-				if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
-					inIfCondition = true;
+				else if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
+					inConditionPosition = true;
 					break;
 				}
 				
 				child  = (OclExpression) parent;
-				parent = parent.eContainer();
+				parent = parent.eContainer();				
 			}
 			
-			if ( inIfCondition ) {
+			if ( parent instanceof InPattern && ((InPattern) parent).getFilter() == child ) {
+				inConditionPosition = true;
+			}
+
+			
+			if ( inConditionPosition ) {
 				VariableExp ve = VariableScope.findStartingVarExp(self);
 				if ( ! hasNegation ) {
 					// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account

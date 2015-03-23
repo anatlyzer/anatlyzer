@@ -6,37 +6,27 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
-import witness.generator.WitnessGeneratorMemory;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.footprint.EffectiveMetamodelBuilder;
-import anatlyzer.ui.util.WorkbenchUtil;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 
 public class CheckRuleConflicts implements IEditorActionDelegate {
 
 	private AtlEditor editor;
-	private EPackage language;
-	private EPackage effective;
+	private IWitnessFinder wf;
 
 	@Override
 	public void run(IAction action) {
-		// new RuleConflictAnalysis();
-		
 		IResource resource = editor.getUnderlyingResource();
 		try {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
@@ -76,11 +66,35 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			return true;
 		}
 			
+		// The first time obtain a new witness finder, which is reused every time
+		if ( wf == null ) {
+			wf = WitnessUtil.getFirstWitnessFinder();
+		}
+
+		switch ( wf.find(overlap, data) ) {
+		case CANNOT_DETERMINE:
+		case INTERNAL_ERROR: 
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
+			return true; // so that it is included
+		case ERROR_CONFIRMED:
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_CONFIRMED);
+			return true;
+		case ERROR_DISCARDED:			
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED);
+			return false;
+		case ERROR_DISCARDED_DUE_TO_METAMODEL:			
+			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL);
+			return false;			
+		}
+		
+		throw new IllegalStateException();
+		
 		// Error meta-model
-		XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("overlap_error"));
-		EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice(data.getAnalyser())).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
+		// XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("overlap_error"));
+		// EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice(data.getAnalyser())).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
 		
 		// Effective meta-model
+		/*
 		if ( effective == null ) {
 			XMIResourceImpl r2 =  new XMIResourceImpl(URI.createURI("overlap_effective"));
 			TrafoMetamodelData trafoData = new TrafoMetamodelData(data.getAnalyser().getATLModel(), null);
@@ -88,11 +102,15 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			String logicalName = "effective_mm";
 			effective = new EffectiveMetamodelBuilder(trafoData).extractSource(r2, logicalName, logicalName, logicalName, logicalName);
 		}
+		*/
 		
 		// Language meta-model
+		/*
 		if ( language == null )
-			language  = data.getSourceMetamodel();
-
+			language  = AnalyserUtils.getSingleSourceMetamodel(data.getAnalyser()); //data.getSourceMetamodel();
+		*/
+		
+		/*
 		String projectPath = WorkbenchUtil.getProjectPath();
 		
 		OclExpression constraint = overlap.getWitnessCondition();
@@ -116,7 +134,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
 			return true; // So that it is included
 		}
-		
+		*/
 		
 	}
 

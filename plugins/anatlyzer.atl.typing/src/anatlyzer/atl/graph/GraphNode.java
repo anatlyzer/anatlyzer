@@ -4,6 +4,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public interface GraphNode {
@@ -13,4 +14,5 @@ public interface GraphNode {
 	void genTransformationSlice(TransformationSlice slice);
 	void genGraphviz(GraphvizBuffer gv);
 
+	public boolean isInPath(LocalProblem lp);
 }

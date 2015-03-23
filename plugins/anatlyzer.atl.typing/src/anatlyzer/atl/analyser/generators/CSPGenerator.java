@@ -29,7 +29,7 @@ public class CSPGenerator {
 	 * @return
 	 */
 	public String generateLoc(String location) {
-		List<ProblemPath> sorted = graph.getSortedPaths();
+		List<ProblemPath> sorted = graph.getSortedPathsByLocation();
 		
 		String s = "";
 		for(ProblemPath path : sorted) {

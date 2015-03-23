@@ -6,12 +6,14 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -56,6 +58,23 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 			throw new UnsupportedOperationException(rule.getClass().getName());		
 		}
 		generatedDependencies(slice);
+	}
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		// Filters are ignored in lazy rules
+		/*
+		if ( rule instanceof RuleWithPattern && ((RuleWithPattern) rule).getInPattern().getFilter() != null ) {
+			if ( problemInExpression(lp, ((RuleWithPattern) rule).getInPattern().getFilter() ) )
+				return true;
+		}
+		*/
+		for(RuleVariableDeclaration v : rule.getVariables()) {
+			if ( problemInExpression(lp, v.getInitExpression())) 
+				return true;
+		}
+		// Problem could be in the rest of the rule parameters??
+		return checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override

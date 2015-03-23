@@ -86,7 +86,6 @@ public class OclSlice {
 				pce = op;
 			}
 
-
 			if ( ! pce.isIsStaticCall() ) {
 				EList<ContextHelper> resolvers = pce.getDynamicResolvers();
 				for (ContextHelper contextHelper : resolvers) {
@@ -103,7 +102,9 @@ public class OclSlice {
 						slice(slice, body, true);						
 					}
 				}
-				// System.out.println("OclSlice - OperationCall not generating static call");
+				// Imperative rules are not considered in the slice because they
+				// are not part of the constraint solver invariant, since they
+				// generate target objects
 			}
 			
 		} else if ( expr instanceof CollectionExp ) {

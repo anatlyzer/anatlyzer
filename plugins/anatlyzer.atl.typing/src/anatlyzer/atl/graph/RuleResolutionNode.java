@@ -5,6 +5,7 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -24,6 +25,11 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 		for(DependencyNode n : dependencies) {
 			n.genErrorSlice(slice);
 		}				
+	}
+	
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override

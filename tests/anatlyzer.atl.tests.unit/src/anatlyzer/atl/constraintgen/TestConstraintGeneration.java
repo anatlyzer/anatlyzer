@@ -13,7 +13,7 @@ public class TestConstraintGeneration extends UnitTest {
 	@Test
 	public void testBindingIncludingTargetElement() throws Exception {
 		String T = trafo("binding_including_target");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		boolean[] result = confirmOrDiscardTypingProblems();
 		assertTrue(result[0]);

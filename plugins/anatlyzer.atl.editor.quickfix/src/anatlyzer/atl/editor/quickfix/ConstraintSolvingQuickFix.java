@@ -24,10 +24,11 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 
 			WitnessResult result = new UseWitnessFinder().find(problem, analysisData);
 			switch ( result ) {
-			case ERROR_DISCARDED: MessageDialog.openInformation(null, "Constraint solving", "No error. Witness model could be found");
-			case ERROR_CONFIRMED: MessageDialog.openInformation(null, "Constraint solving", "Error confirmed!");
-			case INTERNAL_ERROR: MessageDialog.openInformation(null, "Constraint solving", "Internal error.");
-			case CANNOT_DETERMINE: MessageDialog.openInformation(null, "Constraint solving", "Cannot be determined.");
+			case ERROR_DISCARDED: MessageDialog.openInformation(null, "Constraint solving", "No error. Witness model could be found"); break;
+			case ERROR_DISCARDED_DUE_TO_METAMODEL:	MessageDialog.openInformation(null, "Constraint solving", "Metamodel error!. Witness model could be found due to the meta-model not being 'instantiable'"); break;
+			case ERROR_CONFIRMED: MessageDialog.openInformation(null, "Constraint solving", "Error confirmed!"); break;
+			case INTERNAL_ERROR: MessageDialog.openInformation(null, "Constraint solving", "Internal error.");break;
+			case CANNOT_DETERMINE: MessageDialog.openInformation(null, "Constraint solving", "Cannot be determined."); break;
 			}
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block

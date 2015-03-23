@@ -5,7 +5,7 @@ create OUT : WXYZ from IN : ABCD;
 
 helper context ABCD!Model def : simple() : String = 
 	if self.optionalA.oclIsUndefined() then
-		self.optionalB.name
+		'noError'
 	else
 		self.optionalA.name
 	endif;

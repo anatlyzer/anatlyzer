@@ -98,8 +98,6 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		if ( ! helpers.containsKey(ctxTypeName) ) {
 			helpers.put(ctxTypeName, new HashSet<Helper>());
 		}
-
-		System.out.println("Added ===>" + USESerializer.gen( ATLUtils.getBody(helper)) );
 		
 		return helpers.get(ctxTypeName).add(helper);	
 	}

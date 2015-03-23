@@ -265,6 +265,15 @@ public interface AtlErrorFactory extends EFactory {
 	ReadingTargetModel createReadingTargetModel();
 
 	/**
+	 * Returns a new object of class '<em>Lazy Rule With Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Lazy Rule With Filter</em>'.
+	 * @generated
+	 */
+	LazyRuleWithFilter createLazyRuleWithFilter();
+
+	/**
 	 * Returns a new object of class '<em>Ambiguous Target Model Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

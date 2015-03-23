@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.util.ATLUtils;
@@ -27,6 +28,11 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, start);
 		generatedDependencies(slice);
+	}
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, start) || checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override

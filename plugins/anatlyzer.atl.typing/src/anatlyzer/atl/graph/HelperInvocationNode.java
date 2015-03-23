@@ -4,6 +4,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
@@ -38,6 +39,13 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 		
 		
 		generatedDependencies(slice);
+	}
+	
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		// Problem could be in the rest of the helper structure??
+		return problemInExpression(lp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override

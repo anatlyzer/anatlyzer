@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -22,7 +23,6 @@ public class LoopNode extends AbstractDependencyNode {
 		this.iteratorVar = iterator;
 	}
 
-
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		// TODO: Slice only until the end of the loop (to avoid slicing part of the body of an iterator, not included in the path)
@@ -30,6 +30,13 @@ public class LoopNode extends AbstractDependencyNode {
 		super.generatedDependencies(slice);
 	}
 
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return 	problemInExpression(lp, receptor) ||
+				checkDependenciesAndConstraints(lp);
+	}
+	
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		gv.addNode(this, "Loop: " + USESerializer.gen(receptor), leadsToExecution);

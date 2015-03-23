@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -59,6 +60,12 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		}
 		
 	}
+	
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
+	}
+
 
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {

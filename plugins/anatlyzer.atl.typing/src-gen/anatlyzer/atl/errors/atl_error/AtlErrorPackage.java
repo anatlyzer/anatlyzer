@@ -482,7 +482,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 37;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 38;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -492,7 +492,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 38;
+	int NO_MODEL_FOUND = 39;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -502,7 +502,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 39;
+	int WRONG_TYPE = 40;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -512,7 +512,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 40;
+	int ITERATOR_BODY_WRONG_TYPE = 41;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -522,7 +522,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 41;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 42;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -532,7 +532,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 42;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 43;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -542,7 +542,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 43;
+	int NO_CLASS_FOUND_IN_METAMODEL = 44;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -552,7 +552,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 44;
+	int INVALID_ARGUMENT = 45;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -562,7 +562,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 45;
+	int COLLECTION_OPERATION_NOT_FOUND = 46;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -572,7 +572,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 46;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 47;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -4381,6 +4381,106 @@ public interface AtlErrorPackage extends EPackage {
 	int READING_TARGET_MODEL_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl <em>Lazy Rule With Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
+	 * @generated
+	 */
+	int LAZY_RULE_WITH_FILTER = 37;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Lazy Rule With Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Lazy Rule With Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5333,7 +5433,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 47;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 48;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5451,7 +5551,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 48;
+	int INCOHERENT_VARIABLE_DECLARATION = 49;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5570,7 +5670,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 	 * @generated
 	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 49;
+	int INCOHERENT_HELPER_RETURN_TYPE = 50;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5688,7 +5788,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
 	 * @generated
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE = 50;
+	int OPERATION_OVER_COLLECTION_TYPE = 51;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5789,7 +5889,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAccessToUndefinedValue()
 	 * @generated
 	 */
-	int ACCESS_TO_UNDEFINED_VALUE = 51;
+	int ACCESS_TO_UNDEFINED_VALUE = 52;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -6726,6 +6826,16 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getReadingTargetModel_ModelName();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.LazyRuleWithFilter <em>Lazy Rule With Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Lazy Rule With Filter</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.LazyRuleWithFilter
+	 * @generated
+	 */
+	EClass getLazyRuleWithFilter();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference <em>Ambiguous Target Model Reference</em>}'.
@@ -7706,6 +7816,16 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute READING_TARGET_MODEL__MODEL_NAME = eINSTANCE.getReadingTargetModel_ModelName();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl <em>Lazy Rule With Filter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
+		 * @generated
+		 */
+		EClass LAZY_RULE_WITH_FILTER = eINSTANCE.getLazyRuleWithFilter();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.

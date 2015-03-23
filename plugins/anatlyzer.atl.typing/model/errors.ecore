@@ -180,6 +180,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LazyRuleWithFilter" eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="AmbiguousTargetModelReference" eSuperTypes="#//atl_error/LocalProblem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

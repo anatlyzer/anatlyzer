@@ -11,7 +11,7 @@ public class TestRegresion extends UnitTest {
 	@Test
 	public void testBindingTargetFeatureNotFound() throws Exception {
 		String T = trafo("binding_target_feature_not_found");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" }, true);
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 	}
 
 	

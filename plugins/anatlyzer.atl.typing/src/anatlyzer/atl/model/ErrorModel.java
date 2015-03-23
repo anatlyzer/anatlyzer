@@ -1,12 +1,5 @@
 package anatlyzer.atl.model;
 
-import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.TupleType;
-import anatlyzer.atl.types.Type;
-import anatlyzer.atl.types.TypeError;
-import anatlyzer.atl.types.UnionType;
-import anatlyzer.atl.util.ATLUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,25 +7,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.ForEachOutPatternElement;
-import anatlyzer.atlext.ATL.ForStat;
-import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.OCL.Attribute;
-import anatlyzer.atlext.OCL.IteratorExp;
-import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
-import anatlyzer.atlext.OCL.OclFeature;
-import anatlyzer.atlext.OCL.OclModelElement;
-import anatlyzer.atlext.OCL.Operation;
-import anatlyzer.atlext.OCL.OperationCallExp;
-import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.namespaces.TypeErrorNamespace;
-import anatlyzer.atl.analyser.namespaces.VirtualFeature;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.AnalysisResult;
 import anatlyzer.atl.errors.AnalysisResultFactory;
@@ -61,6 +39,7 @@ import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
+import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
@@ -82,6 +61,24 @@ import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
 import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.TupleType;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypeError;
+import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.OclFeature;
+import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**
  * 
@@ -136,6 +133,13 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newUnresolvedType(error);
 	}
 
+	public void signalLazyRuleWithFilter(LazyRule element) {
+		LazyRuleWithFilter error = AtlErrorFactory.eINSTANCE.createLazyRuleWithFilter();
+		initProblem(error, element);
+		
+		signalError(error, "Lazy rule's filter is ignored at runtime, in rule " + element.getName(), element);
+	}
+	
 	public Type signalNoFeature(EClass c, String featureName, LocatedElement element) {
 		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
 		initProblem(error, element);
@@ -400,7 +404,7 @@ public class ErrorModel {
 		initProblem(error, node);
 		error.setFeatureName(featureName);
 		
-		signalNoRecoverableError("No feature " + featureName + " for " + TypeUtils.typeToString(type), node);
+		signalError(error, "No feature " + featureName + " for " + TypeUtils.typeToString(type), node);
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
@@ -735,8 +739,5 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
-
-
-
 	
 }

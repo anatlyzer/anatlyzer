@@ -21,7 +21,11 @@ public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProbl
 		this.expr = expr;
 	}
 
-	
+
+	@Override
+	public boolean isInPath(LocalProblem lp) {
+		return problemInExpression(lp, expr) || checkDependenciesAndConstraints(lp);
+	}
 
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {

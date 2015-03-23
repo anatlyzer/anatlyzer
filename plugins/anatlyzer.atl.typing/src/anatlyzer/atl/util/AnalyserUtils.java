@@ -30,6 +30,7 @@ import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
@@ -226,6 +227,7 @@ public class AnalyserUtils {
 		if ( p instanceof ObjectBindingButPrimitiveAssigned ) return 19;
 		if ( p instanceof PrimitiveBindingInvalidAssignment ) return 20;
 		if ( p instanceof FeatureNotFoundInUnionType ) return 21;
+		if ( p instanceof NoClassFoundInMetamodel ) return 22;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

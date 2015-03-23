@@ -222,6 +222,10 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		if ( self.isIsAbstract() ) 
 			return;
 		
+		if ( self.getInPattern().getFilter() != null ) {
+			errors().signalLazyRuleWithFilter(self);
+		}
+		
 		Type t = attr.typeOf(self.getOutPattern().getElements().get(0).getType()); 
 		mm.getTransformationNamespace().attachRule(self.getName(), t, self);
 	}

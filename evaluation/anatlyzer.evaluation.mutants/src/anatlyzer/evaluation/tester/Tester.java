@@ -455,7 +455,6 @@ public class Tester {
 
 		// anatlyse
 		Analyser analyser = new Analyser(namespace, atlTransformation);
-		analyser.setDoDependencyAnalysis(doDependencyAnalysis);
 		analyser.perform();
 
 		return analyser.getErrors().getAnalysis().getProblems();

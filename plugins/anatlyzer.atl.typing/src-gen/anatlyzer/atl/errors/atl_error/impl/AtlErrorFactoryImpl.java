@@ -83,6 +83,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.FLATTEN_OVER_NON_NESTED_COLLECTION: return createFlattenOverNonNestedCollection();
 			case AtlErrorPackage.ITERATOR_OVER_EMPTY_SEQUENCE: return createIteratorOverEmptySequence();
 			case AtlErrorPackage.READING_TARGET_MODEL: return createReadingTargetModel();
+			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: return createLazyRuleWithFilter();
 			case AtlErrorPackage.AMBIGUOUS_TARGET_MODEL_REFERENCE: return createAmbiguousTargetModelReference();
 			case AtlErrorPackage.NO_MODEL_FOUND: return createNoModelFound();
 			case AtlErrorPackage.ITERATOR_BODY_WRONG_TYPE: return createIteratorBodyWrongType();
@@ -369,6 +370,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public ReadingTargetModel createReadingTargetModel() {
 		ReadingTargetModelImpl readingTargetModel = new ReadingTargetModelImpl();
 		return readingTargetModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LazyRuleWithFilter createLazyRuleWithFilter() {
+		LazyRuleWithFilterImpl lazyRuleWithFilter = new LazyRuleWithFilterImpl();
+		return lazyRuleWithFilter;
 	}
 
 	/**

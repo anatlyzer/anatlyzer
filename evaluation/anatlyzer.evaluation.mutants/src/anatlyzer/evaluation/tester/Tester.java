@@ -315,7 +315,7 @@ public class Tester {
 	 */ 
 	private void evaluateTransformation (String transformation) {		
 		System.out.println("evaluating " + transformation + "...");
-		
+		//if (transformation.endsWith("t46.atl")) return;
 		// name of input/output metamodels of the transformation
 		// TODO: there may be several input/output metamodels
 		String immAlias = this.inputMetamodels.get(0);
@@ -342,10 +342,10 @@ public class Tester {
 				});
 
 			boolean error = false;
-
+int i=0;
 			// for each input test model
 			for (File inputModel : inputModels) {
-				
+				System.out.println(inputModel.getName());
 				// load input/output model
 				String iModel  = inputModel.getPath();
 				String oFolder = transformation.substring(transformation.lastIndexOf("m"), transformation.lastIndexOf("."));
@@ -372,6 +372,8 @@ public class Tester {
 				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
 				
 				if (error) break;
+				
+				i++; if (i>4) { engine = new ATLEngine(); engine.loadTransformation(transformation_asm); i=0; }
 			}
 		}
 		catch (transException e) { System.out.println("*** EXECUTION ERROR *** "); e.printStackTrace(); } 

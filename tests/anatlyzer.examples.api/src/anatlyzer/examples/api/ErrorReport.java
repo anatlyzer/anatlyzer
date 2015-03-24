@@ -8,9 +8,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.ExtendTransformation;
@@ -127,24 +131,34 @@ public class ErrorReport {
 	public static void printErrorsByType(Analyser analyser, OutputStream stream) {
 		PrintStream out = new PrintStream(stream);
 		
-		HashMap<Class<?>, List<Problem>> problemsByType = new HashMap<Class<?>, List<Problem>>();
-		for (anatlyzer.atl.errors.Problem p : analyser.getErrors()
-				.getAnalysis().getProblems()) {
+		SortedMap<Integer, List<Problem>> problemsByType = new TreeMap<Integer, List<Problem>>();
+		
+		ArrayList<Problem> problems = new ArrayList<anatlyzer.atl.errors.Problem>(analyser.getErrors().getAnalysis().getProblems());
+//		Collections.sort(problems, new Comparator<anatlyzer.atl.errors.Problem>() {
+//			@Override
+//			public int compare(Problem o1, Problem o2) {				
+//				return ((Integer) AnalyserUtils.getProblemId(o1)).compareTo(AnalyserUtils.getProblemId(o2));
+//			}
+//		});
+		
+		for (anatlyzer.atl.errors.Problem p : problems) {
+			int id = AnalyserUtils.getProblemId(p);
+			if (!problemsByType.containsKey(id))
+				problemsByType.put(id, new ArrayList<Problem>());
+
+			problemsByType.get(id).add(p);
+		}
+
+		out.println("Problems by type");
+		for (Entry<Integer, List<Problem>> e : problemsByType.entrySet()) {
+			Problem p = e.getValue().get(0);
 			Class<?> klass = p.getClass();
 			if (p instanceof LocalProblem
 					&& ((LocalProblem) p).getRecovery() != null) {
 				klass = ((LocalProblem) p).getRecovery().getClass();
 			}
-
-			if (!problemsByType.containsKey(klass))
-				problemsByType.put(klass, new ArrayList<Problem>());
-
-			problemsByType.get(klass).add(p);
-		}
-
-		out.println("Problems by type");
-		for (Entry<Class<?>, List<Problem>> e : problemsByType.entrySet()) {
-			out.print(" " + AnalyserUtils.getProblemId(e.getValue().get(0)) + ". " + e.getKey().getSimpleName().replace("Impl",  "") + " ");
+			
+			out.print(" " + e.getKey() + ". " + klass.getSimpleName().replace("Impl",  "") + " ");
 			out.println(e.getValue().size());
 		}
 		out.println();

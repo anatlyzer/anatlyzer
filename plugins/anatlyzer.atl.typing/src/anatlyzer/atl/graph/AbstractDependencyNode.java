@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +33,15 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	protected boolean leadsToExecution = true;
 	
 	protected static boolean problemInExpression(LocalProblem lp, OclExpression expr) {
+		return problemInExpression(lp, expr, new HashSet<OclExpression>());
+	}
+	
+	protected static boolean problemInExpression(LocalProblem lp, OclExpression expr, HashSet<OclExpression> visited) {
+		if ( visited.contains(expr) )
+			return false;
+		
+		visited.add(expr);
+		
 		EObject obj = lp.getElement();
 		TreeIterator<EObject> it = expr.eAllContents();
 		while ( it.hasNext() ) {
@@ -47,19 +57,19 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 					EList<ContextHelper> resolvers = pce.getDynamicResolvers();
 					for (ContextHelper contextHelper : resolvers) {
 						OclExpression body = ATLUtils.getBody(contextHelper);
-						if ( problemInExpression(lp, body))
+						if ( problemInExpression(lp, body, visited))
 							return true;
 					}	
 				} else {
 					if ( pce.getStaticResolver() instanceof StaticHelper ) {
 						StaticHelper moduleHelper = (StaticHelper) pce.getStaticResolver();
 						OclExpression body = ATLUtils.getBody(moduleHelper);
-						if ( problemInExpression(lp, body))
+						if ( problemInExpression(lp, body, visited))
 							return true; 
 					} else if ( pce.getStaticResolver() instanceof StaticRule ) {
 						EList<RuleVariableDeclaration> variables = ((StaticRule) pce.getStaticResolver()).getVariables();
 						for (RuleVariableDeclaration v : variables) {
-							if ( problemInExpression(lp, v.getInitExpression() )) {
+							if ( problemInExpression(lp, v.getInitExpression(), visited )) {
 								return true;
 							}
 						}

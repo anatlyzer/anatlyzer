@@ -1,0 +1,26 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module problemgraphordering;
+create OUT : WXYZ from IN : ABCD;
+
+-- E: Feature not found - Top level error
+helper context ABCD!A def : aFilterWithError : Boolean =
+	self.nameNotFound = 'someCondition'
+;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+		-- E: Target feature not initialized - Top level error
+    	-- name <- 'test',
+		-- E: Possible unresolved binding - Depends on "Feature not found" (above)
+    	elements <- src.elements->select(e | e.aFilterWithError )
+	)
+}
+
+rule rB {
+	from src : ABCD!B
+    to   tgt : WXYZ!X (
+		name <- 'fromB'
+    )
+}

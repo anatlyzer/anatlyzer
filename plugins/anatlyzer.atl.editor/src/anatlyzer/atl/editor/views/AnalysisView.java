@@ -3,14 +3,12 @@ package anatlyzer.atl.editor.views;
 import java.util.HashSet;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -28,8 +26,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
-import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -38,19 +34,15 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ViewPart;
 
-import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -61,6 +53,9 @@ import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.graph.ErrorPathGenerator;
+import anatlyzer.atl.graph.ProblemGraph;
+import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
@@ -70,7 +65,6 @@ import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.WorkbenchUtil;
 
@@ -86,12 +80,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private Action runAnalyserAction;
 	private Action runWitnessAction;
 	private Action transformationInformationAction;
+	private Action sortByDependencyAction;
 	
 	private Action doubleClickAction;
 
 	private AnalysisResult currentAnalysis;
 
 	private Action optimizerAction;
+
+	private boolean sortByDependency = false;
 
 	// Set from the tree...
 	private Result unconnectedElementsResult;
@@ -316,22 +313,43 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class LocalProblemListNode extends TreeNode {
 		
+		private ProblemGraph problemGraph;
+
 		public LocalProblemListNode(TreeNode parent) {
 			super(parent);
 		}
 
+		private ProblemGraph getProblemGraph() {
+			if ( problemGraph == null ) {
+				problemGraph = new ErrorPathGenerator(currentAnalysis.getAnalyser().getATLModel()).perform();
+			}
+			 return problemGraph;			 
+		}
+		
 		@Override
 		public Object[] getChildren() {
-			LocalProblemNode[] result = new LocalProblemNode[currentAnalysis.getLocalProblems().size()];
-			int i = 0;
-			for (LocalProblem p : currentAnalysis.getLocalProblems()) {
-				result[i++] = new LocalProblemNode(this, p);
+			if ( sortByDependency ) {
+				List<? extends IProblemTreeNode> nodes = getProblemGraph().getProblemTree().getNodes();
+				LocalProblemNode[] result = new LocalProblemNode[nodes.size()];
+				int i = 0;
+				for (IProblemTreeNode ptn : nodes) {
+					result[i++] = new LocalProblemNode_Grouped(this, ptn);
+				}
+				return result;
+			} else {			
+				LocalProblemNode[] result = new LocalProblemNode[currentAnalysis.getLocalProblems().size()];
+				int i = 0;
+				for (LocalProblem p : currentAnalysis.getLocalProblems()) {
+					result[i++] = new LocalProblemNode(this, p);
+				}
+				return result;
 			}
-			return result;
 		}
 
 		@Override
 		public boolean hasChildren() {
+			if ( sortByDependency ) 
+				return ! getProblemGraph().getProblemTree().getNodes().isEmpty();
 			return ! currentAnalysis.getLocalProblems().isEmpty();
 		}
 		
@@ -343,10 +361,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class LocalProblemNode extends TreeNode implements IWithCodeLocation {
 
-		private LocalProblem p;
-		private WitnessResult status = null;
+		protected LocalProblem p;
+		protected WitnessResult status = null;
 
-		public LocalProblemNode(LocalProblemListNode parent, LocalProblem p) {
+		public LocalProblemNode(TreeNode parent, LocalProblem p) {
 			super(parent);
 			this.p = p;
 		}
@@ -395,6 +413,32 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 	
+	class LocalProblemNode_Grouped extends LocalProblemNode {
+
+		private IProblemTreeNode ptn;
+
+		public LocalProblemNode_Grouped(TreeNode parent, IProblemTreeNode ptn) {
+			super(parent, (LocalProblem) ptn.getProblem());
+			this.ptn = ptn;
+		}
+
+		@Override
+		public Object[] getChildren() {
+			List<? extends IProblemTreeNode> nodes = ptn.getNodes();
+			LocalProblemNode[] result = new LocalProblemNode[nodes.size()];
+			int i = 0;
+			for (IProblemTreeNode ptn : nodes) {
+				result[i++] = new LocalProblemNode_Grouped(this, ptn);
+			}
+			return result;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return ! ptn.getNodes().isEmpty();
+		}
+
+	}
 	
 	class TreeParent extends TreeNode {
 		TreeNode[] children;
@@ -604,6 +648,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(runAnalyserAction);
+		manager.add(sortByDependencyAction);		
+		manager.add(new Separator());		
 		manager.add(transformationInformationAction);
 		manager.add(new Separator());
 		manager.add(optimizerAction);
@@ -628,11 +674,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				}
 			}
 		};
-		
 		runAnalyserAction.setText("Run analyser");
 		runAnalyserAction.setToolTipText("Run analyser");
 		runAnalyserAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		
+		// 
 		
 		runWitnessAction = new Action() {
 			public void run() {
@@ -671,7 +718,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			getImageDescriptor(ISharedImages.IMG_ETOOL_CLEAR));
 		
 		
-
+		//
 		
 		transformationInformationAction = new Action() {
 			public void run() {
@@ -683,11 +730,13 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			}
 		};		
 		transformationInformationAction.setText("Error report");
-		transformationInformationAction.setToolTipText("Generate an error as a text file");
+		transformationInformationAction.setToolTipText("Show errors summary");
 		transformationInformationAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJ_FILE));
 		
 
+		//
+		
 		optimizerAction = new Action() {
 			public void run() {
 				if ( currentAnalysis != null ) {
@@ -698,10 +747,25 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				}
 			}
 		};
-		
 		optimizerAction.setText("Optimize transformation");
 		optimizerAction.setToolTipText("Optimize transformation");
 		optimizerAction.setImageDescriptor(Images.optimization_16x16);
+		
+		//
+
+		sortByDependencyAction = new Action("Group by dependencies", IAction.AS_CHECK_BOX) {
+			public void run() {
+				AnalysisView.this.sortByDependency = ! AnalysisView.this.sortByDependency;
+				if ( currentAnalysis != null ) {
+					viewer.refresh();
+				}
+			}
+		};
+		sortByDependencyAction.setText("Group by dependencies");
+		sortByDependencyAction.setToolTipText("Group by dependencies");
+		sortByDependencyAction.setImageDescriptor(Images.error_dependencies_16x16);
+		
+		//
 		
 		doubleClickAction = new Action() {
 			public void run() {

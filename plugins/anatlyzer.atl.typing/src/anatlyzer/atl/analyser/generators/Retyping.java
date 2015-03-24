@@ -2,11 +2,13 @@ package anatlyzer.atl.analyser.generators;
 
 import java.util.HashSet;
 
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
@@ -22,6 +24,8 @@ import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.EnumLiteralExp;
+import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -100,6 +104,19 @@ public class Retyping extends AbstractVisitor {
 	@Override
 	public void inLetExp(LetExp self) {
 		self.getVariable().setType(null);
+	}
+	
+	/**
+	 * Enum literals replaced by integers
+	 */
+	@Override
+	public void inEnumLiteralExp(EnumLiteralExp self) {
+		// Enumerations are converted to integers
+		EEnumLiteral literal = TypeUtils.getLiteralOf(self);
+		IntegerExp tgt = OCLFactory.eINSTANCE.createIntegerExp();
+		tgt.setIntegerSymbol(literal.getValue());
+
+		EcoreUtil.replace(self, tgt);
 	}
 	
 	/**

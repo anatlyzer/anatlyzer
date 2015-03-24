@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import transML.exceptions.transException;
+import transML.utils.transMLProperties;
 
 // Just for the moment
 public class WitnessGeneratorMemory extends WitnessGenerator {
@@ -18,6 +19,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	protected MetaModel languageMM;
 	protected String oclConstraint;
 	private String projectPath;
+	private boolean forceOnceInstancePerClass;
 	
 	public WitnessGeneratorMemory(EPackage errorSliceMetamodel,  EPackage effectiveMetamodel, EPackage languageMetamodel, String oclConstraint) {
 		this.effectiveMM = new MetaModel(effectiveMetamodel);
@@ -46,6 +48,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		addBaseObject(errorMM);
 		changeNamesToResolveConflicts(errorMM, new USENameModifyier());
 		
+		if ( forceOnceInstancePerClass ) {
+			applyForceOnceInstancePerClass();
+		}
+		
 		loadOclOperations(errorMM);
 		
 		Calendar c = Calendar.getInstance();
@@ -58,6 +64,26 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, time);
 		return witness != null;
+	}
+
+
+	public void forceOnceInstancePerClass() {
+		this.forceOnceInstancePerClass = true;	
+	}
+	
+	private void applyForceOnceInstancePerClass() {
+		
+		for(EClassifier c : errorMM.getEClassifiers()) {
+			if ( c instanceof EClass && ((EClass) c).isAbstract() ) {
+				// transMLProperties.setProperty(property, value);
+				// See Solver_use#genPropertiesFile
+				// It is not possible to set only the lowerbound...
+				
+				// So, modifying the constraint which is possible more inneficient for the solver
+				oclConstraint += " and " + c.getName() + ".allInstances()->notEmpty()";				
+			}
+		}
+	
 	}
 	
 	/**
@@ -103,6 +129,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	public void setTempDirectoryPath(String projectPath) {
 		this.projectPath = projectPath;
 	}
+
 	
 }
 

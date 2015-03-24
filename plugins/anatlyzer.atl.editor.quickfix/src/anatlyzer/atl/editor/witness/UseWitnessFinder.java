@@ -31,6 +31,7 @@ public class UseWitnessFinder implements IWitnessFinder {
 	private Analyser analyser;
 	private EPackage effective;
 	private EPackage language;
+	private EPackage errorSlice;
 
 	@Override
 	public WitnessResult find(Problem problem, AnalysisResult r) {
@@ -51,17 +52,19 @@ public class UseWitnessFinder implements IWitnessFinder {
 		String strConstraint = USESerializer.retypeAndGenerate(constraint);	
 		System.out.println("CSP Constraint: " + strConstraint);
 
-		WitnessResult result = applyUSE(problem, strConstraint);
+		WitnessResult result = applyUSE(problem, strConstraint, false);
 		if ( result == WitnessResult.ERROR_DISCARDED ) {
-			WitnessResult result2 = applyUSE(problem, "true");
+			WitnessResult result2 = applyUSE(problem, "true", true);
 			if ( result2 == WitnessResult.ERROR_DISCARDED ) {
 				return WitnessResult.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
+			System.out.println("Second round: " + result2 + " vs. " + result);
+			return result;
 		} 
 		return result;
 	}
 
-	private WitnessResult applyUSE(IDetectedProblem problem, String strConstraint) {
+	private WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
 		EPackage errorSlice = generateErrorSlice(problem);
 		EPackage effective  = generateEffectiveMetamodel(problem);
 		EPackage language   = getSourceMetamodel();
@@ -69,6 +72,9 @@ public class UseWitnessFinder implements IWitnessFinder {
 		String projectPath = WorkbenchUtil.getProjectPath();
 		
 		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, strConstraint);
+		if ( forceOnceInstanceOfConcreteClasses ) {
+			generator.forceOnceInstancePerClass();
+		}
 		generator.setTempDirectoryPath(projectPath);
 		try {
 			if ( ! generator.generate() ) {
@@ -101,7 +107,7 @@ public class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 		
-		EPackage errorSlice = new EffectiveMetamodelBuilder(problem.getErrorSlice(analyser)).extractSource(r, "error", "http://error", "error", "error");
+		this.errorSlice = new EffectiveMetamodelBuilder(problem.getErrorSlice(analyser)).extractSource(r, "error", "http://error", "error", "error");
 		return errorSlice;
 		
 		// new ErrorSliceGenerator(analyser, null).generate(path, r);

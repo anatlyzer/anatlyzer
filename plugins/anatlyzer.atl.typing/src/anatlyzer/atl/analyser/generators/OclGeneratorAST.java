@@ -137,16 +137,9 @@ public class OclGeneratorAST {
 			
 			return tgt;
 		} else if ( expr instanceof EnumLiteralExp ) {
-			// Enumerations are converted to integers
-			EEnumLiteral literal = TypeUtils.getLiteralOf((EnumLiteralExp) expr);
-			IntegerExp tgt = OCLFactory.eINSTANCE.createIntegerExp();
-			tgt.setIntegerSymbol(literal.getValue());
-
-			/*
 			EnumLiteralExp enuml = (EnumLiteralExp) expr;
-			EnumLiteralExp tgt = atlModel.create(EnumLiteralExp.class);
+			EnumLiteralExp tgt = OCLFactory.eINSTANCE.createEnumLiteralExp();
 			tgt.setName(enuml.getName());
-			*/
 			return tgt;
 		} else if ( expr instanceof OclUndefinedExp ) {
 			return OCLFactory.eINSTANCE.createOclUndefinedExp();

@@ -4,9 +4,11 @@ create OUT : WXYZ from IN : ABCD;
 rule model {
 	from src : ABCD!Model (
 		-- Stupid expression, but this is just to force an implicit casting
+		-- There is no error here, but the implicit casting mechanism ensures that the expression is fine.
 		src.elements->select(e | e.oclIsKindOf(ABCD!B) )->collect(b | b.propOfB )->isEmpty()	
 	)
     to   tgt : WXYZ!Model (
+    	name <- 'default',
     	elements <- src.elements -- ->select(e | e.oclIsKindOf(ABCD!B) )->collect(b | b.propOfD )->first() 
 	)
 }

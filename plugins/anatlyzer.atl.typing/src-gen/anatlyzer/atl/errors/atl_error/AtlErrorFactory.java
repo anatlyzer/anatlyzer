@@ -58,6 +58,15 @@ public interface AtlErrorFactory extends EFactory {
 	FeatureNotFound createFeatureNotFound();
 
 	/**
+	 * Returns a new object of class '<em>Feature Found In Subtype</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Feature Found In Subtype</em>'.
+	 * @generated
+	 */
+	FeatureFoundInSubtype createFeatureFoundInSubtype();
+
+	/**
 	 * Returns a new object of class '<em>Operation Not Found</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -65,6 +74,15 @@ public interface AtlErrorFactory extends EFactory {
 	 * @generated
 	 */
 	OperationNotFound createOperationNotFound();
+
+	/**
+	 * Returns a new object of class '<em>Operation Found In Subtype</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation Found In Subtype</em>'.
+	 * @generated
+	 */
+	OperationFoundInSubtype createOperationFoundInSubtype();
 
 	/**
 	 * Returns a new object of class '<em>Operation Call Invalid Number Of Parameters</em>'.

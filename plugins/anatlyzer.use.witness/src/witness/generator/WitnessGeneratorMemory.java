@@ -21,6 +21,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private String projectPath;
 	private boolean forceOnceInstancePerClass;
 	
+	private static Integer index = 0;
+	
 	public WitnessGeneratorMemory(EPackage errorSliceMetamodel,  EPackage effectiveMetamodel, EPackage languageMetamodel, String oclConstraint) {
 		this.effectiveMM = new MetaModel(effectiveMetamodel);
 		this.errorMM = errorSliceMetamodel;
@@ -54,6 +56,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		loadOclOperations(errorMM);
 		
+		synchronized (index) {
+			WitnessGeneratorMemory.index += 1;			
+		}
+		/*
 		Calendar c = Calendar.getInstance();
 		int time = 1 * c.get(Calendar.SECOND) + 
 				   100 * c.get(Calendar.MINUTE) + 
@@ -61,8 +67,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				   1000000 * (c.get(Calendar.DAY_OF_MONTH) + 1)+ 
 				   100000000 * (c.get(Calendar.MONTH) + 1); // +
 				   // 10000000000 * c.get(Calendar.YEAR);
+		index = time;
+		*/
 		
-		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, time);
+		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
 		return witness != null;
 	}
 

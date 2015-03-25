@@ -70,10 +70,6 @@ public class AtlRecoveryAdapterFactory extends AdapterFactoryImpl {
 	protected AtlRecoverySwitch<Adapter> modelSwitch =
 		new AtlRecoverySwitch<Adapter>() {
 			@Override
-			public Adapter caseFeatureFoundInSubclass(FeatureFoundInSubclass object) {
-				return createFeatureFoundInSubclassAdapter();
-			}
-			@Override
 			public Adapter caseTentativeTypeAssigned(TentativeTypeAssigned object) {
 				return createTentativeTypeAssignedAdapter();
 			}
@@ -100,20 +96,6 @@ public class AtlRecoveryAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
-
-	/**
-	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass <em>Feature Found In Subclass</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass
-	 * @generated
-	 */
-	public Adapter createFeatureFoundInSubclassAdapter() {
-		return null;
-	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned <em>Tentative Type Assigned</em>}'.

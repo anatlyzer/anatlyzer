@@ -18,6 +18,7 @@ import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.recovery.RecoverOperationNotFound;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.analyser.typeconstraints.MetaclassTypeConstraint;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
@@ -167,8 +168,38 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return null;
 	}
 	
-	private Type tryRecovery(String featureName, LocatedElement node) {
+	private Type tryRecovery(String featureName, LocatedElement node) {		
+		HashSet<EClass> foundClasses = new HashSet<EClass>();
+		Type returnedType = null;
 		
+		for(ClassNamespace c : getAllSubclasses()) {
+			EClass subtype = c.eClass;
+			
+			EStructuralFeature f = subtype.getEStructuralFeature(featureName);
+			if (f != null) {
+				Metaclass t = (Metaclass) metamodel.getClassifier(subtype.getName()).createType(false);
+				foundClasses.add(t.getKlass());
+				if ( returnedType == null ) {
+					returnedType = AnalyserContext.getConverter().convert(f, metamodel);					
+				}
+			} else {			
+				// Check extended features
+				ClassNamespace cn = (ClassNamespace) metamodel.getClassifier(subtype.getName());
+				if ( cn.hasFeature(featureName)) {
+					foundClasses.add(cn.getType().getKlass());
+					if ( returnedType == null ) {
+						returnedType = cn.getFeatureType(featureName, node);
+					}
+				}		
+			}
+		}
+		
+		if ( foundClasses.size() > 0 ) {			
+			AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), TypeUtils.getUpperInHierarchy(foundClasses), featureName, node);
+			return returnedType;
+		}
+		
+		/*
 		List<EClass> allClasses = metamodel.getAllClasses();
 		for (EClass subtype : allClasses) {
 			// Es un subtipo 
@@ -191,25 +222,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			}
 		
 		}
-		
-		/**
-
-			// The feature not found in subclasses
-			if (t == null) {
-				UnknownFeature unknown = (UnknownFeature) types.createObject(UnknownFeature.class.getSimpleName());
-				unknown.setTheContainingClass(clazz);
-				unknown.setName(featureName);
-				unknown.setEType(AtlTypingPackage.Literals.UNKNOWN);
-
-				lastNavigatedFeature = unknown;
-				t = (Type) types.createObject(Unknown.class.getSimpleName());
+		*/
 				
-				errorMessage = errorMessage + ". Recovery tried by setting UnknownFeature.";
-			}
-			return signalError(errorMessage, location, t);
-		}
-		 */
-		
 		return AnalyserContext.getErrorModel().signalNoFeature(eClass, featureName, node);
 	}
 
@@ -357,6 +371,26 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	}
 
 	private Type tryRecoveryGetOperation(String operationName, Type[] arguments, LocatedElement node) {
+		HashSet<EClass> foundClasses = new HashSet<EClass>();
+		Type returnedType = null;
+		
+		for(ClassNamespace c : getAllSubclasses()) {
+			EClass subtype = c.eClass;
+			ClassNamespace cn = (ClassNamespace) metamodel.getClassifier(subtype.getName());
+			if ( cn.hasOperation(operationName, arguments)) {
+				foundClasses.add(subtype);
+				if ( returnedType == null) {
+					returnedType = cn.getOperationType(operationName, arguments, node);
+				}
+			}		
+		}
+		
+		if ( foundClasses.size() > 0 ) {			
+			AnalyserContext.getErrorModel().warningOperationFoundInSubType(getType(), TypeUtils.getUpperInHierarchy(foundClasses), operationName, node);
+			return returnedType;
+		}
+		
+		/*
 		List<EClass> allClasses = metamodel.getAllClasses();
 		for (EClass subtype : allClasses) {
 			// Es un subtipo 
@@ -368,6 +402,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 				}		
 			}
 		}
+		*/
 		
 		return null;
 	}

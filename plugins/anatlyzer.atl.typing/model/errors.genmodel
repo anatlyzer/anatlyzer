@@ -54,6 +54,10 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureFoundInSubtype/possibleClasses"/>
+      </genClasses>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OperationCallInvalid">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/operationName"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -66,6 +70,10 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/actualParameters"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationFoundInSubtype/possibleClasses"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidNumberOfParameters"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidParameter">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalidParameter/blamedParameterNames"/>
@@ -179,11 +187,6 @@
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">
-      <genClasses ecoreClass="errors.ecore#//atl_recovery/FeatureFoundInSubclass">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_recovery/FeatureFoundInSubclass/subclassName"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_recovery/FeatureFoundInSubclass/subclass"/>
-      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_recovery/TentativeTypeAssigned">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_recovery/TentativeTypeAssigned/type"/>

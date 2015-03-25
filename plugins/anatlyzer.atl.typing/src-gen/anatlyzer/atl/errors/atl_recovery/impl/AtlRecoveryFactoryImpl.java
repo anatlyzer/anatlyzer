@@ -56,21 +56,10 @@ public class AtlRecoveryFactoryImpl extends EFactoryImpl implements AtlRecoveryF
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case AtlRecoveryPackage.FEATURE_FOUND_IN_SUBCLASS: return createFeatureFoundInSubclass();
 			case AtlRecoveryPackage.TENTATIVE_TYPE_ASSIGNED: return createTentativeTypeAssigned();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public FeatureFoundInSubclass createFeatureFoundInSubclass() {
-		FeatureFoundInSubclassImpl featureFoundInSubclass = new FeatureFoundInSubclassImpl();
-		return featureFoundInSubclass;
 	}
 
 	/**

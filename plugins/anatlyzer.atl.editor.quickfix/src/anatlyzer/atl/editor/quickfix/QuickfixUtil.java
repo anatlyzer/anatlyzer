@@ -3,9 +3,9 @@ package anatlyzer.atl.editor.quickfix;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.index.AnalysisResult;
 
 public abstract class QuickfixUtil {
 	protected boolean checkProblemType(IMarker marker, Class<?> class1) {

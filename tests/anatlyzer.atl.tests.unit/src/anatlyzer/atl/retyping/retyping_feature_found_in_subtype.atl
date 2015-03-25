@@ -1,0 +1,25 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module retypingfeaturefoundinsubtype;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!C def : aHelperDefinedInC() : Boolean = 
+	true;
+
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'default',
+    	elements <- src.elements->select(e | e.aHelperDefinedInC() )
+	)
+}
+
+rule aB {
+	from
+		b : ABCD!B
+	to 
+		x : WXYZ!X  (
+			name <- 'default'
+		)
+}

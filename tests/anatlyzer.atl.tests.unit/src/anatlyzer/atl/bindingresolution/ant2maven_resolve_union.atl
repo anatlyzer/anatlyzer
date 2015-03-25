@@ -1,0 +1,120 @@
+--
+-- @path Ant=/anatlyzer.atl.tests.unit/metamodels/ant2maven/Ant.ecore
+-- @path MavenProject=/anatlyzer.atl.tests.unit/metamodels/ant2maven/Ant.ecore/MavenProject.ecore
+-- @path MavenMaven=/anatlyzer.atl.tests.unit/metamodels/ant2maven/Ant.ecore/MavenMaven.ecore
+--
+module Ant2Maven;
+create OUTMaven: MavenMaven, OUTProject: MavenProject from IN: Ant;
+
+rule AntTarget2MavenMavenGoal {
+	from
+		a: Ant!Target
+	using {
+		itsDependencies: Sequence(Ant!Target) = a.depends -> asSequence();
+	}
+	to
+		mg: MavenMaven!Goal (
+			name <- a.name,
+			-- E: The problem is that this is an unresolved binding, and the right part 
+			--    has two types: Union {MavenMaven!AttainGoal, Ant!Task}. Only subclasses
+			--    of Ant!Task could cause the problem because the MavenMaven is a target type.
+			contentsGoal <- Sequence{dependencies,
+						a.tasks}
+		),
+		dependencies: distinct MavenMaven!AttainGoal foreach(g in itsDependencies) (
+			attainGoal <- g
+		)
+}
+
+rule AntJava2MavenMavenJava {
+	from
+		a: Ant!Java
+	to
+		m: MavenMaven!Java (
+			classname <- a.classname,
+			jar <- a.jar,
+			fork <- a.fork
+		)
+}
+
+rule AntJavac2MavenMavenJavac {
+	from
+		a: Ant!Javac
+	to
+		m: MavenMaven!Javac (
+			destdir <- a.destdir,
+			srcdir <- a.srcdir
+		)
+}
+
+rule AntJavadoc2MavenMavenJavadoc {
+	from
+		a: Ant!Javadoc
+	to
+		m: MavenMaven!Javadoc (
+			sourcepath <- a.sourcepath,
+			destdir <- a.destdir,
+			packagenames <- a.packagenames,
+			defaultexcludes <- a.defaultexcludes,
+			author <- a.author,
+			version <- a.version,
+			use <- a.use,
+			windowtitle <- a.windowtitle
+		)
+}
+
+rule AntTstamp2MavenMavenTstamp {
+	from
+		a: Ant!Tstamp
+	to
+		m: MavenMaven!Tstamp
+}
+
+rule AntJar2MavenMavenJar {
+	from
+		a: Ant!Jar
+	to
+		m: MavenMaven!Jar (
+			jarfile <- a.jarfile,
+			basedir <- a.basedir
+		)
+}
+
+rule AntMkdir2MavenMavenMkdir {
+	from
+		a: Ant!Mkdir
+	to
+		m: MavenMaven!Mkdir (
+			dir <- a.dir
+		)
+}
+
+rule AntCopy2MavenMavenCopy {
+	from
+		a: Ant!Copy
+	to
+		m: MavenMaven!Copy (
+			todir <- a.todir
+		)
+}
+
+rule AntDelete2MavenMavenDelete {
+	from
+		a: Ant!Delete
+	to
+		m: MavenMaven!Delete (
+			dir <- a.dir
+		)
+}
+
+rule AntNewTask2MavenMavenNewTask {
+	from
+		a: Ant!NewTask
+	to
+		m: MavenMaven!NewTask (
+			taskName <- td
+		), td : MavenMaven!AntTaskDef (
+			name <- 'defaultTaskName_ForTesting',
+			classname <- 'defaultTaskName_ForTesting'			
+		)
+}

@@ -74,9 +74,11 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		switch ( wf.find(overlap, data) ) {
 		case CANNOT_DETERMINE:
 		case INTERNAL_ERROR: 
+		case NOT_SUPPORTED_BY_USE:
 			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
 			return true; // so that it is included
 		case ERROR_CONFIRMED:
+		case ERROR_CONFIRMED_SPECULATIVE:
 			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_CONFIRMED);
 			return true;
 		case ERROR_DISCARDED:			

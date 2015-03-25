@@ -55,7 +55,7 @@ public class CallExprNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, USESerializer.gen(call), leadsToExecution);
+		gv.addNode(this, USESerializer.gen(call).asString(), leadsToExecution);
 	}
 
 	@Override

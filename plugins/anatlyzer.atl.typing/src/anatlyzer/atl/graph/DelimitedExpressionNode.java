@@ -38,7 +38,7 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, USESerializer.gen(start), leadsToExecution);
+		gv.addNode(this, USESerializer.gen(start).asString(), leadsToExecution);
 	}
 
 

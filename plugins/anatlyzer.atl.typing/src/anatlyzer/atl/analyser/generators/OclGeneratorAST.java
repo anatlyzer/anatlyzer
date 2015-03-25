@@ -1,15 +1,12 @@
 package anatlyzer.atl.analyser.generators;
 
-import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -165,7 +162,9 @@ public class OclGeneratorAST {
 		} else if (expr instanceof NavigationOrAttributeCallExp) {
 			NavigationOrAttributeCallExp navS = (NavigationOrAttributeCallExp) expr;
 			PropertyCallExp navT = null;
-			
+	
+			/*
+			// TODO. Is this a retyping???
 			if ( navS.getUsedFeature() == null ) {
 				navT =  OCLFactory.eINSTANCE.createOperationCallExp();
 				((OperationCallExp) navT).setOperationName(navS.getName());
@@ -179,7 +178,13 @@ public class OclGeneratorAST {
 				navT.setUsedFeature(navS.getUsedFeature());
 				((NavigationOrAttributeCallExp) navT).setName(navS.getName());
 			}
+			*/
+			// Moved to a retyping, so just copying
+			navT = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+			navT.setUsedFeature(navS.getUsedFeature());
+			((NavigationOrAttributeCallExp) navT).setName(navS.getName());
 			
+			navT.setStaticResolver(((PropertyCallExp) expr).getStaticResolver());
 			navT.setSource(receptor);
 			return navT;
 		} else if (expr instanceof CollectionOperationCallExp) {
@@ -202,14 +207,17 @@ public class OclGeneratorAST {
 			
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 
+			// Moved to a retyping
+			/*
 			if ( navS.getStaticResolver() != null ) { // It is not a built-in function
 				VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();
 				
 				thisModuleRef.setReferredVariable(vars.getThisModuleVar());
 				navT.getArguments().add(thisModuleRef);
 			}
+			*/
 			
-			
+			navT.setStaticResolver(((PropertyCallExp) expr).getStaticResolver());			
 			navT.setSource(receptor);
 			navT.setOperationName(navS.getOperationName());
 			for(OclExpression arg: genArgs(navS.getArguments(), vars )) 

@@ -1,6 +1,5 @@
-package anatlyzer.atl.editor.witness;
+package anatlyzer.atl.witness;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -10,28 +9,27 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
+import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
-import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
-import anatlyzer.ui.util.WorkbenchUtil;
-import anatlyzer.ui.util.WorkspaceLogger;
 
-public class UseWitnessFinder implements IWitnessFinder {
+public abstract class UseWitnessFinder implements IWitnessFinder {
 
 	private Analyser analyser;
 	private EPackage effective;
 	private EPackage language;
-	private EPackage errorSlice;
+	private EPackage errorSliceMM;
 
 	@Override
 	public WitnessResult find(Problem problem, AnalysisResult r) {
@@ -49,7 +47,12 @@ public class UseWitnessFinder implements IWitnessFinder {
 			return WitnessResult.CANNOT_DETERMINE;
 		}
 		
-		String strConstraint = USESerializer.retypeAndGenerate(constraint);	
+		USEConstraint useConstraint = USESerializer.retypeAndGenerate(constraint);	
+		if ( useConstraint.useNotSupported() ) {
+			return WitnessResult.NOT_SUPPORTED_BY_USE;
+		}
+		
+		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
 		WitnessResult result = applyUSE(problem, strConstraint, false);
@@ -58,20 +61,26 @@ public class UseWitnessFinder implements IWitnessFinder {
 			if ( result2 == WitnessResult.ERROR_DISCARDED ) {
 				return WitnessResult.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
-			System.out.println("Second round: " + result2 + " vs. " + result);
-			return result;
 		} 
+		if ( useConstraint.isSpeculative() ) {
+			return WitnessResult.ERROR_CONFIRMED_SPECULATIVE;
+		}
+		
 		return result;
 	}
 
 	private WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
-		EPackage errorSlice = generateErrorSlice(problem);
-		EPackage effective  = generateEffectiveMetamodel(problem);
-		EPackage language   = getSourceMetamodel();
+		ErrorSlice slice = problem.getErrorSlice(analyser);
+		if ( slice.hasHelpersNotSupported() )
+			return WitnessResult.NOT_SUPPORTED_BY_USE;
 		
-		String projectPath = WorkbenchUtil.getProjectPath();
+		EPackage errorSliceMM = generateErrorSliceMetamodel(problem, slice);
+		EPackage effective    = generateEffectiveMetamodel(problem);
+		EPackage language     = getSourceMetamodel();
 		
-		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, strConstraint);
+		String projectPath = getTempDirectory();
+		
+		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSliceMM, effective, language, strConstraint);
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}
@@ -83,11 +92,14 @@ public class UseWitnessFinder implements IWitnessFinder {
 				return WitnessResult.ERROR_CONFIRMED;
 			}
 		} catch (Exception e) {
-			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e.getMessage(), e);
+			onUSEInternalError(e);
 			return WitnessResult.INTERNAL_ERROR;
 		}
 	}
 	
+	protected abstract void onUSEInternalError(Exception e);
+	protected abstract String getTempDirectory();
+
 	public EPackage getSourceMetamodel() {
 		if ( language != null )
 			return language;
@@ -97,7 +109,7 @@ public class UseWitnessFinder implements IWitnessFinder {
 		return language;
 	}
 
-	public EPackage generateErrorSlice(IDetectedProblem problem) {
+	public EPackage generateErrorSliceMetamodel(IDetectedProblem problem, ErrorSlice slice) {
 		Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
 		OclModel m = mod.getInModels().get(0);
 		String mm  = m.getMetamodel().getName();
@@ -107,8 +119,8 @@ public class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 		
-		this.errorSlice = new EffectiveMetamodelBuilder(problem.getErrorSlice(analyser)).extractSource(r, "error", "http://error", "error", "error");
-		return errorSlice;
+		this.errorSliceMM = new EffectiveMetamodelBuilder(slice).extractSource(r, "error", "http://error", "error", "error");
+		return errorSliceMM;
 		
 		// new ErrorSliceGenerator(analyser, null).generate(path, r);
 		

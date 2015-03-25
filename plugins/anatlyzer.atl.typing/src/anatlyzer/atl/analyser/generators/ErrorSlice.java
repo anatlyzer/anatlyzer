@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
@@ -46,6 +48,8 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	private Set<String>	metamodelNames;
 	private boolean retype = true; // retype by default
 	
+	private List<Helper> helpersNotSupported = new LinkedList<Helper>();
+	
 	public ErrorSlice(Set<String> sourceMetamodels) {
 		this.metamodelNames = sourceMetamodels;
 		
@@ -84,6 +88,14 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		return Collections.unmodifiableSet(this.explicitFeatures);
 	}
 
+	public boolean hasHelpersNotSupported() {
+		return helpersNotSupported.size() > 0;
+	}
+	
+	public List<Helper> getHelpersNotSupported() {
+		return Collections.unmodifiableList(helpersNotSupported);
+	}
+	
 	public boolean addHelper(ContextHelper contextHelperAnn) {
 		String ctxTypeName = TypeUtils.getNonQualifiedTypeName(contextHelperAnn.getContextType());
 		
@@ -98,6 +110,21 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		if ( ! helpers.containsKey(ctxTypeName) ) {
 			helpers.put(ctxTypeName, new HashSet<Helper>());
 		}
+
+		if ( retype ) {
+			// copy before retype, to avoid modifying objects that will later
+			// be used in other analysis
+		    MyCopier copier = new MyCopier(helper);
+		    EObject result = copier.copy(helper);
+		    copier.copyReferences();
+		    helper = (Helper) result;			
+			new Retyping(helper).perform();		
+		}
+		
+		if ( ! new USEValidityChecker(helper).perform().isValid() ) {
+			helpersNotSupported.add(helper);
+		}
+
 		
 		return helpers.get(ctxTypeName).add(helper);	
 	}
@@ -125,18 +152,6 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 
 	private String genUSEOperation(Helper ctx, String className) {
 		String s = ATLUtils.getHelperName(ctx) + "(";
-
-		if ( retype ) {
-			// copy before retype, to avoid modifying objects that will later
-			// be used in other analysis
-		    MyCopier copier = new MyCopier(ctx);
-		    EObject result = copier.copy(ctx);
-		    copier.copyReferences();
-
-		    ctx = (Helper) result;
-			
-			new Retyping(ctx).perform();		
-		}
 		
 		// The first parameter is always the ThisModule object */
 		s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;

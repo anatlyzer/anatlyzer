@@ -3,27 +3,18 @@
 package anatlyzer.atl.errors.atl_recovery.impl;
 
 import anatlyzer.atl.errors.AnalysisResultPackage;
-
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-
 import anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl;
-
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
-import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
-
 import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
 import anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl;
 import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
-
 import anatlyzer.atl.types.TypesPackage;
-
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
@@ -33,13 +24,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
  * @generated
  */
 public class AtlRecoveryPackageImpl extends EPackageImpl implements AtlRecoveryPackage {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass featureFoundInSubclassEClass = null;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -127,33 +111,6 @@ public class AtlRecoveryPackageImpl extends EPackageImpl implements AtlRecoveryP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getFeatureFoundInSubclass() {
-		return featureFoundInSubclassEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getFeatureFoundInSubclass_SubclassName() {
-		return (EAttribute)featureFoundInSubclassEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getFeatureFoundInSubclass_Subclass() {
-		return (EReference)featureFoundInSubclassEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTentativeTypeAssigned() {
 		return tentativeTypeAssignedEClass;
 	}
@@ -195,10 +152,6 @@ public class AtlRecoveryPackageImpl extends EPackageImpl implements AtlRecoveryP
 		isCreated = true;
 
 		// Create classes and their features
-		featureFoundInSubclassEClass = createEClass(FEATURE_FOUND_IN_SUBCLASS);
-		createEAttribute(featureFoundInSubclassEClass, FEATURE_FOUND_IN_SUBCLASS__SUBCLASS_NAME);
-		createEReference(featureFoundInSubclassEClass, FEATURE_FOUND_IN_SUBCLASS__SUBCLASS);
-
 		tentativeTypeAssignedEClass = createEClass(TENTATIVE_TYPE_ASSIGNED);
 		createEReference(tentativeTypeAssignedEClass, TENTATIVE_TYPE_ASSIGNED__TYPE);
 	}
@@ -235,14 +188,9 @@ public class AtlRecoveryPackageImpl extends EPackageImpl implements AtlRecoveryP
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		featureFoundInSubclassEClass.getESuperTypes().add(theAnalysisResultPackage.getRecovery());
 		tentativeTypeAssignedEClass.getESuperTypes().add(theAnalysisResultPackage.getRecovery());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(featureFoundInSubclassEClass, FeatureFoundInSubclass.class, "FeatureFoundInSubclass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFeatureFoundInSubclass_SubclassName(), ecorePackage.getEString(), "subclassName", null, 1, 1, FeatureFoundInSubclass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFeatureFoundInSubclass_Subclass(), ecorePackage.getEClass(), null, "subclass", null, 1, 1, FeatureFoundInSubclass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(tentativeTypeAssignedEClass, TentativeTypeAssigned.class, "TentativeTypeAssigned", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTentativeTypeAssigned_Type(), theTypesPackage.getType(), null, "type", null, 1, 1, TentativeTypeAssigned.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}

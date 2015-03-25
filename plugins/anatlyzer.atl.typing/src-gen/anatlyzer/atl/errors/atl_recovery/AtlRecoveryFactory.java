@@ -22,15 +22,6 @@ public interface AtlRecoveryFactory extends EFactory {
 	AtlRecoveryFactory eINSTANCE = anatlyzer.atl.errors.atl_recovery.impl.AtlRecoveryFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Feature Found In Subclass</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Feature Found In Subclass</em>'.
-	 * @generated
-	 */
-	FeatureFoundInSubclass createFeatureFoundInSubclass();
-
-	/**
 	 * Returns a new object of class '<em>Tentative Type Assigned</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -4,7 +4,8 @@ create OUT : WXYZ from IN : ABCD;
 rule model {
 	from src : ABCD!Model (
 		-- Stupid expression, but this is just to force an implicit casting
-		not src.elements.isEmpty()
+		-- E: src.elements.size() ==> src.elements->size()
+		src.elements.size() > 0
 	)
     to   tgt : WXYZ!Model (
     	name <- 'test',

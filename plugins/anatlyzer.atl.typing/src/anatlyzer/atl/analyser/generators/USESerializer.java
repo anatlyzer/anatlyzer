@@ -43,13 +43,63 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class USESerializer {
 
-	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
-	public static String retypeAndGenerate(OclExpression expr) {
-		new Retyping(expr).perform();		
-		return gen(expr);
+	public static enum TranslationState {
+		CORRECT, 			// Deemed to be faithful translation
+		USE_NOT_SUPPORTED,	// The translation may provoke an incorrect USE constraint, e.g., use of iterate
+		SPECULATIVE			// The translation may yield to an inaccurate result
 	}
 	
-	public static String gen(OclExpression expr) {
+	public static class USEConstraint {
+		private String str;
+		private TranslationState state = TranslationState.CORRECT;
+		
+		public USEConstraint(String str) {
+			this.str = str;
+		}
+		
+		public String toString() {
+			return asString();
+		}
+
+		public String asString() {
+			return str;
+		}
+
+		public void setState(TranslationState state) {
+			this.state = state;
+		}
+		
+		public boolean isSpeculative() {
+			return state == TranslationState.SPECULATIVE;
+		}
+		
+		public boolean useNotSupported() {
+			return state ==TranslationState.USE_NOT_SUPPORTED;
+		}
+	}
+	
+	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
+	public static USEConstraint retypeAndGenerate(OclExpression expr) {
+		Retyping retyping = new Retyping(expr).perform();		
+		USEConstraint constraint = gen(expr);
+		if ( retyping.usesSeqApproximation() || retyping.usesSubtypeSelectionOnFeatureAccess() ) {
+			// More information can be added to the constraint
+			constraint.setState(TranslationState.SPECULATIVE);
+		}
+		
+		if ( ! new USEValidityChecker(expr).perform().isValid() ) {
+			constraint.setState(TranslationState.USE_NOT_SUPPORTED);
+		}
+		
+		
+		return constraint;
+	}
+
+	public static USEConstraint gen(OclExpression expr) {
+		return new USEConstraint(genAux(expr));
+	}
+	
+	private static String genAux(OclExpression expr) {
 		if (expr instanceof PropertyCallExp) {
 			return genPropertyCall(expr);
 		} else if (expr instanceof VariableExp) {
@@ -69,21 +119,21 @@ public class USESerializer {
 			return ome.getName();
 		} else if ( expr instanceof IfExp ) {
 			IfExp ifexp = (IfExp) expr;
-			return "if " + gen(ifexp.getCondition()) + 
-					"\n\tthen " + gen(ifexp.getThenExpression()) + 
-					"\n\telse " + gen(ifexp.getElseExpression()) + "\n\tendif";
+			return "if " + genAux(ifexp.getCondition()) + 
+					"\n\tthen " + genAux(ifexp.getThenExpression()) + 
+					"\n\telse " + genAux(ifexp.getElseExpression()) + "\n\tendif";
 		} else if ( expr instanceof LetExp ) {
 			LetExp let = (LetExp) expr;
 			String type = "";
 			if ( let.getVariable().getType() != null) {
-				type = " : " + gen(let.getVariable().getType());
+				type = " : " + genAux(let.getVariable().getType());
 			}
-			return "let " + let.getVariable().getVarName() + type + " = " + gen(let.getVariable().getInitExpression()) + " in\n\t" + gen(let.getIn_());
+			return "let " + let.getVariable().getVarName() + type + " = " + genAux(let.getVariable().getInitExpression()) + " in\n\t" + genAux(let.getIn_());
 		} else if ( expr instanceof CollectionExp ) {
 			CollectionExp col = (CollectionExp) expr;
 			String elems = "";
 			for(int i = 0; i < col.getElements().size(); i++) {
-				elems += USESerializer.gen( col.getElements().get(i) );
+				elems += USESerializer.genAux( col.getElements().get(i) );
 				if ( i + 1 < col.getElements().size() ) 
 					elems += ",";
 			}
@@ -98,8 +148,8 @@ public class USESerializer {
 			MapExp me = (MapExp) expr;
 			String elems = "";
 			for(int i = 0; i < me.getElements().size(); i++) {
-				elems += "(" + USESerializer.gen( me.getElements().get(i).getKey() ) + ";" + 
-						USESerializer.gen( me.getElements().get(i).getValue() ) + ")";
+				elems += "(" + USESerializer.genAux( me.getElements().get(i).getKey() ) + ";" + 
+						USESerializer.genAux( me.getElements().get(i).getValue() ) + ")";
 				if ( i + 1 < me.getElements().size() ) 
 					elems += ",";
 			}
@@ -126,7 +176,7 @@ public class USESerializer {
 			return "Real";
 		} else if ( expr instanceof CollectionType ) {
 			CollectionType ct = (CollectionType) expr;
-			String str = gen(ct.getElementType());
+			String str = genAux(ct.getElementType());
 			// if ( expr instanceof SequenceType ) return "Sequence(" + str + ")";			
 			if ( expr instanceof SequenceType ) return "Sequence(" + str + ")";			
 			if ( expr instanceof SetType ) return "Set(" + str + ")";
@@ -134,7 +184,7 @@ public class USESerializer {
 			else throw new UnsupportedOperationException(expr.toString());
 		} else if ( expr instanceof MapType ) {
 			MapType mt = (MapType) expr;
-			return "Map(" + gen(mt.getKeyType()) + ", " + gen(mt.getValueType()) + ")";
+			return "Map(" + genAux(mt.getKeyType()) + ", " + genAux(mt.getValueType()) + ")";
 		} else if ( expr instanceof OclAnyType ) {
 			return "OclAny";
 		} else if ( expr instanceof TupleExp ) {
@@ -143,7 +193,7 @@ public class USESerializer {
 			TupleExp te = (TupleExp) expr;
 			ArrayList<String> parts = new ArrayList<String>();
 			for(TuplePart p : te.getTuplePart()) {
-				parts.add( p.getVarName() + " = " + gen(p.getInitExpression()) );
+				parts.add( p.getVarName() + " = " + genAux(p.getInitExpression()) );
 			}
 			return "Tuple { " + join(", ", parts) + " } ";
 		} else {
@@ -152,7 +202,7 @@ public class USESerializer {
 	}
 
 	private static String genPropertyCall(OclExpression expr) {
-		String receptor = gen(((PropertyCallExp) expr).getSource());
+		String receptor = genAux(((PropertyCallExp) expr).getSource());
 		String casting = "";
 
 		if (expr instanceof OperatorCallExp) {
@@ -160,15 +210,15 @@ public class USESerializer {
 			if (op.getArguments().isEmpty()) {
 				return op.getOperationName() + " (" + receptor + ")";
 			} else {
-				return "(" + receptor + ") " + op.getOperationName() + " (" + gen(op.getArguments().get(0)) + ")";
+				return "(" + receptor + ") " + op.getOperationName() + " (" + genAux(op.getArguments().get(0)) + ")";
 			}
 		} else if (expr instanceof NavigationOrAttributeCallExp) {
 			NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) expr;
 			String op = nav.getName();
 
-			// if ( nav.getUsedFeature() == null ) // This condition does not work...
 			if ( nav.getStaticResolver() != null ) {
-				op = op + "(thisModule)";
+				// Not needed anymore because passing thisModule is handling by previous phases
+				// op = op + "(thisModule)";
 			} else {
 				if ( nav.getUsedFeature() != null ) {
 					EStructuralFeature f = (EStructuralFeature) nav.getUsedFeature();
@@ -205,28 +255,31 @@ public class USESerializer {
 			}
 			
 			String thisModuleArg = "";
+			// Not needed anymore because passing thisModule is handling by previous phases
+			/*
 			if ( ((OperationCallExp) expr).getStaticResolver() != null ) {
 				// Only if it is not a library operation, that is, there is a resolver to the operation written in the code
 				thisModuleArg = "thisModule";
 				if ( call.getArguments().size() > 0 ) 
 					thisModuleArg += ", ";
 			}
+			*/
 			
 			return receptor + "." + translateName(call) + "(" + thisModuleArg + genArgs(call.getArguments() )+ ")" + casting;
 		} else if ( expr instanceof IteratorExp ) {
 			IteratorExp it = (IteratorExp) expr;
 			// TODO: Include type if available??
 			return receptor + "->" + it.getName() + "(" + it.getIterators().get(0).getVarName() + "|" +
-					gen(it.getBody()) + ")";
+					genAux(it.getBody()) + ")";
 		} else if ( expr instanceof IterateExp ) {
 			IterateExp it = (IterateExp) expr;
 			if ( it.getResult().getType() == null ) {
 				throw new UnsupportedOperationException("Iterate should have type declaration, not using infered type yet: " + it.getLocation());
 			}
-			String typeName = gen(it.getResult().getType());
+			String typeName = genAux(it.getResult().getType());
 			
-			return receptor + "->" + "iterate" + "(" + it.getIterators().get(0).getVarName() + ";" + it.getResult().getVarName() + " : " + typeName + " = " + gen(it.getResult().getInitExpression()) + "|" +
-			gen(it.getBody()) + ")";			
+			return receptor + "->" + "iterate" + "(" + it.getIterators().get(0).getVarName() + ";" + it.getResult().getVarName() + " : " + typeName + " = " + genAux(it.getResult().getInitExpression()) + "|" +
+			genAux(it.getBody()) + ")";			
 		} else {
 			throw new UnsupportedOperationException(expr.toString());
 		}
@@ -241,7 +294,7 @@ public class USESerializer {
 	private static String genArgs(List<OclExpression> arguments) {
 		String s = "";
 		for(int i = 0; i < arguments.size(); i++) {
-			s += gen(arguments.get(i));
+			s += genAux(arguments.get(i));
 			if ( i < arguments.size() - 1 ) {
 				s += ",";
 			}

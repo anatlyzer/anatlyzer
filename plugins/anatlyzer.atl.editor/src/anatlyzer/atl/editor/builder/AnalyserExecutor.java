@@ -18,6 +18,7 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalyserExtension;
 import anatlyzer.atl.analyser.AnalyserInternalError;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analysisext.AnalysisProvider;
@@ -28,7 +29,6 @@ import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.index.AnalysisIndex;
-import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
@@ -72,7 +72,7 @@ public class AnalyserExecutor {
 			throw e;
 		}
 		
-		AnalyserData result = new AnalyserData(analyser, mm);
+		AnalyserData result = new AnalyserData(analyser);
 		if ( addToIndex ) {
 			AnalysisIndex.getInstance().register(file, result);
 		}
@@ -101,8 +101,8 @@ public class AnalyserExecutor {
 	public static class AnalyserData extends AnalysisResult {
 		private ProblemPath path;
 
-		public AnalyserData(Analyser analyser, GlobalNamespace gn) {
-			super(analyser, gn);
+		public AnalyserData(Analyser analyser) {
+			super(analyser);
 		}
 			
 		public ProblemPath getPath() {

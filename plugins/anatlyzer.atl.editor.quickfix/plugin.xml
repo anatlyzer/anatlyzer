@@ -60,7 +60,7 @@
    <extension
          point="anatlyzer.atl.editor.witnessfinder">
       <finder
-            finder="anatlyzer.atl.editor.witness.UseWitnessFinder">
+            finder="anatlyzer.atl.editor.witness.EclipseUseWitnessFinder">
       </finder>
    </extension>
    <extension

@@ -29,7 +29,7 @@ public class RuleFilterNode implements ConstraintNode {
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
-		gv.addNode(this, USESerializer.gen(expr), true);
+		gv.addNode(this, USESerializer.gen(expr).asString(), true);
 	}
 
 	/**

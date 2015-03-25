@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.unit.UnitTest;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class TestRuleConflicts extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -25,8 +26,8 @@ public class TestRuleConflicts extends UnitTest {
 		System.out.println(overlaps);
 		assertEquals(2, overlaps.size());
 		
-		boolean[] confirmed = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmed));
+		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, WitnessResult.ERROR_CONFIRMED));
 	}
 
 	
@@ -39,8 +40,8 @@ public class TestRuleConflicts extends UnitTest {
 		System.out.println(overlaps);
 		assertEquals(1, overlaps.size());
 		
-		boolean[] confirmed = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmed));
+		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, WitnessResult.ERROR_CONFIRMED));
 	}
 
 	@Test
@@ -53,14 +54,9 @@ public class TestRuleConflicts extends UnitTest {
 
 		// This fails, but I am not currently able to detect the failure
 		// which is that there is a recursive operation
-		boolean[] confirmed = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmed));
+		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, WitnessResult.NOT_SUPPORTED_BY_USE));
 	}
 	
-	private int count(boolean[] confirmed) {
-		int s = 0;
-		for(int i = 0; i < confirmed.length; i++) 
-			s += confirmed[i] ? 1 : 0;
-		return s;
-	}
+
 }

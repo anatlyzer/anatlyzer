@@ -22,6 +22,7 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
@@ -35,12 +36,12 @@ import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
-import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.model.ATLModel;
@@ -49,6 +50,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Module;
 
 public class AnalyserUtils {
+	
 	public static LocalProblem hasProblem(LocatedElement e, Class<? extends LocalProblem> clazz) {
 		for(EObject p : e.getProblems()) {
 			if ( clazz.isInstance(p) ) {
@@ -56,8 +58,7 @@ public class AnalyserUtils {
 			}
 		}
 		return null;
-	}
-	
+	}	
 	
 	public static EPackage getSingleSourceMetamodel(Analyser analyser) {
 		GlobalNamespace namespace = analyser.getNamespaces();
@@ -200,24 +201,16 @@ public class AnalyserUtils {
 		if ( p instanceof BindingPossiblyUnresolved     ) return 2;
 		if ( p instanceof BindingWithResolvedByIncompatibleRule ) return 3;
 		if ( p instanceof BindingExpectedOneAssignedMany ) return 4;
-		if ( p instanceof FeatureNotFound ) {
-			if ( ((FeatureNotFound) p).getRecovery() instanceof FeatureFoundInSubclass ) 
-				return 6;
-			else {
-				return 5;
-			}
-		}
+		if ( p instanceof FeatureFoundInSubtype ) return 6;
+		if ( p instanceof FeatureNotFound ) return 5; // to respect the original id assignments
+		
 		// 7
 		if ( p instanceof IncoherentVariableDeclaration ) return 7;
 		if ( p instanceof FlattenOverNonNestedCollection ) return 8;
 		if ( p instanceof BindingWithoutRule ) return 10;
-		if ( p instanceof OperationNotFound ) {
-			if ( ((OperationNotFound) p).getRecovery() instanceof FeatureFoundInSubclass ) 
-				return 11;
-			else {
-				return 12;
-			}
-		}
+		if ( p instanceof OperationFoundInSubtype ) return 11; 			
+		if ( p instanceof OperationNotFound ) return 12;
+		
 		// 13
 		if ( p instanceof NoModelFound ) return 13;
 		if ( p instanceof ReadingTargetModel ) return 14;

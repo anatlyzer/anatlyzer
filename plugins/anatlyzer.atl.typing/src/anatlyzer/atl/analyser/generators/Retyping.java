@@ -7,6 +7,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
@@ -37,6 +39,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -45,18 +48,36 @@ public class Retyping extends AbstractVisitor {
 	private EObject root;
 	private CSPModel builder = new CSPModel();
 	
-	HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
+	private HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
+	private HashSet<LocatedElement> subtypeSelectionOnFeatureAccess = new HashSet<LocatedElement>();
+	private VariableDeclaration thisModuleVar;
 
 	public Retyping(EObject root) {
 		this.root = root;
 	}	
 	
-	public void perform() {
+	public Retyping perform() {
 		startVisiting(root);
+		return this;
 	}
 	
-	public boolean isApproximation() {
+	public boolean usesSeqApproximation() {
 		return ! seqAsSetModifications.isEmpty();
+	}
+	
+	public boolean usesSubtypeSelectionOnFeatureAccess() {
+		return ! subtypeSelectionOnFeatureAccess.isEmpty();
+	}
+	
+
+	// To this right, the variable should be given externally, but this is
+	// not always possible
+	private VariableDeclaration getThisModuleVar() {
+		if ( thisModuleVar == null ) {
+			thisModuleVar = OCLFactory.eINSTANCE.createVariableDeclaration();
+			thisModuleVar.setVarName(CSPModel.THIS_MODULE_CONTEXT_VAR);
+		}
+		return thisModuleVar;
 	}
 	
 	/**
@@ -80,8 +101,6 @@ public class Retyping extends AbstractVisitor {
 	public void retypeHelper(Helper self) {
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
 			markSeqAsSet(self);
-			
-			System.out.println("Retyping helper: " + ATLUtils.getHelperName(self));
 			
 			SetType t = TypesFactory.eINSTANCE.createSetType();
 			t.setContainedType(((CollectionType) self.getStaticReturnType()).getContainedType());
@@ -120,12 +139,50 @@ public class Retyping extends AbstractVisitor {
 	}
 	
 	/**
-	 * In USE there are no boolean types, but are converted to strings in the meta-model,
-	 * so every feature access with a boolean type must be converted to "expr == 'true'".
+	 * Retypings relative to feature access:
+	 * <ol>
+	 * <li> In USE there are no boolean types, but are converted to strings in the meta-model,
+	 *    so every feature access with a boolean type must be converted to "expr == 'true'".
+	 * </li>   
+	 * 
+	 * <li>If part of the path contains an access to a feature that is defined in a subclass.
+	 * In this case USE will complain, unless the object is casted with "oclAsType".
+	 * This retyping just selects one of the subclasses that contains the property an apply the operation speculatively. 
+	 * A more sophisticated mechanism would be to launch a 
+	 * greedy algorithm to select the best class in terms of actually repairing the transformation.
+	 * </li>
+	 * 
+	 * </ol>
 	 */
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
+		FeatureFoundInSubtype p = (FeatureFoundInSubtype) AnalyserUtils.hasProblem(self, FeatureFoundInSubtype.class);
+		if ( p != null ) {
+			String className = p.getPossibleClasses().get(0).getName();			
+			OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+			self.setSource(oclAsType);		
+			
+			if ( self.getUsedFeature() == null ) 
+				throw new IllegalStateException();
+		
+			this.subtypeSelectionOnFeatureAccess.add(self);
+		}
+		
+		if ( self.getUsedFeature() == null ) {
+			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
+			navT.setOperationName(self.getName());
+		
+			navT.setStaticResolver(self.getStaticResolver());
+			navT.setSource(self.getSource());
 
+			// Pass thisModule
+			VariableExp thisModuleRef = OCLFactory.eINSTANCE.createVariableExp();
+			thisModuleRef.setReferredVariable(getThisModuleVar());
+			navT.getArguments().add(thisModuleRef);
+			
+			EcoreUtil.replace(self, navT);
+		}
+		
 		if ( self.getInferredType() instanceof BooleanType && self.getUsedFeature() != null) {
 			System.out.println("Not retyping, because it seems that USE supports Booleans!");
 			/*
@@ -144,6 +201,35 @@ public class Retyping extends AbstractVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
+		// Same as inFeatureCallExp
+		OperationFoundInSubtype p = (OperationFoundInSubtype) AnalyserUtils.hasProblem(self, OperationFoundInSubtype.class);
+		if ( p != null ) {
+			String className = p.getPossibleClasses().get(0).getName();			
+			OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+
+			// The "thisModule" parameter has to be added, which should ideally be done in the
+			// retyping, but to do I need to set static resolver somehow... easier to do this here
+			if ( self.getStaticResolver() == null ) {
+				VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
+				thisModuleRef.setReferredVariable(getThisModuleVar());
+				self.getArguments().add(thisModuleRef);
+			} else {
+				throw new IllegalStateException();
+			}
+			
+			self.setSource(oclAsType);		
+			
+			this.subtypeSelectionOnFeatureAccess.add(self);
+		}
+
+		// It is not a built-in function, and thus it is helper defined in the transformation 
+		// (unless it is an error, that has not been automatically fixed)
+		if ( self.getStaticResolver() != null ) { 
+			VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
+			thisModuleRef.setReferredVariable(getThisModuleVar());
+			self.getArguments().add(thisModuleRef);
+		}
+		
 		// if ( self.getSource().getInferredType() instanceof CollectionType ) {
 		if ( AnalyserUtils.hasProblem(self, OperationOverCollectionType.class) != null ) {			
 			CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
@@ -154,6 +240,7 @@ public class Retyping extends AbstractVisitor {
 		}
 	}
 	
+
 	@Override
 	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
 		// Replace asSequence by asSet... hoping that not proper sequence operations are 
@@ -236,24 +323,13 @@ public class Retyping extends AbstractVisitor {
 				throw new UnsupportedOperationException("Type not supported " + t);
 			}
 		
-			OclModelElement modelElement = OCLFactory.eINSTANCE.createOclModelElement();
-			modelElement.setName(className);
-
-			if ( modelName != null ) {
-				OclModel model = OCLFactory.eINSTANCE.createOclModel();
-				model.setName(modelName);
-				modelElement.setModel(model);
-			}
-			
-			OperationCallExp oclAsType = OCLFactory.eINSTANCE.createOperationCallExp();
-			oclAsType.setOperationName("oclAsType");
-			oclAsType.getArguments().add(modelElement);
-			
 			IteratorExp collect = builder.createIterator(null, "collect");
-			collect.setBody(oclAsType);
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(collect.getIterators().get(0));
-			oclAsType.setSource(varRef);
+
+			OperationCallExp oclAsType = createOclAsType(className, modelName, varRef);
+			collect.setBody(oclAsType);
+
 			
 			// The new expression has 
 			collect.setInferredType(self.getInferredType());
@@ -261,6 +337,25 @@ public class Retyping extends AbstractVisitor {
 			EcoreUtil.replace(self, collect);
 			collect.setSource(self);
 		}
+	}
+
+	private OperationCallExp createOclAsType(String className, String modelName, OclExpression source) {
+		OclModelElement modelElement = OCLFactory.eINSTANCE.createOclModelElement();
+		modelElement.setName(className);
+
+		if ( modelName != null ) {
+			OclModel model = OCLFactory.eINSTANCE.createOclModel();
+			model.setName(modelName);
+			modelElement.setModel(model);
+		}
+		
+		OperationCallExp oclAsType = OCLFactory.eINSTANCE.createOperationCallExp();
+		oclAsType.setOperationName("oclAsType");
+		oclAsType.getArguments().add(modelElement);
+		
+		oclAsType.setSource(source);
+		
+		return oclAsType;
 	}
 	
 	/** 
@@ -331,5 +426,7 @@ public class Retyping extends AbstractVisitor {
 		
 		
 	}
+
+	
 	
 }

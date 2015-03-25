@@ -155,6 +155,17 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: {
+				FeatureFoundInSubtype featureFoundInSubtype = (FeatureFoundInSubtype)theEObject;
+				T result = caseFeatureFoundInSubtype(featureFoundInSubtype);
+				if (result == null) result = caseFeatureNotFound(featureFoundInSubtype);
+				if (result == null) result = caseNavigationProblem(featureFoundInSubtype);
+				if (result == null) result = caseLocalProblem(featureFoundInSubtype);
+				if (result == null) result = caseProblem(featureFoundInSubtype);
+				if (result == null) result = caseAnalysisInfo(featureFoundInSubtype);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.OPERATION_CALL_INVALID: {
 				OperationCallInvalid operationCallInvalid = (OperationCallInvalid)theEObject;
 				T result = caseOperationCallInvalid(operationCallInvalid);
@@ -173,6 +184,18 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(operationNotFound);
 				if (result == null) result = caseProblem(operationNotFound);
 				if (result == null) result = caseAnalysisInfo(operationNotFound);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: {
+				OperationFoundInSubtype operationFoundInSubtype = (OperationFoundInSubtype)theEObject;
+				T result = caseOperationFoundInSubtype(operationFoundInSubtype);
+				if (result == null) result = caseOperationNotFound(operationFoundInSubtype);
+				if (result == null) result = caseOperationCallInvalid(operationFoundInSubtype);
+				if (result == null) result = caseNavigationProblem(operationFoundInSubtype);
+				if (result == null) result = caseLocalProblem(operationFoundInSubtype);
+				if (result == null) result = caseProblem(operationFoundInSubtype);
+				if (result == null) result = caseAnalysisInfo(operationFoundInSubtype);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -695,6 +718,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature Found In Subtype</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature Found In Subtype</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFeatureFoundInSubtype(FeatureFoundInSubtype object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Operation Call Invalid</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -721,6 +759,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseOperationNotFound(OperationNotFound object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Found In Subtype</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Found In Subtype</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOperationFoundInSubtype(OperationFoundInSubtype object) {
 		return null;
 	}
 

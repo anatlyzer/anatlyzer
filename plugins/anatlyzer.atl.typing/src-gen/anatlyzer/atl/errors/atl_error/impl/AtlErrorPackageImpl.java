@@ -20,6 +20,7 @@ import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
 import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
@@ -46,6 +47,7 @@ import anatlyzer.atl.errors.atl_error.OclComplianceProblem;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalid;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
@@ -138,6 +140,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass featureFoundInSubtypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass operationCallInvalidEClass = null;
 
 	/**
@@ -146,6 +155,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass operationNotFoundEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationFoundInSubtypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -699,6 +715,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getFeatureFoundInSubtype() {
+		return featureFoundInSubtypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureFoundInSubtype_PossibleClasses() {
+		return (EReference)featureFoundInSubtypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperationCallInvalid() {
 		return operationCallInvalidEClass;
 	}
@@ -764,6 +798,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EClass getOperationNotFound() {
 		return operationNotFoundEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperationFoundInSubtype() {
+		return operationFoundInSubtypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperationFoundInSubtype_PossibleClasses() {
+		return (EReference)operationFoundInSubtypeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1527,6 +1579,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__CLASS_NAME);
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__METAMODEL_NAME);
 
+		featureFoundInSubtypeEClass = createEClass(FEATURE_FOUND_IN_SUBTYPE);
+		createEReference(featureFoundInSubtypeEClass, FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES);
+
 		operationCallInvalidEClass = createEClass(OPERATION_CALL_INVALID);
 		createEAttribute(operationCallInvalidEClass, OPERATION_CALL_INVALID__OPERATION_NAME);
 		createEReference(operationCallInvalidEClass, OPERATION_CALL_INVALID__TYPE);
@@ -1536,6 +1591,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(operationCallInvalidEClass, OPERATION_CALL_INVALID__ACTUAL_PARAMETERS);
 
 		operationNotFoundEClass = createEClass(OPERATION_NOT_FOUND);
+
+		operationFoundInSubtypeEClass = createEClass(OPERATION_FOUND_IN_SUBTYPE);
+		createEReference(operationFoundInSubtypeEClass, OPERATION_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES);
 
 		operationCallInvalidNumberOfParametersEClass = createEClass(OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS);
 
@@ -1695,8 +1753,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getNavigationProblem());
 		featureAccessInCollectionEClass.getESuperTypes().add(this.getNavigationProblem());
 		featureNotFoundEClass.getESuperTypes().add(this.getNavigationProblem());
+		featureFoundInSubtypeEClass.getESuperTypes().add(this.getFeatureNotFound());
 		operationCallInvalidEClass.getESuperTypes().add(this.getNavigationProblem());
 		operationNotFoundEClass.getESuperTypes().add(this.getOperationCallInvalid());
+		operationFoundInSubtypeEClass.getESuperTypes().add(this.getOperationNotFound());
 		operationCallInvalidNumberOfParametersEClass.getESuperTypes().add(this.getOperationCallInvalid());
 		operationCallInvalidParameterEClass.getESuperTypes().add(this.getOperationCallInvalid());
 		operationNotFoundInThisModuleEClass.getESuperTypes().add(this.getNavigationProblem());
@@ -1774,6 +1834,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEAttribute(getFeatureNotFound_ClassName(), ecorePackage.getEString(), "className", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFeatureNotFound_MetamodelName(), ecorePackage.getEString(), "metamodelName", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(featureFoundInSubtypeEClass, FeatureFoundInSubtype.class, "FeatureFoundInSubtype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getFeatureFoundInSubtype_PossibleClasses(), ecorePackage.getEClass(), null, "possibleClasses", null, 0, -1, FeatureFoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(operationCallInvalidEClass, OperationCallInvalid.class, "OperationCallInvalid", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperationCallInvalid_OperationName(), ecorePackage.getEString(), "operationName", null, 1, 1, OperationCallInvalid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOperationCallInvalid_Type(), theTypesPackage.getType(), null, "type", null, 1, 1, OperationCallInvalid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1783,6 +1846,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEReference(getOperationCallInvalid_ActualParameters(), theTypesPackage.getType(), null, "actualParameters", null, 0, -1, OperationCallInvalid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationNotFoundEClass, OperationNotFound.class, "OperationNotFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(operationFoundInSubtypeEClass, OperationFoundInSubtype.class, "OperationFoundInSubtype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperationFoundInSubtype_PossibleClasses(), ecorePackage.getEClass(), null, "possibleClasses", null, 0, -1, OperationFoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(operationCallInvalidNumberOfParametersEClass, OperationCallInvalidNumberOfParameters.class, "OperationCallInvalidNumberOfParameters", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

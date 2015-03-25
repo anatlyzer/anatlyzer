@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -57,7 +58,6 @@ import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
-import anatlyzer.atl.index.AnalysisResult;
 import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.optimizer.AtlOptimizer;
@@ -152,7 +152,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public void perform() {
 			CheckRuleConflicts action = new CheckRuleConflicts();
-			AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser(), currentAnalysis.getAnalyser().getNamespaces());
+			AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser());
 			List<OverlappingRules> result = action.performAction(data);	
 
 			numberOfConflicts = 0;
@@ -321,7 +321,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 		private ProblemGraph getProblemGraph() {
 			if ( problemGraph == null ) {
-				problemGraph = new ErrorPathGenerator(currentAnalysis.getAnalyser().getATLModel()).perform();
+				problemGraph = currentAnalysis.getAnalyser().getDependencyGraph(); 
 			}
 			 return problemGraph;			 
 		}
@@ -386,9 +386,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				switch(status) {
 				case CANNOT_DETERMINE: prefix = "[?] "; break;
 				case ERROR_CONFIRMED: prefix = "[C] "; break;
+				case ERROR_CONFIRMED_SPECULATIVE: prefix = "[CS] "; break;
 				case ERROR_DISCARDED: prefix = "[D] "; break;
 				case ERROR_DISCARDED_DUE_TO_METAMODEL: prefix = "[DM] "; break;
 				case INTERNAL_ERROR: prefix = "[E] "; break;
+				case NOT_SUPPORTED_BY_USE: prefix = "[U] "; break;
 				}
 			}
 			String desc = p.getDescription();

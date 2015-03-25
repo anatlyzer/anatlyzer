@@ -1,8 +1,8 @@
 package anatlyzer.atl.witness;
 
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.index.AnalysisResult;
 
 /**
  * An interface for witness finders, typically using a constraint solving.
@@ -15,10 +15,12 @@ public interface IWitnessFinder {
 	
 	public static enum WitnessResult {
 		ERROR_CONFIRMED,
+		ERROR_CONFIRMED_SPECULATIVE,
 		ERROR_DISCARDED,
 		ERROR_DISCARDED_DUE_TO_METAMODEL,
 		INTERNAL_ERROR, 
-		CANNOT_DETERMINE 
+		CANNOT_DETERMINE, 
+		NOT_SUPPORTED_BY_USE 
 	}
 
 }

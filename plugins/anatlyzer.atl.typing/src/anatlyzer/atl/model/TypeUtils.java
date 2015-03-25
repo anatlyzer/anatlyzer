@@ -1,13 +1,19 @@
 package anatlyzer.atl.model;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import anatlyzer.atl.analyser.EcoreTypeConverter;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
@@ -28,17 +34,42 @@ import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 
 public class TypeUtils {
+	
+	/**
+	 * Given a set of classes, it filters out those classes with a supertype in the collection.
+	 * @param classes
+	 * @return
+	 */
+	public static Collection<EClass> getUpperInHierarchy(Collection<EClass> classes) {
+		
+		LinkedList<EClass> result = new LinkedList<EClass>();
+		for (EClass c1 : classes) {
+			boolean hasSuperType = false;
+			EList<EClass> supers = c1.getEAllSuperTypes();
+			
+			for (EClass c2 : classes) {
+				if ( c1 != c2 ) {
+					if ( supers.contains(c2) ) {
+						hasSuperType = true;
+						break;
+					}
+				}
+			}
+			
+			if ( ! hasSuperType ) {
+				result.add(c1);
+			}
+		}
+
+		return result;
+	}
+	
 	public static String typeToString(Type t) {
 		if ( t instanceof Metaclass ) return ((Metaclass) t).getName();
 		if ( t instanceof Unknown ) return "OclAny";
  		
 		if ( t instanceof UnionType ) {
-			String result = null;
-			for(Type inner : ((UnionType) t).getPossibleTypes()) {
-				if ( result == null ) result = typeToString(inner);
-				else result = result +  ", " + typeToString(inner);
-			}
-			return "Union {" +  result + "}";
+			return "Union {" +  typesToString(((UnionType) t).getPossibleTypes()) + "}";
 		}
 		
 		if ( t instanceof TupleType ) {
@@ -68,6 +99,30 @@ public class TypeUtils {
 		return t.toString();
 	}
 
+	public static String typesToString(Collection<? extends Type> types) {
+		if ( types.size() == 0 )
+			throw new IllegalArgumentException();
+		
+		Iterator<? extends Type> it = types.iterator();
+		String s = typeToString(it.next());
+		while ( it.hasNext() ) {
+			s += "," + typeToString(it.next());			
+		}
+		return s;
+	}
+	
+	public static String classifiersToString(Collection<? extends EClassifier> types) {
+		if ( types.size() == 0 )
+			throw new IllegalArgumentException();
+		
+		Iterator<? extends EClassifier> it = types.iterator();
+		String s = it.next().getName();
+		while ( it.hasNext() ) {
+			s += "," + it.next().getName();			
+		}
+		return s;
+	}
+	
 	/**
 	 * Checks whether the rightType is assignable to the leftType, that is, if
 	 * <pre>

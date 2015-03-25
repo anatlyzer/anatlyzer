@@ -15,8 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2m.atl.common;bundle-version="3.3.0",
  anatlyzer.atl.typing,
  org.eclipse.emf.ecore,
- anatlyzer.use.witness;bundle-version="0.1.0",
- anatlyzer.atl.tests.api;bundle-version="0.1.0",
  org.eclipse.jface,
  org.eclipse.swt,
  anatlyzer.atl.optimizer;bundle-version="0.2.0"

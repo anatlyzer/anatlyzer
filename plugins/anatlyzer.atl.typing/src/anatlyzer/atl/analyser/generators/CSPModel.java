@@ -23,6 +23,7 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class CSPModel {
 
+	public static final String THIS_MODULE_CONTEXT_VAR = "thisModule";
 	private ATLModel atlModel;
 	private OclGeneratorAST generator;
 
@@ -171,7 +172,7 @@ public class CSPModel {
 		op.setOperationName("allInstances");
 		op.setSource(m);
 		
-		return createExists(op, "thisModule");
+		return createExists(op, THIS_MODULE_CONTEXT_VAR);
 	}
 	
 	

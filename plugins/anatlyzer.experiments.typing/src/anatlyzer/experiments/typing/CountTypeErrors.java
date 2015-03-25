@@ -14,7 +14,7 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.examples.api.ErrorReport;
+import anatlyzer.atl.util.ErrorReport;
 import anatlyzer.experiments.export.CountingModel;
 import anatlyzer.experiments.export.IClassifiedArtefact;
 import anatlyzer.experiments.export.IHint;

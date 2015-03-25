@@ -1,4 +1,4 @@
-package anatlyzer.examples.api;
+package anatlyzer.atl.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +23,6 @@ import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;

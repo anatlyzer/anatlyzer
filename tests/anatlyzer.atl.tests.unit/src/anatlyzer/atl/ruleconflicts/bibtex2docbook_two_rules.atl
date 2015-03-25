@@ -1,0 +1,116 @@
+-- 
+-- @path BibTeX=/Bibtex2Docbook/mm/BibTeX.ecore
+-- @path DocBook=/Bibtex2Docbook/mm/DocBook.ecore
+--
+
+module BibTeX2DocBook;
+create OUT : DocBook from IN : BibTeX;
+
+
+-------------------------------------------------------------------------------
+-- HELPERS --------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+-- This helper builds the set of distinct authors referenced in the input BibTeX
+-- model.
+-- Built set is sorted by author name.
+-- RETURN: Sequence(BibTeX!Author)
+helper def: authorSet : Sequence(BibTeX!Author) = BibTeX!Author.allInstances()->iterate(e; ret : Sequence(BibTeX!Author) = Sequence {} |
+				if ret->collect(e | e.author)->includes(e.author) then
+					ret
+				else
+					ret->including(e)
+				endif
+			)->sortedBy(e | e.author);
+
+-- This helper builds the set of distinct titles referenced in the input BibTeX
+-- model.
+-- Built set is sorted by title.
+-- RETURN: Sequence(BibTeX!TitledEntry)
+helper def: titledEntrySet : Sequence(BibTeX!TitledEntry) = BibTeX!TitledEntry.allInstances()->iterate(e; ret : Sequence(BibTeX!TitledEntry) = Sequence {} |
+				if ret->collect(e | e.title)->includes(e.title) then
+					ret
+				else
+					ret->including(e)
+				endif
+			)->sortedBy(e | e.title);
+
+-- This helper builds the set of distinct journals referenced in the input BibTeX
+-- model.
+-- Built set is sorted by journal name.
+-- RETURN: Sequence(BibTeX!Article)
+helper def: articleSet : Sequence(BibTeX!Article) = BibTeX!Article.allInstances()->iterate(e; ret : Sequence(BibTeX!Article) = Sequence {} |
+				if ret->collect(e | e.journal)->includes(e.journal) then
+					ret
+				else
+					ret->including(e)
+				endif
+			)->sortedBy(e | e.journal);
+
+-- This helper builds a string containing all information on a given BibTeXEntry.
+-- Content of the generated string depends on the entry type.
+-- IN: BibTeX!BibTeXEntry
+-- RETURN: Sequence(BibTeX!Author)
+helper context BibTeX!BibTeXEntry def: buildEntryPara() : String =
+	'[' + self.id + ']'
+	+ ' ' + self.oclType().name
+	+ (if self.oclIsKindOf(BibTeX!TitledEntry) then ' ' + self.title else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!AuthoredEntry) 
+	   then self.authors->iterate(e; str : String = '' | str + ' ' + e.author)
+	   else ''
+	   endif)
+	+ (if self.oclIsKindOf(BibTeX!DatedEntry) then ' ' + self.year else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!BookTitledEntry) then ' ' + self.booktitle else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!ThesisEntry) then ' ' +  self.school else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!Article) then ' ' + self.journal else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!Unpublished) then ' ' + self.note else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!Book) then ' ' + self.publisher else '' endif)
+	+ (if self.oclIsKindOf(BibTeX!InBook) then ' ' + self.chapter.toString() else '' endif)
+	;
+
+
+-------------------------------------------------------------------------------
+-- RULES ----------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+-- Rule 'Article_NoTitle_Journal'
+-- [titledEntrySet contains a subset of TitledEntry, so that each title
+-- appears only once in the set]
+-- [articleSet contains a subset of Article, so that each journal
+-- appears only once in the set]
+-- For each article entry that belongs to articleSet, this rule generates:
+--   * a section_1 paragraph;
+--   * a section_4 paragraph.
+rule Article_NoTitle_Journal {
+	from
+		e : BibTeX!Article (
+			not thisModule.titledEntrySet->includes(e) and
+			thisModule.articleSet->includes(e)
+		)
+	to
+		entry_para : DocBook!Para (
+			content <- e.buildEntryPara()
+		),
+		journal_para : DocBook!Para (
+			content <- e.journal
+		)
+}
+
+-- Rule 'Article_NoTitle_NoJournal'
+-- [titledEntrySet contains a subset of TitledEntry, so that each title
+-- appears only once in the set]
+-- [articleSet contains a subset of Article, so that each journal
+-- appears only once in the set]
+-- For each article entry that belongs to articleSet, this rule generates:
+--   * a section_1 paragraph;
+rule Article_NoTitle_NoJournal {
+	from
+		e : BibTeX!Article (
+			not thisModule.titledEntrySet->includes(e) and
+			not thisModule.articleSet->includes(e)
+		)
+	to
+		entry_para : DocBook!Para (
+			content <- e.buildEntryPara()
+		)
+}

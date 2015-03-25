@@ -6,8 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
-import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.unit.UnitTest;
 
 public class TestImplicitCasting extends UnitTest {
@@ -20,8 +20,7 @@ public class TestImplicitCasting extends UnitTest {
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(1, problems().size());	
-		assertTrue(problems().get(0) instanceof FeatureNotFound);
-		assertTrue(problems().get(0).getRecovery() instanceof FeatureFoundInSubclass);
+		assertTrue(problems().get(0) instanceof FeatureFoundInSubtype);
 	}
 
 	@Test

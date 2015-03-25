@@ -1,0 +1,22 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module implicitrules;
+create OUT : WXYZ from IN : ABCD;
+
+
+-- No error
+rule model {
+	from src : ABCD!A ( src.oclIsKindOf(ABCD!B) )
+    to   tgt : WXYZ!X (
+    	name <- src.propOfB
+    )
+}
+
+
+-- Error 
+rule model2 {
+	from src : ABCD!A ( src.oclIsKindOf(ABCD!C) )
+    to   tgt : WXYZ!X (
+    	name <- src.propOfB
+    )
+}

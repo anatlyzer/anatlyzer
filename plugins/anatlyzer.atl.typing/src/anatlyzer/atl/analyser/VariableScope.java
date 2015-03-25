@@ -151,7 +151,7 @@ public class VariableScope {
 
 		// mustBeInScope is used as a sanity check... probably could be removed
 		public OclKindOfApplication findOclKindOfDefinition(OclExpression expr, boolean mustBeInScope) {
-			OclKindOfApplication r = allApplications.get(USESerializer.gen(expr));			
+			OclKindOfApplication r = allApplications.get(USESerializer.gen(expr).asString());			
 			if ( r != null ) {
 				VariableExp starting = findStartingVarExp(expr);
 				
@@ -221,7 +221,7 @@ public class VariableScope {
 		}
 
 		private void addOclKindOf(OclExpression expr, OclKindOfApplication app) {
-			String str = USESerializer.gen(expr);
+			String str = USESerializer.gen(expr).asString();
 			currentApplications.put(str, app);			
 			allApplications.put(str, app);			
 		}

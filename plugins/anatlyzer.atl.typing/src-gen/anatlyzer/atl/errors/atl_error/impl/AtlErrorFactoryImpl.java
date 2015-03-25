@@ -60,7 +60,9 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: return createFeatureFoundInSubtype();
 			case AtlErrorPackage.OPERATION_NOT_FOUND: return createOperationNotFound();
+			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: return createOperationFoundInSubtype();
 			case AtlErrorPackage.OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS: return createOperationCallInvalidNumberOfParameters();
 			case AtlErrorPackage.OPERATION_CALL_INVALID_PARAMETER: return createOperationCallInvalidParameter();
 			case AtlErrorPackage.OPERATION_NOT_FOUND_IN_THIS_MODULE: return createOperationNotFoundInThisModule();
@@ -147,9 +149,29 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public FeatureFoundInSubtype createFeatureFoundInSubtype() {
+		FeatureFoundInSubtypeImpl featureFoundInSubtype = new FeatureFoundInSubtypeImpl();
+		return featureFoundInSubtype;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public OperationNotFound createOperationNotFound() {
 		OperationNotFoundImpl operationNotFound = new OperationNotFoundImpl();
 		return operationNotFound;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OperationFoundInSubtype createOperationFoundInSubtype() {
+		OperationFoundInSubtypeImpl operationFoundInSubtype = new OperationFoundInSubtypeImpl();
+		return operationFoundInSubtype;
 	}
 
 	/**

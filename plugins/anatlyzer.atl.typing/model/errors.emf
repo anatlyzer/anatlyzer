@@ -72,6 +72,10 @@ package atl_error {
 		attr String[1] metamodelName;
 	}
 
+	class FeatureFoundInSubtype extends FeatureNotFound {
+		ref EClass[*] possibleClasses;	
+	}
+
 	abstract class OperationCallInvalid extends NavigationProblem {
 		attr String[1] operationName;
 		ref  types.Type[1] type;	   
@@ -86,6 +90,10 @@ package atl_error {
 	class OperationNotFound extends OperationCallInvalid {
 	}
 
+	class OperationFoundInSubtype extends OperationNotFound {
+		ref EClass[*] possibleClasses;	
+	}
+	
 	class OperationCallInvalidNumberOfParameters extends OperationCallInvalid {					
 	}
 	
@@ -273,10 +281,12 @@ package atl_error {
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")
 package atl_recovery {
+	/*
 	class FeatureFoundInSubclass extends Recovery {
 		attr String[1] subclassName;
 		ref  EClass[1] subclass;
 	}
+	*/
 	
 	class TentativeTypeAssigned extends Recovery {
 	   ref types.Type[1] type;

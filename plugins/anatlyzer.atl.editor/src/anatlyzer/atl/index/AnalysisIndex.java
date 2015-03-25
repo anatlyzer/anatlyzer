@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 
+import anatlyzer.atl.analyser.AnalysisResult;
+
 /**
  * This class maintains a global index of the analysis already performed
  * and kept in memory.

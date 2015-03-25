@@ -1,6 +1,7 @@
 package anatlyzer.atl.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -30,6 +31,7 @@ import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
 import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
@@ -49,6 +51,7 @@ import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
@@ -59,7 +62,6 @@ import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
-import anatlyzer.atl.errors.atl_recovery.FeatureFoundInSubclass;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.TupleType;
@@ -247,36 +249,34 @@ public class ErrorModel {
 	}
 
 	
-	public void warningFeatureFoundInSubType(Metaclass type, Metaclass subtype, String featureName, LocatedElement node) {
-		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
+	public void warningFeatureFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String featureName, LocatedElement node) {
+		FeatureFoundInSubtype error = AtlErrorFactory.eINSTANCE.createFeatureFoundInSubtype();
 		initProblem(error, node);
 
 		error.setFeatureName(featureName);
 		error.setClassName(type.getName());
 		error.setMetamodelName(((IClassNamespace) type.getMetamodelRef()).getMetamodelName());
+
+		for (EClass metaclass : foundClasses) {
+			error.getPossibleClasses().add(metaclass);
+		}
 		
-		FeatureFoundInSubclass recovery = AtlRecoveryFactory.eINSTANCE.createFeatureFoundInSubclass();
-		recovery.setSubclassName(subtype.getName());
-		recovery.setSubclass(subtype.getKlass());
-		error.setRecovery(recovery);
-		
-		signalError(error, "Feature " + featureName + " expected in " + type.getName() + " but found in subtype " + subtype.getName(), node);
+		signalError(error, "Feature " + featureName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 	}
 
-	public void warningOperationFoundInSubType(Metaclass type, Metaclass subtype, String operationName, LocatedElement node) {
-		OperationNotFound error = AtlErrorFactory.eINSTANCE.createOperationNotFound();
+	public void warningOperationFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String operationName, LocatedElement node) {
+		OperationFoundInSubtype error = AtlErrorFactory.eINSTANCE.createOperationFoundInSubtype();
 		initProblem(error, node);
 
 		error.setOperationName(operationName);
 		error.setClassName(type.getName());
 		error.setMetamodelName(((IClassNamespace) type.getMetamodelRef()).getMetamodelName());
 		
-		FeatureFoundInSubclass recovery = AtlRecoveryFactory.eINSTANCE.createFeatureFoundInSubclass();
-		recovery.setSubclassName(subtype.getName());
-		recovery.setSubclass(subtype.getKlass());
-		error.setRecovery(recovery);
+		for (EClass metaclass : foundClasses) {
+			error.getPossibleClasses().add(metaclass);
+		}
 		
-		signalError(error, "Operation " + operationName + " expected in " + type.getName() + " but found in subtype " + subtype.getName(), node);
+		signalError(error, "Operation " + operationName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 
 		// System.err.println("WARNING: Feature " + operationName + " expected in " + type.getName() + " but found in subtype " + subtype.getName() + ". " + node.getLocation() );		
 	} 

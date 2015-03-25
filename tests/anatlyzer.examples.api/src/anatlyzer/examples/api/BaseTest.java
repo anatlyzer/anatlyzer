@@ -22,8 +22,9 @@ import org.eclipse.m2m.atl.engine.parser.AtlParser;
 import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
@@ -35,6 +36,8 @@ import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.util.ErrorReport;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
@@ -45,7 +48,24 @@ public class BaseTest {
 	protected GlobalNamespace mm;
 	protected Analyser analyser;
 	private List<OverlappingRules> possibleRuleConflicts;
+	private AnalysisResult analysisData;
 
+	protected void clearState() {
+		atlTransformation     = null;
+		atlTransformationFile = null;
+		mm = null;
+		analyser = null;
+		possibleRuleConflicts = null;
+		analysisData = null;
+
+//		File props = new File("./transml.properties");
+//		if ( props.exists() ) {
+//			System.out.println("Deleted");
+//			props.delete();
+//		}
+		
+	}
+	
 	public void typing(String atlTransformationFile, Object[] metamodels, String[] names) throws Exception {
 		this.atlTransformationFile = atlTransformationFile;
 
@@ -65,6 +85,8 @@ public class BaseTest {
 
 		long initTime = System.currentTimeMillis();
 		analyser.perform();
+		analysisData = new AnalysisResult(analyser);
+		
 		long finishTime = System.currentTimeMillis();
 		diffs += (finishTime - initTime);
 		// }
@@ -162,69 +184,30 @@ public class BaseTest {
 	protected Result unconnectedAnalysis() {
 		return new UnconnectedElementsAnalysis(this.analyser.getATLModel(), analyser).perform();		
 	}
-
-	
-	// Loaded meta-models, to invoke the constraint solver
-	private EPackage effective;
-	private EPackage language;
-
-	public boolean[] confirmOrDiscardProblems(Collection<? extends IDetectedProblem> problems) {
-
-		boolean confirmed[] = new boolean[problems.size()];
-		int i = 0;
-		for (IDetectedProblem p : problems) {		
-			XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("error"));
-			EPackage errorSlice = new EffectiveMetamodelBuilder(p.getErrorSlice(this.analyser)).extractSource(r1, "error", "http://error", "error", "error");
-			
-			// Effective meta-model
-			if ( effective == null ) {
-				XMIResourceImpl r2 =  new XMIResourceImpl(URI.createURI("overlap_effective"));
-				TrafoMetamodelData trafoData = new TrafoMetamodelData(this.atlTransformation, null);
-				
-				String logicalName = "effective_mm";
-				effective = new EffectiveMetamodelBuilder(trafoData).extractSource(r2, logicalName, logicalName, logicalName, logicalName);
-			}
-			
-			// Language meta-model
-			if ( language == null )
-				language  =  AnalyserUtils.getSingleSourceMetamodel(analyser);
-
-			String projectPath = ".";
-			
-			OclExpression constraint = p.getWitnessCondition();
-			String constraintStr = USESerializer.retypeAndGenerate(constraint);
-			
-			System.out.println("Constraint: " + constraintStr);
-			
-			WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraintStr);
-			generator.setTempDirectoryPath(projectPath);
-			try {
-				if ( ! generator.generate() ) {
-					confirmed[i] = false;
-				} else {
-					confirmed[i] = true;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
-		return confirmed;
-	}		
-
-	
-	public boolean[] confirmOrDiscardTypingProblems() {
-		return confirmOrDiscardProblems(analyser.getDependencyGraph().getProblemPaths());		
-	}
 	
 	// Error meta-model
-	public boolean[] confirmOrDiscardRuleConflicts() {
+	public WitnessResult[] confirmOrDiscardRuleConflicts() {
 		if ( possibleRuleConflicts == null )
 			possibleRuleConflicts = possibleRuleConflicts();
 		
-		return confirmOrDiscardProblems(possibleRuleConflicts);
+		WitnessResult[] results = new WitnessResult[possibleRuleConflicts.size()];		
+		int i = 0;
+		for (OverlappingRules overlappingRules : possibleRuleConflicts) {
+			results[i] = new TestUSEWitnessFinder().find(overlappingRules, analysisData);
+			i++;
+		}
+		
+		return results;
 	}		
 		
+	
+	// This is the good one, remove the rest...
+	protected WitnessResult confirmOrDiscardProblem(LocalProblem problem) {
+		WitnessResult result = new TestUSEWitnessFinder().find(problem, analysisData);
+		return result;
+	}
+
+	
 	//
 	// End-of rule conflicts
 	//

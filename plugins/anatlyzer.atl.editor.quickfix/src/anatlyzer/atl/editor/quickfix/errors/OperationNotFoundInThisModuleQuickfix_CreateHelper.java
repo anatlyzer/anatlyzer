@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Point;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
@@ -26,9 +27,13 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -45,7 +50,7 @@ import anatlyzer.atlext.OCL.Parameter;
  * 				     within the right part of a binding. 
  * 					 Binding's feature type must be non-primitive.
  * 					 Number of arguments must be one.</li>
- * 	<li>Called rule. Same as before, but more than one parameters are passed or just one parameter of
+ * 	<li>Called rule. Same as before, but more than one parameter is passed or just one parameter of
  *                   primitive type.</li>
  *  <li>Helper. Otherwise. </li>
  * </ul>
@@ -132,16 +137,25 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	
 
 	private String buildNewLazyRule(OperationCallExp exp, Binding b) {		
-		return "\n-- TODO: Lazy rule\n";
+		LazyRule r = ATLFactory.eINSTANCE.createLazyRule();
+		
+		InPattern p = ATLFactory.eINSTANCE.createInPattern();
+		SimpleInPatternElement ipe = ATLFactory.eINSTANCE.createSimpleInPatternElement();
+		p.getElements().add(ipe);
+		r.setInPattern(p);
+		
+		Metaclass argType = (Metaclass) exp.getArguments().get(0).getInferredType();
+		OclModelElement ome = ASTUtils.createOclModelElement(argType);
+		ipe.setType(ome);
+		ipe.setVarName(argType.getName().substring(0, 1).toLowerCase());
+		
+		return buildImperativeRule(r, exp, b);	
 	}
-	
+
 	private String buildNewCalledRule(OperationCallExp exp, Binding b) {		
 		CalledRule r = ATLFactory.eINSTANCE.createCalledRule();
 
-		// 1. Name of the rule : the operation name
-		r.setName(exp.getOperationName());
-		
-		// 2. Infer parameter types from the types of the actual arguments
+		// Infer parameter types from the types of the actual arguments
 		int i = 0;
 		for(OclExpression arg : exp.getArguments()) {
 			Parameter p = OCLFactory.eINSTANCE.createParameter();
@@ -149,24 +163,31 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 			
 			if ( arg.getInferredType() instanceof PrimitiveType ) {
 				p.setType(Conversions.convertPType((PrimitiveType) arg.getInferredType()));
+			} else if ( arg.getInferredType() instanceof Metaclass ){
+				p.setType(ASTUtils.createOclModelElement((Metaclass) arg.getInferredType()));
 			} else {
 				// Several cases to consider here:
-				//		- Metaclass => Find the metamodel name...
 				//		- Union type => ??
+				//		- ErrorType?
 				throw new UnsupportedOperationException();
 			}
 			
 			r.getParameters().add(p);
 			i++;
 		}
+
+		return buildImperativeRule(r, exp, b);
+	}
+	
+	private String buildImperativeRule(StaticRule r, OperationCallExp exp, Binding b) {		
+		// 1. Name of the rule : the operation name
+		r.setName(exp.getOperationName());
 		
+		// 2. Infer parameter types from the types of the actual arguments
+		// Done by the callee
 		// 3. Return type of the rule from the binding's expected type
 		Metaclass m = (Metaclass) ATLUtils.getUnderlyingBindingType(b);
-		OclModelElement ome = OCLFactory.eINSTANCE.createOclModelElement();
-		ome.setName(m.getName());
-		OclModel mm = OCLFactory.eINSTANCE.createOclModel();
-		mm.setName(	m.getModel().getName() );
-		ome.setModel(mm);
+		OclModelElement ome = ASTUtils.createOclModelElement(m);
 		
 		OutPattern p = ATLFactory.eINSTANCE.createOutPattern();
 		r.setOutPattern(p);

@@ -56,6 +56,7 @@ public class OclGeneratorAST {
 
 	public OclExpression gen(OclExpression expr, CSPModel.CSPModelScope vars) {
 		OclExpression copied = genAux(expr, vars);
+		copied.setLocation(expr.getLocation());
 		copied.getProblems().addAll(expr.getProblems());
 		copied.setInferredType( expr.getInferredType() );
 		copied.setImplicitlyCasted( expr.isImplicitlyCasted() );

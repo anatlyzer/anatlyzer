@@ -31,6 +31,7 @@ import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
@@ -105,8 +106,14 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	public boolean addHelper(StaticHelper staticHelper) {
 		return addHelperAux(staticHelper, Analyser.USE_THIS_MODULE_CLASS);
 	}
+
+	private HashSet<Helper> alreadyAdded = new HashSet<Helper>();
 	
 	private boolean addHelperAux(Helper helper, String ctxTypeName) {
+		if ( alreadyAdded.contains(helper) ) 
+			return false;		
+		alreadyAdded.add(helper);
+		
 		if ( ! helpers.containsKey(ctxTypeName) ) {
 			helpers.put(ctxTypeName, new HashSet<Helper>());
 		}
@@ -114,19 +121,16 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		if ( retype ) {
 			// copy before retype, to avoid modifying objects that will later
 			// be used in other analysis
-		    MyCopier copier = new MyCopier(helper);
-		    EObject result = copier.copy(helper);
-		    copier.copyReferences();
-		    helper = (Helper) result;			
+			helper = (Helper) ATLCopier.copySingleElement(helper);
 			new Retyping(helper).perform();		
 		}
 		
 		if ( ! new USEValidityChecker(helper).perform().isValid() ) {
 			helpersNotSupported.add(helper);
 		}
-
 		
-		return helpers.get(ctxTypeName).add(helper);	
+		helpers.get(ctxTypeName).add(helper);	
+		return true;
 	}
 	
 	/**
@@ -209,47 +213,6 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
 
-	public static class MyCopier extends EcoreUtil.Copier {
-		private EObject root;
-
-		public MyCopier(EObject object) {
-			super();
-			this.root = object;
-		}
-
-		protected void copyReference(EReference eReference, EObject eObject,
-				EObject copyEObject) {
-			super.copyReference(eReference, eObject, copyEObject);
-
-			if (eObject.eIsSet(eReference)) {
-				if (eReference.isMany()) {
-				} else {
-					Object referencedEObject = eObject.eGet(eReference,
-							resolveProxies);
-					if (referencedEObject == null) {
-					} else {
-						Object copyReferencedEObject = get(referencedEObject);
-						if (copyReferencedEObject == null) {
-							if (useOriginalReferences
-									&& eReference.getEOpposite() == null) {
-							}
-							// added to make a cross-reference to objects
-							// outside the copy
-							else {
-								boolean isContained = EcoreUtil.isAncestor(
-										root, (EObject) referencedEObject);
-								if (useOriginalReferences && !isContained) {
-									copyEObject.eSet(eReference,
-											referencedEObject);
-								}
-							}
-						} else {
-						}
-					}
-				}
-			}
-		}
-
-	}
+	
 
 }

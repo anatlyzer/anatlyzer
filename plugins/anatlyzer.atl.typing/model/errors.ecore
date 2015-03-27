@@ -50,12 +50,52 @@
     <eClassifiers xsi:type="ecore:EClass" name="TargetModelConformanceProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationOverNoCollectionError"
-        eSuperTypes="#//atl_error/NavigationProblem"/>
+        eSuperTypes="#//atl_error/NavigationProblem">
+      <eAnnotations source="description">
+        <details key="text" value="Collection operation over no collection"/>
+        <details key="example" value="aClassInstance->select(...)"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="OCL spec, tests"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureAccessInCollection" eSuperTypes="#//atl_error/NavigationProblem">
+      <eAnnotations source="description">
+        <details key="text" value="Collections do not have features. Dot-notation cannot be used over them"/>
+        <details key="example" value="Sequence { }.length"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="OCL spec, tests"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFound" eSuperTypes="#//atl_error/NavigationProblem">
+      <eAnnotations source="description">
+        <details key="text" value="Feature cannot be found in an object's class"/>
+        <details key="example" value="anObject.featureName"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"

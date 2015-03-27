@@ -9,6 +9,7 @@ import java.util.Stack;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.BooleanType;
@@ -408,6 +409,18 @@ public class ATLUtils {
 
 	public static Rule getRule(Binding binding) {
 		return binding.getOutPatternElement().getOutPattern().getRule();
+	}
+
+	public static boolean isReferenceBinding(Binding b) {
+		return b.getWrittenFeature() instanceof EReference;
+	}
+
+	public static Type getUnderlyingBindingType(Binding b) {
+		Type t = b.getLeftType();
+		if ( t instanceof CollectionType ) {
+			return ((CollectionType) t).getContainedType();
+		}
+		return t;
 	}
 
 	

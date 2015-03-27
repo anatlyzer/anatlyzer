@@ -15,13 +15,14 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDecorationContext;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.LabelDecorator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -53,8 +54,8 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
@@ -515,39 +516,65 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 	}
 	
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-
-		public String getText(Object obj) {
-			return obj.toString();
-		}
-		
-		public Image getImage(Object obj) {
-			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
-			if (obj instanceof TreeParent)
-			   imageKey = ISharedImages.IMG_OBJ_FOLDER;
-			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
-		}
-
+	class ViewLabelDecorator extends LabelDecorator {
+		//private final ImageDescriptor warningImageDescriptor = Activator
+		//       .getImageDescriptor("icons/bullet_error.png");
+		//private Image decoratedImage = null;
+	 
 		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			// TODO Auto-generated method stub
+		public Image decorateImage(Image image, Object element, IDecorationContext context) {
+//			if (element instanceof ViewModel && !((ViewModel) element).isActive()) {
+//				if (decoratedImage == null) {
+//					decoratedImage = new DecorationOverlayIcon(image, warningImageDescriptor, IDecoration.BOTTOM_RIGHT)
+//					        .createImage();
+//				}
+//				return decoratedImage;
+//			}
 			return null;
 		}
-
+	 
 		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			if ( element instanceof TreeNode ) {
-				switch (columnIndex) {
-				case 0: return ((TreeNode) element).toString(); 
-				case 1: return ((TreeNode) element).toColumn1();
-				}
-			}
-			return element.toString();
+		public void dispose() {
+			//decoratedImage.dispose();
+			//decoratedImage = null;
 		}
-		
-		
-		
+	 
+		@Override
+		public String decorateText(String text, Object element,
+		        IDecorationContext context) {
+			return null;
+		}
+	 
+		@Override
+		public boolean prepareDecoration(Object element, String originalText,
+		        IDecorationContext context) {
+			return false;
+		}
+	 
+		@Override
+		public Image decorateImage(Image image, Object element) {
+			return null;
+		}
+	 
+		@Override
+		public String decorateText(String text, Object element) {
+			return null;
+		}
+	 
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+		}
+	 
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+	 
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+		}
 	}
+	
 	class NameSorter extends ViewerSorter {
 	}
 
@@ -575,16 +602,23 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		TreeColumn trclmnElement = treeViewerColumn.getColumn();
 		trclmnElement.setWidth(500);
 		trclmnElement.setText("Problem");
+		treeViewerColumn.setLabelProvider(new ViewProviders.FirstColumnViewLabelProvider());
 		
+//		treeViewerColumn.setLabelProvider(new TooltipSupport.ViewDecoratingStyledCellLabelProvider(
+//				new ViewProviders.FirstColumnViewLabelProvider(), new ViewLabelDecorator(), null
+//				));
+//		
 		TreeViewerColumn treeViewerColumn_1 = new TreeViewerColumn(viewer, SWT.NONE);
 		TreeColumn trclmnMetric = treeViewerColumn_1.getColumn();
+		treeViewerColumn_1.setLabelProvider(new ViewProviders.SecondColumnViewLabelProvider());
 		trclmnMetric.setWidth(50);
 		trclmnMetric.setText("Info.");
-
+		
+		ViewColumnViewerToolTipSupport.enableFor(viewer);
 		
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
+		// viewer.setLabelProvider(new ViewLabelProvider());
 		viewer.setSorter(new NameSorter());
 		viewer.setInput(getViewSite());
 
@@ -693,7 +727,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					if ( wf != null ) {
 						WitnessResult status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);
-						viewer.refresh(lpn, true);
+						viewer.refresh(lpn); //, true);
 					}
 					
 					System.out.println( selection.getFirstElement() );

@@ -10,6 +10,9 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.quickfixast.QuickfixScope;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
 /**
@@ -40,10 +43,23 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 	@Override
 	public void apply(IDocument document) {
 
+		
 		try {
-			int offsetEnd   = getProblemEndOffset();
-			
 			OperationCallExp call = (OperationCallExp) getProblem().getElement();
+			QuickfixScope<OperationCallExp> qs = new QuickfixScope<OperationCallExp>(call);
+			
+			qs.replace(expr -> {
+				CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				colOp.setOperationName(call.getOperationName());
+				colOp.getArguments().addAll(call.getArguments());
+				colOp.setSource(call.getSource());
+				
+				return colOp;
+			});
+			
+			
+			
+			int offsetEnd   = getProblemEndOffset();
 			int[] sourceOffset = getElementOffset(call.getSource(), document);
 
 			int sourceOffsetEnd = sourceOffset[1];

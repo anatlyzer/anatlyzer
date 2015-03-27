@@ -162,7 +162,7 @@ public class Retyping extends AbstractVisitor {
 			OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
 			self.setSource(oclAsType);		
 			
-			if ( self.getUsedFeature() == null ) 
+			if ( self.getUsedFeature() != null ) 
 				throw new IllegalStateException();
 		
 			this.subtypeSelectionOnFeatureAccess.add(self);

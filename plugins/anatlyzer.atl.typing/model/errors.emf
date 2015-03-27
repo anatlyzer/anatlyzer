@@ -45,26 +45,34 @@ package atl_error {
     	attr String[1] metamodelName;
     }
 
+ 	// Problem kinds
+	abstract class RuntimeError { }
+	abstract class Warning { }
+	abstract class StyleHint { }
+	abstract class PerformanceHint { }
+	
+
 	abstract class OclCompliance { }	// needed?
 	abstract class OclComplianceProblem extends LocalProblem {}
 	
 	abstract class NavigationProblem extends LocalProblem {	}
 	abstract class InvalidArgumentProblem extends LocalProblem { }
 	abstract class TargetModelConformanceProblem extends LocalProblem { }
-	 
-	//
-	// Example: aClass->select(x)
-	// 
-	class CollectionOperationOverNoCollectionError extends NavigationProblem {
-	      
+
+	@description(name="Collection operation over no collection", example="aClassInstance->select(...)")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")
+	class CollectionOperationOverNoCollectionError extends NavigationProblem, RuntimeError {	      
 	}
 	
-	// This provokes a runtime error!
-	class FeatureAccessInCollection extends NavigationProblem {
+	@description(name="Feature access in collection", text="Collections do not have features. Dot-notation cannot be used over them", example="Sequence { }.length")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")
+	class FeatureAccessInCollection extends NavigationProblem, RuntimeError {
 	    attr String[1] featureName;
 	}
 	
-	class FeatureNotFound extends NavigationProblem {
+	@description(name="Feature not found", text="Feature cannot be found in an object's class")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
+	class FeatureNotFound extends NavigationProblem, RuntimeError {
 		attr String[1] featureName;
 		ref  types.Type[1] type;	   
 
@@ -72,11 +80,13 @@ package atl_error {
 		attr String[1] metamodelName;
 	}
 
-	class FeatureFoundInSubtype extends FeatureNotFound {
+	@description(name="Feature found in subtype", text="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 
+	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
+	class FeatureFoundInSubtype extends FeatureNotFound, RuntimeError {
 		ref EClass[*] possibleClasses;	
 	}
 
-	abstract class OperationCallInvalid extends NavigationProblem {
+	abstract class OperationCallInvalid extends NavigationProblem, RuntimeError {
 		attr String[1] operationName;
 		ref  types.Type[1] type;	   
 
@@ -86,47 +96,68 @@ package atl_error {
 		ref types.Type[*] formalParameters;
 		ref types.Type[*] actualParameters;
 	}
-	
-	class OperationNotFound extends OperationCallInvalid {
+
+	@description(name="Operation not found", text="Operation cannot be found in an object's class")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")	
+	class OperationNotFound extends OperationCallInvalid, RuntimeError {
 	}
 
-	class OperationFoundInSubtype extends OperationNotFound {
+
+	@description(name="Operation found in subtype", text="Operation cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 
+	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
+	class OperationFoundInSubtype extends OperationNotFound, RuntimeError {
 		ref EClass[*] possibleClasses;	
 	}
-	
-	class OperationCallInvalidNumberOfParameters extends OperationCallInvalid {					
+
+	@description(name="Invalid number of actual parameters", text="The number of actual parameters does not match the formal parameters")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")		
+	class OperationCallInvalidNumberOfParameters extends OperationCallInvalid, RuntimeError {					
 	}
-	
-	class OperationCallInvalidParameter extends OperationCallInvalid {		
+
+	@description(name="Invalid actual parameter type", text="The types of the actual parameters does not match the formal parameters")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")			
+	class OperationCallInvalidParameter extends OperationCallInvalid, RuntimeError {		
 		attr String[*] blamedParameterNames;				
 	}
 	
-	
-	class OperationNotFoundInThisModule extends NavigationProblem {
+	@description(name="Operation not found in ThisModule", text="Operation defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation()).")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")	
+	class OperationNotFoundInThisModule extends NavigationProblem, RuntimeError {
 		attr String[1] name;
 		attr boolean[1] maybeRule = false;
 	}
-	
-	class AttributeNotFoundInThisModule extends NavigationProblem {
+
+	@description(name="Attribute not found in ThisModule", text="Attribute defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation()).")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")		
+	class AttributeNotFoundInThisModule extends NavigationProblem, RuntimeError {
 		attr String[1] name;
 	}
-	
-	class FeatureNotFoundInUnionType extends NavigationProblem {
+
+	@description(name="Feature not found in union type", text="Feature cannot be found in one or more of the possible types of an expression. Only applicable when an expression is deemed have several possible types.")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")		
+	class FeatureNotFoundInUnionType extends NavigationProblem, RuntimeError {
 		attr String[1] featureName;	   
 	}
 	
-	class InvalidOperand extends InvalidArgumentProblem {
+	@description(name="Invalid operator", text="Operator not applicable to a certain type.")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")		
+	class InvalidOperand extends InvalidArgumentProblem, RuntimeError {
 	   attr String[1] operatorSymbol;	   
 	}	  
 
-    // Example: Given a root class, e.g., MyClassModel, the expression
-    //          aClassModel.refImmediateComposite() will always return null.
+	@description(name="Object without container", text="A call to refImmediateComposite() will *always* result in OclUndefined.", example="
+		Given a root class, e.g., MyClassModel, the expression
+	    aClassModel.refImmediateComposite() will always return null.	
+	")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
 	class NoContainerForRefImmediateComposite extends NavigationProblem {
 		attr String[1] className;
 		attr String[1] metamodelName;			   
 	}
 
-	class DifferentBranchTypes extends NavigationProblem {
+	@description(name="Different branch types", text="[Disabled] The types of both if branches should be compatible. Perhaps this should be part of ocl compliance checkings...")	 
+	@info(prec="static", path="no", severity="warning-ocl", when="model-dep", kind="navigation", phase="typing", source="none")
+	class DifferentBranchTypes extends NavigationProblem, Warning {
 	   ref types.Type[1] thenType;
 	   ref types.Type[1] elseType;
 	}

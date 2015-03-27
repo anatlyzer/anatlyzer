@@ -62,7 +62,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				return WitnessResult.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
 		} 
-		if ( useConstraint.isSpeculative() ) {
+		if ( result == WitnessResult.ERROR_CONFIRMED && useConstraint.isSpeculative() ) {
 			return WitnessResult.ERROR_CONFIRMED_SPECULATIVE;
 		}
 		

@@ -82,7 +82,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private void applyForceOnceInstancePerClass() {
 		
 		for(EClassifier c : errorMM.getEClassifiers()) {
-			if ( c instanceof EClass && ((EClass) c).isAbstract() ) {
+			if ( c instanceof EClass && ! ((EClass) c).isAbstract() ) {
 				// transMLProperties.setProperty(property, value);
 				// See Solver_use#genPropertiesFile
 				// It is not possible to set only the lowerbound...

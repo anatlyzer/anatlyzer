@@ -1,7 +1,9 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -13,13 +15,53 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
-import anatlyzer.atl.types.*;
-import anatlyzer.atl.types.impl.*;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.impl.MetaclassImpl;
+import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.Rule;
-import anatlyzer.atlext.OCL.*;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclModel;
+import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.Parameter;
 
+/**
+ * This quickfix proposes adding a new helper or lazy/called rule to the transformation.
+ * The heuristics to select each option is the following:
+ * <ul>
+ * 	<li>Lazy rule.   The call in a collect's body, being the last step in an iterator chain,
+ * 				     within the right part of a binding. 
+ * 					 Binding's feature type must be non-primitive.
+ * 					 Number of arguments must be one.</li>
+ * 	<li>Called rule. Same as before, but more than one parameters are passed or just one parameter of
+ *                   primitive type.</li>
+ *  <li>Helper. Otherwise. </li>
+ * </ul>
+ * 
+ * The heuristics could be more relaxed in favour of lazy/called rules, not requiring the collect
+ * iterator be the last step in the iterator chain.
+ * 
+ * Another option could be to separate this into three different quickfixes, ranking them
+ * according the previous heuristics.
+ * 
+ * <h2>Limitations</h2>
+ * The current implementation is not smart enough to recursively quickfix the new rules to avoid
+ * "no binding for compulsory feature".
+ * 
+ * @author jdelara, jesusc
+ */
 public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAtlQuickfix {		// Separate into create helper/create lazy rule
 		
 	private static Map<Class<? extends Type>, Function<Type, String>> types = new HashMap<>();		// Function<? extends Type, String>
@@ -54,14 +96,15 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	}
 	
 	private Rule getContainerRule(OperationCallExp exp) {
-		EObject res = exp; 
-		
-		do {
-			res = res.eContainer();
-		} while (res != null && !(res instanceof Rule));
-		
-		if (res!=null) return (Rule)res;
-		return null;
+		return ATLUtils.getContainer(exp, Rule.class);
+//		EObject res = exp; 
+//		
+//		do {
+//			res = res.eContainer();
+//		} while (res != null && !(res instanceof Rule));
+//		
+//		if (res!=null) return (Rule)res;
+//		return null;
 	}
 	
 	private String getTypeName(Type inferredType) {		// This should be somewhere else...
@@ -87,12 +130,64 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return newHelper;
 	}
 	
+
+	private String buildNewLazyRule(OperationCallExp exp, Binding b) {		
+		return "\n-- TODO: Lazy rule\n";
+	}
+	
+	private String buildNewCalledRule(OperationCallExp exp, Binding b) {		
+		CalledRule r = ATLFactory.eINSTANCE.createCalledRule();
+
+		// 1. Name of the rule : the operation name
+		r.setName(exp.getOperationName());
+		
+		// 2. Infer parameter types from the types of the actual arguments
+		int i = 0;
+		for(OclExpression arg : exp.getArguments()) {
+			Parameter p = OCLFactory.eINSTANCE.createParameter();
+			p.setVarName("arg" + i);
+			
+			if ( arg.getInferredType() instanceof PrimitiveType ) {
+				p.setType(Conversions.convertPType((PrimitiveType) arg.getInferredType()));
+			} else {
+				// Several cases to consider here:
+				//		- Metaclass => Find the metamodel name...
+				//		- Union type => ??
+				throw new UnsupportedOperationException();
+			}
+			
+			r.getParameters().add(p);
+			i++;
+		}
+		
+		// 3. Return type of the rule from the binding's expected type
+		Metaclass m = (Metaclass) ATLUtils.getUnderlyingBindingType(b);
+		OclModelElement ome = OCLFactory.eINSTANCE.createOclModelElement();
+		ome.setName(m.getName());
+		OclModel mm = OCLFactory.eINSTANCE.createOclModel();
+		mm.setName(	m.getModel().getName() );
+		ome.setModel(mm);
+		
+		OutPattern p = ATLFactory.eINSTANCE.createOutPattern();
+		r.setOutPattern(p);
+		SimpleOutPatternElement ope = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
+		ope.setVarName(m.getName().substring(0, 1).toLowerCase());
+		ope.setType(ome);
+		p.getElements().add(ope);
+		
+		return "\n" + ATLSerializer.serialize(r) + "\n";
+	}
+	
+	
 	@Override
 	public void apply(IDocument document) {
 		OperationCallExp res = this.getElement();
 		
 		try {
-			String newHelper = this.buildNewHelper(res);
+			String newCode = applyHeuristic(res, 
+					this::buildNewLazyRule,
+					this::buildNewCalledRule,
+					this::buildNewHelper);
 			
 			Rule r = this.getContainerRule(res);
 			
@@ -100,13 +195,32 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 			int sourceOffsetEnd = sourceOffset[1];
 
 			// Setting length to 0 means "insert", that is, replacing 0 characters
-			document.replace(sourceOffsetEnd + 1, 0, newHelper);
+			document.replace(sourceOffsetEnd + 1, 0, newCode);
 			
 		} catch ( BadLocationException e) {
 			throw new RuntimeException(e);
 		}
 		
-		System.out.println("Operation not found in thisModule: create helper or lazy rule");
+		System.out.println("Operation not found in thisModule: create helper or lazy/called rule");
+	}
+
+	private String applyHeuristic(OperationCallExp op, 
+			BiFunction<OperationCallExp, Binding, String> onNewLazyRule,
+			BiFunction<OperationCallExp, Binding, String> onNewCalledRule,
+			Function<OperationCallExp, String> onNewHelper) {
+
+		IteratorExp it = ATLUtils.getContainer(op, IteratorExp.class);
+		if ( op.getArguments().size() > 0 && it != null && it.getName().equals("collect") ) {
+			EObject c = it.eContainer();
+			if ( c instanceof Binding && ATLUtils.isReferenceBinding((Binding) c) ) {
+				if ( op.getArguments().size() > 1 || op.getArguments().get(0).getInferredType() instanceof PrimitiveType ) {
+					return onNewCalledRule.apply(op, (Binding) c);
+				} else {
+					return onNewLazyRule.apply(op, (Binding) c);
+				}
+			}
+		}
+		return onNewHelper.apply(op);
 	}
 
 	@Override

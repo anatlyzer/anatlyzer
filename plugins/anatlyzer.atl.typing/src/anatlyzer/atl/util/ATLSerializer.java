@@ -87,6 +87,13 @@ public class ATLSerializer extends AbstractVisitor {
 		return s.g(mod);
 	}
 
+
+	public static String serialize(EObject obj) {
+		ATLSerializer s = new ATLSerializer();
+		s.startVisiting(obj);
+		return s.g(obj);
+	}
+	
 	public static void serialize(ATLModel atlModel, String path) throws IOException {
 		String s = serialize(atlModel);
 		FileWriter writer = new FileWriter(path);
@@ -766,5 +773,6 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		return s;		
 	}
+
 	
 }

@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import anatlyzer.atl.analyser.namespaces.EnumNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
@@ -105,5 +106,56 @@ public class EcoreTypeConverter {
 		return e;
 	}
 	
+	public static enum BasicPrimitive {
+		STRING, INTEGER, DECIMAL, BOOLEAN
+	}
+	
+	public static BasicPrimitive normalizeToBasic(EDataType c) {
+		EDataType t = normalize(c);
+		switch ( t.getClassifierID() ) {
+		case EcorePackage.ESTRING: 
+			return BasicPrimitive.STRING;
+		case EcorePackage.EBOOLEAN:
+			return BasicPrimitive.BOOLEAN;
+		case EcorePackage.EINT:
+		case EcorePackage.EINTEGER_OBJECT:
+		case EcorePackage.ELONG:
+		case EcorePackage.ELONG_OBJECT:
+		case EcorePackage.EBIG_INTEGER:
+			return BasicPrimitive.INTEGER;
+		case EcorePackage.EFLOAT:
+		case EcorePackage.EFLOAT_OBJECT:
+		case EcorePackage.EDOUBLE:
+		case EcorePackage.EDOUBLE_OBJECT:
+			return BasicPrimitive.DECIMAL;			
+		}
+		throw new UnsupportedOperationException(c.toString());
+	}
+	
+	
+	/**
+	 * TODO: Merge with convertEDataype
+	 * @param t
+	 * @return
+	 */
+	public static EDataType normalize(EDataType c) {
+		String instance = c.getInstanceClassName() == null ? "" : c.getInstanceClassName();
+		if ( c instanceof EEnum ) {
+			return c;
+		} else if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {
+			return EcorePackage.eINSTANCE.getEString();
+		} else if ( c.getName().endsWith("Boolean") || c.getName().equals("EBooleanObject")) {
+			return EcorePackage.eINSTANCE.getEBoolean();
+		} else if ( c.getName().equals("EInt") || c.getName().endsWith("Integer") || c.getName().equals("EIntegerObject") ) {
+		} else if ( c.getName().endsWith("Long") ) {
+			return EcorePackage.eINSTANCE.getELong();			
+		} else if (c.getName().equals("UnlimitedNatural") ) {
+			return EcorePackage.eINSTANCE.getEBigInteger();			
+		} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real")) {
+			return EcorePackage.eINSTANCE.getEDouble();
+		}
+		throw new UnsupportedOperationException("Type [" + c.getName() + "] not supported");
+		
+	}
 	
 }

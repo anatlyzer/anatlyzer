@@ -30,7 +30,7 @@
          name="Quickfix: Change dot for arrow"
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
-            apply="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionQuickfix">
+            apply="anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix">
       </quickfix>
    </extension>
       <extension
@@ -38,7 +38,7 @@
          name="Quickfix: Change arrow for dot"
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
-            apply="anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix">
+            apply="anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix">
       </quickfix>
    </extension>
    <extension

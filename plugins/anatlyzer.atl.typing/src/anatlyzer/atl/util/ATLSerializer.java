@@ -731,25 +731,25 @@ public class ATLSerializer extends AbstractVisitor {
 		return s;
 	}
 	
-	private String ifs(boolean v, String t) {
+	protected String ifs(boolean v, String t) {
 		return ifs(v, t, "");
 	}
 	
-	private String ifs(boolean v, String t, String f) {
+	protected String ifs(boolean v, String t, String f) {
 		if ( v ) return t;
 		return f;
 	}
 	
-	private void s(String s) {
+	protected void s(String s) {
 		str.put(this.getCurrent(), s);
 	}
 	
 
-	private String join(List<String> l) {
+	protected String join(List<String> l) {
 		return join(l, ", ");
 	}
 	
-	private String join(List<String> l, String separator) {
+	protected String join(List<String> l, String separator) {
 		String r = "";
 		for(int i = 0; i < l.size(); i++) {
 			r += l.get(i);
@@ -761,12 +761,12 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	
-	private String g(EObject obj) {
+	protected String g(EObject obj) {
 		if ( ! str.containsKey(obj) ) throw new IllegalArgumentException("Not found " + obj);
 		return str.get(obj);
 	}
 	
-	private String tab(int n) {
+	protected String tab(int n) {
 		String s = "";
 		for(int i = 0; i < n; i++) {
 			s += "   ";

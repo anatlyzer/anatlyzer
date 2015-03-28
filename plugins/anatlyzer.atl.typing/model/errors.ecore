@@ -40,6 +40,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RuntimeError" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Warning" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="StyleHint" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PerformanceHint" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="OclCompliance" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="OclComplianceProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
@@ -50,9 +54,9 @@
     <eClassifiers xsi:type="ecore:EClass" name="TargetModelConformanceProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationOverNoCollectionError"
-        eSuperTypes="#//atl_error/NavigationProblem">
+        eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">
-        <details key="text" value="Collection operation over no collection"/>
+        <details key="name" value="Collection operation over no collection"/>
         <details key="example" value="aClassInstance->select(...)"/>
       </eAnnotations>
       <eAnnotations source="info">
@@ -65,8 +69,9 @@
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="FeatureAccessInCollection" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureAccessInCollection" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">
+        <details key="name" value="Feature access in collection"/>
         <details key="text" value="Collections do not have features. Dot-notation cannot be used over them"/>
         <details key="example" value="Sequence { }.length"/>
       </eAnnotations>
@@ -82,17 +87,17 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFound" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFound" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">
+        <details key="name" value="Feature not found"/>
         <details key="text" value="Feature cannot be found in an object's class"/>
-        <details key="example" value="anObject.featureName"/>
       </eAnnotations>
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
         <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
@@ -105,12 +110,25 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound">
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Feature found in subtype"/>
+        <details key="text" value="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="sometimes-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalid" abstract="true"
-        eSuperTypes="#//atl_error/NavigationProblem">
+        eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="operationName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
@@ -124,44 +142,177 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="actualParameters" upperBound="-1"
           eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFound" eSuperTypes="#//atl_error/OperationCallInvalid"/>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationFoundInSubtype" eSuperTypes="#//atl_error/OperationNotFound">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFound" eSuperTypes="#//atl_error/OperationCallInvalid #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Operation not found"/>
+        <details key="text" value="Operation cannot be found in an object's class"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationFoundInSubtype" eSuperTypes="#//atl_error/OperationNotFound #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Operation found in subtype"/>
+        <details key="text" value="Operation cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="sometimes-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidNumberOfParameters"
-        eSuperTypes="#//atl_error/OperationCallInvalid"/>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidParameter" eSuperTypes="#//atl_error/OperationCallInvalid">
+        eSuperTypes="#//atl_error/OperationCallInvalid #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid number of actual parameters"/>
+        <details key="text" value="The number of actual parameters does not match the formal parameters"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidParameter" eSuperTypes="#//atl_error/OperationCallInvalid #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid actual parameter type"/>
+        <details key="text" value="The types of the actual parameters does not match the formal parameters"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="blamedParameterNames"
           upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFoundInThisModule" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationNotFoundInThisModule" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Operation not found in ThisModule"/>
+        <details key="text" value="Operation defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation())."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="maybeRule" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AttributeNotFoundInThisModule" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="AttributeNotFoundInThisModule" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Attribute not found in ThisModule"/>
+        <details key="text" value="Attribute defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation())."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFoundInUnionType" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFoundInUnionType" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Feature not found in union type"/>
+        <details key="text" value="Feature cannot be found in one or more of the possible types of an expression. Only applicable when an expression is deemed have several possible types."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperand" eSuperTypes="#//atl_error/InvalidArgumentProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperand" eSuperTypes="#//atl_error/InvalidArgumentProblem #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid operator"/>
+        <details key="text" value="Operator not applicable to a certain type."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="operatorSymbol" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NoContainerForRefImmediateComposite"
         eSuperTypes="#//atl_error/NavigationProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Object without container"/>
+        <details key="text" value="A call to refImmediateComposite() will *always* result in OclUndefined."/>
+        <details key="example" value="&#xA;&#x9;&#x9;Given a root class, e.g., MyClassModel, the expression&#xA;&#x9;    aClassModel.refImmediateComposite() will always return null.&#x9;&#xA;&#x9;"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="DifferentBranchTypes" eSuperTypes="#//atl_error/NavigationProblem">
+    <eClassifiers xsi:type="ecore:EClass" name="DifferentBranchTypes" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/Warning">
+      <eAnnotations source="description">
+        <details key="name" value="Different branch types"/>
+        <details key="text" value="[Disabled] The types of both if branches should be compatible. Perhaps this should be part of ocl compliance checkings..."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="warning-ocl"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="thenType" lowerBound="1"
           eType="ecore:EClass types.ecore#//Type"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="elseType" lowerBound="1"

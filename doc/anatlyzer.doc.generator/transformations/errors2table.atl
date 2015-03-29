@@ -1,0 +1,94 @@
+-- @path Table=/anatlyzer.doc.generator/metamodels/GroupedTable.ecore
+-- @nsURI ECORE=http://www.eclipse.org/emf/2002/Ecore
+
+module errors2table;
+create OUT : Table from IN : ECORE;
+
+helper context ECORE!EModelElement def : getAnnotationEntry(name : String, key : String) : String = 
+	let ann : ECORE!EAnnotation = self.getEAnnotation(name) in 
+		if ann.oclIsUndefined() then
+			OclUndefined
+		else
+			let entry : ECORE!EStringToStringMapEntry = ann.details->any(d | d.key = key) in
+				if entry.oclIsUndefined()  then
+					OclUndefined
+				else
+					entry.value
+				endif
+		endif;
+
+helper context ECORE!EPackage def : allKinds : Set(String) = 
+	self.eClassifiers->asSet()->
+		select(c | c.oclIsKindOf(ECORE!EClass))->
+		select(c | not c."abstract")->
+		collect(c | c.getAnnotationEntry('info', 'kind'))->
+		reject(v | v.oclIsUndefined())->asSet();
+
+helper context ECORE!EPackage def : isErrorPackage : Boolean = self.name = 'atl_error' ;
+
+helper def : columnElements : Sequence(String) = 
+	Sequence { 'prec', 'path', 'severity' };
+
+helper context ECORE!EPackage def : elementsOfKind(kind : String) : Set(ECORE!EClass) = 
+	self.eClassifiers->
+		select(c | c.oclIsKindOf(ECORE!EClass))->	
+		select(c | c.getAnnotationEntry('info', 'kind') = kind)->asSet()
+	;
+	
+rule package2table {
+	from
+		pkg : ECORE!EPackage ( pkg.isErrorPackage )
+	to 
+		table : Table!Table (
+			groups <- pkg.allKinds->collect(v | thisModule.createGroup(pkg, v)),
+			cols <- first,
+			cols <- thisModule.columnElements->collect(c | thisModule.createColumnHeader(c))
+		), 
+		first : Table!ColumnHeader (
+			value <- 'name'	
+		)
+}
+
+rule createColumnHeader(name : String) {
+    to c : Table!ColumnHeader (
+			value <- name 
+	) 
+	do { c; } 
+}
+
+rule createGroup(pkg : ECORE!EPackage, kind : String) {
+    to g : Table!Group (
+		name <- kind,
+		rows <- pkg.elementsOfKind(kind)->collect(src | thisModule.EClass2Row(src) )
+	)
+	-- Is this compulsory???
+	do { g; }
+}
+
+lazy rule EClass2Row{
+	from src : ECORE!EClass
+	  to tgt : Table!Row (
+	  	cells <- first,
+		cells <- thisModule.columnElements->collect(kind | thisModule.genCell(src, kind) ) 	
+	  ), 
+	  first : Table!Cell (
+	  	value <- src.getAnnotationEntry('description', 'name')
+	  )
+}
+
+rule genCell(eclass : ECORE!EClass, kind : String) {
+     to c : Table!Cell (
+     	value <- eclass.getAnnotationEntry('info', kind)
+     ) do { c; }
+
+}
+
+
+--rule class2group {
+--	from
+--		c : ECORE!EClass
+--	to 
+--		t : Table!Group (
+--			name <- 		
+--		)
+--}

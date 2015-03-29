@@ -1,0 +1,94 @@
+-- @path Table=/anatlyzer.doc.generator/metamodels/GroupedTable.ecore
+query Table2LaTeX = Table!Table.allInstances()->first().
+	toString2('').writeTo('/home/jesus/projects/anatlyzer/doc/anatlyzer.doc.generator/gen/table.tex');
+	
+helper context Table!Table def: numCols : Integer = self.cols->size();
+
+helper context OclAny def: join(sep : String) : String = 
+	let str : String = self->iterate(v; tmp : String = '' | tmp + v.toString() + sep) 
+	 in str.substring(1, str.size() - sep.size() )
+; -- another error that could be checked is 0-indexing vs. 1-indexig
+
+helper context Table!Table def: toString2(indent : String) : String =
+	indent + '\\begin{table*}'		+ '\n' +	
+	indent + '\\scriptsize'			+ '\n' +
+	indent + '\\centering'			+ '\n' +
+	indent + '\\begin{tabular}{|' + self.cols->collect(c | 'l' )->join('|') + '|}\\hline' + '\n' +
+	
+	indent + self.cols->collect(c | '{\\bf ' + c.value + '}' )->join('&') + '\\\\ \\hline' + '\n' + 
+	
+	self.groups->collect(g | g.toString2(''))->join('\n') + '\n' +
+	
+	indent + '\\end{tabular}' + '\n' +
+	indent + '\\end{table*}'		+ '\n'
+;
+
+helper context Table!Group def: toString2(indent : String) : String =
+let t : Table!Table = self.refImmediateComposite() in
+	indent + '\\multicolumn{' + t.numCols + '}{l}{{\\bf ' + self.name + '}}' + '\\\\ \\hline' + '\n' +
+	self.rows->collect(r | r.toString2(''))->join('\n') + '\n'
+;	
+	
+helper context Table!Row def: toString2(indent : String) : String =
+	indent + self.cells->collect(cell | cell.value).join(' & ') + '\\\\ \\hline'
+;	
+--
+--\begin{table*}
+--\scriptsize
+--   \centering
+--    \begin{tabular}{|l|l|l|l|}\hline
+--    {\bf Description} & {\bf Phase} & {\bf Precision} & {\bf Severity} \\ \hline
+--    \multicolumn{4}{l}{{\bf Typing (with respect to source/target meta-model and helper definitions)}}                            \\ \hline
+--    Invalid meta-model or type name                   & typing & static analysis  & error-always      \\ \hline
+--    Operation/feature not found                       & typing & static analysis  & error-source \\ \hline
+--    Operation/feature not found, but declared in subclass  & typing & sometimes solver& error-source \\\hline
+--    Feature not found, but declared as operation & typing & static analysis & error-source \\\hline
+--	\end{tabular}
+--\caption{Problems detected statically in ATL transformations.}\label{tbl:errors_detected}    
+--\end{table*}
+
+
+--	XML!Root.allInstances()
+--		->asSequence()
+--		->first().toString2('').writeTo('YourDirectory\\maven.xml');
+--
+--
+--helper context XML!Element def: toString2(indent : String) : String =
+--	let na : Sequence(XML!Node) =
+--		self.children->select(e | not e.oclIsKindOf(XML!Attribute)) in
+--	let a : Sequence(XML!Node) =
+--		self.children->select(e | e.oclIsKindOf(XML!Attribute)) in
+--	indent + '<' + self.name + 
+--	a->iterate(e; acc : String = '' |
+--		acc + ' ' + e.toString2()
+--	) +
+--	if na->size() > 0 then
+--		'>'
+--		+ na->iterate(e; acc : String = '' |
+--			acc + 
+--			if e.oclIsKindOf(XML!Text) then
+--				''
+--			else
+--				'\r\n'
+--			endif
+--			+ e.toString2(indent + '  ')
+--		) +
+--		if na->first().oclIsKindOf(XML!Text) then
+--			'</' + self.name + '>'
+--			else
+--				'\r\n' + indent + '</' + self.name + '>'
+--		endif
+--	else
+--		'/>'
+--	endif;
+--
+--	
+--helper context XML!Attribute def: toString2() : String =
+--	if (self.value.oclIsUndefined())or(self.value='')
+--		then ''
+--		else self.name + '=\"' + self.value + '\"'
+--		endif;
+----self.name + '=\"' + self.value + '\"';
+--
+--helper context XML!Text def: toString2() : String =
+--	self.value;

@@ -1,0 +1,28 @@
+<project name="gendoc" default="errors2table">
+	
+	<!-- ================================= 
+          target: errors2table              
+         ================================= -->
+    <target name="errors2table" depends="load_mm">
+    	<atl.launch path="../transformations/errors2table.asm">
+    	 <inmodel name="IN" model="ERRORS"    metamodelname="ECORE" />		
+    	 <outmodel name="OUT" model="gentable" metamodelname="Table" metamodel="TABLE"/>
+    	</atl.launch>
+    	
+    	<atl.saveModel model="gentable" path="../gen/out.xmi">  	
+    	</atl.saveModel>
+    </target>
+
+	<target name="table2latex" depends="errors2table">
+    	<atl.launch path="../transformations/table2latex.asm">
+    	 <inmodel name="IN" model="gentable" metamodelname="Table"/>
+    	</atl.launch>
+    </target>
+
+    <target name="load_mm">
+    	<atl.loadModel metamodel="%EMF" name="ERRORS" path="/home/jesus/projects/anatlyzer/plugins/anatlyzer.atl.typing/model/errors.ecore" />
+    	<atl.loadModel metamodel="%EMF" name="TABLE" path="../metamodels/GroupedTable.ecore"/>
+    </target>
+	
+	
+</project>

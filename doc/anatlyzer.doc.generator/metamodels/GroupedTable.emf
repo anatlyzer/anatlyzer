@@ -1,0 +1,25 @@
+@namespace(
+	uri="http://miso/groupedtable",
+	prefix="groupedtable")
+package groupedtable;
+
+class Table {
+	val ColumnHeader[*] cols;
+	val Group[*] groups;	
+}
+
+class Group {
+	attr String[1] name;
+	val Row[*] rows;
+}
+
+class ColumnHeader extends Cell {
+}
+
+class Row {
+	val Cell[*] cells;
+}
+
+class Cell {	
+	attr String[1] value;
+}

@@ -27,7 +27,25 @@ helper context ECORE!EPackage def : allKinds : Set(String) =
 helper context ECORE!EPackage def : isErrorPackage : Boolean = self.name = 'atl_error' ;
 
 helper def : columnElements : Sequence(String) = 
-	Sequence { 'prec', 'path', 'severity' };
+	Sequence { 'phase', 'prec', 'severity' };
+
+helper def : columnNames : Map(String, String) = 
+	Map { 
+		('phase', 'Phase'), 
+		('prec', 'Precision'), 
+		('path', 'Req. path'),
+		('severity', 'Severity')}	
+;
+
+helper def : kindNames : Map(String, String) = 
+	Map { 
+		('trafo-rules', 'Transformation rules'), 
+		('tgt-typing', 'Target meta-model conformance'), 
+		('navigation', 'Navigation'),
+		('src-typing', 'Typing (with respect to source/target meta-model and helper definitions)'),
+		('trafo-integrity', 'Transformation integrity constraints')}	
+;
+
 
 helper context ECORE!EPackage def : elementsOfKind(kind : String) : Set(ECORE!EClass) = 
 	self.eClassifiers->
@@ -45,20 +63,20 @@ rule package2table {
 			cols <- thisModule.columnElements->collect(c | thisModule.createColumnHeader(c))
 		), 
 		first : Table!ColumnHeader (
-			value <- 'name'	
+			value <- 'Description'	
 		)
 }
 
 rule createColumnHeader(name : String) {
     to c : Table!ColumnHeader (
-			value <- name 
+			value <- thisModule.columnNames.get(name) 
 	) 
 	do { c; } 
 }
 
 rule createGroup(pkg : ECORE!EPackage, kind : String) {
     to g : Table!Group (
-		name <- kind,
+		name <- thisModule.kindNames.get(kind),
 		rows <- pkg.elementsOfKind(kind)->collect(src | thisModule.EClass2Row(src) )
 	)
 	-- Is this compulsory???

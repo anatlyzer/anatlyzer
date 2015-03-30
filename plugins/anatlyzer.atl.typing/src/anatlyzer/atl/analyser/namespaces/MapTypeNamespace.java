@@ -54,7 +54,7 @@ public class MapTypeNamespace implements ITypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException(operatorSymbol);
 	}
 
 	@Override

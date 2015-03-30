@@ -59,6 +59,9 @@ package atl_error {
 	abstract class InvalidArgumentProblem extends LocalProblem { }
 	abstract class TargetModelConformanceProblem extends LocalProblem { }
 
+
+	// when: if the error will happen as soon as the transformation is loaded (always) or if the control flow needs to reach the error (model-dep)
+	//       note that this is different from precision.
 	@description(name="Collection operation over no collection", example="aClassInstance->select(...)")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")
 	class CollectionOperationOverNoCollectionError extends NavigationProblem, RuntimeError {	      
@@ -69,6 +72,12 @@ package atl_error {
 	class FeatureAccessInCollection extends NavigationProblem, RuntimeError {
 	    attr String[1] featureName;
 	}
+	
+	@description(name="Operation over collection type (\".\" vs. \"->\")", text="", example="")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")
+	class OperationOverCollectionType extends OclComplianceProblem {
+	}
+	
 	
 	@description(name="Feature not found", text="Feature cannot be found in an object's class")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
@@ -169,25 +178,31 @@ package atl_error {
 
 	abstract class ResolveTempProblem extends LocalProblem {
 	}
-	
+
+	@description(name="No binding for compulsory target feature", text="Applicable to references and string attributes without default value.")	 
+	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
 	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {
 	   
 	}
 
+	@description(name="Binding from feature with higher cardinality", text="The binding feature is mono-valued but the right part of the binding is a collection")	 
+	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")
 	class BindingExpectedOneAssignedMany extends BindingProblem {
-	   
 	}	
-	
-	class PrimitiveBindingButObjectAssigned extends BindingProblem {
-		
+
+	@description(name="Model element assigned to primitive binding", text="The binding feature is a primitive type but the right part is a model element")	 
+	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
+	class PrimitiveBindingButObjectAssigned extends BindingProblem {	
 	}
 	
-	class ObjectBindingButPrimitiveAssigned extends BindingProblem {
-		
+	@description(name="Primitive value assigned to object binding", text="The binding feature is a reference but the right part is a primitive value")	 
+	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
+	class ObjectBindingButPrimitiveAssigned extends BindingProblem {		
 	}
 
-	class PrimitiveBindingInvalidAssignment extends BindingProblem {
-		
+	@description(name="Incompatible primitive value for primitive binding", text="The binding feature is primitive but the right part is a non-compatible primitive value")	 
+	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
+	class PrimitiveBindingInvalidAssignment extends BindingProblem {	
 	}
 
 	abstract class BindingResolution {
@@ -201,12 +216,18 @@ package atl_error {
 		val ResolvedRuleInfo[*] rules;
 	}
 
+	@description(name="No rule to resolve binding", text="No rule able to resolve the binding can be found")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")	
 	class BindingWithoutRule extends BindingProblem, BindingResolution {			   
 	}
-	
+
+	@description(name="Binding resolved by rule with invalid target", text="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature")	 
+	@info(prec="sometimes-solver", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")		
 	class BindingWithResolvedByIncompatibleRule extends BindingProblem, BindingResolution {
 	}
 
+	@description(name="Binding resolved by rule with invalid target", text="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature")	 
+	@info(prec="always-solver", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
 	class BindingPossiblyUnresolved extends BindingProblem, BindingResolution {
 	   ref EClass[+] problematicClasses;
 	}
@@ -222,36 +243,48 @@ package atl_error {
 		ref ecore.EClass[0..1] outputType;  
 	}
 
+	@description(name="No rule to resolve a resolveTemp operation", text="No rule able to resolve the resolveTemp operation can be found")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")			
 	class ResolveTempWithoutRule extends ResolveTempProblem {			   
 	   	ref ecore.EClass[0..1] sourceType;
 	}
 
+	@description(name="Undefined output pattern in resolveTemp operation", text="The given output pattern of the possible matched rules is not defined")	 
+	@info(prec="static", path="no", severity="error-behaviour", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
 	class ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {			   
 	   	ref ecore.EClass[0..1] sourceType;
 		val ResolvedRuleInfo[*] rules;	   	
 	}
 
-
-	class FlattenOverNonNestedCollection extends LocalProblem {
-	   
+	@description(name="Flatten over non-nested collection", text="Example: Sequence {'a', 'b'}->flatten()")	 
+	@info(prec="static", path="no", severity="warning-perf", when="model-dep", kind="navigation", phase="typing", source="none")			
+	class FlattenOverNonNestedCollection extends LocalProblem {	   
 	}
 	
+	@description(name="Iterator over empty collection", text="Example: Sequence { }->select(...)")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class IteratorOverEmptySequence extends LocalProblem {
-	   
 	}
 	
+	@description(name="Read access to target model", text="[DISABLE?] False positives when the same meta-model is used as source and target")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class ReadingTargetModel extends LocalProblem {
 		attr String[1] modelName;
 	}
 
-	class LazyRuleWithFilter extends LocalProblem {
-		
+	@description(name="Lazy rule with filter", text="In practice filters in lazy rules are not evaluated")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="analysis", source="none")			
+	class LazyRuleWithFilter extends LocalProblem {		
 	}
 
+	@description(name="Ambiguous model reference", text="[TODO]: Implemented but need to find an example")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="analysis", source="none")			
 	class AmbiguousTargetModelReference extends LocalProblem {
 		attr String[1] modelName;		
 	}
 
+	@description(name="Invalid meta-model name", text="The specified model is not declared")	 
+	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
 	class NoModelFound extends LocalProblem {
 		attr String[1] modelName;				
 	}
@@ -260,30 +293,43 @@ package atl_error {
 		
 	}
 	
+	@description(name="Wrong iterator body type", text="The inferred type of the iterator body is not compatible with the type expected by the iterator ")	 
+	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class IteratorBodyWrongType extends WrongType {
 		
 	}
 
+	@description(name="Matched rule without output pattern", text="This should be checked by the parser")	 
+	@info(prec="static", path="no", severity="error-always", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class MatchedRuleWithoutOutputPattern extends LocalProblem {
 		// Possibly using the matched rule as entrypint rule (see Measure2XHTML)
 	}
 
+	@description(name="Foreach statement expected collection", text="")	 
+	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class ExpectedCollectionInForEach extends LocalProblem {
 		
 	}
 
+	@description(name="Invalid meta-class name", text="The meta-class name cannot be found in the meta-model")	 
+	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
 	class NoClassFoundInMetamodel extends LocalProblem {
 		attr String[1] className;
 	}
 
+	// TODO: Replace with the other class to signal this kind of problems
 	class InvalidArgument extends LocalProblem {
 		
 	}
 
+	@description(name="Collection operation not found", text="")	 
+	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")
 	class CollectionOperationNotFound extends LocalProblem {
 		attr String[1] operationName;	
 	}
 
+	@description(name="Iterator over no collection type", text="", example="anObject->select(...)")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")
 	class IteratorOverNoCollectionType extends LocalProblem {
 		attr String[1] iteratorName;	
 	}
@@ -292,18 +338,19 @@ package atl_error {
 		ref  types.Type[1] inferred;	   
 		ref  types.Type[1] declared;	   		
 	}	
-	
+
+	@description(name="Incoherent variable declaration", text="The declared and the inferred type are not compatible", example="")	 
+	@info(prec="static", path="no", severity="warning-style", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
 	class IncoherentVariableDeclaration extends AbstractIncoherentVariableDeclaration {   		
 	}
 	
+	@description(name="Incoherent helper return type", text="The declared and the inferred return type are not compatible", example="")	 
+	@info(prec="static", path="no", severity="warning-style", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
 	class IncoherentHelperReturnType extends AbstractIncoherentVariableDeclaration {   		
 	}
 	
-	class OperationOverCollectionType extends OclComplianceProblem {
-		
-	}
-
-    // Not sure if it sometimes requires constraint solving...
+    @description(name="Possible access to undefined feature", text="Source cardinality check", example="")	 
+	@info(prec="sometimes-solver", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
 	class AccessToUndefinedValue extends LocalProblem {
 		
 	}	

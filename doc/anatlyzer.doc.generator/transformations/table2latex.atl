@@ -1,6 +1,6 @@
 -- @path Table=/anatlyzer.doc.generator/metamodels/GroupedTable.ecore
 query Table2LaTeX = Table!Table.allInstances()->first().
-	toString2('').writeTo('/home/jesus/projects/anatlyzer/doc/anatlyzer.doc.generator/gen/table.tex');
+	toString2('').writeTo('/anatlyzer.doc.generator/gen/table.tex');
 	
 helper context Table!Table def: numCols : Integer = self.cols->size();
 

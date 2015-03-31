@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.FloatType;
@@ -415,12 +416,16 @@ public class ATLUtils {
 		return b.getWrittenFeature() instanceof EReference;
 	}
 
-	public static Type getUnderlyingBindingType(Binding b) {
+	public static Type getUnderlyingBindingLeftType(Binding b) {
 		Type t = b.getLeftType();
 		if ( t instanceof CollectionType ) {
 			return ((CollectionType) t).getContainedType();
 		}
 		return t;
+	}
+
+	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {
+		return TypingModel.getInvolvedMetaclassesOfType(b.getValue().getInferredType());
 	}
 
 	

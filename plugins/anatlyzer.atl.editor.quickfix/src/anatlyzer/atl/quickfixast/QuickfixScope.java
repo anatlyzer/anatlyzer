@@ -3,6 +3,7 @@ package anatlyzer.atl.quickfixast;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -19,7 +20,7 @@ public class QuickfixScope<T extends LocatedElement> {
 	private T root;
 	private T originalRoot;
 
-	private ArrayList<ReplacementAction> actions = new ArrayList<QuickfixScope.ReplacementAction>();
+	private ArrayList<Action> actions = new ArrayList<QuickfixScope.Action>();
 	
 	@SuppressWarnings("unchecked")
 	public QuickfixScope(T root) {
@@ -27,7 +28,7 @@ public class QuickfixScope<T extends LocatedElement> {
 		this.root         = (T) ATLCopier.copySingleElement(root);
 	}
 
-	public ArrayList<ReplacementAction> getActions() {
+	public List<Action> getActions() {
 		return actions;
 	}
 	
@@ -42,6 +43,9 @@ public class QuickfixScope<T extends LocatedElement> {
 		// now r is the new root...
 	}
 	
+	public <A extends LocatedElement, B extends LocatedElement> void insertAfter(A anchor, Supplier<B> supplier) {
+		actions.add(new InsertAfterAction(anchor, supplier.get()));
+	}
 	
 	public static class Trace {
 		LinkedList<Object> preservedElements = new LinkedList<Object>();
@@ -59,19 +63,13 @@ public class QuickfixScope<T extends LocatedElement> {
 		}
 	}
 
-	public static class ReplacementAction {
-		private EObject src;
-		private EObject tgt;
-		private Trace trace;
+	public static class Action {
+		protected EObject tgt;
+		protected Trace trace;
 
-		public ReplacementAction(EObject src, EObject tgt, Trace trace) {
-			this.src = src;
+		public Action(EObject tgt, Trace trace) {
 			this.tgt = tgt;
 			this.trace = trace;
-		}
-		
-		public EObject getSrc() {
-			return src;
 		}
 		
 		public EObject getTgt() {
@@ -81,6 +79,35 @@ public class QuickfixScope<T extends LocatedElement> {
 		public Trace getTrace() {
 			return trace;
 		}
+	}
+	
+	public static class ReplacementAction extends Action {
+		private EObject src;
+
+		public ReplacementAction(EObject src, EObject tgt, Trace trace) {
+			super(tgt, trace);
+			this.src = src;
+			this.tgt = tgt;
+		}
+		
+		public EObject getSrc() {
+			return src;
+		}		
+	}
+	
+	public static class InsertAfterAction extends Action {
+
+		private EObject anchor;
+
+		public InsertAfterAction(EObject anchor, EObject tgt) {
+			super(tgt, new Trace());
+			this.anchor = anchor;
+		}
+		
+		public EObject getAnchor() {
+			return anchor;
+		}
+		
 	}
 
 	public void move(Consumer<EObject> setter, Supplier<EObject> getter) {

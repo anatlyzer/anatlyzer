@@ -4,9 +4,14 @@ import java.io.ByteArrayInputStream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.DocumentRewriteSession;
+import org.eclipse.jface.text.DocumentRewriteSessionType;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
+import anatlyzer.atl.quickfixast.QuickfixScope.Action;
+import anatlyzer.atl.quickfixast.QuickfixScope.InsertAfterAction;
 import anatlyzer.atl.quickfixast.QuickfixScope.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -15,7 +20,7 @@ public class InDocumentSerializer extends ATLSerializer {
 
 	private QuickfixScope<?> qs;
 	private IDocument document;
-	private ReplacementAction currentAction;
+	private Action currentAction;
 	private AtlNbCharFile help;
 
 	public InDocumentSerializer(QuickfixScope<?> qs, IDocument document) {
@@ -27,21 +32,46 @@ public class InDocumentSerializer extends ATLSerializer {
 	}
 
 	public void serialize() {
+		IDocumentExtension4 ext4 = (IDocumentExtension4) document;
+		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
+		
 		qs.getActions().forEach(a -> {
 			this.currentAction = a;
 
 			startVisiting(a.getTgt());
 			
 			String s = g(a.getTgt());
-			int[] offsets = help.getIndexChar(((LocatedElement) a.getSrc()).getLocation());
+			
+			int start  = -1;
+			int length = -1;
+			
+			if ( a instanceof ReplacementAction ) {
+				int[] offsets = help.getIndexChar(((LocatedElement) ((ReplacementAction) a).getSrc()).getLocation());
+
+				start  = offsets[0];
+				length = offsets[1] - offsets[0];
+			} else if ( a instanceof InsertAfterAction ) {
+				int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
+				start  = offsets[1];
+				length = 0;
+				// By default, add a carriage return...
+				s = '\n' + '\n' + s;
+			} else {
+				throw new UnsupportedOperationException();
+			}
+			// For the moment analysing the cases, because I do not want to make Actions dependent on AtlHelp...
+			
 			
 			try {
-				document.replace(offsets[0], offsets[1] - offsets[0], s);
+				document.replace(start, length, s);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
-			}			
+			} finally {
+				ext4.stopRewriteSession(session);
+			}
 		});
 
+		
 	}
 
 	/*

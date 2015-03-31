@@ -350,7 +350,7 @@ package atl_error {
 	}
 	
     @description(name="Possible access to undefined feature", text="Source cardinality check", example="")	 
-	@info(prec="sometimes-solver", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
+	@info(prec="sometimes-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
 	class AccessToUndefinedValue extends LocalProblem {
 		
 	}	

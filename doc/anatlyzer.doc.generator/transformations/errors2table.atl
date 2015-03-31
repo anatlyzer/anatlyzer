@@ -58,6 +58,7 @@ rule package2table {
 		pkg : ECORE!EPackage ( pkg.isErrorPackage )
 	to 
 		table : Table!Table (
+			groups <- pkg.eClassifiers,
 			groups <- pkg.allKinds->collect(v | thisModule.createGroup(pkg, v)),
 			cols <- first,
 			cols <- thisModule.columnElements->collect(c | thisModule.createColumnHeader(c))
@@ -65,6 +66,11 @@ rule package2table {
 		first : Table!ColumnHeader (
 			value <- 'Description'	
 		)
+}
+rule EClassifier2Group {
+   from e : ECORE!EClassifier
+     to g : Table!Group
+
 }
 
 rule createColumnHeader(name : String) {

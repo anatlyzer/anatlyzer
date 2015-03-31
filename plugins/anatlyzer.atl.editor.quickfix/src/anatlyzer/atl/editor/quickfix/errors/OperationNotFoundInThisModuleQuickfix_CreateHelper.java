@@ -140,7 +140,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		LazyRule r = ATLFactory.eINSTANCE.createLazyRule();
 		
 		InPattern p = ATLFactory.eINSTANCE.createInPattern();
-		SimpleInPatternElement ipe = ATLFactory.eINSTANCE.createSimpleInPatternElement();
+		SimpleInPatternElement ipe = ATLFactory.eINSTANCE.createSimpleInPatternElement();		
 		p.getElements().add(ipe);
 		r.setInPattern(p);
 		
@@ -186,7 +186,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		// 2. Infer parameter types from the types of the actual arguments
 		// Done by the callee
 		// 3. Return type of the rule from the binding's expected type
-		Metaclass m = (Metaclass) ATLUtils.getUnderlyingBindingType(b);
+		Metaclass m = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
 		OclModelElement ome = ASTUtils.createOclModelElement(m);
 		
 		OutPattern p = ATLFactory.eINSTANCE.createOutPattern();

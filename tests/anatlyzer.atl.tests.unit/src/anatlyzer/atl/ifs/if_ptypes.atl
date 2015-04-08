@@ -1,0 +1,20 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module ifptypes;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def : someComputation() : Real = 
+	if self.name = 'myModel' then
+		23 / 32 -- Read
+	else
+		0
+	endif;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+		-- Floor is not defined for reals, so it may fail
+    	name <- 'test' + src.someComputation().floor().toString()
+	)
+}
+

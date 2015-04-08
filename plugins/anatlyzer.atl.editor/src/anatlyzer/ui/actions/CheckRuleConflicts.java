@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
@@ -39,18 +40,34 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			e.printStackTrace();
 		}
 	}
-	
-	public List<OverlappingRules> performAction(AnalyserData data) {
+
+
+	public List<OverlappingRules> performAction(AnalyserData data, IProgressMonitor monitor) {
 		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
 		List<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
+		int i = 0;
+		monitor.beginTask("Running solver", overlaps.size());
 		for (OverlappingRules overlap : overlaps) {
 			// if ( processOverlap(overlap, data) ) {
+			if ( monitor.isCanceled() ) {
+				monitor.done();
+				return result;
+			}
+				
+			monitor.subTask("Running " + ++i + " of " + overlaps.size());
+			
 			processOverlap(overlap, data);
 			result.add(overlap);
+
+			monitor.worked(1);
 			//}
 		}			
-		
+		monitor.done();
 		return result;
+	}
+	
+	public List<OverlappingRules> performAction(AnalyserData data) {
+		return performAction(data, null);
 	}
 
 	/**
@@ -149,5 +166,6 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			this.editor = (AtlEditor) targetEditor;			
 		}
 	}
+
 
 }

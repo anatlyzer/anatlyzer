@@ -1,0 +1,17 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module unioncompacted;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def : selectBandC() : Sequence(ABCD!A) = 
+	self.elements->select(e | e.oclIsKindOf(ABCD!B) )->
+		union(self.elements->select(e | e.oclIsKindOf(ABCD!C)))
+;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+		name <- src.selectBandC()->first().name
+	)
+}
+

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
@@ -114,11 +115,12 @@ public class AnalyserUtils {
 				continue; // bad format, should be notified in the UI
 			String name = two[0].trim();
 			String uri = two[1].trim();
-			
+		
 			Resource r = nrs.getResource(URI.createURI(uri), false);
 			if ( r == null ) {
 				throw new CannotLoadMetamodel(uri);
 			}
+
 			logicalNamesToResources.put(name, r);			
 		}
 		

@@ -6,7 +6,13 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -149,25 +155,57 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public RuleConflictAnalysisNode(TreeNode parent) {
 			super(parent);
 		}
+
+		class RuleAnalysisJob extends Job {
+			List<OverlappingRules> result = null;
+			public RuleAnalysisJob(String name) {
+				super(name);
+			}
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				final CheckRuleConflicts action = new CheckRuleConflicts();
+				final AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser());
+
+				result = action.performAction(data, monitor);	
+				if ( monitor.isCanceled() )
+					return Status.CANCEL_STATUS;
+				return Status.OK_STATUS;
+			}		
+		}
 		
 		@Override
 		public void perform() {
-			CheckRuleConflicts action = new CheckRuleConflicts();
-			AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser());
-			List<OverlappingRules> result = action.performAction(data);	
-
-			numberOfConflicts = 0;
-			int i = 0;
-			elements = new ConflictingRules[result.size()];
-			for (OverlappingRules overlappingRules : result) {
-				elements[i++] = new ConflictingRules(this, overlappingRules);
-				if ( overlappingRules.getAnalysisResult() != OverlappingRules.ANALYSIS_SOLVER_DISCARDED ) {
-					// It has not been discarded
-					numberOfConflicts++;
-				}
-			}
+			final RuleAnalysisJob job = new RuleAnalysisJob("Rule analysis");
 			
-			viewer.refresh();
+			job.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+					if ( job.result != null ) {
+						List<OverlappingRules> result = job.result;	
+						
+						numberOfConflicts = 0;
+						int i = 0;
+						elements = new ConflictingRules[result.size()];
+						for (OverlappingRules overlappingRules : result) {
+							elements[i++] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
+							if ( overlappingRules.getAnalysisResult() != OverlappingRules.ANALYSIS_SOLVER_DISCARDED ) {
+								// It has not been discarded
+								numberOfConflicts++;
+							}
+						}
+						Display.getDefault().asyncExec(new Runnable() {	
+							@Override
+							public void run() {
+								viewer.refresh();								
+							}
+						});
+					}
+				}
+			});
+			
+			job.schedule();
+
 		}
 
 		@Override

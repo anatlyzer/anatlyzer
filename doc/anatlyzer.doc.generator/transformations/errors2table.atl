@@ -67,11 +67,12 @@ rule package2table {
 			value <- 'Description'	
 		)
 }
-rule EClassifier2Group {
-   from e : ECORE!EClassifier
-     to g : Table!Group
 
-}
+--rule EClassifier2Group {
+--   from e : ECORE!EClassifier
+--     to g : Table!Group
+--
+--}
 
 rule createColumnHeader(name : String) {
     to c : Table!ColumnHeader (

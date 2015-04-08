@@ -89,7 +89,10 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 	
 	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
-		throw new IllegalStateException();
+		OclExpression filter = this.rule.getInPattern().getFilter();
+		if ( filter != null && ATLUtils.findVariableReference(filter, v) != null )
+			return true;
+		return getDepending().isVarRequiredByErrorPath(v);
 	}
 
 	

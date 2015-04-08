@@ -234,6 +234,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 
 	private void treatVariableDeclaration(VariableDeclaration self) {
+		System.out.println("==> " + self.getLocation());
 		Type exprType = attr.typeOf( self.getInitExpression() );
 		if ( self.getType() == null ) {
 			attr.linkExprType(exprType);
@@ -302,8 +303,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		final Type thenPart = attr.typeOf(self.getThenExpression());
 		final Type elsePart = attr.typeOf(self.getElseExpression());
 				
-		// TODO: Perhaps not the same type but compatible types!
 		if ( ! typ().equalTypes(thenPart, elsePart) ) {
+			// TODO: Compatibility hard-coded here... Is there a general method?
 			if ( thenPart instanceof CollectionType && elsePart instanceof CollectionType ) {
 				CollectionType ctThen = (CollectionType) thenPart;
 				CollectionType ctElse = (CollectionType) elsePart;
@@ -549,6 +550,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					} else {
 						Type kindOfType = attr.typeOf(self.getArguments().get(0));
 						attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+
+						// If something is confirmed at runtime to be "of type", then in cannot be undefined
+						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
 					}
 				} else {
 					if ( self.getOperationName().equals("oclIsUndefined") ) {
@@ -794,7 +798,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inSetExp(SetExp self) {
 		if ( self.getElements().isEmpty() ) {
-			attr.linkExprType( typ().newSetType( typ().newUnknownType() ) );
+			attr.linkExprType( typ().newSetType( typ().newEmptyCollectionType() ) );
 		} else {
 			Type commonType = computeCommonType(self.getElements());
 			attr.linkExprType( typ().newSetType( commonType ) );
@@ -806,7 +810,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inOrderedSetExp(OrderedSetExp self) {
 		if ( self.getElements().isEmpty() ) {
-			attr.linkExprType( typ().newSetType( typ().newUnknownType() ) );
+			attr.linkExprType( typ().newSetType( typ().newEmptyCollectionType() ) );
 		} else {
 			Type commonType = computeCommonType(self.getElements());
 			attr.linkExprType( typ().newSetType( commonType ) );

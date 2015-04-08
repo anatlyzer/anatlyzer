@@ -352,6 +352,11 @@ public class TypingModel {
 	}
 
 	public boolean equalTypes(Type t1, Type t2) {
+		if ( (t1 instanceof IntegerType && t2 instanceof FloatType) || 
+			  t2 instanceof IntegerType && t1 instanceof FloatType) {
+			return true;
+		}
+		
 		if ( t1.getClass() != t2.getClass() ) 
 			return false;
 		
@@ -411,10 +416,36 @@ public class TypingModel {
 		throw new UnsupportedOperationException("EqualTypes: " + t1 + " - " + t2);
 	}
 
+	/**
+	 * 
+	 * @param declaredType Cannot be an union type!
+	 * @param runtimeType
+	 * @return
+	 */
 	public boolean assignableTypes(Type declaredType, Type runtimeType) {
+		if ( declaredType instanceof UnionType ) {
+			throw new IllegalArgumentException();
+		}
+		
 		if ( runtimeType instanceof OclUndefinedType ) {
 			// But the declared type should be modified to carry the "undefined" value
 			return true;
+		}
+		
+		if ( (declaredType instanceof FloatType && runtimeType instanceof IntegerType) ||
+			 (declaredType instanceof IntegerType && runtimeType instanceof FloatType) ) {
+			return true;			
+		}
+		
+		if ( runtimeType instanceof UnionType ) {
+			// All types must be assignable to the declared type
+			UnionType u = (UnionType) runtimeType;
+			for(Type t : u.getPossibleTypes()) {
+				if ( ! assignableTypes(declaredType, t) ) 
+					return false;
+			}
+			return true;
+			
 		}
 		
 		if ( declaredType.getClass() != runtimeType.getClass() )  // TODO: Refine this, some cases they may be compatible

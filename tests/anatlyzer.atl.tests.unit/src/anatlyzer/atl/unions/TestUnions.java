@@ -1,4 +1,4 @@
-package anatlyzer.atl.ifs;
+package anatlyzer.atl.unions;
 
 import static org.junit.Assert.*;
 
@@ -9,20 +9,14 @@ import org.junit.Test;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.unit.UnitTest;
 
-public class TestIfs extends UnitTest {
+public class TestUnions extends UnitTest {
 	String ABCD = metamodel("ABCD");
 	String WXYZ = metamodel("WXYZ");
 	
-	@Test
-	public void testConflictionIfs_Collection() throws Exception {
-		String T = trafo("if_collection");
-		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
-		
-	}
 
 	@Test
-	public void testConflicting_PTypes_Branches() throws Exception {
-		String T = trafo("if_ptypes");
+	public void testUnion_CompactedInVarDcl() throws Exception {
+		String T = trafo("union_compacted");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(0, problems().size());

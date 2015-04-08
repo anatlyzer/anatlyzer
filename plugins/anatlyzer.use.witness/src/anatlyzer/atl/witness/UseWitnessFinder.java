@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import witness.generator.WitnessGeneratorMemory;
@@ -106,7 +107,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		// This should be improved somehow!
 		language = AnalyserUtils.getSingleSourceMetamodel(analyser);
-		return language;
+		// Make a copy and change the URI, because the witness find seems to
+		// register the meta-model...
+		EPackage copy = EcoreUtil.copy(language);
+		copy.setNsURI(language.getNsURI() + "/copy");
+
+		return copy;
 	}
 
 	public EPackage generateErrorSliceMetamodel(IDetectedProblem problem, ErrorSlice slice) {

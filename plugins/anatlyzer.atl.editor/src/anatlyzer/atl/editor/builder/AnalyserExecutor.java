@@ -9,24 +9,17 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalyserExtension;
 import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analysisext.AnalysisProvider;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.footprint.TrafoMetamodelData;
-import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ATLModel;
@@ -34,9 +27,6 @@ import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.util.IgnoredProblems;
-import anatlyzer.atlext.ATL.Module;
-import anatlyzer.atlext.OCL.OclModel;
-import anatlyzer.footprint.EffectiveMetamodelBuilder;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class AnalyserExecutor {

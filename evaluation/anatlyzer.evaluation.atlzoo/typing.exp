@@ -13,3 +13,12 @@ projects:
 -  name: Grafcet2PetriNet
 -  name: IEEE1471_2_MoDAF
 -  name: JavaSource2Table
+-  name: KM32ATLCopier
+-  name: KM32CONFATL
+-  name: KM32DOT
+-  name: KM32EMF
+-  name: KM32Measure
+-  name: KM32Metrics
+-  name: KM32OWL
+-  name: KM32XML
+-  name: KMLInjector

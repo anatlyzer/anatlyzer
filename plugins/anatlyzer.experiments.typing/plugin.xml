@@ -25,5 +25,13 @@
             resourceType="file:atl">
       </experiment>
    </extension>
+   <extension
+         id="typing.experiment.applyQuickfixes"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.typing.ApplyQuickfixes"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
 
 </plugin>

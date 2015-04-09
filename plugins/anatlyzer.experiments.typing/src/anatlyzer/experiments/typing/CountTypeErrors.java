@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -24,7 +25,6 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 
 	List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	private CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
-
 	
 	public CountTypeErrors() {
 		counting.setRepetitions(true);
@@ -51,7 +51,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			}
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		} 
 	}

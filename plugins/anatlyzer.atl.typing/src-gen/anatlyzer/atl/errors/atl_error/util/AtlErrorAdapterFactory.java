@@ -79,6 +79,22 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createModelElementAdapter();
 			}
 			@Override
+			public Adapter caseRuntimeError(RuntimeError object) {
+				return createRuntimeErrorAdapter();
+			}
+			@Override
+			public Adapter caseWarning(Warning object) {
+				return createWarningAdapter();
+			}
+			@Override
+			public Adapter caseStyleHint(StyleHint object) {
+				return createStyleHintAdapter();
+			}
+			@Override
+			public Adapter casePerformanceHint(PerformanceHint object) {
+				return createPerformanceHintAdapter();
+			}
+			@Override
 			public Adapter caseOclCompliance(OclCompliance object) {
 				return createOclComplianceAdapter();
 			}
@@ -105,6 +121,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseFeatureAccessInCollection(FeatureAccessInCollection object) {
 				return createFeatureAccessInCollectionAdapter();
+			}
+			@Override
+			public Adapter caseOperationOverCollectionType(OperationOverCollectionType object) {
+				return createOperationOverCollectionTypeAdapter();
 			}
 			@Override
 			public Adapter caseFeatureNotFound(FeatureNotFound object) {
@@ -145,6 +165,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseFeatureNotFoundInUnionType(FeatureNotFoundInUnionType object) {
 				return createFeatureNotFoundInUnionTypeAdapter();
+			}
+			@Override
+			public Adapter caseInvalidOperator(InvalidOperator object) {
+				return createInvalidOperatorAdapter();
 			}
 			@Override
 			public Adapter caseInvalidOperand(InvalidOperand object) {
@@ -283,12 +307,12 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createIncoherentHelperReturnTypeAdapter();
 			}
 			@Override
-			public Adapter caseOperationOverCollectionType(OperationOverCollectionType object) {
-				return createOperationOverCollectionTypeAdapter();
-			}
-			@Override
 			public Adapter caseAccessToUndefinedValue(AccessToUndefinedValue object) {
 				return createAccessToUndefinedValueAdapter();
+			}
+			@Override
+			public Adapter caseBindingInplaceInvalid(BindingInplaceInvalid object) {
+				return createBindingInplaceInvalidAdapter();
 			}
 			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
@@ -343,6 +367,62 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createModelElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.RuntimeError <em>Runtime Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.RuntimeError
+	 * @generated
+	 */
+	public Adapter createRuntimeErrorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.Warning <em>Warning</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.Warning
+	 * @generated
+	 */
+	public Adapter createWarningAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.StyleHint <em>Style Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.StyleHint
+	 * @generated
+	 */
+	public Adapter createStyleHintAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.PerformanceHint <em>Performance Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.PerformanceHint
+	 * @generated
+	 */
+	public Adapter createPerformanceHintAdapter() {
 		return null;
 	}
 
@@ -553,6 +633,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFeatureNotFoundInUnionTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidOperator <em>Invalid Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperator
+	 * @generated
+	 */
+	public Adapter createInvalidOperatorAdapter() {
 		return null;
 	}
 
@@ -1085,6 +1179,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAccessToUndefinedValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid <em>Binding Inplace Invalid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.BindingInplaceInvalid
+	 * @generated
+	 */
+	public Adapter createBindingInplaceInvalidAdapter() {
 		return null;
 	}
 

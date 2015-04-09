@@ -10,8 +10,9 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCollectionOperationOverNoCollectionError()
- * @model
+ * @model annotation="description name='Collection operation over no collection' example='aClassInstance->select(...)'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='OCL spec, tests'"
  * @generated
  */
-public interface CollectionOperationOverNoCollectionError extends NavigationProblem {
+public interface CollectionOperationOverNoCollectionError extends NavigationProblem, RuntimeError {
 } // CollectionOperationOverNoCollectionError

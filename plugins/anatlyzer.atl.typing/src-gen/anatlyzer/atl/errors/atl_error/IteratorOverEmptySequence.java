@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getIteratorOverEmptySequence()
- * @model
+ * @model annotation="description name='Iterator over empty collection' text='Example: Sequence { }->select(...)'"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface IteratorOverEmptySequence extends LocalProblem {

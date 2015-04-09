@@ -1861,23 +1861,35 @@ public class AbstractVisitor {
 			}	
 		}
 	}
+
+	private java.util.HashMap<String, java.lang.reflect.Method> allMethods = null;
+	public java.util.HashMap<String, java.lang.reflect.Method> getAllMethods() {
+		if ( allMethods == null ) {
+			allMethods = new java.util.HashMap<String, java.lang.reflect.Method>();
+			for(java.lang.reflect.Method m : this.getClass().getMethods()) {
+				allMethods.put(getMethodKey(m.getName(), m.getParameterCount()), m);
+			}
+		}
+		return allMethods;
+	}
+	
+	private final String getMethodKey(String name, int paramCount) {
+		return name + "/" + paramCount;
+	}
 	
 	public VisitingAction method(String methodName, Object... arguments) {
-		
-		for(java.lang.reflect.Method m : this.getClass().getDeclaredMethods()) {
-			if ( m.getName().equals(methodName) ) {
-				return new VisitingAction(this, m, arguments);
-			}
+		String key = getMethodKey(methodName, arguments.length);
+		if ( getAllMethods().containsKey(key) ) {
+			return new VisitingAction(this, getAllMethods().get(key), arguments);			
 		}
 		
 		throw new RuntimeException("No method " + methodName + " found in " + this.getClass().getName());
 	}
 
 	public VisitingAction filter(String methodName, Object... arguments) {
-		for(java.lang.reflect.Method m : this.getClass().getDeclaredMethods()) {
-			if ( m.getName().equals(methodName) ) {
-				return VisitingAction.createFilter(this, m, arguments);
-			}
+		String key = getMethodKey(methodName, arguments.length);
+		if ( getAllMethods().containsKey(key) ) {
+			return VisitingAction.createFilter(this, getAllMethods().get(key), arguments);
 		}
 		
 		throw new RuntimeException("No method " + methodName + " found in " + this.getClass().getName());

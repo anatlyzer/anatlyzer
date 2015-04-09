@@ -205,6 +205,118 @@ public interface AtlErrorPackage extends EPackage {
 	int MODEL_ELEMENT_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.RuntimeErrorImpl <em>Runtime Error</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.RuntimeErrorImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuntimeError()
+	 * @generated
+	 */
+	int RUNTIME_ERROR = 2;
+
+	/**
+	 * The number of structural features of the '<em>Runtime Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RUNTIME_ERROR_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Runtime Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RUNTIME_ERROR_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WarningImpl <em>Warning</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.WarningImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWarning()
+	 * @generated
+	 */
+	int WARNING = 3;
+
+	/**
+	 * The number of structural features of the '<em>Warning</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WARNING_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Warning</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WARNING_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.StyleHintImpl <em>Style Hint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.StyleHintImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getStyleHint()
+	 * @generated
+	 */
+	int STYLE_HINT = 4;
+
+	/**
+	 * The number of structural features of the '<em>Style Hint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STYLE_HINT_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Style Hint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STYLE_HINT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PerformanceHintImpl <em>Performance Hint</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.PerformanceHintImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPerformanceHint()
+	 * @generated
+	 */
+	int PERFORMANCE_HINT = 5;
+
+	/**
+	 * The number of structural features of the '<em>Performance Hint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERFORMANCE_HINT_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Performance Hint</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERFORMANCE_HINT_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NavigationProblemImpl <em>Navigation Problem</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -212,7 +324,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNavigationProblem()
 	 * @generated
 	 */
-	int NAVIGATION_PROBLEM = 4;
+	int NAVIGATION_PROBLEM = 8;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentProblemImpl <em>Invalid Argument Problem</em>}' class.
@@ -222,7 +334,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgumentProblem()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT_PROBLEM = 5;
+	int INVALID_ARGUMENT_PROBLEM = 9;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.TargetModelConformanceProblemImpl <em>Target Model Conformance Problem</em>}' class.
@@ -232,7 +344,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getTargetModelConformanceProblem()
 	 * @generated
 	 */
-	int TARGET_MODEL_CONFORMANCE_PROBLEM = 6;
+	int TARGET_MODEL_CONFORMANCE_PROBLEM = 10;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationOverNoCollectionErrorImpl <em>Collection Operation Over No Collection Error</em>}' class.
@@ -242,7 +354,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationOverNoCollectionError()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 7;
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 11;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureAccessInCollectionImpl <em>Feature Access In Collection</em>}' class.
@@ -252,7 +364,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureAccessInCollection()
 	 * @generated
 	 */
-	int FEATURE_ACCESS_IN_COLLECTION = 8;
+	int FEATURE_ACCESS_IN_COLLECTION = 12;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl <em>Feature Not Found</em>}' class.
@@ -262,7 +374,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFound()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND = 9;
+	int FEATURE_NOT_FOUND = 14;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundImpl <em>Operation Not Found</em>}' class.
@@ -272,7 +384,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFound()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND = 12;
+	int OPERATION_NOT_FOUND = 17;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundInThisModuleImpl <em>Operation Not Found In This Module</em>}' class.
@@ -282,7 +394,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFoundInThisModule()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 16;
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 21;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AttributeNotFoundInThisModuleImpl <em>Attribute Not Found In This Module</em>}' class.
@@ -292,7 +404,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAttributeNotFoundInThisModule()
 	 * @generated
 	 */
-	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 17;
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 22;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundInUnionTypeImpl <em>Feature Not Found In Union Type</em>}' class.
@@ -302,7 +414,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFoundInUnionType()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 18;
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 23;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperandImpl <em>Invalid Operand</em>}' class.
@@ -312,7 +424,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperand()
 	 * @generated
 	 */
-	int INVALID_OPERAND = 19;
+	int INVALID_OPERAND = 25;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoContainerForRefImmediateCompositeImpl <em>No Container For Ref Immediate Composite</em>}' class.
@@ -322,7 +434,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoContainerForRefImmediateComposite()
 	 * @generated
 	 */
-	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 20;
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 26;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.DifferentBranchTypesImpl <em>Different Branch Types</em>}' class.
@@ -332,7 +444,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getDifferentBranchTypes()
 	 * @generated
 	 */
-	int DIFFERENT_BRANCH_TYPES = 21;
+	int DIFFERENT_BRANCH_TYPES = 27;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingProblemImpl <em>Binding Problem</em>}' class.
@@ -342,7 +454,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingProblem()
 	 * @generated
 	 */
-	int BINDING_PROBLEM = 22;
+	int BINDING_PROBLEM = 28;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempProblemImpl <em>Resolve Temp Problem</em>}' class.
@@ -352,7 +464,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempProblem()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_PROBLEM = 23;
+	int RESOLVE_TEMP_PROBLEM = 29;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl <em>No Binding For Compulsory Feature</em>}' class.
@@ -362,7 +474,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeature()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE = 24;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE = 30;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingExpectedOneAssignedManyImpl <em>Binding Expected One Assigned Many</em>}' class.
@@ -372,7 +484,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingExpectedOneAssignedMany()
 	 * @generated
 	 */
-	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 25;
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 31;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl <em>Binding Resolution</em>}' class.
@@ -382,7 +494,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingResolution()
 	 * @generated
 	 */
-	int BINDING_RESOLUTION = 29;
+	int BINDING_RESOLUTION = 35;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithoutRuleImpl <em>Binding Without Rule</em>}' class.
@@ -392,7 +504,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithoutRule()
 	 * @generated
 	 */
-	int BINDING_WITHOUT_RULE = 30;
+	int BINDING_WITHOUT_RULE = 36;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl <em>Binding With Resolved By Incompatible Rule</em>}' class.
@@ -402,7 +514,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithResolvedByIncompatibleRule()
 	 * @generated
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 31;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 37;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl <em>Binding Possibly Unresolved</em>}' class.
@@ -412,7 +524,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingPossiblyUnresolved()
 	 * @generated
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED = 32;
+	int BINDING_POSSIBLY_UNRESOLVED = 38;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl <em>Resolved Rule Info</em>}' class.
@@ -422,7 +534,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolvedRuleInfo()
 	 * @generated
 	 */
-	int RESOLVED_RULE_INFO = 33;
+	int RESOLVED_RULE_INFO = 39;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempWithoutRuleImpl <em>Resolve Temp Without Rule</em>}' class.
@@ -432,7 +544,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempWithoutRule()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_WITHOUT_RULE = 34;
+	int RESOLVE_TEMP_WITHOUT_RULE = 40;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempOutputPatternElementNotFoundImpl <em>Resolve Temp Output Pattern Element Not Found</em>}' class.
@@ -442,7 +554,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempOutputPatternElementNotFound()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 35;
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 41;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FlattenOverNonNestedCollectionImpl <em>Flatten Over Non Nested Collection</em>}' class.
@@ -452,7 +564,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFlattenOverNonNestedCollection()
 	 * @generated
 	 */
-	int FLATTEN_OVER_NON_NESTED_COLLECTION = 36;
+	int FLATTEN_OVER_NON_NESTED_COLLECTION = 42;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverEmptySequenceImpl <em>Iterator Over Empty Sequence</em>}' class.
@@ -462,7 +574,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverEmptySequence()
 	 * @generated
 	 */
-	int ITERATOR_OVER_EMPTY_SEQUENCE = 37;
+	int ITERATOR_OVER_EMPTY_SEQUENCE = 43;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ReadingTargetModelImpl <em>Reading Target Model</em>}' class.
@@ -472,7 +584,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 38;
+	int READING_TARGET_MODEL = 44;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.
@@ -482,7 +594,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 40;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 46;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -492,7 +604,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 41;
+	int NO_MODEL_FOUND = 47;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -502,7 +614,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 42;
+	int WRONG_TYPE = 48;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -512,7 +624,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 43;
+	int ITERATOR_BODY_WRONG_TYPE = 49;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -522,7 +634,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 44;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 50;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -532,7 +644,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 45;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 51;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -542,7 +654,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 46;
+	int NO_CLASS_FOUND_IN_METAMODEL = 52;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -552,7 +664,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 47;
+	int INVALID_ARGUMENT = 53;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -562,7 +674,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 48;
+	int COLLECTION_OPERATION_NOT_FOUND = 54;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -572,7 +684,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 49;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 55;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -582,7 +694,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOclCompliance()
 	 * @generated
 	 */
-	int OCL_COMPLIANCE = 2;
+	int OCL_COMPLIANCE = 6;
 
 	/**
 	 * The number of structural features of the '<em>Ocl Compliance</em>' class.
@@ -610,7 +722,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOclComplianceProblem()
 	 * @generated
 	 */
-	int OCL_COMPLIANCE_PROBLEM = 3;
+	int OCL_COMPLIANCE_PROBLEM = 7;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1162,6 +1274,236 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_ACCESS_IN_COLLECTION_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl <em>Feature Found In Subtype</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureFoundInSubtype()
+	 * @generated
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE = 15;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl <em>Operation Call Invalid</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalid()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID = 16;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationFoundInSubtypeImpl <em>Operation Found In Subtype</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationFoundInSubtypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationFoundInSubtype()
+	 * @generated
+	 */
+	int OPERATION_FOUND_IN_SUBTYPE = 18;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl <em>Operation Call Invalid Number Of Parameters</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidNumberOfParameters()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = 19;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl <em>Operation Call Invalid Parameter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidParameter()
+	 * @generated
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER = 20;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperatorImpl <em>Invalid Operator</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.InvalidOperatorImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperator()
+	 * @generated
+	 */
+	int INVALID_OPERATOR = 24;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingButObjectAssignedImpl <em>Primitive Binding But Object Assigned</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingButObjectAssignedImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingButObjectAssigned()
+	 * @generated
+	 */
+	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED = 32;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ObjectBindingButPrimitiveAssignedImpl <em>Object Binding But Primitive Assigned</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.ObjectBindingButPrimitiveAssignedImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getObjectBindingButPrimitiveAssigned()
+	 * @generated
+	 */
+	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED = 33;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingInvalidAssignmentImpl <em>Primitive Binding Invalid Assignment</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingInvalidAssignmentImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingInvalidAssignment()
+	 * @generated
+	 */
+	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT = 34;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl <em>Lazy Rule With Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
+	 * @generated
+	 */
+	int LAZY_RULE_WITH_FILTER = 45;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 56;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
+	 * @generated
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION = 57;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
+	 * @generated
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE = 58;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
+	 * @generated
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE = 13;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DEPENDENTS = OCL_COMPLIANCE_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DESCRIPTION = OCL_COMPLIANCE_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__SEVERITY = OCL_COMPLIANCE_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__NEEDS_CSP = OCL_COMPLIANCE_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__LOCATION = OCL_COMPLIANCE_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__FILE_LOCATION = OCL_COMPLIANCE_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__ELEMENT = OCL_COMPLIANCE_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__RECOVERY = OCL_COMPLIANCE_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Operation Over Collection Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE_FEATURE_COUNT = OCL_COMPLIANCE_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Operation Over Collection Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE_OPERATION_COUNT = OCL_COMPLIANCE_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1286,16 +1628,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_NOT_FOUND_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl <em>Feature Found In Subtype</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureFoundInSubtype()
-	 * @generated
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1431,16 +1763,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_FOUND_IN_SUBTYPE_OPERATION_COUNT = FEATURE_NOT_FOUND_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl <em>Operation Call Invalid</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalid()
-	 * @generated
-	 */
-	int OPERATION_CALL_INVALID = 11;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1731,16 +2053,6 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND_OPERATION_COUNT = OPERATION_CALL_INVALID_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationFoundInSubtypeImpl <em>Operation Found In Subtype</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.OperationFoundInSubtypeImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationFoundInSubtype()
-	 * @generated
-	 */
-	int OPERATION_FOUND_IN_SUBTYPE = 13;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1894,16 +2206,6 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_FOUND_IN_SUBTYPE_OPERATION_COUNT = OPERATION_NOT_FOUND_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl <em>Operation Call Invalid Number Of Parameters</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidNumberOfParameters()
-	 * @generated
-	 */
-	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = 14;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2046,16 +2348,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS_OPERATION_COUNT = OPERATION_CALL_INVALID_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl <em>Operation Call Invalid Parameter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidParameter()
-	 * @generated
-	 */
-	int OPERATION_CALL_INVALID_PARAMETER = 15;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2523,7 +2815,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__DEPENDENTS = INVALID_ARGUMENT_PROBLEM__DEPENDENTS;
+	int INVALID_OPERATOR__DEPENDENTS = INVALID_ARGUMENT_PROBLEM__DEPENDENTS;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -2532,7 +2824,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__DESCRIPTION = INVALID_ARGUMENT_PROBLEM__DESCRIPTION;
+	int INVALID_OPERATOR__DESCRIPTION = INVALID_ARGUMENT_PROBLEM__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -2541,7 +2833,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__SEVERITY = INVALID_ARGUMENT_PROBLEM__SEVERITY;
+	int INVALID_OPERATOR__SEVERITY = INVALID_ARGUMENT_PROBLEM__SEVERITY;
 
 	/**
 	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
@@ -2550,7 +2842,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__NEEDS_CSP = INVALID_ARGUMENT_PROBLEM__NEEDS_CSP;
+	int INVALID_OPERATOR__NEEDS_CSP = INVALID_ARGUMENT_PROBLEM__NEEDS_CSP;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2559,7 +2851,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__LOCATION = INVALID_ARGUMENT_PROBLEM__LOCATION;
+	int INVALID_OPERATOR__LOCATION = INVALID_ARGUMENT_PROBLEM__LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>File Location</b></em>' attribute.
@@ -2568,7 +2860,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__FILE_LOCATION = INVALID_ARGUMENT_PROBLEM__FILE_LOCATION;
+	int INVALID_OPERATOR__FILE_LOCATION = INVALID_ARGUMENT_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -2577,7 +2869,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__ELEMENT = INVALID_ARGUMENT_PROBLEM__ELEMENT;
+	int INVALID_OPERATOR__ELEMENT = INVALID_ARGUMENT_PROBLEM__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -2586,7 +2878,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__RECOVERY = INVALID_ARGUMENT_PROBLEM__RECOVERY;
+	int INVALID_OPERATOR__RECOVERY = INVALID_ARGUMENT_PROBLEM__RECOVERY;
 
 	/**
 	 * The feature id for the '<em><b>Operator Symbol</b></em>' attribute.
@@ -2595,7 +2887,124 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND__OPERATOR_SYMBOL = INVALID_ARGUMENT_PROBLEM_FEATURE_COUNT + 0;
+	int INVALID_OPERATOR__OPERATOR_SYMBOL = INVALID_ARGUMENT_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR__TYPE = INVALID_ARGUMENT_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Invalid Operator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_FEATURE_COUNT = INVALID_ARGUMENT_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Invalid Operator</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_OPERATION_COUNT = INVALID_ARGUMENT_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Operator Symbol</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__OPERATOR_SYMBOL = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__TYPE = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Invalid Operand</em>' class.
@@ -2604,7 +3013,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND_FEATURE_COUNT = INVALID_ARGUMENT_PROBLEM_FEATURE_COUNT + 1;
+	int INVALID_OPERAND_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Invalid Operand</em>' class.
@@ -2613,7 +3022,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_OPERAND_OPERATION_COUNT = INVALID_ARGUMENT_PROBLEM_OPERATION_COUNT + 0;
+	int INVALID_OPERAND_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3246,16 +3655,6 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_EXPECTED_ONE_ASSIGNED_MANY_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingButObjectAssignedImpl <em>Primitive Binding But Object Assigned</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingButObjectAssignedImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingButObjectAssigned()
-	 * @generated
-	 */
-	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED = 26;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3364,16 +3763,6 @@ public interface AtlErrorPackage extends EPackage {
 	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ObjectBindingButPrimitiveAssignedImpl <em>Object Binding But Primitive Assigned</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.ObjectBindingButPrimitiveAssignedImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getObjectBindingButPrimitiveAssigned()
-	 * @generated
-	 */
-	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED = 27;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3480,16 +3869,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingInvalidAssignmentImpl <em>Primitive Binding Invalid Assignment</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingInvalidAssignmentImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingInvalidAssignment()
-	 * @generated
-	 */
-	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT = 28;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4689,16 +5068,6 @@ public interface AtlErrorPackage extends EPackage {
 	int READING_TARGET_MODEL_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl <em>Lazy Rule With Filter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
-	 * @generated
-	 */
-	int LAZY_RULE_WITH_FILTER = 39;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5734,16 +6103,6 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
-	 * @generated
-	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 50;
-
-	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5850,16 +6209,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
-	 * @generated
-	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 51;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5969,17 +6318,6 @@ public interface AtlErrorPackage extends EPackage {
 	 */
 	int INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT + 0;
 
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
-	 * @generated
-	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 52;
-
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -6088,106 +6426,6 @@ public interface AtlErrorPackage extends EPackage {
 	 */
 	int INCOHERENT_HELPER_RETURN_TYPE_OPERATION_COUNT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION_OPERATION_COUNT + 0;
 
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
-	 * @generated
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE = 53;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__DEPENDENTS = OCL_COMPLIANCE_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__DESCRIPTION = OCL_COMPLIANCE_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__SEVERITY = OCL_COMPLIANCE_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__NEEDS_CSP = OCL_COMPLIANCE_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__LOCATION = OCL_COMPLIANCE_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__FILE_LOCATION = OCL_COMPLIANCE_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__ELEMENT = OCL_COMPLIANCE_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE__RECOVERY = OCL_COMPLIANCE_PROBLEM__RECOVERY;
-
-	/**
-	 * The number of structural features of the '<em>Operation Over Collection Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE_FEATURE_COUNT = OCL_COMPLIANCE_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Operation Over Collection Type</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION_OVER_COLLECTION_TYPE_OPERATION_COUNT = OCL_COMPLIANCE_PROBLEM_OPERATION_COUNT + 0;
-
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl <em>Access To Undefined Value</em>}' class.
@@ -6197,7 +6435,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAccessToUndefinedValue()
 	 * @generated
 	 */
-	int ACCESS_TO_UNDEFINED_VALUE = 54;
+	int ACCESS_TO_UNDEFINED_VALUE = 59;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -6291,6 +6529,134 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl <em>Binding Inplace Invalid</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingInplaceInvalid()
+	 * @generated
+	 */
+	int BINDING_INPLACE_INVALID = 60;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__SEVERITY = BINDING_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__RECOVERY = BINDING_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__FEATURE = BINDING_PROBLEM__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Right Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Binding Inplace Invalid</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Binding Inplace Invalid</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.LocalProblem <em>Local Problem</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6375,6 +6741,46 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getModelElement_MetamodelName();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.RuntimeError <em>Runtime Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Runtime Error</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.RuntimeError
+	 * @generated
+	 */
+	EClass getRuntimeError();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.Warning <em>Warning</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Warning</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.Warning
+	 * @generated
+	 */
+	EClass getWarning();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.StyleHint <em>Style Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Style Hint</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.StyleHint
+	 * @generated
+	 */
+	EClass getStyleHint();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.PerformanceHint <em>Performance Hint</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Performance Hint</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.PerformanceHint
+	 * @generated
+	 */
+	EClass getPerformanceHint();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.NavigationProblem <em>Navigation Problem</em>}'.
@@ -6725,6 +7131,38 @@ public interface AtlErrorPackage extends EPackage {
 	EAttribute getFeatureNotFoundInUnionType_FeatureName();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.InvalidOperator <em>Invalid Operator</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invalid Operator</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperator
+	 * @generated
+	 */
+	EClass getInvalidOperator();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.InvalidOperator#getOperatorSymbol <em>Operator Symbol</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operator Symbol</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperator#getOperatorSymbol()
+	 * @see #getInvalidOperator()
+	 * @generated
+	 */
+	EAttribute getInvalidOperator_OperatorSymbol();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.InvalidOperator#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperator#getType()
+	 * @see #getInvalidOperator()
+	 * @generated
+	 */
+	EReference getInvalidOperator_Type();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.InvalidOperand <em>Invalid Operand</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6744,6 +7182,17 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getInvalidOperand_OperatorSymbol();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.InvalidOperand#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperand#getType()
+	 * @see #getInvalidOperand()
+	 * @generated
+	 */
+	EReference getInvalidOperand_Type();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite <em>No Container For Ref Immediate Composite</em>}'.
@@ -7435,6 +7884,27 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getAccessToUndefinedValue();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid <em>Binding Inplace Invalid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Binding Inplace Invalid</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.BindingInplaceInvalid
+	 * @generated
+	 */
+	EClass getBindingInplaceInvalid();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid#getRightType <em>Right Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Right Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.BindingInplaceInvalid#getRightType()
+	 * @see #getBindingInplaceInvalid()
+	 * @generated
+	 */
+	EReference getBindingInplaceInvalid_RightType();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7524,6 +7994,46 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MODEL_ELEMENT__METAMODEL_NAME = eINSTANCE.getModelElement_MetamodelName();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.RuntimeErrorImpl <em>Runtime Error</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.RuntimeErrorImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuntimeError()
+		 * @generated
+		 */
+		EClass RUNTIME_ERROR = eINSTANCE.getRuntimeError();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.WarningImpl <em>Warning</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.WarningImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWarning()
+		 * @generated
+		 */
+		EClass WARNING = eINSTANCE.getWarning();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.StyleHintImpl <em>Style Hint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.StyleHintImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getStyleHint()
+		 * @generated
+		 */
+		EClass STYLE_HINT = eINSTANCE.getStyleHint();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.PerformanceHintImpl <em>Performance Hint</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.PerformanceHintImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPerformanceHint()
+		 * @generated
+		 */
+		EClass PERFORMANCE_HINT = eINSTANCE.getPerformanceHint();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.NavigationProblemImpl <em>Navigation Problem</em>}' class.
@@ -7820,6 +8330,32 @@ public interface AtlErrorPackage extends EPackage {
 		EAttribute FEATURE_NOT_FOUND_IN_UNION_TYPE__FEATURE_NAME = eINSTANCE.getFeatureNotFoundInUnionType_FeatureName();
 
 		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperatorImpl <em>Invalid Operator</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.InvalidOperatorImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperator()
+		 * @generated
+		 */
+		EClass INVALID_OPERATOR = eINSTANCE.getInvalidOperator();
+
+		/**
+		 * The meta object literal for the '<em><b>Operator Symbol</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVALID_OPERATOR__OPERATOR_SYMBOL = eINSTANCE.getInvalidOperator_OperatorSymbol();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVALID_OPERATOR__TYPE = eINSTANCE.getInvalidOperator_Type();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperandImpl <em>Invalid Operand</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -7836,6 +8372,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INVALID_OPERAND__OPERATOR_SYMBOL = eINSTANCE.getInvalidOperand_OperatorSymbol();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INVALID_OPERAND__TYPE = eINSTANCE.getInvalidOperand_Type();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.NoContainerForRefImmediateCompositeImpl <em>No Container For Ref Immediate Composite</em>}' class.
@@ -8438,6 +8982,24 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ACCESS_TO_UNDEFINED_VALUE = eINSTANCE.getAccessToUndefinedValue();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl <em>Binding Inplace Invalid</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingInplaceInvalid()
+		 * @generated
+		 */
+		EClass BINDING_INPLACE_INVALID = eINSTANCE.getBindingInplaceInvalid();
+
+		/**
+		 * The meta object literal for the '<em><b>Right Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BINDING_INPLACE_INVALID__RIGHT_TYPE = eINSTANCE.getBindingInplaceInvalid_RightType();
 
 	}
 

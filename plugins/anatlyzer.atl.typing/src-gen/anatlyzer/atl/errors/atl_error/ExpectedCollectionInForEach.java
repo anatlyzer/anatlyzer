@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getExpectedCollectionInForEach()
- * @model
+ * @model annotation="description name='Foreach statement expected collection' text=''"
+ *        annotation="info prec='static' path='no' severity='error-source' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface ExpectedCollectionInForEach extends LocalProblem {

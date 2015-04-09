@@ -15,6 +15,7 @@ import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.Unit;
 
 public class Analyser implements IAnalyserResult {
@@ -55,7 +56,11 @@ public class Analyser implements IAnalyserResult {
 				List<? extends Unit> units = trafo.allObjectsOf(Unit.class);
 				for (Unit unit : units) {
 					new ExtendTransformation(trafo, mm, unit).perform();
-					new TypeAnalysisTraversal(trafo, mm, unit).perform();
+					if ( unit instanceof Module && ((Module) unit).isIsRefining() ) {
+						new RefiningAnalysisTraversal(trafo, mm, unit).perform();
+					} else {
+						new TypeAnalysisTraversal(trafo, mm, unit).perform();
+					}
 				
 					for(AnalyserExtension pass : additional) {
 						pass.perform(trafo, mm, unit);

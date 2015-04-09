@@ -10,13 +10,14 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ReadingTargetModel#getModelName <em>Model Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getReadingTargetModel()
- * @model
+ * @model annotation="description name='Read access to target model' text='[DISABLE?] False positives when the same meta-model is used as source and target'"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-integrity' phase='typing' source='none'"
  * @generated
  */
 public interface ReadingTargetModel extends LocalProblem {

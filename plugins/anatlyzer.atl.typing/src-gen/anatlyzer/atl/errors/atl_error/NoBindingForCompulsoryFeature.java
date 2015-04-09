@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoBindingForCompulsoryFeature()
- * @model
+ * @model annotation="description name='No binding for compulsory target feature' text='Applicable to references and string attributes without default value.'"
+ *        annotation="info prec='static' path='no' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source='none'"
  * @generated
  */
 public interface NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {

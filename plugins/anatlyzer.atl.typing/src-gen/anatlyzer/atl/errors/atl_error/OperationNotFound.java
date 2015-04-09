@@ -10,9 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationNotFound()
- * @model
+ * @model annotation="description name='Operation not found' text='Operation cannot be found in an object\'s class'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface OperationNotFound extends OperationCallInvalid {
+public interface OperationNotFound extends OperationCallInvalid, RuntimeError {
 
 } // OperationNotFound

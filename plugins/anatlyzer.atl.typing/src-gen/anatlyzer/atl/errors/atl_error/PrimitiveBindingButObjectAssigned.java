@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getPrimitiveBindingButObjectAssigned()
- * @model
+ * @model annotation="description name='Model element assigned to primitive binding' text='The binding feature is a primitive type but the right part is a model element'"
+ *        annotation="info prec='static' path='no' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source='none'"
  * @generated
  */
 public interface PrimitiveBindingButObjectAssigned extends BindingProblem {

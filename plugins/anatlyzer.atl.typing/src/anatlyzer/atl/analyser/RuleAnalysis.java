@@ -178,7 +178,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		}
 	}
 
-	private void checkCompulsoryFeature(OutPatternElement self) {
+	protected void checkCompulsoryFeature(OutPatternElement self) {
 		// compulsoryFeatures may be null if there is an unresolved type in the outputpattern
 		if ( compulsoryFeatures != null && compulsoryFeatures.size() != 0 ) {
 			for (EStructuralFeature f : compulsoryFeatures) {
@@ -290,7 +290,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	 * @param rightType
 	 * @param f
 	 */
-	private void analyseRuleResolution(Binding self, Type rightType, EReference f) {
+	protected void analyseRuleResolution(Binding self, Type rightType, EReference f) {
 		if ( rightType instanceof Metaclass ) {			
 			Metaclass rightMetaclass = (Metaclass) rightType;
 			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();

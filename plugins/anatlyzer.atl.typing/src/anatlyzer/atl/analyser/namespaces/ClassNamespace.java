@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.lang.model.type.ErrorType;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
@@ -459,7 +457,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			return AnalyserContext.getTypingModel().newBooleanType();
 		}
 		
-		throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported");
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, getType(), node);
+		// throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported");
 	}
 
 

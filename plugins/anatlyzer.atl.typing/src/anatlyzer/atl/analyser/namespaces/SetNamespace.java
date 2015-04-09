@@ -15,7 +15,6 @@ public class SetNamespace extends CollectionNamespace {
 	protected CollectionType newCollectionType(Type nested) {
 		return typ.newSetType(nested);
 	}
-
 	
 	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {

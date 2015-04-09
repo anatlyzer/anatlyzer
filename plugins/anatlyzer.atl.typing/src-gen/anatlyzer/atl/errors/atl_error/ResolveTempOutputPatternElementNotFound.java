@@ -13,14 +13,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound#getSourceType <em>Source Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound#getRules <em>Rules</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolveTempOutputPatternElementNotFound()
- * @model
+ * @model annotation="description name='Undefined output pattern in resolveTemp operation' text='The given output pattern of the possible matched rules is not defined'"
+ *        annotation="info prec='static' path='no' severity='error-behaviour' when='model-dep' kind='trafo-rules' phase='typing' source='none'"
  * @generated
  */
 public interface ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {

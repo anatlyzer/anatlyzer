@@ -10,17 +10,18 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule#isMaybeRule <em>Maybe Rule</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationNotFoundInThisModule()
- * @model
+ * @model annotation="description name='Operation not found in ThisModule' text='Operation defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation()).'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface OperationNotFoundInThisModule extends NavigationProblem {
+public interface OperationNotFoundInThisModule extends NavigationProblem, RuntimeError {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

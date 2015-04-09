@@ -12,19 +12,20 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getClassName <em>Class Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFound#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFeatureNotFound()
- * @model
+ * @model annotation="description name='Feature not found' text='Feature cannot be found in an object\'s class'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface FeatureNotFound extends NavigationProblem {
+public interface FeatureNotFound extends NavigationProblem, RuntimeError {
 	/**
 	 * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

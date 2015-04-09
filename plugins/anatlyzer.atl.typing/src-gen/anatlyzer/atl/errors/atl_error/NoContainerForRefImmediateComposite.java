@@ -10,14 +10,15 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite#getClassName <em>Class Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoContainerForRefImmediateComposite()
- * @model
+ * @model annotation="description name='Object without container' text='A call to refImmediateComposite() will *always* result in OclUndefined.' example='\n\t\tGiven a root class, e.g., MyClassModel, the expression\n\t    aClassModel.refImmediateComposite() will always return null.\t\n\t'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
 public interface NoContainerForRefImmediateComposite extends NavigationProblem {

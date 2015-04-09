@@ -91,8 +91,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	public void perform() {
 		// 1. Get meta-model elements for the explicitly named types
-		ExplicitTypeTraversal explicit = new ExplicitTypeTraversal(model, mm, root);
-		explicit.perform(attr);
+		explicitTypeTraversal();
 		
 		// 2. Process helpers and operations
 		TopLevelTraversal helperOperations = new TopLevelTraversal(model, mm, root);
@@ -108,11 +107,20 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		ComputeResolvers computeResolvers = new ComputeResolvers(model, mm, root);
 		computeResolvers.perform(attr);
 
+		ruleAnalysis();
+	}
+	
+	protected void explicitTypeTraversal() {
+		ExplicitTypeTraversal explicit = new ExplicitTypeTraversal(model, mm, root);
+		explicit.perform(attr);	
+	}
+
+	protected void ruleAnalysis() {
 		RuleAnalysis ruleAnalysis = new RuleAnalysis(model, mm, root);
 		ruleAnalysis.perform(attr);
 	}
-	
-	
+
+
 	private ThisModuleType thisModuleType;
 
 	private ThisModuleType getThisModuleType() {

@@ -10,16 +10,17 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType#getFeatureName <em>Feature Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFeatureNotFoundInUnionType()
- * @model
+ * @model annotation="description name='Feature not found in union type' text='Feature cannot be found in one or more of the possible types of an expression. Only applicable when an expression is deemed have several possible types.'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface FeatureNotFoundInUnionType extends NavigationProblem {
+public interface FeatureNotFoundInUnionType extends NavigationProblem, RuntimeError {
 	/**
 	 * Returns the value of the '<em><b>Feature Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->

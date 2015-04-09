@@ -10,13 +10,14 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType#getIteratorName <em>Iterator Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getIteratorOverNoCollectionType()
- * @model
+ * @model annotation="description name='Iterator over no collection type' text='' example='anObject->select(...)'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='OCL spec, tests'"
  * @generated
  */
 public interface IteratorOverNoCollectionType extends LocalProblem {

@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getLazyRuleWithFilter()
- * @model
+ * @model annotation="description name='Lazy rule with filter' text='In practice filters in lazy rules are not evaluated'"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-integrity' phase='analysis' source='none'"
  * @generated
  */
 public interface LazyRuleWithFilter extends LocalProblem {

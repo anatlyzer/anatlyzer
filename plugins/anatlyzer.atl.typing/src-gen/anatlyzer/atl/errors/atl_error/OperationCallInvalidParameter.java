@@ -11,16 +11,17 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter#getBlamedParameterNames <em>Blamed Parameter Names</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationCallInvalidParameter()
- * @model
+ * @model annotation="description name='Invalid actual parameter type' text='The types of the actual parameters does not match the formal parameters'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface OperationCallInvalidParameter extends OperationCallInvalid {
+public interface OperationCallInvalidParameter extends OperationCallInvalid, RuntimeError {
 	/**
 	 * Returns the value of the '<em><b>Blamed Parameter Names</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.

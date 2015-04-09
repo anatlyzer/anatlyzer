@@ -10,6 +10,7 @@ import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
+import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
@@ -29,6 +30,7 @@ import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
+import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
@@ -51,6 +53,7 @@ import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.PerformanceHint;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
@@ -58,7 +61,10 @@ import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
+import anatlyzer.atl.errors.atl_error.RuntimeError;
+import anatlyzer.atl.errors.atl_error.StyleHint;
 import anatlyzer.atl.errors.atl_error.TargetModelConformanceProblem;
+import anatlyzer.atl.errors.atl_error.Warning;
 import anatlyzer.atl.errors.atl_error.WrongType;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
 import anatlyzer.atl.errors.atl_recovery.impl.AtlRecoveryPackageImpl;
@@ -92,6 +98,34 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass modelElementEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass runtimeErrorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass warningEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass styleHintEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass performanceHintEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -197,6 +231,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass featureNotFoundInUnionTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invalidOperatorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -465,6 +506,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	private EClass accessToUndefinedValueEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass bindingInplaceInvalidEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -609,6 +657,42 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EAttribute getModelElement_MetamodelName() {
 		return (EAttribute)modelElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRuntimeError() {
+		return runtimeErrorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getWarning() {
+		return warningEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStyleHint() {
+		return styleHintEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getPerformanceHint() {
+		return performanceHintEClass;
 	}
 
 	/**
@@ -913,6 +997,33 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvalidOperator() {
+		return invalidOperatorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvalidOperator_OperatorSymbol() {
+		return (EAttribute)invalidOperatorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInvalidOperator_Type() {
+		return (EReference)invalidOperatorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getInvalidOperand() {
 		return invalidOperandEClass;
 	}
@@ -924,6 +1035,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EAttribute getInvalidOperand_OperatorSymbol() {
 		return (EAttribute)invalidOperandEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInvalidOperand_Type() {
+		return (EReference)invalidOperandEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1525,6 +1645,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBindingInplaceInvalid() {
+		return bindingInplaceInvalidEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getBindingInplaceInvalid_RightType() {
+		return (EReference)bindingInplaceInvalidEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1558,6 +1696,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(modelElementEClass, MODEL_ELEMENT__KLASS);
 		createEAttribute(modelElementEClass, MODEL_ELEMENT__METAMODEL_NAME);
 
+		runtimeErrorEClass = createEClass(RUNTIME_ERROR);
+
+		warningEClass = createEClass(WARNING);
+
+		styleHintEClass = createEClass(STYLE_HINT);
+
+		performanceHintEClass = createEClass(PERFORMANCE_HINT);
+
 		oclComplianceEClass = createEClass(OCL_COMPLIANCE);
 
 		oclComplianceProblemEClass = createEClass(OCL_COMPLIANCE_PROBLEM);
@@ -1572,6 +1718,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		featureAccessInCollectionEClass = createEClass(FEATURE_ACCESS_IN_COLLECTION);
 		createEAttribute(featureAccessInCollectionEClass, FEATURE_ACCESS_IN_COLLECTION__FEATURE_NAME);
+
+		operationOverCollectionTypeEClass = createEClass(OPERATION_OVER_COLLECTION_TYPE);
 
 		featureNotFoundEClass = createEClass(FEATURE_NOT_FOUND);
 		createEAttribute(featureNotFoundEClass, FEATURE_NOT_FOUND__FEATURE_NAME);
@@ -1610,8 +1758,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		featureNotFoundInUnionTypeEClass = createEClass(FEATURE_NOT_FOUND_IN_UNION_TYPE);
 		createEAttribute(featureNotFoundInUnionTypeEClass, FEATURE_NOT_FOUND_IN_UNION_TYPE__FEATURE_NAME);
 
+		invalidOperatorEClass = createEClass(INVALID_OPERATOR);
+		createEAttribute(invalidOperatorEClass, INVALID_OPERATOR__OPERATOR_SYMBOL);
+		createEReference(invalidOperatorEClass, INVALID_OPERATOR__TYPE);
+
 		invalidOperandEClass = createEClass(INVALID_OPERAND);
 		createEAttribute(invalidOperandEClass, INVALID_OPERAND__OPERATOR_SYMBOL);
+		createEReference(invalidOperandEClass, INVALID_OPERAND__TYPE);
 
 		noContainerForRefImmediateCompositeEClass = createEClass(NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE);
 		createEAttribute(noContainerForRefImmediateCompositeEClass, NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__CLASS_NAME);
@@ -1708,9 +1861,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		incoherentHelperReturnTypeEClass = createEClass(INCOHERENT_HELPER_RETURN_TYPE);
 
-		operationOverCollectionTypeEClass = createEClass(OPERATION_OVER_COLLECTION_TYPE);
-
 		accessToUndefinedValueEClass = createEClass(ACCESS_TO_UNDEFINED_VALUE);
+
+		bindingInplaceInvalidEClass = createEClass(BINDING_INPLACE_INVALID);
+		createEReference(bindingInplaceInvalidEClass, BINDING_INPLACE_INVALID__RIGHT_TYPE);
 	}
 
 	/**
@@ -1751,20 +1905,37 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		invalidArgumentProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		targetModelConformanceProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getNavigationProblem());
+		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getRuntimeError());
 		featureAccessInCollectionEClass.getESuperTypes().add(this.getNavigationProblem());
+		featureAccessInCollectionEClass.getESuperTypes().add(this.getRuntimeError());
+		operationOverCollectionTypeEClass.getESuperTypes().add(this.getOclComplianceProblem());
 		featureNotFoundEClass.getESuperTypes().add(this.getNavigationProblem());
+		featureNotFoundEClass.getESuperTypes().add(this.getRuntimeError());
 		featureFoundInSubtypeEClass.getESuperTypes().add(this.getFeatureNotFound());
+		featureFoundInSubtypeEClass.getESuperTypes().add(this.getRuntimeError());
 		operationCallInvalidEClass.getESuperTypes().add(this.getNavigationProblem());
+		operationCallInvalidEClass.getESuperTypes().add(this.getRuntimeError());
 		operationNotFoundEClass.getESuperTypes().add(this.getOperationCallInvalid());
+		operationNotFoundEClass.getESuperTypes().add(this.getRuntimeError());
 		operationFoundInSubtypeEClass.getESuperTypes().add(this.getOperationNotFound());
+		operationFoundInSubtypeEClass.getESuperTypes().add(this.getRuntimeError());
 		operationCallInvalidNumberOfParametersEClass.getESuperTypes().add(this.getOperationCallInvalid());
+		operationCallInvalidNumberOfParametersEClass.getESuperTypes().add(this.getRuntimeError());
 		operationCallInvalidParameterEClass.getESuperTypes().add(this.getOperationCallInvalid());
+		operationCallInvalidParameterEClass.getESuperTypes().add(this.getRuntimeError());
 		operationNotFoundInThisModuleEClass.getESuperTypes().add(this.getNavigationProblem());
+		operationNotFoundInThisModuleEClass.getESuperTypes().add(this.getRuntimeError());
 		attributeNotFoundInThisModuleEClass.getESuperTypes().add(this.getNavigationProblem());
+		attributeNotFoundInThisModuleEClass.getESuperTypes().add(this.getRuntimeError());
 		featureNotFoundInUnionTypeEClass.getESuperTypes().add(this.getNavigationProblem());
-		invalidOperandEClass.getESuperTypes().add(this.getInvalidArgumentProblem());
+		featureNotFoundInUnionTypeEClass.getESuperTypes().add(this.getRuntimeError());
+		invalidOperatorEClass.getESuperTypes().add(this.getInvalidArgumentProblem());
+		invalidOperatorEClass.getESuperTypes().add(this.getRuntimeError());
+		invalidOperandEClass.getESuperTypes().add(this.getNavigationProblem());
+		invalidOperandEClass.getESuperTypes().add(this.getRuntimeError());
 		noContainerForRefImmediateCompositeEClass.getESuperTypes().add(this.getNavigationProblem());
 		differentBranchTypesEClass.getESuperTypes().add(this.getNavigationProblem());
+		differentBranchTypesEClass.getESuperTypes().add(this.getWarning());
 		bindingProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		resolveTempProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getTargetModelConformanceProblem());
@@ -1799,8 +1970,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		abstractIncoherentVariableDeclarationEClass.getESuperTypes().add(this.getOclCompliance());
 		incoherentVariableDeclarationEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		incoherentHelperReturnTypeEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
-		operationOverCollectionTypeEClass.getESuperTypes().add(this.getOclComplianceProblem());
 		accessToUndefinedValueEClass.getESuperTypes().add(this.getLocalProblem());
+		bindingInplaceInvalidEClass.getESuperTypes().add(this.getBindingProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1812,6 +1983,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getModelElement_Klass(), ecorePackage.getEClass(), null, "klass", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getModelElement_MetamodelName(), ecorePackage.getEString(), "metamodelName", null, 1, 1, ModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(runtimeErrorEClass, RuntimeError.class, "RuntimeError", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(warningEClass, Warning.class, "Warning", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(styleHintEClass, StyleHint.class, "StyleHint", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(performanceHintEClass, PerformanceHint.class, "PerformanceHint", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(oclComplianceEClass, OclCompliance.class, "OclCompliance", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1827,6 +2006,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(featureAccessInCollectionEClass, FeatureAccessInCollection.class, "FeatureAccessInCollection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeatureAccessInCollection_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, FeatureAccessInCollection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(operationOverCollectionTypeEClass, OperationOverCollectionType.class, "OperationOverCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(featureNotFoundEClass, FeatureNotFound.class, "FeatureNotFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeatureNotFound_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, FeatureNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1865,8 +2046,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(featureNotFoundInUnionTypeEClass, FeatureNotFoundInUnionType.class, "FeatureNotFoundInUnionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeatureNotFoundInUnionType_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, FeatureNotFoundInUnionType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(invalidOperatorEClass, InvalidOperator.class, "InvalidOperator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInvalidOperator_OperatorSymbol(), ecorePackage.getEString(), "operatorSymbol", null, 1, 1, InvalidOperator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInvalidOperator_Type(), theTypesPackage.getType(), null, "type", null, 1, 1, InvalidOperator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(invalidOperandEClass, InvalidOperand.class, "InvalidOperand", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getInvalidOperand_OperatorSymbol(), ecorePackage.getEString(), "operatorSymbol", null, 1, 1, InvalidOperand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInvalidOperand_Type(), theTypesPackage.getType(), null, "type", null, 1, 1, InvalidOperand.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(noContainerForRefImmediateCompositeEClass, NoContainerForRefImmediateComposite.class, "NoContainerForRefImmediateComposite", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNoContainerForRefImmediateComposite_ClassName(), ecorePackage.getEString(), "className", null, 1, 1, NoContainerForRefImmediateComposite.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1963,9 +2149,842 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(incoherentHelperReturnTypeEClass, IncoherentHelperReturnType.class, "IncoherentHelperReturnType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(operationOverCollectionTypeEClass, OperationOverCollectionType.class, "OperationOverCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(accessToUndefinedValueEClass, AccessToUndefinedValue.class, "AccessToUndefinedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(bindingInplaceInvalidEClass, BindingInplaceInvalid.class, "BindingInplaceInvalid", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getBindingInplaceInvalid_RightType(), theTypesPackage.getType(), null, "rightType", null, 1, 1, BindingInplaceInvalid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Create annotations
+		// description
+		createDescriptionAnnotations();
+		// info
+		createInfoAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>description</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createDescriptionAnnotations() {
+		String source = "description";	
+		addAnnotation
+		  (collectionOperationOverNoCollectionErrorEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Collection operation over no collection",
+			 "example", "aClassInstance->select(...)"
+		   });	
+		addAnnotation
+		  (featureAccessInCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Feature access in collection",
+			 "text", "Collections do not have features. Dot-notation cannot be used over them",
+			 "example", "Sequence { }.length"
+		   });	
+		addAnnotation
+		  (operationOverCollectionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Operation over collection type (\\\".\\\" vs. \\\"->\\\")",
+			 "text", "",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (featureNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Feature not found",
+			 "text", "Feature cannot be found in an object\'s class"
+		   });	
+		addAnnotation
+		  (featureFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Feature found in subtype",
+			 "text", "Feature cannot be found in an object\'s class, but found in subtype. The error may not happen depending on the program logic."
+		   });	
+		addAnnotation
+		  (operationNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Operation not found",
+			 "text", "Operation cannot be found in an object\'s class"
+		   });	
+		addAnnotation
+		  (operationFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Operation found in subtype",
+			 "text", "Operation cannot be found in an object\'s class, but found in subtype. The error may not happen depending on the program logic."
+		   });	
+		addAnnotation
+		  (operationCallInvalidNumberOfParametersEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid number of actual parameters",
+			 "text", "The number of actual parameters does not match the formal parameters"
+		   });	
+		addAnnotation
+		  (operationCallInvalidParameterEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid actual parameter type",
+			 "text", "The types of the actual parameters does not match the formal parameters"
+		   });	
+		addAnnotation
+		  (operationNotFoundInThisModuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Operation not found in ThisModule",
+			 "text", "Operation defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation())."
+		   });	
+		addAnnotation
+		  (attributeNotFoundInThisModuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Attribute not found in ThisModule",
+			 "text", "Attribute defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation())."
+		   });	
+		addAnnotation
+		  (featureNotFoundInUnionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Feature not found in union type",
+			 "text", "Feature cannot be found in one or more of the possible types of an expression. Only applicable when an expression is deemed have several possible types."
+		   });	
+		addAnnotation
+		  (invalidOperatorEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid operator",
+			 "text", "Operator not applicable to a certain type."
+		   });	
+		addAnnotation
+		  (invalidOperandEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid operand",
+			 "text", "Operand of the wrong type."
+		   });	
+		addAnnotation
+		  (noContainerForRefImmediateCompositeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Object without container",
+			 "text", "A call to refImmediateComposite() will *always* result in OclUndefined.",
+			 "example", "\n\t\tGiven a root class, e.g., MyClassModel, the expression\n\t    aClassModel.refImmediateComposite() will always return null.\t\n\t"
+		   });	
+		addAnnotation
+		  (differentBranchTypesEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Different branch types",
+			 "text", "[Disabled] The types of both if branches should be compatible. Perhaps this should be part of ocl compliance checkings..."
+		   });	
+		addAnnotation
+		  (noBindingForCompulsoryFeatureEClass, 
+		   source, 
+		   new String[] {
+			 "name", "No binding for compulsory target feature",
+			 "text", "Applicable to references and string attributes without default value."
+		   });	
+		addAnnotation
+		  (bindingExpectedOneAssignedManyEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Binding from feature with higher cardinality",
+			 "text", "The binding feature is mono-valued but the right part of the binding is a collection"
+		   });	
+		addAnnotation
+		  (primitiveBindingButObjectAssignedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Model element assigned to primitive binding",
+			 "text", "The binding feature is a primitive type but the right part is a model element"
+		   });	
+		addAnnotation
+		  (objectBindingButPrimitiveAssignedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Primitive value assigned to object binding",
+			 "text", "The binding feature is a reference but the right part is a primitive value"
+		   });	
+		addAnnotation
+		  (primitiveBindingInvalidAssignmentEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Incompatible primitive value for primitive binding",
+			 "text", "The binding feature is primitive but the right part is a non-compatible primitive value"
+		   });	
+		addAnnotation
+		  (bindingWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "No rule to resolve binding",
+			 "text", "No rule able to resolve the binding can be found"
+		   });	
+		addAnnotation
+		  (bindingWithResolvedByIncompatibleRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Binding resolved by rule with invalid target",
+			 "text", "A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature"
+		   });	
+		addAnnotation
+		  (bindingPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Binding resolved by rule with invalid target",
+			 "text", "A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature"
+		   });	
+		addAnnotation
+		  (resolveTempWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "No rule to resolve a resolveTemp operation",
+			 "text", "No rule able to resolve the resolveTemp operation can be found"
+		   });	
+		addAnnotation
+		  (resolveTempOutputPatternElementNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Undefined output pattern in resolveTemp operation",
+			 "text", "The given output pattern of the possible matched rules is not defined"
+		   });	
+		addAnnotation
+		  (flattenOverNonNestedCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Flatten over non-nested collection",
+			 "text", "Example: Sequence {\'a\', \'b\'}->flatten()"
+		   });	
+		addAnnotation
+		  (iteratorOverEmptySequenceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Iterator over empty collection",
+			 "text", "Example: Sequence { }->select(...)"
+		   });	
+		addAnnotation
+		  (readingTargetModelEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Read access to target model",
+			 "text", "[DISABLE?] False positives when the same meta-model is used as source and target"
+		   });	
+		addAnnotation
+		  (lazyRuleWithFilterEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Lazy rule with filter",
+			 "text", "In practice filters in lazy rules are not evaluated"
+		   });	
+		addAnnotation
+		  (ambiguousTargetModelReferenceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Ambiguous model reference",
+			 "text", "[TODO]: Implemented but need to find an example"
+		   });	
+		addAnnotation
+		  (noModelFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid meta-model name",
+			 "text", "The specified model is not declared"
+		   });	
+		addAnnotation
+		  (iteratorBodyWrongTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Wrong iterator body type",
+			 "text", "The inferred type of the iterator body is not compatible with the type expected by the iterator "
+		   });	
+		addAnnotation
+		  (matchedRuleWithoutOutputPatternEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Matched rule without output pattern",
+			 "text", "This should be checked by the parser"
+		   });	
+		addAnnotation
+		  (expectedCollectionInForEachEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Foreach statement expected collection",
+			 "text", ""
+		   });	
+		addAnnotation
+		  (noClassFoundInMetamodelEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid meta-class name",
+			 "text", "The meta-class name cannot be found in the meta-model"
+		   });	
+		addAnnotation
+		  (collectionOperationNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Collection operation not found",
+			 "text", ""
+		   });	
+		addAnnotation
+		  (iteratorOverNoCollectionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Iterator over no collection type",
+			 "text", "",
+			 "example", "anObject->select(...)"
+		   });	
+		addAnnotation
+		  (incoherentVariableDeclarationEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Incoherent variable declaration",
+			 "text", "The declared and the inferred type are not compatible",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (incoherentHelperReturnTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Incoherent helper return type",
+			 "text", "The declared and the inferred return type are not compatible",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (accessToUndefinedValueEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Possible access to undefined feature",
+			 "text", "Source cardinality check",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (bindingInplaceInvalidEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid in-place binding assignment",
+			 "text", "",
+			 "example", ""
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>info</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createInfoAnnotations() {
+		String source = "info";	
+		addAnnotation
+		  (collectionOperationOverNoCollectionErrorEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (featureAccessInCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (operationOverCollectionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (featureNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (featureFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "sometimes-solver",
+			 "path", "yes",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (operationNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (operationFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "sometimes-solver",
+			 "path", "yes",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (operationCallInvalidNumberOfParametersEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (operationCallInvalidParameterEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (operationNotFoundInThisModuleEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (attributeNotFoundInThisModuleEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (featureNotFoundInUnionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidOperatorEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidOperandEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (noContainerForRefImmediateCompositeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (differentBranchTypesEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-ocl",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (noBindingForCompulsoryFeatureEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (bindingExpectedOneAssignedManyEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (primitiveBindingButObjectAssignedEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (objectBindingButPrimitiveAssignedEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (primitiveBindingInvalidAssignmentEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (bindingWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (bindingWithResolvedByIncompatibleRuleEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "sometimes-solver",
+			 "path", "no",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (bindingPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "always-solver",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (resolveTempWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (resolveTempOutputPatternElementNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (flattenOverNonNestedCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-perf",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (iteratorOverEmptySequenceEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (readingTargetModelEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (lazyRuleWithFilterEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (ambiguousTargetModelReferenceEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (noModelFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-always",
+			 "when", "trafo-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (iteratorBodyWrongTypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-source",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (matchedRuleWithoutOutputPatternEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-always",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (expectedCollectionInForEachEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-source",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (noClassFoundInMetamodelEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-always",
+			 "when", "trafo-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (collectionOperationNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-source",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (iteratorOverNoCollectionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (incoherentVariableDeclarationEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-style",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (incoherentHelperReturnTypeEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-style",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (accessToUndefinedValueEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "sometimes-solver",
+			 "path", "yes",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (bindingInplaceInvalidEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "yes",
+			 "severity", "error-target",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
+			 "source", ""
+		   });
 	}
 
 } //AtlErrorPackageImpl

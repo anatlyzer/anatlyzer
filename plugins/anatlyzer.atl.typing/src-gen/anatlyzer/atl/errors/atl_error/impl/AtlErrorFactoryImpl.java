@@ -59,6 +59,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.MODEL_ELEMENT: return createModelElement();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
+			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
 			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: return createFeatureFoundInSubtype();
 			case AtlErrorPackage.OPERATION_NOT_FOUND: return createOperationNotFound();
@@ -68,6 +69,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.OPERATION_NOT_FOUND_IN_THIS_MODULE: return createOperationNotFoundInThisModule();
 			case AtlErrorPackage.ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE: return createAttributeNotFoundInThisModule();
 			case AtlErrorPackage.FEATURE_NOT_FOUND_IN_UNION_TYPE: return createFeatureNotFoundInUnionType();
+			case AtlErrorPackage.INVALID_OPERATOR: return createInvalidOperator();
 			case AtlErrorPackage.INVALID_OPERAND: return createInvalidOperand();
 			case AtlErrorPackage.NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE: return createNoContainerForRefImmediateComposite();
 			case AtlErrorPackage.DIFFERENT_BRANCH_TYPES: return createDifferentBranchTypes();
@@ -97,8 +99,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.ITERATOR_OVER_NO_COLLECTION_TYPE: return createIteratorOverNoCollectionType();
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: return createIncoherentVariableDeclaration();
 			case AtlErrorPackage.INCOHERENT_HELPER_RETURN_TYPE: return createIncoherentHelperReturnType();
-			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
 			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
+			case AtlErrorPackage.BINDING_INPLACE_INVALID: return createBindingInplaceInvalid();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -222,6 +224,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public FeatureNotFoundInUnionType createFeatureNotFoundInUnionType() {
 		FeatureNotFoundInUnionTypeImpl featureNotFoundInUnionType = new FeatureNotFoundInUnionTypeImpl();
 		return featureNotFoundInUnionType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InvalidOperator createInvalidOperator() {
+		InvalidOperatorImpl invalidOperator = new InvalidOperatorImpl();
+		return invalidOperator;
 	}
 
 	/**
@@ -532,6 +544,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public AccessToUndefinedValue createAccessToUndefinedValue() {
 		AccessToUndefinedValueImpl accessToUndefinedValue = new AccessToUndefinedValueImpl();
 		return accessToUndefinedValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BindingInplaceInvalid createBindingInplaceInvalid() {
+		BindingInplaceInvalidImpl bindingInplaceInvalid = new BindingInplaceInvalidImpl();
+		return bindingInplaceInvalid;
 	}
 
 	/**

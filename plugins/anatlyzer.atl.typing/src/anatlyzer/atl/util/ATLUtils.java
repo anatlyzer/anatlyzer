@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
@@ -417,11 +418,7 @@ public class ATLUtils {
 	}
 
 	public static Type getUnderlyingBindingLeftType(Binding b) {
-		Type t = b.getLeftType();
-		if ( t instanceof CollectionType ) {
-			return ((CollectionType) t).getContainedType();
-		}
-		return t;
+		return TypeUtils.getUnderlyingType(b.getLeftType());
 	}
 
 	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {

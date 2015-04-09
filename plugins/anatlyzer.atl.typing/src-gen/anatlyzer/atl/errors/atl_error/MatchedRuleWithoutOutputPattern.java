@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getMatchedRuleWithoutOutputPattern()
- * @model
+ * @model annotation="description name='Matched rule without output pattern' text='This should be checked by the parser'"
+ *        annotation="info prec='static' path='no' severity='error-always' when='model-dep' kind='trafo-integrity' phase='typing' source='none'"
  * @generated
  */
 public interface MatchedRuleWithoutOutputPattern extends LocalProblem {

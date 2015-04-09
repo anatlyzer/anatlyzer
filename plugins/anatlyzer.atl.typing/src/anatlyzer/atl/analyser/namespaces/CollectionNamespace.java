@@ -65,11 +65,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		}
 		
 		if ( operationName.equals("size")  ) return typ.newIntegerType();
-		if ( operationName.equals("first") ) return nested;
-		if ( operationName.equals("last") ) return nested;
 
-		if ( operationName.equals("at") ) return nested; // TODO: Indicate somehow that at may return null
-		
 		if ( operationName.equals("sum") ) {
 			if (! (nested instanceof IntegerType) ) {
 				// TODO: Signal error!
@@ -84,12 +80,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		
 		if ( operationName.equals("isEmpty") || operationName.equals("notEmpty")) return typ.newBooleanType();
 		if ( operationName.equals("includes") || operationName.equals("excludes") ) return typ.newBooleanType();
-		
-		if ( operationName.equals("indexOf") ) {
-			// TODO: indexOf may return a "bottom" value???
-			return typ.newIntegerType();
-		}
-		
+				
 		if ( operationName.equals("append") || operationName.equals("including") || operationName.equals("prepend") || 
 				operationName.equals("excluding") ) {
 			CollectionType r = newCollectionType(typ.getCommonType(this.nested, arguments[0]));
@@ -124,12 +115,11 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {
 		// This has to be put into a library
-		return operationName.equals("size") || operationName.equals("first") || operationName.equals("last") || 
-				operationName.equals("at") || operationName.equals("sum") || operationName.equals("subSequence") ||
+		return operationName.equals("size") || 
+				operationName.equals("sum") || operationName.equals("subSequence") ||
 				operationName.equals("asSequence") || operationName.equals("asSet") ||
 				operationName.equals("isEmpty") || operationName.equals("notEmpty") ||
 				operationName.equals("includes") || operationName.equals("excludes") || 
-				operationName.equals("indexOf") ||	
 				operationName.equals("append") || operationName.equals("including") || operationName.equals("prepend") || 
 				operationName.equals("excluding") ||
 				operationName.equals("union") || 
@@ -166,6 +156,11 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		} else if ( name.equals("sortedBy") ) {
 			return this.newCollectionType(nested);
 		} else if ( name.equals("exists") || name.equals("one") ||  name.equals("forAll") ) {
+			if ( ! (bodyType instanceof BooleanType) ) {
+				AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
+				// This return is the recovery action
+				return this.newCollectionType(nested);
+			}
 			return typ.newBooleanType();
 		}
 		throw new UnsupportedOperationException("Collection operation " + name + " not supported.");

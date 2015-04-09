@@ -10,13 +10,14 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference#getModelName <em>Model Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getAmbiguousTargetModelReference()
- * @model
+ * @model annotation="description name='Ambiguous model reference' text='[TODO]: Implemented but need to find an example'"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='navigation' phase='analysis' source='none'"
  * @generated
  */
 public interface AmbiguousTargetModelReference extends LocalProblem {

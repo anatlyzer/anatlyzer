@@ -10,7 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFlattenOverNonNestedCollection()
- * @model
+ * @model annotation="description name='Flatten over non-nested collection' text='Example: Sequence {\'a\', \'b\'}->flatten()'"
+ *        annotation="info prec='static' path='no' severity='warning-perf' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface FlattenOverNonNestedCollection extends LocalProblem {

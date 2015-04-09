@@ -50,7 +50,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -80,6 +80,30 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 			case AtlErrorPackage.MODEL_ELEMENT: {
 				ModelElement modelElement = (ModelElement)theEObject;
 				T result = caseModelElement(modelElement);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.RUNTIME_ERROR: {
+				RuntimeError runtimeError = (RuntimeError)theEObject;
+				T result = caseRuntimeError(runtimeError);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.WARNING: {
+				Warning warning = (Warning)theEObject;
+				T result = caseWarning(warning);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.STYLE_HINT: {
+				StyleHint styleHint = (StyleHint)theEObject;
+				T result = caseStyleHint(styleHint);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.PERFORMANCE_HINT: {
+				PerformanceHint performanceHint = (PerformanceHint)theEObject;
+				T result = casePerformanceHint(performanceHint);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -129,6 +153,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				CollectionOperationOverNoCollectionError collectionOperationOverNoCollectionError = (CollectionOperationOverNoCollectionError)theEObject;
 				T result = caseCollectionOperationOverNoCollectionError(collectionOperationOverNoCollectionError);
 				if (result == null) result = caseNavigationProblem(collectionOperationOverNoCollectionError);
+				if (result == null) result = caseRuntimeError(collectionOperationOverNoCollectionError);
 				if (result == null) result = caseLocalProblem(collectionOperationOverNoCollectionError);
 				if (result == null) result = caseProblem(collectionOperationOverNoCollectionError);
 				if (result == null) result = caseAnalysisInfo(collectionOperationOverNoCollectionError);
@@ -139,9 +164,20 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				FeatureAccessInCollection featureAccessInCollection = (FeatureAccessInCollection)theEObject;
 				T result = caseFeatureAccessInCollection(featureAccessInCollection);
 				if (result == null) result = caseNavigationProblem(featureAccessInCollection);
+				if (result == null) result = caseRuntimeError(featureAccessInCollection);
 				if (result == null) result = caseLocalProblem(featureAccessInCollection);
 				if (result == null) result = caseProblem(featureAccessInCollection);
 				if (result == null) result = caseAnalysisInfo(featureAccessInCollection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: {
+				OperationOverCollectionType operationOverCollectionType = (OperationOverCollectionType)theEObject;
+				T result = caseOperationOverCollectionType(operationOverCollectionType);
+				if (result == null) result = caseOclComplianceProblem(operationOverCollectionType);
+				if (result == null) result = caseLocalProblem(operationOverCollectionType);
+				if (result == null) result = caseProblem(operationOverCollectionType);
+				if (result == null) result = caseAnalysisInfo(operationOverCollectionType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -149,6 +185,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				FeatureNotFound featureNotFound = (FeatureNotFound)theEObject;
 				T result = caseFeatureNotFound(featureNotFound);
 				if (result == null) result = caseNavigationProblem(featureNotFound);
+				if (result == null) result = caseRuntimeError(featureNotFound);
 				if (result == null) result = caseLocalProblem(featureNotFound);
 				if (result == null) result = caseProblem(featureNotFound);
 				if (result == null) result = caseAnalysisInfo(featureNotFound);
@@ -160,6 +197,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				T result = caseFeatureFoundInSubtype(featureFoundInSubtype);
 				if (result == null) result = caseFeatureNotFound(featureFoundInSubtype);
 				if (result == null) result = caseNavigationProblem(featureFoundInSubtype);
+				if (result == null) result = caseRuntimeError(featureFoundInSubtype);
 				if (result == null) result = caseLocalProblem(featureFoundInSubtype);
 				if (result == null) result = caseProblem(featureFoundInSubtype);
 				if (result == null) result = caseAnalysisInfo(featureFoundInSubtype);
@@ -170,6 +208,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				OperationCallInvalid operationCallInvalid = (OperationCallInvalid)theEObject;
 				T result = caseOperationCallInvalid(operationCallInvalid);
 				if (result == null) result = caseNavigationProblem(operationCallInvalid);
+				if (result == null) result = caseRuntimeError(operationCallInvalid);
 				if (result == null) result = caseLocalProblem(operationCallInvalid);
 				if (result == null) result = caseProblem(operationCallInvalid);
 				if (result == null) result = caseAnalysisInfo(operationCallInvalid);
@@ -181,6 +220,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				T result = caseOperationNotFound(operationNotFound);
 				if (result == null) result = caseOperationCallInvalid(operationNotFound);
 				if (result == null) result = caseNavigationProblem(operationNotFound);
+				if (result == null) result = caseRuntimeError(operationNotFound);
 				if (result == null) result = caseLocalProblem(operationNotFound);
 				if (result == null) result = caseProblem(operationNotFound);
 				if (result == null) result = caseAnalysisInfo(operationNotFound);
@@ -193,6 +233,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseOperationNotFound(operationFoundInSubtype);
 				if (result == null) result = caseOperationCallInvalid(operationFoundInSubtype);
 				if (result == null) result = caseNavigationProblem(operationFoundInSubtype);
+				if (result == null) result = caseRuntimeError(operationFoundInSubtype);
 				if (result == null) result = caseLocalProblem(operationFoundInSubtype);
 				if (result == null) result = caseProblem(operationFoundInSubtype);
 				if (result == null) result = caseAnalysisInfo(operationFoundInSubtype);
@@ -204,6 +245,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				T result = caseOperationCallInvalidNumberOfParameters(operationCallInvalidNumberOfParameters);
 				if (result == null) result = caseOperationCallInvalid(operationCallInvalidNumberOfParameters);
 				if (result == null) result = caseNavigationProblem(operationCallInvalidNumberOfParameters);
+				if (result == null) result = caseRuntimeError(operationCallInvalidNumberOfParameters);
 				if (result == null) result = caseLocalProblem(operationCallInvalidNumberOfParameters);
 				if (result == null) result = caseProblem(operationCallInvalidNumberOfParameters);
 				if (result == null) result = caseAnalysisInfo(operationCallInvalidNumberOfParameters);
@@ -215,6 +257,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				T result = caseOperationCallInvalidParameter(operationCallInvalidParameter);
 				if (result == null) result = caseOperationCallInvalid(operationCallInvalidParameter);
 				if (result == null) result = caseNavigationProblem(operationCallInvalidParameter);
+				if (result == null) result = caseRuntimeError(operationCallInvalidParameter);
 				if (result == null) result = caseLocalProblem(operationCallInvalidParameter);
 				if (result == null) result = caseProblem(operationCallInvalidParameter);
 				if (result == null) result = caseAnalysisInfo(operationCallInvalidParameter);
@@ -225,6 +268,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				OperationNotFoundInThisModule operationNotFoundInThisModule = (OperationNotFoundInThisModule)theEObject;
 				T result = caseOperationNotFoundInThisModule(operationNotFoundInThisModule);
 				if (result == null) result = caseNavigationProblem(operationNotFoundInThisModule);
+				if (result == null) result = caseRuntimeError(operationNotFoundInThisModule);
 				if (result == null) result = caseLocalProblem(operationNotFoundInThisModule);
 				if (result == null) result = caseProblem(operationNotFoundInThisModule);
 				if (result == null) result = caseAnalysisInfo(operationNotFoundInThisModule);
@@ -235,6 +279,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				AttributeNotFoundInThisModule attributeNotFoundInThisModule = (AttributeNotFoundInThisModule)theEObject;
 				T result = caseAttributeNotFoundInThisModule(attributeNotFoundInThisModule);
 				if (result == null) result = caseNavigationProblem(attributeNotFoundInThisModule);
+				if (result == null) result = caseRuntimeError(attributeNotFoundInThisModule);
 				if (result == null) result = caseLocalProblem(attributeNotFoundInThisModule);
 				if (result == null) result = caseProblem(attributeNotFoundInThisModule);
 				if (result == null) result = caseAnalysisInfo(attributeNotFoundInThisModule);
@@ -245,16 +290,29 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				FeatureNotFoundInUnionType featureNotFoundInUnionType = (FeatureNotFoundInUnionType)theEObject;
 				T result = caseFeatureNotFoundInUnionType(featureNotFoundInUnionType);
 				if (result == null) result = caseNavigationProblem(featureNotFoundInUnionType);
+				if (result == null) result = caseRuntimeError(featureNotFoundInUnionType);
 				if (result == null) result = caseLocalProblem(featureNotFoundInUnionType);
 				if (result == null) result = caseProblem(featureNotFoundInUnionType);
 				if (result == null) result = caseAnalysisInfo(featureNotFoundInUnionType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.INVALID_OPERATOR: {
+				InvalidOperator invalidOperator = (InvalidOperator)theEObject;
+				T result = caseInvalidOperator(invalidOperator);
+				if (result == null) result = caseInvalidArgumentProblem(invalidOperator);
+				if (result == null) result = caseRuntimeError(invalidOperator);
+				if (result == null) result = caseLocalProblem(invalidOperator);
+				if (result == null) result = caseProblem(invalidOperator);
+				if (result == null) result = caseAnalysisInfo(invalidOperator);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.INVALID_OPERAND: {
 				InvalidOperand invalidOperand = (InvalidOperand)theEObject;
 				T result = caseInvalidOperand(invalidOperand);
-				if (result == null) result = caseInvalidArgumentProblem(invalidOperand);
+				if (result == null) result = caseNavigationProblem(invalidOperand);
+				if (result == null) result = caseRuntimeError(invalidOperand);
 				if (result == null) result = caseLocalProblem(invalidOperand);
 				if (result == null) result = caseProblem(invalidOperand);
 				if (result == null) result = caseAnalysisInfo(invalidOperand);
@@ -275,6 +333,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				DifferentBranchTypes differentBranchTypes = (DifferentBranchTypes)theEObject;
 				T result = caseDifferentBranchTypes(differentBranchTypes);
 				if (result == null) result = caseNavigationProblem(differentBranchTypes);
+				if (result == null) result = caseWarning(differentBranchTypes);
 				if (result == null) result = caseLocalProblem(differentBranchTypes);
 				if (result == null) result = caseProblem(differentBranchTypes);
 				if (result == null) result = caseAnalysisInfo(differentBranchTypes);
@@ -574,22 +633,22 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: {
-				OperationOverCollectionType operationOverCollectionType = (OperationOverCollectionType)theEObject;
-				T result = caseOperationOverCollectionType(operationOverCollectionType);
-				if (result == null) result = caseOclComplianceProblem(operationOverCollectionType);
-				if (result == null) result = caseLocalProblem(operationOverCollectionType);
-				if (result == null) result = caseProblem(operationOverCollectionType);
-				if (result == null) result = caseAnalysisInfo(operationOverCollectionType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: {
 				AccessToUndefinedValue accessToUndefinedValue = (AccessToUndefinedValue)theEObject;
 				T result = caseAccessToUndefinedValue(accessToUndefinedValue);
 				if (result == null) result = caseLocalProblem(accessToUndefinedValue);
 				if (result == null) result = caseProblem(accessToUndefinedValue);
 				if (result == null) result = caseAnalysisInfo(accessToUndefinedValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.BINDING_INPLACE_INVALID: {
+				BindingInplaceInvalid bindingInplaceInvalid = (BindingInplaceInvalid)theEObject;
+				T result = caseBindingInplaceInvalid(bindingInplaceInvalid);
+				if (result == null) result = caseBindingProblem(bindingInplaceInvalid);
+				if (result == null) result = caseLocalProblem(bindingInplaceInvalid);
+				if (result == null) result = caseProblem(bindingInplaceInvalid);
+				if (result == null) result = caseAnalysisInfo(bindingInplaceInvalid);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -624,6 +683,66 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseModelElement(ModelElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Runtime Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Runtime Error</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRuntimeError(RuntimeError object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Warning</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Warning</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseWarning(Warning object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Style Hint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Style Hint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStyleHint(StyleHint object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Performance Hint</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Performance Hint</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePerformanceHint(PerformanceHint object) {
 		return null;
 	}
 
@@ -849,6 +968,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFeatureNotFoundInUnionType(FeatureNotFoundInUnionType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Operator</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Operator</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidOperator(InvalidOperator object) {
 		return null;
 	}
 
@@ -1419,6 +1553,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseAccessToUndefinedValue(AccessToUndefinedValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Binding Inplace Invalid</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Binding Inplace Invalid</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBindingInplaceInvalid(BindingInplaceInvalid object) {
 		return null;
 	}
 

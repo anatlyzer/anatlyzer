@@ -277,7 +277,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperand" eSuperTypes="#//atl_error/InvalidArgumentProblem #//atl_error/RuntimeError">
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperator" eSuperTypes="#//atl_error/InvalidArgumentProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">
         <details key="name" value="Invalid operator"/>
         <details key="text" value="Operator not applicable to a certain type."/>
@@ -293,6 +293,27 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="operatorSymbol" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Type"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperand" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid operand"/>
+        <details key="text" value="Operand of the wrong type."/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operatorSymbol" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NoContainerForRefImmediateComposite"
         eSuperTypes="#//atl_error/NavigationProblem">
@@ -775,6 +796,24 @@
         <details key="phase" value="typing"/>
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BindingInplaceInvalid" eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid in-place binding assignment"/>
+        <details key="text" value=""/>
+        <details key="example" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="error-target"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="tgt-typing"/>
+        <details key="phase" value="analysis"/>
+        <details key="source" value=""/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rightType" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="atl_recovery" nsURI="http://bento/analysis/atl/analysis/recovery"

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -23,6 +24,7 @@ import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
+import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
@@ -38,6 +40,8 @@ import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
+import anatlyzer.atl.errors.atl_error.InvalidOperand;
+import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
@@ -282,18 +286,26 @@ public class ErrorModel {
 	} 
 
 	public Type signalInvalidOperand(String operatorSymbol, LocatedElement node, IRecoveryAction ra) {
-		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
+		InvalidOperand error = AtlErrorFactory.eINSTANCE.createInvalidOperand();
 		initProblem(error, node);
 		
-		if ( ra == null ) 
-			throw new IllegalArgumentException();
-		
-		Type result = ra.recover(this, error);
-		if ( result != null ) {
-			signalError(error, "Invalid operand " + operatorSymbol, node);
-			return result;
+		if ( ra != null ) {
+			Type result = ra.recover(this, error);
+			if ( result != null ) {
+				signalError(error, "Invalid operand " + operatorSymbol, node);
+				return result;
+			}
 		}
-	
+
+		signalError(error, "Invalid operand " + operatorSymbol, node);
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+
+	public Type signalInvalidOperator(String operatorSymbol, Type t, LocatedElement node) {
+		InvalidOperator error = AtlErrorFactory.eINSTANCE.createInvalidOperator();
+		initProblem(error, node);
+		
+		signalError(error, "Operator " + operatorSymbol + " not supported by " + TypeUtils.typeToString(t), node);
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
@@ -536,6 +548,19 @@ public class ErrorModel {
 		
 		signalWarning(error, s, b);		
 	}
+	
+
+	public void signalBindingInplaceInvalid(Binding b, Type rightType, EReference f) {
+		BindingInplaceInvalid error = AtlErrorFactory.eINSTANCE.createBindingInplaceInvalid();
+		initProblem(error, b);
+		
+		Type leftType = b.getLeftType();
+		error.setRightType(rightType);
+		error.setFeatureName(b.getPropertyName());
+
+		signalError(error, "Invalid binding assignment, " + TypeUtils.typeToString(leftType) + " <- " + TypeUtils.typeToString(rightType), b);
+	}
+
 	
 	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses) {
 		BindingPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createBindingPossiblyUnresolved();

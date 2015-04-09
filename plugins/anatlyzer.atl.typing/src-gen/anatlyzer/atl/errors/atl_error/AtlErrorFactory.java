@@ -130,6 +130,15 @@ public interface AtlErrorFactory extends EFactory {
 	FeatureNotFoundInUnionType createFeatureNotFoundInUnionType();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Operator</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Operator</em>'.
+	 * @generated
+	 */
+	InvalidOperator createInvalidOperator();
+
+	/**
 	 * Returns a new object of class '<em>Invalid Operand</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -407,6 +416,15 @@ public interface AtlErrorFactory extends EFactory {
 	 * @generated
 	 */
 	AccessToUndefinedValue createAccessToUndefinedValue();
+
+	/**
+	 * Returns a new object of class '<em>Binding Inplace Invalid</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Binding Inplace Invalid</em>'.
+	 * @generated
+	 */
+	BindingInplaceInvalid createBindingInplaceInvalid();
 
 	/**
 	 * Returns the package supported by this factory.

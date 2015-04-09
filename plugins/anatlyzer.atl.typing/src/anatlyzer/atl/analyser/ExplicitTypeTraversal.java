@@ -110,6 +110,16 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		// metaclass.setExplicitOcurrence(true);
 		attr.linkExprType(type);
 
+		checkReadingTargetModel(self);
+		
+	}	
+
+	/**
+	 * This is likely to be moved to a separate pass, because it seems to be more complex than this
+	 * @param self 
+	 */
+	protected void checkReadingTargetModel(OclModelElement self) {
+		OclModel metamodel = self.getModel();
 		
 		// TODO: Reading target model: Not sure if this may catch false cases
 		if ( root instanceof Module ) {
@@ -149,8 +159,8 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		
 		// I think there are ambiguous cases if the same meta-model
 		// appears in source and target, but perhaps only for bindings, so this is
-		// not the place to check
-	}	
+		// not the place to check		
+	}
 
 	// 
 	// Primitive types

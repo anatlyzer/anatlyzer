@@ -10,8 +10,9 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationCallInvalidNumberOfParameters()
- * @model
+ * @model annotation="description name='Invalid number of actual parameters' text='The number of actual parameters does not match the formal parameters'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
-public interface OperationCallInvalidNumberOfParameters extends OperationCallInvalid {
+public interface OperationCallInvalidNumberOfParameters extends OperationCallInvalid, RuntimeError {
 } // OperationCallInvalidNumberOfParameters

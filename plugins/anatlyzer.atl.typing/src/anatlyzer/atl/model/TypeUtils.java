@@ -218,5 +218,15 @@ public class TypeUtils {
 		return literal;
 	}
 
+	public static Type getUnderlyingType(Type t) {
+		if ( t instanceof UnionType ) {
+			throw new IllegalArgumentException();
+		}
+		if ( t instanceof CollectionType ) {
+			return ((CollectionType) t).getContainedType();
+		}
+		return t;
+	}
+
 	
 }

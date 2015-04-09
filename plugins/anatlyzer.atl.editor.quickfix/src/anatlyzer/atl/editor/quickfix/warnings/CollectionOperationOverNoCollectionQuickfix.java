@@ -4,12 +4,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
 /**
@@ -70,12 +68,6 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Replace arrow notation ('->') with dot notation ('.') ";
 	}
@@ -86,16 +78,8 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

@@ -36,7 +36,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getInferredType <em>Inferred Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getType <em>Type</em>}</li>
@@ -53,6 +52,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getOwningAttribute <em>Owning Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

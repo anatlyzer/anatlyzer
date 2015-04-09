@@ -73,9 +73,14 @@ package ATL {
 
   class OutPattern extends LocatedElement {
     !ordered ref Rule[1]#outPattern rule;
+    !ordered val DropPattern#outPattern dropPattern;    
     val OutPatternElement[+]#outPattern elements;
   }
 
+  class DropPattern extends LocatedElement {                  
+    !ordered ref OutPattern[1]#dropPattern outPattern;        
+  }                                                                 
+      
   abstract class PatternElement extends OCL.VariableDeclaration {
   }
 

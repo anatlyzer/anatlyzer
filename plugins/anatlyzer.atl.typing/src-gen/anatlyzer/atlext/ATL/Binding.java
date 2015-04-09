@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getValue <em>Value</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getOutPatternElement <em>Out Pattern Element</em>}</li>
@@ -26,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getLeftType <em>Left Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Binding#getResolvedBy <em>Resolved By</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getBinding()
  * @model

@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getValue <em>Value</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getOutPatternElement <em>Out Pattern Element</em>}</li>
@@ -43,6 +42,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getLeftType <em>Left Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getResolvedBy <em>Resolved By</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

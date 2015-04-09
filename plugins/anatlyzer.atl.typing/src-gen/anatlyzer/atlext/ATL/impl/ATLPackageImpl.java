@@ -13,6 +13,7 @@ import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.DropPattern;
 import anatlyzer.atlext.ATL.ExpressionStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
@@ -197,6 +198,13 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * @generated
 	 */
 	private EClass outPatternEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dropPatternEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -952,8 +960,35 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOutPattern_Elements() {
+	public EReference getOutPattern_DropPattern() {
 		return (EReference)outPatternEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOutPattern_Elements() {
+		return (EReference)outPatternEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDropPattern() {
+		return dropPatternEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDropPattern_OutPattern() {
+		return (EReference)dropPatternEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1559,7 +1594,11 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 
 		outPatternEClass = createEClass(OUT_PATTERN);
 		createEReference(outPatternEClass, OUT_PATTERN__RULE);
+		createEReference(outPatternEClass, OUT_PATTERN__DROP_PATTERN);
 		createEReference(outPatternEClass, OUT_PATTERN__ELEMENTS);
+
+		dropPatternEClass = createEClass(DROP_PATTERN);
+		createEReference(dropPatternEClass, DROP_PATTERN__OUT_PATTERN);
 
 		patternElementEClass = createEClass(PATTERN_ELEMENT);
 
@@ -1688,6 +1727,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		calledRuleEClass.getESuperTypes().add(this.getStaticRule());
 		inPatternEClass.getESuperTypes().add(this.getLocatedElement());
 		outPatternEClass.getESuperTypes().add(this.getLocatedElement());
+		dropPatternEClass.getESuperTypes().add(this.getLocatedElement());
 		patternElementEClass.getESuperTypes().add(theOCLPackage.getVariableDeclaration());
 		inPatternElementEClass.getESuperTypes().add(this.getPatternElement());
 		simpleInPatternElementEClass.getESuperTypes().add(this.getInPatternElement());
@@ -1785,7 +1825,11 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 
 		initEClass(outPatternEClass, OutPattern.class, "OutPattern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOutPattern_Rule(), this.getRule(), this.getRule_OutPattern(), "rule", null, 1, 1, OutPattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getOutPattern_DropPattern(), this.getDropPattern(), this.getDropPattern_OutPattern(), "dropPattern", null, 0, 1, OutPattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOutPattern_Elements(), this.getOutPatternElement(), this.getOutPatternElement_OutPattern(), "elements", null, 1, -1, OutPattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(dropPatternEClass, DropPattern.class, "DropPattern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDropPattern_OutPattern(), this.getOutPattern(), this.getOutPattern_DropPattern(), "outPattern", null, 1, 1, DropPattern.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(patternElementEClass, PatternElement.class, "PatternElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

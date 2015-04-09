@@ -50,7 +50,7 @@ public class ATLSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -230,6 +230,13 @@ public class ATLSwitch<T> extends Switch<T> {
 				OutPattern outPattern = (OutPattern)theEObject;
 				T result = caseOutPattern(outPattern);
 				if (result == null) result = caseLocatedElement(outPattern);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ATLPackage.DROP_PATTERN: {
+				DropPattern dropPattern = (DropPattern)theEObject;
+				T result = caseDropPattern(dropPattern);
+				if (result == null) result = caseLocatedElement(dropPattern);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -662,6 +669,21 @@ public class ATLSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseOutPattern(OutPattern object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Drop Pattern</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Drop Pattern</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDropPattern(DropPattern object) {
 		return null;
 	}
 

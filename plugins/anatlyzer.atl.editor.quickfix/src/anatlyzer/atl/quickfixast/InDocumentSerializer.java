@@ -10,21 +10,21 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
-import anatlyzer.atl.quickfixast.QuickfixScope.Action;
-import anatlyzer.atl.quickfixast.QuickfixScope.InsertAfterAction;
-import anatlyzer.atl.quickfixast.QuickfixScope.ReplacementAction;
+import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
+import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
+import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 public class InDocumentSerializer extends ATLSerializer {
 
-	private QuickfixScope<?> qs;
+	private QuickfixApplication qfa;
 	private IDocument document;
 	private Action currentAction;
 	private AtlNbCharFile help;
 
-	public InDocumentSerializer(QuickfixScope<?> qs, IDocument document) {
-		this.qs = qs;
+	public InDocumentSerializer(QuickfixApplication qfa, IDocument document) {
+		this.qfa = qfa;
 		this.document = document;
 
 		this.help = new AtlNbCharFile(new ByteArrayInputStream(document.get().getBytes()));
@@ -35,7 +35,7 @@ public class InDocumentSerializer extends ATLSerializer {
 		IDocumentExtension4 ext4 = (IDocumentExtension4) document;
 		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
 		
-		qs.getActions().forEach(a -> {
+		qfa.getActions().forEach(a -> {
 			this.currentAction = a;
 
 			startVisiting(a.getTgt());
@@ -55,7 +55,7 @@ public class InDocumentSerializer extends ATLSerializer {
 				start  = offsets[1];
 				length = 0;
 				// By default, add a carriage return...
-				s = '\n' + '\n' + s;
+				s = "\n\n" + s;
 			} else {
 				throw new UnsupportedOperationException();
 			}

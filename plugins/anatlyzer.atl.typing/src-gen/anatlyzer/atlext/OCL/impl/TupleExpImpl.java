@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleExpImpl#getTuplePart <em>Tuple Part</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

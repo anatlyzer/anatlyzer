@@ -6,14 +6,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.analyser.generators.TransformationSlicer;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.ui.util.WorkbenchUtil;
 
 public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
@@ -22,7 +20,6 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 	@Override
 	public void apply(IDocument document) {
 		try {
-			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
 
 			// analysisData.computeProblemGraph(problem);
@@ -42,11 +39,6 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Slice transformation at error";
 	}
@@ -57,22 +49,13 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isApplicable(IMarker marker) {
 		return true;
 	}
 
-
+	@Override
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException();
+	}
 
 }

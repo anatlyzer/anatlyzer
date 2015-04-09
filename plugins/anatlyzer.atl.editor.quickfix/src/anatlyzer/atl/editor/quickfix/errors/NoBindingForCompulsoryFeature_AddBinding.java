@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Point;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.OutPatternElement;
 
 public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfix {
@@ -65,12 +66,6 @@ public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfi
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Add a binding with some value in the right part";
 	}
@@ -81,16 +76,8 @@ public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfi
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

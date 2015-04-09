@@ -64,10 +64,12 @@
       </finder>
    </extension>
    <extension
+         id="anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFixSet"
+         name="Quickfixes for &quot;Feature not found&quot;"
          point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix">
-      </quickfix>
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.FeatureNotFoundQuickfixSet">
+      </quickfixset>
    </extension>
    <extension
          point="anatlyzer.atl.editor.quickfix">

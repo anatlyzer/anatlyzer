@@ -18,6 +18,7 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.ASTUtils;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
@@ -102,14 +103,6 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	
 	private Rule getContainerRule(OperationCallExp exp) {
 		return ATLUtils.getContainer(exp, Rule.class);
-//		EObject res = exp; 
-//		
-//		do {
-//			res = res.eContainer();
-//		} while (res != null && !(res instanceof Rule));
-//		
-//		if (res!=null) return (Rule)res;
-//		return null;
 	}
 	
 	private String getTypeName(Type inferredType) {		// This should be somewhere else...
@@ -245,12 +238,6 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Operation not found in thisModule: create helper or lay rule";
 	}
@@ -261,16 +248,8 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

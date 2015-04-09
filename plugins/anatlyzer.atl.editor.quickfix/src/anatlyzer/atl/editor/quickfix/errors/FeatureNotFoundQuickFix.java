@@ -16,7 +16,10 @@ import org.eclipse.swt.graphics.Point;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -53,8 +56,16 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 			Metaclass type = (Metaclass) e.getInferredType();
 			EClass eclass = type.getKlass();
 			this.attrs = eclass.getEAllStructuralFeatures().stream().
-							map( att -> att.getName() ).
+							map( att -> att.getName() ).							
 							collect(Collectors.toList());
+			
+			// Consider also attributes
+			List<Helper> allAttrHelpers = ATLUtils.getAllAttributes(getATLModel());
+			attrs.addAll(allAttrHelpers.stream().map(h -> ATLUtils.getHelperName(h)).collect(Collectors.toList()));
+			
+			// Could be checked that the selected names are also type
+			// compatible with the rest of the expression
+			
 			System.out.println("possible attrs: "+this.attrs);
 			
 			
@@ -114,6 +125,11 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 	public IContextInformation getContextInformation() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
 
 }

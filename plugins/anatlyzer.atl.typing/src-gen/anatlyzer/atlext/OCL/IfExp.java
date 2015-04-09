@@ -10,12 +10,12 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.IfExp#getThenExpression <em>Then Expression</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.IfExp#getCondition <em>Condition</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.IfExp#getElseExpression <em>Else Expression</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getIfExp()
  * @model

@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ActionBlockImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ActionBlockImpl#getStatements <em>Statements</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

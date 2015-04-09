@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getResolveTempResolution()
  * @model

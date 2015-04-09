@@ -11,10 +11,10 @@ import anatlyzer.atlext.OCL.OclExpression;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.ExpressionStat#getExpression <em>Expression</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getExpressionStat()
  * @model

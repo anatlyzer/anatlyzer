@@ -3,7 +3,9 @@ package anatlyzer.atl.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
 
@@ -32,6 +34,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
@@ -333,7 +336,46 @@ public class ATLUtils {
 		}
 		return rules;
 	}
+	
 
+	public static List<Helper> getAllAttributes(ATLModel model) {
+		List<Helper> result = getAllHelpers(model);
+		ListIterator<Helper> it = result.listIterator();
+		while ( it.hasNext() ) {
+			Helper h = it.next();
+			if ( ! (h.getDefinition().getFeature() instanceof Attribute) ) 
+				it.remove();
+		}
+		return result;
+	}
+
+	public static List<Helper> getAllOperations(ATLModel model) {
+		List<Helper> result = getAllHelpers(model);
+		ListIterator<Helper> it = result.listIterator();
+		while ( it.hasNext() ) {
+			Helper h = it.next();
+			if ( ! (h.getDefinition().getFeature() instanceof Operation) ) 
+				it.remove();
+		}
+		return result;
+	}
+	
+	public static List<Helper> getAllHelpers(ATLModel model) {
+		LinkedList<Helper> result = new LinkedList<Helper>();
+		Unit root = model.getRoot();
+		if ( root instanceof Module ) {
+			for(ModuleElement e : ((Module) root).getElements()) {
+				if ( e instanceof Helper ) 
+					result.add((Helper) e);
+			}
+		} else if ( root instanceof Library ) {
+			result.addAll(((Library) root).getHelpers());
+		} else if ( root instanceof Query ) {
+			result.addAll(((Library) root).getHelpers());
+		}
+		return result;
+	}
+	
 	private static OclModel createLibraryModel(ATLModel atlModel) {
 		OclModel m = OCLFactory.eINSTANCE.createOclModel();
 		TreeIterator<EObject> it = atlModel.getResource().getAllContents();
@@ -424,6 +466,7 @@ public class ATLUtils {
 	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {
 		return TypingModel.getInvolvedMetaclassesOfType(b.getValue().getInferredType());
 	}
+
 
 	
 }

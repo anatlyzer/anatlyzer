@@ -13,13 +13,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Module#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Module#getInModels <em>In Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Module#getOutModels <em>Out Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Module#getElements <em>Elements</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getModule()
  * @model

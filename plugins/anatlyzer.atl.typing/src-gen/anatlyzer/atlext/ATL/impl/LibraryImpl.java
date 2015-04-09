@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryImpl#getHelpers <em>Helpers</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
 public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix {
@@ -47,12 +48,6 @@ public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix 
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Remove a flatten applied to a non-nested collection";
 	}
@@ -63,16 +58,8 @@ public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix 
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

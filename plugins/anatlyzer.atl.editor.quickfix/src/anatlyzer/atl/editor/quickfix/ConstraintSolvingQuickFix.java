@@ -4,14 +4,13 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
@@ -34,45 +33,6 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-/*
-		try {
-			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
-			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
-			
-			analysisData.computeProblemGraph(problem);
-
-			EPackage errorSlice = analysisData.generateErrorSlice(problem);
-			EPackage effective  = analysisData.generateEffectiveMetamodel(problem);
-			EPackage language   = analysisData.getSourceMetamodel();
-			
-			String projectPath = WorkbenchUtil.getProjectPath();
-			
-			OclExpression constraint = new CSPGenerator(null).generateCSPCondition(analysisData.getPath());
-			if ( constraint == null ) {
-				MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
-				return;
-			}
-			
-			String strConstraint     = USESerializer.retypeAndGenerate(constraint);
-			
-			System.out.println("Quickfix: " + constraint);
-			
-			WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, strConstraint);
-			generator.setTempDirectoryPath(projectPath);
-			try {
-				if ( ! generator.generate() ) {
-					MessageDialog.openInformation(null, "Constraint solving", "No witness model could be found");
-				}
-			} catch (Exception e) {
-				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e.getMessage(), e);
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-*/
 	}
 
 
@@ -94,21 +54,15 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isApplicable(IMarker marker) {
 		// TODO: Decide which errors are amenable to constraint solving
 		return true;
+	}
+
+
+	@Override
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException();
 	}
 
 }

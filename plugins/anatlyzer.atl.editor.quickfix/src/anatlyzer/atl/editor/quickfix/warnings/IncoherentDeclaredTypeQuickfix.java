@@ -11,6 +11,7 @@ import org.eclipse.swt.graphics.Point;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -30,10 +31,6 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  *
  */
 public class IncoherentDeclaredTypeQuickfix extends AbstractAtlQuickfix {
-
-	public IncoherentDeclaredTypeQuickfix() {
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -84,16 +81,8 @@ public class IncoherentDeclaredTypeQuickfix extends AbstractAtlQuickfix {
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

@@ -10,10 +10,10 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.IterateExp#getResult <em>Result</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getIterateExp()
  * @model

@@ -11,12 +11,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OperationCallExp#getArguments <em>Arguments</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OperationCallExp#getOperationName <em>Operation Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OperationCallExp#getResolveTempResolvedBy <em>Resolve Temp Resolved By</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOperationCallExp()
  * @model

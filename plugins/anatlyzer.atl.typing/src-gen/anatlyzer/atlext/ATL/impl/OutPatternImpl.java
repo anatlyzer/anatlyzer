@@ -3,6 +3,7 @@
 package anatlyzer.atlext.ATL.impl;
 
 import anatlyzer.atlext.ATL.ATLPackage;
+import anatlyzer.atlext.ATL.DropPattern;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -29,15 +30,25 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getRule <em>Rule</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getDropPattern <em>Drop Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getElements <em>Elements</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
 public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
+	/**
+	 * The cached value of the '{@link #getDropPattern() <em>Drop Pattern</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDropPattern()
+	 * @generated
+	 * @ordered
+	 */
+	protected DropPattern dropPattern;
 	/**
 	 * The cached value of the '{@link #getElements() <em>Elements</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -113,6 +124,49 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public DropPattern getDropPattern() {
+		return dropPattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDropPattern(DropPattern newDropPattern, NotificationChain msgs) {
+		DropPattern oldDropPattern = dropPattern;
+		dropPattern = newDropPattern;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ATLPackage.OUT_PATTERN__DROP_PATTERN, oldDropPattern, newDropPattern);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDropPattern(DropPattern newDropPattern) {
+		if (newDropPattern != dropPattern) {
+			NotificationChain msgs = null;
+			if (dropPattern != null)
+				msgs = ((InternalEObject)dropPattern).eInverseRemove(this, ATLPackage.DROP_PATTERN__OUT_PATTERN, DropPattern.class, msgs);
+			if (newDropPattern != null)
+				msgs = ((InternalEObject)newDropPattern).eInverseAdd(this, ATLPackage.DROP_PATTERN__OUT_PATTERN, DropPattern.class, msgs);
+			msgs = basicSetDropPattern(newDropPattern, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ATLPackage.OUT_PATTERN__DROP_PATTERN, newDropPattern, newDropPattern));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<OutPatternElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentWithInverseEList<OutPatternElement>(OutPatternElement.class, this, ATLPackage.OUT_PATTERN__ELEMENTS, ATLPackage.OUT_PATTERN_ELEMENT__OUT_PATTERN);
@@ -133,6 +187,10 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetRule((Rule)otherEnd, msgs);
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				if (dropPattern != null)
+					msgs = ((InternalEObject)dropPattern).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ATLPackage.OUT_PATTERN__DROP_PATTERN, null, msgs);
+				return basicSetDropPattern((DropPattern)otherEnd, msgs);
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getElements()).basicAdd(otherEnd, msgs);
 		}
@@ -149,6 +207,8 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 		switch (featureID) {
 			case ATLPackage.OUT_PATTERN__RULE:
 				return basicSetRule(null, msgs);
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				return basicSetDropPattern(null, msgs);
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				return ((InternalEList<?>)getElements()).basicRemove(otherEnd, msgs);
 		}
@@ -179,6 +239,8 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 		switch (featureID) {
 			case ATLPackage.OUT_PATTERN__RULE:
 				return getRule();
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				return getDropPattern();
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				return getElements();
 		}
@@ -196,6 +258,9 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 		switch (featureID) {
 			case ATLPackage.OUT_PATTERN__RULE:
 				setRule((Rule)newValue);
+				return;
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				setDropPattern((DropPattern)newValue);
 				return;
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				getElements().clear();
@@ -216,6 +281,9 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 			case ATLPackage.OUT_PATTERN__RULE:
 				setRule((Rule)null);
 				return;
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				setDropPattern((DropPattern)null);
+				return;
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				getElements().clear();
 				return;
@@ -233,6 +301,8 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 		switch (featureID) {
 			case ATLPackage.OUT_PATTERN__RULE:
 				return getRule() != null;
+			case ATLPackage.OUT_PATTERN__DROP_PATTERN:
+				return dropPattern != null;
 			case ATLPackage.OUT_PATTERN__ELEMENTS:
 				return elements != null && !elements.isEmpty();
 		}

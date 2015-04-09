@@ -67,6 +67,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 			case ATLPackage.CALLED_RULE: return createCalledRule();
 			case ATLPackage.IN_PATTERN: return createInPattern();
 			case ATLPackage.OUT_PATTERN: return createOutPattern();
+			case ATLPackage.DROP_PATTERN: return createDropPattern();
 			case ATLPackage.SIMPLE_IN_PATTERN_ELEMENT: return createSimpleInPatternElement();
 			case ATLPackage.SIMPLE_OUT_PATTERN_ELEMENT: return createSimpleOutPatternElement();
 			case ATLPackage.FOR_EACH_OUT_PATTERN_ELEMENT: return createForEachOutPatternElement();
@@ -193,6 +194,16 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	public OutPattern createOutPattern() {
 		OutPatternImpl outPattern = new OutPatternImpl();
 		return outPattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DropPattern createDropPattern() {
+		DropPatternImpl dropPattern = new DropPatternImpl();
+		return dropPattern;
 	}
 
 	/**

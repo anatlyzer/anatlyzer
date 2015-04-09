@@ -20,6 +20,7 @@ import org.eclipse.swt.graphics.Point;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
@@ -188,5 +189,8 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 		return null;
 	}
 
-
+	@Override
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
+	}
 }

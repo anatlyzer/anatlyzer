@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#getChildren <em>Children</em>}</li>
@@ -36,6 +35,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#isIsNoDefault <em>Is No Default</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

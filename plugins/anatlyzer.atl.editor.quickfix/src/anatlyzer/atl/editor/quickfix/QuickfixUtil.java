@@ -5,7 +5,10 @@ import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.types.Unknown;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 
 public abstract class QuickfixUtil {
 	protected boolean checkProblemType(IMarker marker, Class<?> class1) {
@@ -23,5 +26,10 @@ public abstract class QuickfixUtil {
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		}		
+	}
+	
+	public Type determineReturnType(PropertyCallExp pcall) {
+		Unknown anyType = TypesFactory.eINSTANCE.createUnknown();
+		return anyType;		
 	}
 }

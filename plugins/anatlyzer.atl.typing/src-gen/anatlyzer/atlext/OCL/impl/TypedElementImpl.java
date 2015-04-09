@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TypedElementImpl#getInferredType <em>Inferred Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

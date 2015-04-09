@@ -14,7 +14,6 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.VariableDeclaration#getId <em>Id</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.VariableDeclaration#getVarName <em>Var Name</em>}</li>
@@ -25,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atlext.OCL.VariableDeclaration#getVariableExp <em>Variable Exp</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.VariableDeclaration#getStaticType <em>Static Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getVariableDeclaration()
  * @model

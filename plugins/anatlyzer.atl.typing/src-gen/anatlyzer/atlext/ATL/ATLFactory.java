@@ -121,6 +121,15 @@ public interface ATLFactory extends EFactory {
 	OutPattern createOutPattern();
 
 	/**
+	 * Returns a new object of class '<em>Drop Pattern</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Drop Pattern</em>'.
+	 * @generated
+	 */
+	DropPattern createDropPattern();
+
+	/**
 	 * Returns a new object of class '<em>Simple In Pattern Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

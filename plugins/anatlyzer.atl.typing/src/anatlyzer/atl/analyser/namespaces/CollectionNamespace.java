@@ -83,6 +83,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 				
 		if ( operationName.equals("append") || operationName.equals("including") || operationName.equals("prepend") || 
 				operationName.equals("excluding") ) {
+			// TODO: notify invalid number of arguments
 			CollectionType r = newCollectionType(typ.getCommonType(this.nested, arguments[0]));
 			return r;
 		}

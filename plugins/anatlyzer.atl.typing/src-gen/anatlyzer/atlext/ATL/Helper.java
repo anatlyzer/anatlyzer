@@ -12,7 +12,6 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Helper#getQuery <em>Query</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Helper#getLibrary <em>Library</em>}</li>
@@ -22,6 +21,7 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
  *   <li>{@link anatlyzer.atlext.ATL.Helper#getInferredReturnType <em>Inferred Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Helper#getStaticReturnType <em>Static Return Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getHelper()
  * @model abstract="true"

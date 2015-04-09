@@ -1,10 +1,5 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,29 +7,17 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
-import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
-import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.types.CollectionType;
-import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
-import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends OperationNotFoundAbstractQuickFix {
@@ -127,12 +110,6 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		OperationCallExp res = this.getElement();
 		return "Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest();
@@ -145,15 +122,8 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
 
 

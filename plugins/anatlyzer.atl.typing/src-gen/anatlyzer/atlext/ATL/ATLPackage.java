@@ -2418,13 +2418,22 @@ public interface ATLPackage extends EPackage {
 	int OUT_PATTERN__RULE = LOCATED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Drop Pattern</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN__DROP_PATTERN = LOCATED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OUT_PATTERN__ELEMENTS = LOCATED_ELEMENT_FEATURE_COUNT + 1;
+	int OUT_PATTERN__ELEMENTS = LOCATED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Out Pattern</em>' class.
@@ -2433,7 +2442,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OUT_PATTERN_FEATURE_COUNT = LOCATED_ELEMENT_FEATURE_COUNT + 2;
+	int OUT_PATTERN_FEATURE_COUNT = LOCATED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Out Pattern</em>' class.
@@ -2445,6 +2454,97 @@ public interface ATLPackage extends EPackage {
 	int OUT_PATTERN_OPERATION_COUNT = LOCATED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.ATL.impl.DropPatternImpl <em>Drop Pattern</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.ATL.impl.DropPatternImpl
+	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getDropPattern()
+	 * @generated
+	 */
+	int DROP_PATTERN = 19;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__LOCATION = LOCATED_ELEMENT__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Comments Before</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__COMMENTS_BEFORE = LOCATED_ELEMENT__COMMENTS_BEFORE;
+
+	/**
+	 * The feature id for the '<em><b>Comments After</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__COMMENTS_AFTER = LOCATED_ELEMENT__COMMENTS_AFTER;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__FILE_LOCATION = LOCATED_ELEMENT__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Object</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__FILE_OBJECT = LOCATED_ELEMENT__FILE_OBJECT;
+
+	/**
+	 * The feature id for the '<em><b>Problems</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Out Pattern</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__OUT_PATTERN = LOCATED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Drop Pattern</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN_FEATURE_COUNT = LOCATED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Drop Pattern</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN_OPERATION_COUNT = LOCATED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atlext.ATL.impl.PatternElementImpl <em>Pattern Element</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2452,7 +2552,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getPatternElement()
 	 * @generated
 	 */
-	int PATTERN_ELEMENT = 19;
+	int PATTERN_ELEMENT = 20;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2615,7 +2715,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getInPatternElement()
 	 * @generated
 	 */
-	int IN_PATTERN_ELEMENT = 20;
+	int IN_PATTERN_ELEMENT = 21;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2805,7 +2905,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getSimpleInPatternElement()
 	 * @generated
 	 */
-	int SIMPLE_IN_PATTERN_ELEMENT = 21;
+	int SIMPLE_IN_PATTERN_ELEMENT = 22;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2995,7 +3095,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getOutPatternElement()
 	 * @generated
 	 */
-	int OUT_PATTERN_ELEMENT = 22;
+	int OUT_PATTERN_ELEMENT = 23;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3194,7 +3294,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getSimpleOutPatternElement()
 	 * @generated
 	 */
-	int SIMPLE_OUT_PATTERN_ELEMENT = 23;
+	int SIMPLE_OUT_PATTERN_ELEMENT = 24;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3402,7 +3502,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getForEachOutPatternElement()
 	 * @generated
 	 */
-	int FOR_EACH_OUT_PATTERN_ELEMENT = 24;
+	int FOR_EACH_OUT_PATTERN_ELEMENT = 25;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3619,7 +3719,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getBinding()
 	 * @generated
 	 */
-	int BINDING = 25;
+	int BINDING = 26;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3764,7 +3864,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getRuleVariableDeclaration()
 	 * @generated
 	 */
-	int RULE_VARIABLE_DECLARATION = 26;
+	int RULE_VARIABLE_DECLARATION = 27;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3936,7 +4036,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getLibraryRef()
 	 * @generated
 	 */
-	int LIBRARY_REF = 27;
+	int LIBRARY_REF = 28;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4036,7 +4136,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getActionBlock()
 	 * @generated
 	 */
-	int ACTION_BLOCK = 28;
+	int ACTION_BLOCK = 29;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4136,7 +4236,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getStatement()
 	 * @generated
 	 */
-	int STATEMENT = 29;
+	int STATEMENT = 30;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4218,7 +4318,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getExpressionStat()
 	 * @generated
 	 */
-	int EXPRESSION_STAT = 30;
+	int EXPRESSION_STAT = 31;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4309,7 +4409,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getBindingStat()
 	 * @generated
 	 */
-	int BINDING_STAT = 31;
+	int BINDING_STAT = 32;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4427,7 +4527,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getIfStat()
 	 * @generated
 	 */
-	int IF_STAT = 32;
+	int IF_STAT = 33;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4536,7 +4636,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getForStat()
 	 * @generated
 	 */
-	int FOR_STAT = 33;
+	int FOR_STAT = 34;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4645,7 +4745,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getCallableParameter()
 	 * @generated
 	 */
-	int CALLABLE_PARAMETER = 34;
+	int CALLABLE_PARAMETER = 35;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4700,7 +4800,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getRuleResolutionInfo()
 	 * @generated
 	 */
-	int RULE_RESOLUTION_INFO = 35;
+	int RULE_RESOLUTION_INFO = 36;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' reference.
@@ -5403,6 +5503,17 @@ public interface ATLPackage extends EPackage {
 	EReference getOutPattern_Rule();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link anatlyzer.atlext.ATL.OutPattern#getDropPattern <em>Drop Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Drop Pattern</em>'.
+	 * @see anatlyzer.atlext.ATL.OutPattern#getDropPattern()
+	 * @see #getOutPattern()
+	 * @generated
+	 */
+	EReference getOutPattern_DropPattern();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link anatlyzer.atlext.ATL.OutPattern#getElements <em>Elements</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5412,6 +5523,27 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOutPattern_Elements();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atlext.ATL.DropPattern <em>Drop Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Drop Pattern</em>'.
+	 * @see anatlyzer.atlext.ATL.DropPattern
+	 * @generated
+	 */
+	EClass getDropPattern();
+
+	/**
+	 * Returns the meta object for the container reference '{@link anatlyzer.atlext.ATL.DropPattern#getOutPattern <em>Out Pattern</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Out Pattern</em>'.
+	 * @see anatlyzer.atlext.ATL.DropPattern#getOutPattern()
+	 * @see #getDropPattern()
+	 * @generated
+	 */
+	EReference getDropPattern_OutPattern();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.ATL.PatternElement <em>Pattern Element</em>}'.
@@ -6559,12 +6691,38 @@ public interface ATLPackage extends EPackage {
 		EReference OUT_PATTERN__RULE = eINSTANCE.getOutPattern_Rule();
 
 		/**
+		 * The meta object literal for the '<em><b>Drop Pattern</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OUT_PATTERN__DROP_PATTERN = eINSTANCE.getOutPattern_DropPattern();
+
+		/**
 		 * The meta object literal for the '<em><b>Elements</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference OUT_PATTERN__ELEMENTS = eINSTANCE.getOutPattern_Elements();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.DropPatternImpl <em>Drop Pattern</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.ATL.impl.DropPatternImpl
+		 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getDropPattern()
+		 * @generated
+		 */
+		EClass DROP_PATTERN = eINSTANCE.getDropPattern();
+
+		/**
+		 * The meta object literal for the '<em><b>Out Pattern</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DROP_PATTERN__OUT_PATTERN = eINSTANCE.getDropPattern_OutPattern();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.PatternElementImpl <em>Pattern Element</em>}' class.

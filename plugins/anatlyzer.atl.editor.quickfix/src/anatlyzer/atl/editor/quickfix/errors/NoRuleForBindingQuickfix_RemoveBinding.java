@@ -10,6 +10,7 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
 
@@ -75,15 +76,8 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends AbstractAtlQuickfix 
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
 
 

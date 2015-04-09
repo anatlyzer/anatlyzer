@@ -13,12 +13,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.InPatternElement#getMapsTo <em>Maps To</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.InPatternElement#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.InPatternElement#getModels <em>Models</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getInPatternElement()
  * @model abstract="true"

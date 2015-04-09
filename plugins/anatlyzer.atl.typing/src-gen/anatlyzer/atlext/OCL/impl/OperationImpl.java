@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getReturnType <em>Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getBody <em>Body</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

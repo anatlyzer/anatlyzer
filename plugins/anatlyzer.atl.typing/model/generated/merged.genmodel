@@ -92,7 +92,12 @@
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//ATL/OutPattern">
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPattern/rule"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPattern/dropPattern"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference merged.ecore#//ATL/OutPattern/elements"/>
+      </genClasses>
+      <genClasses ecoreClass="merged.ecore#//ATL/DropPattern">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//ATL/DropPattern/outPattern"/>
       </genClasses>
       <genClasses image="false" ecoreClass="merged.ecore#//ATL/PatternElement"/>
       <genClasses image="false" ecoreClass="merged.ecore#//ATL/InPatternElement">

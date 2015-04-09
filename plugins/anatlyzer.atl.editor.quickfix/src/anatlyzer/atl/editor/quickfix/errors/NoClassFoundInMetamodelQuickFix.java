@@ -20,6 +20,7 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -91,12 +92,6 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getAdditionalProposalInfo() {
 		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
 	}
@@ -107,17 +102,8 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 	}
 
 	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+	public QuickfixApplication getQuickfixApplication() {
+		throw new UnsupportedOperationException("To be implemented");
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 }

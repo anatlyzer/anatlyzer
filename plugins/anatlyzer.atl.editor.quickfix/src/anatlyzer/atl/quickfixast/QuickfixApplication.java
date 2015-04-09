@@ -9,30 +9,37 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.OCL.OclExpression;
 
-public class QuickfixScope<T extends LocatedElement> {
-	private T root;
-	private T originalRoot;
+/**
+ * This class represents a modification in the AST, allowing
+ * to keep track of the changes for a proper subsequent handling,
+ * for instance layout-preserving serialization.
+ * @author jesus
+ *
+ * @param <T>
+ */
+public class QuickfixApplication {
 
-	private ArrayList<Action> actions = new ArrayList<QuickfixScope.Action>();
+	private ArrayList<Action> actions = new ArrayList<QuickfixApplication.Action>();
 	
-	@SuppressWarnings("unchecked")
-	public QuickfixScope(T root) {
-		this.originalRoot = root;
-		this.root         = (T) ATLCopier.copySingleElement(root);
-	}
-
 	public List<Action> getActions() {
 		return actions;
 	}
 	
-	public void replace(BiFunction<T, Trace, T> replacer) {
+	public <T extends EObject> void replace(T originalRoot, BiFunction<T, Trace, T> replacer) {
+		@SuppressWarnings("unchecked")
+		T root = (T) ATLCopier.copySingleElement(originalRoot);
+		
 		Trace trace = new Trace();
 		T r = replacer.apply(root, trace);
 		ReplacementAction action = new ReplacementAction(root, r, trace);
@@ -44,7 +51,19 @@ public class QuickfixScope<T extends LocatedElement> {
 	}
 	
 	public <A extends LocatedElement, B extends LocatedElement> void insertAfter(A anchor, Supplier<B> supplier) {
-		actions.add(new InsertAfterAction(anchor, supplier.get()));
+		B element = supplier.get();
+		
+		// Add the creted element following the the anchor element
+		EStructuralFeature feature = anchor.eContainingFeature();
+		if ( ! (feature instanceof EReference) || ! feature.isMany() ) {
+			throw new IllegalArgumentException();
+		}
+		EObject parent = anchor.eContainer();
+		@SuppressWarnings("unchecked")
+		EList<EObject> list = (EList<EObject>) parent.eGet(feature);
+		list.add(list.indexOf(anchor) + 1 , element);
+		
+		actions.add(new InsertAfterAction(anchor, element));
 	}
 	
 	public static class Trace {

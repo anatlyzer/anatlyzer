@@ -159,6 +159,18 @@ public class TypeUtils {
 		return false;
 	}
 	
+	public static boolean isUnionWithCollections(Type type) {
+		if ( type instanceof UnionType ) {
+			UnionType u = (UnionType) type;
+			for (Type t : u.getPossibleTypes()) {
+				if ( ! ( t instanceof CollectionType) ) 
+					return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public static String getNonQualifiedTypeName(Type t) {
 		if ( t == null ) 
 			throw new IllegalArgumentException();
@@ -227,6 +239,7 @@ public class TypeUtils {
 		}
 		return t;
 	}
+
 
 	
 }

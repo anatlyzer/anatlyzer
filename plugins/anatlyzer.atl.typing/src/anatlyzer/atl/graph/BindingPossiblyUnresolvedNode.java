@@ -24,6 +24,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.StaticRule;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -100,13 +101,22 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			
 			OclExpression lastExpr = genAndRules(model, rules, varDcl);
 			
-			// lastIf.setElseExpression(model.createBooleanLiteral(false));
-			
 			exists.setBody(lastExpr);
 			
 			result = exists;
 		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
 			result = createReferenceConstraint(model, rules, value);
+		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
+			CollectionOperationCallExp flattened = model.createCollectionOperationCall(value, "flatten");
+			
+			// Same as the previous if...
+			IteratorExp exists = model.createExists(flattened, "_problem_");
+			VariableDeclaration varDcl = exists.getIterators().get(0);
+			
+			OclExpression lastExpr = genAndRules(model, rules, varDcl);
+			
+			exists.setBody(lastExpr);
+			result = exists;
 		} else {
 			// TODO: For union types with mixed collections and mono-valued elements, Sequence { value }->flatten()
 			throw new IllegalStateException(this.binding.getLocation() + " " + TypeUtils.typeToString(ATLUtils.getSourceType(binding)));

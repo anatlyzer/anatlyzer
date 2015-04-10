@@ -212,7 +212,7 @@ public class Retyping extends AbstractVisitor {
 			if ( self.getStaticResolver() == null ) {
 				VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
 				thisModuleRef.setReferredVariable(getThisModuleVar());
-				self.getArguments().add(thisModuleRef);
+				self.getArguments().add(0, thisModuleRef);
 			} else {
 				throw new IllegalStateException();
 			}
@@ -224,10 +224,11 @@ public class Retyping extends AbstractVisitor {
 
 		// It is not a built-in function, and thus it is helper defined in the transformation 
 		// (unless it is an error, that has not been automatically fixed)
+
 		if ( self.getStaticResolver() != null ) { 
 			VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
 			thisModuleRef.setReferredVariable(getThisModuleVar());
-			self.getArguments().add(thisModuleRef);
+			self.getArguments().add(0, thisModuleRef);
 		}
 		
 		// if ( self.getSource().getInferredType() instanceof CollectionType ) {

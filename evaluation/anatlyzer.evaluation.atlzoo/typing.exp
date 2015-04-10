@@ -22,3 +22,6 @@ projects:
 -  name: KM32OWL
 -  name: KM32XML
 -  name: KMLInjector
+-  name: Make2Ant
+-  name: Maven2Ant
+    ignoredFiles: [ Ant2XML.atl ]  # A copy of the one in Make2Ant

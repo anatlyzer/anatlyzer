@@ -12,9 +12,18 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.ui.util.AtlEngineUtils;
 
-public class AbstractATLExperiment {
+public abstract class AbstractATLExperiment  implements IExperiment {
+	
+	protected IFile experimentFile;
+
+	@Override
+	public void setExperimentConfiguration(IFile file) {
+		this.experimentFile = file;
+	}
+	
 	protected AnalyserData executeAnalyser(IResource resource)
 			throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile) resource;
@@ -24,8 +33,13 @@ public class AbstractATLExperiment {
 			return null; 
 		}
 
-		AnalyserData data = new AnalyserExecutor().exec(resource, atlModel, false);
-		return data;
+		return executeAnalyser(resource, atlModel);
+	}
+
+	protected AnalyserData executeAnalyser(IResource resource, ATLModel atlModel)
+			throws IOException, CoreException, CannotLoadMetamodel {
+
+		return new AnalyserExecutor().exec(resource, atlModel, false);
 	}
 
 }

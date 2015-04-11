@@ -1,4 +1,4 @@
 name: Quickfix application
 extensionID: typing.experiment.applyQuickfixes
 projects: 
--  name: Ant2Maven
+-  name: anatlyzer.example.issre2014

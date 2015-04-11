@@ -139,20 +139,20 @@ public class ATLModel {
 	}
 
 	/**
-	 * Creates a copy of the abstract syntax.
-	 * @return
+	 * Creates a copy of the abstract syntax, but it does not copy the
+	 * types and errors attached, if any.
+	 * @return a copy
 	 */
-//  Removed because it is not well-implemented, references between problems and the AST are not properly redirected.
-//	public ATLModel copy() {
-//		ATLModel atlModel = new ATLModel();
-//	
-//		Collection<EObject> c = EcoreUtil.copyAll(this.resource.getContents());
-//		atlModel.resource.getContents().addAll(c);
-//		atlModel.fileLocations.addAll(this.fileLocations);
-//		atlModel.errors = new ErrorModel(atlModel.resource);
-//		atlModel.typing = new TypingModel(atlModel.resource);
-//		
-//		return atlModel;
-//	}
+	public ATLModel copyAST() {
+		ATLModel atlModel = new ATLModel();
+	
+		Collection<EObject> c = EcoreUtil.copyAll(this.resource.getContents());
+		atlModel.resource.getContents().addAll(c);
+		atlModel.fileLocations.addAll(this.fileLocations);
+		atlModel.errors = new ErrorModel(atlModel.resource);
+		atlModel.typing = new TypingModel(atlModel.resource);
+		
+		return atlModel;
+	}
 	
 }

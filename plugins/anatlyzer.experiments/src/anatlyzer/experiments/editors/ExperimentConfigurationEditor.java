@@ -313,6 +313,8 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			
 			try {
 				experiment = (IExperiment) c.createExecutableExtension("delegate");
+				IFileEditorInput input = (IFileEditorInput) getEditorInput();
+				experiment.setExperimentConfiguration(input.getFile());
 			} catch (CoreException e) {
 				text.setText(e.getMessage());
 				e.printStackTrace();

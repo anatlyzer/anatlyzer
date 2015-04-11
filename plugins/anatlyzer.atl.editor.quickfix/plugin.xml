@@ -89,4 +89,10 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.NoBindingForCompulsoryFeatureQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.ResolveTempOutputPatternElementNotFound_QuickFix">
+      </quickfix>
+   </extension>
 </plugin>

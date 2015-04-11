@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<graphicR:GraphicRepresentation xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:graphicR="http://mondo.org/graphic_representation/1.0" name="WindTurbines">
+  <allGraphicRepresentation>
+    <elements xsi:type="graphicR:Edge">
+      <anEClass href="WindTurbines.ecore#//Edge"/>
+      <diag_palette palette_name="Edge"/>
+      <containerReference href="WindTurbines.ecore#//StateMachine/transitions"/>
+      <directions sourceDiagramElement="//@allGraphicRepresentation.0/@elements.1 //@allGraphicRepresentation.0/@elements.2" targetDiagramElement="//@allGraphicRepresentation.0/@elements.1 //@allGraphicRepresentation.0/@elements.2">
+        <source href="WindTurbines.ecore#//Edge/source"/>
+        <target href="WindTurbines.ecore#//Edge/target"/>
+      </directions>
+    </elements>
+    <elements xsi:type="graphicR:Node">
+      <anEClass href="WindTurbines.ecore#//SimpleState"/>
+      <diag_palette palette_name="SimpleState"/>
+      <containerReference href="WindTurbines.ecore#//StateMachine/states"/>
+      <node_elements xsi:type="graphicR:Link"/>
+      <node_elements xsi:type="graphicR:Compartment"/>
+      <node_elements xsi:type="graphicR:Label">
+        <anEAttribute href="WindTurbines.ecore#//DocumElt/name"/>
+      </node_elements>
+      <node_shape xsi:type="graphicR:Ellipse" horizontalDiameter="5" verticalDiameter="5"/>
+    </elements>
+    <elements xsi:type="graphicR:Node">
+      <anEClass href="WindTurbines.ecore#//InitialState"/>
+      <diag_palette palette_name="InitialState"/>
+      <containerReference href="WindTurbines.ecore#//StateMachine/states"/>
+      <node_elements xsi:type="graphicR:Link"/>
+      <node_elements xsi:type="graphicR:Compartment"/>
+      <node_elements xsi:type="graphicR:Label">
+        <anEAttribute href="WindTurbines.ecore#//DocumElt/name"/>
+      </node_elements>
+      <node_shape xsi:type="graphicR:Rectangle" width="3" height="3"/>
+    </elements>
+    <root>
+      <anEClass href="WindTurbines.ecore#//StateMachine"/>
+    </root>
+  </allGraphicRepresentation>
+</graphicR:GraphicRepresentation>

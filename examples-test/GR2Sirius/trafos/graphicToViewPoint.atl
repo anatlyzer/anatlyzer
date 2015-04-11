@@ -1,0 +1,185 @@
+-- @path graphicR=./GR2Sirius/metamodels/Graphic_Representation.ecore
+-- @path odesign=./GR2Sirius/metamodels/viewpoint.ecore
+
+module graphicToViewPoint;
+create OUT : odesign from IN : graphicR;
+
+
+rule GraphicRepresentationToGoup {
+	from g: graphicR!GraphicRepresentation
+	to o: odesign!Group(
+		name <- g.name,
+		ownedViewpoints <- g.allGraphicRepresentation
+	)
+}
+
+rule MMGraphicRepresentationTo{
+	from mm:graphicR!MMGraphic_Representation
+	to o: odesign!Viewpoint(
+			name <- 'Vp'.concat(mm.root.anEClass.name),
+			modelFileExtension <- 'state',
+			ownedRepresentations <- thisModule.CreateDiagramDescription(mm)
+		)	
+}
+
+lazy rule CreateDiagramDescription{
+	from
+		mm:graphicR!MMGraphic_Representation
+	to 
+		ownedRepresentation:odesign!DiagramDescription (
+			name <- 'DD'.concat(mm.root.anEClass.name),	
+			domainClass <- mm.root.anEClass.ePackage.name.concat('.').concat(mm.root.anEClass.name),
+			defaultLayer <- thisModule.CreateDefaultLayer(mm)			
+		)
+}
+
+lazy rule CreateDefaultLayer{
+	from
+		mm:graphicR!MMGraphic_Representation
+	to 
+		layer : odesign!Layer (
+			name <- 'Default',
+			nodeMappings <- mm.elements->select(e | e.isNode()),
+			edgeMappings <- mm.elements->select(e | e.isEdge()),
+			toolSections <- thisModule.CreateToolSection(mm)
+			)			
+}
+
+--Method for Create the Palette Section
+lazy rule CreateToolSection{
+	from 
+		mm:graphicR!MMGraphic_Representation
+	to 
+		ownedRepresentation:odesign!ToolSection(
+			name <- 'DefaultPalette',
+			ownedTools <-  mm.elements->collect(c | thisModule.resolveTemp(c, 'CreateSection'))
+		)
+}
+
+
+rule CreateNodeMapping {
+	from
+		diagElement:graphicR!Node(diagElement.isNode())
+	to 
+		n : odesign!NodeMapping (
+			name <- 'Id'.concat(diagElement.anEClass.name),
+			domainClass <- diagElement.refImmediateComposite().root.
+						anEClass.ePackage.name.concat('.').concat(diagElement.anEClass.name),
+			semanticCandidatesExpression <- 'feature:'.concat(diagElement.containerReference.name),
+			style <- diagElement.node_shape
+		),
+		CreateSection : odesign!NodeCreationDescription (
+			name <- 'IdCreation'.concat(diagElement.anEClass.name),
+			nodeMappings <- n,
+			initialOperation <- InitialOperation
+		),
+		InitialOperation : odesign!InitialNodeCreationOperation(
+			firstModelOperations <- FirstOperation
+		),
+		FirstOperation : odesign!CreateInstance(
+			referenceName <- diagElement.containerReference.name,
+			typeName <- diagElement.refImmediateComposite().root.
+						anEClass.ePackage.name.concat('.').concat(diagElement.anEClass.name)			
+		)
+}
+
+rule CreateEllipse{
+		from d:graphicR!Ellipse
+		to e: odesign!EllipseNodeDescription(
+			horizontalDiameterComputationExpression <- d.horizontalDiameter.toString(), 
+			verticalDiameterComputationExpression <- d.verticalDiameter.toString()
+		)		
+}
+
+rule CreateSquare{
+		from d:graphicR!Rectangle
+		to e: odesign!SquareDescription(
+			width <- d.width, 
+			height <- d.height
+		)		
+}
+
+rule CreateEdgeMapping {
+		from
+			diagElement:graphicR!Edge(diagElement.isEdge())
+		to 
+			e : odesign!EdgeMapping (
+				name <- 'Id'.concat(diagElement.anEClass.name),
+				domainClass <- diagElement.refImmediateComposite().root.
+							anEClass.ePackage.name.concat('.').concat(diagElement.anEClass.name),
+				useDomainElement <- true,
+				semanticCandidatesExpression <- '['.concat(diagElement.containerReference.name).concat('/]'),
+				sourceFinderExpression <- '[self.'.concat(diagElement.directions.source.name).concat('/]'),
+				targetFinderExpression <- '[self.'.concat(diagElement.directions.target.name).concat('/]'),						
+				sourceMapping <- diagElement.directions.sourceDiagramElement,
+				targetMapping <- diagElement.directions.targetDiagramElement,
+				style <- thisModule.CreateDefaultStyle(diagElement)
+			),
+			CreateSection : odesign!EdgeCreationDescription(
+				name <- 'IdCreation'.concat(diagElement.anEClass.name),
+				edgeMappings <- e,
+				initialOperation <- InitialOperation
+			),
+			InitialOperation : odesign!InitEdgeCreationOperation(
+				firstModelOperations <-FirstEdgeOperation
+			),
+			FirstEdgeOperation : odesign!ChangeContext(
+				browseExpression <- '[source.eContainer("'.concat(diagElement.containerReference.eContainingClass.name).concat('")/]'),
+				subModelOperations <- OperationInstance				
+			),
+			OperationInstance : odesign!CreateInstance(
+				typeName <- diagElement.refImmediateComposite().root.
+							anEClass.ePackage.name.concat('.').concat(diagElement.anEClass.name),
+				referenceName <- diagElement.containerReference.name,
+				subModelOperations <- SubModelOperation
+			),
+			SubModelOperation : odesign!SetValue(
+				featureName <- diagElement.directions.source.name,
+				valueExpression <- 'var:'.concat(diagElement.directions.source.name),
+				subModelOperations <- SubSubModelOperation
+			),
+			SubSubModelOperation : odesign!SetValue(
+				featureName <- diagElement.directions.target.name,
+				valueExpression <- 'var:'.concat(diagElement.directions.target.name)
+			)
+}
+
+lazy rule CreateDefaultStyle{
+		from diagElement:graphicR!Edge
+		to e: odesign!EdgeStyleDescription(
+			centerLabelStyleDescription <- thisModule.CreateCenterLabelStyleDescription(diagElement)
+			)
+}
+
+lazy rule CreateCenterLabelStyleDescription{
+	from diagElement:graphicR!Edge
+	to e: odesign!CenterLabelStyleDescription()
+}
+
+helper context graphicR!DiagramElement def: isNode(): Boolean =
+	if self.oclIsTypeOf(graphicR!Node) then
+		true
+		else
+			false
+			endif;
+
+helper context graphicR!DiagramElement def: isEdge(): Boolean =
+	if self.oclIsTypeOf(graphicR!Edge) then
+		true
+		else
+			false
+			endif;
+
+helper context graphicR!Shape def: isSquare(): Boolean =
+	if self.oclIsTypeOf(graphicR!Rectangle) then
+		true
+		else
+			false
+			endif;
+
+helper context graphicR!Shape def: isEllipse(): Boolean =
+	if self.oclIsTypeOf(graphicR!Ellipse) then
+		true
+		else
+			false
+			endif;

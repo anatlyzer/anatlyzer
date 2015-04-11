@@ -52,7 +52,7 @@ lazy rule CreateToolSection{
 	to 
 		ownedRepresentation:odesign!ToolSection(
 			name <- 'DefaultPalette',
-			ownedTools <-  mm.elements->collect(c | thisModule.resolveTemp(c, 'CreateSection'))
+			ownedTools <-  mm.elements->collect(c | thisModule.resolveTemp(c, 'reateSection'))
 		)
 }
 

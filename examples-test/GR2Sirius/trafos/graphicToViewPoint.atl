@@ -1,6 +1,9 @@
 -- @path graphicR=./GR2Sirius/metamodels/Graphic_Representation.ecore
 -- @path odesign=./GR2Sirius/metamodels/viewpoint.ecore
 
+-- Loaded to enable cross-references
+-- @nsURI ECORE=http://www.eclipse.org/emf/2002/Ecore
+
 module graphicToViewPoint;
 create OUT : odesign from IN : graphicR;
 

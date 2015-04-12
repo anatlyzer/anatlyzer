@@ -23,7 +23,7 @@ public abstract class RuleGeneratingQuickFix extends AbstractAtlQuickfix {
 			String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();
 			mr.setName(ruleName);
 			
-			ASTUtils.completeRule(mr, src, tgt, targetPatternName);
+			ASTUtils.completeRule(mr, src, tgt, targetPatternName);	// We might perhaps want to add here mandatory bindings??
 
 			return mr;
 		});

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
@@ -15,7 +16,12 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.SequenceType;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlProblemQuickfix {
 
@@ -102,5 +108,28 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return getDisplayString();
 	}
 
+	protected Binding getBindingFor(OperationCallExp e) {	// Can be moved to a library?
+		EObject container = e.eContainer();
+		
+		while (!(container instanceof Binding) && (container != null)) {
+			container = container.eContainer();
+		}
+		return (Binding)container;
+	}
 	
+	protected Metaclass getMetaModelType(Binding b) {		// Can be moved to a library?
+		Type expected = b.getLeftType();
+		if (expected instanceof SequenceType) {
+			SequenceType st = (SequenceType)expected;
+			return (Metaclass)st.getContainedType();
+		}
+		return (Metaclass)expected;
+	}
+	
+	protected boolean isCompatibleWith (Type t1, Metaclass m2) {	// Can be moved to a library?
+		if (t1.equals(m2)) return true;
+		if (!(t1 instanceof Metaclass)) return false;
+		Metaclass m1 = (Metaclass)t1;
+		return (m2.getKlass().isSuperTypeOf(m1.getKlass()));
+	}
 }

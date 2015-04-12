@@ -7,8 +7,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="ContainerMM2">
     <eStructuralFeatures xsi:type="ecore:EReference" name="clases" upperBound="-1"
         eType="#//Clase" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entidad" eType="#//Entidad"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Clase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entidad">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
 </ecore:EPackage>

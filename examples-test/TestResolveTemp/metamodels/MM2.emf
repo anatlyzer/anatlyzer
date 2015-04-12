@@ -4,9 +4,14 @@ package MM2;
 
 class ContainerMM2 {
   val Clase[*] clases;
+  val Entidad[0..1] entidad;
 }
 
 class Clase {
   attr String value;
+}
+
+class Entidad {
+   attr int value;   
 }
 

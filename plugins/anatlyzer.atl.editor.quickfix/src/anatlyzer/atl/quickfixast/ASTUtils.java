@@ -56,6 +56,11 @@ public class ASTUtils {
 	}
 	
 	public static void completeRule(RuleWithPattern r, Metaclass sourceType, Metaclass targetType) {
+		completeRule(r, sourceType, targetType, null);
+	}
+
+	
+	public static void completeRule(RuleWithPattern r, Metaclass sourceType, Metaclass targetType, String targetPatternName) {
 		// source pattern
 		InPattern p = ATLFactory.eINSTANCE.createInPattern();
 		SimpleInPatternElement ipe = ATLFactory.eINSTANCE.createSimpleInPatternElement();
@@ -72,10 +77,12 @@ public class ASTUtils {
 		OutPattern outP = ATLFactory.eINSTANCE.createOutPattern();
 		r.setOutPattern(outP);
 		SimpleOutPatternElement ope = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
-		ope.setVarName(targetType.getName().substring(0, 1).toLowerCase());
+		if (targetPatternName==null)
+			ope.setVarName(targetType.getName().substring(0, 1).toLowerCase());
+		else
+			ope.setVarName(targetPatternName);
 		ope.setType(outOme);
 		outP.getElements().add(ope);		
 	}
-
 
 }

@@ -33,31 +33,6 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 
 	private StringDistance sd = new StringDistance(new LongestCommonSubstring());
 	
-	private Binding getBindingFor(OperationCallExp e) {	// Can be moved to a library?
-		EObject container = e.eContainer();
-		
-		while (!(container instanceof Binding) && (container != null)) {
-			container = container.eContainer();
-		}
-		return (Binding)container;
-	}
-	
-	private Metaclass getMetaModelType(Binding b) {		// Can be moved to a library?
-		Type expected = b.getLeftType();
-		if (expected instanceof SequenceType) {
-			SequenceType st = (SequenceType)expected;
-			return (Metaclass)st.getContainedType();
-		}
-		return (Metaclass)expected;
-	}
-	
-	private boolean isCompatibleWith (Type t1, Metaclass m2) {	// Can be moved to a library?
-		if (t1.equals(m2)) return true;
-		if (!(t1 instanceof Metaclass)) return false;
-		Metaclass m1 = (Metaclass)t1;
-		return (m2.getKlass().isSuperTypeOf(m1.getKlass()));
-	}
-	
 	private List<String> getCandidates() {
 		ResolveTempOutputPatternElementNotFound p = this.getProblem();
 	

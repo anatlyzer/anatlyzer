@@ -20,7 +20,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.Unit;
 
-public class NoRuleForBindingQuickfix_AddRule extends AbstractAtlQuickfix {
+public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -33,25 +33,27 @@ public class NoRuleForBindingQuickfix_AddRule extends AbstractAtlQuickfix {
 		Binding b = (Binding) p.getElement();
 		Rule r = b.getOutPatternElement().getOutPattern().getRule();
 		
-		Unit u = ATLUtils.getContainer(r, Unit.class);
+		//Unit u = ATLUtils.getContainer(r, Unit.class);
 		
 		Metaclass tgt = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
 		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
 		if ( sources.size() == 1 ) {
 			Metaclass src = sources.get(0);
 			
-			// Not sure if in this case it makes sense to use b as an anchor
-			QuickfixApplication qfa = new QuickfixApplication();
-			qfa.insertAfter(r, () -> {
-				MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
-				String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();
-				mr.setName(ruleName);
-				
-				ASTUtils.completeRule(mr, src, tgt);
-
-				return mr;
-			});
-			return qfa;
+			return this.createRuleQuickFix(r, src, tgt);
+//			
+//			// Not sure if in this case it makes sense to use b as an anchor
+//			QuickfixApplication qfa = new QuickfixApplication();
+//			qfa.insertAfter(r, () -> {
+//				MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
+//				String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();
+//				mr.setName(ruleName);
+//				
+//				ASTUtils.completeRule(mr, src, tgt);
+//
+//				return mr;
+//			});
+//			return qfa;
 		} else {
 			return null;
 		}

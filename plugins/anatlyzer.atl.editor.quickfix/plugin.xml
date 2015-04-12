@@ -95,4 +95,10 @@
             apply="anatlyzer.atl.editor.quickfix.errors.ResolveTempOutputPatternElementNotFound_QuickFix">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.ResolveTempWithoutRuleQuickFix_CreateRule">
+      </quickfix>
+   </extension>
 </plugin>

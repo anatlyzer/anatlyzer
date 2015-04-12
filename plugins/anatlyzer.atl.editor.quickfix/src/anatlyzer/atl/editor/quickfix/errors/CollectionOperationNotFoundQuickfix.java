@@ -1,10 +1,8 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -17,8 +15,6 @@ import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;

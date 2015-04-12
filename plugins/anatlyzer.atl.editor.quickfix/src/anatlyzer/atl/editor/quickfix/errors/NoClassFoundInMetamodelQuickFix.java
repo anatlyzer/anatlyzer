@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,21 +9,13 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
-import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
-import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 
@@ -32,6 +23,7 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 
 	private IMarker marker;
 	private String  closest = null;
+	private StringDistance sd = new StringDistance(new Levenshtein());
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -68,7 +60,7 @@ public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
 	private String getClosest(OclModelElement me) {
 		if (this.closest != null) return this.closest;
 		List<String> names = this.getPossibleNames(me.getModel());
-		this.closest = Levenshtein.closest(me.getName(), names);
+		this.closest = this.sd.closest(me.getName(), names);
 		return this.closest;
 	}
 	

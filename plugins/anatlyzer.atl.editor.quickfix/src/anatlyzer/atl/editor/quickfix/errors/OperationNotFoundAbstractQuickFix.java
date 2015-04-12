@@ -3,11 +3,13 @@ package anatlyzer.atl.editor.quickfix.errors;
 import java.util.*;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 
 public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuickfix {
 	protected static final int threshold = 3;				// threshold distance to try an operation name with +1 or -1 params
 	protected Map<Integer, List<String>> candidateOps;		// to be populated by children classes
+	private StringDistance sd = new StringDistance(new Levenshtein());
 	
 	protected abstract Map<Integer, List<String>> populateCandidateOps();		// force to populate the Map somehow
 	
@@ -19,7 +21,7 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 	 * @return
 	 */
 	protected int getClosestDistance(String op, int numPar, List<Integer> distance) {		
-		distance.addAll(Levenshtein.distance(op, this.candidateOps.get(numPar)));	
+		distance.addAll(this.sd.distance(op, this.candidateOps.get(numPar)));	
 		System.out.println(this.candidateOps.get(numPar)+"\n"+distance);		
 		return Collections.min(distance);
 	}

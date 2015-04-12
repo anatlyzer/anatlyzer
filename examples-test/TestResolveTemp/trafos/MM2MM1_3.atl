@@ -9,7 +9,7 @@ rule Contaniers {
 		c2 : MM2!ContainerMM2
 	to 
 		c1 : MM1!ContainerMM1 (
-			as <- c2.clases->collect ( t | thisModule.resolveTemp(t, 'aced'))	-- should fix to 'ac', as 'acel' is not compatible
+			as <- c2.clases->collect ( t | thisModule.resolveTemp(t, 'var'))	-- should fix to 'ac', as 'acel' is not compatible
 		)
 }
 

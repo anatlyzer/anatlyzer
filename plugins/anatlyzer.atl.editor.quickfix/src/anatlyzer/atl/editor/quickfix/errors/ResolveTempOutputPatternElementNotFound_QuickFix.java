@@ -2,24 +2,19 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.stream.Collectors;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
 
-
-
-
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -28,17 +23,16 @@ import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.StringExp;
 
 public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAtlQuickfix {
-		
+
+	private StringDistance sd = new StringDistance(new LongestCommonSubstring());
+	
 	private Binding getBindingFor(OperationCallExp e) {	// Can be moved to a library?
 		EObject container = e.eContainer();
 		
@@ -108,7 +102,7 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 	
 	private String getClosest() {
 		String literal = this.getProblemLiteral();
-		return Levenshtein.closest(literal, this.getCandidates());
+		return this.sd.closest(literal, this.getCandidates());
 	}
 	
 	@Override

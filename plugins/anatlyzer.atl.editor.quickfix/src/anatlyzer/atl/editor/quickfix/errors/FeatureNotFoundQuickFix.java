@@ -14,7 +14,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -27,6 +28,7 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 
 	private List<String> attrs = new ArrayList<String>();
 	private String closest = null;
+	private StringDistance sd = new StringDistance(new Levenshtein());	// use Levenshtein distance by default
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -67,9 +69,8 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 			// compatible with the rest of the expression
 			
 			System.out.println("possible attrs: "+this.attrs);
-			
-			
-			this.closest = Levenshtein.closest(exp.getName(), this.attrs);
+						
+			this.closest = this.sd.closest(exp.getName(), this.attrs);
 			
 			return this.closest;
 		}

@@ -10,14 +10,8 @@ rule Contaniers {
 	to 
 		c1 : MM1!ContainerMM1 (
 			as <- c2.clases,
-			ds <- thisModule.resolveTemp(c2.entidad, 'xxx')
+			ds <- thisModule.resolveTemp(c2.entidad, 'xxx')	-- should fix to a new rule with target parameter xxx
 		)
-}
-
-rule Entidad2D {
-   from e : MM2!Entidad
-     to xxx : MM1!D
-
 }
 
 rule Clase2B { 

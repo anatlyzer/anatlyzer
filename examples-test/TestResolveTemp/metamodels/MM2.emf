@@ -1,0 +1,12 @@
+@"http://www.eclipse.org/OCL/Import"(ecore="http://www.eclipse.org/emf/2002/Ecore#/")
+@namespace(uri="http://bento/MM2", prefix="MM2")
+package MM2;
+
+class ContainerMM2 {
+  val Clase[*] clases;
+}
+
+class Clase {
+  attr String value;
+}
+

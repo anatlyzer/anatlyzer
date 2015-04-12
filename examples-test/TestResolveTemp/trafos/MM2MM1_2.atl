@@ -1,0 +1,28 @@
+-- @path MM1=./TestResolveTemp/metamodels/MM1.ecore
+-- @path MM2=./TestResolveTemp/metamodels/MM2.ecore
+
+module pn2mat;
+create OUT : MM1 from IN : MM2;
+
+rule Contaniers {
+	from
+		c2 : MM2!ContainerMM2
+	to 
+		c1 : MM1!ContainerMM1 (
+			as <- c2.clases->collect ( t | thisModule.resolveTemp(t, 'ab')) -- can be fixed to either 'a' or 'ac' we should provide both possibilities?
+		)
+}
+
+rule Clase2B { 
+   from c : MM2!Clase ( c.value.startsWith('B'))
+     to a : MM1!B (
+     	value <- c.value.size()
+     	)
+}
+
+rule Clase2C {
+	from c : MM2!Clase ( not c.value.startsWith('B'))
+     to ac : MM1!C (
+     	value <- c.value.size() > 10
+     	)
+}

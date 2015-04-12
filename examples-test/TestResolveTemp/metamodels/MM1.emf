@@ -1,0 +1,25 @@
+@"http://www.eclipse.org/OCL/Import"(ecore="http://www.eclipse.org/emf/2002/Ecore#/")
+@namespace(uri="http://bento/MM1", prefix="MM1")
+package MM1;
+
+class ContainerMM1 {
+  val A[*] as;
+  val D[*] ds;
+}
+
+abstract class A {
+  attr String name;
+}
+
+class B extends A{
+  attr int value;
+}
+
+class C extends A{
+  attr boolean value;
+}
+
+class D {
+     
+}
+

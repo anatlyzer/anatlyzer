@@ -11,49 +11,47 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.MainTarget;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atlext.ATL.OutPatternElement;
 
 public class ElementConnectionsLabelProvider implements ILabelProvider, IColorProvider, IFontProvider {
 
+	
 	@Override
 	public void addListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-
+	
 	}
-
+	
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+	
 	}
-
+	
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
 		// TODO Auto-generated method stub
-
+	
 	}
-
+	
 	@Override
 	public Font getFont(Object element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public Color getForeground(Object element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public Color getBackground(Object element) {
 		if ( element instanceof Cluster ) {
@@ -67,13 +65,13 @@ public class ElementConnectionsLabelProvider implements ILabelProvider, IColorPr
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public Image getImage(Object element) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public String getText(Object element) {
 		if ( element instanceof Cluster ) {
@@ -84,5 +82,6 @@ public class ElementConnectionsLabelProvider implements ILabelProvider, IColorPr
 		}
 		return null;
 	}
+	
 
 }

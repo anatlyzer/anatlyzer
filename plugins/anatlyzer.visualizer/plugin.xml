@@ -4,7 +4,7 @@
    <extension
          point="anatlyzer.atl.editor.views.additionalactions">
       <viewaction
-            action="anatlyzer.visualizer.actions.VisualizeUnconnectedElements">
+            action="anatlyzer.visualizer.actions.VisualizeElement">
       </viewaction>
    </extension>
    <extension
@@ -19,6 +19,13 @@
             icon="icons/sample.gif"
             id="anatlyzer.visualizer.views.ElementConnectionsView"
             name="Elements Connections View">
+      </view>
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.BindingResolutionInfoView"
+            icon="icons/sample.gif"
+            id="anatlyzer.visualizer.views.BindingResolutionInfoView"
+            name="Binding Resolution View">
       </view>
    </extension>
    <extension

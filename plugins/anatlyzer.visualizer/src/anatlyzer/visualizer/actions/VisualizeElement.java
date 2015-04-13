@@ -6,14 +6,19 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import anatlyzer.atl.editor.views.IAnalysisView;
+import anatlyzer.atl.editor.views.IAnalysisView.Kind;
 import anatlyzer.atl.editor.views.IAnalysisViewAction;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.BindingResolution;
+import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.visualizer.views.BindingResolutionInfoView;
 import anatlyzer.visualizer.views.ElementConnectionsView;
 
-public class VisualizeUnconnectedElements extends Action implements IAnalysisViewAction {
+public class VisualizeElement extends Action implements IAnalysisViewAction {
 
 	private IAnalysisView analysisView;
 
-	public VisualizeUnconnectedElements() {
+	public VisualizeElement() {
 		setText("Visualize");
 		setToolTipText("Visualize element connections");
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
@@ -27,6 +32,30 @@ public class VisualizeUnconnectedElements extends Action implements IAnalysisVie
 	
 	@Override
 	public void run() {
+		Kind kind = analysisView.getSelectionKind();
+		
+		if ( kind == Kind.UNCONNECTED_ELEMENTS ) {
+			visualizeUnconnectedElements(); 
+		} else if ( kind == Kind.PROBLEM ) {
+			visualizeProblem(analysisView.getProblem());
+		}
+	}
+	
+	private void visualizeProblem(Problem p) {
+		if ( p instanceof BindingWithResolvedByIncompatibleRule ) {
+			try {
+				BindingResolutionInfoView view = (BindingResolutionInfoView) PlatformUI
+						.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage().showView(BindingResolutionInfoView.ID);
+
+				view.setProblem((BindingResolution) p);
+			} catch (PartInitException e) {
+				e.printStackTrace();
+			}			
+		}
+	}
+
+	public void visualizeUnconnectedElements() {
 		try {
 			if ( analysisView.getUnconnectedElementAnalysis() != null ) {
 				ElementConnectionsView view = (ElementConnectionsView) PlatformUI.getWorkbench().
@@ -36,8 +65,8 @@ public class VisualizeUnconnectedElements extends Action implements IAnalysisVie
 				view.setAnalysis(analysisView.getUnconnectedElementAnalysis());
 			}
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 }

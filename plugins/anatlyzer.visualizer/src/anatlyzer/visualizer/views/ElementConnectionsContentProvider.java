@@ -4,19 +4,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.zest.core.viewers.IGraphContentProvider;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Link;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 
 public class ElementConnectionsContentProvider implements IGraphEntityContentProvider {
-
-	private Result result;
 
 	@Override
 	public void dispose() {

@@ -61,6 +61,7 @@ import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
@@ -953,8 +954,34 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	
 	// IAnalysisView
+	@Override
+	public Kind getSelectionKind() {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		if ( selection != null ) {
+			Object s = selection.getFirstElement();
+			if ( s instanceof LocalProblemNode ) {
+				return Kind.PROBLEM;
+			} else if ( s instanceof UnconnectedComponentsAnalysis ) {
+				return Kind.UNCONNECTED_ELEMENTS;
+			}
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public Problem getProblem() {
+		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		return ((LocalProblemNode) selection.getFirstElement()).p;
+	}
+	
 	public Result getUnconnectedElementAnalysis() {
 		return this.unconnectedElementsResult;
+	}
+
+	@Override
+	public IStructuredSelection getSelection() {
+		return (IStructuredSelection) viewer.getSelection();
 	}
 	
 }

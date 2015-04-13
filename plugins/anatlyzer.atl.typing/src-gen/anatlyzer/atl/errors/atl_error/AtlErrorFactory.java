@@ -427,6 +427,15 @@ public interface AtlErrorFactory extends EFactory {
 	BindingInplaceInvalid createBindingInplaceInvalid();
 
 	/**
+	 * Returns a new object of class '<em>Cannot Instantiate Abstract Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Cannot Instantiate Abstract Class</em>'.
+	 * @generated
+	 */
+	CannotInstantiateAbstractClass createCannotInstantiateAbstractClass();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

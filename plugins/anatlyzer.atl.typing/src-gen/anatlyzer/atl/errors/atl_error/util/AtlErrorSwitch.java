@@ -50,7 +50,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -649,6 +649,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(bindingInplaceInvalid);
 				if (result == null) result = caseProblem(bindingInplaceInvalid);
 				if (result == null) result = caseAnalysisInfo(bindingInplaceInvalid);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS: {
+				CannotInstantiateAbstractClass cannotInstantiateAbstractClass = (CannotInstantiateAbstractClass)theEObject;
+				T result = caseCannotInstantiateAbstractClass(cannotInstantiateAbstractClass);
+				if (result == null) result = caseLocalProblem(cannotInstantiateAbstractClass);
+				if (result == null) result = caseProblem(cannotInstantiateAbstractClass);
+				if (result == null) result = caseAnalysisInfo(cannotInstantiateAbstractClass);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1568,6 +1577,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseBindingInplaceInvalid(BindingInplaceInvalid object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Cannot Instantiate Abstract Class</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Cannot Instantiate Abstract Class</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCannotInstantiateAbstractClass(CannotInstantiateAbstractClass object) {
 		return null;
 	}
 

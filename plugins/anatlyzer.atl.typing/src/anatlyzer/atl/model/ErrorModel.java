@@ -28,6 +28,7 @@ import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
@@ -743,6 +744,15 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void signalCannonInstantiateAbstractClass(Metaclass m, LocatedElement node) {
+		CannotInstantiateAbstractClass error = AtlErrorFactory.eINSTANCE.createCannotInstantiateAbstractClass();
+		initProblem(error, node);
+		
+		error.setType(m);
+
+		signalError(error, "Abstract classes cannot be instantiated: " + m.getName(), node);	
+	}
+	
 	public Type signalCollectionOperationNotFound(String operationName, LocatedElement node) {
 		CollectionOperationNotFound error = AtlErrorFactory.eINSTANCE.createCollectionOperationNotFound();
 		initProblem(error, node);
@@ -764,5 +774,6 @@ public class ErrorModel {
 		me.setMetamodelName(mmName);
 		return me;
 	}
+
 	
 }

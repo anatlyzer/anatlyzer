@@ -199,6 +199,10 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingInplaceInvalid/rightType"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/CannotInstantiateAbstractClass">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/CannotInstantiateAbstractClass/type"/>
+      </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">

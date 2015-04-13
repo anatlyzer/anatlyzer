@@ -11,10 +11,10 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel#getUri <em>Uri</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.ide_error.IdeErrorPackage#getCouldNotLoadMetamodel()
  * @model

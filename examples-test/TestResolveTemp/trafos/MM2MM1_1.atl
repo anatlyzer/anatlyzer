@@ -9,7 +9,9 @@ rule Contaniers {
 		c2 : MM2!ContainerMM2
 	to 
 		c1 : MM1!ContainerMM1 (
-			as <- c2.clases -- ¿Aquí no querríamos señalar que hay objetos que pueden no transformarse (lo que no empiezan por B)?
+			as <- c2.clases 
+			-- ¿Aquí no querríamos señalar que hay objetos que pueden no transformarse (lo que no empiezan por B)?			
+			-- jesusc: arreglado
 		)
 }
 

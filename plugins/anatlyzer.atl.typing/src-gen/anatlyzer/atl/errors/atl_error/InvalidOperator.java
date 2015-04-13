@@ -11,11 +11,11 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.InvalidOperator#getOperatorSymbol <em>Operator Symbol</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.InvalidOperator#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidOperator()
  * @model annotation="description name='Invalid operator' text='Operator not applicable to a certain type.'"

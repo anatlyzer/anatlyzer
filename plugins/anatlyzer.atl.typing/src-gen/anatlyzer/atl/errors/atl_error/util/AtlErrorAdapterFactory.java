@@ -315,6 +315,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createBindingInplaceInvalidAdapter();
 			}
 			@Override
+			public Adapter caseCannotInstantiateAbstractClass(CannotInstantiateAbstractClass object) {
+				return createCannotInstantiateAbstractClassAdapter();
+			}
+			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
 				return createAnalysisInfoAdapter();
 			}
@@ -1193,6 +1197,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createBindingInplaceInvalidAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass <em>Cannot Instantiate Abstract Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass
+	 * @generated
+	 */
+	public Adapter createCannotInstantiateAbstractClassAdapter() {
 		return null;
 	}
 

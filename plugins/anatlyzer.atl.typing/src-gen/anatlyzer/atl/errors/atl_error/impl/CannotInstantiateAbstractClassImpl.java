@@ -3,9 +3,9 @@
 package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
+import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 
-import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.Metaclass;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -16,34 +16,34 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Binding Inplace Invalid</b></em>'.
+ * An implementation of the model object '<em><b>Cannot Instantiate Abstract Class</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl#getRightType <em>Right Type</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.CannotInstantiateAbstractClassImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class BindingInplaceInvalidImpl extends BindingProblemImpl implements BindingInplaceInvalid {
+public class CannotInstantiateAbstractClassImpl extends LocalProblemImpl implements CannotInstantiateAbstractClass {
 	/**
-	 * The cached value of the '{@link #getRightType() <em>Right Type</em>}' reference.
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRightType()
+	 * @see #getType()
 	 * @generated
 	 * @ordered
 	 */
-	protected Type rightType;
+	protected Metaclass type;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BindingInplaceInvalidImpl() {
+	protected CannotInstantiateAbstractClassImpl() {
 		super();
 	}
 
@@ -54,7 +54,7 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AtlErrorPackage.Literals.BINDING_INPLACE_INVALID;
+		return AtlErrorPackage.Literals.CANNOT_INSTANTIATE_ABSTRACT_CLASS;
 	}
 
 	/**
@@ -62,16 +62,16 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type getRightType() {
-		if (rightType != null && rightType.eIsProxy()) {
-			InternalEObject oldRightType = (InternalEObject)rightType;
-			rightType = (Type)eResolveProxy(oldRightType);
-			if (rightType != oldRightType) {
+	public Metaclass getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (Metaclass)eResolveProxy(oldType);
+			if (type != oldType) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE, oldRightType, rightType));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE, oldType, type));
 			}
 		}
-		return rightType;
+		return type;
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Type basicGetRightType() {
-		return rightType;
+	public Metaclass basicGetType() {
+		return type;
 	}
 
 	/**
@@ -88,11 +88,11 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRightType(Type newRightType) {
-		Type oldRightType = rightType;
-		rightType = newRightType;
+	public void setType(Metaclass newType) {
+		Metaclass oldType = type;
+		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE, oldRightType, rightType));
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE, oldType, type));
 	}
 
 	/**
@@ -103,9 +103,9 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE:
-				if (resolve) return getRightType();
-				return basicGetRightType();
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,8 +118,8 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE:
-				setRightType((Type)newValue);
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE:
+				setType((Metaclass)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,8 +133,8 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE:
-				setRightType((Type)null);
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE:
+				setType((Metaclass)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -148,10 +148,10 @@ public class BindingInplaceInvalidImpl extends BindingProblemImpl implements Bin
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.BINDING_INPLACE_INVALID__RIGHT_TYPE:
-				return rightType != null;
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE:
+				return type != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //BindingInplaceInvalidImpl
+} //CannotInstantiateAbstractClassImpl

@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationFoundInSubtype#getPossibleClasses <em>Possible Classes</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationFoundInSubtype()
  * @model annotation="description name='Operation found in subtype' text='Operation cannot be found in an object\'s class, but found in subtype. The error may not happen depending on the program logic.'"

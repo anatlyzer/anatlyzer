@@ -16,6 +16,7 @@ import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
@@ -511,6 +512,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass bindingInplaceInvalidEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass cannotInstantiateAbstractClassEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1663,6 +1671,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCannotInstantiateAbstractClass() {
+		return cannotInstantiateAbstractClassEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCannotInstantiateAbstractClass_Type() {
+		return (EReference)cannotInstantiateAbstractClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1865,6 +1891,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		bindingInplaceInvalidEClass = createEClass(BINDING_INPLACE_INVALID);
 		createEReference(bindingInplaceInvalidEClass, BINDING_INPLACE_INVALID__RIGHT_TYPE);
+
+		cannotInstantiateAbstractClassEClass = createEClass(CANNOT_INSTANTIATE_ABSTRACT_CLASS);
+		createEReference(cannotInstantiateAbstractClassEClass, CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE);
 	}
 
 	/**
@@ -1972,6 +2001,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		incoherentHelperReturnTypeEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		accessToUndefinedValueEClass.getESuperTypes().add(this.getLocalProblem());
 		bindingInplaceInvalidEClass.getESuperTypes().add(this.getBindingProblem());
+		cannotInstantiateAbstractClassEClass.getESuperTypes().add(this.getLocalProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2153,6 +2183,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(bindingInplaceInvalidEClass, BindingInplaceInvalid.class, "BindingInplaceInvalid", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingInplaceInvalid_RightType(), theTypesPackage.getType(), null, "rightType", null, 1, 1, BindingInplaceInvalid.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(cannotInstantiateAbstractClassEClass, CannotInstantiateAbstractClass.class, "CannotInstantiateAbstractClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCannotInstantiateAbstractClass_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, CannotInstantiateAbstractClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create annotations
 		// description
@@ -2468,6 +2501,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   source, 
 		   new String[] {
 			 "name", "Invalid in-place binding assignment",
+			 "text", "",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (cannotInstantiateAbstractClassEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Abstract class instantiation",
 			 "text", "",
 			 "example", ""
 		   });
@@ -2983,6 +3024,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "tgt-typing",
 			 "phase", "analysis",
+			 "source", ""
+		   });	
+		addAnnotation
+		  (cannotInstantiateAbstractClassEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
 			 "source", ""
 		   });
 	}

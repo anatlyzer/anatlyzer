@@ -6657,6 +6657,116 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CannotInstantiateAbstractClassImpl <em>Cannot Instantiate Abstract Class</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.CannotInstantiateAbstractClassImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCannotInstantiateAbstractClass()
+	 * @generated
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 61;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Cannot Instantiate Abstract Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Cannot Instantiate Abstract Class</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.LocalProblem <em>Local Problem</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7905,6 +8015,27 @@ public interface AtlErrorPackage extends EPackage {
 	EReference getBindingInplaceInvalid_RightType();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass <em>Cannot Instantiate Abstract Class</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Cannot Instantiate Abstract Class</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass
+	 * @generated
+	 */
+	EClass getCannotInstantiateAbstractClass();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass#getType()
+	 * @see #getCannotInstantiateAbstractClass()
+	 * @generated
+	 */
+	EReference getCannotInstantiateAbstractClass_Type();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9000,6 +9131,24 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BINDING_INPLACE_INVALID__RIGHT_TYPE = eINSTANCE.getBindingInplaceInvalid_RightType();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.CannotInstantiateAbstractClassImpl <em>Cannot Instantiate Abstract Class</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.CannotInstantiateAbstractClassImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCannotInstantiateAbstractClass()
+		 * @generated
+		 */
+		EClass CANNOT_INSTANTIATE_ABSTRACT_CLASS = eINSTANCE.getCannotInstantiateAbstractClass();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE = eINSTANCE.getCannotInstantiateAbstractClass_Type();
 
 	}
 

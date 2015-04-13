@@ -371,6 +371,13 @@ package atl_error {
 	}	
 	
 	
+	@description(name="Abstract class instantiation", text="", example="")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="")	
+	class CannotInstantiateAbstractClass extends LocalProblem {
+		ref types.Metaclass[1] type;
+	}	
+
+	
 }
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")

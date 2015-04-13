@@ -101,6 +101,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.INCOHERENT_HELPER_RETURN_TYPE: return createIncoherentHelperReturnType();
 			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
 			case AtlErrorPackage.BINDING_INPLACE_INVALID: return createBindingInplaceInvalid();
+			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS: return createCannotInstantiateAbstractClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -554,6 +555,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public BindingInplaceInvalid createBindingInplaceInvalid() {
 		BindingInplaceInvalidImpl bindingInplaceInvalid = new BindingInplaceInvalidImpl();
 		return bindingInplaceInvalid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CannotInstantiateAbstractClass createCannotInstantiateAbstractClass() {
+		CannotInstantiateAbstractClassImpl cannotInstantiateAbstractClass = new CannotInstantiateAbstractClassImpl();
+		return cannotInstantiateAbstractClass;
 	}
 
 	/**

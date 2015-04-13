@@ -22,6 +22,7 @@ import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
@@ -221,7 +222,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 	}
 	
-	
+	@Override
+	public void inSimpleOutPatternElement(SimpleOutPatternElement self) {
+		if ( self.getInferredType() instanceof Metaclass ) {
+			Metaclass m = (Metaclass) self.getInferredType();
+			if ( m.getKlass().isAbstract() ) {
+				errors().signalCannonInstantiateAbstractClass(m, self);
+			}
+			
+		}
+	}
 
 	public VisitingActions preLetExp(anatlyzer.atlext.OCL.LetExp self) { return actions("type" , "variable" , "in_"); } 
 

@@ -9,7 +9,7 @@ rule Contaniers {
 		c2 : MM2!ContainerMM2
 	to 
 		c1 : MM1!ContainerMM1 (
-			as <- c2.clases->collect ( t | thisModule.resolveTemp(t, 'ab')) -- can be fixed to either 'a' or 'ac' we should provide both possibilities?
+			as <- c2.clases->collect ( t | thisModule.resolveTemp(t, 'a')) -- can be fixed to either 'a' or 'ac' we should provide both possibilities?
 		)
 }
 

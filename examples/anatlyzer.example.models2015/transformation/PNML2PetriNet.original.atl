@@ -1,5 +1,5 @@
--- @path PNML=/Grafcet2PetriNet/Metamodels/PNML_simplified.ecore
--- @path PetriNet=/Grafcet2PetriNet/Metamodels/PetriNet.ecore
+-- @path PNML=./anatlyzer.example.models2015/metamodels/PNML_simplified.ecore
+-- @path PetriNet=/anatlyzer.example.models2015/metamodels/PetriNet.ecore
 
 module PNML2PetriNet;
 create OUT : PetriNet from IN : PNML;

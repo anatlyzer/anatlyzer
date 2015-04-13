@@ -8,8 +8,14 @@ import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.Primitive;
+import anatlyzer.atlext.OCL.PrimitiveExp;
+import anatlyzer.atlext.OCL.RealExp;
+import anatlyzer.atlext.OCL.StringExp;
 
 public class Conversions {
 	public static OclType convertPType(PrimitiveType pt) {
@@ -20,6 +26,22 @@ public class Conversions {
 		throw new UnsupportedOperationException();
 	}
 	
+	public static String typeName (PrimitiveType pt) {
+		if ( pt instanceof BooleanType ) return "Boolean";
+		if ( pt instanceof StringType ) return "String";
+		if ( pt instanceof IntegerType ) return "Integer";
+		if ( pt instanceof FloatType ) return "Float";
+		return "";
+	}
+	
+	public static String getDataTypeText(PrimitiveType pt) {
+		if ( pt instanceof BooleanType ) return "false";
+		if ( pt instanceof StringType ) return "\'\'";
+		if ( pt instanceof IntegerType ) return "0";
+		if ( pt instanceof FloatType ) return "0.0";
+		return "";
+	}
+	
 	public static String getDataTypeText(EDataType dt) {
 		switch ( EcoreTypeConverter.normalizeToBasic(dt) ) {
 		case BOOLEAN: return "false";
@@ -28,6 +50,30 @@ public class Conversions {
 		case STRING: return "\'\'";		
 		}
 		return "\'\'";
+	}
+
+	public static PrimitiveExp createDefaultOCLLiteral(PrimitiveType pt) {
+		if ( pt instanceof BooleanType ) {
+			BooleanExp e = OCLFactory.eINSTANCE.createBooleanExp();
+			e.setBooleanSymbol(false);
+			return e;
+		}
+		if ( pt instanceof StringType ) {
+			StringExp e = OCLFactory.eINSTANCE.createStringExp();
+			e.setStringSymbol("");
+			return e;
+		}
+		if ( pt instanceof IntegerType ) {
+			IntegerExp e = OCLFactory.eINSTANCE.createIntegerExp();
+			e.setIntegerSymbol(0);
+			return e;
+		}
+		if ( pt instanceof FloatType ) {
+			RealExp e = OCLFactory.eINSTANCE.createRealExp();
+			e.setRealSymbol(0.0);
+			return e;
+		}
+		throw new UnsupportedOperationException();
 	}
 	
 }

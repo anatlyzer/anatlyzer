@@ -101,4 +101,10 @@
             apply="anatlyzer.atl.editor.quickfix.errors.ResolveTempWithoutRuleQuickFix_CreateRule">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix">
+      </quickfix>
+   </extension>
 </plugin>

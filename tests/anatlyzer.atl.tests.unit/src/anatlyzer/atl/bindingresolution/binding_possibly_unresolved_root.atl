@@ -1,0 +1,31 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module bindingpossiblyunresolvedroot;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'default',
+    	elements <- src.elements,
+		others   <- src.others		
+	)
+}
+
+rule a2a {
+	from
+		a : ABCD!A ( a.name = 'myA' )
+	to 
+		x : WXYZ!X (
+			name <- a.name
+		)
+}
+
+rule other {
+	from
+		o : ABCD!Other
+	to 
+		t : WXYZ!Other (
+			name <- 'default'
+		)
+}

@@ -7,6 +7,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
         eType="#//W" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="others" upperBound="-1"
+        eType="#//Other" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="W" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfW" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -25,4 +27,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="Z1" eSuperTypes="#//Y"/>
   <eClassifiers xsi:type="ecore:EClass" name="Z2" eSuperTypes="#//Y"/>
   <eClassifiers xsi:type="ecore:EClass" name="Z3" eSuperTypes="#//Y"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//NamedElt"/>
 </ecore:EPackage>

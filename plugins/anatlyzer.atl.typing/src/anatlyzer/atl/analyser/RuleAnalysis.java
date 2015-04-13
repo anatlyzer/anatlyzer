@@ -360,6 +360,15 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 				} else {
 					notResolved.add(ns);
 				}
+			} else {
+				// There are rules but we don't know if the filters are complete
+				for(MatchedRule r : ns.getRules()) {
+					if ( r.getInPattern().getFilter() != null ) {
+						notResolved.add(ns);
+						break;
+					}
+				}
+				
 			}
 		}
 		

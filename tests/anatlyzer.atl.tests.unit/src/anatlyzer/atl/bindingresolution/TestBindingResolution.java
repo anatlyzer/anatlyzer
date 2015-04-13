@@ -13,6 +13,20 @@ public class TestBindingResolution extends UnitTest {
 	String ANT = metamodel("ant2maven/Ant");
 	String MAVEN1 = metamodel("ant2maven/MavenMaven");
 	String MAVEN2 = metamodel("ant2maven/MavenProject");
+
+	String ABCD = metamodel("ABCD");
+	String WXYZ = metamodel("WXYZ");
+	
+	@Test
+	public void testBindingPossiblyUnresolvedRoot() throws Exception {
+		String T = trafo("binding_possibly_unresolved_root");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());
+		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
+
+		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+	}
 	
 	@Test
 	public void testBindingResolutionWithUnion() throws Exception {
@@ -24,6 +38,7 @@ public class TestBindingResolution extends UnitTest {
 
 		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
 	}
+
 
 	
 }

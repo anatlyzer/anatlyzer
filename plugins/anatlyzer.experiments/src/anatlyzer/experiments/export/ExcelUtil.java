@@ -101,14 +101,27 @@ public class ExcelUtil {
 		initRow++;
 		row++;
 		
-		char ccol = (char) ('A' + col);
+		String ccol = getCol(col);
 		return ccol + "" + initRow + ":" + ccol + row;
 	}
 
 
+	private String getCol(int col) {
+		String prefix = "";
+		if ( ('A' + col) > 'Z' ) {
+			prefix = "A";
+			col = col - (char) (('Z' - 'A') - 1);
+		}
+		return prefix + (char) ('A' + col);
+	}
+
+
 	public String rowRange(int row, int initCol, int endCol) {
-		char bcol = (char) ('A' + initCol);
-		char ecol = (char) ('A' + endCol);
+		String bcol = getCol(initCol); // (char) ('A' + initCol);
+		String ecol = getCol(endCol);  // (char) ('A' + endCol);
+		System.out.println(bcol);
+		System.out.println(ecol);
+		System.out.println("---");
 		row = row + 1;
 		return bcol + "" + row + ":" + ecol + "" + row;
 	}

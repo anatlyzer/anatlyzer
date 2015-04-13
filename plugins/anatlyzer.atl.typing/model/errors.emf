@@ -235,7 +235,7 @@ package atl_error {
 	class BindingWithResolvedByIncompatibleRule extends BindingProblem, BindingResolution {
 	}
 
-	@description(name="Binding resolved by rule with invalid target", text="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature")	 
+	@description(name="Binding possibly unresolved", text="A binding may be unresolved if certain conditions hold")	 
 	@info(prec="always-solver", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
 	class BindingPossiblyUnresolved extends BindingProblem, BindingResolution {
 	   ref EClass[+] problematicClasses;
@@ -327,6 +327,8 @@ package atl_error {
 	}
 
 	// TODO: Replace with the other class to signal this kind of problems
+	@description(name="Invalid argument (TODO: merge with the other class)", text="")	 
+	@info(prec="static", path="no", severity="error-always", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class InvalidArgument extends LocalProblem {
 		
 	}

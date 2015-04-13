@@ -1,7 +1,7 @@
 package anatlyzer.experiments.export;
 
 
-public class Category {
+public class Category implements Comparable<Category> {
 
 	protected String name;
 
@@ -10,6 +10,10 @@ public class Category {
 	}
 	
 	public String getName() {
+		return name;
+	}
+	
+	public String getDescription() {
 		return name;
 	}
 	
@@ -45,6 +49,11 @@ public class Category {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public int compareTo(Category o) {
+		return name.compareTo(o.name);
 	}
 
 

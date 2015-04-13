@@ -4,9 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -23,8 +22,9 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 	
 	// From path to errors
 	protected  HashMap<String, Exception> errors = new HashMap<String, Exception>();
-	private boolean withRepetitions;
-	private boolean showRepetitionDetails;
+	private boolean withRepetitions          = false;
+	private boolean showRepetitionDetails    = false;
+	private boolean showCategoryDescriptions = false;
 	
 	public void addCategory(String name) {
 		
@@ -45,15 +45,18 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		total++;		
 	}
 	
-	public void addByCategory(String categoryName, ART analysedResource) {
-		Category category = new Category(categoryName);
-		
+	public void addByCategory(Category category, ART analysedResource) {
 		if ( ! results.containsKey(category) ) {
 			results.put(category, new ArrayList<ART>());
 		}
 		
 		List<ART> current = results.get(category);
 		current.add(analysedResource);			
+	}
+	
+	public void addByCategory(String categoryName, ART analysedResource) {
+		Category category = new Category(categoryName);
+		addByCategory(category, analysedResource);
 	}
 
 	public void addError(String analysedResource, Exception e) {
@@ -96,6 +99,10 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 	
 	public void showRepetitionDetails(boolean b) {
 		this.showRepetitionDetails = b;
+	}
+	
+	public void showCategoryDescriptions(boolean b) {
+		this.showCategoryDescriptions = b;
 	}
 	
 	public void printResult(PrintStream out) {
@@ -206,6 +213,9 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		createSummary(wb);
 		createDetail(wb);
 		createOverlapping(wb);
+		if ( showCategoryDescriptions ) {
+			createCategoryDescriptions(wb);
+		}
 		
 		// Save
 		FileOutputStream fileOut = new FileOutputStream(fileName);
@@ -214,6 +224,30 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		fileOut.close();           
 	
 	}
+
+	private void createCategoryDescriptions(Workbook wb) {
+		Sheet s = wb.createSheet("Categories");
+		ExcelUtil u = new ExcelUtil();
+		Styler    st = new Styler(wb);
+
+		int row = 1;
+		int startCol = 1;
+
+		st.cell(s, row, startCol + 0, "Id");
+		st.cell(s, row, startCol + 1, "Description");
+
+		row++;
+		
+		List<Category> allCategories = getAllCategories();
+		for(int i = 0; i < allCategories.size(); i++ ) {
+			st.cell(s, row, startCol + 0, allCategories.get(i).getName());
+			st.cell(s, row, startCol + 1, allCategories.get(i).getDescription());
+			row++;
+		}
+		
+
+	}
+
 
 	private void createDetail(Workbook wb) {
 		Sheet s = wb.createSheet("Detail");
@@ -343,8 +377,12 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 
 
 	private List<Category> getAllCategories() {
-		return new LinkedList<Category>(results.keySet());
+		List<Category> l = new LinkedList<Category>(results.keySet());
+		Collections.sort(l);
+		return l;
 	}
+
+
 
 
 

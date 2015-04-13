@@ -42,6 +42,7 @@ import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Unit;
@@ -224,7 +225,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inSimpleOutPatternElement(SimpleOutPatternElement self) {
-		if ( self.getInferredType() instanceof Metaclass ) {
+		if ( self.getInferredType() instanceof Metaclass  ) {
+			Rule r = self.getOutPattern().getRule();
+			if ( r instanceof RuleWithPattern && ((RuleWithPattern) r).isIsAbstract() )
+				return;
+			
 			Metaclass m = (Metaclass) self.getInferredType();
 			if ( m.getKlass().isAbstract() ) {
 				errors().signalCannonInstantiateAbstractClass(m, self);

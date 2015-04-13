@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ASCII"?>
+<PetriNet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="PetriNet" location="1:1-126:2" name="exemple1">
+  <elements xsi:type="Place" location="18:9-21:10" name="s4" incomingArc="//@arcs.11" outgoingArc="//@arcs.6"/>
+  <elements xsi:type="Transition" location="37:9-40:10" name="t2" incomingArc="//@arcs.9" outgoingArc="//@arcs.0 //@arcs.11"/>
+  <elements xsi:type="Place" location="8:9-11:10" name="s2" incomingArc="//@arcs.4" outgoingArc="//@arcs.9"/>
+  <elements xsi:type="Place" location="3:9-6:10" name="s1" outgoingArc="//@arcs.2"/>
+  <elements xsi:type="Transition" location="32:9-35:10" name="t1" incomingArc="//@arcs.2" outgoingArc="//@arcs.4 //@arcs.8"/>
+  <elements xsi:type="Place" location="28:9-30:10" name="s6" incomingArc="//@arcs.5 //@arcs.12"/>
+  <elements xsi:type="Transition" location="47:9-50:10" name="t4" incomingArc="//@arcs.6 //@arcs.10" outgoingArc="//@arcs.5"/>
+  <elements xsi:type="Transition" location="42:9-45:10" name="t3" incomingArc="//@arcs.7" outgoingArc="//@arcs.1"/>
+  <elements xsi:type="Place" location="23:9-26:10" name="s5" incomingArc="//@arcs.0 //@arcs.1" outgoingArc="//@arcs.3 //@arcs.10"/>
+  <elements xsi:type="Place" location="13:9-16:10" name="s3" incomingArc="//@arcs.8" outgoingArc="//@arcs.7"/>
+  <elements xsi:type="Transition" location="52:9-55:10" name="t5" incomingArc="//@arcs.3" outgoingArc="//@arcs.12"/>
+  <arcs xsi:type="TransitionToPlace" location="97:9-99:10" name="ts4" from="//@elements.1" to="//@elements.8"/>
+  <arcs xsi:type="TransitionToPlace" location="101:9-103:10" name="ts5" from="//@elements.7" to="//@elements.8"/>
+  <arcs xsi:type="PlaceToTransition" location="59:9-61:10" name="st1" from="//@elements.3" to="//@elements.4"/>
+  <arcs xsi:type="PlaceToTransition" location="79:9-81:10" name="st6" from="//@elements.8" to="//@elements.10"/>
+  <arcs xsi:type="TransitionToPlace" location="85:9-87:10" name="ts1" from="//@elements.4" to="//@elements.2"/>
+  <arcs xsi:type="TransitionToPlace" location="105:9-107:10" name="ts6" from="//@elements.6" to="//@elements.5"/>
+  <arcs xsi:type="PlaceToTransition" location="71:9-73:10" name="st4" from="//@elements.0" to="//@elements.6"/>
+  <arcs xsi:type="PlaceToTransition" location="67:9-69:10" name="st3" from="//@elements.9" to="//@elements.7"/>
+  <arcs xsi:type="TransitionToPlace" location="89:9-91:10" name="ts2" from="//@elements.4" to="//@elements.9"/>
+  <arcs xsi:type="PlaceToTransition" location="63:9-65:10" name="st2" from="//@elements.2" to="//@elements.1"/>
+  <arcs xsi:type="PlaceToTransition" location="75:9-77:10" name="st5" from="//@elements.8" to="//@elements.6"/>
+  <arcs xsi:type="TransitionToPlace" location="93:9-95:10" name="ts3" from="//@elements.1" to="//@elements.0"/>
+  <arcs xsi:type="TransitionToPlace" location="109:9-111:10" name="ts7" from="//@elements.10" to="//@elements.5"/>
+</PetriNet>

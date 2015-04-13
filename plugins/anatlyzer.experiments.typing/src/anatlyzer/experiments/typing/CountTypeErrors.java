@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -16,6 +15,7 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ErrorReport;
+import anatlyzer.experiments.export.Category;
 import anatlyzer.experiments.export.CountingModel;
 import anatlyzer.experiments.export.IClassifiedArtefact;
 import anatlyzer.experiments.export.IHint;
@@ -29,6 +29,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	public CountTypeErrors() {
 		counting.setRepetitions(true);
 		counting.showRepetitionDetails(false);
+		counting.showCategoryDescriptions(true);
 	}
 
 	@Override
@@ -45,9 +46,9 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			counting.processingArtefact(fileName);
 			
 			for(Problem p : data.getProblems()) {
-				String errorCode = AnalyserUtils.getProblemId(p) + "";
+				int errorCode = AnalyserUtils.getProblemId(p);
 				DetectedError e = new DetectedError(errorCode, fileName);
-				counting.addByCategory(errorCode, e);
+				counting.addByCategory(new ErrorCategory(errorCode, AnalyserUtils.getProblemDescription(p)), e);
 			}
 			
 		} catch (Exception e) {
@@ -97,10 +98,10 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	}
 
 	public class DetectedError implements IClassifiedArtefact {
-		private String errorCode;
+		private int errorCode;
 		private String fileName;
 		
-		public DetectedError(String errorCode, String fileName) {
+		public DetectedError(int errorCode, String fileName) {
 			this.errorCode = errorCode;
 			this.fileName  = fileName;
 		}
@@ -124,6 +125,29 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			ArrayList<IHint> hints = new ArrayList<IHint>();
 			return hints;
 		}
+	}
+	
+	public class ErrorCategory extends anatlyzer.experiments.export.Category {
+
+		private int errorCode;
+		private String description;
+
+		public ErrorCategory(int errorCode, String description) {
+			super(errorCode + "");
+			this.errorCode = errorCode;
+			this.description = description;
+		}
+		
+		@Override
+		public String getDescription() {
+			return description;
+		}
+		
+		@Override
+		public int compareTo(Category o) {
+			return Integer.compare(errorCode, ((ErrorCategory) o).errorCode);
+		}
+		
 	}
 
 	

@@ -485,8 +485,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingPossiblyUnresolved" eSuperTypes="#//atl_error/BindingProblem #//atl_error/BindingResolution">
       <eAnnotations source="description">
-        <details key="name" value="Binding resolved by rule with invalid target"/>
-        <details key="text" value="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature"/>
+        <details key="name" value="Binding possibly unresolved"/>
+        <details key="text" value="A binding may be unresolved if certain conditions hold"/>
       </eAnnotations>
       <eAnnotations source="info">
         <details key="prec" value="always-solver"/>
@@ -706,7 +706,21 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="InvalidArgument" eSuperTypes="#//atl_error/LocalProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidArgument" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid argument (TODO: merge with the other class)"/>
+        <details key="text" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="error-always"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationNotFound" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
         <details key="name" value="Collection operation not found"/>

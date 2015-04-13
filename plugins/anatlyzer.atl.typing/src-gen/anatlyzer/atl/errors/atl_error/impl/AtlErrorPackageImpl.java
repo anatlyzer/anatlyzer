@@ -2370,8 +2370,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (bindingPossiblyUnresolvedEClass, 
 		   source, 
 		   new String[] {
-			 "name", "Binding resolved by rule with invalid target",
-			 "text", "A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature"
+			 "name", "Binding possibly unresolved",
+			 "text", "A binding may be unresolved if certain conditions hold"
 		   });	
 		addAnnotation
 		  (resolveTempWithoutRuleEClass, 
@@ -2456,6 +2456,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Invalid meta-class name",
 			 "text", "The meta-class name cannot be found in the meta-model"
+		   });	
+		addAnnotation
+		  (invalidArgumentEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid argument (TODO: merge with the other class)",
+			 "text", ""
 		   });	
 		addAnnotation
 		  (collectionOperationNotFoundEClass, 
@@ -2950,6 +2957,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "path", "no",
 			 "severity", "error-always",
 			 "when", "trafo-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidArgumentEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-always",
+			 "when", "model-dep",
 			 "kind", "navigation",
 			 "phase", "typing",
 			 "source", "none"

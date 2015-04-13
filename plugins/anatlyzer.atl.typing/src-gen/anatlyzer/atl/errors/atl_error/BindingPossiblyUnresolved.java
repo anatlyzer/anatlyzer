@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EClass;
  * </ul>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingPossiblyUnresolved()
- * @model annotation="description name='Binding resolved by rule with invalid target' text='A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature'"
+ * @model annotation="description name='Binding possibly unresolved' text='A binding may be unresolved if certain conditions hold'"
  *        annotation="info prec='always-solver' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
  * @generated
  */

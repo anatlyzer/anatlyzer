@@ -7,6 +7,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -22,14 +23,21 @@ import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
+import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
+import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
+import anatlyzer.atl.errors.atl_error.InvalidArgument;
+import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
+import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
@@ -39,10 +47,13 @@ import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
+import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
+import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.model.ATLModel;
@@ -198,6 +209,13 @@ public class AnalyserUtils {
 		
 	}
 	
+	public static String getProblemDescription(Problem p) {
+		EAnnotation ann = p.eClass().getEAnnotation("description");
+		if ( ann == null ) 
+			return "No description";
+		return ann.getDetails().get("name");
+	}
+	
 	public static int getProblemId(Problem p) {
 		if ( p instanceof NoBindingForCompulsoryFeature ) return 1;
 		if ( p instanceof BindingPossiblyUnresolved     ) return 2;
@@ -227,10 +245,22 @@ public class AnalyserUtils {
 		if ( p instanceof NoClassFoundInMetamodel ) return 22;
 		if ( p instanceof OperationCallInvalidParameter ) return 23;
 		if ( p instanceof OperationCallInvalidNumberOfParameters ) return 24;
+		if ( p instanceof CannotInstantiateAbstractClass ) return 25;
+		if ( p instanceof CollectionOperationNotFound ) return 26;
+		if ( p instanceof LazyRuleWithFilter ) return 27;
+		if ( p instanceof FeatureAccessInCollection ) return 28;
+		if ( p instanceof ResolveTempWithoutRule) return 29;
+		if ( p instanceof ResolveTempOutputPatternElementNotFound ) return 30;
+		if ( p instanceof OperationNotFoundInThisModule ) return 31;
+		if ( p instanceof ExpectedCollectionInForEach ) return 32;
+		if ( p instanceof IteratorBodyWrongType ) return 33;
 		
 		// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;
 		if ( p instanceof CollectionOperationOverNoCollectionError ) return 102;
+		
+		// TODO: Change this class
+		if ( p instanceof InvalidArgument ) return 201;
 		
 		return -1;
 		// throw new UnsupportedOperationException(p.getClass().getName());

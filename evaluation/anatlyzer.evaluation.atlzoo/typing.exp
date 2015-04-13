@@ -1,4 +1,4 @@
-name: Count transformation types
+name: Count type errors
 extensionID: typing.experiment.countTypeErrors
 projects: 
 -  name: Ant2Maven
@@ -7,6 +7,7 @@ projects:
 -  name: Class2Relational
 -  name: CPL2SPL
 -  name: DSLBridge
+   ignoredFiles: [ ATL-KM22SimpleExample.atl ]
 -  name: EMF2KM3
 -  name: Families2Persons
 -  name: Geometry
@@ -14,8 +15,9 @@ projects:
 -  name: IEEE1471_2_MoDAF
 -  name: JavaSource2Table
 -  name: KM32ATLCopier
+   ignoredFiles: [ ATLCopier.atl ]
 -  name: KM32CONFATL
--  name: KM32DOT
+-  name: KM32DOT   
 -  name: KM32EMF
 -  name: KM32Measure
 -  name: KM32Metrics
@@ -24,4 +26,53 @@ projects:
 -  name: KMLInjector
 -  name: Make2Ant
 -  name: Maven2Ant
-    ignoredFiles: [ Ant2XML.atl ]  # A copy of the one in Make2Ant
+   ignoredFiles: [ Ant2XML.atl ]
+   # A copy of the one in Make2Ant
+   
+# Not evaluated yet   
+-  name: Measure2Table
+-  name: Measure2XHTML
+-  name: MeasuringModelRepositories
+# -  name: MergingPartialClasses
+# -  name: METAH2ACME
+-  name: MicrosoftOfficeExcel2SoftwareQualityControl
+-  name: MicrosoftOfficeExcelExtractor
+-  name: MicrosoftOfficeExcelInjector
+# - name: ModelsMeasurement # Similar to MeasuringModelRepositories!
+-  name: Monitor2Semaphore
+-  name: MySQL2KM3
+-  name: OCL2R2ML  # Included in OCL2SWRL????
+-  name: OCL2SWRL
+#-  name: org.eclipse.m2m.atl.mdl2gmf  # Don't know how to get MDL meta-model
+-  name: PathExp2PetriNet
+-  name: Port # Tutorial example: with a confirmed witness!
+-  name: Public2Private
+# -  name: R2ML2OCL  # Included in R2MLSWRL!!
+-  name: R2ML2SWRL
+-  name: RSS2ATOM
+-  name: SideEffect 
+-  name: SimpleClass2SimpleRDBMS
+-  name: SoftwareQualityControl2BugzillaFile
+-  name: SoftwareQualityControl2MantisBTFile
+-  name: SSL2SDL # Metamodels in the wrong format
+-  name: SWRL2R2ML
+-  name: Syntax-SBVR-UML-usecase
+-  name: Table2MicrosoftOfficeExcel
+-  name: Table2SVGBarChart
+-  name: Table2SVGPieChart
+-  name: Table2TabularHTML
+-  name: Tree2List
+-  name: TT2BDD
+-  name: UML22Measure
+-  name: Uml2Amble
+-  name: UML2AnyLogic
+-  name: UML2JAVA  # Metamodels in the wrong format
+-  name: UML2ClassDiagram_to_KM3
+# -  name: UML2MOF # Metamodels in the wrong format
+-  name: UML2OWL
+-  name: UmlActivityDiagram2MSProject # UML meta-model in the wrong format
+# -  name: UMLClassDiagram_to_UMLProfile # Not sure about the meta-models
+-  name: UMLDI2SVG  # Needs to convert a KM3 file
+# -  name: UMLSD2STMD  # UML meta-model in the wrong format
+-  name: WSDL2R2ML
+-  name: XSLT2XQuery

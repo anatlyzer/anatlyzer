@@ -28,9 +28,13 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		this.marker = marker;
-		return checkProblemType(marker, OperationNotFoundInThisModule.class);
+		return checkProblemType(marker, OperationNotFoundInThisModule.class) && this.hasHelpers();			
 	}
 	
+	private boolean hasHelpers() {
+		return !this.populateCandidateOps().isEmpty();		
+	}
+
 	private OperationCallExp getElement() {
 		try {
 			OperationNotFoundInThisModule p = (OperationNotFoundInThisModule) getProblem();
@@ -73,10 +77,12 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	
 	private String getClosest() {
 		if (this.closest!=null) return this.closest;
+		//if (this.candidateOps.isEmpty()) return null;
 		
 		OperationCallExp res = this.getElement();		
 			
 		this.candidateOps = this.populateCandidateOps();
+		if (this.candidateOps.isEmpty()) return null;
 		this.closest = this.getClosest(res.getOperationName(), res.getArguments().size());
 		
 		System.out.println("Closest : "+this.closest+" with "+res.getArguments().size()+" arguments.");

@@ -42,7 +42,7 @@ public class VisualizeElement extends Action implements IAnalysisViewAction {
 	}
 	
 	private void visualizeProblem(Problem p) {
-		if ( p instanceof BindingWithResolvedByIncompatibleRule ) {
+		if ( p instanceof BindingResolution ) {
 			try {
 				BindingResolutionInfoView view = (BindingResolutionInfoView) PlatformUI
 						.getWorkbench().getActiveWorkbenchWindow()

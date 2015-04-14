@@ -22,6 +22,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
 public class BindingResolutionInfoLabelProvider implements ILabelProvider, IColorProvider, IFontProvider {
 
@@ -56,11 +57,14 @@ public class BindingResolutionInfoLabelProvider implements ILabelProvider, IColo
 	public Color getBackground(Object element) {
 		if ( element instanceof BindingResolution ) {
 			Device device = Display.getCurrent ();
-			return new Color(device, 90, 64, 128);			
+			return new Color(device, 150, 150, 150);			
 		}
 		else if ( element instanceof ResolvedRuleInfo ) {
 			Device device = Display.getCurrent ();
-			return new Color(device, 64, 128, 90);
+			return new Color(device, 160, 64, 64);
+		} else if ( element instanceof RuleResolutionInfo ) {
+			Device device = Display.getCurrent ();
+			return new Color(device, 64, 160, 64);
 		}
 		return null;
 	}
@@ -98,6 +102,9 @@ public class BindingResolutionInfoLabelProvider implements ILabelProvider, IColo
 			// }
 			// TODO: Print filters!
 			// return ri.getRuleName();
+		} else if ( element instanceof RuleResolutionInfo ) {
+			RuleResolutionInfo rri = (RuleResolutionInfo) element;
+			return ruleToString(rri.getRule());
 		}
 		return null;
 	}

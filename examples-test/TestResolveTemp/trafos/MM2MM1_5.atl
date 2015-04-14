@@ -6,7 +6,7 @@ create OUT : MM1 from IN : MM2;
 
 rule Contaniers {
 	from
-		c2 : MM2!ContainerMM2
+		c2 : MM1x!ContainerMM2	-- should fix to MM2
 	to 
 		c1 : MM1!ContainerMM1 (	
 			as <- 334	-- should fix to aname <- 334

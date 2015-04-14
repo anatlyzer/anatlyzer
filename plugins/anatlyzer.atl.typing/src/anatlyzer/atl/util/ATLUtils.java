@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -328,6 +329,11 @@ public class ATLUtils {
 		return result;
 	}
 	
+
+	public static Set<String> getAllMetamodelNames(ATLModel model) {
+		return getModelInfo(model).stream().map(ModelInfo::getMetamodelName).collect(Collectors.toSet());
+	}
+	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
 		for(ModuleElement r : model.getModule().getElements()) {
@@ -435,6 +441,7 @@ public class ATLUtils {
 		public String getModelName() { return model.getName(); }
 
 		public String getURIorPath() { return uriOrPath; }
+		public OclModel getModel() { return this.model; }	// added by JL
 		
 	}
 
@@ -466,6 +473,8 @@ public class ATLUtils {
 	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {
 		return TypingModel.getInvolvedMetaclassesOfType(b.getValue().getInferredType());
 	}
+
+	
 
 
 	

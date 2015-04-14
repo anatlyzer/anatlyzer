@@ -20,3 +20,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.witness,
  anatlyzer.atl.quickfixast
+Import-Package: org.eclipse.emf.ecore.xmi.impl

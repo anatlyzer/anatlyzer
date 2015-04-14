@@ -6,12 +6,10 @@ create OUT : MM1 from IN : MM2;
 
 rule Contaniers {
 	from
-		c2 : MM2!ContainerMM2
+		c2 : MM2t!ContainerMM2
 	to 
-		c1 : MM1t!ContainerMM1 (
+		c1 : MM1!ContainerMM1 (	-- esto debería dar un error
 			as <- c2.clases 
-			-- ¿Aquí no querríamos señalar que hay objetos que pueden no transformarse (lo que no empiezan por B)?			
-			-- jesusc: arreglado
 		)
 }
 

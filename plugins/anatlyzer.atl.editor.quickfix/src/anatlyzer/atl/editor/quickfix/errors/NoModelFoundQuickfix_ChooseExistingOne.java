@@ -9,6 +9,11 @@ import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 
 
+/**
+ * 
+ * @author Usuario
+ *
+ */
 public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix {
 
 	public NoModelFound getProblem() {

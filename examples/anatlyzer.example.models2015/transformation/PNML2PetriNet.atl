@@ -5,14 +5,14 @@ module PNML2PetriNet;
 create OUT : PetriNet from IN : PNML;
 
 rule PetriNet {
-	from n : PNML!PNMLDocument
+	from n : PNML!NetElement
 	using {
-		arcsSet : Set(PNML!Arc) = PNML!Arc.allInstances();			
+		arcsSet : Set(PNML!Arc) = n.contents->select(e | e.oclIsKindOf(PNML!Arc));
 	}
 	to p : PetriNet!PetriNet (
 		location <- n.location,
-		name <- n.nets.first().name.labels.first().text,
-		elements <- PNML!NetContentElement.allInstances(),
+		name <- 'mynet', -- n.nets.first().name.labels.first().text,
+		elements <- n.contents, --->select(e | e.oclIsKindOf(PNML!NetContentElement)),
 		arcs <- arcsSet
 	)
 }
@@ -21,8 +21,9 @@ rule Place {
 	from n : PNML!Place
 	to   p : PetriNet!Place (
 		location <- n.location,
-		name <- n.name.labels.first().text,
-		net <- n.net.document
+		name <- thisModule.selectLabel(n.name.labels)
+		-- ,
+		-- net <- n.net.document
 	)
 }
 
@@ -30,12 +31,15 @@ rule Transition {
 	from n : PNML!Transition
 	to 	p : PetriNet!Transition (
 		location <- n.location,
-		name <- n.name.labels.first().text,
-		net <- n.net.document
+		name <-thisModule.selectLabel(n.name.labels)
+		-- ,
+		-- net <- n.net.document
 	)
 }
 
-helper def : name() : OclAny = OclUndefined;
+helper def : selectLabel(labels : Sequence(PNML!Label)) : String = 
+	if labels->isEmpty() then 'no-name' 
+	else labels->first().text endif;
 
 
 rule PlaceToTransition {
@@ -45,7 +49,7 @@ rule PlaceToTransition {
 	to p : PetriNet!PlaceToTransition	(
 		location <- n.location,
 		name <- thisModule.selectLabel(n.name.labels), -- n.name.labels.first().text,
-		net <- n.net.document,
+--		net <- n.net.document,
 		"from" <- n.source,
 		"to" <- n.target
 	)
@@ -61,8 +65,8 @@ rule TransitionToPlace {
 	) 
 	to p : PetriNet!TransitionToPlace (
 		location <- n.location,
-		name <- n.name.labels.first().text,
-		net <- n.net.document,
+		name <- thisModule.selectLabel(n.name.labels), --n.name.labels.first().text,
+		-- net <- n.net.document,
 		"from" <- n.source, -- Problem here, because n.source could be a Place
 		"to" <- n.target
 	)

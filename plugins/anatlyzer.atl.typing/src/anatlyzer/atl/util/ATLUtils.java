@@ -329,11 +329,6 @@ public class ATLUtils {
 		return result;
 	}
 	
-
-	public static Set<String> getAllMetamodelNames(ATLModel model) {
-		return getModelInfo(model).stream().map(ModelInfo::getMetamodelName).collect(Collectors.toSet());
-	}
-	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
 		for(ModuleElement r : model.getModule().getElements()) {

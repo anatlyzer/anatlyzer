@@ -28,8 +28,10 @@ import org.eclipse.jface.text.IDocument;
 
 
 
+
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
@@ -87,7 +89,7 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 		if (allContaining.size()>0)
 			return sd.closest(old, allContaining);		// we found several meta-models containing the element
 		else
-			return sd.closest(old, new LinkedList<String>(ATLUtils.getAllMetamodelNames(this.getATLModel())));	
+			return sd.closest(old, new LinkedList<String>(ATLUtils2.getAllMetamodelNames(this.getATLModel())));	
 	}
 
 	private boolean hasClass (ModelInfo m, String className) {

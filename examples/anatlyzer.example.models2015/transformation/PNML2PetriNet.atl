@@ -17,6 +17,12 @@ rule PetriNet {
 	)
 }
 
+
+helper def : selectLabel(labels : Sequence(PNML!Label)) : String = 
+	if labels->isEmpty() then 'no-name' 
+	else labels->first().text endif;
+
+
 rule Place {
 	from n : PNML!Place
 	to   p : PetriNet!Place (
@@ -36,11 +42,6 @@ rule Transition {
 		-- net <- n.net.document
 	)
 }
-
-helper def : selectLabel(labels : Sequence(PNML!Label)) : String = 
-	if labels->isEmpty() then 'no-name' 
-	else labels->first().text endif;
-
 
 rule PlaceToTransition {
 	from n : PNML!Arc (	-- arc source must be a place and arc target a transition

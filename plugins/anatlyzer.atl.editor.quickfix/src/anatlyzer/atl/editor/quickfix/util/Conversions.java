@@ -8,6 +8,8 @@ import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -40,6 +42,16 @@ public class Conversions {
 		if ( pt instanceof IntegerType ) return "0";
 		if ( pt instanceof FloatType ) return "0.0";
 		return "";
+	}
+	
+	public static Type convert(EDataType dt) {
+		switch ( EcoreTypeConverter.normalizeToBasic(dt) ) {
+			case BOOLEAN: return TypesFactory.eINSTANCE.createBooleanType();
+			case INTEGER: return TypesFactory.eINSTANCE.createIntegerType();
+			case DECIMAL: return TypesFactory.eINSTANCE.createFloatType();
+			case STRING: return TypesFactory.eINSTANCE.createStringType();
+		}
+		return null;
 	}
 	
 	public static String getDataTypeText(EDataType dt) {

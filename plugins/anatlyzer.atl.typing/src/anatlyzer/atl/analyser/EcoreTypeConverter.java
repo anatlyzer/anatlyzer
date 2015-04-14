@@ -147,6 +147,7 @@ public class EcoreTypeConverter {
 		} else if ( c.getName().endsWith("Boolean") || c.getName().equals("EBooleanObject")) {
 			return EcorePackage.eINSTANCE.getEBoolean();
 		} else if ( c.getName().equals("EInt") || c.getName().endsWith("Integer") || c.getName().equals("EIntegerObject") ) {
+			return EcorePackage.eINSTANCE.getEInt();	// Added by JL
 		} else if ( c.getName().endsWith("Long") ) {
 			return EcorePackage.eINSTANCE.getELong();			
 		} else if (c.getName().equals("UnlimitedNatural") ) {

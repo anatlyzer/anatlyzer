@@ -9,6 +9,7 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ds" upperBound="-1" eType="#//D"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aname" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="A" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

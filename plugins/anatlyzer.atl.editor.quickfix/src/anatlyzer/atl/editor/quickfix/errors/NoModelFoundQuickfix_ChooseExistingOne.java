@@ -7,6 +7,9 @@ import org.eclipse.jface.text.IDocument;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.StringExp;
 
 
 /**
@@ -42,8 +45,7 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 	}
 
 	@Override
-	public QuickfixApplication getQuickfixApplication() throws CoreException {
-		// TODO Auto-generated method stub
+	public QuickfixApplication getQuickfixApplication() {
 		return null;
 	}
 

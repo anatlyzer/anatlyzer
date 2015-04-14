@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -19,6 +20,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -124,6 +126,12 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 			return (Metaclass)st.getContainedType();
 		}
 		return (Metaclass)expected;
+	}
+	
+	protected EClass getClassContainer(Binding b) {		// Can be moved to a library?
+		EObject feature = b.getWrittenFeature();
+		EClass  owner = (EClass)feature.eContainer();
+		return owner;
 	}
 	
 	protected boolean isCompatibleWith (Type t1, Metaclass m2) {	// Can be moved to a library?

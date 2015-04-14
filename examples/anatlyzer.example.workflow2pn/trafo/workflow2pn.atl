@@ -88,7 +88,7 @@ rule edge2transition {
 }
 
 rule edge2task_forkjoin_arc {
-  from e : WF!FlowEdge ( 
+  from e : WSF!FlowEdge ( 
   	e.input.oclIsKindOf(WF!Task) and
 	(e.output.oclIsKindOf(WF!Fork) or 
 	 e.output.oclIsKindOf(WF!Join))

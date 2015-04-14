@@ -6,7 +6,7 @@ create OUT : MM1 from IN : MM2;
 
 rule Contaniers {
 	from
-		c2 : MM2!ContainerMM2
+		c2 : MM2s!ContainerMM2
 	to 
 		c1 : MM1!ContainerMM1 (
 			as <- c2.clases 

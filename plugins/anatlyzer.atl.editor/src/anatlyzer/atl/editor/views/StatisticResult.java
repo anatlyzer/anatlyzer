@@ -96,8 +96,12 @@ public class StatisticResult extends Dialog {
 		txtStatistics.setText(stream1.toString());
 		
 		Result result = new VerticalTrafoChecker(analyser.getATLModel()).perform();
-		result.printInfo(stream2);
-		txtTrafoType.setText(stream2.toString());
+		if ( result != null ) {
+			result.printInfo(stream2);
+			txtTrafoType.setText(stream2.toString());
+		} else {
+			txtTrafoType.setText("Internal error");
+		}
 	}
 
 	/**

@@ -47,7 +47,12 @@ public class VerticalTrafoChecker extends AbstractVisitor {
 	}
 	
 	public Result perform() {
-		startVisiting(model.getRoot());
+		try {
+			startVisiting(model.getRoot());
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			return null;
+		}
 		
 		if ( imperativeRules.size() > 0 ) {
 			return new ResultImperative(imperativeRules);

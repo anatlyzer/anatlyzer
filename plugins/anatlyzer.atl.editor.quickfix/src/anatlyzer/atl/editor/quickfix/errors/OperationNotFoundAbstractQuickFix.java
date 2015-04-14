@@ -20,7 +20,8 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 	 * @param distance
 	 * @return
 	 */
-	protected int getClosestDistance(String op, int numPar, List<Integer> distance) {		
+	protected int getClosestDistance(String op, int numPar, List<Integer> distance) {
+		if (!(this.candidateOps.containsKey(numPar))) return 1000;
 		distance.addAll(this.sd.distance(op, this.candidateOps.get(numPar)));	
 		System.out.println(this.candidateOps.get(numPar)+"\n"+distance);		
 		return Collections.min(distance);

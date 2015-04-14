@@ -51,7 +51,7 @@ rule PlaceToTransition {
 		name <- thisModule.selectLabel(n.name.labels), -- n.name.labels.first().text,
 --		net <- n.net.document,
 		"from" <- n.source,
-		"to" <- n.target
+		"to" <- n.target 
 	)
 }
 

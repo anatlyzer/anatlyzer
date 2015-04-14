@@ -1,11 +1,17 @@
 package anatlyzer.visualizer.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 
+import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
 public class BindingResolutionInfoContentProvider implements IGraphEntityContentProvider {
 
@@ -24,17 +30,22 @@ public class BindingResolutionInfoContentProvider implements IGraphEntityContent
 	@Override
 	public Object[] getElements(Object input) {
 		if ( input instanceof BindingResolution ) {
-			BindingResolution r = (BindingResolution) input;
-			LocalProblem p = (LocalProblem) input;
-
+			BindingResolution r = (BindingResolution) input;			
+			
+			ArrayList<Object> result = new ArrayList<Object>();
+			result.add(r);
+			addResolutionInfo(r, result);
+			
+			/*
 			Object[] elems = new Object[r.getRules().size() + 1];
 			elems[0] = r;
 			for(int i = 0; i < r.getRules().size(); i++) {
 				ResolvedRuleInfo ri = r.getRules().get(i);
 				elems[i + 1] = ri;
 			}
+			*/
 			
-			return elems;
+			return result.toArray();
 		}
 		return null;
 	}
@@ -44,13 +55,49 @@ public class BindingResolutionInfoContentProvider implements IGraphEntityContent
 		if ( entity instanceof BindingResolution ) {
 			BindingResolution r = (BindingResolution) entity;
 
+			/*
 			Object[] elems = new Object[r.getRules().size()];
 			for(int i = 0; i < r.getRules().size(); i++) {
 				ResolvedRuleInfo ri = r.getRules().get(i);
 				elems[i] = ri;
 			}
 			return elems;
+			*/
+			ArrayList<Object> result = new ArrayList<Object>();
+			addResolutionInfo(r, result);
+			return result.toArray();
 		}
 		return null;
 	}
+
+	private void addResolutionInfo(BindingResolution r,	ArrayList<Object> result) {
+		LocalProblem p = (LocalProblem) r;
+		Binding b = (Binding) p.getElement();
+
+		if ( p instanceof BindingPossiblyUnresolved ) {
+			for(RuleResolutionInfo rri : b.getResolvedBy()) {
+				result.add(rri);
+			}			
+			return;
+		}
+		
+		for(int i = 0; i < r.getRules().size(); i++) {
+			ResolvedRuleInfo ri = r.getRules().get(i);
+			result.add(ri);
+		}
+		for(RuleResolutionInfo rri : b.getResolvedBy()) {
+			boolean alreadyConsidered = false;
+			for(int i = 0; i < r.getRules().size(); i++) {
+				ResolvedRuleInfo ri = r.getRules().get(i);
+				if ( ri.getRuleName().equals(rri.getRule().getName()) ) {
+					alreadyConsidered = true;
+				}
+				
+				if ( ! alreadyConsidered ) {
+					result.add(rri);
+				}
+			}				
+		}
+	}
+
 }

@@ -1,0 +1,69 @@
+-- @path PNML=./anatlyzer.example.models2015/metamodels/PNML_simplified.ecore
+-- @path PetriNet=/anatlyzer.example.models2015/metamodels/PetriNet.ecore
+
+module PNML2PetriNet;
+create OUT : PetriNet from IN : PNML;
+
+rule PetriNet {
+	from n : PNML!PNMLDocument
+	using {
+		arcsSet : Set(PNML!Arc) = PNML!Arc.allInstances();			
+	}
+	to p : PetriNet!PetriNet (
+		location <- n.location,
+		name <- n.nets.first().name.labels.first().text,
+		elements <- PNML!NetContentElement.allInstances(),
+		arcs <- arcsSet
+	)
+}
+
+rule Place {
+	from n : PNML!Place
+	to   p : PetriNet!Place (
+		location <- n.location,
+		name <- n.name.labels.first().text,
+		net <- n.net.document
+	)
+}
+
+rule Transition {
+	from n : PNML!Transition
+	to 	p : PetriNet!Transition (
+		location <- n.location,
+		name <- n.name.labels.first().text,
+		net <- n.net.document
+	)
+}
+
+helper def : name() : OclAny = OclUndefined;
+
+
+rule PlaceToTransition {
+	from n : PNML!Arc (	-- arc source must be a place and arc target a transition
+		n.source.oclIsKindOf(PNML!Place) and n.target.oclIsKindOf(PNML!Transition)
+	) 
+	to p : PetriNet!PlaceToTransition	(
+		location <- n.location,
+		name <- thisModule.selectLabel(n.name.labels), -- n.name.labels.first().text,
+		net <- n.net.document,
+		"from" <- n.source,
+		"to" <- n.target
+	)
+}
+
+rule TransitionToPlace {
+	from n : PNML!Arc  (	
+		-- arc source must be a transition and arc target a place
+		-- n.source.oclIsKindOf(PNML!Transition) and n.target.oclIsKindOf(PNML!Place)
+		
+		-- The developer forgets to add n.source.oclIsKindOf(PNML!Transition)
+		n.target.oclIsKindOf(PNML!Place)
+	) 
+	to p : PetriNet!TransitionToPlace (
+		location <- n.location,
+		name <- n.name.labels.first().text,
+		net <- n.net.document,
+		"from" <- n.source, -- Problem here, because n.source could be a Place
+		"to" <- n.target
+	)
+}

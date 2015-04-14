@@ -232,7 +232,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inMatchedRule(MatchedRule self) {
-		Metaclass m = (Metaclass) attr.typeOf(self.getInPattern().getElements().get(0));
+		
 		if ( self.getOutPattern() == null || self.getOutPattern().getElements().isEmpty() ) {
 			
 			if ( self.getOutPattern().getDropPattern() == null )
@@ -240,11 +240,14 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			return;
 		}
 		
+		Type src = attr.typeOf(self.getInPattern().getElements().get(0));
 		Type t = attr.typeOf(self.getOutPattern().getElements().get(0).getType()); 
 		
-		IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();
-		// System.out.println("TopLevelTraversal.inMatchedRule(): " + self.getName());
-		ns.attachRule(self.getName(), t, self);
+		if ( src instanceof Metaclass && t instanceof Metaclass ) {
+			IClassNamespace ns = (IClassNamespace) src.getMetamodelRef();
+			// System.out.println("TopLevelTraversal.inMatchedRule(): " + self.getName());
+			ns.attachRule(self.getName(), t, self);
+		}
 	}
 
 	//  

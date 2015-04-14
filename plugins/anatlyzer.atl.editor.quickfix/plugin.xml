@@ -107,4 +107,10 @@
             apply="anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne">
+      </quickfix>
+   </extension>
 </plugin>

@@ -12,13 +12,17 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.StringExp;
 
 public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends OperationNotFoundAbstractQuickFix {
 		
@@ -94,25 +98,28 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	
 	@Override
 	public void apply(IDocument document) {
-		OperationCallExp res = this.getElement();
+		QuickfixApplication qfa = getQuickfixApplication();	
+		new InDocumentSerializer(qfa, document).serialize();
 		
-		try {
+//		OperationCallExp res = this.getElement();
+//		
+//		try {
+//		
+//			int[] sourceOffset = getElementOffset(res.getSource(), document);
+//	
+//			int sourceOffsetEnd = sourceOffset[1];
+//			
+//			int offsetEnd   = getProblemEndOffset();
+//			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
+//			int parent = rest.indexOf("(");
+//			
+//			document.replace(sourceOffsetEnd, parent, "."+this.getClosest());
+//			// TODO: take into account parameters and return value
+//		} catch (CoreException | BadLocationException e) {
+//			throw new RuntimeException(e);
+//		}
 		
-			int[] sourceOffset = getElementOffset(res.getSource(), document);
-	
-			int sourceOffsetEnd = sourceOffset[1];
-			
-			int offsetEnd   = getProblemEndOffset();
-			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
-			int parent = rest.indexOf("(");
-			
-			document.replace(sourceOffsetEnd, parent, "."+this.getClosest());
-			// TODO: take into account parameters and return value
-		} catch (CoreException | BadLocationException e) {
-			throw new RuntimeException(e);
-		}
-		
-		System.out.println("Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest());
+		//System.out.println("Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest());
 	}
 
 	@Override
@@ -129,7 +136,17 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
+		OperationCallExp le = (OperationCallExp)getProblematicElement();		
+		QuickfixApplication qfa = new QuickfixApplication();
+		
+		qfa.replace(le, (expr, trace) -> {
+			trace.preserve(expr.getSource());
+						
+			le.setOperationName(this.getClosest());		// TODO: Create copy... and handle parameters
+			
+			return le;
+		});
+		return qfa;
 	}
 
 

@@ -95,7 +95,7 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp le = (OperationCallExp)getProblematicElement();		
 		QuickfixApplication qfa = new QuickfixApplication();
-		
+			
 		qfa.replace(le, (expr, trace) -> {
 			trace.preserve(expr.getSource());
 			

@@ -31,7 +31,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.m2m.atl.core.ATLCoreException;
+import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.ModelFactory;
+import org.eclipse.m2m.atl.core.emf.EMFExtractor;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.m2m.atl.core.emf.EMFModelFactory;
 import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
@@ -61,6 +63,7 @@ import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
 import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 import anatlyzer.evaluation.mutators.creation.BindingCreationMutator;
+import anatlyzer.evaluation.mutators.creation.FilterCreationMutator;
 import anatlyzer.evaluation.mutators.deletion.ArgumentDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.BindingDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.FilterDeletionMutator;
@@ -208,6 +211,7 @@ public class Tester {
 				new IteratorModificationMutator(),
 				// creation
 				new BindingCreationMutator(),
+//				new FilterCreationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);

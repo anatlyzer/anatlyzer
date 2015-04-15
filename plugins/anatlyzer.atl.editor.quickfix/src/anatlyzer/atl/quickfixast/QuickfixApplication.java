@@ -134,4 +134,8 @@ public class QuickfixApplication {
 		setter.accept(src);
 	}
 
+	public void apply() {
+		// For the moment nothing... but should be called to ensure everything is in sync
+	}
+
 }

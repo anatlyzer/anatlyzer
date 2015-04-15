@@ -1,5 +1,6 @@
 package anatlyzer.experiments.typing;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -7,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
@@ -27,10 +31,11 @@ import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.experiments.export.CountingModel;
+import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
@@ -39,9 +44,90 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 	List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	private CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
+	class AppliedQuickfixInfo {
+
+		private AtlProblemQuickfix quickfix;
+		private AnalysisResult original;
+		private AnalysisResult newResult;
+		private boolean notSupported;
+
+		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original) {
+			// TODO Auto-generated constructor stub
+			this.quickfix = quickfix;
+			this.original = original;
+		}
+
+		public void setRetyped(AnalysisResult newResult) {
+			this.newResult = newResult;
+		}
+		
+		public AnalysisResult getRetyped() {
+			if ( newResult == null )
+				throw new IllegalStateException();
+			return newResult;
+		}
+
+		public void setNotSupported() {
+			this.notSupported = true;
+		}
+		
+		public boolean isNotSupported() {
+			return notSupported;
+		}
+		
+	}
+	
+	class AnalysedTransformation {
+		private IResource r;
+		private HashMap<Problem, List<AppliedQuickfixInfo>> problemToQuickfix = new HashMap<>();
+		private Problem currentProblem;
+		private AnalysisResult original;
+
+		public AnalysedTransformation(IResource resource, AnalysisResult original) {
+			this.r = resource;
+			this.original = original;
+		}
+		
+		public void addProblem(Problem p) {
+			
+		}
+
+		public void currentProblem(Problem p) {
+			ArrayList<AppliedQuickfixInfo> applications = new ArrayList<ApplyQuickfixes.AppliedQuickfixInfo>();
+			problemToQuickfix.put(p, applications);
+			this.currentProblem = p;
+		}
+
+		public void appliedQuickfix(AppliedQuickfixInfo qi) {
+			problemToQuickfix.get(currentProblem).add(qi);
+		}
+
+		public List<AppliedQuickfixInfo> getQuickfixes(Problem p) {
+			List<AppliedQuickfixInfo> l = problemToQuickfix.get(p);
+			if ( l == null )
+				l = new ArrayList<ApplyQuickfixes.AppliedQuickfixInfo>();
+			return l;
+		}
+	}
+	
+	class Project {
+		private List<AnalysedTransformation> trafos = new ArrayList<ApplyQuickfixes.AnalysedTransformation>();
+		private String name;
+
+		public Project(String name) {
+			this.name = name;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+	}
+	
+	
 	// Just for test purposes
 	private List<String> messages = new ArrayList<String>();
-	
+	private HashMap<String, Project> projects = new HashMap<String, ApplyQuickfixes.Project>();
 	
 	public ApplyQuickfixes() {
 		counting.setRepetitions(true);
@@ -52,6 +138,12 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 	
 	@Override
 	public void perform(IResource resource) {
+		String projectName = resource.getProject().getName();
+		if ( ! projects.containsKey(projectName) ) {
+			projects.put(projectName, new Project(projectName));
+		}
+		Project project = projects.get(projectName);
+		
 		AnalyserData data;
 		try {
 			data = executeAnalyser(resource);
@@ -63,77 +155,85 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
+			AnalysedTransformation trafo = new AnalysedTransformation(resource, data);
+			project.trafos.add(trafo);
+			
 			List<Problem> allProblems = data.getProblems();
 			for (Problem p : allProblems) {
 				printMessage("\n");
 				printMessage(p.getDescription());
 				
+				trafo.currentProblem(p);
+				
 				List<AtlProblemQuickfix> quickfixes = getQuickfixes(p, data);
 				
 				if ( quickfixes.size() > 0 ) { 
+					// Printing
 					printMessage("Available quickfixes:");
 					for (AtlProblemQuickfix atlProblemQuickfix : quickfixes) {
 						printMessage(" * " + atlProblemQuickfix.getDisplayString());
 					}
-
 					printMessage("Trying to apply the first one...");
-					AtlProblemQuickfix appliedQf = quickfixes.get(0);
 					
-					// Poor man's retyping
-					AnalyserData newResult = executeAnalyser(resource);
-					int idx = allProblems.indexOf(p);					
-					LocalProblem newProblem = (LocalProblem) newResult.getProblems().get(idx);
-					if ( ! newProblem.getLocation().equals(((LocalProblem) p).getLocation()) ) {
-						throw new IllegalStateException("This should not happen");
+					// Recording					
+					for (AtlProblemQuickfix quickfix : quickfixes) {
+						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data);
+						trafo.appliedQuickfix(qi);
 					}
-					
-					appliedQf.setErrorMarker(new MockMarker(newProblem, newResult));
-					
-					try { 
-						QuickfixApplication qfa = ((AbstractAtlQuickfix) appliedQf).getQuickfixApplication();
-						
-						IFolder temp = experimentFile.getProject().getFolder("temp");
-						if ( ! temp.exists() ) {
-							temp.create(true, true, null);
-						}
-						
-						IFile f = temp.getFile(resource.getName().replace(".atl", "") + (++id) + ".atl");
-						
-						ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
-						printMessage("Generated quickfixed file" + f.getName());
-					} catch ( UnsupportedOperationException e ) {
-						printMessage("Quickfix: " + appliedQf.getDisplayString() + " not implemented at the AST Level");
-					}
-
-//					This is not as easy, the traceability must be kept...
-//					ATLModel original = data.getAnalyser().getATLModel();
-//					ATLModel copied   = original.copyAST();					
-//					AnalyserData newResult = executeAnalyser(resource, copied);
-					
+										
 				} else {
 					printMessage(" - No quickfixes available");
 				}
-				
-				
-				
-				
 			}
-			
-			
-			/*
-			String fileName = resource.getName();
-			counting.processingArtefact(fileName);
-			
-			for(Problem p : data.getProblems()) {
-				String errorCode = AnalyserUtils.getProblemId(p) + "";
-				DetectedError e = new DetectedError(errorCode, fileName);
-				counting.addByCategory(errorCode, e);
-			}
-			*/
 		} catch (Exception e) {
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		} 
+	}
+
+	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original) throws IOException, CoreException, Exception {
+		// Re-execute the analyser to have a fresh copy to apply the quickfix, and the retype
+		AnalyserData newResult = executeAnalyser(resource);
+		int idx = original.getProblems().indexOf(p);					
+		LocalProblem newProblem = (LocalProblem) newResult.getProblems().get(idx);
+		if ( ! newProblem.getLocation().equals(((LocalProblem) p).getLocation()) ) {
+			throw new IllegalStateException("This should not happen");
+		}
+		
+		quickfix.setErrorMarker(new MockMarker(newProblem, newResult));
+
+		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original);
+		
+		try { 
+			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
+			qfa.apply();
+		
+			// Retype
+			newResult = executeAnalyser(resource, newResult.getAnalyser().getATLModel());
+			if ( newResult == null ) {
+				throw new IllegalStateException();
+			}
+			
+			qi.setRetyped(newResult);
+			
+			// Serialize, just for testing purposes
+			IFolder temp = experimentFile.getProject().getFolder("temp");
+			if ( ! temp.exists() ) {
+				temp.create(true, true, null);
+			}
+			
+			IFile f = temp.getFile(resource.getName().replace(".atl", "") + (++id) + ".atl");
+			
+			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
+			printMessage("Generated quickfixed file" + f.getName());
+		
+		
+		} catch ( UnsupportedOperationException e ) {
+			printMessage("Quickfix: " + quickfix.getDisplayString() + " not implemented at the AST Level");
+			qi.setNotSupported();
+		}
+		
+		return qi;
 	}
 
 	private void printMessage(String msg) {
@@ -150,15 +250,69 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 
 	@Override
 	public boolean canExportToExcel() {
-		return false;
+		return true;
 	}
 
 	@Override
-	public void exportToExcel(String file) throws IOException {
-		// counting.toExcel(file);
+	public void exportToExcel(String fileName) throws IOException {
+		Workbook wb = new XSSFWorkbook();
+		
+		for (Project p : projects.values()) {
+			createDetail(wb, p);			
+		}
+		
+		FileOutputStream fileOut = new FileOutputStream(fileName);
+		wb.write(fileOut);
+		wb.close();
+		fileOut.close();          
 	}
 
 	
+	private void createDetail(Workbook wb, Project project) {
+		Sheet s = wb.createSheet(project.getName());
+		List<AnalysedTransformation> trafos = project.trafos;
+		
+		Styler st = new Styler(wb);
+
+		int startCol = 1;
+		int starRow  = 1;
+		
+		int row = starRow;
+		
+		for (AnalysedTransformation t : trafos) {
+			row++;
+			
+			st.createCell(s, row, startCol + 0, t.r.getName());
+			st.createCell(s, row, startCol + 1, (long) t.original.getProblems().size());
+			row++;
+			
+			// for (Problem p : t.problemToQuickfix.keySet()) {
+			for (Problem p : t.original.getProblems()) {			
+				st.createCell(s, row, startCol + 1, (long) AnalyserUtils.getProblemId(p));
+				st.createCell(s, row, startCol + 2, p.getDescription() + " at " + ((LocalProblem) p).getLocation());
+				
+				List<AppliedQuickfixInfo> quickfixes = t.getQuickfixes(p);
+				if ( quickfixes.isEmpty() ) {
+					st.createCell(s, row, startCol + 3, 0L);
+				} else {
+					st.createCell(s, row, startCol + 3, (long) quickfixes.size());	
+				}
+				row++;
+				for(AppliedQuickfixInfo qi : quickfixes) {
+					st.createCell(s, row, startCol + 3, qi.quickfix.getDisplayString());
+					if ( qi.isNotSupported() ) {
+						st.createCell(s, row, startCol + 4, (long) -1);
+					} else {
+						st.createCell(s, row, startCol + 4, (long) qi.getRetyped().getProblems().size());											
+					}
+					row++;
+				}				
+			}
+		}
+		
+	
+	}
+
 	// Similar to the method in the editor...
 	public static List<AtlProblemQuickfix> getQuickfixes(Problem p, AnalysisResult r) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();

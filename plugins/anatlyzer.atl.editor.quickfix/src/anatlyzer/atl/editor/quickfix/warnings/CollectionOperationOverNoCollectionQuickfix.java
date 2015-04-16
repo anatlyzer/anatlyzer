@@ -1,14 +1,15 @@
 package anatlyzer.atl.editor.quickfix.warnings;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 /**
  * Collection operations must be accessed with "->", but ATL supports ".".
@@ -36,35 +37,29 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 	}
 
 	@Override
-	public void apply(IDocument document) {
-
-		try {
-			int offsetEnd   = getProblemEndOffset();
-			
-			CollectionOperationCallExp call = (CollectionOperationCallExp) getProblem().getElement();
-			int[] sourceOffset = getElementOffset(call.getSource(), document);
-
-			int sourceOffsetEnd = sourceOffset[1];
-			
-			int distance = -1;
-			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
-			for(int i = 0; i < rest.length() - 1; i++) {
-				if ( rest.charAt(i) == '-' && rest.charAt(i + 1) == '>') {
-					distance = i;
-				}
-			}
-			
-			if ( distance != -1 ) {
-				document.replace(sourceOffsetEnd, distance + 2, ".");
-			} else {
-				System.err.println("Cannot find . in " + rest);
-			}
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
-		} catch (BadLocationException e) {
-			throw new RuntimeException(e);
-		}
+	public QuickfixApplication getQuickfixApplication() {
+		CollectionOperationCallExp call = (CollectionOperationCallExp) getProblematicElement();
+		QuickfixApplication qfa = new QuickfixApplication();
 		
+		qfa.replace(call, (expr, trace) -> {
+			trace.preserve(expr.getSource());
+			trace.preserve(expr.getArguments());
+			
+			OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+			op.setOperationName(expr.getOperationName());
+			op.getArguments().addAll(expr.getArguments());
+			op.setSource(expr.getSource());
+			
+			return op;
+		});
+		
+		return qfa;
+	}
+
+	@Override
+	public void apply(IDocument document) {
+		QuickfixApplication qfa = getQuickfixApplication();
+		new InDocumentSerializer(qfa, document).serialize();
 	}
 
 	@Override
@@ -75,11 +70,6 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 	@Override
 	public String getDisplayString() {
 		return "Replace '->' with '.'";
-	}
-
-	@Override
-	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
 	}
 
 }

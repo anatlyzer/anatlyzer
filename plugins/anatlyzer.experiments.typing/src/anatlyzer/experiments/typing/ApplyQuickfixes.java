@@ -8,12 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -41,15 +43,20 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class ApplyQuickfixes extends AbstractATLExperiment implements IExperiment {
 
-	List<AnalyserData> allData = new ArrayList<AnalyserData>();
+	private List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	private CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
+	private boolean recordAll = false;
+	private Workbook workbook = new XSSFWorkbook();
+;
+	
 	class AppliedQuickfixInfo {
 
 		private AtlProblemQuickfix quickfix;
 		private AnalysisResult original;
 		private AnalysisResult newResult;
 		private boolean notSupported;
+		private boolean implError;
 
 		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original) {
 			// TODO Auto-generated constructor stub
@@ -73,6 +80,18 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 		
 		public boolean isNotSupported() {
 			return notSupported;
+		}
+
+		public AnalysisResult getOriginal() {
+			return original;
+		}
+
+		public void setImplError() {
+			this.implError = true;
+		}
+		
+		public boolean isImplError() {
+			return implError;
 		}
 		
 	}
@@ -135,6 +154,18 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 	}
 
 	private static int id = 0;
+
+	@Override
+	public void projectDone(IProject project) {
+		// Detect that we are in a new project, so dump the previous
+		// and free memory
+		if ( ! recordAll && projects.size() == 1 ) {
+			Project p = projects.get(project.getName());
+			createDetail(workbook, p);
+			
+			projects.clear(); // free memory
+		}
+	}
 	
 	@Override
 	public void perform(IResource resource) {
@@ -173,8 +204,7 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 					for (AtlProblemQuickfix atlProblemQuickfix : quickfixes) {
 						printMessage(" * " + atlProblemQuickfix.getDisplayString());
 					}
-					printMessage("Trying to apply the first one...");
-					
+		
 					// Recording					
 					for (AtlProblemQuickfix quickfix : quickfixes) {
 						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data);
@@ -186,14 +216,19 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 				}
 			}
 		} catch (Exception e) {
+			printMessage("Error: " + e.getMessage());
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		} 
 	}
 
 	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original) throws IOException, CoreException, Exception {
-		// Re-execute the analyser to have a fresh copy to apply the quickfix, and the retype
+		// Re-execute the analyser to have a fresh copy to apply the quickfix, and then retype
 		AnalyserData newResult = executeAnalyser(resource);
+		if ( newResult.getProblems().size() != original.getProblems().size() ) {
+			throw new IllegalStateException();
+		}
+		
 		int idx = original.getProblems().indexOf(p);					
 		LocalProblem newProblem = (LocalProblem) newResult.getProblems().get(idx);
 		if ( ! newProblem.getLocation().equals(((LocalProblem) p).getLocation()) ) {
@@ -208,11 +243,15 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
 			qfa.apply();
 		
+			
 			// Retype
+			newResult.getAnalyser().getATLModel().clear();
+			newResult.getProblems().size();
 			newResult = executeAnalyser(resource, newResult.getAnalyser().getATLModel());
 			if ( newResult == null ) {
 				throw new IllegalStateException();
 			}
+			
 			
 			qi.setRetyped(newResult);
 			
@@ -231,6 +270,8 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 		} catch ( UnsupportedOperationException e ) {
 			printMessage("Quickfix: " + quickfix.getDisplayString() + " not implemented at the AST Level");
 			qi.setNotSupported();
+		} catch ( Exception e ) {
+			qi.setImplError();
 		}
 		
 		return qi;
@@ -255,10 +296,15 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 
 	@Override
 	public void exportToExcel(String fileName) throws IOException {
-		Workbook wb = new XSSFWorkbook();
-		
-		for (Project p : projects.values()) {
-			createDetail(wb, p);			
+		Workbook wb = null;
+		if ( recordAll ) {		
+			wb = new XSSFWorkbook();
+			
+			for (Project p : projects.values()) {
+				createDetail(wb, p);			
+			}
+		} else {
+			wb = workbook;
 		}
 		
 		FileOutputStream fileOut = new FileOutputStream(fileName);
@@ -282,9 +328,18 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 		for (AnalysedTransformation t : trafos) {
 			row++;
 			
-			st.createCell(s, row, startCol + 0, t.r.getName());
+			st.cell(s, row, startCol + 0, t.r.getName()).centeringBold();
 			st.createCell(s, row, startCol + 1, (long) t.original.getProblems().size());
 			row++;
+			
+			st.cell(s, row, startCol + 1, "Id.").centeringBold();
+			st.cell(s, row, startCol + 2, "Description.").centeringBold().charsWidth(50);
+			st.cell(s, row, startCol + 3, "Quickfixes").centeringBold();
+			st.cell(s, row, startCol + 4, "Fixed").centeringBold();
+			st.cell(s, row, startCol + 5, "Total").centeringBold();
+			
+			row++;
+			
 			
 			// for (Problem p : t.problemToQuickfix.keySet()) {
 			for (Problem p : t.original.getProblems()) {			
@@ -301,9 +356,16 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 				for(AppliedQuickfixInfo qi : quickfixes) {
 					st.createCell(s, row, startCol + 3, qi.quickfix.getDisplayString());
 					if ( qi.isNotSupported() ) {
-						st.createCell(s, row, startCol + 4, (long) -1);
+						st.cell(s, row, startCol + 4, (long) 0).background(HSSFColor.DARK_RED.index);
+						st.cell(s, row, startCol + 6, "No AST");							
+					} else if ( qi.isImplError() ) {
+						st.cell(s, row, startCol + 4, (long) 0).background(HSSFColor.RED.index);	
+						st.cell(s, row, startCol + 6, "Impl. Error");							
 					} else {
-						st.createCell(s, row, startCol + 4, (long) qi.getRetyped().getProblems().size());											
+						long newProblems = qi.getRetyped().getProblems().size();
+						long oldProblems = qi.getOriginal().getProblems().size(); 
+						st.createCell(s, row, startCol + 4, (long) oldProblems - newProblems);											
+						st.createCell(s, row, startCol + 5, (long) newProblems);											
 					}
 					row++;
 				}				

@@ -11,7 +11,7 @@ rule PetriNet {
 	}
 	to p : PetriNet!PetriNet (
 		location <- n.location,
-		name <- 'mynet', -- n.nets.first().name.labels.first().text,
+		name <- n.contents.size().toString(), -- 'mynet', -- n.nets.first().name.labels.first().text,
 		elements <- n.contents, --->select(e | e.oclIsKindOf(PNML!NetContentElement)),
 		arcs <- arcsSet
 	)

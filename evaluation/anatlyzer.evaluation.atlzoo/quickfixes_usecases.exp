@@ -4,8 +4,10 @@ projects:
 -  name: CodeCloneTools_UseCase
 -  name: CPL2SPL_UseCase
 -  name: Fiacre2Lotos_UseCase
-#-  name: ModelsMeasurement_UseCase
-#   ignoredFiles: [UML22Measure_all.atl EMOOSE4KM3.atl EMOOSE4UML2.atl FLAME4KM3.atl FLAME4UML2.atl MeasureHelpers.atl MOOD4KM3.atl MOOD4UML2.atl QMOOD4KM3.atl QMOOD4UML2.atl TableHelpers.atl] 
+
+-  name: ModelsMeasurement_UseCase
+   ignoredFiles: [UML22Measure_all.atl EMOOSE4KM3.atl EMOOSE4UML2.atl FLAME4KM3.atl FLAME4UML2.atl MeasureHelpers.atl MOOD4KM3.atl MOOD4UML2.atl QMOOD4KM3.atl QMOOD4UML2.atl TableHelpers.atl] 
+
 -  name: OCL2SWRL_UseCase
 -  name: SBVR2UML_UseCase
 -  name: SimplePDL2Tina_UseCase

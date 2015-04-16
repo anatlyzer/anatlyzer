@@ -12,6 +12,7 @@ import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
 import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
+import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -36,33 +37,37 @@ public class InDocumentSerializer extends ATLSerializer {
 		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
 		
 		qfa.getActions().forEach(a -> {
-			this.currentAction = a;
-
-			startVisiting(a.getTgt());
-			
-			String s = g(a.getTgt());
-			
-			int start  = -1;
-			int length = -1;
-			
-			if ( a instanceof ReplacementAction ) {
-				int[] offsets = help.getIndexChar(((LocatedElement) ((ReplacementAction) a).getSrc()).getLocation());
-
-				start  = offsets[0];
-				length = offsets[1] - offsets[0];
-			} else if ( a instanceof InsertAfterAction ) {
-				int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
-				start  = offsets[1];
-				length = 0;
-				// By default, add a carriage return...
-				s = "\n\n" + s;
-			} else {
-				throw new UnsupportedOperationException();
-			}
-			// For the moment analysing the cases, because I do not want to make Actions dependent on AtlHelp...
-			
-			
 			try {
+				if ( a instanceof PutInAction ) {
+					a = ((PutInAction) a).toMockReplacement();
+				}
+	
+				this.currentAction = a;
+				
+				startVisiting(a.getTgt());
+				
+				String s = g(a.getTgt());
+				
+				int start  = -1;
+				int length = -1;
+				
+				if ( a instanceof ReplacementAction ) {
+					int[] offsets = help.getIndexChar(((LocatedElement) ((ReplacementAction) a).getSrc()).getLocation());
+	
+					start  = offsets[0];
+					length = offsets[1] - offsets[0];
+				} else if ( a instanceof InsertAfterAction ) {
+					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
+					start  = offsets[1];
+					length = 0;
+					// By default, add a carriage return...
+					s = "\n\n" + s;
+				} else {
+					throw new UnsupportedOperationException();
+				}
+				// For the moment analysing the cases, because I do not want to make Actions dependent on AtlHelp...
+				
+				
 				document.replace(start, length, s);
 			} catch (Exception e) {
 				throw new RuntimeException(e);

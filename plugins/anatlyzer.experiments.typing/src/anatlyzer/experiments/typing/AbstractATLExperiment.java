@@ -3,6 +3,7 @@ package anatlyzer.experiments.typing;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
@@ -22,6 +23,11 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	@Override
 	public void setExperimentConfiguration(IFile file) {
 		this.experimentFile = file;
+	}
+	
+	@Override
+	public void projectDone(IProject p) {
+		
 	}
 	
 	protected AnalyserData executeAnalyser(IResource resource)

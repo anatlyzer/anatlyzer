@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -15,10 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.ATL.ModuleElement;
-import anatlyzer.atlext.OCL.OclExpression;
 
 /**
  * This class represents a modification in the AST, allowing
@@ -36,18 +34,32 @@ public class QuickfixApplication {
 		return actions;
 	}
 	
-	public <T extends EObject> void replace(T originalRoot, BiFunction<T, Trace, T> replacer) {
-		@SuppressWarnings("unchecked")
-		T root = (T) ATLCopier.copySingleElement(originalRoot);
+	public <T1 extends EObject, T2 extends EObject> void replace(T1 root, BiFunction<T1, Trace, T2> replacer) {
+		//@SuppressWarnings("unchecked")
+		//T root = (T) ATLCopier.copySingleElement(originalRoot);
 		
 		Trace trace = new Trace();
-		T r = replacer.apply(root, trace);
+		T2 r = replacer.apply(root, trace);
 		ReplacementAction action = new ReplacementAction(root, r, trace);
 		
 		actions.add(action);
 		
 		EcoreUtil.replace(root, r);
 		// now r is the new root...
+	}
+	
+	public <T1 extends EObject> void change(EObject root, 
+			Supplier<T1> rootCreator,
+			BiConsumer<T1, Trace> replacer) {	
+		Trace trace = new Trace();
+		
+		T1 newRoot = rootCreator.get();
+		EcoreUtil.replace(root, newRoot);
+		
+		replacer.accept(newRoot, trace);
+		ReplacementAction action = new ReplacementAction(root, newRoot, trace);
+		
+		actions.add(action);
 	}
 	
 	public <A extends LocatedElement, B extends LocatedElement> void insertAfter(A anchor, Supplier<B> supplier) {
@@ -65,7 +77,18 @@ public class QuickfixApplication {
 		
 		actions.add(new InsertAfterAction(anchor, element));
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	public void putIn(EObject receptor, EReference feature, Supplier<? extends EObject> creator) {
+		EObject newObj= creator.get();
+		if ( feature.isMany() ) {
+			((List<EObject>) receptor.eGet(feature)).add(newObj);
+		} else {
+			receptor.eSet(feature, newObj);
+		}
+		actions.add(new PutInAction(receptor, feature, newObj));
+	}
+
 	public static class Trace {
 		LinkedList<Object> preservedElements = new LinkedList<Object>();
 		
@@ -115,7 +138,6 @@ public class QuickfixApplication {
 	}
 	
 	public static class InsertAfterAction extends Action {
-
 		private EObject anchor;
 
 		public InsertAfterAction(EObject anchor, EObject tgt) {
@@ -125,10 +147,38 @@ public class QuickfixApplication {
 		
 		public EObject getAnchor() {
 			return anchor;
-		}
-		
+		}		
 	}
 
+	public static class PutInAction extends Action {
+
+		private EObject receptor;
+		private EReference feature;
+
+		public PutInAction(EObject receptor, EReference feature, EObject newObj) {
+			super(newObj, new Trace());
+			this.receptor = receptor;
+			this.feature = feature;
+		}
+		
+		public EObject getReceptor() {
+			return receptor;
+		}
+
+		public Action toMockReplacement() {
+			Trace mockTrace = new Trace();
+			EList<EReference> refs = receptor.eClass().getEAllReferences();
+			for (EReference ref : refs) {
+				if ( ref != feature ) {
+					mockTrace.preserve(receptor.eGet(ref));
+				}
+			}
+			return new ReplacementAction(receptor, receptor, mockTrace);
+		}
+		
+		
+	}
+	
 	public void move(Consumer<EObject> setter, Supplier<EObject> getter) {
 		EObject src =getter.get();
 		setter.accept(src);
@@ -137,5 +187,7 @@ public class QuickfixApplication {
 	public void apply() {
 		// For the moment nothing... but should be called to ensure everything is in sync
 	}
+
+
 
 }

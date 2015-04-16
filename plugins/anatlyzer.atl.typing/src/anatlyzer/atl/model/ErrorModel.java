@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
@@ -98,7 +99,7 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
 public class ErrorModel {
 	
 	protected Resource r;
-	private AnalysisResult	result;
+	protected AnalysisResult	result;
 	
 	public ErrorModel(Resource resource) {
 		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
@@ -773,6 +774,11 @@ public class ErrorModel {
 		me.setKlass(klass);
 		me.setMetamodelName(mmName);
 		return me;
+	}
+
+	public void clear() {
+		EcoreUtil.delete(result);
+		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
 	}
 
 	

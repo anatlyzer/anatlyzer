@@ -20,7 +20,6 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -59,21 +58,27 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	}
 	
 	protected LocalProblem getProblem() throws CoreException {
+		return getProblem(this.marker);
+	}
+	
+	protected LocalProblem getProblem(IMarker marker) throws CoreException {
 		LocalProblem problem = (LocalProblem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 		return problem;
 	}
 	
-
 	protected LocatedElement getProblematicElement() {
+		return getProblematicElement(this.marker);
+	}
+	
+	protected LocatedElement getProblematicElement(IMarker marker) {
 		try {
-			return (LocatedElement) getProblem().getElement();
+			return (LocatedElement) getProblem(marker).getElement();
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 	
-
 	protected int[] getElementOffset(LocatedElement obj, IDocument document) {
 		AtlNbCharFile help = new AtlNbCharFile(new ByteArrayInputStream(document.get().getBytes()));
 		return help.getIndexChar(obj.getLocation());

@@ -60,7 +60,7 @@ public class TypingModel {
 	private PrimitiveGlobalNamespace primitiveNamespace = new PrimitiveGlobalNamespace(this);
 	private OclTypeNamespace oclTypeNamespace = new OclTypeNamespace(this);
 	
-	private Resource impl;
+	protected Resource impl;
 	// TODO: Add created types to the resource!!!
 	
 	public TypingModel(Resource r) {

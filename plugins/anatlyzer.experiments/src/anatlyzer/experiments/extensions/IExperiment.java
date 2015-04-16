@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 
 public interface IExperiment {
@@ -14,4 +15,5 @@ public interface IExperiment {
 	boolean canExportToExcel();
 	void exportToExcel(String fileName) throws IOException;
 	void setExperimentConfiguration(IFile file);
+	void projectDone(IProject p);
 }

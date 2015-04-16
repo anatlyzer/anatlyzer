@@ -3,6 +3,7 @@ package anatlyzer.experiments.export;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -188,6 +189,16 @@ public class Styler extends ExcelUtil {
 		public CellStyler centerVertically() {
 			cell.getCellStyle().setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 			return this;
+		}
+
+		public void background(short index) {
+			CellStyle style = workbook.createCellStyle();
+			style.setFillBackgroundColor(index);			
+			style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+			cell.setCellStyle(style);
+			
+//			cell.getCellStyle().setFillBackgroundColor(index);			
+//			cell.getCellStyle().setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		}
 
 	}

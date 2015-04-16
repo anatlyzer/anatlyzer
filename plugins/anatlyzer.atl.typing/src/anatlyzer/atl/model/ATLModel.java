@@ -154,5 +154,10 @@ public class ATLModel {
 		
 		return atlModel;
 	}
+
+	public void clear() {
+		errors.clear();
+		// typing.impl.getContents().clear();
+	}
 	
 }

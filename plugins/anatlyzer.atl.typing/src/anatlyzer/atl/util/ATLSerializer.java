@@ -171,7 +171,7 @@ public class ATLSerializer extends AbstractVisitor {
 		String extends_ = self.getSuperRule() != null ? " extends " + self.getSuperRule().getName() : "";
 		String s = ifs(self.isIsAbstract(), "abstract ") + header + " " + self.getName() + extends_ + " {" + cr();
 				
-		s += tab(1) + "from " + g(self.getInPattern()) + cr();
+		s += tab(1) + g(self.getInPattern()) + cr();
 		if ( self.getVariables().size() > 0 ) {
 			s += "using {" +  cr();
 			for(RuleVariableDeclaration rv : self.getVariables()) {
@@ -263,7 +263,7 @@ public class ATLSerializer extends AbstractVisitor {
 			l.add(g(e));
 		}
 		
-		String s = join(l);
+		String s = "from " + join(l);
 		
 		if ( self.getFilter() != null ) {
 			s += "( " + g(self.getFilter()) + " )";

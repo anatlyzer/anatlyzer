@@ -119,4 +119,12 @@
             apply="anatlyzer.atl.editor.quickfix.errors.ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable">
       </quickfix>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValueQuickSet"
+         name="Quickfixes for &quot;Access to undefined value&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.AccessToUndefinedValueQuickfixSet">
+      </quickfixset>
+   </extension>
 </plugin>

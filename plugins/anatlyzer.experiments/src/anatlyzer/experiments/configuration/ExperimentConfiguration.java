@@ -51,12 +51,19 @@ public class ExperimentConfiguration {
 				monitor.done();
 				
 				monitor.beginTask("Executing experiment", selected.size());
+				int i = 0;
 				for (IResource iResource : selected) {
-					monitor.subTask(iResource.getName());
+					monitor.subTask("Project: " + p.getName() + ". File: " + iResource.getName() + " (" + (++i) + " of " + (selected.size()) +")");
+					
+					if ( monitor.isCanceled() )
+						return;
 					
 					experiment.perform(iResource);
+					monitor.worked(1);
 				}
 				monitor.done();
+				
+				experiment.projectDone(p);
 				
 			} catch (CoreException e) {
 				// TODO Auto-generated catch block

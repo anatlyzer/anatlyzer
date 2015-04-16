@@ -1,10 +1,13 @@
 package anatlyzer.atl.quickfixast;
 
+import java.util.function.Supplier;
+
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -17,6 +20,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.StringExp;
 
 public class ASTUtils {
@@ -53,6 +58,23 @@ public class ASTUtils {
 		mm.setName(	m.getModel().getName() );
 		ome.setModel(mm);
 		return ome;
+	}
+	
+	public static Supplier<OclExpression> createOclIsUndefinedCheck(OclExpression receptor) {
+		Supplier<OclExpression> create = () -> { 
+			OclExpression newReceptor = (OclExpression) ATLCopier.copySingleElement(receptor);
+			
+			OperationCallExp oclIsUndefined = OCLFactory.eINSTANCE.createOperationCallExp();
+			oclIsUndefined.setOperationName("oclIsUndefined");
+			oclIsUndefined.setSource(newReceptor);
+			
+			OperatorCallExp notOp = OCLFactory.eINSTANCE.createOperatorCallExp();
+			notOp.setOperationName("not");
+			notOp.setSource(oclIsUndefined);
+
+			return notOp;
+		};		
+		return create;
 	}
 	
 	public static void completeRule(RuleWithPattern r, Metaclass sourceType, Metaclass targetType) {

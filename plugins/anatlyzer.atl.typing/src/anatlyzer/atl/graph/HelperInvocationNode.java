@@ -43,11 +43,18 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 	
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		// Problem could be in the rest of the helper structure??
 		return problemInExpression(lp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(lp);
 	}
 
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		// Problem could be in the rest of the helper structure??
+		return expressionInExpression(exp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(exp);
+	}
+
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);

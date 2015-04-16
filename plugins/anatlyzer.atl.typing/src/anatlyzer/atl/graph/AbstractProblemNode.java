@@ -1,7 +1,6 @@
 package anatlyzer.atl.graph;
 
-import java.util.Set;
-
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.Problem;
@@ -17,9 +16,9 @@ public abstract class AbstractProblemNode<P extends Problem> extends AbstractDep
 	}
 	
 	@Override
-	public ErrorSlice getErrorSlice(IAnalyserResult result) {
+	public ErrorSlice getErrorSlice(IAnalyserResult result, IDetectedProblem p) {
 		if ( errorSlice == null ) {
-			errorSlice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(result.getATLModel()));			
+			errorSlice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(result.getATLModel()), p);			
 			this.genErrorSlice(errorSlice);
 		}
 		return errorSlice;

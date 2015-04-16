@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 public class Styler extends ExcelUtil {
 
@@ -194,7 +195,7 @@ public class Styler extends ExcelUtil {
 		public void background(short index) {
 			CellStyle style = workbook.createCellStyle();
 			style.setFillBackgroundColor(index);			
-			style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+			style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 			cell.setCellStyle(style);
 			
 //			cell.getCellStyle().setFillBackgroundColor(index);			

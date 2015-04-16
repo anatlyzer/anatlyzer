@@ -235,7 +235,10 @@ public class TypeUtils {
 			throw new IllegalArgumentException();
 		}
 		if ( t instanceof CollectionType ) {
-			return ((CollectionType) t).getContainedType();
+			t = ((CollectionType) t).getContainedType();
+			if ( t instanceof CollectionType ) {
+				return getUnderlyingType(t);
+			}
 		}
 		return t;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -79,8 +80,8 @@ public class USESerializer {
 	}
 	
 	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
-	public static USEConstraint retypeAndGenerate(OclExpression expr) {
-		Retyping retyping = new Retyping(expr).perform();		
+	public static USEConstraint retypeAndGenerate(OclExpression expr, IDetectedProblem problem) {
+		Retyping retyping = new Retyping(expr, problem).perform();		
 		USEConstraint constraint = gen(expr);
 		if ( retyping.usesSeqApproximation() || retyping.usesSubtypeSelectionOnFeatureAccess() ) {
 			// More information can be added to the constraint

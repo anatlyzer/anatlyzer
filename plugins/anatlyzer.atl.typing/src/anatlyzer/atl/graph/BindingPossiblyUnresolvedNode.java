@@ -48,10 +48,15 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return expressionInExpression(exp, binding.getValue()) || checkDependenciesAndConstraints(exp);
+	}
+	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		for(DependencyNode n : dependencies) {

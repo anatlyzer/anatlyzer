@@ -2,6 +2,7 @@ package analyser.atl.problems;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
 /**
@@ -24,4 +25,13 @@ public interface IDetectedProblem {
 	 * @return 
 	 */
 	public OclExpression getWitnessCondition();
+	
+	/**
+	 * Checks whether the given expression appears in the path
+	 * of this problem.
+	 * @param expr
+	 * @return
+	 */
+	public boolean isExpressionInPath(OclExpression expr);
+	
 }

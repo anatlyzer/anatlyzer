@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
@@ -48,8 +48,13 @@ public class CallExprNode extends AbstractDependencyNode {
 	}
 	
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return problemInExpression(lp, call) || checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return expressionInExpression(exp, call) || checkDependenciesAndConstraints(exp);
 	}
 
 	@Override

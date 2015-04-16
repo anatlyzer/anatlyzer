@@ -61,7 +61,7 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		// Filters are ignored in lazy rules
 		/*
 		if ( rule instanceof RuleWithPattern && ((RuleWithPattern) rule).getInPattern().getFilter() != null ) {
@@ -75,6 +75,16 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 		}
 		// Problem could be in the rest of the rule parameters??
 		return checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		for(RuleVariableDeclaration v : rule.getVariables()) {
+			if ( expressionInExpression(exp, v.getInitExpression())) 
+				return true;
+		}
+		// Problem could be in the rest of the rule parameters??
+		return checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

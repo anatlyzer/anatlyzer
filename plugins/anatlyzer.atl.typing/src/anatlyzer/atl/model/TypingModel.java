@@ -351,7 +351,7 @@ public class TypingModel {
 		return c.getContainedType();
 	}
 
-	public boolean equalTypes(Type t1, Type t2) {
+	public static boolean equalTypes(Type t1, Type t2) {
 		if ( (t1 instanceof IntegerType && t2 instanceof FloatType) || 
 			  t2 instanceof IntegerType && t1 instanceof FloatType) {
 			return true;
@@ -497,7 +497,7 @@ public class TypingModel {
 		throw new UnsupportedOperationException("EqualTypes: " + declaredType + " - " + runtimeType);
 	}
 
-	public boolean isCompatible(Type type_, Type supertype) {
+	public static boolean isCompatible(Type type_, Type supertype) {
 		if ( type_ instanceof Metaclass && supertype instanceof Metaclass ) {
 			Metaclass m1 = (Metaclass) type_;
 			Metaclass m2 = (Metaclass) supertype;
@@ -506,7 +506,6 @@ public class TypingModel {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Returns the more concrete type among the two given, or null if it cannot be

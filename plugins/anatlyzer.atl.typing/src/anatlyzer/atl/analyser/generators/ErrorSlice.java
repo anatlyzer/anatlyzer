@@ -11,13 +11,10 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
@@ -50,9 +47,11 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	private boolean retype = true; // retype by default
 	
 	private List<Helper> helpersNotSupported = new LinkedList<Helper>();
+	private IDetectedProblem problem;
 	
-	public ErrorSlice(Set<String> sourceMetamodels) {
+	public ErrorSlice(Set<String> sourceMetamodels, IDetectedProblem problem) {
 		this.metamodelNames = sourceMetamodels;
+		this.problem        = problem;
 		
 		// Ugly hack
 		EClass thisModuleClass = EcoreFactory.eINSTANCE.createEClass();
@@ -122,7 +121,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			// copy before retype, to avoid modifying objects that will later
 			// be used in other analysis
 			helper = (Helper) ATLCopier.copySingleElement(helper);
-			new Retyping(helper).perform();		
+			new Retyping(helper, problem).perform();		
 		}
 		
 		if ( ! new USEValidityChecker(helper).perform().isValid() ) {

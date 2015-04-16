@@ -13,6 +13,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Metaclass;
@@ -81,21 +82,6 @@ public class RuleConflictAnalysis {
 		//}
 		// Let's try with one pass only
 		overlapping = newOverlappings;	
-			
-		/*
-		Iterator<MatchedRule> it = rules.iterator();
-		while ( it.hasNext() ) {
-			MatchedRule r = it.next();
-			if ( ! ATLUtils.isOneOneRule(r) || r.isIsAbstract() )
-				continue;
-			
-			Metaclass type = ATLUtils.getInPatternType(r);
-			if ( ! extendOverlapping(r, type, overlapping) ) {
-				overlapping.add(new OverlappingRules(type, r));
-			}
-		}
-		// A pass over all overlappings again until convergence is needed ??
-		*/
 		
 		ArrayList<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
 		for (OverlappingRules overlap : overlapping) {
@@ -105,7 +91,7 @@ public class RuleConflictAnalysis {
 			PossibleConflictingRulesNode node = new PossibleConflictingRulesNode(overlap.type, overlap.rules);
 		
 			// Compute error slice
-			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(this.model));
+			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(this.model), overlap);
 			node.genErrorSlice(slice);			
 			overlap.errorSlice = slice;
 
@@ -206,10 +192,21 @@ public class RuleConflictAnalysis {
 			this.rules.addAll(overlap2.rules);			
 		}
 		
+		@Override
+		public boolean isExpressionInPath(OclExpression expr) {
+			for (MatchedRule rule : rules) {
+				if ( rule.getInPattern().getFilter() != null && 
+					 AbstractDependencyNode.expressionInExpression(expr, rule.getInPattern().getFilter()) ) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		public OclExpression getCondition() {
 			return condition;
 		}
-
+		
 		public boolean requireConstraintSolving() {
 			for (MatchedRule matchedRule : rules) {
 				if ( matchedRule.getInPattern() != null && matchedRule.getInPattern().getFilter() != null ) {

@@ -48,7 +48,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return WitnessResult.CANNOT_DETERMINE;
 		}
 		
-		USEConstraint useConstraint = USESerializer.retypeAndGenerate(constraint);	
+		USEConstraint useConstraint = USESerializer.retypeAndGenerate(constraint, problem);	
 		if ( useConstraint.useNotSupported() ) {
 			return WitnessResult.NOT_SUPPORTED_BY_USE;
 		}

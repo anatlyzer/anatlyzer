@@ -8,7 +8,6 @@ import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -49,7 +48,7 @@ public class ProblemPath implements IDetectedProblem {
 	
 	@Override
 	public ErrorSlice getErrorSlice(IAnalyserResult analyserResult) {
-		return this.errorNode.getErrorSlice(analyserResult);
+		return this.errorNode.getErrorSlice(analyserResult, this);
 	}
 
 	@Override
@@ -63,9 +62,19 @@ public class ProblemPath implements IDetectedProblem {
 	 * @param lp the problem to be checked.
 	 * @return 
 	 */
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		for (ExecutionNode executionNode : rules) {
-			if ( executionNode.isInPath(lp) ) {
+			if ( executionNode.isProblemInPath(lp) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isExpressionInPath(OclExpression expr) {
+		for (ExecutionNode executionNode : rules) {
+			if ( executionNode.isExpressionInPath(expr) ) {
 				return true;
 			}
 		}

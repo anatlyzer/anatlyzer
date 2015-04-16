@@ -29,10 +29,17 @@ public class LetScopeNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return 	problemInExpression(lp, let.getVariable().getInitExpression()) ||
 				problemInExpression(lp, let.getIn_()) ||
 				checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return 	expressionInExpression(exp, let.getVariable().getInitExpression()) ||
+				expressionInExpression(exp, let.getIn_()) ||
+				checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

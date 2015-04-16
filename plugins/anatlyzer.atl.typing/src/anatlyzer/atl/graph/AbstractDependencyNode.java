@@ -32,17 +32,21 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	protected Problem	problem;
 	protected boolean leadsToExecution = true;
 	
-	protected static boolean problemInExpression(LocalProblem lp, OclExpression expr) {
-		return problemInExpression(lp, expr, new HashSet<OclExpression>());
+	public static boolean problemInExpression(LocalProblem lp, OclExpression expr) {
+		return elementInExpression(lp.getElement(), expr, new HashSet<OclExpression>());
 	}
 	
-	protected static boolean problemInExpression(LocalProblem lp, OclExpression expr, HashSet<OclExpression> visited) {
+	public static boolean expressionInExpression(OclExpression subExp, OclExpression expr) {
+		return elementInExpression(subExp, expr, new HashSet<OclExpression>());
+	}
+	
+	protected static boolean elementInExpression(EObject element, OclExpression expr, HashSet<OclExpression> visited) {
 		if ( visited.contains(expr) )
 			return false;
 		
 		visited.add(expr);
 		
-		EObject obj = lp.getElement();
+		EObject obj = element;
 		TreeIterator<EObject> it = expr.eAllContents();
 		while ( it.hasNext() ) {
 			EObject sub = it.next();
@@ -57,19 +61,19 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 					EList<ContextHelper> resolvers = pce.getDynamicResolvers();
 					for (ContextHelper contextHelper : resolvers) {
 						OclExpression body = ATLUtils.getBody(contextHelper);
-						if ( problemInExpression(lp, body, visited))
+						if ( elementInExpression(obj, body, visited))
 							return true;
 					}	
 				} else {
 					if ( pce.getStaticResolver() instanceof StaticHelper ) {
 						StaticHelper moduleHelper = (StaticHelper) pce.getStaticResolver();
 						OclExpression body = ATLUtils.getBody(moduleHelper);
-						if ( problemInExpression(lp, body, visited))
+						if ( elementInExpression(element, body, visited))
 							return true; 
 					} else if ( pce.getStaticResolver() instanceof StaticRule ) {
 						EList<RuleVariableDeclaration> variables = ((StaticRule) pce.getStaticResolver()).getVariables();
 						for (RuleVariableDeclaration v : variables) {
-							if ( problemInExpression(lp, v.getInitExpression(), visited )) {
+							if ( elementInExpression(element, v.getInitExpression(), visited )) {
 								return true;
 							}
 						}
@@ -85,17 +89,29 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 
 	protected boolean checkDependenciesAndConstraints(LocalProblem lp) {
 		for (ConstraintNode constraintNode : constraints) {
-			if ( constraintNode.isInPath(lp) ) 
+			if ( constraintNode.isProblemInPath(lp) ) 
 				return true;
 		}
 		
 		DependencyNode dep = getDepending();
-		if ( dep != null && dep.isInPath(lp) )
+		if ( dep != null && dep.isProblemInPath(lp) )
 			return true;
 		
 		return false;
 	}
 
+	protected boolean checkDependenciesAndConstraints(OclExpression exp) {
+		for (ConstraintNode constraintNode : constraints) {
+			if ( constraintNode.isExpressionInPath(exp) ) 
+				return true;
+		}
+		
+		DependencyNode dep = getDepending();
+		if ( dep != null && dep.isExpressionInPath(exp) )
+			return true;
+		
+		return false;
+	}
 	
 	@Override
 	public void addDependency(DependencyNode node) {

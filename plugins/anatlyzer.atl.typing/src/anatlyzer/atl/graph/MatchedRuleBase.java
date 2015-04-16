@@ -12,6 +12,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -23,10 +24,17 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 	}
 	
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return 	(rule.getInPattern().getFilter() != null ? 
 					problemInExpression(lp, rule.getInPattern().getFilter()) : false) ||
 				checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return 	(rule.getInPattern().getFilter() != null ? 
+					expressionInExpression(exp, rule.getInPattern().getFilter()) : false) ||
+				checkDependenciesAndConstraints(exp);
 	}
 	
 	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model) {

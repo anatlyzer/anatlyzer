@@ -23,8 +23,13 @@ public class RuleFilterNode implements ConstraintNode {
 	}
 	
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return AbstractDependencyNode.problemInExpression(lp, expr);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression subExp) {
+		return AbstractDependencyNode.expressionInExpression(subExp, expr);
 	}
 	
 	@Override

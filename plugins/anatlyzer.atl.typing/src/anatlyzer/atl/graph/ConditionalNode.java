@@ -38,12 +38,21 @@ public class ConditionalNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return problemInExpression(lp, ifExpr.getCondition()) 
 				|| (branch == TRUE_BRANCH ? 
 						problemInExpression(lp, ifExpr.getThenExpression()) :  
 						problemInExpression(lp, ifExpr.getElseExpression()))				
 				|| checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return expressionInExpression(exp, ifExpr.getCondition()) 
+				|| (branch == TRUE_BRANCH ? 
+						expressionInExpression(exp, ifExpr.getThenExpression()) :  
+						expressionInExpression(exp, ifExpr.getElseExpression()))				
+				|| checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

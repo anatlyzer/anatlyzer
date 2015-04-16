@@ -31,11 +31,16 @@ public class LoopNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return 	problemInExpression(lp, receptor) ||
 				checkDependenciesAndConstraints(lp);
 	}
 	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return 	expressionInExpression(exp, receptor) ||
+				checkDependenciesAndConstraints(exp);
+	}
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {

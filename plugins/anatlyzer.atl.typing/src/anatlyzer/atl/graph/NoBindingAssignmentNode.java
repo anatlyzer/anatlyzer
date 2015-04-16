@@ -6,7 +6,6 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
@@ -25,8 +24,13 @@ public class NoBindingAssignmentNode extends AbstractBindingAssignmentNode<NoBin
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return 	checkDependenciesAndConstraints(lp);
+	}
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return 	checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

@@ -36,7 +36,7 @@ public class ErrorSliceGenerator {
 
 	public void generate() {
 		for(ProblemPath path : graph.getProblemPaths()) {
-			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(analyser.getATLModel()));
+			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(analyser.getATLModel()), path);
 			path.getErrorNode().genErrorSlice(slice);
 		}
 	}
@@ -45,7 +45,7 @@ public class ErrorSliceGenerator {
 		int i = 0;
 		for(ProblemPath path : graph.getProblemPaths()) {
 			if ( path.getProblem().getLocation().equals(location) ) {
-				ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser);
+				ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser, path);
 				LocalProblem p = path.getProblem();
 				
 				String name = "error" + (i + 1);
@@ -64,7 +64,7 @@ public class ErrorSliceGenerator {
 		
 		int i = 0;
 		for(ProblemPath path : sorted) {
-			ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser);
+			ErrorSlice slice = path.getErrorNode().getErrorSlice(analyser, path);
 			LocalProblem p = path.getProblem();
 			
 			String name = "error" + (i + 1);

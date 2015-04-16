@@ -86,7 +86,7 @@ public class ProblemGraph {
 				// path to be added (p2), then p2 depends on p1 because
 				// you cannot "execute p2" without probably making p1 fail. 
 				LocalProblem problem = node.path.getProblem();				
-				if ( p.isInPath(problem) )   {
+				if ( p.isProblemInPath(problem) )   {
 					node.add(p);
 					addedToChildren = true;
 				}

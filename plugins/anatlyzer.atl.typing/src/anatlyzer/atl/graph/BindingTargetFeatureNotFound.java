@@ -25,10 +25,15 @@ public class BindingTargetFeatureNotFound extends AbstractBindingAssignmentNode<
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return checkDependenciesAndConstraints(lp);
 	}
-
+	
+	@Override
+	public boolean isExpressionInPath(OclExpression exp) {
+		return checkDependenciesAndConstraints(exp);
+	}
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);

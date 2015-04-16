@@ -35,10 +35,15 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 	}
 
 	@Override
-	public boolean isInPath(LocalProblem lp) {
+	public boolean isProblemInPath(LocalProblem lp) {
 		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
+	@Override
+	public boolean isExpressionInPath(OclExpression expr) {
+		return expressionInExpression(expr, binding.getValue()) || checkDependenciesAndConstraints(expr);
+	}
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);

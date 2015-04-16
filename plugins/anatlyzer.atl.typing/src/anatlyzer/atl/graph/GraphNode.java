@@ -14,5 +14,7 @@ public interface GraphNode {
 	void genTransformationSlice(TransformationSlice slice);
 	void genGraphviz(GraphvizBuffer gv);
 
-	public boolean isInPath(LocalProblem lp);
+	public boolean isProblemInPath(LocalProblem lp);
+	public boolean isExpressionInPath(OclExpression expr);
+	
 }

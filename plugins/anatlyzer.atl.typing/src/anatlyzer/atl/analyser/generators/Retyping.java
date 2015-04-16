@@ -6,11 +6,14 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
@@ -18,6 +21,7 @@ import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -27,6 +31,7 @@ import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
+import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -51,9 +56,11 @@ public class Retyping extends AbstractVisitor {
 	private HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
 	private HashSet<LocatedElement> subtypeSelectionOnFeatureAccess = new HashSet<LocatedElement>();
 	private VariableDeclaration thisModuleVar;
+	private IDetectedProblem problem;
 
-	public Retyping(EObject root) {
-		this.root = root;
+	public Retyping(EObject root, IDetectedProblem problem) {
+		this.root    = root;
+		this.problem = problem;
 	}	
 	
 	public Retyping perform() {
@@ -99,6 +106,7 @@ public class Retyping extends AbstractVisitor {
 	}
 	
 	public void retypeHelper(Helper self) {
+		boolean convertedToSet = false;
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
 			markSeqAsSet(self);
 			
@@ -107,13 +115,27 @@ public class Retyping extends AbstractVisitor {
 			self.setStaticReturnType(t);
 			
 			OclExpression body = ATLUtils.getBody(self);
-			if ( body.getInferredType() instanceof SequenceType ) {
-				CollectionOperationCallExp opcall = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-				opcall.setOperationName("asSet");
-				EcoreUtil.replace(body, opcall);
-				opcall.setSource(body);
+			if ( ! (body.getInferredType() instanceof SetType) ) {
+				convertToSet(body);				
+				convertedToSet = true;
+			}
+		} 
+		
+		/*
+		IncoherentHelperReturnType p = (IncoherentHelperReturnType) AnalyserUtils.hasProblem(self, IncoherentHelperReturnType.class);
+		if ( p != null ) {			
+			if ( p.getDeclared() instanceof SequenceType && p.getInferred() instanceof SetType && ! convertedToSet ) {
+				convertToSet(ATLUtils.getBody(self));
 			}
 		}
+		*/
+	}
+
+	private void convertToSet(OclExpression body) {
+		CollectionOperationCallExp opcall = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+		opcall.setOperationName("asSet");
+		EcoreUtil.replace(body, opcall);
+		opcall.setSource(body);
 	}
 	
 	/**
@@ -196,8 +218,89 @@ public class Retyping extends AbstractVisitor {
 			operator.setSource(self);
 			*/
 		}
-
 	}
+	
+	/**
+	 * USE checks that the types of both branches are compatible (there is a common type). 
+	 * This is not enforced by ATL, and the analyser does not report them to avoid many 
+	 * unnecessary errors for the user.
+	 * 
+	 * This retyping tries to reconcile collection(X) and collection(collection(X)), by flattening
+	 * one of the branches. This retyping is always safe when the control flow reaches directly the
+	 * "if" statement from a binding.
+	 * 
+	 * The other cases are not covered.
+	 */
+	@Override
+	public void inIfExp(IfExp self) {
+
+		
+		Type thenExprType = self.getThenExpression().getInferredType();
+		Type elseExprType = self.getElseExpression().getInferredType();
+		
+		if ( thenExprType != null && elseExprType != null ) {
+			System.out.println("=> Retyping " + self);
+			System.out.println("=> Types " + TypeUtils.typeToString(thenExprType) + " - " + TypeUtils.typeToString(elseExprType) );
+		}
+		
+		
+		if ( thenExprType instanceof CollectionType && elseExprType instanceof CollectionType ) {
+			CollectionType colThen = (CollectionType) thenExprType;			
+			CollectionType colElse = (CollectionType) elseExprType;
+			flattenNestedSequenceBranches(self, colThen, colElse);
+		} else if ( thenExprType instanceof UnionType && elseExprType instanceof CollectionType ) {
+			UnionType u = (UnionType) thenExprType;
+			for(Type ut: u.getPossibleTypes()) {
+				if ( !( ut instanceof CollectionType) ) {
+					return; // this will provoke an USE error, check in USEValidityChecker
+				}
+				// Here I should check that all is type compatible (or the USE ValidityChecker should do it).
+			}
+			
+			for(Type ut: u.getPossibleTypes()) {
+				// If applied at least once, return
+				if ( flattenNestedSequenceBranches(self, (CollectionType) ut, (CollectionType) elseExprType) ) 
+					return;
+			}
+		} else if ( elseExprType instanceof UnionType && thenExprType instanceof CollectionType ) {
+			UnionType u = (UnionType) elseExprType;
+			for(Type ut: u.getPossibleTypes()) {
+				if ( !( ut instanceof CollectionType) ) {
+					return; // this will provoke an USE error, check in USEValidityChecker
+				}
+				// Here I should check that all is type compatible (or the USE ValidityChecker should do it).
+			}
+			
+			for(Type ut: u.getPossibleTypes()) {
+				// If applied at least once, return
+				if ( flattenNestedSequenceBranches(self, (CollectionType) thenExprType, (CollectionType) ut) ) 
+					return;
+			}
+		}
+		// Union {Sequence(Task),Sequence(Sequence(Task))} - Sequence(Sequence(Task))
+	}
+	
+	private boolean flattenNestedSequenceBranches(IfExp self, CollectionType colThen, CollectionType colElse) {
+		if ( colThen.getContainedType() instanceof CollectionType && !(colElse.getContainedType() instanceof CollectionType) ) {
+			CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			flatten.setOperationName("flatten");
+			flatten.setSource(self.getThenExpression());
+			self.setThenExpression(flatten);
+
+			flatten.setInferredType(colElse);
+			return true;
+		} else if ( colElse.getContainedType() instanceof CollectionType && !(colThen.getContainedType() instanceof CollectionType) ) {
+			CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			flatten.setOperationName("flatten");
+			flatten.setSource(self.getElseExpression());
+			self.setElseExpression(flatten);
+			
+			flatten.setInferredType(colThen);				
+			return true;
+		}
+		return false;		
+	}
+	
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {

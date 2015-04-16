@@ -3,6 +3,7 @@ package anatlyzer.evaluation.report;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 public class Report {
 	private Map<String,Result> report =  new HashMap<String,Result>();
@@ -59,7 +60,7 @@ public class Report {
 		console.println("==============================================================");
 		
 		// print result of each analysis
-		for (String transformation : report.keySet()) {
+		for (String transformation : new TreeSet<String>(report.keySet())) {
 			Result  r = report.get(transformation);
 			boolean discrepancy = (r.isExecutionError()||r.isOutputError()) ^ r.isAnatlyzerError();
 			if (discrepancy) {

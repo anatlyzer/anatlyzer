@@ -389,7 +389,10 @@ public class Tester {
 			if (!problems.isEmpty()) 
 				report.setAnatlyserError(transformation, problems.get(0).getDescription());
 		}
-		catch (Exception e) { System.out.println("*** ANATLYSIS ERROR *** "); e.printStackTrace(); }
+		catch (Exception e) {
+			e.printStackTrace();
+			report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********"); 
+		}
 	}
 
 	/**

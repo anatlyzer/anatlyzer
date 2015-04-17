@@ -26,6 +26,7 @@ import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
@@ -99,8 +100,6 @@ public class ATLUtils {
 		if (t instanceof FloatType)        return OCLFactory.eINSTANCE.createRealType();
 		if (t instanceof Unknown)          return OCLFactory.eINSTANCE.createOclAnyType();
 		if (t instanceof OclUndefinedType) return OCLFactory.eINSTANCE.createOclAnyType();
-		if (t instanceof MapType)          return OCLFactory.eINSTANCE.createMapType();      // types?
-		if (t instanceof TupleType)        return OCLFactory.eINSTANCE.createTupleType();    // types?
         if (t instanceof CollectionType) {
         	anatlyzer.atlext.OCL.CollectionType oclType = null;        	
         	if      (t instanceof SequenceType) oclType = OCLFactory.eINSTANCE.createSequenceType();
@@ -117,6 +116,21 @@ public class ATLUtils {
 			oclType.setModel(oclModel);
         	return oclType;
         }
+		if (t instanceof MapType) {
+			anatlyzer.atlext.OCL.MapType oclType = OCLFactory.eINSTANCE.createMapType();
+			oclType.setKeyType  ( getOclType (((MapType)t).getKeyType()) );
+			oclType.setValueType( getOclType (((MapType)t).getValueType()) );
+			return oclType;
+		}
+		if (t instanceof TupleType) {
+			anatlyzer.atlext.OCL.TupleType oclType = OCLFactory.eINSTANCE.createTupleType();
+			for (TupleAttribute att : ((TupleType)t).getAttributes()) {
+				anatlyzer.atlext.OCL.TupleTypeAttribute attType = OCLFactory.eINSTANCE.createTupleTypeAttribute();
+				attType.setType( getOclType(att.getType()) ); 
+				oclType.getAttributes().add(attType);
+			}
+			return oclType;
+		}
 		//if (t instanceof UnionType) return ...
         //if (t instanceof EnumType)  return ...
         

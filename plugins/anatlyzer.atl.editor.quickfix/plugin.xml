@@ -139,4 +139,10 @@
             apply="anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.OperationFoundInSubtypeQuickfixSet">
+      </quickfixset>
+   </extension>
 </plugin>

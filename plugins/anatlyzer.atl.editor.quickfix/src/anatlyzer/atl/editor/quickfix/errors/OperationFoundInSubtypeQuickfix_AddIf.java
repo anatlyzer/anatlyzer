@@ -22,6 +22,7 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -60,7 +61,7 @@ public class OperationFoundInSubtypeQuickfix_AddIf extends AbstractAtlQuickfix {
 			}				
 		} while (current instanceof OclExpression);
 		
-		// Quickfix
+		// Quickfix => if exp.source.oclIsKindOf(...) or exp.source.oclIsKindOf(...) or ... then exp else default_value endif  
 		OclExpression fexpRoot = root;
 		Type          type     = property.getInferredType();
 		Supplier<OclExpression> check = createOclIsKindOfCheck(property);
@@ -75,27 +76,51 @@ public class OperationFoundInSubtypeQuickfix_AddIf extends AbstractAtlQuickfix {
 		return qfa;
 	}
 	
+	/**
+	 * It creates the ocl expression expression.oclIsKindOf(type) or expression.oclIsKindOf(type2) or ...
+	 * @param receptor
+	 * @return
+	 */
 	private Supplier<OclExpression> createOclIsKindOfCheck(PropertyCallExp receptor) {
-		Supplier<OclExpression> create = () -> { 
-			OclExpression newReceptor = (OclExpression) ATLCopier.copySingleElement(receptor.getSource());
-			
-			OperationCallExp oclIsKindOf = OCLFactory.eINSTANCE.createOperationCallExp();
-			oclIsKindOf.setOperationName("oclIsKindOf");
-			oclIsKindOf.setSource(newReceptor);
-			
+		Supplier<OclExpression> create = () -> {
 			// subtypes that define the operation
-			// TODO: concatenate ORs
 			EList<EClass> subtypes = null;
 			try {
 				subtypes = ((OperationFoundInSubtype)this.getProblem()).getPossibleClasses();
-			} catch (CoreException e) {
-				// do not change anything
-				// how?
+			} 
+			catch (CoreException e) { return receptor.getSource(); } 
+			
+			// build expression
+			OclExpression expression = createOclIsKindOfCheck(receptor.getSource(), subtypes.get(0).getName()).get();
+			
+			for (int i=1; i<subtypes.size(); i++) {
+				OperatorCallExp orOperator = OCLFactory.eINSTANCE.createOperatorCallExp();
+				orOperator.setOperationName("or");
+				orOperator.setSource(expression);
+				orOperator.getArguments().add( createOclIsKindOfCheck(receptor.getSource(), subtypes.get(i).getName()).get() );
+				expression = orOperator;
 			}
 
+			return expression;
+		};		
+		return create;
+	}
+	
 
-			OclModelElement oclType = (OclModelElement) ATLUtils.getOclType(newReceptor.getInferredType());
-        	oclType.setName(subtypes.get(0).getName());
+	/**
+	 * It creates the ocl expression expression.oclIsKindOf(type)
+	 * @param receptor
+	 * @param kind
+	 * @return
+	 */
+	private Supplier<OclExpression> createOclIsKindOfCheck(OclExpression expression, String kind) {
+		Supplier<OclExpression> create = () -> { 
+			OclModelElement oclType = (OclModelElement) ATLUtils.getOclType(expression.getInferredType());
+        	oclType.setName(kind);
+        	
+			OperationCallExp oclIsKindOf = OCLFactory.eINSTANCE.createOperationCallExp();
+			oclIsKindOf.setOperationName("oclIsKindOf");
+			oclIsKindOf.setSource       ((OclExpression) ATLCopier.copySingleElement(expression));
 			oclIsKindOf.getArguments().add( oclType );
 
 			return oclIsKindOf;

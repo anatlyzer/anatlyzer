@@ -46,23 +46,33 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
 		List<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
 		int i = 0;
-		monitor.beginTask("Running solver", overlaps.size());
+		
+		if ( monitor != null ) 
+			monitor.beginTask("Running solver", overlaps.size());
+		
 		for (OverlappingRules overlap : overlaps) {
 			// if ( processOverlap(overlap, data) ) {
-			if ( monitor.isCanceled() ) {
-				monitor.done();
-				return result;
+			
+			if ( monitor != null ) {
+				if ( monitor.isCanceled() ) {
+					monitor.done();
+					return result;
+				}
+					
+				monitor.subTask("Running " + ++i + " of " + overlaps.size());
 			}
-				
-			monitor.subTask("Running " + ++i + " of " + overlaps.size());
 			
 			processOverlap(overlap, data);
 			result.add(overlap);
 
-			monitor.worked(1);
+			if ( monitor != null )
+				monitor.worked(1);
 			//}
-		}			
-		monitor.done();
+		}		
+		
+		if ( monitor != null )
+			monitor.done();
+		
 		return result;
 	}
 	

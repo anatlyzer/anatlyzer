@@ -149,7 +149,12 @@ public class ATLSerializer extends AbstractVisitor {
 			l2.add( model.getName() + " : " + model.getMetamodel().getName() );
 		}
 		
-		s += join(l1) + " from " + join(l2) + ";" + cr(2);
+		String trafoType = " from ";
+		if ( self.isIsRefining() ) {
+			trafoType = " refining ";
+		}
+		
+		s += join(l1) + trafoType + join(l2) + ";" + cr(2);
 
 		for(ModuleElement r : self.getElements()) {
 			if ( ExtendTransformation.isAddedEOperation(r) )

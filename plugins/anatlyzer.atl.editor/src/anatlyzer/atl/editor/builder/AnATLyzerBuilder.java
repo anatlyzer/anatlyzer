@@ -108,11 +108,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 						String loc = ((LocalProblem) problem).getFileLocation();
 						if ( loc == null ) {
 							System.err.println("Warning: No location assigned to " + problem);
-							loc = file.getLocation().toPortableString(); // Not sure when this might happen
+							problemFile = file; // Not sure when this might happen
+						} else {
+							problemFile = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(loc));
 						}
-					
-						problemFile = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(loc));
-					
+						
 						if ( ! helpers.containsKey(loc) ) {
 							helpers.put(loc, new AtlNbCharFile(problemFile.getContents()));
 						}

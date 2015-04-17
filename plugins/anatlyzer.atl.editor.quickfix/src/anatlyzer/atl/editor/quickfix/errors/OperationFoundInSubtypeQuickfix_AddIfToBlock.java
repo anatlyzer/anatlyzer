@@ -26,7 +26,7 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
-public class OperationFoundInSubtypeQuickfix_AddIf extends AbstractAtlQuickfix {
+public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQuickfix {
 
 	@Override public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, OperationFoundInSubtype.class);
@@ -39,29 +39,19 @@ public class OperationFoundInSubtypeQuickfix_AddIf extends AbstractAtlQuickfix {
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Add surrounding if";
+		return "Add surrounding if to code block";
 	}	
 	
 	@Override public String getDisplayString() {
-		return "Add surrounding if";
+		return "Add surrounding if to code block";
 	}
 
 	@Override public QuickfixApplication getQuickfixApplication() {
 		PropertyCallExp property = (PropertyCallExp) this.getProblematicElement();
 		
-		// Find root of expression
-		OclExpression root    = null;
-		EObject       current = property;
-		do {
-			root    = (OclExpression)current;
-			current = current.eContainer();
-			if (root instanceof LoopExp && property.getSource() instanceof VariableExp) {
-				root = ((LoopExp)root).getBody();
-				break;
-			}				
-		} while (current instanceof OclExpression);
+		// Quickfix => if exp.source.oclIsKindOf(...) or exp.source.oclIsKindOf(...) or ... then exp else default_value endif
 		
-		// Quickfix => if exp.source.oclIsKindOf(...) or exp.source.oclIsKindOf(...) or ... then exp else default_value endif  
+		OclExpression root     = getRootExpression(property);
 		OclExpression fexpRoot = root;
 		Type          type     = property.getInferredType();
 		Supplier<OclExpression> check = createOclIsKindOfCheck(property);
@@ -74,6 +64,26 @@ public class OperationFoundInSubtypeQuickfix_AddIf extends AbstractAtlQuickfix {
 		});
 		
 		return qfa;
+	}
+	
+	/**
+	 * Find root of expression (root of outer block).
+	 */
+	protected OclExpression getRootExpression (PropertyCallExp property) {
+		OclExpression root    = null;
+		EObject       current = property;
+		
+		do {
+			root    = (OclExpression)current;
+			current = current.eContainer();
+			if (root instanceof LoopExp && property.getSource() instanceof VariableExp) {
+				root = ((LoopExp)root).getBody();
+				break;
+			}				
+		} 
+		while (current instanceof OclExpression);
+		
+		return root;
 	}
 	
 	/**

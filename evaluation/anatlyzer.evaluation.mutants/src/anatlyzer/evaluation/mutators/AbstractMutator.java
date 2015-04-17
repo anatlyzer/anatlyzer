@@ -36,7 +36,6 @@ import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.StringExp;
-import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -104,11 +103,15 @@ public abstract class AbstractMutator {
 	private /*static*/ long index = 1;
 	private String getValidNameOfFile (String outputFolder) {
 		String outputfile = null;
-		for (long i=index; outputfile==null; i++) 
-			if (!new File(outputFolder, "/mutant"+i+".atl").exists()) { 
-				outputfile = outputFolder + "/mutant"+i+".atl";
+		String aux        = null;
+		for (long i=index; outputfile==null; i++) {
+			aux = File.separatorChar + getDescription().replaceAll("\\s+","") + "_mutant" + i + ".atl";
+			if (!new File(outputFolder, aux).exists()) { 
+				outputfile = outputFolder + aux;
 				index = i;
 			}
+			else index = i;
+		}
 		return outputfile;
 	}
 	

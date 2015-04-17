@@ -29,8 +29,10 @@ import org.eclipse.jface.text.IDocument;
 
 
 
+
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 //import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
@@ -88,8 +90,8 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 		
 		if (allContaining.size()>0)
 			return sd.closest(old, allContaining);		// we found several meta-models containing the element
-		else return old;
-			//return sd.closest(old, new LinkedList<String>(ATLUtils2.getAllMetamodelNames(this.getATLModel())));	
+		else 
+			return sd.closest(old, new LinkedList<String>(ATLUtils2.getAllMetamodelNames(this.getATLModel())));	
 	}
 
 	private boolean hasClass (ModelInfo m, String className) {
@@ -130,7 +132,7 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 	public QuickfixApplication getQuickfixApplication() {
 		OclModelElement le = (OclModelElement)getProblematicElement();		
 		QuickfixApplication qfa = new QuickfixApplication();
-		
+				
 		qfa.replace(le, (expr, trace) -> {
 			OclModel closest = getOclModel(this.getClosest());
 			

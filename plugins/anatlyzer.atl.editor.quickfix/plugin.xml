@@ -127,4 +127,16 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.AccessToUndefinedValueQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst">
+      </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType">
+      </quickfix>
+   </extension>
 </plugin>

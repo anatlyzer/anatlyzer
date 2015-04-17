@@ -9,6 +9,8 @@ import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 
@@ -37,9 +39,11 @@ public class IncoherentHelperReturnTypeQuickfix_AssignInferredType extends Abstr
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		Operation operation  = (Operation)getProblematicElement();
-		OclType   returnType = operation.getReturnType();
-		Helper    helper     = ATLUtils.getContainer(operation, Helper.class);
+		OclFeature feature   = (OclFeature)getProblematicElement();
+		Helper    helper     = ATLUtils.getContainer(feature, Helper.class);
+		OclType   returnType = feature instanceof Operation? 
+				               ((Operation)feature).getReturnType() : 
+				               ((Attribute)feature).getType();
 		
 		QuickfixApplication qfa = new QuickfixApplication();
 		qfa.replace(returnType, (type, trace) -> {

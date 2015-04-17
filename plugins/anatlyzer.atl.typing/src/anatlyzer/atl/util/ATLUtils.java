@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -21,10 +20,13 @@ import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
@@ -37,13 +39,13 @@ import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
-import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.Parameter;
@@ -83,6 +85,44 @@ public class ATLUtils {
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
 	
+	/**
+	 * Returns an OCL type representing a given type.
+	 * @param t
+	 * @return
+	 */
+	public static OclType getOclType (Type t) {
+		if (t == null) throw new IllegalArgumentException();
+		
+		if (t instanceof StringType)       return OCLFactory.eINSTANCE.createStringType();
+		if (t instanceof BooleanType)      return OCLFactory.eINSTANCE.createBooleanType();
+		if (t instanceof IntegerType)      return OCLFactory.eINSTANCE.createIntegerType();
+		if (t instanceof FloatType)        return OCLFactory.eINSTANCE.createRealType();
+		if (t instanceof Unknown)          return OCLFactory.eINSTANCE.createOclAnyType();
+		if (t instanceof OclUndefinedType) return OCLFactory.eINSTANCE.createOclAnyType();
+		if (t instanceof MapType)          return OCLFactory.eINSTANCE.createMapType();      // types?
+		if (t instanceof TupleType)        return OCLFactory.eINSTANCE.createTupleType();    // types?
+        if (t instanceof CollectionType) {
+        	anatlyzer.atlext.OCL.CollectionType oclType = null;        	
+        	if      (t instanceof SequenceType) oclType = OCLFactory.eINSTANCE.createSequenceType();
+        	else if (t instanceof SetType)      oclType = OCLFactory.eINSTANCE.createSequenceType();
+        	else    return OCLFactory.eINSTANCE.createOclAnyType();        	
+        	oclType.setElementType( getOclType (((CollectionType)t).getContainedType()) );
+			return oclType;
+		}
+        if (t instanceof Metaclass) {
+        	OclModelElement oclType  = OCLFactory.eINSTANCE.createOclModelElement();
+			OclModel        oclModel = OCLFactory.eINSTANCE.createOclModel();			
+			oclModel.setName(((Metaclass) t).getModel().getName());
+        	oclType.setName(((Metaclass)t).getName());
+			oclType.setModel(oclModel);
+        	return oclType;
+        }
+		//if (t instanceof UnionType) return ...
+        //if (t instanceof EnumType)  return ...
+        
+		throw new UnsupportedOperationException(t.getClass().getName());
+	}
+
 	public static List<MatchedRule> allSuperRules(MatchedRule r) {
 		List<MatchedRule> result = new ArrayList<MatchedRule>();
 		do {

@@ -103,7 +103,7 @@ public class ATLUtils {
         if (t instanceof CollectionType) {
         	anatlyzer.atlext.OCL.CollectionType oclType = null;        	
         	if      (t instanceof SequenceType) oclType = OCLFactory.eINSTANCE.createSequenceType();
-        	else if (t instanceof SetType)      oclType = OCLFactory.eINSTANCE.createSequenceType();
+        	else if (t instanceof SetType)      oclType = OCLFactory.eINSTANCE.createSetType();
         	else    return OCLFactory.eINSTANCE.createOclAnyType();        	
         	oclType.setElementType( getOclType (((CollectionType)t).getContainedType()) );
 			return oclType;

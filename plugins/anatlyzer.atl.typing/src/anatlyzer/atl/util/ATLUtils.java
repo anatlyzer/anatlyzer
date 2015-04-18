@@ -23,12 +23,15 @@ import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OclUndefinedType;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
@@ -131,10 +134,25 @@ public class ATLUtils {
 			}
 			return oclType;
 		}
-		//if (t instanceof UnionType) return ...
-        //if (t instanceof EnumType)  return ...
+		if (t instanceof UnionType) {
+			Type commonType = null;
+			for (Type utype : ((UnionType)t).getPossibleTypes()) 
+				commonType = commonType==null? utype : getCommonType(commonType, utype);
+			return getOclType(commonType);
+		}
+        //if (t instanceof EnumType) return ...
         
 		throw new UnsupportedOperationException(t.getClass().getName());
+	}
+
+	// method used by getOclType, when the received type is an union;
+	// it returns the common supertype of the received t1 and t2
+	// TODO: to be completed...
+	private static Type getCommonType (Type t1, Type t2) {
+		if (t1 instanceof Unknown) return t1;
+		if (t2 instanceof Unknown) return t2;
+		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return t1;
+		return TypesFactory.eINSTANCE.createUnknown();
 	}
 
 	public static List<MatchedRule> allSuperRules(MatchedRule r) {

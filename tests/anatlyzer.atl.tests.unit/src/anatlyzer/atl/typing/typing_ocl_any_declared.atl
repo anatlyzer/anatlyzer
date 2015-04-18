@@ -1,0 +1,22 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module ifptypes;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def : aHelper1 : OclAny = 
+	self.elements->first();
+
+helper context ABCD!Model def : aHelper2 : Sequence(OclAny) = 
+	self.elements->asSequence();
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- let var : OclAny = src.elements 
+				in 'test' +
+				(let var2 : Sequence(OclAny) = src.elements->asSequence()
+				 in 'test2')
+		
+	)
+}
+

@@ -10,6 +10,7 @@ import anatlyzer.atl.helpers.TestHelpers;
 import anatlyzer.atl.implicitcasting.TestImplicitCasting;
 import anatlyzer.atl.retyping.TestRetyping;
 import anatlyzer.atl.ruleconflicts.TestRuleConflicts;
+import anatlyzer.atl.typing.TestTyping;
 import anatlyzer.atl.unions.TestUnions;
 
 @RunWith(Suite.class)
@@ -17,6 +18,7 @@ import anatlyzer.atl.unions.TestUnions;
 	// Basic typing
 	TestImplicitCasting.class, 
 	TestUnions.class,
+	TestTyping.class,
 	
 	// Constraint solving
 	TestBindingResolution.class,

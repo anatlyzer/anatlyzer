@@ -427,6 +427,11 @@ public class TypingModel {
 			throw new IllegalArgumentException();
 		}
 		
+		// OclAny is compatible with anything
+		if ( declaredType instanceof Unknown ) {
+			return true;
+		}
+		
 		if ( runtimeType instanceof OclUndefinedType ) {
 			// But the declared type should be modified to carry the "undefined" value
 			return true;

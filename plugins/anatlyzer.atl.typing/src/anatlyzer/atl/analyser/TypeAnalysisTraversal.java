@@ -257,7 +257,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 
 	private void treatVariableDeclaration(VariableDeclaration self) {
-		System.out.println("==> " + self.getLocation());
 		Type exprType = attr.typeOf( self.getInitExpression() );
 		if ( self.getType() == null ) {
 			attr.linkExprType(exprType);

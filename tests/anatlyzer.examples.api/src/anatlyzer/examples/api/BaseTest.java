@@ -93,6 +93,10 @@ public class BaseTest {
 		System.out.println("Time: " + (diffs / 1000.0) / 20);
 	}
 	
+
+	public ATLModel getModel() {
+		return analyser.getATLModel();
+	}
 	
 	protected List<LocalProblem> problems() {
 		return analyser.getErrors().getLocalProblems();

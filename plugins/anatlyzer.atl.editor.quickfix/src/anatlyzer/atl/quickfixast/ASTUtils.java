@@ -2,6 +2,7 @@ package anatlyzer.atl.quickfixast;
 
 import java.util.function.Supplier;
 
+import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.StringType;
@@ -22,6 +23,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
 
 public class ASTUtils {
@@ -38,6 +40,16 @@ public class ASTUtils {
 		else if ( t instanceof StringType )  {
  			StringExp exp = OCLFactory.eINSTANCE.createStringExp();
  			exp.setStringSymbol("");
+ 			return exp;
+ 		}
+		else if ( t instanceof FloatType )  {
+ 			RealExp exp = OCLFactory.eINSTANCE.createRealExp();
+ 			exp.setRealSymbol(0);
+ 			return exp;
+ 		}
+		else if ( t instanceof IntegerType )  {
+ 			IntegerExp exp = OCLFactory.eINSTANCE.createIntegerExp();
+ 			exp.setIntegerSymbol(0);
  			return exp;
  		}
 		throw new UnsupportedOperationException("Type " + t + " not supported yet");

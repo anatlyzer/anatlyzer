@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
@@ -18,6 +19,7 @@ import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.MapType;
@@ -47,6 +49,7 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
@@ -103,6 +106,7 @@ public class ATLUtils {
 		if (t instanceof FloatType)        return OCLFactory.eINSTANCE.createRealType();
 		if (t instanceof Unknown)          return OCLFactory.eINSTANCE.createOclAnyType();
 		if (t instanceof OclUndefinedType) return OCLFactory.eINSTANCE.createOclAnyType();
+		if (t instanceof EmptyCollectionType) return OCLFactory.eINSTANCE.createOclAnyType();
         if (t instanceof CollectionType) {
         	anatlyzer.atlext.OCL.CollectionType oclType = null;        	
         	if      (t instanceof SequenceType) oclType = OCLFactory.eINSTANCE.createSequenceType();
@@ -140,18 +144,52 @@ public class ATLUtils {
 				commonType = commonType==null? utype : getCommonType(commonType, utype);
 			return getOclType(commonType);
 		}
-        //if (t instanceof EnumType) return ...
         
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
 
-	// method used by getOclType, when the received type is an union;
-	// it returns the common supertype of the received t1 and t2
-	// TODO: to be completed...
+	/**
+	 * Returns the common supertype of t1 and t2. Method used by getOclType, when the received type is an union.
+	 * @param t1
+	 * @param t2
+	 * @return
+	 */
 	private static Type getCommonType (Type t1, Type t2) {
-		if (t1 instanceof Unknown) return t1;
-		if (t2 instanceof Unknown) return t2;
+		if (t1 instanceof Unknown || t1 instanceof OclAnyType) return t1;
+		if (t2 instanceof Unknown || t2 instanceof OclAnyType) return t2;
 		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return t1;
+		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
+			CollectionType ct1 = (CollectionType)t1;
+			CollectionType ct2 = (CollectionType)t2;
+			Type collectionType = getCommonType( ct1.getContainedType(), ct2.getContainedType() );
+			if (collectionType == ct1.getContainedType()) return ct1;
+			if (collectionType == ct2.getContainedType()) return ct2;
+			Type commonType = null;
+			if      (t1 instanceof SequenceType) commonType = TypesFactory.eINSTANCE.createSequenceType();	
+			else if (t1 instanceof SetType)      commonType = TypesFactory.eINSTANCE.createSetType();
+			if (commonType != null) {
+				((CollectionType)commonType).setContainedType(collectionType);
+				return commonType;
+			}
+		}
+		if (t1 instanceof Metaclass && t2 instanceof Metaclass) {
+			Metaclass mc1 = (Metaclass)t1;
+			Metaclass mc2 = (Metaclass)t2;
+			if (mc1.getName().equals(mc2.getName())) return mc1; // same type
+			if (mc1.getKlass().getEAllSuperTypes().stream().anyMatch(supertype -> supertype==mc2.getKlass())) return mc2; // t2 is supertype of t1
+			if (mc2.getKlass().getEAllSuperTypes().stream().anyMatch(supertype -> supertype==mc1.getKlass())) return mc1; // t1 is supertype of t2
+			EClass commonAncestor = mc1.getKlass().getEAllSuperTypes().stream().filter(supertype -> 
+				mc2.getKlass().getEAllSuperTypes().stream().anyMatch(supertype2 -> supertype==supertype2)
+			).findFirst().get();
+			if (commonAncestor != null) { // t1 and t2 have a common ancestor
+				Metaclass commonType = TypesFactory.eINSTANCE.createMetaclass();
+				commonType.setName(commonAncestor.getName());
+				commonType.setModel(mc1.getModel());
+				commonType.setKlass(commonAncestor);
+				return commonType;
+			}
+		}
+		// otherwise, return unknown
 		return TypesFactory.eINSTANCE.createUnknown();
 	}
 

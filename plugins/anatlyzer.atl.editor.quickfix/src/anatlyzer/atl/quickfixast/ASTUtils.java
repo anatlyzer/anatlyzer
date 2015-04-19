@@ -9,6 +9,7 @@ import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -56,11 +57,12 @@ public class ASTUtils {
 	}
 	
 	public static OclType createATLType(Type t) {
-		if ( t instanceof Metaclass ) return createOclModelElement((Metaclass) t);
-		else if ( t instanceof Unknown ) return OCLFactory.eINSTANCE.createOclAnyType();
- 		else if ( t instanceof IntegerType ) return OCLFactory.eINSTANCE.createIntegerType();
-		else if ( t instanceof StringType ) return OCLFactory.eINSTANCE.createStringType();
-		throw new UnsupportedOperationException("Type " + t + " not supported yet");
+		return ATLUtils.getOclType(t);
+//		if ( t instanceof Metaclass ) return createOclModelElement((Metaclass) t);
+//		else if ( t instanceof Unknown ) return OCLFactory.eINSTANCE.createOclAnyType();
+// 		else if ( t instanceof IntegerType ) return OCLFactory.eINSTANCE.createIntegerType();
+//		else if ( t instanceof StringType ) return OCLFactory.eINSTANCE.createStringType();
+//		throw new UnsupportedOperationException("Type " + t + " not supported yet");
 	}
 	
 	public static OclModelElement createOclModelElement(Metaclass m) {

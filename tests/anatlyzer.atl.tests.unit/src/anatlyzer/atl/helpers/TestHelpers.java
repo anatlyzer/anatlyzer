@@ -22,7 +22,7 @@ public class TestHelpers extends UnitTest {
 		String T = trafo("parameter_passing");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
-		assertEquals(3, problems().size());
+		assertEquals(6, problems().size());
 	}
 
 	

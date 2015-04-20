@@ -2,17 +2,21 @@ package anatlyzer.atl.analyser.namespaces;
 
 import java.util.HashMap;
 
+import org.eclipse.emf.common.util.EList;
+
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.Parameter;
 
 public class TransformationNamespace implements ITypeNamespace {
 
@@ -60,7 +64,23 @@ public class TransformationNamespace implements ITypeNamespace {
 				return AnalyserContext.getErrorModel().signalNoThisModuleOperation(operationName, node);
 			}
 		}
+		checkHelperArguments(op, op.definition, arguments, node);
 		return op.returnType;
+	}
+
+	private void checkHelperArguments(VirtualFeature<TransformationNamespace, ?> op, Object definition, Type[] arguments, LocatedElement node) {
+		if ( definition instanceof Operation ) {
+			ClassNamespace.checkHelperArguments(op.featureName, ((Operation) definition).getParameters(), arguments, node);
+		} else if ( definition instanceof LazyRule ) {
+			LazyRule r = (LazyRule) op.definition;
+			InPatternElement elem = r.getInPattern().getElements().get(0);
+			if ( elem != null ) {
+				AbstractTypeNamespace.checkArguments(op.featureName, new Type[] { elem.getInferredType() }, new String[] { elem.getVarName()}, arguments, node);
+			}
+		} else if ( definition instanceof CalledRule ) {
+			CalledRule r = (CalledRule) op.definition;
+			ClassNamespace.checkHelperArguments(op.featureName, r.getParameters(), arguments, node);
+		}
 	}
 
 	@Override

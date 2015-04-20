@@ -332,7 +332,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 
 		if ( this.hasOperation(operationName, arguments) ) {
 			VirtualFeature<ClassNamespace, Operation> op = operations.get(operationName);			
-			checkHelperArguments(op, arguments, node);
+			checkHelperArguments(op.featureName, op.definition.getParameters(), arguments, node);
 			return op.returnType;
 		}
 		
@@ -356,8 +356,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 				new RecoverOperationNotFound(this, operationName, node));
 	}
 	
-	private void checkHelperArguments(VirtualFeature<ClassNamespace, Operation> op, Type[] arguments, LocatedElement node) {
-		EList<Parameter> params = op.definition.getParameters();
+	protected static void checkHelperArguments(String opName, EList<Parameter> params, Type[] arguments, LocatedElement node) {
 		Type[] formalArguments = new Type[params.size()];
 		String[] formalArgumentNames = new String[params.size()];
 		for(int i = 0; i < params.size(); i++) {
@@ -365,7 +364,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			formalArgumentNames[i] = params.get(i).getVarName();
 		}
 		
-		checkArguments(op.definition.getName(), formalArguments, formalArgumentNames, arguments, node);	
+		checkArguments(opName, formalArguments, formalArgumentNames, arguments, node);	
 	}
 
 	private Type tryRecoveryGetOperation(String operationName, Type[] arguments, LocatedElement node) {

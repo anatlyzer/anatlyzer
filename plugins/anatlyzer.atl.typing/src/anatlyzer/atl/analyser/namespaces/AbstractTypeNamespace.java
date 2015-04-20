@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.AnalyserContext;
@@ -11,7 +12,9 @@ import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class AbstractTypeNamespace implements ITypeNamespace {
@@ -82,7 +85,7 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		return null;
 	}
 
-	protected void checkArguments(String operationName, Type[] formalArguments, String[] formalArgumentsNames, Type[] arguments, LocatedElement node) {
+	protected static void checkArguments(String operationName, Type[] formalArguments, String[] formalArgumentsNames, Type[] arguments, LocatedElement node) {
 		if ( formalArguments.length != arguments.length ) {
 			AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters(operationName, formalArguments, arguments, node);
 			return;

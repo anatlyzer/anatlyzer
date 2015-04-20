@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
@@ -17,11 +18,18 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atl.types.BooleanType;
+import anatlyzer.atl.types.FloatType;
+import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
+import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 
 public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuickfix {
@@ -132,20 +140,36 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		}	
 	}
 	
+	private boolean isCompatible (Type t , String s) {
+		if (t instanceof Metaclass) return ((Metaclass)t).getName().equals(s);
+		if (t instanceof BooleanType) return s.equals("Boolean");
+		if (t instanceof FloatType) return s.equals("Float");
+		if (t instanceof IntegerType) return s.equals("Integer");
+		if (t instanceof StringType) return s.equals("String");
+		return false;
+	}
+	
 	private void fixParams( String replaced, OperationCallExp c, int numP, int paramsClosest ) {
 		for (int i = numP; i < paramsClosest; i++) {
 			CollType ct = primitiveParam.get(replaced).get(i);
 			OclExpression exp = Conversions.createDefaultOCLLiteral(ct.name());
+			System.out.println("Needed type: "+this.neededType());
 			if (exp instanceof VariableExp) {
 				VariableExp ve = (VariableExp) exp;
 				List<VariableDeclaration> lvd = ATLUtils2.getAvailableDeclarations(c);
-				if (lvd.size()>0) ve.setReferredVariable(lvd.get(0));		// TODO: Do type checking
+				if (lvd.size()>0) {
+					if (this.neededType()!=null) {
+						List<VariableDeclaration> filtered = lvd.stream().filter( p -> this.isCompatible(p.getInferredType(), this.neededType())).collect(Collectors.toList());
+						if (filtered.size()>0) ve.setReferredVariable(filtered.get(0));
+						else ve.setReferredVariable(lvd.get(0));
+					} else ve.setReferredVariable(lvd.get(0));		// TODO: Do type checking
+				}
 				else {} // TODO: create an object?
 			}
 			c.getArguments().add(exp);
 		}	
 	}
-	
+		
 	protected void fixParams( String closest, OperationCallExp c) {
 		int paramsClosest = this.getParamsClosest(closest);
 		int numP = c.getArguments().size();
@@ -165,4 +189,6 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		}
 		else System.out.println("number of params match.");
 	}
+	
+	public String neededType() { return null; }
 }

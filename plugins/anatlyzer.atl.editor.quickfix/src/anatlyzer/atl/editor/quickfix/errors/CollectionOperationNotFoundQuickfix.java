@@ -16,10 +16,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstractQuickFix {
 	// number of parameters X operation name
@@ -93,41 +95,38 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 	@Override
 	public void apply(IDocument document) {
 
-		try {
-			
-			CollectionOperationCallExp elm = this.getOperation();
-								
-			System.out.println("Collection operation "+elm.getOperationName()+"not found");
-			System.out.println("Type of collection "+elm.getSource().getInferredType());//+"\n of: "+elm.getSource().getInferredType());
-			this.typeOfCollection = "";
-			if (elm.getSource().getInferredType() instanceof CollectionType) {
-				CollectionType ct = (CollectionType)elm.getSource().getInferredType();				
-				if (ct.getContainedType() instanceof Metaclass) {
-					Metaclass mc = (Metaclass)ct.getContainedType();
-					System.out.println("Type of collection "+mc.getName());
-					this.typeOfCollection = mc.getName();
-					String metaModelName = mc.getModel().getName();
-					CollType.UserDefined.setDefaultLiteral(metaModelName+"!"+this.typeOfCollection+".newInstance()");
-				}
-			}
-			
-			String closest = this.getClosest(elm.getOperationName(), elm.getArguments().size());
-			
-			int[] sourceOffset = getElementOffset(elm.getSource(), document);
+		CollectionOperationCallExp elm = this.getOperation();
 
-			int sourceOffsetEnd = sourceOffset[1];
-			
-			int offsetEnd   = getProblemEndOffset();
-			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
-			int parent = rest.indexOf("(");
-			
-			document.replace(sourceOffsetEnd, parent, "->"+closest);
-			
-			this.fixParams(elm.getArguments().size(), closest, document, sourceOffsetEnd+("->"+closest).length(), offsetEnd-parent+("->"+closest).length());
-			
-		} catch (CoreException | BadLocationException e) {
-			throw new RuntimeException(e);
+		System.out.println("Collection operation "+elm.getOperationName()+"not found");
+		System.out.println("Type of collection "+elm.getSource().getInferredType());//+"\n of: "+elm.getSource().getInferredType());
+		this.typeOfCollection = "";
+		if (elm.getSource().getInferredType() instanceof CollectionType) {
+			CollectionType ct = (CollectionType)elm.getSource().getInferredType();				
+			if (ct.getContainedType() instanceof Metaclass) {
+				Metaclass mc = (Metaclass)ct.getContainedType();
+				System.out.println("Type of collection "+mc.getName());
+				this.typeOfCollection = mc.getName();
+				String metaModelName = mc.getModel().getName();
+				CollType.UserDefined.setDefaultLiteral(metaModelName+"!"+this.typeOfCollection+".newInstance()");
+			}
 		}
+		QuickfixApplication qfa = getQuickfixApplication();	
+		new InDocumentSerializer(qfa, document).serialize();
+			
+//			String closest = this.getClosest(elm.getOperationName(), elm.getArguments().size());
+//			
+//			int[] sourceOffset = getElementOffset(elm.getSource(), document);
+//
+//			int sourceOffsetEnd = sourceOffset[1];
+//			
+//			int offsetEnd   = getProblemEndOffset();
+//			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
+//			int parent = rest.indexOf("(");
+//			
+//			document.replace(sourceOffsetEnd, parent, "->"+closest);
+//			
+//			this.fixParams(elm.getArguments().size(), closest, document, sourceOffsetEnd+("->"+closest).length(), offsetEnd-parent+("->"+closest).length());
+			
 	}
 
 	@Override
@@ -168,6 +167,24 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
+		CollectionOperationCallExp le = (CollectionOperationCallExp)getProblematicElement();		
+		QuickfixApplication qfa = new QuickfixApplication();
+		CollectionOperationCallExp elm = this.getOperation();
+		
+		qfa.replace(le, (expr, trace) -> {
+			trace.preserve(expr.getSource());
+						
+			String closest = this.getClosest(elm.getOperationName(), elm.getArguments().size());
+			
+			le.setOperationName(closest);		// TODO: Create copy... and handle parameters
+			this.fixParams(closest, le);
+			
+			return le;
+		});
+		return qfa;
+	}
+	
+	@Override public String neededType() {
+		return this.typeOfCollection;
 	}
 }

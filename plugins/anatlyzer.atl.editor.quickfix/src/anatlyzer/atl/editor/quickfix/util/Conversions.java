@@ -10,14 +10,17 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Primitive;
 import anatlyzer.atlext.OCL.PrimitiveExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class Conversions {
 	public static OclType convertPType(PrimitiveType pt) {
@@ -64,7 +67,36 @@ public class Conversions {
 		return "\'\'";
 	}
 
-	public static PrimitiveExp createDefaultOCLLiteral(PrimitiveType pt) {
+	public static OclExpression createDefaultOCLLiteral(String pt) {
+		switch (pt.toLowerCase()) {
+			case "integer" : {
+				IntegerExp e = OCLFactory.eINSTANCE.createIntegerExp();
+				e.setIntegerSymbol(0);
+				return e;
+			}
+			case "boolean" : {
+				BooleanExp e = OCLFactory.eINSTANCE.createBooleanExp();
+				e.setBooleanSymbol(false);
+				return e;
+			}
+			case "string" : {
+				StringExp e = OCLFactory.eINSTANCE.createStringExp();
+				e.setStringSymbol("");
+				return e;
+			}
+			case "float" : {
+				RealExp e = OCLFactory.eINSTANCE.createRealExp();
+				e.setRealSymbol(0.0);
+				return e;
+			}
+			default : {
+				VariableExp e = OCLFactory.eINSTANCE.createVariableExp();
+				return e;
+			}
+		}
+	}
+	
+	public static PrimitiveExp createDefaultOCLLiteral(Type pt) {
 		if ( pt instanceof BooleanType ) {
 			BooleanExp e = OCLFactory.eINSTANCE.createBooleanExp();
 			e.setBooleanSymbol(false);

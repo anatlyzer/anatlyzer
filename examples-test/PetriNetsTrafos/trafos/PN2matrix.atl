@@ -11,7 +11,7 @@ rule Net2Matrix {
 		s : MTX!Matrix (			
 			horzLength <- n.places->size(),
 			vertLength <- n.transitions->size(),
-			rows <- n.transitions->collect ( t | thisModule.resolveTemp(t, 'r') )
+			rows <- n.transitions->collect( c | thisModule.resolveTemp('t', c))
 		)
 }
 
@@ -28,9 +28,11 @@ lazy rule PlaceValue {
 	 	  tt : PN!Transition 
 	 to c : MTX!Cell (
 	 	value <- thisModule.inPlaceVal(p, tt) - thisModule.outPlaceVal(p, tt)
+		--value <- thisModule.calcula(3, 0)
 	 )
 }
 
+helper def: calcula ( i : Integer, j : Integer ) : Integer = i + j;
 
 -- helper def: PlacseValue( p : PN!Place, t : PN!Transitio ) : Integer = 0;
 

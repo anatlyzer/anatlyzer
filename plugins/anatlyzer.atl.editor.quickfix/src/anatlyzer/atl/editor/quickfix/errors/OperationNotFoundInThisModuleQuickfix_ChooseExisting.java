@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -51,6 +52,11 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		}
 		return null;
 	}
+	
+	private void addPredefined(Map<Integer, List<String>> ops) {
+		ops.putIfAbsent(2, new ArrayList<String>());
+		ops.get(2).add("resolveTemp");
+	}
 		
 	@Override protected Map<Integer, List<String>> populateCandidateOps () {
 		Map<Integer, List<String>> stHelpers = new TreeMap<Integer, List<String>>();
@@ -75,6 +81,9 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 			for (Integer i : lrules.keySet())																								// merge both maps
 				stHelpers.merge(i, lrules.get(i), (l1, l2) -> { l1.addAll(l2); return l1; });
 		} 
+		
+		// Now add the predefined operations
+		this.addPredefined(stHelpers);
 		
 		return stHelpers;
 	}
@@ -142,7 +151,9 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		qfa.replace(le, (expr, trace) -> {
 			trace.preserve(expr.getSource());
 						
-			le.setOperationName(this.getClosest());		// TODO: Create copy... and handle parameters
+			String closest = this.getClosest();
+			le.setOperationName(closest);		// TODO: Create copy... and handle parameters
+			this.fixParams(closest, le);
 			
 			return le;
 		});

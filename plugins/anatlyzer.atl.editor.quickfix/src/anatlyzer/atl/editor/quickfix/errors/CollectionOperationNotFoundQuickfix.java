@@ -23,27 +23,8 @@ import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 
 public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstractQuickFix {
 	// number of parameters X operation name
-	private static HashMap<String, List<CollType>> primitiveParam = new HashMap<>();		// probably move this to superclass
 	private String typeOfCollection;
 	
-	static {
-		primitiveParam.put("append", Collections.singletonList(CollType.UserDefined));
-		primitiveParam.put("at", Collections.singletonList(CollType.Integer));
-		primitiveParam.put("subsequence", Arrays.asList(CollType.Integer, CollType.Integer));
-		primitiveParam.put("refGetValue", Collections.singletonList(CollType.String));
-	}
-	
-	enum CollType { 
-		Integer ("0"), 
-		String("''"),
-		UserDefined("param");
-		
-		private String defaultLiteral;
-		
-		CollType(String dl) { this.defaultLiteral = dl; }		
-		public String defaultLiteral() { return this.defaultLiteral;}
-		public void setDefaultLiteral(String dl) { this.defaultLiteral = dl; }
-	}
 	
 	public CollectionOperationNotFoundQuickfix() {
 		this.populateCandidateOps();		// we can do this immediately

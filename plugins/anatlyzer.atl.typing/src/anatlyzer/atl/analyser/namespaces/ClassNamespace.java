@@ -356,7 +356,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 				new RecoverOperationNotFound(this, operationName, node));
 	}
 	
-	protected static void checkHelperArguments(String opName, EList<Parameter> params, Type[] arguments, LocatedElement node) {
+	protected static void checkHelperArguments(String opName, List<Parameter> params, Type[] arguments, LocatedElement node) {
 		Type[] formalArguments = new Type[params.size()];
 		String[] formalArgumentNames = new String[params.size()];
 		for(int i = 0; i < params.size(); i++) {

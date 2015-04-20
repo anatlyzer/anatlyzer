@@ -24,7 +24,7 @@ rule model {
 			src.aHelper3(src.elements->first()) +
 			-- Call to global helper with invalid number of parameters,
 			thisModule.globalHelper4(),
-		elements <- Sequence { thisModule.aRule(), thisModule.aCalledRule() }
+		elements <- Sequence { thisModule.aRule(), thisModule.aRuleTwoParams(OclUndefined, OclUndefined), thisModule.aCalledRule() }
 		
 	)
 }
@@ -38,6 +38,14 @@ lazy rule aRule {
 		)
 }
 
+lazy rule aRuleTwoParams {
+	from
+		a : ABCD!A, a : ABCD!A
+	to 
+		x : WXYZ!X (
+			name <- 'default'
+		)
+}
 rule aCalledRule(a : ABCD!A, b : Integer) {
 	to 
 		x : WXYZ!X (

@@ -73,10 +73,17 @@ public class TransformationNamespace implements ITypeNamespace {
 			ClassNamespace.checkHelperArguments(op.featureName, ((Operation) definition).getParameters(), arguments, node);
 		} else if ( definition instanceof LazyRule ) {
 			LazyRule r = (LazyRule) op.definition;
-			InPatternElement elem = r.getInPattern().getElements().get(0);
-			if ( elem != null ) {
-				AbstractTypeNamespace.checkArguments(op.featureName, new Type[] { elem.getInferredType() }, new String[] { elem.getVarName()}, arguments, node);
+			
+			Type[] formalArguments       = new Type[r.getInPattern().getElements().size()];
+			String[] formalArgumentNames = new String[r.getInPattern().getElements().size()];
+			int i = 0;
+			for(InPatternElement ipe : r.getInPattern().getElements()) {
+				formalArgumentNames[i] = ipe.getVarName();
+				formalArguments[i] = ipe.getInferredType();
+				i++;
 			}
+			
+			AbstractTypeNamespace.checkArguments(op.featureName, formalArguments, formalArgumentNames, arguments, node);	
 		} else if ( definition instanceof CalledRule ) {
 			CalledRule r = (CalledRule) op.definition;
 			ClassNamespace.checkHelperArguments(op.featureName, r.getParameters(), arguments, node);

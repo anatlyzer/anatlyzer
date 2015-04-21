@@ -9,11 +9,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.model.TypeUtils;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
@@ -188,6 +186,15 @@ public class Retyping extends AbstractVisitor {
 				throw new IllegalStateException();
 		
 			this.subtypeSelectionOnFeatureAccess.add(self);
+		} else if ( self.getSource().isImplicitlyCasted() ) {
+			Type t = self.getSource().getInferredType();
+			if ( t instanceof Metaclass ) {
+				String className = ((Metaclass)	t).getName();		
+				OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+				self.setSource(oclAsType);		
+				
+				this.subtypeSelectionOnFeatureAccess.add(self);
+			}			
 		}
 		
 		if ( self.getUsedFeature() == null ) {

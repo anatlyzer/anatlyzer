@@ -153,4 +153,12 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.BindingPossiblyUnresolvedQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule"
+         name="Quickfixes for &quot;Binding with invalid target in resolved rule &quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.BindingInvalidTargetInResolvedRule">
+      </quickfixset>
+   </extension>
 </plugin>

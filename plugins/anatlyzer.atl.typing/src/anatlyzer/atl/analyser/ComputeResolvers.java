@@ -174,9 +174,8 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
-		// CallExprAnn ann = annotationOperationCall(self, Collections.<OclExpression> emptyList());
-			
-		Type srcType = attr.typeOf(self.getSource());
+		// Type srcType = attr.typeOf(self.getSource());
+		Type srcType = self.getSource().getInferredType();
 		
 		self.setReceptorType( srcType );
 		if ( srcType instanceof Metaclass ) {

@@ -459,7 +459,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
 		checkAccessToUndefined(self);
-
+		
 		Type t = attr.typeOf( self.getSource() );
 				
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
@@ -470,6 +470,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		attr.linkExprType(t2);
 		
 		if ( attr.wasCasted(self.getSource()) ){
+			self.getSource().setInferredType(t); 
 			typ().markImplicitlyCasted(self.getSource(), t);
 		}
 	}
@@ -586,6 +587,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		// marking already casted elements...
 		if ( attr.wasCasted(self.getSource()) ){
+			self.getSource().setInferredType(t);
 			typ().markImplicitlyCasted(self.getSource(), t);
 		}
 	}

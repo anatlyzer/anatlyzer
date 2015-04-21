@@ -145,4 +145,12 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.OperationFoundInSubtypeQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolvedQuickSet"
+         name="Quickfixes for &quot;Binding possibly unresolved&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.BindingPossiblyUnresolvedQuickfixSet">
+      </quickfixset>
+   </extension>
 </plugin>

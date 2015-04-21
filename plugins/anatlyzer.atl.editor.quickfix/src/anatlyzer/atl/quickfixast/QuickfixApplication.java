@@ -48,15 +48,15 @@ public class QuickfixApplication {
 		// now r is the new root...
 	}
 	
-	public <T1 extends EObject> void change(EObject root, 
-			Supplier<T1> rootCreator,
-			BiConsumer<T1, Trace> replacer) {	
+	public <T1 extends EObject, T2 extends EObject> void change(T1 root, 
+			Supplier<T2> rootCreator,
+			TriConsumer<T1, T2, Trace> replacer) {	
 		Trace trace = new Trace();
 		
-		T1 newRoot = rootCreator.get();
+		T2 newRoot = rootCreator.get();
 		EcoreUtil.replace(root, newRoot);
 		
-		replacer.accept(newRoot, trace);
+		replacer.accept(root, newRoot, trace);
 		ReplacementAction action = new ReplacementAction(root, newRoot, trace);
 		
 		actions.add(action);

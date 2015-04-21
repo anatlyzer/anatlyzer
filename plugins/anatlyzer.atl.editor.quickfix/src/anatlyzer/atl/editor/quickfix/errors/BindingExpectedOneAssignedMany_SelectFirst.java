@@ -47,7 +47,7 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 		OclExpression value   = binding.getValue();
 		
 		QuickfixApplication qfa = new QuickfixApplication();
-		qfa.change(value, OCLFactory.eINSTANCE::createCollectionOperationCallExp, (newexp, trace) -> {
+		qfa.change(value, OCLFactory.eINSTANCE::createCollectionOperationCallExp, (original, newexp, trace) -> {
 			
 			// if the inferred type is a collection of collections, add expression "->flatten()->first()"
 			Type inferredType = value.getInferredType();

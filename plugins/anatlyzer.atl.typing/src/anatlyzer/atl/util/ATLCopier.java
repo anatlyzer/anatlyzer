@@ -4,6 +4,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.OCL.VariableDeclaration;
+
 @SuppressWarnings("serial")
 public class ATLCopier extends EcoreUtil.Copier {
 
@@ -14,6 +17,18 @@ public class ATLCopier extends EcoreUtil.Copier {
 		this.root = object;
 	}
 
+	public EObject copy() {
+		EObject result = this.copy(root);
+		this.copyReferences();
+		return result;
+	}
+
+
+	public ATLCopier bind(EObject key, EObject value) {
+		this.put(key, value);
+		return this;
+	}
+	
 	public static EObject copySingleElement(EObject obj) {
 	    ATLCopier copier = new ATLCopier(obj);
 	    EObject result = copier.copy(obj);
@@ -52,5 +67,6 @@ public class ATLCopier extends EcoreUtil.Copier {
 			}
 		}
 	}
+
 
 }

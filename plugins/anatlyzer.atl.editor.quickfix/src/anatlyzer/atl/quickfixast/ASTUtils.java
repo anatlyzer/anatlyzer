@@ -1,5 +1,7 @@
 package anatlyzer.atl.quickfixast;
 
+import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import anatlyzer.atl.types.FloatType;
@@ -16,6 +18,8 @@ import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -121,4 +125,35 @@ public class ASTUtils {
 		outP.getElements().add(ope);		
 	}
 
+	public static OclExpression createBooleanLiteral(boolean b) {
+		BooleanExp bexp = OCLFactory.eINSTANCE.createBooleanExp();
+		bexp.setBooleanSymbol(b);
+		return bexp;
+	}
+
+	public static <T> OclExpression generateNestedIfs(List<T> elements, Function<T, OclExpression> genCondition, Function<T, OclExpression> genThen, Supplier<OclExpression> genFinalElse) {
+		IfExp last  = null;
+		IfExp first = null;
+		for (T e : elements) {
+			IfExp ifexp = OCLFactory.eINSTANCE.createIfExp();
+			if ( first == null ) {
+				first = ifexp;
+			}
+			
+			ifexp.setCondition(genCondition.apply(e));
+			ifexp.setThenExpression(genThen.apply(e));
+			
+			if ( last != null ) {				
+				last.setElseExpression(ifexp);
+			}
+			
+			last = ifexp;
+		}
+		
+		first.setElseExpression(genFinalElse.get());
+		
+		return first;
+	}
+	
+	
 }

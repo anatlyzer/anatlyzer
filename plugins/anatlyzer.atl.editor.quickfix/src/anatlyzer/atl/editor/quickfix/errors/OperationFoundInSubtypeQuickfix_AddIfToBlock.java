@@ -57,7 +57,7 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 		Supplier<OclExpression> check = createOclIsKindOfCheck(property);
 		
 		QuickfixApplication qfa = new QuickfixApplication();
-		qfa.change(root, OCLFactory.eINSTANCE::createIfExp, (ifexp, trace) -> {
+		qfa.change(root, OCLFactory.eINSTANCE::createIfExp, (original, ifexp, trace) -> {
 			ifexp.setCondition     (check.get());
 			ifexp.setThenExpression(fexpRoot);
 			ifexp.setElseExpression(ASTUtils.defaultValue(type));

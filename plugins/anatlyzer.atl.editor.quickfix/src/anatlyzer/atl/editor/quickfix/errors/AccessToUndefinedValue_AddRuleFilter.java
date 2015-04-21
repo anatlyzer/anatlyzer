@@ -64,7 +64,7 @@ public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix
 		QuickfixApplication qfa = new QuickfixApplication();
 		
 		if ( filter != null ) {			
-			qfa.change(filter, OCLFactory.eINSTANCE::createOperatorCallExp, (andOp, trace) -> {
+			qfa.change(filter, OCLFactory.eINSTANCE::createOperatorCallExp, (original, andOp, trace) -> {
 				andOp.setOperationName("and");
 				andOp.setSource(filter);
 				

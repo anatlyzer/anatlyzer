@@ -85,9 +85,13 @@ public class ATLUtils {
 		} else if ( t instanceof CollectionType ) {
 			String typeName = null;
 			if ( t instanceof SequenceType ) typeName = "Sequence";
-			if ( t instanceof SetType ) typeName = "Set";
-			
+			if ( t instanceof SetType ) typeName = "Set";			
 			return typeName + "(" + getTypeName(((CollectionType) t).getContainedType()) +")";
+		} else if ( t instanceof TupleType ) {
+			String tupleAtts = "";
+			for (TupleAttribute att : ((TupleType)t).getAttributes()) 
+				tupleAtts += att.getName() + ":" + getTypeName(att.getType()) + ", ";
+			return "TupleType ( " + tupleAtts + ")";
 		}
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
@@ -482,7 +486,7 @@ public class ATLUtils {
 		} else if ( root instanceof Library ) {
 			result.addAll(((Library) root).getHelpers());
 		} else if ( root instanceof Query ) {
-			result.addAll(((Library) root).getHelpers());
+			result.addAll(((Query) root).getHelpers());
 		}
 		return result;
 	}

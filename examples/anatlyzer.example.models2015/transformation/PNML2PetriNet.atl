@@ -10,7 +10,7 @@ rule PetriNet {
 		arcsSet : Set(PNML!Arc) = n.contents->select(e | e.oclIsKindOf(PNML!Arc));
 	}
 	to p : PetriNet!PetriNet (
-		location <- n.location,
+		-- location <- n.location,
 		name <- n.contents.size().toString(), -- 'mynet', -- n.nets.first().name.labels.first().text,
 		elements <- n.contents, --->select(e | e.oclIsKindOf(PNML!NetContentElement)),
 		arcs <- arcsSet

@@ -30,7 +30,7 @@ public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuick
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		BindingPossiblyUnresolved p = (BindingPossiblyUnresolved) getProblem();
-		
+
 		Binding b = (Binding) p.getElement();
 		List<MatchedRule> rules = b.getResolvedBy().stream().map(RuleResolutionInfo::getRule).collect(Collectors.toList());
 		return generateBindingFilter(b, rules);

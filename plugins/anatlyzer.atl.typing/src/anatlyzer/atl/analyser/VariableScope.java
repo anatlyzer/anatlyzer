@@ -8,8 +8,8 @@ import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -19,20 +19,10 @@ public class VariableScope {
 	private Scope currentUndefined = new Scope();
 	
 	/**
-	 * Given an expression, that is formed by a tree of PropertyCalls,
-	 * it traverses the "source" reference until reaching the VariableExp
-	 * that actually starts the expressions.
-	 * 
-	 * @param src
-	 * @return
+	 * @see ATLUtils#findStartingVarExp(OclExpression)
 	 */
 	public static VariableExp findStartingVarExp(OclExpression src) {
-		// find the start of the expression
-		while ( ! (src instanceof VariableExp )) {
-			src = ((PropertyCallExp) src).getSource();
-		}
-		VariableExp ve = (VariableExp) src;
-		return ve;
+		return ATLUtils.findStartingVarExp(src);
 	}
 
 	/**

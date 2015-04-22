@@ -10,13 +10,11 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclType;
-import anatlyzer.atlext.OCL.Primitive;
 import anatlyzer.atlext.OCL.PrimitiveExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
@@ -85,6 +83,35 @@ public class Conversions {
 				return e;
 			}
 			case "float" : {
+				RealExp e = OCLFactory.eINSTANCE.createRealExp();
+				e.setRealSymbol(0.0);
+				return e;
+			}
+			default : {
+				VariableExp e = OCLFactory.eINSTANCE.createVariableExp();
+				return e;
+			}
+		}
+	}		
+	
+	public static OclExpression createDefaultOCLLiteral(EDataType t) {
+		switch ( EcoreTypeConverter.normalizeToBasic(t) ) {
+			case INTEGER : {
+				IntegerExp e = OCLFactory.eINSTANCE.createIntegerExp();
+				e.setIntegerSymbol(0);
+				return e;
+			}
+			case BOOLEAN : {
+				BooleanExp e = OCLFactory.eINSTANCE.createBooleanExp();
+				e.setBooleanSymbol(false);
+				return e;
+			}
+			case STRING : {
+				StringExp e = OCLFactory.eINSTANCE.createStringExp();
+				e.setStringSymbol("");
+				return e;
+			}
+			case DECIMAL : {
 				RealExp e = OCLFactory.eINSTANCE.createRealExp();
 				e.setRealSymbol(0.0);
 				return e;

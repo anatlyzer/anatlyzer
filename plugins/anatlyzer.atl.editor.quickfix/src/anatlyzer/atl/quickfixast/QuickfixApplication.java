@@ -165,12 +165,20 @@ public class QuickfixApplication {
 			return receptor;
 		}
 
+		@SuppressWarnings("unchecked")
 		public Action toMockReplacement() {
 			Trace mockTrace = new Trace();
 			EList<EReference> refs = receptor.eClass().getEAllReferences();
 			for (EReference ref : refs) {
 				if ( ref != feature ) {
 					mockTrace.preserve(receptor.eGet(ref));
+				} else if ( ref.isMany() ) {
+					for(EObject o: (EList<EObject>) receptor.eGet(feature)) {
+						if ( o != tgt ) { 
+							mockTrace.preserve(o);
+						}
+					}
+					
 				}
 			}
 			return new ReplacementAction(receptor, receptor, mockTrace);

@@ -56,6 +56,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -567,6 +568,23 @@ public class ATLUtils {
 		return null;
 	}
 
+	/**
+	 * Given an expression, that is formed by a tree of PropertyCalls,
+	 * it traverses the "source" reference until reaching the VariableExp
+	 * that actually starts the expressions.
+	 * 
+	 * @param src
+	 * @return
+	 */
+	public static VariableExp findStartingVarExp(OclExpression src) {
+		// find the start of the expression
+		while ( ! (src instanceof VariableExp )) {
+			src = ((PropertyCallExp) src).getSource();
+		}
+		VariableExp ve = (VariableExp) src;
+		return ve;
+	}
+	
 	public static Rule getRule(Binding binding) {
 		return binding.getOutPatternElement().getOutPattern().getRule();
 	}

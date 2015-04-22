@@ -196,6 +196,8 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 				
 				trafo.currentProblem(p);
 				
+				System.out.println(((LocalProblem) p).getLocation() + " - " + p.getDescription());
+				
 				List<AtlProblemQuickfix> quickfixes = getQuickfixes(p, data);
 				
 				if ( quickfixes.size() > 0 ) { 
@@ -243,7 +245,18 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
 			qfa.apply();
 		
+
+			// Serialize, just for testing purposes
+			IFolder temp = experimentFile.getProject().getFolder("temp");
+			if ( ! temp.exists() ) {
+				temp.create(true, true, null);
+			}
 			
+			IFile f = temp.getFile(resource.getName().replace(".atl", "") + (++id) + ".atl");
+			
+			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
+			printMessage("Generated quickfixed file" + f.getName());
+
 			// Retype
 			newResult.getAnalyser().getATLModel().clear();
 			newResult.getProblems().size();
@@ -255,16 +268,6 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			
 			qi.setRetyped(newResult);
 			
-			// Serialize, just for testing purposes
-			IFolder temp = experimentFile.getProject().getFolder("temp");
-			if ( ! temp.exists() ) {
-				temp.create(true, true, null);
-			}
-			
-			IFile f = temp.getFile(resource.getName().replace(".atl", "") + (++id) + ".atl");
-			
-			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
-			printMessage("Generated quickfixed file" + f.getName());
 		
 		
 		} catch ( UnsupportedOperationException e ) {

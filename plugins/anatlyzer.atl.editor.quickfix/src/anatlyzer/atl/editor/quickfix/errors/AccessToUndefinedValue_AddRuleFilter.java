@@ -9,15 +9,12 @@ import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OperationCallExp;
-import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**

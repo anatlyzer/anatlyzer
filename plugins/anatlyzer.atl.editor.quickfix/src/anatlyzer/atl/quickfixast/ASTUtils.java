@@ -14,6 +14,7 @@ import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -30,6 +31,7 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class ASTUtils {
 
@@ -131,7 +133,15 @@ public class ASTUtils {
 		return bexp;
 	}
 
-	public static <T> OclExpression generateNestedIfs(List<T> elements, Function<T, OclExpression> genCondition, Function<T, OclExpression> genThen, Supplier<OclExpression> genFinalElse) {
+	public static OperationCallExp createOclIsKindOf(Metaclass srcType, OclExpression source) {
+		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+		op.setOperationName("oclIsKindOf");				
+		op.getArguments().add( ATLUtils.getOclType( srcType ) );	
+		op.setSource(source);
+		return op;
+	}
+	
+	public static <T> OclExpression generateNestedIfs(List<T> elements, boolean negate, Function<T, OclExpression> genCondition, Function<T, OclExpression> genThen, Supplier<OclExpression> genFinalElse) {
 		IfExp last  = null;
 		IfExp first = null;
 		for (T e : elements) {
@@ -141,18 +151,36 @@ public class ASTUtils {
 			}
 			
 			ifexp.setCondition(genCondition.apply(e));
-			ifexp.setThenExpression(genThen.apply(e));
 			
-			if ( last != null ) {				
-				last.setElseExpression(ifexp);
+			if ( negate ) {
+				ifexp.setElseExpression(genThen.apply(e));			
+				if ( last != null ) {				
+					last.setThenExpression(ifexp);
+				}				
+			} else {			
+				ifexp.setThenExpression(genThen.apply(e));			
+				if ( last != null ) {				
+					last.setElseExpression(ifexp);
+				}
 			}
 			
 			last = ifexp;
 		}
 		
-		first.setElseExpression(genFinalElse.get());
+		if ( negate ) {
+			first.setThenExpression(genFinalElse.get());
+		} else {
+			first.setElseExpression(genFinalElse.get());			
+		}
 		
 		return first;
+	}
+
+	public static OclExpression negate(OclExpression negated) {
+		OperatorCallExp neg = OCLFactory.eINSTANCE.createOperatorCallExp();
+		neg.setOperationName("not");
+		neg.setSource(negated);
+		return neg;
 	}
 	
 	

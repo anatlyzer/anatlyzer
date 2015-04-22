@@ -161,4 +161,10 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.BindingInvalidTargetInResolvedRule">
       </quickfixset>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.OperationCallInvalidParameterQuickfixSet">
+      </quickfixset>
+   </extension>
 </plugin>

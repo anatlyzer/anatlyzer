@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
@@ -14,7 +15,6 @@ import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.InPattern;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -31,7 +31,6 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
-import anatlyzer.atlext.OCL.VariableExp;
 
 public class ASTUtils {
 
@@ -54,9 +53,9 @@ public class ASTUtils {
  			exp.setRealSymbol(0);
  			return exp;
  		}
-		else if ( t instanceof IntegerType )  {
- 			IntegerExp exp = OCLFactory.eINSTANCE.createIntegerExp();
- 			exp.setIntegerSymbol(0);
+		else if ( t instanceof BooleanType )  {
+ 			BooleanExp exp = OCLFactory.eINSTANCE.createBooleanExp();
+ 			exp.setBooleanSymbol(false);
  			return exp;
  		}
 		throw new UnsupportedOperationException("Type " + t + " not supported yet");

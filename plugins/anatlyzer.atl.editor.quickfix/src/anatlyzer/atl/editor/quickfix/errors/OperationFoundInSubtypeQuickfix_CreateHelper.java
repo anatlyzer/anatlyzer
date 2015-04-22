@@ -35,11 +35,11 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Create operation";
+		return "Create operation " + getNewContextOperationName((OperationCallExp)getProblematicElement());
 	}	
 	
 	@Override public String getDisplayString() {
-		return "Create operation";
+		return "Create operation " + getNewContextOperationName((OperationCallExp)getProblematicElement());
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {
@@ -54,6 +54,12 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 		});
 		
 		return qfa;
+	}
+	
+	private String getNewContextOperationName(OperationCallExp operation) {
+		String arguments = "";
+		for (OclExpression argument : operation.getArguments()) arguments += ", " + ATLUtils.getTypeName(argument.getInferredType()); 
+		return operation.getOperationName() + "(" + arguments.replaceFirst(",", "") + ")";
 	}
 	
 	private ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		

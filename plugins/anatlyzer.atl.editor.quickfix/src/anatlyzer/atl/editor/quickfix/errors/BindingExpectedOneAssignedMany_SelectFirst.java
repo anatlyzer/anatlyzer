@@ -5,11 +5,13 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -33,7 +35,7 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Select first element of the collection";
+		return "Select first element of the collection, performing a previous flattening if necessary";
 	}
 
 	@Override
@@ -49,31 +51,27 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 		QuickfixApplication qfa = new QuickfixApplication();
 		qfa.change(value, OCLFactory.eINSTANCE::createCollectionOperationCallExp, (original, newexp, trace) -> {
 			
-			// if the inferred type is a collection of collections, add expression "->flatten()->first()"
+			newexp.setOperationName("first");
+			
+			// a) if the inferred type is a collection of collections, add expression "->flatten()->first()"
 			Type inferredType = value.getInferredType();
 			if ((inferredType instanceof CollectionType && mayContainCollection((CollectionType)inferredType)) || 
 			    (inferredType instanceof UnionType      && mayContainCollection((UnionType)inferredType))    ) {
+
+				CollectionOperationCallExp flattenexp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				flattenexp.setOperationName("flatten");
 				
-//				// (if the last expression of the operation is "first", add "flatten" before)
-//				if (value instanceof CollectionOperationCallExp && ((CollectionOperationCallExp)value).getOperationName().equals("first")) {
-//					newexp.setOperationName("flatten");
-//					newexp.setSource(((CollectionOperationCallExp)value).getSource());
-//					((CollectionOperationCallExp)value).setSource(newexp);
-//				}
-//				else {				
-					CollectionOperationCallExp flattenexp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-					flattenexp.setOperationName("flatten");
-					flattenexp.setSource(value);
-					newexp.setOperationName("first");
-//				}
+				// (if the last expression of the operation is "first", add "flatten" before)
+				if (value instanceof CollectionOperationCallExp && ((CollectionOperationCallExp)value).getOperationName().equals("first")) {
+					flattenexp.setSource (((CollectionOperationCallExp)value).getSource());			
+					newexp.setSource(flattenexp);
+				}
+				else flattenexp.setSource(value);
 			}
 			
-			// otherwise, add expression "->first()"
-			else {
-				newexp.setOperationName("first");
-				newexp.setSource(value);
-			}
-			
+			// b) otherwise, add expression "->first()"
+			else newexp.setSource(value);
+
 		});		
 		return qfa;
 	}

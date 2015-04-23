@@ -208,7 +208,9 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			if ( e instanceof Rule && ((Rule) e).getName().equals(operationName) ) {
 				TransformationNamespace tspace = mm.getTransformationNamespace();
 				// So far, no types because we do not argument types because there is no overriding...
-				Type t = tspace.getOperationType(operationName, new Type[0], node);
+				// Passing null for parameter types because for the moment the aregument types are
+				// not available, so getOperationType must not check (avoiding incorrect error messages)
+				Type t = tspace.getOperationType(operationName, null, node);
 				return t;
 			}
 		}

@@ -64,7 +64,9 @@ public class TransformationNamespace implements ITypeNamespace {
 				return AnalyserContext.getErrorModel().signalNoThisModuleOperation(operationName, node);
 			}
 		}
-		checkHelperArguments(op, op.definition, arguments, node);
+
+		if ( arguments != null )
+			checkHelperArguments(op, op.definition, arguments, node);
 		return op.returnType;
 	}
 

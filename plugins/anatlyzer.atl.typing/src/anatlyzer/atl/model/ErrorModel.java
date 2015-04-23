@@ -723,13 +723,13 @@ public class ErrorModel {
 		for (Type type : formalArguments) { error.getFormalParameters().add(type); }
 		
 		String s1 = blamedParameters.get(0);
-		for(int i = 1; i < blamedParameters.size(); i++) s1 = ", " + blamedParameters.get(i);
+		for(int i = 1; i < blamedParameters.size(); i++) s1 += ", " + blamedParameters.get(i);
 		
 		String s2 = TypeUtils.typeToString(arguments[0]);
-		for(int i = 1; i < blamedParameters.size(); i++) s2 = ", " + TypeUtils.typeToString(arguments[i]);
+		for(int i = 1; i < arguments.length; i++) s2 += ", " + TypeUtils.typeToString(arguments[i]);
 		
 		String s3 = TypeUtils.typeToString(formalArguments[0]);
-		for(int i = 1; i < blamedParameters.size(); i++) s3 = ", " + TypeUtils.typeToString(formalArguments[i]);
+		for(int i = 1; i < formalArguments.length; i++) s3 += ", " + TypeUtils.typeToString(formalArguments[i]);
 		
 		signalError(error, "Invalid parameter types: " + s1 + ". Expected " + operationName + "(" + s3 +"), given " + operationName + "(" + s2 + ")", node);
 	}

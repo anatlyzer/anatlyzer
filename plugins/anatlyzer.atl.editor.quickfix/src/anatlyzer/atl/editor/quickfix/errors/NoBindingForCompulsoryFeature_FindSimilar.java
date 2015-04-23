@@ -30,6 +30,7 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
 /**
@@ -72,17 +73,18 @@ public class NoBindingForCompulsoryFeature_FindSimilar extends AbstractAtlQuickf
 				flatMap(o -> o.getBindings().stream() ).
 				filter(b -> b.getWrittenFeature() == feature ).collect(Collectors.toList());
 			
-			Optional<Binding> result = candidates.stream().filter(b -> {
+			Optional<Binding> result = candidates.stream().filter(b -> {		
 				VariableExp vexp = ATLUtils.findStartingVarExp(b.getValue());
 				
 				// The expression starts with an element matched by the rule
-				if ( vexp.getReferredVariable() instanceof InPatternElement ) {
+				if ( vexp != null && vexp.getReferredVariable() instanceof InPatternElement ) {
 					Metaclass ruleType = (Metaclass) vexp.getReferredVariable().getInferredType();
 					Metaclass containingType = ATLUtils.getInPatternType(containingRule);
 					
 					// The object in the current rule (containingType) must be the same or a subtype.
 					return TypeUtils.isClassAssignableTo(containingType.getKlass(), ruleType.getKlass());
 				}
+
 				return false;
 			}).findAny();
 

@@ -579,6 +579,8 @@ public class ATLUtils {
 	public static VariableExp findStartingVarExp(OclExpression src) {
 		// find the start of the expression
 		while ( ! (src instanceof VariableExp )) {
+			if ( ! ( src instanceof PropertyCallExp ) )
+				return null;				
 			src = ((PropertyCallExp) src).getSource();
 		}
 		VariableExp ve = (VariableExp) src;

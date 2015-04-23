@@ -140,7 +140,7 @@ public class ASTUtils {
 		return op;
 	}
 	
-	public static <T> OclExpression generateNestedIfs(List<T> elements, boolean negate, Function<T, OclExpression> genCondition, Function<T, OclExpression> genThen, Supplier<OclExpression> genFinalElse) {
+	public static <T> OclExpression generateNestedIfs(List<T> elements, Function<T, OclExpression> genCondition, Function<T, OclExpression> genThen, Supplier<OclExpression> genFinalElse) {
 		IfExp last  = null;
 		IfExp first = null;
 		for (T e : elements) {
@@ -150,27 +150,15 @@ public class ASTUtils {
 			}
 			
 			ifexp.setCondition(genCondition.apply(e));
-			
-			if ( negate ) {
-				ifexp.setElseExpression(genThen.apply(e));			
-				if ( last != null ) {				
-					last.setThenExpression(ifexp);
-				}				
-			} else {			
-				ifexp.setThenExpression(genThen.apply(e));			
-				if ( last != null ) {				
-					last.setElseExpression(ifexp);
-				}
+			ifexp.setThenExpression(genThen.apply(e));			
+			if ( last != null ) {				
+				last.setElseExpression(ifexp);
 			}
-			
+					
 			last = ifexp;
 		}
 		
-		if ( negate ) {
-			first.setThenExpression(genFinalElse.get());
-		} else {
-			first.setElseExpression(genFinalElse.get());			
-		}
+		last.setElseExpression(genFinalElse.get());			
 		
 		return first;
 	}

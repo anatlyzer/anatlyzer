@@ -30,10 +30,6 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
-	public QuickfixApplication generateBindingFilter(Binding b, List<MatchedRule> involvedRules) {
-		return generateBindingFilter(b, involvedRules, true);
-	}
-
 	public QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules) {
 		boolean selectResolvedElements = false;
 		
@@ -52,7 +48,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			OclExpression expr = (OclExpression) ATLCopier.copySingleElement(b.getValue());
 
 			LetExp let = OCLFactory.eINSTANCE.createLetExp();
-			VariableDeclaration varDcl = OCLFactory.eINSTANCE.createIterator();
+			VariableDeclaration varDcl = OCLFactory.eINSTANCE.createVariableDeclaration();
 			varDcl.setVarName("_v");
 			varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
 			varDcl.setInitExpression(expr);
@@ -139,13 +135,13 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 				select.getIterators().add(it);
 				select.setSource(original);
 				
-				OclExpression check = genCheck(it, involvedRules); // ASTUtils.createBooleanLiteral(true); //
+				OclExpression check = genCheck(it, involvedRules, true); // ASTUtils.createBooleanLiteral(true); //
 				select.setBody(check);
 			});	
 
 		} else {
 			qa.change(b.getValue(), OCLFactory.eINSTANCE::createLetExp, (original, let, trace) -> {
-				VariableDeclaration varDcl = OCLFactory.eINSTANCE.createIterator();
+				VariableDeclaration varDcl = OCLFactory.eINSTANCE.createVariableDeclaration();
 				varDcl.setVarName("_v");
 				varDcl.setType(ATLUtils.getOclType(original.getInferredType()));
 				varDcl.setInitExpression(original);
@@ -155,7 +151,8 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 				VariableExp refToVar           = OCLFactory.eINSTANCE.createVariableExp();
 				refToVar.setReferredVariable(varDcl);
 				
-				OclExpression check = genCheck(varDcl, involvedRules);
+				OclExpression check = genCheck(varDcl, involvedRules, selectResolvedElements);
+				/*
 				if ( ! selectResolvedElements ) {
 					OperatorCallExp negate = OCLFactory.eINSTANCE.createOperatorCallExp();
 					negate.setSource(check);
@@ -163,6 +160,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 					
 					check = negate;
 				}
+				*/
 				
 				IfExp ifExp = OCLFactory.eINSTANCE.createIfExp();
 				ifExp.setCondition(check);
@@ -172,10 +170,6 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			});	
 		}		
 		return qa;
-	}
-
-	protected OclExpression genCheck(VariableDeclaration bindingValueVar, List<MatchedRule> involvedRules) {
-		return genCheck(bindingValueVar, involvedRules, false);
 	}
 	
 	protected OclExpression genCheck(VariableDeclaration bindingValueVar, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
@@ -188,7 +182,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			distinct().sorted((c1, c2) -> c1.isSuperTypeOf(c2) ? +1 : -1).
 			collect(Collectors.toList());
 
-		return ASTUtils.generateNestedIfs(orderedTypes, ! selectResolvedElements,
+		return ASTUtils.generateNestedIfs(orderedTypes,
 				// genCondition: And-concatenation of oclIsKind()
 				(EClass eClass) -> {
 					List<MatchedRule> rules = rulesByType.get(eClass);
@@ -214,13 +208,18 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 								return or;							
 							}));
 					if ( thenBranch == null ) {
-						thenBranch = ASTUtils.createBooleanLiteral(true);
+						thenBranch = ASTUtils.createBooleanLiteral(selectResolvedElements ? true : false);
+					} else if ( ! selectResolvedElements ) {
+						OperatorCallExp or = OCLFactory.eINSTANCE.createOperatorCallExp();
+						or.setOperationName("not");
+						or.setSource(thenBranch);
+						thenBranch = or;
 					}
 					return thenBranch;
 				},					
 				// genFinalElse: false
 				() -> {
-					return ASTUtils.createBooleanLiteral(false);
+					return ASTUtils.createBooleanLiteral(selectResolvedElements ? false : true);
 				});
 	}	
 

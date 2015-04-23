@@ -33,7 +33,7 @@ public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuick
 
 		Binding b = (Binding) p.getElement();
 		List<MatchedRule> rules = b.getResolvedBy().stream().map(RuleResolutionInfo::getRule).collect(Collectors.toList());
-		return generateBindingFilter(b, rules);
+		return generateBindingFilter(b, rules, true);
 	}
     
 	@Override

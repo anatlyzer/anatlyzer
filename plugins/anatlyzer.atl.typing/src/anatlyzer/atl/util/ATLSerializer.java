@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -597,9 +598,9 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inEnumLiteralExp(EnumLiteralExp self) {
-		s("#" + self.getName());
+		s("#" + norm(self.getName()));
 	}
-	
+
 	@Override
 	public void inOclAnyType(OclAnyType self) {
 		s("OclAny");
@@ -779,5 +780,16 @@ public class ATLSerializer extends AbstractVisitor {
 		return s;		
 	}
 
+
+	private static HashSet<String> reservedWords = new HashSet<String>();
+	static {
+		reservedWords.add("in");		
+	}
+	
+	private String norm(String name) {
+		if ( reservedWords.contains(name) ) 
+			return '"' + name + '"';
+		return name;
+	}
 	
 }

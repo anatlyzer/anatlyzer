@@ -192,11 +192,9 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			List<Problem> allProblems = data.getProblems();
 			for (Problem p : allProblems) {
 				printMessage("\n");
-				printMessage(p.getDescription());
+				printMessage("[" + ((LocalProblem) p).getLocation() + "]" + p.getDescription());
 				
 				trafo.currentProblem(p);
-				
-				System.out.println(((LocalProblem) p).getLocation() + " - " + p.getDescription());
 				
 				List<AtlProblemQuickfix> quickfixes = getQuickfixes(p, data);
 				

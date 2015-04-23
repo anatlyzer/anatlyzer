@@ -157,7 +157,7 @@ public class Tester {
 	 * @throws transException 
 	 * @throws ATLCoreException 
 	 */
-	private void generateMutants () throws transException {
+	/*private*/public void generateMutants () throws transException {
 		MetaModel iMetaModel, oMetaModel;
 		/*
 		try {

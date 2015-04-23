@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.EList;
@@ -46,6 +44,12 @@ public class QuickfixApplication {
 		
 		EcoreUtil.replace(root, r);
 		// now r is the new root...
+	}
+	
+	public void remove(EObject o) {
+		EObject parent = o.eContainer();
+		EcoreUtil.delete(o);
+		actions.add(new DeleteAction(o, parent));
 	}
 	
 	public <T1 extends EObject, T2 extends EObject> void change(T1 root, 
@@ -150,6 +154,25 @@ public class QuickfixApplication {
 		}		
 	}
 
+	public static class DeleteAction extends Action {
+		private EObject container;
+
+		public DeleteAction(EObject deleted, EObject container) {
+			super(deleted, new Trace());
+			this.container = container;
+		}
+
+		@SuppressWarnings("unchecked")
+		public Action toMockReplacement() {
+			Trace mockTrace = new Trace();
+			EList<EReference> refs = container.eClass().getEAllReferences();
+			for (EReference ref : refs) {
+				mockTrace.preserve(container.eGet(ref));
+			}
+			return new ReplacementAction(container, container, mockTrace);			
+		}
+	}
+	
 	public static class PutInAction extends Action {
 
 		private EObject receptor;
@@ -195,6 +218,8 @@ public class QuickfixApplication {
 	public void apply() {
 		// For the moment nothing... but should be called to ensure everything is in sync
 	}
+
+	
 
 
 

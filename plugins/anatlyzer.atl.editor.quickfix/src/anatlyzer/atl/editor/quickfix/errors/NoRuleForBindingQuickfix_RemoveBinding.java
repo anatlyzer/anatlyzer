@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -23,8 +24,19 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends AbstractAtlQuickfix 
 	}
 
 	@Override
-	public void apply(IDocument document) {
+	public QuickfixApplication getQuickfixApplication() {
+		Binding b = (Binding) getProblematicElement();
+		
+		QuickfixApplication qfa = new QuickfixApplication();
+		qfa.remove(b);
+		return qfa;
+	}
 
+	@Override
+	public void apply(IDocument document) {
+		QuickfixApplication qfa = getQuickfixApplication();
+		new InDocumentSerializer(qfa, document).serialize();
+		/*
 		try {
 			BindingWithoutRule p = (BindingWithoutRule) getProblem();
 			Binding b = (Binding) p.getElement();
@@ -54,28 +66,12 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends AbstractAtlQuickfix 
 		} catch (BadLocationException e) {
 			throw new RuntimeException(e);
 		}
-		
-	}
-
-	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getAdditionalProposalInfo() {
-		return "Remove binding";
+		*/
 	}
 
 	@Override
 	public String getDisplayString() {
 		return "Remove binding";
-	}
-
-	@Override
-	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
 	}
 
 

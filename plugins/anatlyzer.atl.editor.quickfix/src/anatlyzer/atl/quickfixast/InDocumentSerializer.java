@@ -11,6 +11,7 @@ import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
+import anatlyzer.atl.quickfixast.QuickfixApplication.DeleteAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
@@ -40,6 +41,9 @@ public class InDocumentSerializer extends ATLSerializer {
 			try {
 				if ( a instanceof PutInAction ) {
 					a = ((PutInAction) a).toMockReplacement();
+				} else if ( a instanceof DeleteAction ) {
+					// This is only an easy way to do this, but it is not able to preserve the layout
+					a = ((DeleteAction) a).toMockReplacement();					
 				}
 	
 				this.currentAction = a;

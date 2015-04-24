@@ -9,11 +9,17 @@ import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.OutPattern;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -49,9 +55,9 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 		ModuleElement   anchor         = ATLUtils.getContainer(operationCall, ModuleElement.class);
 		
 		QuickfixApplication qfa = new QuickfixApplication();
-		qfa.insertAfter(anchor, () -> {			
-			return buildNewContextOperation(operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments());			
-		});
+		if (receptorType instanceof ThisModuleType) 
+			 qfa.insertAfter(anchor, () -> { return buildNewContextLazyRule (operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });
+		else qfa.insertAfter(anchor, () -> { return buildNewContextOperation(operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });
 		
 		return qfa;
 	}
@@ -80,12 +86,37 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 		for (OclExpression argument : arguments) {
 			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
 			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
-			parameter.setVarName( "param" + i );
+			parameter.setVarName( "param" + (i++) );
 			operation.getParameters().add(parameter);
 		}
 				
 		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
 		helper.setDefinition(def);
 		return helper;
+	}
+
+	private LazyRule buildNewContextLazyRule (String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
+		InPattern  ipattern = ATLFactory.eINSTANCE.createInPattern();
+		OutPattern opattern = ATLFactory.eINSTANCE.createOutPattern();
+
+		int i=0;
+		for (OclExpression argument : arguments) {
+			InPatternElement element = ATLFactory.eINSTANCE.createSimpleInPatternElement();
+			element.setVarName( "param" + (i++));
+			element.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
+			ipattern.getElements().add(element);
+		}
+		
+		OutPatternElement element = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
+		element.setVarName( "param" + (i++));
+		element.setType   ( ATLUtils.getOclType(returnType) );
+		opattern.getElements().add(element);
+
+		LazyRule rule = ATLFactory.eINSTANCE.createLazyRule();
+		rule.setName(name);
+		rule.setInPattern (ipattern);
+		rule.setOutPattern(opattern);
+		
+		return rule;
 	}
 }

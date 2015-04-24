@@ -29,6 +29,7 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
@@ -38,6 +39,7 @@ import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
@@ -83,6 +85,8 @@ public class ATLUtils {
 			return "Real";
 		} else if ( t instanceof Unknown ) {
 			return "OclAny";
+		} else if ( t instanceof ThisModuleType ) {
+			return "ThisModule";
 		} else if ( t instanceof CollectionType ) {
 			String typeName = null;
 			if ( t instanceof SequenceType ) typeName = "Sequence";
@@ -93,7 +97,7 @@ public class ATLUtils {
 			for (TupleAttribute att : ((TupleType)t).getAttributes()) 
 				tupleAtts += att.getName() + ":" + getTypeName(att.getType()) + ", ";
 			return "TupleType ( " + tupleAtts + ")";
-		}
+		} 
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}
 	
@@ -453,7 +457,15 @@ public class ATLUtils {
 		return rules;
 	}
 	
-
+	public static List<LazyRule> getAllLazyRules(ATLModel model) {
+		ArrayList<LazyRule> rules = new ArrayList<LazyRule>();
+		for(ModuleElement r : model.getModule().getElements()) {
+			if ( r instanceof LazyRule ) 
+				rules.add((LazyRule) r);
+		}
+		return rules;
+	}
+	
 	public static List<Helper> getAllAttributes(ATLModel model) {
 		List<Helper> result = getAllHelpers(model);
 		ListIterator<Helper> it = result.listIterator();

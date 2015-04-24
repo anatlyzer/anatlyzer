@@ -1,20 +1,15 @@
 package anatlyzer.atl.editor.quickfix.warnings;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
-import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 /**
@@ -38,41 +33,27 @@ public class IncoherentDeclaredTypeQuickfix extends AbstractAtlQuickfix {
 	}
 
 	@Override
-	public void apply(IDocument document) {
-		
-		try {
-			IncoherentVariableDeclaration p = (IncoherentVariableDeclaration) getProblem();
-			LocatedElement elem = (LocatedElement) getProblem().getElement();
-			if ( elem instanceof VariableDeclaration ) {
-				VariableDeclaration vd = (VariableDeclaration) elem;
-				int[] typeOffset = getElementOffset(vd.getType(), document);
-				int typeOffsetStart = typeOffset[0];
-				int typeOffsetEnd = typeOffset[1];
-				
-				String newTypeName = ATLUtils.getTypeName( p.getInferred() );
-
-				document.replace(typeOffsetStart, typeOffsetEnd - typeOffsetStart, newTypeName);
-				
-			} else {
-				throw new UnsupportedOperationException("TODO: " + elem + " not handled.");
-			}
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
-		} catch (BadLocationException e) {
-			throw new RuntimeException(e);
+	public QuickfixApplication getQuickfixApplication() {
+		LocatedElement elem = (LocatedElement) getProblematicElement();
+		if ( elem instanceof VariableDeclaration ) {
+			VariableDeclaration vd = (VariableDeclaration) elem;
+			
+			QuickfixApplication qfa = new QuickfixApplication();
+			qfa.replace(vd.getType(), (original, trace) -> {
+				Type t = vd.getInitExpression().getInferredType();
+				return ATLUtils.getOclType(t);
+			});			
+			return qfa;
+		} else {
+			throw new RuntimeException("TODO: " + elem + " not handled.");
 		}
 		
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getAdditionalProposalInfo() {
-		return "Replace declared with inferred type";
+	public void apply(IDocument document) {
+		QuickfixApplication qfa = getQuickfixApplication();			
+		new InDocumentSerializer(qfa, document).serialize();	
 	}
 
 	@Override
@@ -80,9 +61,5 @@ public class IncoherentDeclaredTypeQuickfix extends AbstractAtlQuickfix {
 		return "Replace declared with inferred type";
 	}
 
-	@Override
-	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
-	}
 
 }

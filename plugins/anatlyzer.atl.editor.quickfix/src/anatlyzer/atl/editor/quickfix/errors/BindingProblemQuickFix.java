@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.ExpressionJoiner;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -30,7 +31,7 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
-	public QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules) {
+	protected QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules) {
 		boolean selectResolvedElements = false;
 		
 		MatchedRule r = (MatchedRule) ATLUtils.getRule(b);
@@ -84,7 +85,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 	 * When there is a filter things are a bit more complicated because references to src object of the 
 	 * resolved rule has to be changed for the whole binding expression, as many times as they appear...
 	 */
-	private QuickfixApplication generateRuleFilter_Optimized(Binding b, MatchedRule resolvedRule) {
+	protected QuickfixApplication generateRuleFilter_Optimized(Binding b, MatchedRule resolvedRule) {
 		MatchedRule r = (MatchedRule) ATLUtils.getRule(b);
 		OclExpression filter = r.getInPattern().getFilter();
 		Metaclass type = ATLUtils.getInPatternType(resolvedRule);
@@ -119,7 +120,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		return qfa;
 	}
 
-	public QuickfixApplication generateBindingFilter(Binding b, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
+	protected QuickfixApplication generateBindingFilter(Binding b, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
 
 		QuickfixApplication qa = new QuickfixApplication();
 		
@@ -223,6 +224,17 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 				});
 	}	
 
+	protected QuickfixApplication removeBinding(Binding b) {
+		QuickfixApplication qfa = new QuickfixApplication();
+		qfa.remove(b);
+		return qfa;
+	}
+	
+	protected boolean isOptionalFeature(BindingProblem problem) {
+		return 	problem.getFeature() != null &&
+				problem.getFeature().getLowerBound() == 0;
+	}
+	
 	protected OclExpression copyFilter(VariableDeclaration var, MatchedRule r) {
 		OclExpression filter = r.getInPattern().getFilter();
 		if ( filter == null )

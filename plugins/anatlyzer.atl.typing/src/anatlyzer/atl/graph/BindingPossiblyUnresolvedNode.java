@@ -39,12 +39,10 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode<BindingPossiblyUnresolved> implements ProblemNode {
 
 	private Binding	binding;
-	private ATLModel atlModel;
 
 	public BindingPossiblyUnresolvedNode(BindingPossiblyUnresolved p, Binding binding, ATLModel model) {
 		super(p);
 		this.binding = binding;
-		this.atlModel   = model;
 	}
 
 	@Override

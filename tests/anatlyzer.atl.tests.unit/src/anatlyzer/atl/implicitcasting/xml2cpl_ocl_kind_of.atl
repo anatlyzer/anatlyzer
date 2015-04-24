@@ -1,0 +1,30 @@
+-- @path CPL=/anatlyzer.atl.tests.unit/metamodels/xml2cpl/CPL.ecore
+-- @path XML=/anatlyzer.atl.tests.unit/metamodels/xml2cpl/XML.ecore
+module XML2CPL;
+create OUT : CPL from IN : XML;
+
+rule SubAction {
+	from
+		s : XML!Element
+		(
+			s.name = 'subaction'
+		)
+	to
+		t : CPL!SubAction (
+			id <- 'test',
+			contents <- let _v : XML!Element = s  in 
+				if ( if ( _v.oclIsKindOf(XML!Root) ) then
+					_v.name = 'cpl'
+				else
+   					if ( _v.oclIsKindOf(XML!Element) ) then
+   						_v.name = 'location' or _v.name = 'failure' or _v.name = 'time-switch' or _v.name = 'not-present' or _v.name = 'address-switch' or _v.name = 'priority' or _v.name = 'redirect' or _v.name = 'string-switch' or _v.name = 'subaction' or _v.name = 'proxy' or _v.name = 'incoming' or _v.name = 'sub' or _v.name = 'address' or _v.name = 'outgoing' or _v.name = 'otherwise' or _v.name = 'noanswer' or _v.name = 'string' or _v.name = 'priority-switch' or _v.name = 'reject' or _v.name = 'default' or _v.name = 'busy' or _v.name = 'redirection' or _v.name = 'language' or _v.name = 'language-switch' or _v.name = 'time'
+					else
+   						false
+					endif
+				endif ) then
+   					_v
+				else
+   					OclUndefined
+				endif
+		)
+}

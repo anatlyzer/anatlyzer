@@ -30,9 +30,9 @@ class UndefinedCheck extends Type {
 */
 public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 
-	private Metaclass rootType;
-	private Set<Metaclass> isType;
-	private Set<Metaclass> isNotType;
+	protected Metaclass rootType;
+	protected Set<Metaclass> isType;
+	protected Set<Metaclass> isNotType;
 	
 	public MetaclassTypeConstraint(Metaclass rootType) {
 		this.rootType = rootType;
@@ -53,7 +53,6 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 		Metaclass m = rootType;
 		IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();
 		
-		Collection<ClassNamespace> subclasses = ns.getDirectSubclasses();
 		
 		ArrayList<Type> selectedTypes = new ArrayList<Type>();
 		
@@ -71,29 +70,9 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 				}
 			}
 		} else if ( isNotType.size() > 0 ) {
-		
-			// First, add everything possibly needed to selected types
-			for(Type t : isNotType ) {
-				for (ClassNamespace cn : subclasses) {
-					Metaclass t2 = cn.getType();
-					if ( ! AnalyserContext.getTypingModel().equalTypes(t, t2) ) {
-						selectedTypes.add(t2);
-					}				
-				}
-			}
-			
-			for(Type t : isNotType ) {
-				if ( t instanceof Metaclass ) {
-					ListIterator<Type> lit = selectedTypes.listIterator();
-					while ( lit.hasNext() ) {
-						Type t2 = lit.next();
-						if ( AnalyserContext.getTypingModel().equalTypes(t, t2) ) {
-							lit.remove();
-						}					
-					}
-				} else {
-					throw new UnsupportedOperationException();
-				}
+			addNotTypes(ns, isNotType, selectedTypes);
+			if ( selectedTypes.size() == 0 ) {
+				selectedTypes.add(m);
 			}
 		} else {
 			throw new IllegalStateException("isType: " + isType + " - " + "isNotType: " + isNotType);
@@ -103,6 +82,34 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 		Type ret = AnalyserContext.getTypingModel().getCommonType(selectedTypes);
 		// System.out.println("Type: " + TypeUtils.typeToString(ret));
 		return ret;
+	}
+
+	protected static void addNotTypes(IClassNamespace ns, Set<Metaclass> isNotType, ArrayList<Type> selectedTypes) {
+		Collection<ClassNamespace> subclasses = ns.getDirectSubclasses();
+
+		// First, add everything possibly needed to selected types
+		for(Type t : isNotType ) {
+			for (ClassNamespace cn : subclasses) {
+				Metaclass t2 = cn.getType();
+				if ( ! AnalyserContext.getTypingModel().equalTypes(t, t2) ) {
+					selectedTypes.add(t2);
+				}				
+			}
+		}
+		
+		for(Type t : isNotType ) {
+			if ( t instanceof Metaclass ) {
+				ListIterator<Type> lit = selectedTypes.listIterator();
+				while ( lit.hasNext() ) {
+					Type t2 = lit.next();
+					if ( AnalyserContext.getTypingModel().equalTypes(t, t2) ) {
+						lit.remove();
+					}					
+				}
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		}
 	}
 
 	@Override

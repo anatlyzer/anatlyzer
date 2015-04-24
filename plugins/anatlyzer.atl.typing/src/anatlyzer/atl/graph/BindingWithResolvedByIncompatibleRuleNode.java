@@ -13,28 +13,29 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
 public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAssignmentNode<BindingWithResolvedByIncompatibleRule> implements ProblemNode {
 
 	private Binding	binding;
-	private ATLModel atlModel;
 
 	public BindingWithResolvedByIncompatibleRuleNode(BindingWithResolvedByIncompatibleRule p, Binding binding, ATLModel model) {
 		super(p);
 		this.binding = binding;
-		this.atlModel   = model;
 	}
 	
 	@Override
@@ -109,8 +110,33 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			result = exists;
 		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
 			result = createReferenceConstraint(model, rules, value);	
+		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
+			CollectionOperationCallExp flattened = model.createCollectionOperationCall(value, "flatten");
+			
+			// Same as the previous if...
+			IteratorExp exists = model.createExists(flattened, "_problem_");
+			VariableDeclaration varDcl = exists.getIterators().get(0);
+			
+			OclExpression lastExpr = genOrRules(model, rules, varDcl);
+			
+			exists.setBody(lastExpr);
+			result = exists;
+		} else if ( ATLUtils.getSourceType(binding) instanceof UnionType ) {
+			// This is purely speculatively... just to try... should be signaled somehow
+			SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
+			seq.getElements().add(value);
+			CollectionOperationCallExp flattened = model.createCollectionOperationCall(seq, "flatten");
+			
+			// Same as the previous if...
+			IteratorExp exists = model.createExists(flattened, "_problem_");
+			VariableDeclaration varDcl = exists.getIterators().get(0);
+			
+			OclExpression lastExpr = genOrRules(model, rules, varDcl);
+			
+			exists.setBody(lastExpr);
+			result = exists;
 		} else {
-			throw new IllegalStateException();
+			throw new IllegalStateException(TypeUtils.typeToString(ATLUtils.getSourceType(binding)));
 		}
 		
 		return result;

@@ -30,6 +30,7 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfixSet;
 import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
+import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -48,7 +49,43 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 
 	private boolean recordAll = false;
 	private Workbook workbook = new XSSFWorkbook();
-;
+
+	class QuickfixSummary {
+		int id;
+		int maxQuickfixes = 0;
+		int minQuickfixes = Integer.MAX_VALUE;
+		int totalQuickfixes;
+		int totalProblems;
+
+		public QuickfixSummary(int problemId) {
+			id = problemId;
+		}
+		
+		public void appliedQuickfixes(int count) {
+			if ( count < minQuickfixes )  {
+				minQuickfixes = count;
+			}
+			if ( count > maxQuickfixes ) {
+				maxQuickfixes = count;
+			}
+			totalQuickfixes += count;
+			totalProblems++;
+		}
+		
+		@Override
+		public String toString() {
+			return id + ": \n" + 
+					"\t" + "min: " + minQuickfixes + "\n" +
+					"\t" + "max: " + maxQuickfixes + "\n" +					
+					"\t" + "avg:" + totalQuickfixes / (1.0 * totalProblems) + "\n" +
+					"\t" + "pro:" + totalProblems + "\n" +
+					"\t" + "qfx:" + totalQuickfixes + "\n";
+		}
+
+	}
+	
+	private HashMap<Integer, QuickfixSummary> summary = new HashMap<Integer, ApplyQuickfixes.QuickfixSummary>();
+	
 	
 	class AppliedQuickfixInfo {
 
@@ -206,11 +243,21 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 					}
 		
 					// Recording					
+					int appliedQuickfixesCount = 0;
 					for (AtlProblemQuickfix quickfix : quickfixes) {
 						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data);
 						trafo.appliedQuickfix(qi);
+						appliedQuickfixesCount++;
 					}
 										
+					// Add to summary
+					QuickfixSummary qs = summary.get(AnalyserUtils.getProblemId(p));
+					if ( qs == null ) {
+						qs = new QuickfixSummary(AnalyserUtils.getProblemId(p));
+						summary.put(AnalyserUtils.getProblemId(p), qs);
+					}
+										
+					qs.appliedQuickfixes(appliedQuickfixesCount);					
 				} else {
 					printMessage(" - No quickfixes available");
 				}
@@ -285,6 +332,11 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 
 	@Override
 	public void printResult(PrintStream out) {
+		summary.values().forEach(qs -> {
+			out.println(qs);
+		});
+		
+		
 		for (String str : messages) {
 			out.println(str);
 		}
@@ -422,128 +474,4 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 				q instanceof TransformationSliceQuickFix;
 	}
 
-	public static class MockMarker implements IMarker {
-
-		private Problem problem;
-		private HashMap<String, Object> attributes;
-
-		public MockMarker(Problem p, AnalysisResult data) {
-			this.problem = p;
-			this.attributes = new HashMap<String, Object>();
-
-			try {
-				this.setAttribute(AnATLyzerBuilder.PROBLEM, problem);
-				this.setAttribute(AnATLyzerBuilder.ANALYSIS_DATA, data);
-				this.setAttribute(IMarker.MESSAGE, p.getDescription());
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
-			
-			// pbmMarker.setAttribute(IMarker.SEVERITY, severity); 
-			// pbmMarker.setAttribute(IMarker.LINE_NUMBER, lineNumber);
-			// pbmMarker.setAttribute(IMarker.LOCATION, Messages.getString("MarkerMaker.LINECOLUMN", //$NON-NLS-1$
-			//		new Object[] {new Integer(lineNumber), new Integer(columnNumber)}));
-			// pbmMarker.setAttribute(IMarker.CHAR_START, charStart);
-			// pbmMarker.setAttribute(IMarker.CHAR_END, (charEnd > charStart) ? charEnd : charStart + 1);			
-		}
-		
-		@Override
-		public Object getAdapter(Class adapter) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void delete() throws CoreException {
-			throw new UnsupportedOperationException();			
-		}
-
-		@Override
-		public boolean exists() {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public Object getAttribute(String attributeName) throws CoreException {
-			Object obj = getAttributes().get(attributeName);
-			if ( obj == null )
-				throw new IllegalArgumentException("No attribute: " + attributeName);
-			return obj;
-		}
-
-		@Override
-		public int getAttribute(String attributeName, int defaultValue) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public String getAttribute(String attributeName, String defaultValue) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public boolean getAttribute(String attributeName, boolean defaultValue) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public Map<String, Object> getAttributes() throws CoreException {
-			return attributes;
-		}
-
-		@Override
-		public Object[] getAttributes(String[] attributeNames) throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public long getCreationTime() throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public long getId() {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public IResource getResource() {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public String getType() throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public boolean isSubtypeOf(String superType) throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void setAttribute(String attributeName, int value) throws CoreException {
-			this.attributes.put(attributeName, value);
-		}
-
-		@Override
-		public void setAttribute(String attributeName, Object value) throws CoreException {
-			this.attributes.put(attributeName, value);
-		}
-
-		@Override
-		public void setAttribute(String attributeName, boolean value) throws CoreException {
-			this.attributes.put(attributeName, value);
-		}
-
-		@Override
-		public void setAttributes(String[] attributeNames, Object[] values) throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public void setAttributes(Map<String, ? extends Object> attributes) throws CoreException {
-			throw new UnsupportedOperationException();
-		}
-		
-	}
 }

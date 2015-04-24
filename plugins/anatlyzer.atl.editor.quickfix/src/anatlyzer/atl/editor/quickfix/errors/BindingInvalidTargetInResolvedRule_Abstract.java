@@ -22,7 +22,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 public abstract class BindingInvalidTargetInResolvedRule_Abstract extends BindingProblemQuickFix {
 
 	@Override
-	public boolean isApplicable(IMarker marker) {
+	public boolean isApplicable(IMarker marker) throws CoreException {
 		return checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class);
 	}
 

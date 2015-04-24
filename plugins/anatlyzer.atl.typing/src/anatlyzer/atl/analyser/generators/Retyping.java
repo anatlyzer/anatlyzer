@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import analyser.atl.problems.IDetectedProblem;
@@ -189,11 +190,29 @@ public class Retyping extends AbstractVisitor {
 		} else if ( self.getSource().isImplicitlyCasted() ) {
 			Type t = self.getSource().getInferredType();
 			if ( t instanceof Metaclass ) {
-				String className = ((Metaclass)	t).getName();		
-				OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
-				self.setSource(oclAsType);		
+				// The casting is only made if the feature does not belong to
+				// the original type (without casting). This is needed because otherwise
+				// USE cannot transform the invariant
+				// 
+				// For the moment, there isn't a "uncastedInferredType", so I assume
+				// that if the feature does not belong to the casted type, it does not
+				// need to be casted.
+				System.out.println(self.getLocation());
+				boolean transform = false;
+				if ( self.getUsedFeature() != null ) {
+					EStructuralFeature f = (EStructuralFeature) self.getUsedFeature();
+					if ( ! ((Metaclass) t).getKlass().getEStructuralFeatures().contains(f) )
+						transform = true;
+
+				}
 				
-				this.subtypeSelectionOnFeatureAccess.add(self);
+				if ( transform ) {
+					String className = ((Metaclass)	t).getName();		
+					OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+					self.setSource(oclAsType);		
+					
+					this.subtypeSelectionOnFeatureAccess.add(self);
+				}
 			}			
 		}
 		
@@ -311,6 +330,29 @@ public class Retyping extends AbstractVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
+		/*
+		// In some cases USE cannot transform the invariant if it uses oclIsKindOf 
+		// (see line 32 of XML2CPL.atl, without this the quickfix just does not work
+		//
+		// UPDATE: The problem seems to be in oclAsType!
+		if ( self.getOperationName().equals("oclIsKindOf") && self.getArguments().size() == 1 ) {
+			OclModelElement classRef = OCLFactory.eINSTANCE.createOclModelElement();
+			classRef.setName( ((OclModelElement) self.getArguments().get(0)).getName() );
+
+			OperationCallExp allInstancesCall = OCLFactory.eINSTANCE.createOperationCallExp();
+			allInstancesCall.setOperationName("allInstances");
+			allInstancesCall.setSource(classRef);
+			
+			CollectionOperationCallExp includes = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			includes.setOperationName("includes");
+			includes.setSource(allInstancesCall);
+			includes.getArguments().add(self.getSource());
+			
+			EcoreUtil.replace(self, includes);
+			return;
+		}
+		*/
+		
 		// Same as inFeatureCallExp
 		OperationFoundInSubtype p = (OperationFoundInSubtype) AnalyserUtils.hasProblem(self, OperationFoundInSubtype.class);
 		if ( p != null ) {
@@ -488,7 +530,15 @@ public class Retyping extends AbstractVisitor {
 	public void inSequenceExp(SequenceExp self) {
 		boolean areSameType = true;
 		if ( self.getElements().size() > 0 ) {
-			Class<?> sameType = self.getElements().get(0).getInferredType().getClass();
+			Type t = self.getElements().get(0).getInferredType();
+			if ( t == null ) {
+				// This probably means that the expression being evaluated has been
+				// generated as part of the path-condition, so no type has been assigned,
+				// but we can assume that the expression is right...
+				return;
+			}
+			
+			Class<?> sameType = t.getClass();
 			for(int i = 1; i < self.getElements().size(); i++) {
 				if ( sameType != self.getElements().get(i).getInferredType().getClass() ) {
 					areSameType = false;

@@ -1,8 +1,11 @@
 package anatlyzer.atl.editor.views;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -20,6 +23,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDecorationContext;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -33,6 +38,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -60,6 +66,10 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
+import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.editor.quickfix.MockMarker;
+import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -87,6 +97,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private DrillDownAdapter drillDownAdapter;
 	private Action runAnalyserAction;
 	private Action runWitnessAction;
+	private Action runQuickfixDialog;
+	
 	private Action transformationInformationAction;
 	private Action sortByDependencyAction;
 	
@@ -100,6 +112,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	// Set from the tree...
 	private Result unconnectedElementsResult;
+
+	private IResource currentResource;
 
 	
 	abstract class TreeNode {
@@ -708,6 +722,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(runWitnessAction);
+		manager.add(runQuickfixDialog);		
 		addExtensionActions(manager);
 		drillDownAdapter.addNavigationActions(manager);
 		
@@ -769,8 +784,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 						viewer.refresh(lpn); //, true);
 					}
 					
-					System.out.println( selection.getFirstElement() );
-					
+					System.out.println( selection.getFirstElement() );					
 				}
 				/*
 				IWorkbenchPage page = getSite().getPage();
@@ -792,8 +806,43 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		runWitnessAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_ETOOL_CLEAR));
 		
+
+		// quickfix
 		
-		//
+		runQuickfixDialog = new Action() {
+			public void run() {
+				ISelection selection = viewer.getSelection();
+				Object obj = ((IStructuredSelection)selection).getFirstElement();
+				if ( currentResource != null && obj instanceof LocalProblemNode ) {
+					LocalProblemNode lpn = (LocalProblemNode) obj;
+					ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(lpn.p, currentAnalysis) );
+					List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+					for (ICompletionProposal prop : quickfixes) {
+						quickfixesList.add((AtlProblemQuickfix) prop);
+					}
+									
+					QuickfixDialog dialog = new QuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
+					if ( dialog.open() == Window.OK ) {
+						AtlProblemQuickfix qf = dialog.getQuickfix();
+			
+						IWorkbenchPage page = getSite().getPage();
+						IEditorPart part = page.getActiveEditor();
+						if ( part instanceof AtlEditorExt ) {
+							IDocument doc = ((AtlEditorExt) part).getDocumentProvider().getDocument(part.getEditorInput());
+							qf.apply(doc);							
+						}
+					}
+				}
+			}
+		};
+		
+		runQuickfixDialog.setText("Quickfix");
+		runQuickfixDialog.setToolTipText("Find quickfixes");
+		runQuickfixDialog.setImageDescriptor(Images.quickfix_16x16);
+
+		
+		
+		// transformationAction
 		
 		transformationInformationAction = new Action() {
 			public void run() {
@@ -892,8 +941,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public void partClosed(IWorkbenchPart part) {
 		if ( part instanceof AtlEditorExt ) {
-			currentAnalysis = null;
-			viewer.refresh();
+			setOpenedResource(null, null);
 		}
 	}
 
@@ -908,11 +956,23 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			if ( editor.getUnderlyingResource() != null ) {
 				AnalysisResult result = AnalysisIndex.getInstance().getAnalysis(editor.getUnderlyingResource());
 				if ( result != null ) {
-					currentAnalysis = result;
-					viewer.refresh();
+					setOpenedResource(editor.getUnderlyingResource(), result);
 				}
 			}
 		}
+	}
+
+	private void setOpenedResource(IResource resource, AnalysisResult result) {
+		currentResource = resource;
+		currentAnalysis = result;
+		
+		// To avoid "invalid thread access" when called from analysisRegistered
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				viewer.refresh();
+			}
+		});
 	}
 
 	@Override
@@ -921,14 +981,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		IEditorPart part = page.getActiveEditor();
 		if ( part instanceof AtlEditorExt && 			
 			((AtlEditorExt) part).getUnderlyingResource().getLocation().toPortableString().equals(location) ) {
-			currentAnalysis = result;
-			// To avoid "invalid thread access"
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					viewer.refresh();
-				}
-			});
+			setOpenedResource(((AtlEditorExt) part).getUnderlyingResource(), result);
 		}
 	}
 	

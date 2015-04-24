@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 public interface AtlProblemQuickfix extends ICompletionProposal {
@@ -12,7 +13,7 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 * @param marker
 	 * @return
 	 */
-	public boolean isApplicable(IMarker marker);
+	public boolean isApplicable(IMarker marker) throws CoreException;
 	
 	/**
 	 * Provides the the quickfix with the marker. 

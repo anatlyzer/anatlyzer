@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.ArrayList;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
+import anatlyzer.atl.analyser.typeconstraints.UnionTypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -36,8 +38,7 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 		}
 		
 		if ( results.size() == 0 ) {
-			AnalyserContext.getErrorModel().signalNoFeatureInUnionType(type, featureName, node);
-			throw new IllegalStateException();
+			return AnalyserContext.getErrorModel().signalNoFeatureInUnionType(type, featureName, node);
 		}
 		
 		Type t1 = AnalyserContext.getTypingModel().getCommonType(results);
@@ -141,5 +142,10 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 	@Override
 	public OclFeature getAttachedOclFeature(String attributeOrOperationName) {
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public ITypeConstraint newTypeConstraint() {
+		return new UnionTypeConstraint(type);
 	}
 }

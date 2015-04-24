@@ -9,6 +9,7 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
@@ -18,7 +19,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
-public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments extends AbstractAtlQuickfix {
+public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends AbstractAtlQuickfix {
 
 	@Override public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, OperationCallInvalidNumberOfParameters.class) && buildNewListOfArguments(marker)!=null;
@@ -31,12 +32,12 @@ public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments exte
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Remove arguments to match operation signature";
+		return "Add arguments to match operation signature";
 	}	
 	
 	@Override 
 	public String getDisplayString() {
-		return "Remove arguments to match operation signature";
+		return "Add arguments to match operation signature";
 	}
 	
 	@Override 
@@ -48,12 +49,13 @@ public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments exte
 			List<Type>          argumentTypes = buildNewListOfArguments(null);
 			List<OclExpression> arguments     = new ArrayList<OclExpression>( operationCall.getArguments() );
 			operationCall.getArguments().clear(); // build list of arguments from scratch...
-			while (!argumentTypes.isEmpty() && !arguments.isEmpty()) {
-				if (isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
+			while (!argumentTypes.isEmpty()) {
+				if (!arguments.isEmpty() && isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
 					operationCall.getArguments().add(arguments.get(0));
-					argumentTypes.remove(0);
+					arguments.remove(0);
 				}
-				arguments.remove(0);
+				else operationCall.getArguments().add(ASTUtils.defaultValue(argumentTypes.get(0)));
+				argumentTypes.remove(0);
 			}
 			return operationCall;			
 		});		
@@ -75,15 +77,18 @@ public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments exte
 
 		// get sublist of actual parameters that is compatible with formal parameters
 		List <Type> newActualParameters = new ArrayList<Type>();
-		while (!actualParameters.isEmpty() && !formalParameters.isEmpty()) {
-			if (isCompatible (actualParameters.get(0), formalParameters.get(0))) {
+		while (!formalParameters.isEmpty()) {
+			if (!actualParameters.isEmpty() && isCompatible (actualParameters.get(0), formalParameters.get(0))) {
 				newActualParameters.add(actualParameters.get(0));
-				formalParameters.remove(0);
+				actualParameters.remove(actualParameters.get(0));
 			}
-			actualParameters.remove(actualParameters.get(0));
+			else newActualParameters.add(formalParameters.get(0)); 
+			formalParameters.remove(0);
 		}
 		
-		return newActualParameters.size() == problem.getFormalParameters().size()? newActualParameters : null;
+		return newActualParameters.size() == problem.getFormalParameters().size() && 
+			   newActualParameters.containsAll(problem.getActualParameters()) ? 
+			   newActualParameters : null;
 	}
 	
 	private boolean isCompatible (Type t1, Type t2) {

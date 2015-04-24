@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getDefinitions <em>Definitions</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getTupleTypeAttribute <em>Tuple Type Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getVariableDeclaration <em>Variable Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

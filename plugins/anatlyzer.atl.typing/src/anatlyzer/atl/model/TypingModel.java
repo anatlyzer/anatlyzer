@@ -603,9 +603,12 @@ public class TypingModel {
 	}
 
 	private HashMap<OclExpression, Type> implicitlyCasted = new HashMap<OclExpression, Type>();
-	public void markImplicitlyCasted(OclExpression source, Type t) {
+	public void markImplicitlyCasted(OclExpression source, Type t, Type noCastedType) {
 		implicitlyCasted.put(source, t);
 		source.setImplicitlyCasted(true);
+		if ( noCastedType == null )
+			throw new IllegalArgumentException();
+		source.setNoCastedType(noCastedType);
 	}
 
 	public Type getImplicitlyCasted(OclExpression expr) {

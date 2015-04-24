@@ -11,13 +11,13 @@ import anatlyzer.atlext.OCL.OclExpression;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.BindingStat#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.BindingStat#getPropertyName <em>Property Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.BindingStat#isIsAssignment <em>Is Assignment</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.BindingStat#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getBindingStat()
  * @model

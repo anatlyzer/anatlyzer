@@ -249,13 +249,22 @@ public interface OCLPackage extends EPackage {
 	int OCL_EXPRESSION__IMPLICITLY_CASTED = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 13;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__NO_CASTED_TYPE = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 14;
+
+	/**
 	 * The number of structural features of the '<em>Ocl Expression</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OCL_EXPRESSION_FEATURE_COUNT = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 14;
+	int OCL_EXPRESSION_FEATURE_COUNT = ATLPackage.LOCATED_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
 	 * The number of operations of the '<em>Ocl Expression</em>' class.
@@ -455,6 +464,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Referred Variable</b></em>' reference.
@@ -674,6 +692,15 @@ public interface OCLPackage extends EPackage {
 	int SUPER_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Super Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -882,6 +909,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Primitive Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1088,6 +1124,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__NO_CASTED_TYPE = PRIMITIVE_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>String Symbol</b></em>' attribute.
@@ -1307,6 +1352,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__NO_CASTED_TYPE = PRIMITIVE_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Boolean Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1524,6 +1578,15 @@ public interface OCLPackage extends EPackage {
 	int NUMERIC_EXP__IMPLICITLY_CASTED = PRIMITIVE_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__NO_CASTED_TYPE = PRIMITIVE_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Numeric Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1730,6 +1793,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int REAL_EXP__IMPLICITLY_CASTED = NUMERIC_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__NO_CASTED_TYPE = NUMERIC_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Real Symbol</b></em>' attribute.
@@ -1949,6 +2021,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_EXP__IMPLICITLY_CASTED = NUMERIC_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__NO_CASTED_TYPE = NUMERIC_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Integer Symbol</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2164,6 +2245,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -2383,6 +2473,15 @@ public interface OCLPackage extends EPackage {
 	int BAG_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__NO_CASTED_TYPE = COLLECTION_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2598,6 +2697,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_SET_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__NO_CASTED_TYPE = COLLECTION_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -2817,6 +2925,15 @@ public interface OCLPackage extends EPackage {
 	int SEQUENCE_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__NO_CASTED_TYPE = COLLECTION_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3034,6 +3151,15 @@ public interface OCLPackage extends EPackage {
 	int SET_EXP__IMPLICITLY_CASTED = COLLECTION_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__NO_CASTED_TYPE = COLLECTION_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3249,6 +3375,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Tuple Part</b></em>' containment reference list.
@@ -3803,6 +3938,15 @@ public interface OCLPackage extends EPackage {
 	int MAP_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4129,6 +4273,15 @@ public interface OCLPackage extends EPackage {
 	int ENUM_LITERAL_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4346,6 +4499,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_UNDEFINED_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Ocl Undefined Exp</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4552,6 +4714,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_CALL_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -4814,6 +4985,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__NO_CASTED_TYPE = PROPERTY_CALL_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5085,6 +5265,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__NO_CASTED_TYPE = PROPERTY_CALL_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5376,6 +5565,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__IMPLICITLY_CASTED = OPERATION_CALL_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__NO_CASTED_TYPE = OPERATION_CALL_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5663,6 +5861,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_CALL_EXP__IMPLICITLY_CASTED = OPERATION_CALL_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__NO_CASTED_TYPE = OPERATION_CALL_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -5954,6 +6161,15 @@ public interface OCLPackage extends EPackage {
 	int LOOP_EXP__IMPLICITLY_CASTED = PROPERTY_CALL_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__NO_CASTED_TYPE = PROPERTY_CALL_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6232,6 +6448,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_EXP__IMPLICITLY_CASTED = LOOP_EXP__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__NO_CASTED_TYPE = LOOP_EXP__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -6523,6 +6748,15 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR_EXP__IMPLICITLY_CASTED = LOOP_EXP__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__NO_CASTED_TYPE = LOOP_EXP__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6812,6 +7046,15 @@ public interface OCLPackage extends EPackage {
 	int LET_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Variable</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7036,6 +7279,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IF_EXP__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Then Expression</b></em>' containment reference.
@@ -7608,6 +7860,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_TYPE__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7904,6 +8165,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8213,6 +8483,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8509,6 +8788,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__NO_CASTED_TYPE = PRIMITIVE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -8809,6 +9097,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__NO_CASTED_TYPE = PRIMITIVE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9105,6 +9402,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NUMERIC_TYPE__IMPLICITLY_CASTED = PRIMITIVE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__NO_CASTED_TYPE = PRIMITIVE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -9405,6 +9711,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_TYPE__IMPLICITLY_CASTED = NUMERIC_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__NO_CASTED_TYPE = NUMERIC_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9703,6 +10018,15 @@ public interface OCLPackage extends EPackage {
 	int REAL_TYPE__IMPLICITLY_CASTED = NUMERIC_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__NO_CASTED_TYPE = NUMERIC_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9999,6 +10323,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BAG_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -10308,6 +10641,15 @@ public interface OCLPackage extends EPackage {
 	int ORDERED_SET_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10613,6 +10955,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -10922,6 +11273,15 @@ public interface OCLPackage extends EPackage {
 	int SET_TYPE__IMPLICITLY_CASTED = COLLECTION_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11229,6 +11589,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_ANY_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11525,6 +11894,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -11943,6 +12321,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_MODEL_ELEMENT__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12248,6 +12635,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__IMPLICITLY_CASTED = OCL_TYPE__IMPLICITLY_CASTED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__NO_CASTED_TYPE = OCL_TYPE__NO_CASTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -13305,6 +13701,15 @@ public interface OCLPackage extends EPackage {
 	int JAVA_BODY__IMPLICITLY_CASTED = OCL_EXPRESSION__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__NO_CASTED_TYPE = OCL_EXPRESSION__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Java Body</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13513,6 +13918,15 @@ public interface OCLPackage extends EPackage {
 	int GET_APPLIED_STEREOTYPES_BODY__IMPLICITLY_CASTED = JAVA_BODY__IMPLICITLY_CASTED;
 
 	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__NO_CASTED_TYPE = JAVA_BODY__NO_CASTED_TYPE;
+
+	/**
 	 * The number of structural features of the '<em>Get Applied Stereotypes Body</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13683,6 +14097,17 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getOclExpression_ImplicitlyCasted();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.OclExpression#getNoCastedType <em>No Casted Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>No Casted Type</em>'.
+	 * @see anatlyzer.atlext.OCL.OclExpression#getNoCastedType()
+	 * @see #getOclExpression()
+	 * @generated
+	 */
+	EReference getOclExpression_NoCastedType();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.OCL.VariableExp <em>Variable Exp</em>}'.
@@ -15268,6 +15693,14 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute OCL_EXPRESSION__IMPLICITLY_CASTED = eINSTANCE.getOclExpression_ImplicitlyCasted();
+
+		/**
+		 * The meta object literal for the '<em><b>No Casted Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OCL_EXPRESSION__NO_CASTED_TYPE = eINSTANCE.getOclExpression_NoCastedType();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.OCL.impl.VariableExpImpl <em>Variable Exp</em>}' class.

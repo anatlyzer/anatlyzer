@@ -712,6 +712,15 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOclExpression_NoCastedType() {
+		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getVariableExp() {
 		return variableExpEClass;
 	}
@@ -1982,6 +1991,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		createEReference(oclExpressionEClass, OCL_EXPRESSION__IF_EXP1);
 		createEReference(oclExpressionEClass, OCL_EXPRESSION__OWNING_ATTRIBUTE);
 		createEAttribute(oclExpressionEClass, OCL_EXPRESSION__IMPLICITLY_CASTED);
+		createEReference(oclExpressionEClass, OCL_EXPRESSION__NO_CASTED_TYPE);
 
 		variableExpEClass = createEClass(VARIABLE_EXP);
 		createEReference(variableExpEClass, VARIABLE_EXP__REFERRED_VARIABLE);
@@ -2205,8 +2215,8 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 
 		// Obtain other dependent packages
 		ATLPackage theATLPackage = (ATLPackage)EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
-		PrimitiveTypesPackage thePrimitiveTypesPackage = (PrimitiveTypesPackage)EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
 		TypesPackage theTypesPackage = (TypesPackage)EPackage.Registry.INSTANCE.getEPackage(TypesPackage.eNS_URI);
+		PrimitiveTypesPackage thePrimitiveTypesPackage = (PrimitiveTypesPackage)EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -2289,6 +2299,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		initEReference(getOclExpression_IfExp1(), this.getIfExp(), this.getIfExp_Condition(), "ifExp1", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOclExpression_OwningAttribute(), this.getAttribute(), this.getAttribute_InitExpression(), "owningAttribute", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getOclExpression_ImplicitlyCasted(), ecorePackage.getEBoolean(), "implicitlyCasted", "false", 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOclExpression_NoCastedType(), theTypesPackage.getType(), null, "noCastedType", null, 0, 1, OclExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(variableExpEClass, VariableExp.class, "VariableExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getVariableExp_ReferredVariable(), this.getVariableDeclaration(), this.getVariableDeclaration_VariableExp(), "referredVariable", null, 1, 1, VariableExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

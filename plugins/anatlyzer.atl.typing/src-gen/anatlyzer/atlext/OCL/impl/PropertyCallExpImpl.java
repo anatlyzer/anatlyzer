@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getUsedFeature <em>Used Feature</em>}</li>
@@ -33,7 +34,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getStaticResolver <em>Static Resolver</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getDynamicResolvers <em>Dynamic Resolvers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

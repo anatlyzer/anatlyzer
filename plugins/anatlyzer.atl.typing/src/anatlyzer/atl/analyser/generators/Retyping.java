@@ -197,13 +197,12 @@ public class Retyping extends AbstractVisitor {
 				// For the moment, there isn't a "uncastedInferredType", so I assume
 				// that if the feature does not belong to the casted type, it does not
 				// need to be casted.
-				System.out.println(self.getLocation());
-				boolean transform = false;
-				if ( self.getUsedFeature() != null ) {
+				boolean transform = true;
+				if ( self.getUsedFeature() != null && self.getSource().getNoCastedType() instanceof Metaclass) {
+					Metaclass noCasted = (Metaclass) self.getSource().getNoCastedType();
 					EStructuralFeature f = (EStructuralFeature) self.getUsedFeature();
-					if ( ! ((Metaclass) t).getKlass().getEStructuralFeatures().contains(f) )
-						transform = true;
-
+					if ( noCasted.getKlass().getEStructuralFeature(f.getName()) != null )
+						transform = false;
 				}
 				
 				if ( transform ) {

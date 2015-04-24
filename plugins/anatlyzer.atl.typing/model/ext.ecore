@@ -67,6 +67,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="OclExpression" eSuperTypes="#//OCL/TypedElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="implicitlyCasted" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="noCastedType" eType="ecore:EClass types.ecore#//Type"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PropertyCallExp">
       <eStructuralFeatures xsi:type="ecore:EReference" name="usedFeature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>

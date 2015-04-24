@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getMapsTo <em>Maps To</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getModels <em>Models</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

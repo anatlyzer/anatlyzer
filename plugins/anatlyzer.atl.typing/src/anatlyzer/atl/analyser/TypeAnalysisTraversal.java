@@ -447,7 +447,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			attr.linkExprType( iteratorType );
 
 			if ( iteratorType.getNoCastedType() != null ) {				
-				typ().markImplicitlyCasted(self, iteratorType);
+				typ().markImplicitlyCasted(self, iteratorType, iteratorType.getNoCastedType());
 			}
 		}
 		
@@ -470,7 +470,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		if ( attr.wasCasted(self.getSource()) ){
 			self.getSource().setInferredType(t); 
-			typ().markImplicitlyCasted(self.getSource(), t);
+			typ().markImplicitlyCasted(self.getSource(), t, attr.noCastedTypeOf(self.getSource()));
 		}
 	}
 
@@ -587,7 +587,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		// marking already casted elements...
 		if ( attr.wasCasted(self.getSource()) ){
 			self.getSource().setInferredType(t);
-			typ().markImplicitlyCasted(self.getSource(), t);
+			typ().markImplicitlyCasted(self.getSource(), t, attr.noCastedTypeOf(self.getSource()));
 		}
 	}
 	

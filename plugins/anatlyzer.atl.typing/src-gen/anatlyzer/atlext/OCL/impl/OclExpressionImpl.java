@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getInferredType <em>Inferred Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getType <em>Type</em>}</li>
@@ -51,8 +52,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getIfExp1 <em>If Exp1</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getOwningAttribute <em>Owning Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -96,6 +97,16 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * @ordered
 	 */
 	protected boolean implicitlyCasted = IMPLICITLY_CASTED_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getNoCastedType() <em>No Casted Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNoCastedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Type noCastedType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -636,6 +647,44 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Type getNoCastedType() {
+		if (noCastedType != null && noCastedType.eIsProxy()) {
+			InternalEObject oldNoCastedType = (InternalEObject)noCastedType;
+			noCastedType = (Type)eResolveProxy(oldNoCastedType);
+			if (noCastedType != oldNoCastedType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE, oldNoCastedType, noCastedType));
+			}
+		}
+		return noCastedType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Type basicGetNoCastedType() {
+		return noCastedType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setNoCastedType(Type newNoCastedType) {
+		Type oldNoCastedType = noCastedType;
+		noCastedType = newNoCastedType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE, oldNoCastedType, noCastedType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Type getInferredType() {
 		if (inferredType != null && inferredType.eIsProxy()) {
 			InternalEObject oldInferredType = (InternalEObject)inferredType;
@@ -836,6 +885,9 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return getOwningAttribute();
 			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
 				return isImplicitlyCasted();
+			case OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE:
+				if (resolve) return getNoCastedType();
+				return basicGetNoCastedType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -889,6 +941,9 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return;
 			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
 				setImplicitlyCasted((Boolean)newValue);
+				return;
+			case OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE:
+				setNoCastedType((Type)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -944,6 +999,9 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
 				setImplicitlyCasted(IMPLICITLY_CASTED_EDEFAULT);
 				return;
+			case OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE:
+				setNoCastedType((Type)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -984,6 +1042,8 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 				return getOwningAttribute() != null;
 			case OCLPackage.OCL_EXPRESSION__IMPLICITLY_CASTED:
 				return implicitlyCasted != IMPLICITLY_CASTED_EDEFAULT;
+			case OCLPackage.OCL_EXPRESSION__NO_CASTED_TYPE:
+				return noCastedType != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclContextDefinitionImpl#getDefinition <em>Definition</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclContextDefinitionImpl#getContext_ <em>Context </em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

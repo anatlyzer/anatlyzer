@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#getCallableParameters <em>Callable Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#isIsUnique <em>Is Unique</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

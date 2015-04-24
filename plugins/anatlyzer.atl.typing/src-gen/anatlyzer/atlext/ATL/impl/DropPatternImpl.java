@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.DropPatternImpl#getOutPattern <em>Out Pattern</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

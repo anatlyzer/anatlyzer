@@ -205,7 +205,9 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		if ( b.getKindOfTypes().isEmpty() ) {
 			return nested;
 		} else {
-			return AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes());
+			Type implicitType = AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes());
+			implicitType.setNoCastedType(nested);
+			return implicitType;
 		}
 	}
 

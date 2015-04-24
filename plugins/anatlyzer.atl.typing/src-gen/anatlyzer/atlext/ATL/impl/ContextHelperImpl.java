@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ContextHelperImpl#getContextType <em>Context Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ContextHelperImpl#getPolymorphicCalledBy <em>Polymorphic Called By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

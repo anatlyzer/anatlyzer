@@ -2,6 +2,7 @@
  */
 package anatlyzer.atlext.OCL;
 
+import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 /**
@@ -11,6 +12,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getIfExp3 <em>If Exp3</em>}</li>
@@ -25,8 +27,8 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getIfExp1 <em>If Exp1</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getOwningAttribute <em>Owning Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclExpression#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.OclExpression#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOclExpression()
  * @model abstract="true"
@@ -395,5 +397,31 @@ public interface OclExpression extends LocatedElement, TypedElement {
 	 * @generated
 	 */
 	void setImplicitlyCasted(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>No Casted Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>No Casted Type</em>' reference.
+	 * @see #setNoCastedType(Type)
+	 * @see anatlyzer.atlext.OCL.OCLPackage#getOclExpression_NoCastedType()
+	 * @model
+	 * @generated
+	 */
+	Type getNoCastedType();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.OCL.OclExpression#getNoCastedType <em>No Casted Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>No Casted Type</em>' reference.
+	 * @see #getNoCastedType()
+	 * @generated
+	 */
+	void setNoCastedType(Type value);
 
 } // OclExpression

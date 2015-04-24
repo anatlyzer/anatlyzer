@@ -60,6 +60,7 @@ public class OclGeneratorAST {
 		copied.getProblems().addAll(expr.getProblems());
 		copied.setInferredType( expr.getInferredType() );
 		copied.setImplicitlyCasted( expr.isImplicitlyCasted() );
+		copied.setNoCastedType(expr.getNoCastedType());
 		return copied;
 	}
 	

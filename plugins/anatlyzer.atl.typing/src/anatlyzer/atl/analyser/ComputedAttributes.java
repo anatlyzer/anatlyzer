@@ -79,6 +79,12 @@ public class ComputedAttributes {
 		return t;
 	}
 
+	public Type noCastedTypeOf(EObject obj) {
+		Type t = typeAttr.get(obj);
+		if ( t == null ) throw new IllegalStateException("No type for " + obj);
+		return t;
+	}
+	
 	public boolean wasCasted(OclExpression expr) {
 		return ! (getVarScope().isEmpty()) &&
 			getVarScope().isCasted(expr);

@@ -80,7 +80,7 @@ public class ATLUtils {
 		} else if ( t instanceof IntegerType ) {
 			return "Integer";
 		} else if ( t instanceof FloatType ) {
-			return "Float";
+			return "Real";
 		} else if ( t instanceof Unknown ) {
 			return "OclAny";
 		} else if ( t instanceof CollectionType ) {

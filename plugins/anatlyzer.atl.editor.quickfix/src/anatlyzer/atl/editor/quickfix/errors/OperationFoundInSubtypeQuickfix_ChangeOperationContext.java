@@ -16,6 +16,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
@@ -32,27 +33,30 @@ public class OperationFoundInSubtypeQuickfix_ChangeOperationContext extends Abst
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Change operation context (assign type as context)";
+		return "Change operation context from " + getCurrentOperationContext((OperationCallExp)getProblematicElement()) + " to " + getNewOperationContext((OperationCallExp)getProblematicElement());
 	}	
 	
 	@Override public String getDisplayString() {
-		return "Change operation context";
+		return "Change operation context from " + getCurrentOperationContext((OperationCallExp)getProblematicElement()) + " to " + getNewOperationContext((OperationCallExp)getProblematicElement());
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
-		String           operationName = operationCall.getOperationName();
 		
+		QuickfixApplication qfa = new QuickfixApplication();
+		qfa.replace(getExistingHelperInSubtype(operationCall), (type, trace) -> {
+			return ATLUtils.getOclType( operationCall.getSource().getInferredType() );
+		});
+		return qfa;
+	}
+
+	private OclType getExistingHelperInSubtype(OperationCallExp operation) {
 		// subtypes that define the operation
 		EList<EClass> subtypes = null;
-		try {
-			subtypes = ((OperationFoundInSubtype)this.getProblem()).getPossibleClasses();
-		} 
-		catch (CoreException e) { 
-			// what do we do?
-		}
+		try                     { subtypes = ((OperationFoundInSubtype)this.getProblem()).getPossibleClasses(); } 
+		catch (CoreException e) { /* what do we do? */ }
 		
-		// search operation in subtypes
+		// return helper with same name, defined in subtype
 		ATLModel     model     = getATLModel(); 
 		List<Helper> helpers   = ATLUtils.getAllOperations(model);
 		OclType      helperCtx = null;
@@ -60,17 +64,23 @@ public class OperationFoundInSubtypeQuickfix_ChangeOperationContext extends Abst
 			if (helper instanceof ContextHelper) {
 				String  name = ATLUtils.getHelperName(helper);
 				OclType type = ATLUtils.getHelperType(helper);				
-				if (name.equals(operationName) && subtypes.stream().anyMatch(t -> t.getName().equals(type.getName())) ) {
+				if (name.equals(operation.getOperationName()) && subtypes.stream().anyMatch(t -> t.getName().equals(type.getName())) ) {
 					helperCtx = type;  // context of operation found
 					break;
 				}
 			}
-		}
-		
-		QuickfixApplication qfa = new QuickfixApplication();
-		qfa.replace(helperCtx, (type, trace) -> {
-			return ATLUtils.getOclType( operationCall.getSource().getInferredType() );
-		});
-		return qfa;
+		}		
+		return helperCtx;
+	}
+	
+	private String getCurrentOperationContext(OperationCallExp operation) {
+		OclType current = getExistingHelperInSubtype(operation);
+		String context  = current instanceof OclModelElement? ((OclModelElement)current).getModel().getName() + "!" + ((OclModelElement)current).getName() + "." : "";
+		return context + operation.getOperationName();
+	}
+
+	private String getNewOperationContext(OperationCallExp operation) {
+		String context = ATLUtils.getTypeName(operation.getSource().getInferredType()) + "."; 
+		return context + operation.getOperationName();
 	}
 }

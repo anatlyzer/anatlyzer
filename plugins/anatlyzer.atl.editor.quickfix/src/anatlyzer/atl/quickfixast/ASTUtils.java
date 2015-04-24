@@ -9,6 +9,8 @@ import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.TupleAttribute;
+import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
@@ -31,6 +33,8 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
 
 public class ASTUtils {
 
@@ -58,16 +62,20 @@ public class ASTUtils {
  			exp.setBooleanSymbol(false);
  			return exp;
  		}
+//		else if ( t instanceof TupleType ) {
+//			TupleExp exp = OCLFactory.eINSTANCE.createTupleExp();
+//			for (TupleAttribute att : ((TupleType)t).getAttributes()) {
+//				TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
+//				part.setInitExpression( defaultValue(att.getType()) );
+//				exp.getTuplePart().add(part);
+//			}
+//			return exp;
+//		}
 		throw new UnsupportedOperationException("Type " + t + " not supported yet");
 	}
 	
 	public static OclType createATLType(Type t) {
 		return ATLUtils.getOclType(t);
-//		if ( t instanceof Metaclass ) return createOclModelElement((Metaclass) t);
-//		else if ( t instanceof Unknown ) return OCLFactory.eINSTANCE.createOclAnyType();
-// 		else if ( t instanceof IntegerType ) return OCLFactory.eINSTANCE.createIntegerType();
-//		else if ( t instanceof StringType ) return OCLFactory.eINSTANCE.createStringType();
-//		throw new UnsupportedOperationException("Type " + t + " not supported yet");
 	}
 	
 	public static OclModelElement createOclModelElement(Metaclass m) {

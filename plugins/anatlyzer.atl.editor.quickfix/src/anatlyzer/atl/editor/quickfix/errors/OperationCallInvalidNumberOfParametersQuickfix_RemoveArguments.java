@@ -15,6 +15,7 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
@@ -49,7 +50,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments exte
 			List<OclExpression> arguments     = new ArrayList<OclExpression>( operationCall.getArguments() );
 			operationCall.getArguments().clear(); // build list of arguments from scratch...
 			while (!argumentTypes.isEmpty() && !arguments.isEmpty()) {
-				if (isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
+				if (ATLUtils.isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
 					operationCall.getArguments().add(arguments.get(0));
 					argumentTypes.remove(0);
 				}
@@ -76,25 +77,13 @@ public class OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments exte
 		// get sublist of actual parameters that is compatible with formal parameters
 		List <Type> newActualParameters = new ArrayList<Type>();
 		while (!actualParameters.isEmpty() && !formalParameters.isEmpty()) {
-			if (isCompatible (actualParameters.get(0), formalParameters.get(0))) {
+			if (ATLUtils.isCompatible (actualParameters.get(0), formalParameters.get(0))) {
 				newActualParameters.add(actualParameters.get(0));
 				formalParameters.remove(0);
 			}
-			actualParameters.remove(actualParameters.get(0));
+			actualParameters.remove(0);
 		}
 		
 		return newActualParameters.size() == problem.getFormalParameters().size()? newActualParameters : null;
-	}
-	
-	private boolean isCompatible (Type t1, Type t2) {
-		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return true;
-		if (t1 instanceof Metaclass && t2 instanceof Metaclass) return isCompatibleWith (t1, (Metaclass)t2);
-		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
-			CollectionType ct1 = (CollectionType)t1;
-			CollectionType ct2 = (CollectionType)t2;
-			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
-		}
-		// otherwise, return false
-		return false;
 	}
 }

@@ -16,6 +16,7 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
@@ -50,7 +51,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 			List<OclExpression> arguments     = new ArrayList<OclExpression>( operationCall.getArguments() );
 			operationCall.getArguments().clear(); // build list of arguments from scratch...
 			while (!argumentTypes.isEmpty()) {
-				if (!arguments.isEmpty() && isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
+				if (!arguments.isEmpty() && ATLUtils.isCompatible(arguments.get(0).getInferredType(), argumentTypes.get(0))) {
 					operationCall.getArguments().add(arguments.get(0));
 					arguments.remove(0);
 				}
@@ -78,9 +79,9 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 		// get sublist of actual parameters that is compatible with formal parameters
 		List <Type> newActualParameters = new ArrayList<Type>();
 		while (!formalParameters.isEmpty()) {
-			if (!actualParameters.isEmpty() && isCompatible (actualParameters.get(0), formalParameters.get(0))) {
+			if (!actualParameters.isEmpty() && ATLUtils.isCompatible (actualParameters.get(0), formalParameters.get(0))) {
 				newActualParameters.add(actualParameters.get(0));
-				actualParameters.remove(actualParameters.get(0));
+				actualParameters.remove(0);
 			}
 			else newActualParameters.add(formalParameters.get(0)); 
 			formalParameters.remove(0);
@@ -89,17 +90,5 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 		return newActualParameters.size() == problem.getFormalParameters().size() && 
 			   newActualParameters.containsAll(problem.getActualParameters()) ? 
 			   newActualParameters : null;
-	}
-	
-	private boolean isCompatible (Type t1, Type t2) {
-		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return true;
-		if (t1 instanceof Metaclass && t2 instanceof Metaclass) return isCompatibleWith (t1, (Metaclass)t2);
-		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
-			CollectionType ct1 = (CollectionType)t1;
-			CollectionType ct2 = (CollectionType)t2;
-			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
-		}
-		// otherwise, return false
-		return false;
 	}
 }

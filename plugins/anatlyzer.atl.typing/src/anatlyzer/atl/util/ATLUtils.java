@@ -201,6 +201,29 @@ public class ATLUtils {
 		// otherwise, return unknown
 		return TypesFactory.eINSTANCE.createUnknown();
 	}
+	
+	/**
+	 * Returns whether t1 is compatible with t2.
+	 * @param t1
+	 * @param t2
+	 * @return
+	 */	
+	public static boolean isCompatible (Type t1, Type t2) {
+		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return true;
+		if (t1 instanceof Metaclass && t2 instanceof Metaclass) {
+			Metaclass mc1 = (Metaclass)t1;
+			Metaclass mc2 = (Metaclass)t2;
+			if (t1.equals(t2)) return true;
+			return (mc2.getKlass().isSuperTypeOf(mc1.getKlass()));
+		}
+		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
+			CollectionType ct1 = (CollectionType)t1;
+			CollectionType ct2 = (CollectionType)t2;
+			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
+		}
+		// otherwise, return false
+		return false;
+	}
 
 	public static List<MatchedRule> allSuperRules(MatchedRule r) {
 		List<MatchedRule> result = new ArrayList<MatchedRule>();

@@ -111,7 +111,7 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 					OclType helperType   = ATLUtils.getHelperType(h);
 					int helperParameters = ATLUtils.getArgumentNames(h).length;
 					if ( helperName.equals(operationName) && 
-						 isCompatible (operationReceptorType, helperType.getInferredType()) && 
+						 ATLUtils.isCompatible (operationReceptorType, helperType.getInferredType()) && 
 					     helperParameters == operationArguments) {
 					     operation = h;  // helper found
 					     break;
@@ -136,16 +136,4 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 		}
 		return operationName;
 	}
-	
-	private boolean isCompatible (Type t1, Type t2) {
-		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return true;
-		if (t1 instanceof Metaclass && t2 instanceof Metaclass) return isCompatibleWith (t1, (Metaclass)t2);
-		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
-			CollectionType ct1 = (CollectionType)t1;
-			CollectionType ct2 = (CollectionType)t2;
-			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
-		}
-		// otherwise, return false
-		return false;
-	}	
 }

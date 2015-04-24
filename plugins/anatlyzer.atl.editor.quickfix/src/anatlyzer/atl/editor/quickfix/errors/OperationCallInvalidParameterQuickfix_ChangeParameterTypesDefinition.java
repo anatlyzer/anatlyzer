@@ -10,7 +10,9 @@ import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
@@ -42,11 +44,13 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 		return "Change parameter types definition in " + getOperationName((OperationCallExp)getProblematicElement());
 	}	
 	
-	@Override public String getDisplayString() {
+	@Override 
+	public String getDisplayString() {
 		return "Change parameter types definition in " + getOperationName((OperationCallExp)getProblematicElement());
 	}
 	
-	@Override public QuickfixApplication getQuickfixApplication() {
+	@Override 
+	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		ModuleElement    operation     = getOperationToChange(operationCall);
 		QuickfixApplication qfa        = new QuickfixApplication();
@@ -107,7 +111,7 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 					OclType helperType   = ATLUtils.getHelperType(h);
 					int helperParameters = ATLUtils.getArgumentNames(h).length;
 					if ( helperName.equals(operationName) && 
-						 isCompatibleWith(operationReceptorType, (Metaclass)helperType.getInferredType()) && 
+						 isCompatible (operationReceptorType, helperType.getInferredType()) && 
 					     helperParameters == operationArguments) {
 					     operation = h;  // helper found
 					     break;
@@ -131,5 +135,17 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 			operationName = context + operationName;
 		}
 		return operationName;
+	}
+	
+	private boolean isCompatible (Type t1, Type t2) {
+		if (t1 instanceof PrimitiveType && t1.getClass() == t2.getClass()) return true;
+		if (t1 instanceof Metaclass && t2 instanceof Metaclass) return isCompatibleWith (t1, (Metaclass)t2);
+		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {
+			CollectionType ct1 = (CollectionType)t1;
+			CollectionType ct2 = (CollectionType)t2;
+			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
+		}
+		// otherwise, return false
+		return false;
 	}	
 }

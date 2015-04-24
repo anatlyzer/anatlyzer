@@ -10,7 +10,9 @@ import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
@@ -42,11 +44,13 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 		return "Change parameter types definition in " + getOperationName((OperationCallExp)getProblematicElement());
 	}	
 	
-	@Override public String getDisplayString() {
+	@Override 
+	public String getDisplayString() {
 		return "Change parameter types definition in " + getOperationName((OperationCallExp)getProblematicElement());
 	}
 	
-	@Override public QuickfixApplication getQuickfixApplication() {
+	@Override 
+	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		ModuleElement    operation     = getOperationToChange(operationCall);
 		QuickfixApplication qfa        = new QuickfixApplication();
@@ -107,7 +111,7 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 					OclType helperType   = ATLUtils.getHelperType(h);
 					int helperParameters = ATLUtils.getArgumentNames(h).length;
 					if ( helperName.equals(operationName) && 
-						 isCompatibleWith(operationReceptorType, (Metaclass)helperType.getInferredType()) && 
+						 ATLUtils.isCompatible (operationReceptorType, helperType.getInferredType()) && 
 					     helperParameters == operationArguments) {
 					     operation = h;  // helper found
 					     break;
@@ -131,5 +135,5 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 			operationName = context + operationName;
 		}
 		return operationName;
-	}	
+	}
 }

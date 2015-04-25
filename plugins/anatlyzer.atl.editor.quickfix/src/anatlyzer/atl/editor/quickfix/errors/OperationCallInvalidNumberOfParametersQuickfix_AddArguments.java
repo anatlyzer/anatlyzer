@@ -73,7 +73,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 		} 
 		catch (CoreException e) { return null; }
 
-		// get sublist of actual parameters that is compatible with formal parameters
+		// get list of actual parameters that is compatible with formal parameters
 		List <Type> newActualParameters = new ArrayList<Type>();
 		while (!formalParameters.isEmpty()) {
 			if (!actualParameters.isEmpty() && ATLUtils.isCompatible (actualParameters.get(0), formalParameters.get(0))) {

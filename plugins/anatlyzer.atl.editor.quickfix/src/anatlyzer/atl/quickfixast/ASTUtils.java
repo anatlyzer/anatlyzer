@@ -8,6 +8,8 @@ import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.SequenceType;
+import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
@@ -32,6 +34,8 @@ import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.RealExp;
+import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
@@ -62,6 +66,14 @@ public class ASTUtils {
  			exp.setBooleanSymbol(false);
  			return exp;
  		}
+		else if ( t instanceof SequenceType ) {
+			SequenceExp exp = OCLFactory.eINSTANCE.createSequenceExp();
+			return exp;
+		}
+		else if ( t instanceof SetType ) {
+			SetExp exp = OCLFactory.eINSTANCE.createSetExp();
+			return exp;
+		}
 //		else if ( t instanceof TupleType ) {
 //			TupleExp exp = OCLFactory.eINSTANCE.createTupleExp();
 //			for (TupleAttribute att : ((TupleType)t).getAttributes()) {

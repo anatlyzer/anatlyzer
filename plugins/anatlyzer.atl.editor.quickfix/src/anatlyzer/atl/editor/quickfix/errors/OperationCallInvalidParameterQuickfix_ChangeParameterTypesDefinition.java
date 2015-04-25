@@ -1,23 +1,15 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.List;
-
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.types.CollectionType;
-import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.PrimitiveType;
-import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.CallableParameter;
-import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -52,7 +44,7 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 	@Override 
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
-		ModuleElement    operation     = getOperationToChange(operationCall);
+		ModuleElement operation        = getOperationToChange(operationCall);
 		QuickfixApplication qfa        = new QuickfixApplication();
 		
 		// case 1: change definition of parameter types in helper
@@ -82,46 +74,12 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 		return qfa;
 	}
 	
-	private ModuleElement getOperationToChange (OperationCallExp operationCall) {
+	private ModuleElement getOperationToChange(OperationCallExp operationCall) {
 		Type     operationReceptorType = operationCall.getSource().getInferredType();
 		String   operationName         = operationCall.getOperationName();
 		int      operationArguments    = operationCall.getArguments().size();
-		ATLModel      model     = getATLModel(); 
-		ModuleElement operation = null;
-		
-		// case 1: search lazy rule with same name and compatible context
-		if (operationReceptorType instanceof ThisModuleType) {
-			List<LazyRule> modElements = ATLUtils.getAllLazyRules(model);
-			for (LazyRule h : modElements) {
-				String  helperName   = h.getName();
-				int helperParameters = h.getCallableParameters().size(); 
-				if ( helperName.equals(operationName) && helperParameters == operationArguments) {
-					  operation = h;  // lazy rule found
-					  break;
-				}
-			}
-		}
-		
-		// case 2: search helper with same name, same number of argument, and compatible context
-		else {
-			List<Helper> modElements = ATLUtils.getAllOperations(model);
-			for (Helper h : modElements) {
-				if (h instanceof ContextHelper) {
-					String  helperName   = ATLUtils.getHelperName(h);
-					OclType helperType   = ATLUtils.getHelperType(h);
-					int helperParameters = ATLUtils.getArgumentNames(h).length;
-					if ( helperName.equals(operationName) && 
-						 ATLUtils.isCompatible (operationReceptorType, helperType.getInferredType()) && 
-					     helperParameters == operationArguments) {
-					     operation = h;  // helper found
-					     break;
-					}
-				}
-			}
-		}
-		
-		return operation;
-	}	
+		return ATLUtils.getOperation(operationName, operationReceptorType, operationArguments, getATLModel());		
+	}
 	
 	private String getOperationName(OperationCallExp operationCall) {
 		String        operationName = operationCall.getOperationName();
@@ -135,5 +93,5 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 			operationName = context + operationName;
 		}
 		return operationName;
-	}
+	}	
 }

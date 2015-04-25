@@ -37,6 +37,7 @@ import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -221,9 +222,60 @@ public class ATLUtils {
 			CollectionType ct2 = (CollectionType)t2;
 			return isCompatible( ct1.getContainedType(), ct2.getContainedType() );
 		}
+		if (t1 instanceof UnionType) {
+			UnionType ut1 = (UnionType)t1;
+			for (Type possibleType :  ut1.getPossibleTypes())
+				if (isCompatible(possibleType, t2)) 
+					return true; // return true if one of the possible types is compatible 
+		}
 		// otherwise, return false
 		return false;
 	}
+	
+	/**
+	 * Returns the operation withe the received name, receptor type, and number of parameters.
+	 * @param operationName 
+	 * @param operationReceptorType 
+	 * @param operationArguments number of arguments
+	 * @param model
+	 * @return
+	 */
+	public static ModuleElement getOperation (String operationName, Type operationReceptorType, int operationArguments, ATLModel model) {
+		ModuleElement operation = null;
+		
+		// case 1: search lazy rule with same name and compatible context
+		if (operationReceptorType instanceof ThisModuleType) {
+			List<LazyRule> modElements = ATLUtils.getAllLazyRules(model);
+			for (LazyRule rule : modElements) {
+				String ruleName    = rule.getName();
+				int ruleParameters = rule.getCallableParameters().size(); 
+				if ( ruleName.equals(operationName) && ruleParameters == operationArguments) {
+					  operation = rule;  // lazy rule found
+					  break;
+				}
+			}
+		}
+		
+		// case 2: search helper with same name, same number of argument, and compatible context
+		else {
+			List<Helper> modElements = ATLUtils.getAllOperations(model);
+			for (Helper helper : modElements) {
+				if (helper instanceof ContextHelper) {
+					String  helperName   = ATLUtils.getHelperName(helper);
+					OclType helperType   = ATLUtils.getHelperType(helper);
+					int helperParameters = ATLUtils.getArgumentNames(helper).length;
+					if ( helperName.equals(operationName) && 
+						 isCompatible (operationReceptorType, helperType.getInferredType()) && 
+					     helperParameters == operationArguments) {
+					     operation = helper;  // helper found
+					     break;
+					}
+				}
+			}
+		}
+		
+		return operation;
+	}	
 
 	public static List<MatchedRule> allSuperRules(MatchedRule r) {
 		List<MatchedRule> result = new ArrayList<MatchedRule>();

@@ -234,7 +234,7 @@ public class ATLUtils {
 	
 	/**
 	 * Returns the operation withe the received name, receptor type, and number of parameters.
-	 * @param operationName 
+	 * @param operationName operation name, or null to match any name
 	 * @param operationReceptorType 
 	 * @param operationArguments number of arguments
 	 * @param model
@@ -249,7 +249,8 @@ public class ATLUtils {
 			for (LazyRule rule : modElements) {
 				String ruleName    = rule.getName();
 				int ruleParameters = rule.getCallableParameters().size(); 
-				if ( ruleName.equals(operationName) && ruleParameters == operationArguments) {
+				if ( (operationName==null || ruleName.equals(operationName)) && 
+					  ruleParameters == operationArguments) {
 					  operation = rule;  // lazy rule found
 					  break;
 				}
@@ -264,7 +265,7 @@ public class ATLUtils {
 					String  helperName   = ATLUtils.getHelperName(helper);
 					OclType helperType   = ATLUtils.getHelperType(helper);
 					int helperParameters = ATLUtils.getArgumentNames(helper).length;
-					if ( helperName.equals(operationName) && 
+					if ( (operationName==null || helperName.equals(operationName)) && 
 						 isCompatible (operationReceptorType, helperType.getInferredType()) && 
 					     helperParameters == operationArguments) {
 					     operation = helper;  // helper found

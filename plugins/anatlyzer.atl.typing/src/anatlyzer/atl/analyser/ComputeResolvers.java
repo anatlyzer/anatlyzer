@@ -103,9 +103,11 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 
 	@Override
 	public void inBinding(Binding self) {
-		Type srcType = attr.typeOf(self.getValue());
+		// Type srcType = attr.typeOf(self.getValue());
+		Type srcType = self.getValue().getInferredType();
 		
-		Type targetVar = attr.typeOf( self.getOutPatternElement() );
+		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
+		Type targetVar = self.getOutPatternElement().getInferredType();
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
 		

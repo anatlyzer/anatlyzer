@@ -124,7 +124,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void beforeSimpleOutPatternElement(SimpleOutPatternElement self) {
-		Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		// Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		Metaclass mc = (Metaclass) self.getType().getInferredType();
 		if ( mc instanceof UnresolvedTypeError ) 
 			return;
 		
@@ -133,7 +134,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 
 	@Override
 	public void beforeForEachOutPatternElement(ForEachOutPatternElement self) {
-		Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		// Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
+		Metaclass mc = (Metaclass) self.getType().getInferredType();
 		if ( mc instanceof UnresolvedTypeError ) 
 			return;
 
@@ -194,9 +196,11 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 
 	@Override
 	public void inBinding(Binding self) {
-		Type rightType = attr.typeOf(self.getValue());
-		
-		Type targetVar = attr.typeOf( self.getOutPatternElement() );
+		// Type rightType = attr.typeOf(self.getValue());
+		Type rightType = self.getValue().getInferredType();
+
+		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
+		Type targetVar =self.getOutPatternElement().getInferredType();
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
 		
@@ -225,7 +229,9 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		
 		NavigationOrAttributeCallExp assigned = (NavigationOrAttributeCallExp) self.getSource();
 		if ( assigned.getSource() instanceof VariableExp ) {
-			Type targetVar = attr.typeOf( assigned.getSource() );
+			// Type targetVar = attr.typeOf( assigned.getSource() );
+			Type targetVar = assigned.getSource().getInferredType();
+			
 			// Rule out "thisModule" assignments
 			if ( targetVar instanceof Metaclass) { 
 				// The same as the declarative case
@@ -329,8 +335,11 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			if ( matchedRule.isIsAbstract() || ! ATLUtils.isOneOneRule(matchedRule) )
 				continue;
 			
-			Metaclass srcMetaclass = (Metaclass) attr.typeOf( matchedRule.getInPattern().getElements().get(0) );
-			Metaclass tgtMetaclass = (Metaclass) attr.typeOf( matchedRule.getOutPattern().getElements().get(0) );
+//			Metaclass srcMetaclass = (Metaclass) attr.typeOf( matchedRule.getInPattern().getElements().get(0) );
+//			Metaclass tgtMetaclass = (Metaclass) attr.typeOf( matchedRule.getOutPattern().getElements().get(0) );
+			Metaclass srcMetaclass = (Metaclass) matchedRule.getInPattern().getElements().get(0).getInferredType();
+			Metaclass tgtMetaclass = (Metaclass) matchedRule.getOutPattern().getElements().get(0).getInferredType();
+
 			if ( ! TypeUtils.isClassAssignableTo(tgtMetaclass.getKlass(), targetType)  ) {
 				problematicRules.add(matchedRule);
 				sourceClasses.add(srcMetaclass.getKlass());

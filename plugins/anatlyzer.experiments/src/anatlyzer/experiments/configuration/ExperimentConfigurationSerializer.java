@@ -29,6 +29,7 @@ public class ExperimentConfigurationSerializer {
 
 	public static void configure(YamlConfig config) {
 		config.setPropertyElementType(ExperimentConfiguration.class, "projects", Project.class);
+		config.setPropertyElementType(ExperimentConfiguration.class, "files", ExpFile.class);
 				
 	}
 	

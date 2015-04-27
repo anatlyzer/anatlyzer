@@ -33,5 +33,13 @@
             resourceType="file:atl">
       </experiment>
    </extension>
+   <extension
+         id="typing.experiment.quickfixEvaluationByMutation"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.typing.QuickfixEvaluationByMutation"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
 
 </plugin>

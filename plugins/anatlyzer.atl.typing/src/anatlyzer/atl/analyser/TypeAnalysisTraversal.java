@@ -242,6 +242,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inBinding(Binding self) {
+		Type t = attr.typeOf(self.getValue());
+		if ( attr.wasCasted(self.getValue()) ){
+			self.getValue().setInferredType(t); 
+			typ().markImplicitlyCasted(self.getValue(), t, attr.noCastedTypeOf(self.getValue()));
+		}
 	}
 	
 	@Override

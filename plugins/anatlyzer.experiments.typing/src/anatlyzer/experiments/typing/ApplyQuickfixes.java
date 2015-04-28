@@ -56,9 +56,11 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 		int minQuickfixes = Integer.MAX_VALUE;
 		int totalQuickfixes;
 		int totalProblems;
+		private String description;
 
-		public QuickfixSummary(int problemId) {
-			id = problemId;
+		public QuickfixSummary(int problemId, String description) {
+			this.id = problemId;
+			this.description = description;
 		}
 		
 		public void appliedQuickfixes(int count) {
@@ -72,14 +74,24 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 			totalProblems++;
 		}
 		
+		
+		
 		@Override
 		public String toString() {
 			return id + ": \n" + 
 					"\t" + "min: " + minQuickfixes + "\n" +
 					"\t" + "max: " + maxQuickfixes + "\n" +					
-					"\t" + "avg:" + totalQuickfixes / (1.0 * totalProblems) + "\n" +
-					"\t" + "pro:" + totalProblems + "\n" +
-					"\t" + "qfx:" + totalQuickfixes + "\n";
+					"\t" + "avg: " + getAvg() + "\n" +
+					"\t" + "pro: " + totalProblems + " (total problems)\n" +
+					"\t" + "qfx: " + totalQuickfixes + " (total quickfixes)\n";
+		}
+
+		private double getAvg() {
+			return totalQuickfixes / (1.0 * totalProblems);
+		}
+
+		public String toLatexRow() {
+			return description + " & " + totalProblems + " & " + totalQuickfixes + " & " + getAvg() + " & " + minQuickfixes + " & " + maxQuickfixes + "\\\\ \\hline" ;
 		}
 
 	}
@@ -253,7 +265,7 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 					// Add to summary
 					QuickfixSummary qs = summary.get(AnalyserUtils.getProblemId(p));
 					if ( qs == null ) {
-						qs = new QuickfixSummary(AnalyserUtils.getProblemId(p));
+						qs = new QuickfixSummary(AnalyserUtils.getProblemId(p), AnalyserUtils.getProblemDescription(p));
 						summary.put(AnalyserUtils.getProblemId(p), qs);
 					}
 										
@@ -332,6 +344,32 @@ public class ApplyQuickfixes extends AbstractATLExperiment implements IExperimen
 
 	@Override
 	public void printResult(PrintStream out) {
+		
+		out.println("\\begin{table}[h]");
+		out.println("\\begin{tabular}{|l|l|l|l|l|l|}");
+		out.println("\\hline");
+		out.println("Problem        & \\#Problems & \\#Quickfixes & Average & Min. & Max. \\\\ \\hline");
+
+		summary.values().forEach(qs -> {
+			out.println(qs.toLatexRow());
+		});
+		
+		out.println("\\end{tabular}");
+		out.println("\\end{table}");
+		
+		
+		/*
+		 * \begin{table}[h]
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+Problem        & \#Problems & \#Quickfixes & Average & Min. & Max. \\ \hline
+Invalid target & 1          & 2            & 3       & 4    & 5    \\ \hline
+Another        & 1          & 2            & 3       & 4    & 5    \\ \hline
+\end{tabular}
+\end{table}
+		 */
+		
+		
 		summary.values().forEach(qs -> {
 			out.println(qs);
 		});

@@ -31,6 +31,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private EPackage effective;
 	private EPackage language;
 	private EPackage errorSliceMM;
+	private boolean checkDiscardCause = true;
 
 	@Override
 	public WitnessResult find(Problem problem, AnalysisResult r) {
@@ -38,6 +39,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return find(path, r);
 	}
 
+	@Override
+	public IWitnessFinder checkDiscardCause(boolean b) {
+		this.checkDiscardCause  = b;
+		return this;
+	}
+	
 	@Override
 	public WitnessResult find(IDetectedProblem problem, AnalysisResult r) {
 		this.analyser = r.getAnalyser();
@@ -57,7 +64,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		System.out.println("CSP Constraint: " + strConstraint);
 
 		WitnessResult result = applyUSE(problem, strConstraint, false);
-		if ( result == WitnessResult.ERROR_DISCARDED ) {
+		if ( checkDiscardCause && result == WitnessResult.ERROR_DISCARDED ) {
 			WitnessResult result2 = applyUSE(problem, "true", true);
 			if ( result2 == WitnessResult.ERROR_DISCARDED ) {
 				return WitnessResult.ERROR_DISCARDED_DUE_TO_METAMODEL;

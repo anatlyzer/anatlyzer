@@ -13,6 +13,9 @@ public interface IWitnessFinder {
 	public WitnessResult find(Problem p, AnalysisResult r);
 	public WitnessResult find(IDetectedProblem p, AnalysisResult r);
 	
+	public IWitnessFinder checkDiscardCause(boolean b);
+	
+	
 	public static enum WitnessResult {
 		ERROR_CONFIRMED,
 		ERROR_CONFIRMED_SPECULATIVE,

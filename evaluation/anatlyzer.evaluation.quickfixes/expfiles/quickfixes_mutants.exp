@@ -1,0 +1,4 @@
+name: Evaluation of quickfixes using mutants
+extensionID: typing.experiment.quickfixEvaluationByMutation
+files: 
+-  path: /anatlyzer.evaluation.quickfixes/transformations/PNML2PetriNet.noerrors.atl

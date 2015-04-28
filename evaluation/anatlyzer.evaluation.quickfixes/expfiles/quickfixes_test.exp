@@ -1,0 +1,9 @@
+name: Quickfix application
+extensionID: typing.experiment.applyQuickfixes
+projects: 
+#-  name: anatlyzer.example.models2015
+#   ignoredFiles: [ PNML2PetriNet.original.atl ]
+#-  name: CPL2SPL_UseCase
+#   ignoredFiles: [ XML2CPL.atl ]
+# -  name: CodeCloneTools_UseCase
+-  name: OCL2SWRL_UseCase

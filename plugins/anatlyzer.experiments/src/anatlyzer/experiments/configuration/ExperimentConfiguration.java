@@ -58,7 +58,7 @@ public class ExperimentConfiguration {
 					if ( monitor.isCanceled() )
 						return;
 					
-					experiment.perform(iResource);
+					experiment.perform(iResource, monitor);
 					monitor.worked(1);
 				}
 				monitor.done();
@@ -79,7 +79,7 @@ public class ExperimentConfiguration {
 			if ( f != null && f.exists() ) {
 				monitor.subTask("File: " + expFile.path);
 				
-				experiment.perform(f);
+				experiment.perform(f, monitor);
 			}			
 			monitor.worked(1);
 		}

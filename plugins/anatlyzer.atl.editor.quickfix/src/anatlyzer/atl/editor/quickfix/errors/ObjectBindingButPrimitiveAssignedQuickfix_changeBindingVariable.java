@@ -86,6 +86,7 @@ public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ext
 	
 	private String getClosestVariableName() {
 		Binding ob = (Binding)this.getProblematicElement();
+		System.out.println(ob.getLocation() + " - " + ob.getFileLocation());
 		return this.getClosestVariableName(this.getClassContainer(ob), ob.getPropertyName(), ob.getValue());
 	}
 	

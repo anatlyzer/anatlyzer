@@ -11,6 +11,7 @@ public class BindingPossiblyUnresolvedQuickfixSet extends AbstractQuickfixSet  {
 	public AtlProblemQuickfix[] getPossibleQuickfixes() {
 		return new AtlProblemQuickfix[] {
 				new BindingPossiblyUnresolved_FilterBinding(),
+				new BindingPossiblyUnresolved_Remove(),
 				new BindingPossiblyUnresolved_Remove()
 		};
 	}

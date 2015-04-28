@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
@@ -30,6 +31,13 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		
 	}
 	
+	@Override
+	public void perform(IResource resource, IProgressMonitor monitor) {
+		perform(resource);
+	}
+	
+	protected abstract void perform(IResource resource);
+
 	protected AnalyserData executeAnalyser(IResource resource)
 			throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile) resource;

@@ -1,16 +1,18 @@
 package witness.generator;
 
-import java.util.Calendar;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
+import transML.utils.solver.FactorySolver;
+import transML.utils.solver.SolverWrapper;
 
 // Just for the moment
 public class WitnessGeneratorMemory extends WitnessGenerator {
@@ -20,6 +22,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	protected String oclConstraint;
 	private String projectPath;
 	private boolean forceOnceInstancePerClass;
+	private int minScope = 1;
+	private int maxScope = 5;
 	
 	private static Integer index = 0;
 	
@@ -74,7 +78,14 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return witness != null;
 	}
 
-
+	public void setMinScope(int minScope) {
+		this.minScope = minScope;
+	}
+	
+	public void setMaxScope(int maxScope) {
+		this.maxScope = maxScope;
+	}
+	
 	public void forceOnceInstancePerClass() {
 		this.forceOnceInstancePerClass = true;	
 	}
@@ -138,6 +149,54 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.projectPath = projectPath;
 	}
 
-	
+	/**
+	 * The same as the original one, but it allows scope configuration.
+	 */
+	@Override
+	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
+		// load properties file (it requires full path)
+		/*
+		 * jesusc: Does not work for me in Linux...
+		if (path.startsWith("/") || path.startsWith("\\")) {
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			path = workspace.getRoot().getLocation().toString() + path;
+		}
+		*/
+		transMLProperties.loadPropertiesFile(path);
+		
+		// programmatically select USE solver
+		transMLProperties.setProperty("solver", "use");
+		
+		// generate witness 
+		List<String> ocl_constraints = Arrays.asList(ocl_constraint);
+		String metamodelName = metamodel.getName();
+		metamodel.setName("metamodel_"+index);		
+		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
+		String model = null;
+		//root = metamodel.getEClassifier("SubAction");
+		try {
+			// use increasing scope (1,2,3...) to obtain smaller models
+			for (int scope=minScope; scope<maxScope && model==null; scope++) {
+				transMLProperties.setProperty("solver.scope", ""+scope);
+				model = solver.find(metamodel, ocl_constraints);
+			}
+			metamodel.setName(metamodelName);
+
+			// console.println("generated model: " + ( model!=null? model : "NONE" ));
+			System.out.println("generated model: " + ( model!=null? model : "NONE" ));
+		}
+		catch (transException e) {
+			String error = e.getDetails().length>0? e.getDetails()[0] : e.getMessage();
+			if (error.endsWith("\n")) error = error.substring(0, error.lastIndexOf("\n"));
+			
+			// console.println("[ERROR] " + error);
+			System.out.println("[ERROR] " + error); 
+			throw e;
+		}
+		
+		// return path of generated model
+		return model;
+	}	
+
 }
 

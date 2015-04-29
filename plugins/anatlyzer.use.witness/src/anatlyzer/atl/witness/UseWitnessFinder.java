@@ -89,6 +89,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		String projectPath = getTempDirectory();
 		
 		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSliceMM, effective, language, strConstraint);
+		generator.setMinScope(5);
+		generator.setMaxScope(7);
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}

@@ -1,9 +1,16 @@
 name: Quickfix application
 extensionID: typing.experiment.applyQuickfixes
-projects: 
+#projects: 
 #-  name: anatlyzer.example.models2015
 #   ignoredFiles: [ PNML2PetriNet.original.atl ]
 #-  name: CPL2SPL_UseCase
+#   ignoredFiles: [ CPL2CPL.atl ]
 #   ignoredFiles: [ XML2CPL.atl ]
 # -  name: CodeCloneTools_UseCase
--  name: OCL2SWRL_UseCase
+# -  name: OCL2SWRL_UseCase
+
+files: 
+-  path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL.atl
+
+#files: 
+#-  path: /anatlyzer.evaluation.quickfixes/transformations/test.atl

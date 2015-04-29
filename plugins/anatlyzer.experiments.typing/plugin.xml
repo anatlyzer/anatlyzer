@@ -29,7 +29,7 @@
          id="typing.experiment.applyQuickfixes"
          point="anatlyzer.experiments.newExperiment">
       <experiment
-            delegate="anatlyzer.experiments.typing.ApplyQuickfixes"
+            delegate="anatlyzer.experiments.typing.QuickfixEvaluationByUseCase"
             resourceType="file:atl">
       </experiment>
    </extension>

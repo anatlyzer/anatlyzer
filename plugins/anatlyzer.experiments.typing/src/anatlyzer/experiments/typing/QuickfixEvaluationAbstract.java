@@ -46,8 +46,8 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
-	private List<AnalyserData> allData = new ArrayList<AnalyserData>();
-	private CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
+	protected List<AnalyserData> allData = new ArrayList<AnalyserData>();
+	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
 	protected boolean recordAll = false;
 	protected boolean useCSP    = true;
@@ -451,7 +451,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	@Override
 	public void exportToExcel(String fileName) throws IOException {
 		Workbook wb = null;
-		if ( recordAll ) {		
+		if ( recordAll || projects.size() > 0) {		
 			wb = new XSSFWorkbook();
 			
 			for (Project p : projects.values()) {
@@ -468,7 +468,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	
-	private void createDetail(Workbook wb, Project project) {
+	protected void createDetail(Workbook wb, Project project) {
 		Sheet s = wb.createSheet(project.getName());
 		List<AnalysedTransformation> trafos = project.trafos;
 		

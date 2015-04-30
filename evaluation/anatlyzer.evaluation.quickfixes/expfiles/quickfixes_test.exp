@@ -9,8 +9,13 @@ extensionID: typing.experiment.applyQuickfixes
 # -  name: CodeCloneTools_UseCase
 # -  name: OCL2SWRL_UseCase
 
-files: 
--  path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL.atl
+projects: 
+-   name: CPL2SPL_UseCase
+#-  name: CodeCloneTools_UseCase
+
+#files: 
+#-  path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
+#- path: /CPL2SPL_UseCase/CPL2SPL.atl
 
 #files: 
 #-  path: /anatlyzer.evaluation.quickfixes/transformations/test.atl

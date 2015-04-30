@@ -80,6 +80,11 @@ public class UnresolvedTypeErrorNamespace extends TypeErrorNamespace implements 
 	}
 
 	@Override
+	public Set<ClassNamespace> getAllSubclasses(GlobalNamespace ns) {
+		return Collections.emptySet();
+	}
+
+	@Override
 	public Collection<ClassNamespace> getDirectSubclasses() {
 		throw new UnsupportedOperationException();
 	}

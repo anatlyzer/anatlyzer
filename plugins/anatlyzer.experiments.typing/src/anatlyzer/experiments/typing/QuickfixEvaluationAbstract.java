@@ -268,17 +268,48 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
+			/*
+			List<Problem> oneProblem = data.getProblems().stream().
+					filter(p -> p instanceof BindingPossiblyUnresolved && (
+							((LocalProblem) p).getLocation().equals("65:4-65:59") ||
+							((LocalProblem) p).getLocation().equals("66:4-66:65") ||
+							((LocalProblem) p).getLocation().equals("67:4-67:65") ||
+							((LocalProblem) p).getLocation().equals("80:4-80:307") 
+							)
+							//((LocalProblem) p).getLocation().equals("104:4-104:307")) 
+							).collect(Collectors.toList());
 			
+			ArrayList<Problem> testProblems = new ArrayList<Problem>();
+			for(int i = 0; i < 1; i++) {
+				testProblems.addAll(oneProblem);
+			}
+			
+			selectProblems(testProblems, data);
+			
+			if ( true ){
+				return ;
+			}
+			*/
 			List<Problem> allProblems = selectProblems(data.getProblems(), data);
 			AnalysedTransformation trafo = new AnalysedTransformation(resource, data, allProblems);
 			project.trafos.add(trafo);
 
+			monitor.beginTask("Processing problems.", allProblems.size());
+			
+			int i = 0;
 			for (Problem p : allProblems) {
+				if ( monitor.isCanceled() ) {
+					return;
+				}
+
+				i++;
+				monitor.subTask("Problem " + "(" + i + "/" + allProblems.size() + "): " + p.getDescription());
+				
 				printMessage("\n");
 				printMessage("[" + ((LocalProblem) p).getLocation() + "]" + p.getDescription());
 				
 				trafo.currentProblem(p);
-				
+			
 				List<AtlProblemQuickfix> quickfixes = getQuickfixes(p, data);
 				
 				if ( quickfixes.size() > 0 ) { 
@@ -311,7 +342,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				} else {
 					printMessage(" - No quickfixes available");
 				}
+				
+				monitor.worked(1);
 			}
+			
+			monitor.done();
 		} catch (Exception e) {
 			printMessage("Error: " + e.getMessage());
 			counting.addError(resource.getName(), e);
@@ -323,23 +358,26 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		ArrayList<Problem> allProblems = new ArrayList<Problem>();
 		for (Problem p : problems) {
 			if ( useCSP && requireCSP(p) ) {
-				WitnessResult result = new EclipseUseWitnessFinder() {
-					@Override
-					protected void onUSEInternalError(Exception e) { }
-				}.checkDiscardCause(false).find(p, r);
+				//WitnessResult result = new StandaloneWitnessFinder().
+				//		checkDiscardCause(false).find(p, r);
+				WitnessResult result = new EclipseUseWitnessFinder().
+						checkDiscardCause(false).find(p, r);
 				
 				switch (result) {
 				case ERROR_CONFIRMED:
 				case ERROR_CONFIRMED_SPECULATIVE:
 					// that's fine						
+					printMessage("Confirmed: " + ((LocalProblem) p).getLocation());
 					allProblems.add(p);
 					break;
 				case ERROR_DISCARDED:
 				case ERROR_DISCARDED_DUE_TO_METAMODEL:
+					printMessage("Discarded: " + ((LocalProblem) p).getLocation());
 					continue;
 				case CANNOT_DETERMINE:
 				case INTERNAL_ERROR:
 				case NOT_SUPPORTED_BY_USE:
+					printMessage("Error: " + ((LocalProblem) p).getLocation());
 					continue;
 				}
 			} else {
@@ -351,7 +389,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 	private boolean requireCSP(Problem p) {
 		return 	p instanceof BindingPossiblyUnresolved ||
-				p instanceof BindingWithResolvedByIncompatibleRule;
+				p instanceof BindingWithResolvedByIncompatibleRule
+		;
 	}
 
 	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems) throws IOException, CoreException, Exception {
@@ -377,7 +416,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			qi.setDescription(quickfix.getDisplayString());
 			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
 			qfa.apply();
-		
 
 			// Serialize, just for testing purposes
 			IFolder temp = experimentFile.getProject().getFolder("temp");
@@ -389,16 +427,22 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
 			printMessage("Generated quickfixed file" + f.getName());
-
+			f.refreshLocal(1, null);
+			
 			// Retype
+			newResult = executeAnalyser(f);
+
+			/*
 			newResult.getAnalyser().getATLModel().clear();
 			newResult.getProblems().size();
 			newResult = executeAnalyser(resource, newResult.getAnalyser().getATLModel());
 			if ( newResult == null ) {
 				throw new IllegalStateException();
 			}
+			*/
 			
-			qi.setRetyped(newResult, selectProblems(newResult.getProblems(), newResult));
+			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
+			qi.setRetyped(newResult, newProblems);
 			
 		} catch ( UnsupportedOperationException e ) {
 			printMessage("Quickfix: " + quickfix.getDisplayString() + " not implemented at the AST Level");

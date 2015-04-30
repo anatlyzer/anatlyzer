@@ -520,15 +520,23 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return metamodel.getAllSubclasses(eClass);
 	}
 
+	@Override
+	public Set<ClassNamespace> getAllSubclasses(GlobalNamespace ns) {
+		return metamodel.getAllSubclasses(eClass, ns);
+	}
+
 
 	/* (non-Javadoc)
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getDirectSubclasses()
 	 */
 	@Override
 	public Collection<ClassNamespace> getDirectSubclasses() {
-		return metamodel.getDirectSubclasses(eClass);		
+		return metamodel.getDirectSubclasses(eClass, AnalyserContext.getGlobalNamespace());		
 	}
 
+	public Collection<ClassNamespace> getDirectSubclasses(GlobalNamespace ns) {
+		return metamodel.getDirectSubclasses(eClass, ns);	
+	}
 
 	/* (non-Javadoc)
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getAllSuperClasses()
@@ -556,5 +564,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public ITypeConstraint newTypeConstraint() {
 		return new MetaclassTypeConstraint(getType());
 	}
+
+	
 	
 }

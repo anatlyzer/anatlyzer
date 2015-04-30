@@ -13,14 +13,14 @@ rule PetriNet {
 		n : PNML!PNMLDocument
 	using{
 			elementsSet : Sequence(PNML!NetContentElement) = PNML!NetContentElement.allInstances();
-			arcsSet : Sequence(PNML!Arc) = PNML!Arc.allInstances();
+			arcsSet : Set(PNML!Arc) = PNML!Arc.allInstances();
 			-- This encodes a pre-condition
 		}
 	to
 		p : PetriNet!PetriNet
 		(
 			location <- n.location,
-			name <- if not n.nets->first().name.oclIsUndefined() then
+			name <- if not n.nets.first().name.oclIsUndefined() then
 					n.nets->first().name.labels->first().text
 				else
 					'aPetriNet'

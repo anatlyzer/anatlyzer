@@ -2,7 +2,9 @@ package anatlyzer.atl.editor.quickfix.kinds;
 
 import anatlyzer.atl.editor.quickfix.AbstractQuickfixSet;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_FilterBinding;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_ModifiyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Remove;
 
 public class BindingPossiblyUnresolvedQuickfixSet extends AbstractQuickfixSet  {
@@ -11,8 +13,9 @@ public class BindingPossiblyUnresolvedQuickfixSet extends AbstractQuickfixSet  {
 	public AtlProblemQuickfix[] getPossibleQuickfixes() {
 		return new AtlProblemQuickfix[] {
 				new BindingPossiblyUnresolved_FilterBinding(),
+				new BindingPossiblyUnresolved_ModifiyRuleFilter(),
 				new BindingPossiblyUnresolved_Remove(),
-				new BindingPossiblyUnresolved_Remove()
+				new BindingPossiblyUnresolved_AddRule()
 		};
 	}
 }

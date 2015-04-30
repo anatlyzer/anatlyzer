@@ -33,7 +33,8 @@ public interface IClassNamespace extends ITypeNamespace {
 	public abstract List<MatchedRule> getRules();
 
 	public abstract Set<ClassNamespace> getAllSubclasses();
-
+	public abstract Set<ClassNamespace> getAllSubclasses(GlobalNamespace mm);
+	
 	public abstract Collection<ClassNamespace> getDirectSubclasses();
 
 	public abstract List<ClassNamespace> getAllSuperClasses();
@@ -88,6 +89,7 @@ public interface IClassNamespace extends ITypeNamespace {
 
 	@Override
 	public abstract void attachRule(String ruleName, Type returnType, Rule rule);
+
 
 
 }

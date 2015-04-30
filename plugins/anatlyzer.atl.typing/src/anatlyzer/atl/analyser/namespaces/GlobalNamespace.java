@@ -100,7 +100,7 @@ public class GlobalNamespace {
 	}
 
 	private HashMap<EClass, ArrayList<ClassNamespace>> subtypes = new HashMap<EClass, ArrayList<ClassNamespace>>();
-	protected Collection<ClassNamespace> getDirectSubclasses(EClass eClass) {
+	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass) {
 		ArrayList<ClassNamespace> result = subtypes.get(eClass);
 		if ( result != null)
 			return result;

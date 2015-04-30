@@ -328,7 +328,6 @@ public class ATLSerializer extends AbstractVisitor {
 		if ( self.getDefinition().getFeature() instanceof Operation ) {
 			List<String> params = sl();
 			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
-				System.out.println(p.getType());
 				params.add( p.getVarName() + " : " + g(p.getType()) );
 			}
 			paramsStr = "(" + join(params) + ")";
@@ -347,7 +346,6 @@ public class ATLSerializer extends AbstractVisitor {
 		if ( self.getDefinition().getFeature() instanceof Operation ) {
 			List<String> params = sl();
 			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
-				System.out.println(p.getType());
 				params.add( p.getVarName() + " : " + g(p.getType()) );
 			}
 			paramsStr = "(" + join(params) + ")";

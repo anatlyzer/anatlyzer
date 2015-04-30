@@ -1,23 +1,26 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
-public class BindingInvalidTargetInResolvedRule_ModifiyRuleFilter extends BindingInvalidTargetInResolvedRule_Abstract {
+public class BindingPossiblyUnresolved_ModifiyRuleFilter extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		if ( checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class) ) {
+		if ( checkProblemType(marker, BindingPossiblyUnresolved.class) ) {
 			Binding b = (Binding) getProblematicElement(marker);
 			return 	ATLUtils.getRule(b) instanceof MatchedRule && 
 					b.getValue().getInferredType() instanceof Metaclass;
@@ -27,13 +30,13 @@ public class BindingInvalidTargetInResolvedRule_ModifiyRuleFilter extends Bindin
 	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
-		BindingWithResolvedByIncompatibleRule p = (BindingWithResolvedByIncompatibleRule) getProblem();
+		BindingPossiblyUnresolved p = (BindingPossiblyUnresolved) getProblem();
 		AnalysisResult analysis = getAnalysisResult();
 		Binding b = (Binding) p.getElement();
 		
-		List<MatchedRule> guiltyRules = detectGuiltyRules(p, analysis);
+		List<MatchedRule> rules = b.getResolvedBy().stream().map(RuleResolutionInfo::getRule).collect(Collectors.toList());
 			
-		return generateRuleFilter(b, guiltyRules, false);
+		return generateRuleFilter(b, rules, true);
 	}
 	
 	@Override

@@ -2,10 +2,7 @@ package anatlyzer.atl.graph;
 
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -18,12 +15,9 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
-import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -92,7 +86,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	@Override
 	public OclExpression genCSP(CSPModel model) {
 		OclExpression result = null;
-		EList<RuleResolutionInfo> rules = binding.getResolvedBy();
+		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
 		assert(rules.size() > 0);
 		
 		OclExpression value = genBindingRightPart(model, binding);		
@@ -128,8 +122,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return result;
 	}
 
+
 	private LetExp createReferenceConstraint(CSPModel model,
-			EList<RuleResolutionInfo> rules, OclExpression value) {
+			List<RuleResolutionInfo> rules, OclExpression value) {
 		LetExp let = model.createLetScope(value, null, "_problem_");
 		VariableDeclaration varDcl = let.getVariable();
 		
@@ -145,7 +140,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	private OclExpression genAndRules(CSPModel model,
-			EList<RuleResolutionInfo> rules, VariableDeclaration varDcl) {
+			List<RuleResolutionInfo> rules, VariableDeclaration varDcl) {
 		
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {

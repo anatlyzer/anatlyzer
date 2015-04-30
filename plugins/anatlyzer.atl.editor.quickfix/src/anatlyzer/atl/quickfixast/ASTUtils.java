@@ -128,9 +128,15 @@ public class ASTUtils {
 		p.getElements().add(ipe);
 		r.setInPattern(p);
 		
+		String srcPatternName = sourceType.getName().substring(0, 1).toLowerCase();
+		if (targetPatternName == null)
+			targetPatternName = targetType.getName().substring(0, 1).toLowerCase();
+		if ( targetPatternName.equals(srcPatternName) )
+			targetPatternName += "_tgt";
+			
 		OclModelElement ome = ASTUtils.createOclModelElement(sourceType);
 		ipe.setType(ome);
-		ipe.setVarName(sourceType.getName().substring(0, 1).toLowerCase());
+		ipe.setVarName(srcPatternName);
 		
 		// target pattern
 		OclModelElement outOme = ASTUtils.createOclModelElement(targetType);
@@ -138,10 +144,7 @@ public class ASTUtils {
 		OutPattern outP = ATLFactory.eINSTANCE.createOutPattern();
 		r.setOutPattern(outP);
 		SimpleOutPatternElement ope = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
-		if (targetPatternName==null)
-			ope.setVarName(targetType.getName().substring(0, 1).toLowerCase());
-		else
-			ope.setVarName(targetPatternName);
+		ope.setVarName(targetPatternName);
 		ope.setType(outOme);
 		outP.getElements().add(ope);		
 	}

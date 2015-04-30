@@ -1,7 +1,9 @@
 package anatlyzer.atl.witness;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -77,7 +79,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 
-	private WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		if ( slice.hasHelpersNotSupported() )
 			return WitnessResult.NOT_SUPPORTED_BY_USE;
@@ -88,9 +90,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		String projectPath = getTempDirectory();
 		
-		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSliceMM, effective, language, strConstraint);
-		generator.setMinScope(5);
-		generator.setMaxScope(7);
+		// Attach the constraint to the errorSliceMM, although it is not strictly needed by the generator
+		EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+		ann.setSource("invariant");
+		ann.getDetails().put("ocl", strConstraint);
+		errorSliceMM.getEAnnotations().add(ann);
+		
+		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
+		generator.setMinScope(1);
+		generator.setMaxScope(4);
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}
@@ -107,6 +115,20 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 	}
 	
+	/**
+	 * Factory methods to allow subclasses change the witness genator.
+	 * @param errorSliceMM
+	 * @param effective
+	 * @param language
+	 * @param strConstraint
+	 * @return
+	 */
+	protected WitnessGeneratorMemory createWitnessGenerator(
+			EPackage errorSliceMM, EPackage effective, EPackage language,
+			String strConstraint) {
+		return new WitnessGeneratorMemory(errorSliceMM, effective, language, strConstraint);
+	}
+
 	protected abstract void onUSEInternalError(Exception e);
 	protected abstract String getTempDirectory();
 

@@ -176,15 +176,19 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	 * @return
 	 */
 	public Set<ClassNamespace> getAllSubclasses(EClass eClass) {
+		return getAllSubclasses(eClass, AnalyserContext.getGlobalNamespace());
+	}
+	
+	public Set<ClassNamespace> getAllSubclasses(EClass eClass,	GlobalNamespace ns) {
 		LinkedList<ClassNamespace> toBeChecked = new LinkedList<ClassNamespace>();
 		HashSet<ClassNamespace> result = new HashSet<ClassNamespace>();
 		
-		result.addAll( getDirectSubclasses(eClass) );
+		result.addAll( getDirectSubclasses(eClass, ns) );
 		toBeChecked.addAll( result );
 		
 		while ( ! toBeChecked.isEmpty() ) {
 			ClassNamespace cn = toBeChecked.removeFirst();
-			Collection<ClassNamespace> subclasses = cn.getDirectSubclasses();
+			Collection<ClassNamespace> subclasses = cn.getDirectSubclasses(ns);
 			for (ClassNamespace classNamespace : subclasses) {
 				if ( ! result.contains(classNamespace) ) {
 					result.add(classNamespace);
@@ -205,9 +209,11 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 		*/
 	}
 
-	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass) {
-		return AnalyserContext.getGlobalNamespace().getDirectSubclasses(eClass);		
+	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass, GlobalNamespace ns) {
+		return ns.getDirectSubclasses(eClass);		
 	}
+
+	
 	
 
 }

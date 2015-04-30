@@ -31,15 +31,15 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
-	protected QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules) {
-		boolean selectResolvedElements = false;
+	protected QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
+		// boolean selectResolvedElements = false;
 		
 		MatchedRule r = (MatchedRule) ATLUtils.getRule(b);
 		OclExpression filter = r.getInPattern().getFilter();
 		
 		// Only one rule, and no filter (for the moment) => optimize!
 		if ( involvedRules.size() == 1 && involvedRules.get(0).getInPattern().getFilter() == null ) {
-			return generateRuleFilter_Optimized(b, involvedRules.get(0));
+			return generateRuleFilter_Optimized(b, involvedRules.get(0), selectResolvedElements);
 		}
 		
 		// Normal case		
@@ -84,8 +84,9 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 	 * This optimization only considers the case that resolvedRule does not have a filter.
 	 * When there is a filter things are a bit more complicated because references to src object of the 
 	 * resolved rule has to be changed for the whole binding expression, as many times as they appear...
+	 * @param selectResolvedElements 
 	 */
-	protected QuickfixApplication generateRuleFilter_Optimized(Binding b, MatchedRule resolvedRule) {
+	protected QuickfixApplication generateRuleFilter_Optimized(Binding b, MatchedRule resolvedRule, boolean selectResolvedElements) {
 		MatchedRule r = (MatchedRule) ATLUtils.getRule(b);
 		OclExpression filter = r.getInPattern().getFilter();
 		Metaclass type = ATLUtils.getInPatternType(resolvedRule);
@@ -105,7 +106,11 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 				*/
 				
 				andOp.setOperationName("and");
-				andOp.setSource(ASTUtils.negate(kindOf)); // impliesOp
+				if ( ! selectResolvedElements ) { 
+					andOp.setSource(ASTUtils.negate(kindOf)); 
+				} else {
+					andOp.setSource(kindOf); 					
+				}
 				
 				andOp.getArguments().add(original);
 			});
@@ -113,7 +118,11 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			qfa.putIn(r.getInPattern(), ATLPackage.eINSTANCE.getInPattern_Filter(), () -> {
 				OclExpression expr = (OclExpression) ATLCopier.copySingleElement(b.getValue());
 				OperationCallExp kindOf = ASTUtils.createOclIsKindOf(type, expr);
-				return ASTUtils.negate(kindOf);
+				if ( ! selectResolvedElements ) { 
+					return ASTUtils.negate(kindOf);
+				} else {
+					return kindOf;
+				}
 			});
 		}
 

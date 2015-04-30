@@ -36,6 +36,17 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	public boolean generate() throws transException {		
+		adaptMetamodels();
+		
+		synchronized (index) {
+			WitnessGeneratorMemory.index += 1;			
+		}
+		
+		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
+		return witness != null;
+	}
+
+	protected void adaptMetamodels() {
 		// extend error meta-model with mandatory classes in effective meta-model 
 		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
 	
@@ -59,23 +70,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		}
 		
 		loadOclOperations(errorMM);
-		
-		synchronized (index) {
-			WitnessGeneratorMemory.index += 1;			
-		}
-		/*
-		Calendar c = Calendar.getInstance();
-		int time = 1 * c.get(Calendar.SECOND) + 
-				   100 * c.get(Calendar.MINUTE) + 
-				   10000 * c.get(Calendar.HOUR_OF_DAY) + 
-				   1000000 * (c.get(Calendar.DAY_OF_MONTH) + 1)+ 
-				   100000000 * (c.get(Calendar.MONTH) + 1); // +
-				   // 10000000000 * c.get(Calendar.YEAR);
-		index = time;
-		*/
-		
-		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
-		return witness != null;
 	}
 
 	public void setMinScope(int minScope) {
@@ -154,6 +148,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	 */
 	@Override
 	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
+		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope);
+	}
+	
+	public static String generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope) throws transException {
+
 		// load properties file (it requires full path)
 		/*
 		 * jesusc: Does not work for me in Linux...
@@ -176,7 +175,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		//root = metamodel.getEClassifier("SubAction");
 		try {
 			// use increasing scope (1,2,3...) to obtain smaller models
-			for (int scope=minScope; scope<maxScope && model==null; scope++) {
+			for (int scope=minScope; scope<=maxScope && model==null; scope++) {
 				transMLProperties.setProperty("solver.scope", ""+scope);
 				model = solver.find(metamodel, ocl_constraints);
 			}

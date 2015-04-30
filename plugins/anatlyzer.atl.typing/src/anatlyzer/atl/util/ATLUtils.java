@@ -214,7 +214,7 @@ public class ATLUtils {
 		if (t1 instanceof Metaclass && t2 instanceof Metaclass) {
 			Metaclass mc1 = (Metaclass)t1;
 			Metaclass mc2 = (Metaclass)t2;
-			if (t1.equals(t2)) return true;
+			if (mc2.getKlass() == mc2.getKlass()) return true;
 			return (mc2.getKlass().isSuperTypeOf(mc1.getKlass()));
 		}
 		if (t1 instanceof CollectionType && t2 instanceof CollectionType && t1.getClass() == t2.getClass()) {

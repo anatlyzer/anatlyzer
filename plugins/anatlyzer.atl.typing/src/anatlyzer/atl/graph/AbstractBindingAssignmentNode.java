@@ -1,5 +1,11 @@
 package anatlyzer.atl.graph;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
@@ -10,6 +16,7 @@ import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -21,6 +28,13 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 
 	public AbstractBindingAssignmentNode(P p) {
 		super(p);
+	}
+	
+
+	protected List<RuleResolutionInfo> sortRules(List<RuleResolutionInfo> resolvedBy) {
+		return resolvedBy.stream().sorted((o1, o2) -> {
+			return o1.getRule().getLocation().compareTo(o2.getRule().getLocation());
+		}).collect(Collectors.toList());
 	}
 	
 	protected OclExpression genBindingRightPart(CSPModel model, Binding binding) {

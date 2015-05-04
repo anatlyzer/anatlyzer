@@ -19,10 +19,10 @@ import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.impl.UnknownFeatureImpl#getTheContainingClass <em>The Containing Class</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

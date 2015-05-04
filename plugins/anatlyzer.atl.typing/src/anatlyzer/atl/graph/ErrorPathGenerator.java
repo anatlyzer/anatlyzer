@@ -95,9 +95,22 @@ public class ErrorPathGenerator {
 			generatePath_OperationNotFound((OperationNotFound) p);			
 		} else if ( p instanceof FlattenOverNonNestedCollection ) {
 			generatePath_FlattenOverNonNestedCollection((FlattenOverNonNestedCollection) p);					
+		} else {
+			generatePath_GenericError((LocalProblem) p);
 		}
 	
 		return currentPath;
+	}
+
+	private void generatePath_GenericError(LocalProblem p) {
+		GenericErrorNode node = new GenericErrorNode(p);
+		currentPath = new ProblemPath(p, node);
+		if ( p.getElement() instanceof OclExpression ) {
+			pathFromErrorExpression((OclExpression) p.getElement(), node); 			
+		} else {
+			pathToControlFlow(p.getElement(), node, new TraversedSet());
+		}
+		
 	}
 
 	private void generatePath_FeatureNotFound(FeatureNotFound p) {

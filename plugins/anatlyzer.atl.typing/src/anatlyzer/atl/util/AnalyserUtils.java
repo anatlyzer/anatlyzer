@@ -35,6 +35,7 @@ import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
+import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
@@ -255,7 +256,9 @@ public class AnalyserUtils {
 		if ( p instanceof ExpectedCollectionInForEach ) return 32;
 		if ( p instanceof IteratorBodyWrongType ) return 33;
 		
-		// Ocl compliance
+		if ( p instanceof InvalidOperand ) return 34;
+
+				// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;
 		if ( p instanceof CollectionOperationOverNoCollectionError ) return 102;
 		

@@ -10,11 +10,11 @@ package anatlyzer.atl.types;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.MapType#getKeyType <em>Key Type</em>}</li>
  *   <li>{@link anatlyzer.atl.types.MapType#getValueType <em>Value Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getMapType()
  * @model

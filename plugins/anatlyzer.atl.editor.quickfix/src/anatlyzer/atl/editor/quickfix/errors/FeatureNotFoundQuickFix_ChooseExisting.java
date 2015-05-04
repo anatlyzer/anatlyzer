@@ -7,24 +7,22 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 
-public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
+public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix  {
 
 	private List<String> attrs = new ArrayList<String>();
 	private String closest = null;
@@ -32,25 +30,23 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, FeatureNotFound.class);
+		return checkProblemType(marker, FeatureNotFound.class) && getClosest(marker) != null;
 	}
 
-	private NavigationOrAttributeCallExp getFeature() {
+	private NavigationOrAttributeCallExp getFeature(IMarker marker) {
 		try {
-			FeatureNotFound p = (FeatureNotFound) getProblem();
-		
+			FeatureNotFound p = (FeatureNotFound) getProblem(marker);		
 			// p.getOperationName() is null at this point 
 			return (NavigationOrAttributeCallExp)p.getElement();
 		} catch (CoreException e) {
-			
+			return null;			
 		}
-		return null;
 	}
 	
-	private String getClosest() {
+	private String getClosest(IMarker marker) {
 		if (this.closest != null) return this.closest;
 		
-		NavigationOrAttributeCallExp exp = this.getFeature();
+		NavigationOrAttributeCallExp exp = this.getFeature(marker);
 		OclExpression e = exp.getSource();
 		System.out.println("Source: "+e);
 		
@@ -62,7 +58,7 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 							collect(Collectors.toList());
 			
 			// Consider also attributes
-			List<Helper> allAttrHelpers = ATLUtils.getAllAttributes(getATLModel());
+			List<Helper> allAttrHelpers = ATLUtils.getAllAttributes(getATLModel(marker));
 			attrs.addAll(allAttrHelpers.stream().map(h -> ATLUtils.getHelperName(h)).collect(Collectors.toList()));
 			
 			// Could be checked that the selected names are also type
@@ -70,67 +66,52 @@ public class FeatureNotFoundQuickFix extends AbstractAtlQuickfix  {
 			
 			System.out.println("possible attrs: "+this.attrs);
 						
-			this.closest = this.sd.closest(exp.getName(), this.attrs);
+			if ( this.attrs.size() == 0 ) {
+				this.closest = null; 
+			} else {
+				this.closest = this.sd.closest(exp.getName(), this.attrs);
+			}
 			
 			return this.closest;
 		}
-		this.closest = exp.getName();
+		this.closest = null; // 
 		return this.closest;	// TODO: Do something here		
 	}
 	
-	@Override
-	public void apply(IDocument document) {
-		NavigationOrAttributeCallExp exp = this.getFeature();
-		System.out.println("Feature not found: "+exp.getName());		
-		System.out.println("Closest: "+this.getClosest());
-		
-		int[] sourceOffset = getElementOffset(exp.getSource(), document);
 
-		int sourceOffsetEnd = sourceOffset[1];
+	@Override
+	public QuickfixApplication getQuickfixApplication() {
+		QuickfixApplication qfa = new QuickfixApplication();
+		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 		
-		int offsetEnd;
-		try {
-			offsetEnd = getProblemEndOffset();
+		String newFeatureName = this.getClosest(this.marker);
 		
-			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
+		qfa.replace(nav, (original, trace) -> {
+			trace.preserve(original.getSource());
 			
-			document.replace(sourceOffsetEnd, rest.length(), "."+this.getClosest());
-		} catch (CoreException | BadLocationException e) {
-			e.printStackTrace();
-		}
+			NavigationOrAttributeCallExp op = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+			op.setSource(original.getSource());
+			op.setName(newFeatureName);
+			return op;
+		});
+		
+		return qfa;
 	}
 
 	@Override
-	public Point getSelection(IDocument document) {
-		// TODO Auto-generated method stub
-		return null;
+	public void apply(IDocument document) {
+		QuickfixApplication qfa = getQuickfixApplication();
+		new InDocumentSerializer(qfa, document).serialize();	
 	}
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Feature "+this.getFeature().getName()+" not found, replace with "+this.getClosest();
+		return "Feature "+this.getFeature(this.marker).getName()+" not found, replace with "+this.getClosest(this.marker);
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Feature "+this.getFeature().getName()+" not found, replace with "+this.getClosest();
+		return "Feature "+this.getFeature(this.marker).getName()+" not found, replace with "+this.getClosest(this.marker);
 	}
 
-	@Override
-	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
 	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
-	}
-
-}

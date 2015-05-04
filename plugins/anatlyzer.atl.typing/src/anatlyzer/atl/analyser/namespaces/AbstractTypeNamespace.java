@@ -69,8 +69,14 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		} else if ( operationName.equals("toString") ) {
 			return AnalyserContext.getTypingModel().newStringType();
 		} else if ( operationName.equals("oclIsKindOf") || operationName.equals("oclIsTypeOf")) {
+			if ( arguments.length != 1 ) {
+				Type formalArgs[] = new Type[] { AnalyserContext.getTypingModel().newOclType() };
+				AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters("oclIsKindOf", formalArgs , arguments, node);
+				return AnalyserContext.getTypingModel().newBooleanType();				
+			}
 			if ( ! (arguments[0] instanceof Metaclass) ) {
-				return AnalyserContext.getErrorModel().signalInvalidArgument(operationName, node);
+				AnalyserContext.getErrorModel().signalInvalidArgument(operationName, "Expected class", node);
+				return AnalyserContext.getTypingModel().newBooleanType();				
 			}
 			
 			OperationCallExp op = (OperationCallExp) node;

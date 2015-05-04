@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
@@ -9,6 +10,7 @@ import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
@@ -53,7 +55,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	
 	@Override
 	public Type createType(boolean explicitOcurrence) {
-		return newCollectionType(nested);
+		return newCollectionTypeAux(nested);
 	}
 
 
@@ -83,30 +85,38 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 				
 		if ( operationName.equals("append") || operationName.equals("including") || operationName.equals("prepend") || 
 				operationName.equals("excluding") ) {
-			// TODO: notify invalid number of arguments
-			CollectionType r = newCollectionType(typ.getCommonType(this.nested, arguments[0]));
+			if ( arguments.length != 1 ) {
+				Unknown oclAny = AnalyserContext.getTypingModel().newUnknownType();
+				return AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters(operationName, new Type[] { oclAny }, arguments, node);
+			}
+			
+			Type r = newCollectionTypeAux(typ.getCommonType(this.nested, arguments[0]));
 			return r;
 		}
 		
 		if ( operationName.equals("union") ) {
 			// TODO: This type checking should be done automatically (or at least check that there are few cases and it is worth doing it manually)
+			if ( arguments.length != 1 ) {
+				Unknown oclAny = AnalyserContext.getTypingModel().newUnknownType();
+				return AnalyserContext.getErrorModel().signalOperationCallInvalidNumberOfParameters(operationName, new Type[] { oclAny }, arguments, node);
+			}
 			if ( ! (arguments[0] instanceof CollectionType) ) {
-				return AnalyserContext.getErrorModel().signalInvalidArgument("union", node);
+				return AnalyserContext.getErrorModel().signalInvalidArgument("union", "Expected collection type, but got " + TypeUtils.typeToString(arguments[0]), node);
 			}
 			
 			CollectionType ct = (CollectionType) arguments[0];
-			return newCollectionType(typ.getCommonType(this.nested, ct.getContainedType()));
+			return newCollectionTypeAux(typ.getCommonType(this.nested, ct.getContainedType()));
 		}
 		
 		if ( operationName.equals("flatten") ) {
 			if ( nested instanceof CollectionType ) {
 				return nested;
 			} else if ( nested instanceof UnionType ) {
-				return newCollectionType(AnalyserContext.getTypingModel().flattenUnion((UnionType) nested));
+				return newCollectionTypeAux(AnalyserContext.getTypingModel().flattenUnion((UnionType) nested));
 			} else {
 				AnalyserContext.getErrorModel().signalFlattenOverNonNestedCollection(nested, node);
 				// System.out.println("CollectionNamespace.getOperationType(): TODO: Signal warning, flatten over non-nested collection." + node.getLocation() );
-				return newCollectionType(nested); 
+				return newCollectionTypeAux(nested); 
 			}
 		}
 		
@@ -135,7 +145,15 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		throw new UnsupportedOperationException();
 	}
 
+	protected Type newCollectionTypeAux(Type nested) {
+		if ( nested instanceof TypeError ) {
+			return nested;
+		}
+		return newCollectionType(nested);
+	}
+	
 	protected abstract CollectionType newCollectionType(Type nested);
+	
 	
 	public Type unwrap() {
 		return nested;
@@ -153,14 +171,14 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		} else if ( name.equals("reject") ) {
 			return rejectIteratorType(node, bodyType); 			
 		} else if ( name.equals("collect") ) {
-			return this.newCollectionType(bodyType);
+			return this.newCollectionTypeAux(bodyType);
 		} else if ( name.equals("sortedBy") ) {
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		} else if ( name.equals("exists") || name.equals("one") ||  name.equals("forAll") ) {
 			if ( ! (bodyType instanceof BooleanType) ) {
 				AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
 				// This return is the recovery action
-				return this.newCollectionType(nested);
+				return this.newCollectionTypeAux(nested);
 			}
 			return typ.newBooleanType();
 		}
@@ -171,21 +189,21 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		// If you have "m.classifiers->select(c | c.operationNotFound() )"
 		// a conservative action is to consider that the collection is never filtered.
 		if ( bodyType instanceof TypeError ) 
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		
 		if ( ! (bodyType instanceof BooleanType) ) {
 			AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
 			// This return is the recovery action
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		}
 
 		
 		BooleanType b = (BooleanType) bodyType;
-		CollectionType normalType = this.newCollectionType(nested);
+		Type normalType = this.newCollectionTypeAux(nested);
 		if ( b.getKindOfTypes().isEmpty() ) {
 			return normalType;
 		} else {
-			CollectionType implicitType = this.newCollectionType( AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes() ) );
+			Type implicitType = this.newCollectionTypeAux( AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes() ) );
 			implicitType.setNoCastedType(normalType);
 			return implicitType;
 		}
@@ -198,7 +216,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		if ( ! (bodyType instanceof BooleanType) ) {
 			AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
 			// This return is the recovery action
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		}
 		
 		BooleanType b = (BooleanType) bodyType;
@@ -215,21 +233,21 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		// If you have "m.classifiers->select(c | c.operationNotFound() )"
 		// a conservative action is to consider that the collection is never filtered.
 		if ( bodyType instanceof TypeError ) 
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		
 
 		if ( ! (bodyType instanceof BooleanType) ) {
 			AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
 			// This return is the recovery action
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		}
 		
 		BooleanType b = (BooleanType) bodyType;
 		if ( b.getKindOfTypes().isEmpty() ) {
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 		} else {
 			System.out.println("TODO: Reject with oclKindOf not supported yet");
-			return this.newCollectionType(nested);
+			return this.newCollectionTypeAux(nested);
 			// throw new UnsupportedOperationException();
 		}
 	}

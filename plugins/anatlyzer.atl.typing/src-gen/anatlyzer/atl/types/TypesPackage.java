@@ -954,13 +954,22 @@ public interface TypesPackage extends EPackage {
 	int TYPE_ERROR__NO_CASTED_TYPE = TYPE__NO_CASTED_TYPE;
 
 	/**
+	 * The feature id for the '<em><b>Problem</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_ERROR__PROBLEM = TYPE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Type Error</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_ERROR_FEATURE_COUNT = TYPE_FEATURE_COUNT + 0;
+	int TYPE_ERROR_FEATURE_COUNT = TYPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Type Error</em>' class.
@@ -1016,6 +1025,15 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNRESOLVED_TYPE_ERROR__NO_CASTED_TYPE = TYPE_ERROR__NO_CASTED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Problem</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNRESOLVED_TYPE_ERROR__PROBLEM = TYPE_ERROR__PROBLEM;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2316,6 +2334,17 @@ public interface TypesPackage extends EPackage {
 	EClass getTypeError();
 
 	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.types.TypeError#getProblem <em>Problem</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Problem</em>'.
+	 * @see anatlyzer.atl.types.TypeError#getProblem()
+	 * @see #getTypeError()
+	 * @generated
+	 */
+	EReference getTypeError_Problem();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.types.UnresolvedTypeError <em>Unresolved Type Error</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2797,6 +2826,14 @@ public interface TypesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TYPE_ERROR = eINSTANCE.getTypeError();
+
+		/**
+		 * The meta object literal for the '<em><b>Problem</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TYPE_ERROR__PROBLEM = eINSTANCE.getTypeError_Problem();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.UnresolvedTypeErrorImpl <em>Unresolved Type Error</em>}' class.

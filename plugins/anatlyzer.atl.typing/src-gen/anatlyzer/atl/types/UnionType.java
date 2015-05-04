@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.UnionType#getPossibleTypes <em>Possible Types</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getUnionType()
  * @model

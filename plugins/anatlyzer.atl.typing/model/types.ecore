@@ -37,7 +37,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="RefType" eSuperTypes="#//Type"/>
   <eClassifiers xsi:type="ecore:EClass" name="Unknown" eSuperTypes="#//RefType"/>
   <eClassifiers xsi:type="ecore:EClass" name="EmptyCollectionType" eSuperTypes="#//Type"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TypeError" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeError" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="problem" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnresolvedTypeError" eSuperTypes="#//TypeError #//Metaclass"/>
   <eClassifiers xsi:type="ecore:EClass" name="UnknownFeature" eSuperTypes="http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature">
     <eStructuralFeatures xsi:type="ecore:EReference" name="theContainingClass" lowerBound="1"

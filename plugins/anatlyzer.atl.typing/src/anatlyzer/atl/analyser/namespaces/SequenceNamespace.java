@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.namespaces;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypeError;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 

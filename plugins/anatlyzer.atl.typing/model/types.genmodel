@@ -35,7 +35,9 @@
     <genClasses ecoreClass="types.ecore#//RefType"/>
     <genClasses ecoreClass="types.ecore#//Unknown"/>
     <genClasses ecoreClass="types.ecore#//EmptyCollectionType"/>
-    <genClasses ecoreClass="types.ecore#//TypeError"/>
+    <genClasses ecoreClass="types.ecore#//TypeError">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//TypeError/problem"/>
+    </genClasses>
     <genClasses ecoreClass="types.ecore#//UnresolvedTypeError"/>
     <genClasses ecoreClass="types.ecore#//UnknownFeature">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//UnknownFeature/theContainingClass"/>

@@ -196,6 +196,7 @@ public class TypingModel {
 
 	public Type newTypeErrorType(Problem p) {
 		TypeError te = add(TypesFactory.eINSTANCE.createTypeError());
+		te.setProblem(p);
 		te.setMetamodelRef(new TypeErrorNamespace(p, te));
 		return te;
 	}
@@ -291,7 +292,22 @@ public class TypingModel {
 		// throw new UnsupportedOperationException("CommonTypes: " + t1 + " - " + t2);
 	}
 
-	
+	/**
+	 * Uses inheritance relationships to compact a union type.
+	 * 
+	 */
+	public Type compactUnion(UnionType t) {
+		ArrayList<Type> computedTypes = new ArrayList<Type>();
+		addUniqueTypes(computedTypes, t.getPossibleTypes());
+		
+		if ( computedTypes.size() == 1 ) {
+			return computedTypes.get(0);
+		} else {		
+			Type[] unionTypes = new Type[computedTypes.size()];
+			return createUnionType(computedTypes.toArray(unionTypes));
+		}
+	}
+	 
 	private void addUniqueTypes(ArrayList<Type> existingTypes, EList<Type> newTypes) {
 		for (Type type : newTypes) {
 			addUniqueType(existingTypes, type);
@@ -499,7 +515,7 @@ public class TypingModel {
 			return true;
 		}
 		
-		throw new UnsupportedOperationException("EqualTypes: " + declaredType + " - " + runtimeType);
+		throw new UnsupportedOperationException("Assignable types: " + declaredType + " - " + runtimeType);
 	}
 
 	public static boolean isCompatible(Type type_, Type supertype) {

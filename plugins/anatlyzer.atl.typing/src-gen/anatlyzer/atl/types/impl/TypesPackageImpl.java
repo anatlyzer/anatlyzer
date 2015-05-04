@@ -515,6 +515,15 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTypeError_Problem() {
+		return (EReference)typeErrorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUnresolvedTypeError() {
 		return unresolvedTypeErrorEClass;
 	}
@@ -782,6 +791,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		emptyCollectionTypeEClass = createEClass(EMPTY_COLLECTION_TYPE);
 
 		typeErrorEClass = createEClass(TYPE_ERROR);
+		createEReference(typeErrorEClass, TYPE_ERROR__PROBLEM);
 
 		unresolvedTypeErrorEClass = createEClass(UNRESOLVED_TYPE_ERROR);
 
@@ -912,6 +922,7 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		initEClass(emptyCollectionTypeEClass, EmptyCollectionType.class, "EmptyCollectionType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(typeErrorEClass, TypeError.class, "TypeError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTypeError_Problem(), ecorePackage.getEObject(), null, "problem", null, 0, 1, TypeError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unresolvedTypeErrorEClass, UnresolvedTypeError.class, "UnresolvedTypeError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

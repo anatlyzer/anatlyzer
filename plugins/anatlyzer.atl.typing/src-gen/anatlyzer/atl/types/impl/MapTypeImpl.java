@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.impl.MapTypeImpl#getKeyType <em>Key Type</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.MapTypeImpl#getValueType <em>Value Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

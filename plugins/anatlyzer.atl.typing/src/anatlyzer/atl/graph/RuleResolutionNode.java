@@ -29,12 +29,28 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
+		for(DependencyNode n : dependencies) {
+			if ( n instanceof MatchedRuleExecution ) {
+				MatchedRuleExecution mre = (MatchedRuleExecution) n;
+				if ( mre.rule.getInPattern().getFilter() != null && problemInExpression(lp, mre.rule.getInPattern().getFilter()) ) {
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, binding.getValue()) || checkDependenciesAndConstraints(exp);
+		for(DependencyNode n : dependencies) {
+			if ( n instanceof MatchedRuleExecution ) {
+				MatchedRuleExecution mre = (MatchedRuleExecution) n;
+				if ( mre.rule.getInPattern().getFilter() != null && expressionInExpression(exp, mre.rule.getInPattern().getFilter()) ) {
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 
 	@Override

@@ -28,18 +28,20 @@ public class BooleanNamespace extends PrimitiveTypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
-		if ( t == null ) {
-			if ( operatorSymbol.equals("not") || operatorSymbol.equals("or") ) {
-				return AnalyserContext.getTypingModel().newBooleanType();
-			} else if ( operatorSymbol.equals("and") ) {
-				return analyseAnd((BooleanType) optionalArgument);
-			}
-			
-			throw new UnsupportedOperationException(operatorSymbol);
+		// Not valid because it considers <=, >=, etc.
+		// Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
+		if ( operatorSymbol.equals("=") || operatorSymbol.equals("<>") ) {
+			return AnalyserContext.getTypingModel().newBooleanType();
 		}
-		return t;
-		// throw new UnsupportedOperationException(operatorSymbol);
+		 
+		
+		if ( operatorSymbol.equals("not") || operatorSymbol.equals("or") ) {
+			return AnalyserContext.getTypingModel().newBooleanType();
+		} else if ( operatorSymbol.equals("and") ) {
+			return analyseAnd((BooleanType) optionalArgument);
+		}
+
+		return AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
 	}
 
 	private Type analyseAnd(BooleanType right) {

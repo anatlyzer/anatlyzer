@@ -46,6 +46,10 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 		
 		visited.add(expr);
 		
+		if ( element == expr ) {
+			return true;
+		}
+		
 		EObject obj = element;
 		TreeIterator<EObject> it = expr.eAllContents();
 		while ( it.hasNext() ) {

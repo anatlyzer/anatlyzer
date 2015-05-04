@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.impl.TypeImpl#isMultivalued <em>Multivalued</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.TypeImpl#getMetamodelRef <em>Metamodel Ref</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.TypeImpl#isMayBeUndefined <em>May Be Undefined</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.TypeImpl#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

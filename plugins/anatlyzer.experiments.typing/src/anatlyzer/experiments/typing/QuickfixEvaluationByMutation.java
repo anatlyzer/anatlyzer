@@ -1,7 +1,9 @@
 package anatlyzer.experiments.typing;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -110,9 +112,20 @@ public class QuickfixEvaluationByMutation extends QuickfixEvaluationAbstract {
 			evaluateQuickfixesOfFile(aFile, p, monitor);
 		}
 		
+		
 		//anatlyzer.evaluation.tester.Tester tester = new Tester(path-transformacion, path-salida-mutantes);
 		//tester.generateMutants(); 
-		
-		
 	}
+	
+	@Override
+	public void printResult(PrintStream out) {
+		List<AnalysedTransformation> trafos = projects.values().stream().flatMap(p -> p.getTrafos().stream()).collect(Collectors.toList());
+		
+		out.println("Total mutants: " + trafos.size());
+		out.println(" Analyser error: " + counting.getErrors().size());
+		out.println(" Without errors:" + trafos.stream().filter(t -> t.getOriginalProblems().isEmpty()).count() );	
+		
+		super.printResult(out);
+	}
+	
 }

@@ -49,6 +49,10 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return getAnalysisResult().getAnalyser().getATLModel();
 	}
 
+	public ATLModel getATLModel(IMarker marker) {
+		return getAnalyserData(marker).getAnalyser().getATLModel();
+	}
+	
 	protected int getProblemStartOffset() throws CoreException {
 		return (Integer) marker.getAttribute(IMarker.CHAR_START);
 	}

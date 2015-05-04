@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.TupleType#getAttributes <em>Attributes</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getTupleType()
  * @model

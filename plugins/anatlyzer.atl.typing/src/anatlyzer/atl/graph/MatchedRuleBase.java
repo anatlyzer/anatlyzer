@@ -25,6 +25,12 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
+		for (VariableDeclaration var : rule.getVariables()) {
+			if ( problemInExpression(lp, var.getInitExpression()) ) {
+				return true;
+			}
+		}
+	
 		return 	(rule.getInPattern().getFilter() != null ? 
 					problemInExpression(lp, rule.getInPattern().getFilter()) : false) ||
 				checkDependenciesAndConstraints(lp);
@@ -32,6 +38,11 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
+		for (VariableDeclaration var : rule.getVariables()) {
+			if ( expressionInExpression(exp, var.getInitExpression()) ) {
+				return true;
+			}
+		}
 		return 	(rule.getInPattern().getFilter() != null ? 
 					expressionInExpression(exp, rule.getInPattern().getFilter()) : false) ||
 				checkDependenciesAndConstraints(exp);

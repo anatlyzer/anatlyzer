@@ -18,6 +18,7 @@ import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -213,7 +214,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		h.setStaticReturnType(declared);
 		h.setInferredReturnType(inferred);
 
-		
 		if ( declared instanceof Unknown ) {
 			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, inferred);
 		} else if ( !(inferred instanceof TypeError) && ! typ().assignableTypes(declared, inferred) ) {
@@ -517,7 +517,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		// Removed until I have a good way of checking that the operation is not one of the
 		// available in OclUndefined!
 		// checkAccessToUndefined(self);
-
+		
 		if ( self.getOperationName().equals("resolveTemp") ) {
 			resolveResolveTemp(self);
 			return;
@@ -544,6 +544,18 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( self.getOperationName().equals("oclIsKindOf") || 
 			 self.getOperationName().equals("oclIsTypeOf") || // This is not completely accurate!
 			 self.getOperationName().equals("oclIsUndefined") ) {
+			
+			if ( self.getOperationName().equals("oclIsKindOf") ||  self.getOperationName().equals("oclIsTypeOf") ) {
+				if ( arguments.length != 1 ) {
+					return;
+				} else if ( ! typ().assignableTypes(t, arguments[0]) ) {
+					errors().signalInvalidArgument("oclIsKindOf", 
+							"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(t), self);
+					return;
+				}
+				
+			}
+			
 			
 			// Discard those with a negation
 			boolean hasNegation = false;
@@ -707,7 +719,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	@Override
-	public void inCollectionOperationCallExp(final CollectionOperationCallExp self) {
+	public void inCollectionOperationCallExp(final CollectionOperationCallExp self) {		
 		final Type receptorType = attr.typeOf(self.getSource());
 		final Type[] arguments  = new Type[self.getArguments().size()];
 		for(int i = 0; i < self.getArguments().size(); i++) {

@@ -63,7 +63,7 @@ class EmptyCollectionType extends Type {
 
 
 class TypeError extends Type {
-   
+   ref EObject[0..1] problem;
 }
 
 class UnresolvedTypeError extends TypeError, Metaclass {

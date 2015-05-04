@@ -14,7 +14,7 @@ public interface IWitnessFinder {
 	public WitnessResult find(IDetectedProblem p, AnalysisResult r);
 	
 	public IWitnessFinder checkDiscardCause(boolean b);
-	
+	public IWitnessFinder checkProblemsInPath(boolean b);
 	
 	public static enum WitnessResult {
 		ERROR_CONFIRMED,
@@ -23,7 +23,8 @@ public interface IWitnessFinder {
 		ERROR_DISCARDED_DUE_TO_METAMODEL,
 		INTERNAL_ERROR, 
 		CANNOT_DETERMINE, 
-		NOT_SUPPORTED_BY_USE 
+		NOT_SUPPORTED_BY_USE,
+		PROBLEMS_IN_PATH
 	}
 
 }

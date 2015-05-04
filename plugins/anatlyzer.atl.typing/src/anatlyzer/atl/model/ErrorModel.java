@@ -688,15 +688,15 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
-	public Type signalInvalidArgument(String operationName, LocatedElement node) {
+	public Type signalInvalidArgument(String operationName, String explanation, LocatedElement node) {
 		InvalidArgument error = AtlErrorFactory.eINSTANCE.createInvalidArgument();
 		initProblem(error, node);
 
-		signalError(error, "Invalid argument", node);		
+		signalError(error, "Invalid argument for " + operationName + ". " + explanation, node);		
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
-	public void signalOperationCallInvalidNumberOfParameters(String operationName, Type[] formalArguments, Type[] arguments, LocatedElement node) {
+	public Type signalOperationCallInvalidNumberOfParameters(String operationName, Type[] formalArguments, Type[] arguments, LocatedElement node) {
 		OperationCallInvalidNumberOfParameters error = AtlErrorFactory.eINSTANCE.createOperationCallInvalidNumberOfParameters();
 		initProblem(error, node);
 		
@@ -704,6 +704,7 @@ public class ErrorModel {
 		for (Type type : formalArguments) { error.getFormalParameters().add(type); }
 		
 		signalError(error, "Invalid number of arguments, " + arguments.length + ", expected " + formalArguments.length + ". Operation: " + operationName, node);
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 	
 

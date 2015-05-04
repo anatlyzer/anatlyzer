@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.impl.UnresolvedTypeErrorImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.UnresolvedTypeErrorImpl#isExplicitOcurrence <em>Explicit Ocurrence</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.UnresolvedTypeErrorImpl#getKlass <em>Klass</em>}</li>
  *   <li>{@link anatlyzer.atl.types.impl.UnresolvedTypeErrorImpl#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

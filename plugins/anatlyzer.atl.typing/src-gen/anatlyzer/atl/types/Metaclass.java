@@ -11,13 +11,13 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.Metaclass#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Metaclass#isExplicitOcurrence <em>Explicit Ocurrence</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Metaclass#getKlass <em>Klass</em>}</li>
  *   <li>{@link anatlyzer.atl.types.Metaclass#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getMetaclass()
  * @model

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -73,7 +74,9 @@ import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
+import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
@@ -374,10 +377,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 
 		private ProblemGraph getProblemGraph() {
+			problemGraph = currentAnalysis.getAnalyser().getDependencyGraph(); 
+			/*
+			 * To allow caching, I need to invalidate when the input changes
 			if ( problemGraph == null ) {
 				problemGraph = currentAnalysis.getAnalyser().getDependencyGraph(); 
 			}
-			 return problemGraph;			 
+			*/
+			return problemGraph;			 
+			
 		}
 		
 		@Override

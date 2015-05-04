@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.UnknownFeature#getTheContainingClass <em>The Containing Class</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getUnknownFeature()
  * @model

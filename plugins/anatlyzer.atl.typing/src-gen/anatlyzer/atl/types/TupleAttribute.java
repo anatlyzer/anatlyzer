@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.TupleAttribute#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atl.types.TupleAttribute#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getTupleAttribute()
  * @model

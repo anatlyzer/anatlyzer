@@ -65,6 +65,11 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 	}
 
 	
+	public HashMap<String, Exception> getErrors() {
+		return errors;
+	}
+	
+	
 	/**
 	 * Return the categories, indexed by artefact id.
 	 * @param all

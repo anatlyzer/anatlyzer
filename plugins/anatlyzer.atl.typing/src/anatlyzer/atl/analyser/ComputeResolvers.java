@@ -181,20 +181,29 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		
 		self.setReceptorType( srcType );
 		if ( srcType instanceof Metaclass ) {
-			IClassNamespace cn = (IClassNamespace) srcType.getMetamodelRef();
-			EStructuralFeature f = cn.getStructuralFeatureInfo(self.getName());
-			if ( f != null  ) {
-				self.setUsedFeature(f);
-			} else {
-				computeResolvers(self, self.getName());				
-			}
+			setMetaclassResolvers(self, (Metaclass) srcType);
 		} else if ( srcType instanceof ThisModuleType ) {
 			computeResolvers(self, self.getName());			
 		} else if ( srcType instanceof UnionType ) {
-			System.err.println("TODO: How to deal with this in createannotations... setUsedFeature...");
+			Type t = typ().compactUnion((UnionType) srcType);
+			if ( t instanceof Metaclass ) {
+				setMetaclassResolvers(self, (Metaclass) t);
+			} else {
+				System.err.println("TODO: How to deal with this in createannotations... setUsedFeature...");
+			}
 		} 
 		
 		
+	}
+
+	protected void setMetaclassResolvers(NavigationOrAttributeCallExp self, Metaclass srcType) {
+		IClassNamespace cn = (IClassNamespace) srcType.getMetamodelRef();
+		EStructuralFeature f = cn.getStructuralFeatureInfo(self.getName());
+		if ( f != null  ) {
+			self.setUsedFeature(f);
+		} else {
+			computeResolvers(srcType, self, self.getName());				
+		}
 	}
 	
 	@Override
@@ -204,9 +213,13 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 	}
 
 	private void computeResolvers(PropertyCallExp self, String featureOrOperationName) {			
-		if ( self.getSource().getInferredType() instanceof Metaclass && !(self.getSource() instanceof OclModelElement) ) {
+		computeResolvers(self.getSource().getInferredType(), self, featureOrOperationName);
+	}
+	
+	private void computeResolvers(Type srcType, PropertyCallExp self, String featureOrOperationName) {			
+		if ( srcType instanceof Metaclass && !(srcType instanceof OclModelElement) ) {
 			self.setIsStaticCall(false);
-			IClassNamespace cn = (IClassNamespace) self.getSource().getInferredType().getMetamodelRef();
+			IClassNamespace cn = (IClassNamespace) srcType.getMetamodelRef();
 			if ( cn.getAttachedOclFeature(featureOrOperationName) != null ) {
 			
 				//System.out.println(TypeUtils.typeToString(ann.getSource().getType()) + "." + self.getOperationName() + " - " + self.getLocation());
@@ -237,9 +250,9 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 				}
 			}
 			
-		} else if ( self.getSource().getInferredType() instanceof ThisModuleType ) {
+		} else if ( srcType instanceof ThisModuleType ) {
 			self.setIsStaticCall(true);
-			TransformationNamespace tn = (TransformationNamespace) self.getSource().getInferredType().getMetamodelRef();
+			TransformationNamespace tn = (TransformationNamespace) srcType.getMetamodelRef();
 			if ( tn.getAttachedOclFeature(featureOrOperationName) != null ) {
 				OclFeature op = tn.getAttachedOclFeature(featureOrOperationName);
 				Helper h = (Helper) op.eContainer().eContainer();

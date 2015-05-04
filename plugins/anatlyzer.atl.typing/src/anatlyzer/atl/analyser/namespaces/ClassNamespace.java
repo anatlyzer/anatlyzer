@@ -256,7 +256,23 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		if ( operationName.equals("newInstance") || operationName.equals("refSetValue") ) 
 			return true;
 
-		return operations.containsKey(operationName);
+		boolean hasOperation = operations.containsKey(operationName);
+		
+		if ( ! hasOperation ) {
+			// Similar to getOperation
+			// Not sure this is totally valid because of the traversal order
+			EList<EClass> supertypes = eClass.getESuperTypes();
+			for (EClass c : supertypes) {
+				if ( c.eIsProxy() ) continue; // proxies again...
+				ITypeNamespace n = metamodel.getClassifier(c.getName());
+				if ( n.hasOperation(operationName, arguments) ) {
+					hasOperation = true;
+					break;
+				}			
+			}
+		}
+		
+		return hasOperation;
 	}
 	
 	/* (non-Javadoc)
@@ -330,8 +346,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			return getType(); // returns itself
 		}
 
-		if ( this.hasOperation(operationName, arguments) ) {
-			VirtualFeature<ClassNamespace, Operation> op = operations.get(operationName);			
+		VirtualFeature<ClassNamespace, Operation> op = operations.get(operationName);			
+		if ( op != null ) {
 			checkHelperArguments(op.featureName, op.definition.getParameters(), arguments, node);
 			return op.returnType;
 		}

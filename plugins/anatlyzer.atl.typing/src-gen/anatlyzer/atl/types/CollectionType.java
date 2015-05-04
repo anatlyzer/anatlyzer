@@ -10,10 +10,10 @@ package anatlyzer.atl.types;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.CollectionType#getContainedType <em>Contained Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.types.TypesPackage#getCollectionType()
  * @model abstract="true"

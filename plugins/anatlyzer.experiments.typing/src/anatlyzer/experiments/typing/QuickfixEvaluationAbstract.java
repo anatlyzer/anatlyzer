@@ -34,6 +34,7 @@ import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
@@ -214,6 +215,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			return name;
 		}
 		
+		public List<AnalysedTransformation> getTrafos() {
+			return trafos;
+		}
+		
 	}
 	
 	
@@ -268,28 +273,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
-			/*
-			List<Problem> oneProblem = data.getProblems().stream().
-					filter(p -> p instanceof BindingPossiblyUnresolved && (
-							((LocalProblem) p).getLocation().equals("65:4-65:59") ||
-							((LocalProblem) p).getLocation().equals("66:4-66:65") ||
-							((LocalProblem) p).getLocation().equals("67:4-67:65") ||
-							((LocalProblem) p).getLocation().equals("80:4-80:307") 
-							)
-							//((LocalProblem) p).getLocation().equals("104:4-104:307")) 
-							).collect(Collectors.toList());
-			
-			ArrayList<Problem> testProblems = new ArrayList<Problem>();
-			for(int i = 0; i < 1; i++) {
-				testProblems.addAll(oneProblem);
-			}
-			
-			selectProblems(testProblems, data);
-			
-			if ( true ){
-				return ;
-			}
-			*/
 			List<Problem> allProblems = selectProblems(data.getProblems(), data);
 			AnalysedTransformation trafo = new AnalysedTransformation(resource, data, allProblems);
 			project.trafos.add(trafo);
@@ -301,7 +284,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				if ( monitor.isCanceled() ) {
 					return;
 				}
+				
+				// Get summary and initialize if needed
+				QuickfixSummary qs = summary.get(AnalyserUtils.getProblemId(p));
+				if ( qs == null ) {
+					qs = new QuickfixSummary(AnalyserUtils.getProblemId(p), AnalyserUtils.getProblemDescription(p));
+					summary.put(AnalyserUtils.getProblemId(p), qs);										
+				}
 
+				
 				i++;
 				monitor.subTask("Problem " + "(" + i + "/" + allProblems.size() + "): " + p.getDescription());
 				
@@ -316,7 +307,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					// Printing
 					printMessage("Available quickfixes:");
 					for (AtlProblemQuickfix atlProblemQuickfix : quickfixes) {
-						printMessage(" * " + atlProblemQuickfix.getDisplayString());
+						try { 
+							printMessage(" * " + atlProblemQuickfix.getDisplayString());
+						} catch (Exception e) {
+							printMessage(" * Error in 'displayString' method");
+							e.printStackTrace();
+						}
 					}
 		
 					// Recording					
@@ -332,14 +328,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					}
 										
 					// Add to summary
-					QuickfixSummary qs = summary.get(AnalyserUtils.getProblemId(p));
-					if ( qs == null ) {
-						qs = new QuickfixSummary(AnalyserUtils.getProblemId(p), AnalyserUtils.getProblemDescription(p));
-						summary.put(AnalyserUtils.getProblemId(p), qs);
-					}
-										
 					qs.appliedQuickfixes(appliedQuickfixesCount);					
 				} else {
+					qs.appliedQuickfixes(0);					
 					printMessage(" - No quickfixes available");
 				}
 				
@@ -361,6 +352,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				//WitnessResult result = new StandaloneWitnessFinder().
 				//		checkDiscardCause(false).find(p, r);
 				WitnessResult result = new EclipseUseWitnessFinder().
+						checkProblemsInPath(true).
 						checkDiscardCause(false).find(p, r);
 				
 				switch (result) {
@@ -377,8 +369,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				case CANNOT_DETERMINE:
 				case INTERNAL_ERROR:
 				case NOT_SUPPORTED_BY_USE:
-					printMessage("Error: " + ((LocalProblem) p).getLocation());
+					printMessage("Error: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
 					continue;
+				case PROBLEMS_IN_PATH:
+					printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
+					continue;					
 				}
 			} else {
 				allProblems.add(p);
@@ -413,7 +408,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		try { 
 			// getDisplayString() may have implementation errors, so it needs to be called
 			//                    within the try-catch
-			qi.setDescription(quickfix.getDisplayString());
+			String displayString = quickfix.getDisplayString();
+			printMessage("Applying quickfix: " + displayString);
+			
+			qi.setDescription(displayString);
 			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
 			qfa.apply();
 
@@ -445,7 +443,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			qi.setRetyped(newResult, newProblems);
 			
 		} catch ( UnsupportedOperationException e ) {
-			printMessage("Quickfix: " + quickfix.getDisplayString() + " not implemented at the AST Level");
+			printMessage("Quickfix not implemented at the AST Level");
 			qi.setNotSupported();
 		} catch ( Exception e ) {
 			qi.setImplError();
@@ -606,7 +604,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						}
 					}
 				}
-			} catch (CoreException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

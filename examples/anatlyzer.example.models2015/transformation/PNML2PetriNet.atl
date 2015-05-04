@@ -17,8 +17,6 @@ rule PetriNet {
 	)
 }
 
--- helper def : delectLabel : String = 'foo';
-
 helper def : selectLabel(labels : Sequence(PNML!Label)) : String = 
 	if labels->isEmpty() then 'no-name' 
 	else labels->first().text endif;

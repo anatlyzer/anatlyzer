@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.types.impl.UnionTypeImpl#getPossibleTypes <em>Possible Types</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

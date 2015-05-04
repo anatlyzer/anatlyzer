@@ -1,5 +1,7 @@
 package anatlyzer.atl.witness;
 
+import java.util.Optional;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EPackage;
@@ -20,6 +22,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
+import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Module;
@@ -34,10 +37,26 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private EPackage language;
 	private EPackage errorSliceMM;
 	private boolean checkDiscardCause = true;
+	private boolean checkProblemsInPath;
 
 	@Override
 	public WitnessResult find(Problem problem, AnalysisResult r) {
-		ProblemPath path = new ErrorPathGenerator(r.getAnalyser().getATLModel()).generatePath((LocalProblem) problem);
+		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser().getATLModel());		
+		ProblemPath path = null;
+		
+		if ( checkProblemsInPath ) {
+			ProblemGraph g = pathgen.perform();
+			Optional<Problem> isTopLevel = g.getProblemTree().getNodes().stream().map(n -> n.getProblem()).filter(p -> p == problem).findAny();
+			if ( isTopLevel.isPresent() ) {
+				path = pathgen.generatePath((LocalProblem) problem);
+			} else {
+				// Depends on another error
+				return WitnessResult.PROBLEMS_IN_PATH;
+			}			
+		} else {
+			path = pathgen.generatePath((LocalProblem) problem);
+		}
+		
 		return find(path, r);
 	}
 
@@ -46,6 +65,14 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		this.checkDiscardCause  = b;
 		return this;
 	}
+	
+	@Override
+	public IWitnessFinder checkProblemsInPath(boolean b) {
+		this.checkProblemsInPath  = b;
+		return this;
+	}
+	
+	
 	
 	@Override
 	public WitnessResult find(IDetectedProblem problem, AnalysisResult r) {

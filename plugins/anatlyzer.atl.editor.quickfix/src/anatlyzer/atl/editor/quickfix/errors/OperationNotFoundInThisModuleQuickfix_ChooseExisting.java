@@ -104,27 +104,7 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	@Override
 	public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();	
-		new InDocumentSerializer(qfa, document).serialize();
-		
-//		OperationCallExp res = this.getElement();
-//		
-//		try {
-//		
-//			int[] sourceOffset = getElementOffset(res.getSource(), document);
-//	
-//			int sourceOffsetEnd = sourceOffset[1];
-//			
-//			int offsetEnd   = getProblemEndOffset();
-//			String rest = document.get(sourceOffsetEnd, offsetEnd - sourceOffsetEnd);
-//			int parent = rest.indexOf("(");
-//			
-//			document.replace(sourceOffsetEnd, parent, "."+this.getClosest());
-//			// TODO: take into account parameters and return value
-//		} catch (CoreException | BadLocationException e) {
-//			throw new RuntimeException(e);
-//		}
-		
-		//System.out.println("Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest());
+		new InDocumentSerializer(qfa, document).serialize();		
 	}
 
 	@Override

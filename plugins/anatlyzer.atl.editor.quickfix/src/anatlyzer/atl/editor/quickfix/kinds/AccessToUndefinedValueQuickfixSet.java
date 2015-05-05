@@ -4,6 +4,7 @@ import anatlyzer.atl.editor.quickfix.AbstractQuickfixSet;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
 
 public class AccessToUndefinedValueQuickfixSet extends AbstractQuickfixSet  {
 		
@@ -11,7 +12,8 @@ public class AccessToUndefinedValueQuickfixSet extends AbstractQuickfixSet  {
 	public AtlProblemQuickfix[] getPossibleQuickfixes() {
 		return new AtlProblemQuickfix[] {
 				new AccessToUndefinedValue_AddRuleFilter(),
-				new AccessToUndefinedValue_AddIf()
+				new AccessToUndefinedValue_AddIf(),
+				new AccessToUndefinedValue_ChangeMetamodel()
 		};
 	}
 }

@@ -9,11 +9,14 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 /**
@@ -27,9 +30,14 @@ import anatlyzer.atlext.ATL.LocatedElement;
 public class QuickfixApplication {
 
 	private ArrayList<Action> actions = new ArrayList<QuickfixApplication.Action>();
+	private ArrayList<MMAction> mmActions = new ArrayList<QuickfixApplication.MMAction>();
 	
 	public List<Action> getActions() {
 		return actions;
+	}
+	
+	public List<MMAction> getMetamodelActions() {
+		return mmActions;
 	}
 	
 	public <T1 extends EObject, T2 extends EObject> void replace(T1 root, BiFunction<T1, Trace, T2> replacer) {
@@ -93,6 +101,17 @@ public class QuickfixApplication {
 		actions.add(new PutInAction(receptor, feature, newObj));
 	}
 
+	public void mmModify(EStructuralFeature feature, String metamodelName, Consumer<EStructuralFeature> modifyer) {
+		modifyer.accept(feature);
+		mmActions.add(new MMAction(metamodelName));
+	}
+
+
+	public void mmModify(EClass klass, String metamodelName, Consumer<EClass> modifyer) {
+		modifyer.accept(klass);
+		mmActions.add(new MMAction(metamodelName));
+	}
+	
 	public static class Trace {
 		LinkedList<Object> preservedElements = new LinkedList<Object>();
 		
@@ -109,6 +128,17 @@ public class QuickfixApplication {
 		}
 	}
 
+	public static class MMAction {
+		protected String metamodelName;
+		public MMAction(String metamodelName) {
+			this.metamodelName = metamodelName;
+		}
+		
+		public String getMetamodelName() {
+			return metamodelName;
+		}
+	}
+	
 	public static class Action {
 		protected EObject tgt;
 		protected Trace trace;
@@ -218,9 +248,16 @@ public class QuickfixApplication {
 	public void apply() {
 		// For the moment nothing... but should be called to ensure everything is in sync
 	}
-
 	
-
-
+	public void saveMetamodels(AnalysisResult r) {
+		mmActions.stream().map(a -> a.getMetamodelName()).distinct().forEach(name -> {
+			Resource resource = r.getNamespace().getLogicalNamesToMetamodels().get(name);
+			try {
+				resource.save(null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
 
 }

@@ -24,4 +24,6 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 */
 	public void setErrorMarker(IMarker marker);
 
+	public boolean isMetamodelChanging();
+	
 }

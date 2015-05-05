@@ -1,11 +1,8 @@
 package anatlyzer.atl.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
@@ -13,6 +10,10 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -39,10 +40,16 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 	
 	protected OclExpression genBindingRightPart(CSPModel model, Binding binding) {
 		OclExpression value = model.gen(binding.getValue(), new OclGeneratorAST.LazyRuleToDummyValue(model.getTargetDummyVariable()));
-
-		if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
-			// In case it is not flatten... apply flatten() to respect ATL semantics and avoid errors
-			value = model.createCollectionOperationCall(value, "flatten");
+		Type srcType = ATLUtils.getSourceType(binding);
+		if ( TypeUtils.isCollection(srcType) ) {
+			// This could go in retyping...
+			CollectionType colType = (CollectionType) srcType;
+			if ( colType.getContainedType() instanceof Metaclass || colType.getContainedType() instanceof PrimitiveType ) {
+				// No flatten needed for sure
+			} else {				
+				// In case it is not flattened... apply flatten() to respect ATL semantics and avoid errors
+				value = model.createCollectionOperationCall(value, "flatten");
+			}
 		}
 		
 		// Remove any possible use of the target dummy variable by filtering

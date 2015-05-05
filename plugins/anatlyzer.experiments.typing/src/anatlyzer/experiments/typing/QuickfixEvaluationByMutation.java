@@ -21,7 +21,10 @@ import anatlyzer.evaluation.tester.Tester;
 
 public class QuickfixEvaluationByMutation extends QuickfixEvaluationAbstract {
 	
+	
+
 	public QuickfixEvaluationByMutation() {
+		compactNotClassified = true;;		
 	}
 
 	// Here to allow its modification by the UI thread...

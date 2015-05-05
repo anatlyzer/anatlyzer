@@ -9,19 +9,20 @@ extensionID: typing.experiment.applyQuickfixes
 # -  name: CodeCloneTools_UseCase
 # -  name: OCL2SWRL_UseCase
 
-files:
--  path: /anatlyzer.evaluation.quickfixes/PNML2PetriNet.noerrors_mutants/ArgumentTypeModification_mutant9.atl
-
 #projects:
 #-  name: ModelsMeasurement_UseCase
 #   ignoredFiles: [UML22Measure_all.atl EMOOSE4KM3.atl EMOOSE4UML2.atl FLAME4KM3.atl FLAME4UML2.atl MeasureHelpers.atl MOOD4KM3.atl MOOD4UML2.atl QMOOD4KM3.atl QMOOD4UML2.atl TableHelpers.atl] 
 
-#files:
+######### ModelsMeasurement ############
+files:
 #- path: /ModelsMeasurement_UseCase/transformations/UML22Measure_all.atl
+#- path: /ModelsMeasurement_UseCase/transformations/HTML2XML.atl
+#- path: /ModelsMeasurement_UseCase/transformations/KM32Measure.atl
 
-#files: 
-#-  path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
-#- path: /CPL2SPL_UseCase/CPL2SPL.atl
-
-#files: 
-#-  path: /anatlyzer.evaluation.quickfixes/transformations/test.atl
+######### CPL2SPL ############
+# 
+files: 
+# - path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
+- path: /CPL2SPL_UseCase/CPL2SPL_no_recursion.atl
+#
+##############################

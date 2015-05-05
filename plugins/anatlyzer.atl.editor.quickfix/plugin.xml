@@ -42,11 +42,11 @@
       </quickfix>
    </extension>
    <extension
-         id="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix"
+         id="anatlyzer.atl.editor.quickfix.errors.IncoherentDeclaredTypeQuickfix_AssignInferredType"
          name="Quickfix: Align declared type with the inferred type"
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
-            apply="anatlyzer.atl.editor.quickfix.warnings.IncoherentDeclaredTypeQuickfix">
+            apply="anatlyzer.atl.editor.quickfix.errors.IncoherentDeclaredTypeQuickfix_AssignInferredType">
       </quickfix>
    </extension>
    <extension

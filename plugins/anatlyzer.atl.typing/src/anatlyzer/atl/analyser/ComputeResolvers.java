@@ -179,6 +179,10 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		// Type srcType = attr.typeOf(self.getSource());
 		Type srcType = self.getSource().getInferredType();
 		
+		if ( self.getName().equals("contents") ) {
+			System.out.println(self);
+		}
+		
 		self.setReceptorType( srcType );
 		if ( srcType instanceof Metaclass ) {
 			setMetaclassResolvers(self, (Metaclass) srcType);

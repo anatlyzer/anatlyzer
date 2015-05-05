@@ -14,6 +14,7 @@ import anatlyzer.atl.types.Type;
 public class OclTypeNamespace implements ITypeNamespace {
 
 	private TypingModel	typ;
+	private Type theType;
 
 	public OclTypeNamespace(TypingModel typingModel) {
 		this.typ = typingModel;
@@ -43,12 +44,23 @@ public class OclTypeNamespace implements ITypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		throw new UnsupportedOperationException();
-	}
+		if ( operatorSymbol.equals("=") || operatorSymbol.equals("<>") ) {
+			return AnalyserContext.getTypingModel().newBooleanType();
+		}
 
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, getTheType(), node);
+	}
+	
+	public Type getTheType() {
+		if ( theType == null ) {
+			this.theType = AnalyserContext.getTypingModel().newOclType();
+		}
+		return theType;
+	}
+	
 	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {
-		throw new UnsupportedOperationException();
+		return AtlTypes.oclType().hasOperation(operationName);		
 	}
 
 	public Operation getAttachedOperation(String operationName) {

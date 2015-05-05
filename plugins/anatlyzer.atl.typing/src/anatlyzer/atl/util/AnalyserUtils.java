@@ -36,6 +36,7 @@ import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
+import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
@@ -257,6 +258,7 @@ public class AnalyserUtils {
 		if ( p instanceof IteratorBodyWrongType ) return 33;
 		
 		if ( p instanceof InvalidOperand ) return 34;
+		if ( p instanceof InvalidOperator ) return 35; 
 
 				// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

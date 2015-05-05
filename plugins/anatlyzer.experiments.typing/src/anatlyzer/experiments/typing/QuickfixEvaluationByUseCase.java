@@ -12,6 +12,7 @@ public class QuickfixEvaluationByUseCase extends QuickfixEvaluationAbstract impl
 	
 	public QuickfixEvaluationByUseCase() {
 		recordAll = false;
+		checkProblemsInPath = false;
 		
 		counting.setRepetitions(true);
 		counting.showRepetitionDetails(false);

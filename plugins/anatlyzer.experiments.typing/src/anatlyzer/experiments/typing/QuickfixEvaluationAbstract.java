@@ -6,6 +6,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -30,14 +32,84 @@ import anatlyzer.atl.editor.quickfix.AtlProblemQuickfixSet;
 import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
 import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifiyRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Remove;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_RemoveRule;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_AddRule;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_FilterBinding;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_ModifiyRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Remove;
+import anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChooseExisting;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_FindSameOperation;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.IncoherentDeclaredTypeQuickfix_AssignInferredType;
+import anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType;
+import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_AddBinding;
+import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilar;
+import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix;
+import anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne;
+import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
+import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
+import anatlyzer.atl.editor.quickfix.errors.ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddArguments;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_RemoveFormalParameters;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition;
+import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidParameterQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToBlock;
+import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToExpression;
+import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_ChangeOperationContext;
+import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChooseExisting;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix;
+import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;
+import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix;
+import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
+import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
+import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
+import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
+import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
+import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
+import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
+import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
+import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
+import anatlyzer.atl.errors.atl_error.OperationNotFound;
+import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
+import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.experiments.export.CountingModel;
@@ -53,27 +125,36 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected boolean recordAll = false;
 	protected boolean useCSP    = true;
 	protected Workbook workbook = new XSSFWorkbook();
-
-	class QuickfixSummary {
+	protected boolean compactNotClassified;
+	
+	
+	public static class QuickfixSummary {
 		int id;
 		int maxQuickfixes = 0;
 		int minQuickfixes = Integer.MAX_VALUE;
 		int totalQuickfixes;
 		int totalProblems;
+		int totalErrorsFixed;
+		int totalErrorsGenerated;
 		private String description;
-
-		public QuickfixSummary(int problemId, String description) {
+		private String errorCode;
+		private HashMap<String, List<AppliedQuickfixInfo>> quickfixesByType = new HashMap<String, List<AppliedQuickfixInfo>>();
+		
+		public QuickfixSummary(int problemId, String description, String errorCode) {
 			this.id = problemId;
 			this.description = description;
+			this.errorCode = errorCode;
 		}
 		
-		public void appliedQuickfixes(int count) {
+		public void appliedQuickfixes(int count, int errorsFixed, int errorsGenerated) {
 			if ( count < minQuickfixes )  {
 				minQuickfixes = count;
 			}
 			if ( count > maxQuickfixes ) {
 				maxQuickfixes = count;
 			}
+			totalErrorsFixed += errorsFixed;
+			totalErrorsGenerated += errorsGenerated;
 			totalQuickfixes += count;
 			totalProblems++;
 		}
@@ -83,10 +164,38 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			return totalQuickfixes / (1.0 * totalProblems);
 		}
 
+		public static String toLatexHeader() {
+			return "{\\bf Problem}        & {\\bf \\#Occ.} & {\\bf \\#Qfx} & {\\bf Avg} & {\\bf Min} & {\\bf Max} & {\\bf Fix.} & {\\bf Gen.} \\\\ \\hline";	
+		}
+
 		public String toLatexRow() {
-			return description + " & " + totalProblems + " & " + totalQuickfixes + " & " + getAvg() + " & " + minQuickfixes + " & " + maxQuickfixes + "\\\\ \\hline" ;
+			String first = getLatexDesc() + " & " + totalProblems + " & " + totalQuickfixes + " & " + formatDouble(getAvg()) + " & " + minQuickfixes + " & " + maxQuickfixes + " & " + totalErrorsFixed + " & " + totalErrorsGenerated+ "\\\\ \\hline" ;
+			List<String> lines = new ArrayList<String>();
+			lines.add(first);
+			quickfixesByType.forEach((k, list) -> {
+				int totalQuickfix = list.size();
+				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
+				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
+				
+				String line = "~~~" + k + " & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
+				lines.add(line);
+			});
+			
+			return lines.stream().collect(Collectors.joining("\n"));
 		}
 		
+		private String formatDouble(double d) {
+			return String.format(Locale.US, "%.1f", d);
+		}
+
+		private String getLatexDesc() {
+			String desc = errorCode;
+			if ( desc == null ) {
+				desc = "X-" + description; // .substring(0, 10) + "...";
+			}
+			return desc;
+		}
+
 		@Override
 		public String toString() {
 			return id + ": \n" + 
@@ -97,9 +206,19 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					"\t" + "qfx:" + totalQuickfixes + "\n";
 		}
 
+		public void appliedQuickfix(AppliedQuickfixInfo qi) {
+			String code = qi.getCode();
+			if ( ! quickfixesByType.containsKey(code) ) {
+				quickfixesByType.put(code, new ArrayList<AppliedQuickfixInfo>());
+			}
+			
+			quickfixesByType.get(code).add(qi);
+		}
+
+
 	}
 	
-	private HashMap<Integer, QuickfixSummary> summary = new HashMap<Integer, QuickfixEvaluationAbstract.QuickfixSummary>();
+	private HashMap<String, QuickfixSummary> summary = new HashMap<String, QuickfixEvaluationAbstract.QuickfixSummary>();
 	
 	
 	class AppliedQuickfixInfo {
@@ -116,6 +235,105 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			this.quickfix = quickfix;
 			this.original = original;
 			this.originalProblems = new ArrayList<Problem>(originalProblems);
+		}
+
+		public String getCode() {
+			if ( quickfix instanceof BindingPossiblyUnresolved_ModifiyRuleFilter ||
+			     quickfix instanceof BindingInvalidTargetInResolvedRule_ModifiyRuleFilter ) return "Q1.1";
+			
+			if ( quickfix instanceof BindingPossiblyUnresolved_Remove ||
+				 quickfix instanceof BindingInvalidTargetInResolvedRule_Remove ||
+				 quickfix instanceof NoRuleForBindingQuickfix_RemoveBinding ) return "Q1.2";
+
+			if ( quickfix instanceof BindingPossiblyUnresolved_FilterBinding ||
+				 quickfix instanceof BindingInvalidTargetInResolvedRule_FilterBinding ) return "Q1.3";
+				
+			// TODO: Q1.4 Generate precondition
+			
+			if ( quickfix instanceof BindingPossiblyUnresolved_AddRule ) return "Q2.1";
+			if ( quickfix instanceof NoRuleForBindingQuickfix_AddRule ) return "Q2.1";
+			
+			if ( quickfix instanceof BindingInvalidTargetInResolvedRule_RemoveRule ) return "Q3.1";
+			
+			if ( quickfix instanceof NoBindingForCompulsoryFeature_ChangeMetamodel ) return "Q4.1";
+			if ( quickfix instanceof BindingExpectedOneAssignedMany_ChangeMetamodel ) return "Q4.1";
+			// Also for PrimitiveBindingInvalidAssignment, etc.
+			
+			if ( quickfix instanceof PrimitiveBindingInvalidAssignment_Quickfix ) return "Q4.2";
+			
+			if ( quickfix instanceof NoBindingForCompulsoryFeature_AddBinding )  return "Q5.1"; // TODO: Is this 4.2?
+			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilar ) return "Q5.2";
+			
+			// TODO: 5.3, suggest a similar feature in the meta-model
+			
+			// This is not completelely accurate
+			if ( quickfix instanceof ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ) return "Q5.3"; 
+			
+			
+			if ( quickfix instanceof BindingExpectedOneAssignedMany_SelectFirst ) return "Q6.1";
+			
+			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix ) return "Q7.1";
+			if ( quickfix instanceof NoModelFoundQuickfix_ChooseExistingOne ) return "Q7.1"; // in some way it is similar to 7.1
+			
+			// TODO: 7.2, add type to the meta-model
+			
+			if ( quickfix instanceof IncoherentHelperReturnTypeQuickfix_AssignInferredType ) return "Q8.1";
+			if ( quickfix instanceof IncoherentDeclaredTypeQuickfix_AssignInferredType ) return "Q8.1";
+			
+			
+			if ( quickfix instanceof AccessToUndefinedValue_AddIf ) return "Q9.1";
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression ) return "Q9.1";
+			// TODO: Consider features in subtype, 9.1
+			
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock ) return "Q9.2";
+			// TODO: Consider features in subtype, 9.2, consider outer for access to undefined, 9.2
+
+			if ( quickfix instanceof AccessToUndefinedValue_AddRuleFilter ) return "Q9.3";
+			// TODO: Consider features in subtype, 9.3, consider rule filter for subyptes 9.3
+
+			if ( quickfix instanceof AccessToUndefinedValue_ChangeMetamodel ) return "Q10.1";
+			
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.1";
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_CreateHelper) return "Q11.2";
+			
+			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
+			if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
+			if ( quickfix instanceof CollectionOperationNotFoundQuickfix ) return "Q12.1";
+			// TODO: 12.1 context operations 
+			
+			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
+			if ( quickfix instanceof FeatureNotFoundQuickfix_CreateHelper ) return "Q12.2";
+			// TODO: 12.2 context operations 
+			
+			if ( quickfix instanceof FeatureNotFoundQuickFix_ChangeMetamodel ) return "Q12.3";
+			
+			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall ) return "Q12.4";
+			if ( quickfix instanceof FeatureNotFoundQuickFix_FindSameOperation ) return "Q12.4";
+			// TODO: 12.4 context operations 		
+			
+			
+			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddArguments ) return "Q15.1";
+			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments ) return "Q15.1";
+			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters ) return "Q15.2";
+			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveFormalParameters ) return "Q15.2";
+			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation ) return "Q15.3";
+			if ( quickfix instanceof OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition ) return "Q16.1";
+			if ( quickfix instanceof OperationCallInvalidParameterQuickfix_CreateHelper ) return "Q16.2";
+			
+			if ( quickfix instanceof FlattenOverNonNestedCollectionQuickFix ) return "Q18.1";
+			if ( quickfix instanceof OperationOverCollectionTypeQuickfix ) return "Q18.1";
+			if ( quickfix instanceof CollectionOperationOverNoCollectionQuickfix ) return "Q18.1";
+			
+			String cname = quickfix.getClass().getSimpleName();
+			/*
+			int idx = cname.indexOf("_");
+			if ( idx >= 0 ) {
+				cname = cname.substring(idx + 1);
+			}
+			
+			return cname.replace("_", "").substring(0, 10);
+			*/
+			return cname;
 		}
 
 		public void setRetyped(AnalysisResult newResult, List<Problem> retypedProblems) {
@@ -164,6 +382,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 		public List<Problem> getOriginalProblems() {
 			return originalProblems;
+		}
+
+		public int getNumOfFixes() {
+			if ( retypedProblems == null )
+				return 0;
+			return originalProblems.size() - retypedProblems.size();
 		}
 		
 	}
@@ -225,6 +449,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	// Just for test purposes
 	protected List<String> messages = new ArrayList<String>();
 	protected HashMap<String, Project> projects = new HashMap<String, QuickfixEvaluationAbstract.Project>();
+	protected boolean checkProblemsInPath = false;
 	
 	public QuickfixEvaluationAbstract() {
 		counting.setRepetitions(true);
@@ -286,10 +511,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				}
 				
 				// Get summary and initialize if needed
-				QuickfixSummary qs = summary.get(AnalyserUtils.getProblemId(p));
+				QuickfixSummary qs = summary.get(getErrorCode(p));
 				if ( qs == null ) {
-					qs = new QuickfixSummary(AnalyserUtils.getProblemId(p), AnalyserUtils.getProblemDescription(p));
-					summary.put(AnalyserUtils.getProblemId(p), qs);										
+					qs = new QuickfixSummary(AnalyserUtils.getProblemId(p), AnalyserUtils.getProblemDescription(p), getErrorCode(p));
+					summary.put(getErrorCode(p), qs);										
 				}
 
 				
@@ -317,20 +542,31 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 					// Recording					
 					int appliedQuickfixesCount = 0;
+					int errorsFixed     = 0;
+					int errorsGenerated = 0;
 					for (AtlProblemQuickfix quickfix : quickfixes) {
 						if ( monitor != null && monitor.isCanceled() )
 							return;
 						
-						
-						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data, allProblems);
+						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data, allProblems, qs);
 						trafo.appliedQuickfix(qi);
+						
+						if ( qi.getRetypedProblems() != null ) {
+							int newProblems = qi.getOriginalProblems().size() - qi.getRetypedProblems().size();
+							if ( newProblems < 0 ) {
+								errorsGenerated += -1 * newProblems;
+							} else {
+								errorsFixed += newProblems;
+							}
+						}
+						
 						appliedQuickfixesCount++;
 					}
 										
 					// Add to summary
-					qs.appliedQuickfixes(appliedQuickfixesCount);					
+					qs.appliedQuickfixes(appliedQuickfixesCount, errorsFixed, errorsGenerated);					
 				} else {
-					qs.appliedQuickfixes(0);					
+					qs.appliedQuickfixes(0, 0, 0);					
 					printMessage(" - No quickfixes available");
 				}
 				
@@ -339,10 +575,54 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			monitor.done();
 		} catch (Exception e) {
-			printMessage("Error: " + e.getMessage());
+			printMessage("Error " + resource.getName() + e.getMessage());
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Returns the error code for the problem corresponding to the table of the MODELS'15 paper
+	 * 
+	 * @param p
+	 * @return
+	 */
+	private String getErrorCode(Problem p) {
+		if ( p instanceof BindingPossiblyUnresolved || p instanceof BindingWithoutRule ) return "E02";
+		if ( p instanceof BindingWithResolvedByIncompatibleRule) return "E03";
+		if ( p instanceof NoBindingForCompulsoryFeature ) return "E05";
+		if ( p instanceof BindingExpectedOneAssignedMany ) return "E06";
+		if ( p instanceof NoClassFoundInMetamodel ) return "E07";
+		if ( p instanceof IncoherentVariableDeclaration ) return "E08 (var)";
+		if ( p instanceof IncoherentHelperReturnType ) return "E08 (helper)";
+		if ( p instanceof AccessToUndefinedValue ) return "E11";
+		if ( p instanceof FeatureFoundInSubtype ) return "E11";
+		if ( p instanceof FeatureNotFound ) return "E12";
+		if ( p instanceof OperationNotFound ) return "E14 (ctx)";
+		if ( p instanceof OperationNotFoundInThisModule ) return "E14 (mod)";
+		if ( p instanceof CollectionOperationNotFound ) return "E14 (col)";
+		if ( p instanceof FeatureAccessInCollection ) return "E14 (col)";
+		
+		if ( p instanceof OperationOverCollectionType ) return "E18"; // 101
+		if ( p instanceof CollectionOperationOverNoCollectionError ) return "E18"; // 102
+		
+		if ( p instanceof PrimitiveBindingButObjectAssigned ) return "E17"; // 18
+		if ( p instanceof ObjectBindingButPrimitiveAssigned ) return "E17"; // 19 
+		if ( p instanceof PrimitiveBindingInvalidAssignment ) return "E17"; // 20
+		
+		if ( p instanceof InvalidArgument ) return "E15";
+		if ( p instanceof OperationCallInvalidParameter ) return "E15";
+		if ( p instanceof OperationCallInvalidNumberOfParameters ) return "E16";
+		
+		if ( p instanceof InvalidOperand ) return "E15";
+		if ( p instanceof InvalidOperator ) return "E14 (expr)";
+		
+		if ( compactNotClassified ) {
+			return "Other";
+		}
+			
+		
+		return "X-" + AnalyserUtils.getProblemId(p);
 	}
 
 	private List<Problem> selectProblems(List<Problem> problems, AnalysisResult r) {
@@ -352,19 +632,19 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				//WitnessResult result = new StandaloneWitnessFinder().
 				//		checkDiscardCause(false).find(p, r);
 				WitnessResult result = new EclipseUseWitnessFinder().
-						checkProblemsInPath(true).
+						checkProblemsInPath(checkProblemsInPath ).
 						checkDiscardCause(false).find(p, r);
 				
 				switch (result) {
 				case ERROR_CONFIRMED:
 				case ERROR_CONFIRMED_SPECULATIVE:
 					// that's fine						
-					printMessage("Confirmed: " + ((LocalProblem) p).getLocation());
+					// printMessage("Confirmed: " + ((LocalProblem) p).getLocation());
 					allProblems.add(p);
 					break;
 				case ERROR_DISCARDED:
 				case ERROR_DISCARDED_DUE_TO_METAMODEL:
-					printMessage("Discarded: " + ((LocalProblem) p).getLocation());
+					// printMessage("Discarded: " + ((LocalProblem) p).getLocation());
 					continue;
 				case CANNOT_DETERMINE:
 				case INTERNAL_ERROR:
@@ -372,7 +652,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					printMessage("Error: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
 					continue;
 				case PROBLEMS_IN_PATH:
-					printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
+					// printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
 					continue;					
 				}
 			} else {
@@ -388,7 +668,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		;
 	}
 
-	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems) throws IOException, CoreException, Exception {
+	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
 		// Re-execute the analyser to have a fresh copy to apply the quickfix, and then retype
 		AnalyserData newResult = executeAnalyser(resource);
 		if ( newResult.getProblems().size() != original.getProblems().size() ) {
@@ -403,6 +683,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 		quickfix.setErrorMarker(new MockMarker(newProblem, newResult));
 
+		/*
+		 * 		ATLUtils.replacePathTag(atlModel.getRoot(), 
+				info.getConceptMetamodelName(), 
+				info.getBoundMetamodelName(),
+				info.getBoundMetamodelURI());
+		 */
 		
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
 		try { 
@@ -411,17 +697,38 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			String displayString = quickfix.getDisplayString();
 			printMessage("Applying quickfix: " + displayString);
 			
-			qi.setDescription(displayString);
-			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
-			qfa.apply();
-
-			// Serialize, just for testing purposes
+			// Set-up for serialization
+			id++; 
 			IFolder temp = experimentFile.getProject().getFolder("temp");
 			if ( ! temp.exists() ) {
 				temp.create(true, true, null);
 			}
 			
-			IFile f = temp.getFile(resource.getName().replace(".atl", "") + (++id) + ".atl");
+			qi.setDescription(displayString);
+			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
+			qfa.apply();
+			// This is modifying the meta-model in place...
+			
+			if ( quickfix.isMetamodelChanging() ) {
+				ATLModel model = newResult.getAnalyser().getATLModel();
+				newResult.getNamespace().getLogicalNamesToMetamodels().forEach( (name, mmResource) -> {
+				// ATLUtils.getModelInfo(model).stream().map(mi -> mi.getMetamodelName()).distinct().forEach(name -> {					
+					IFile newMM = temp.getFile(name + "_" + id + ".ecore");
+					String newPath = newMM.getFullPath().toPortableString();					
+					
+					ATLUtils.replacePathTag(model.getRoot(), name, name, newPath);
+					
+					try {
+						mmResource.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
+					} catch (Exception e) {
+						qi.setImplError();
+						return;
+					}
+				});	
+			}
+			
+
+			IFile f = temp.getFile(resource.getName().replace(".atl", "") + id + ".atl");
 			
 			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
 			printMessage("Generated quickfixed file" + f.getName());
@@ -441,6 +748,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
 			qi.setRetyped(newResult, newProblems);
+
 			
 		} catch ( UnsupportedOperationException e ) {
 			printMessage("Quickfix not implemented at the AST Level");
@@ -449,6 +757,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			qi.setImplError();
 		}
 		
+		qs.appliedQuickfix(qi);
 		return qi;
 	}
 
@@ -459,11 +768,14 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 	public void printLatexTable(PrintStream out) {
 		out.println("\\begin{table}[h]");
-		out.println("\\begin{tabular}{|p{2.5cm}|l|l|l|l|l|}");
+		out.println("\\caption{Errors detected in the mutated transformations and their fixes}");
+		out.println("\\label{tab:mutant_fixes}");
+		out.println("\\scriptsize");
+		out.println("\\center");
+		out.println("\\begin{tabular}{|p{1cm}|c|c|c|c|c|c|c|}");
 		out.println("\\hline");
-		out.println("Problem        & \\#Prob. & \\#Qfixes & Avg & Min & Max \\\\ \\hline");
-
-		summary.values().forEach(qs -> {
+		out.println(QuickfixSummary.toLatexHeader());
+		summary.values().stream().sorted((q1, q2) -> q1.getLatexDesc().compareTo(q2.getLatexDesc())).forEach(qs -> {
 			out.println(qs.toLatexRow());
 		});
 		

@@ -29,6 +29,14 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	protected IMarker marker;
 
 	/**
+	 * The default value is false.
+	 */
+	@Override
+	public boolean isMetamodelChanging() {
+		return false;
+	}
+	
+	/**
 	 * This method implements the AST manipulation logic by using a QuickfixApplication 
 	 * object to keep track of the changes.
 	 * 

@@ -119,6 +119,11 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 	 * @param self 
 	 */
 	protected void checkReadingTargetModel(OclModelElement self) {
+		if ( true ) {
+			return; // TODO: This is check is not accurate, so it is not performed for the moment
+		}
+		
+		
 		OclModel metamodel = self.getModel();
 		
 		// TODO: Reading target model: Not sure if this may catch false cases

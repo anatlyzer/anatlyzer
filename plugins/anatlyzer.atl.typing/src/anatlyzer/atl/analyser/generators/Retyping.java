@@ -404,7 +404,7 @@ public class Retyping extends AbstractVisitor {
 		/**
 		 * first()  ==>  any(true)
 		 */
-		else if ( self.getOperationName().equals("first") ) {
+		else if ( self.getOperationName().equals("first") || self.getOperationName().equals("last")) {
 			markSeqAsSet(self);
 			
 			IteratorExp any = OCLFactory.eINSTANCE.createIteratorExp();

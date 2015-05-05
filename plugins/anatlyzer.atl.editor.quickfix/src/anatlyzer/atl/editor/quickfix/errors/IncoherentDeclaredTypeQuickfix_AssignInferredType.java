@@ -1,4 +1,4 @@
-package anatlyzer.atl.editor.quickfix.warnings;
+package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
@@ -25,7 +25,7 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * @author jesus
  *
  */
-public class IncoherentDeclaredTypeQuickfix extends AbstractAtlQuickfix {
+public class IncoherentDeclaredTypeQuickfix_AssignInferredType extends AbstractAtlQuickfix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) {

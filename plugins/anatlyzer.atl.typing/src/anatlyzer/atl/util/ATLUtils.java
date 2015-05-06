@@ -675,6 +675,23 @@ public class ATLUtils {
 		return ve;
 	}
 	
+	public static List<VariableExp> findAllVarExp(OclExpression src) {
+		ArrayList<VariableExp> result = new ArrayList<VariableExp>();
+		if ( src instanceof VariableExp ) {
+			result.add((VariableExp) src);
+		}
+
+		TreeIterator<EObject> it = src.eAllContents();
+		while ( it.hasNext() ) {
+			EObject obj = it.next();
+			if ( obj instanceof VariableExp ) {
+				result.add((VariableExp) obj);
+			}
+		}
+		return result;
+	}
+	
+	
 	public static Rule getRule(Binding binding) {
 		return binding.getOutPatternElement().getOutPattern().getRule();
 	}

@@ -22,7 +22,7 @@ public class ErrorMMGenerator extends WitnessGeneratorMemory {
 
 	@Override
 	public boolean generate() throws transException {		
-		adaptMetamodels();
+		adaptMetamodels(1);
 		
 		Resource r = getErrorMM().eResource();
 		if ( r == null ) {

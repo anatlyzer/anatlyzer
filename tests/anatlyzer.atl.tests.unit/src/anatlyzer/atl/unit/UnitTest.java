@@ -8,6 +8,10 @@ public class UnitTest extends BaseTest {
 	protected String XML2CPL_XML = metamodel("xml2cpl/XML");
 	protected String XML2CPL_CPL = metamodel("xml2cpl/CPL");
 	
+	protected String PNML2PETRINET_PNML = metamodel("pnml2petrinet/PNML_simplified");
+	protected String PNML2PETRINET_PETRINET = metamodel("pnml2petrinet/PetriNet");
+	
+	
     protected String testr(String dir, String name) {
         return dir + "/" + getClass().getPackage().getName().replace(".", "/") + "/" + name;
     }

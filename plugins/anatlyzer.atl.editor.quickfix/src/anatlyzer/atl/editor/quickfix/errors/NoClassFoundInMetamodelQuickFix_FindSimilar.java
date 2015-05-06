@@ -19,7 +19,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 
-public class NoClassFoundInMetamodelQuickFix extends AbstractAtlQuickfix  {
+public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuickfix  {
 
 	private IMarker marker;
 	private String  closest = null;

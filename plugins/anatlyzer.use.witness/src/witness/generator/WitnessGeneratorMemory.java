@@ -38,11 +38,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	public boolean generate() throws transException {		
-		adaptMetamodels();
-		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
 		}
+		
+		adaptMetamodels(index);
 		
 		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
 		return witness != null;
@@ -54,7 +54,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	
-	protected void adaptMetamodels() {
+	protected void adaptMetamodels(int idx) {
 		// extend error meta-model with mandatory classes in effective meta-model 
 		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
 	
@@ -66,9 +66,9 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		extendMetamodelWithInstanceTypeNames4DataTypes(errorMM);
 	
 		// copy uri/name/prefix from the language meta-model to the extended error meta-model
-		errorMM.setName    (languageMM.getName());
-		errorMM.setNsPrefix(languageMM.getNsPrefix());
-		errorMM.setNsURI   (languageMM.getNsURI()!=null?languageMM.getNsURI():effectiveMM.getNsURI());
+		errorMM.setName    (languageMM.getName() + idx);
+		errorMM.setNsPrefix(languageMM.getNsPrefix() + idx);
+		errorMM.setNsURI   ((languageMM.getNsURI()!=null?languageMM.getNsURI():effectiveMM.getNsURI()) + "/" + idx);
 
 		addBaseObject(errorMM);
 		changeNamesToResolveConflicts(errorMM, new USENameModifyier());

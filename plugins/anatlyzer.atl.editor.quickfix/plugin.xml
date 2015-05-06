@@ -73,12 +73,6 @@
    </extension>
    <extension
          point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix">
-      </quickfix>
-   </extension>
-   <extension
-         point="anatlyzer.atl.editor.quickfix">
       <quickfixset
             detector="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundInThisModuleQuickfixSet">
       </quickfixset>
@@ -171,6 +165,14 @@
          point="anatlyzer.atl.editor.quickfix">
       <quickfixset
             detector="anatlyzer.atl.editor.quickfix.kinds.OperationCallInvalidNumberOfParametersQuickfixSet">
+      </quickfixset>
+   </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickfixSet"
+         name="Quickfixes for &quot;No class found in meta-model &quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.NoClassFoundInMetamodel_QuickfixSet">
       </quickfixset>
    </extension>
 </plugin>

@@ -44,7 +44,7 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		ErrorPathGenerator pathgen = new ErrorPathGenerator(result.getAnalyser().getATLModel());		
 		ProblemPath path = pathgen.generatePath(p);
 		OclExpression expr = path.getWeakestPrecondition();
-
+		
 		QuickfixApplication qfa = new QuickfixApplication();
 		qfa.addCommentBefore(getATLModel().getRoot(), () -> {
 			USEConstraint useConstraint = USESerializer.retypeAndGenerate(expr, path);	

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+
+
+
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -22,6 +25,12 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.Activator;
@@ -56,7 +65,8 @@ import anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_A
 import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_AddBinding;
 import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilar;
-import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix;
+import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_FindSimilar;
 import anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
@@ -170,15 +180,17 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 
 		public String toLatexRow() {
-			String first = getLatexDesc() + " & " + totalProblems + " & " + totalQuickfixes + " & " + formatDouble(getAvg()) + " & " + minQuickfixes + " & " + maxQuickfixes + " & " + totalErrorsFixed + " & " + totalErrorsGenerated+ "\\\\ \\hline" ;
+			String first = "{\\bf " + getLatexDesc() + "} & " + totalProblems + " & " + totalQuickfixes + " & " + formatDouble(getAvg()) + " & " + minQuickfixes + " & " + maxQuickfixes + " & " + totalErrorsFixed + " & " + totalErrorsGenerated+ "\\\\ \\hline" ;
 			List<String> lines = new ArrayList<String>();
 			lines.add(first);
-			quickfixesByType.forEach((k, list) -> {
+			quickfixesByType.keySet().stream().sorted((k1, k2) -> k1.compareTo(k2)).forEach(k -> {
+				List<AppliedQuickfixInfo> list = quickfixesByType.get(k);
+				
 				int totalQuickfix = list.size();
 				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
 				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
 				
-				String line = "~~~" + k + " & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
+				String line = "~~~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
 				lines.add(line);
 			});
 			
@@ -274,11 +286,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			if ( quickfix instanceof BindingExpectedOneAssignedMany_SelectFirst ) return "Q6.1";
 			
-			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix ) return "Q7.1";
+			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_FindSimilar ) return "Q7.1";
 			if ( quickfix instanceof NoModelFoundQuickfix_ChooseExistingOne ) return "Q7.1"; // in some way it is similar to 7.1
-			
-			// TODO: 7.2, add type to the meta-model
-			
+			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_ChangeMetamodel ) return "Q7.2"; 
+
 			if ( quickfix instanceof IncoherentHelperReturnTypeQuickfix_AssignInferredType ) return "Q8.1";
 			if ( quickfix instanceof IncoherentDeclaredTypeQuickfix_AssignInferredType ) return "Q8.1";
 			
@@ -295,8 +306,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 			if ( quickfix instanceof AccessToUndefinedValue_ChangeMetamodel ) return "Q10.1";
 			
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.1";
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_CreateHelper) return "Q11.2";
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_CreateHelper) return "Q11.1";
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.2";
 			
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
 			if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
@@ -458,7 +469,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		counting.showRepetitionDetails(false);
 	}
 
-	private static int id = 0;
+	private int id = 0;
 
 	@Override
 	public void projectDone(IProject project) {
@@ -511,6 +522,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				if ( monitor.isCanceled() ) {
 					return;
 				}
+				
+//				if ( ! getErrorCode(p).equals("E05") ) {
+//					continue;
+//				}
 				
 				// Get summary and initialize if needed
 				QuickfixSummary qs = summary.get(getErrorCode(p));
@@ -597,7 +612,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		if ( p instanceof NoClassFoundInMetamodel ) return "E07";
 		if ( p instanceof IncoherentVariableDeclaration ) return "E08 (var)";
 		if ( p instanceof IncoherentHelperReturnType ) return "E08 (helper)";
-		if ( p instanceof AccessToUndefinedValue ) return "E11";
+		if ( p instanceof AccessToUndefinedValue ) return "E10";
 		if ( p instanceof FeatureFoundInSubtype ) return "E11";
 		if ( p instanceof FeatureNotFound ) return "E12";
 		if ( p instanceof OperationNotFound ) return "E14 (ctx)";
@@ -631,9 +646,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		ArrayList<Problem> allProblems = new ArrayList<Problem>();
 		for (Problem p : problems) {
 			if ( useCSP && requireCSP(p) ) {
-				//WitnessResult result = new StandaloneWitnessFinder().
-				//		checkDiscardCause(false).find(p, r);
+//				WitnessResult result = new StandaloneWitnessFinder().
+//						checkProblemsInPath(checkProblemsInPath ).
+//						checkDiscardCause(false).
+//						find(p, r);
 				WitnessResult result = new EclipseUseWitnessFinder().
+						
 						checkProblemsInPath(checkProblemsInPath ).
 						checkDiscardCause(false).find(p, r);
 				
@@ -651,7 +669,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				case CANNOT_DETERMINE:
 				case INTERNAL_ERROR:
 				case NOT_SUPPORTED_BY_USE:
-					printMessage("Error: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
+					printMessage("USE ERROR: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
 					continue;
 				case PROBLEMS_IN_PATH:
 					// printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
@@ -682,17 +700,21 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		if ( ! newProblem.getLocation().equals(((LocalProblem) p).getLocation()) ) {
 			throw new IllegalStateException("This should not happen");
 		}
-		
+
 		quickfix.setErrorMarker(new MockMarker(newProblem, newResult));
 
-		/*
-		 * 		ATLUtils.replacePathTag(atlModel.getRoot(), 
-				info.getConceptMetamodelName(), 
-				info.getBoundMetamodelName(),
-				info.getBoundMetamodelURI());
-		 */
-		
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
+		
+		
+//		if ( getErrorCode(p).equals("E05") ) {
+//			System.out.println("\n" + qi.getCode() + " " + getErrorCode(p) + "--" + ((LocalProblem) p).getLocation() + ((LocalProblem) p).getFileLocation());
+//			System.out.println("-");
+//		} else {
+//			System.out.println("\n" + getErrorCode(p) + "--" + ((LocalProblem) p).getLocation() + ((LocalProblem) p).getFileLocation());
+//			return qi;
+//		}
+
+		
 		try { 
 			// getDisplayString() may have implementation errors, so it needs to be called
 			//                    within the try-catch
@@ -721,7 +743,17 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					ATLUtils.replacePathTag(model.getRoot(), name, name, newPath);
 					
 					try {
-						mmResource.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
+						XMIResourceImpl res = new XMIResourceImpl();
+						res.getContents().addAll(EcoreUtil.copyAll(mmResource.getContents()));
+						res.getContents().forEach(obj -> {
+							EPackage pkg = ((EPackage) obj);
+							String uri = pkg.getNsURI() == null ? name : pkg.getNsURI();
+							pkg.setNsURI(uri + "/" + id);
+						});
+						
+						res.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
+						
+						// mmResource.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
 					} catch (Exception e) {
 						qi.setImplError();
 						return;
@@ -751,6 +783,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
 			qi.setRetyped(newResult, newProblems);
 
+//			if ( qi.getCode().equals("Q4.1") ) {
+//				printMessage("DEBUG: " +  qi.getNumOfFixes() + " - " + p.getDescription() + " - " + ((LocalProblem) p).getLocation() + " - " + ((LocalProblem) p).getFileLocation() );
+//				System.out.println("--");
+//			}
 			
 		} catch ( UnsupportedOperationException e ) {
 			printMessage("Quickfix not implemented at the AST Level");

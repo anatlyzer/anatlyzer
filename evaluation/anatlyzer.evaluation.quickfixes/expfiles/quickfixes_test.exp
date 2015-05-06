@@ -22,7 +22,7 @@ files:
 ######### CPL2SPL ############
 # 
 files: 
-- path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
+# - path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
 - path: /CPL2SPL_UseCase/CPL2SPL_no_recursion.atl
 #
 ##############################

@@ -2,25 +2,23 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.swt.graphics.Point;
 
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.OutPatternElement;
 
-public class NoRuleForBindingQuickfix_RemoveBinding extends AbstractAtlQuickfix {
+public class NoRuleForBindingQuickfix_RemoveBinding extends BindingProblemQuickFix {
 
 	public NoRuleForBindingQuickfix_RemoveBinding() {
 	}
 
 	@Override
-	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, BindingWithoutRule.class);
+	public boolean isApplicable(IMarker marker) throws CoreException {
+		return checkProblemType(marker, BindingWithoutRule.class) 
+			&& isOptionalFeature((BindingProblem) getProblem(marker));
 	}
 
 	@Override

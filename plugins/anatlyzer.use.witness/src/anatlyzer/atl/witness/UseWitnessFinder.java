@@ -179,7 +179,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
 		generator.setMinScope(1);
-		generator.setMaxScope(4);
+		generator.setMaxScope(5);
 		for (String pre : preconditions) {
 			generator.addAdditionaConstraint(pre);
 		}

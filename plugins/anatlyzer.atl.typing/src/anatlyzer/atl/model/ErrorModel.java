@@ -468,7 +468,7 @@ public class ErrorModel {
 		error.setFeatureName(b.getPropertyName());
 		
 
-		signalError(error, "No rule for binding", b);		
+		signalError(error, "No rule for binding: " + right.getKlass().getName(), b);		
 	}
 	
 	public Type signalResolveTempWithoutRule(OperationCallExp resolveTempOperation, Type sourceType) {

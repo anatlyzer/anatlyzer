@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
@@ -240,8 +241,9 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 	}
 	
 	protected boolean isOptionalFeature(BindingProblem problem) {
-		return 	problem.getFeature() != null &&
-				problem.getFeature().getLowerBound() == 0;
+		Binding b = (Binding) problem.getElement();
+		return 	b.getWrittenFeature() != null &&
+				((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0;
 	}
 	
 	protected OclExpression copyFilter(VariableDeclaration var, MatchedRule r) {

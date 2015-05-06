@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.text.IDocument;
 
@@ -74,18 +75,28 @@ public class NoBindingForCompulsoryFeature_FindSimilar extends AbstractAtlQuickf
 				filter(b -> b.getWrittenFeature() == feature ).collect(Collectors.toList());
 			
 			Optional<Binding> result = candidates.stream().filter(b -> {		
-				VariableExp vexp = ATLUtils.findStartingVarExp(b.getValue());
-				
-				// The expression starts with an element matched by the rule
-				if ( vexp != null && vexp.getReferredVariable() instanceof InPatternElement ) {
-					Metaclass ruleType = (Metaclass) vexp.getReferredVariable().getInferredType();
-					Metaclass containingType = ATLUtils.getInPatternType(containingRule);
-					
-					// The object in the current rule (containingType) must be the same or a subtype.
-					return TypeUtils.isClassAssignableTo(containingType.getKlass(), ruleType.getKlass());
-				}
+				List<VariableExp> vexps = ATLUtils.findAllVarExp(b.getValue());
+				Metaclass containingType = ATLUtils.getInPatternType(containingRule);
 
-				return false;
+				return vexps.stream().allMatch(vexp -> {				
+					// The expression starts with an element matched by the rule
+					if ( vexp.getReferredVariable() instanceof InPatternElement ) {
+						EObject container = vexp.eContainer();
+						if ( container instanceof NavigationOrAttributeCallExp && ((NavigationOrAttributeCallExp) container).getUsedFeature() != null ) {
+							NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) container;
+							return containingType.getKlass().getEAllStructuralFeatures().contains(nav.getUsedFeature());							
+						} else {						
+							Metaclass ruleType = (Metaclass) vexp.getReferredVariable().getInferredType();
+							
+							// The object in the current rule (containingType) must be the same or a subtype.
+							return TypeUtils.isClassAssignableTo(containingType.getKlass(), ruleType.getKlass());
+						}
+					} else if ( vexp.getReferredVariable().getVarName().equals("thisModule") ) {
+						return true;
+					} else {
+						return false;
+					}
+				});
 			}).findAny();
 
 			
@@ -129,16 +140,51 @@ public class NoBindingForCompulsoryFeature_FindSimilar extends AbstractAtlQuickf
 			newBinding.setPropertyName(similarBinding.getPropertyName());
 
 			// The starting variable must point to an InPatternElement according to findSimilar
-			VariableExp vexp = ATLUtils.findStartingVarExp(similarBinding.getValue());
-			if ( ! ( vexp.getReferredVariable() instanceof InPatternElement ) ) {
-				throw new IllegalStateException();
-			}
+//			VariableExp vexp = ATLUtils.findStartingVarExp(similarBinding.getValue());
+//			if ( ! ( vexp.getReferredVariable() instanceof InPatternElement ) ) {
+//				throw new IllegalStateException();
+//			}
 			
 			// Finger crossed that there is only one reference to a VariableDeclaration
 			// if not, this is not going to generate a syntacticallly correct expression
-			OclExpression value = (OclExpression) new ATLCopier(similarBinding.getValue()).
-				bind(vexp.getReferredVariable(), rule.getInPattern().getElements().get(0)).
-				copy();
+//			OclExpression value = (OclExpression) new ATLCopier(similarBinding.getValue()).
+//				bind(vexp.getReferredVariable(), rule.getInPattern().getElements().get(0)).
+//				copy();
+	
+			ATLCopier copier = new ATLCopier(similarBinding.getValue());
+			List<VariableExp> vexps = ATLUtils.findAllVarExp(similarBinding.getValue());
+			vexps.stream().
+				filter(vexp -> ! (vexp.getReferredVariable().getVarName().equals("thisModule"))).
+				forEach(vexp -> {
+					copier.bind(vexp.getReferredVariable(), rule.getInPattern().getElements().get(0));
+				});
+			OclExpression value = (OclExpression) copier.copy();
+			
+			/* 
+			 * 				List<VariableExp> vexps = ATLUtils.findAllVarExp(b.getValue());
+				Metaclass containingType = ATLUtils.getInPatternType(containingRule);
+
+				return vexps.stream().allMatch(vexp -> {				
+					// The expression starts with an element matched by the rule
+					if ( vexp.getReferredVariable() instanceof InPatternElement ) {
+						EObject container = vexp.eContainer();
+						if ( container instanceof NavigationOrAttributeCallExp && ((NavigationOrAttributeCallExp) container).getUsedFeature() != null ) {
+							NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) container;
+							return containingType.getKlass().getEAllStructuralFeatures().contains(nav.getUsedFeature());							
+						} else {						
+							Metaclass ruleType = (Metaclass) vexp.getReferredVariable().getInferredType();
+							
+							// The object in the current rule (containingType) must be the same or a subtype.
+							return TypeUtils.isClassAssignableTo(containingType.getKlass(), ruleType.getKlass());
+						}
+					} else if ( vexp.getReferredVariable().getVarName().equals("thisModule") ) {
+						return true;
+					} else {
+						return false;
+					}
+				});
+
+			 */
 			
 			newBinding.setValue(value);
 			

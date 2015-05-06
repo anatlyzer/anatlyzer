@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -18,7 +19,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.ATL.Unit;
 
 /**
  * This class represents a modification in the AST, allowing
@@ -119,6 +119,12 @@ public class QuickfixApplication {
 		modifyer.accept(klass);
 		mmActions.add(new MMAction(metamodelName));
 	}
+	
+	public void mmModify(EPackage pkg, String metamodelName, Consumer<EPackage> modifyer) {
+		modifyer.accept(pkg);
+		mmActions.add(new MMAction(metamodelName));
+	}
+	
 	
 	public static class Trace {
 		LinkedList<Object> preservedElements = new LinkedList<Object>();
@@ -286,6 +292,5 @@ public class QuickfixApplication {
 			}
 		});
 	}
-
 
 }

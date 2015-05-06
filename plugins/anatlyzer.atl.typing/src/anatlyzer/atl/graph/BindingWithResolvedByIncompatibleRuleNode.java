@@ -89,6 +89,10 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 	
 	@Override
 	public OclExpression genCSP(CSPModel model) {
+		return genProblemSpecificCondition(model);
+	}
+
+	protected OclExpression genProblemSpecificCondition(CSPModel model) {
 		OclExpression result = null;
 		EList<ResolvedRuleInfo> rules = problem.getRules();
 		assert(rules.size() > 0);
@@ -142,6 +146,11 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		return result;
 	}
 
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		return genProblemSpecificCondition(model);
+	}
+	
 	private LetExp createReferenceConstraint(CSPModel model,
 			EList<ResolvedRuleInfo> rules, OclExpression value) {
 		LetExp let = model.createLetScope(value, null, "_problem_");

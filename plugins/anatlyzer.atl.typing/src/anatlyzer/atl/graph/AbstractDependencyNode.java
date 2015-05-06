@@ -195,7 +195,6 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 		
 	}
 	
-	
 	public boolean leadsToExecution() {
 		return this.leadsToExecution;
 	}

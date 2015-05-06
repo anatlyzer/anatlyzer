@@ -150,4 +150,9 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		throw new IllegalStateException();
 	}
 
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+
 }

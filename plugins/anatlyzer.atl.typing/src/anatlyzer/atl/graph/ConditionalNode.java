@@ -74,7 +74,11 @@ public class ConditionalNode extends AbstractDependencyNode {
 		return exp;
 	}
 
-
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		// For the moment just gathering the enclosing element

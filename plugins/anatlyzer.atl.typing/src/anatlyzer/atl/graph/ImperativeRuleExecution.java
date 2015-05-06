@@ -105,6 +105,11 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 	}
 
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return getDepending().isVarRequiredByErrorPath(v);
 	}

@@ -61,6 +61,11 @@ public class LoopNode extends AbstractDependencyNode {
 	}
 
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		// For the moment just gathering the enclosing element
 		for(DependencyNode n : dependencies) {

@@ -51,4 +51,8 @@ public class RuleFilterNode implements ConstraintNode {
 		return model.gen(expr);
 	}
 
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
 }

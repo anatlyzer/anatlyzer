@@ -9,6 +9,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 
 public interface GraphNode {
 	OclExpression   genCSP(CSPModel model);
+	OclExpression   genWeakestPrecondition(CSPModel model);
 	
 	void genErrorSlice(ErrorSlice slice);
 	void genTransformationSlice(TransformationSlice slice);

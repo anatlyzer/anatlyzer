@@ -1,5 +1,6 @@
 package witness.generator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
+import transML.utils.solver.use.Solver_use;
 
 // Just for the moment
 public class WitnessGeneratorMemory extends WitnessGenerator {
@@ -46,6 +48,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return witness != null;
 	}
 
+	private ArrayList<String> additionalConstraints = new ArrayList<String>();
+	public void addAdditionaConstraint(String constraint) {
+		this.additionalConstraints.add(constraint);
+	}
+	
+	
 	protected void adaptMetamodels() {
 		// extend error meta-model with mandatory classes in effective meta-model 
 		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
@@ -148,10 +156,14 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	 */
 	@Override
 	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
-		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope);
+		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
 	}
 	
 	public static String generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope) throws transException {
+		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, new ArrayList<String>());
+	}
+		
+	public static String generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
 
 		// load properties file (it requires full path)
 		/*
@@ -167,10 +179,18 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		transMLProperties.setProperty("solver", "use");
 		
 		// generate witness 
-		List<String> ocl_constraints = Arrays.asList(ocl_constraint);
+		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
 		String metamodelName = metamodel.getName();
 		metamodel.setName("metamodel_"+index);		
+		
 		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
+		// Solver_use solver = (Solver_use) FactorySolver.getInstance().createSolverWrapper();
+		
+		for (String string : additionalConstraints) {
+			ocl_constraints.add(string);
+		}
+		
+		
 		String model = null;
 		//root = metamodel.getEClassifier("SubAction");
 		try {

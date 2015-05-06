@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.Unit;
 
 /**
  * This class represents a modification in the AST, allowing
@@ -101,6 +102,13 @@ public class QuickfixApplication {
 		actions.add(new PutInAction(receptor, feature, newObj));
 	}
 
+
+	public void addCommentBefore(LocatedElement el, Supplier<String> generator) {
+		String comment = generator.get();
+		el.getCommentsBefore().add(comment);
+		actions.add(new AddCommentBefore(el, comment));
+	}
+	
 	public void mmModify(EStructuralFeature feature, String metamodelName, Consumer<EStructuralFeature> modifyer) {
 		modifyer.accept(feature);
 		mmActions.add(new MMAction(metamodelName));
@@ -154,6 +162,25 @@ public class QuickfixApplication {
 
 		public Trace getTrace() {
 			return trace;
+		}
+	}
+
+	public static class AddCommentBefore extends Action {
+		private LocatedElement src;
+		private String comment;
+
+		public AddCommentBefore(LocatedElement src, String comment) {
+			super(null, new Trace());
+			this.comment = comment;
+			this.src = src;
+		}
+
+		public LocatedElement getElement() {
+			return src;
+		}
+		
+		public String getComment() {
+			return comment;
 		}
 	}
 	
@@ -259,5 +286,6 @@ public class QuickfixApplication {
 			}
 		});
 	}
+
 
 }

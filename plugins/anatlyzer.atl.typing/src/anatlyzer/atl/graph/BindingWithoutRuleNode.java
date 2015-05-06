@@ -85,6 +85,12 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 		return result;
 	}
 
+
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
 	private OperatorCallExp createReferenceConstraint(CSPModel model, OclExpression value) {
 		return model.negateExpression(model.createOperationCall(value, "oclIsUndefined"));
 	}

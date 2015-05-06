@@ -56,6 +56,11 @@ public class ProblemPath implements IDetectedProblem {
 		return CSPGenerator.generateCSPCondition(this);
 	}
 
+
+	public OclExpression getWeakestPrecondition() {
+		return CSPGenerator.generateWeakestPrecondition(this);
+	}
+
 	
 	/**
 	 * Checks whether a given problem is in the path.

@@ -45,6 +45,12 @@ public class NoBindingAssignmentNode extends AbstractBindingAssignmentNode<NoBin
 	}
 
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+
+	
+	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		// Do nothing
 	}
@@ -58,5 +64,7 @@ public class NoBindingAssignmentNode extends AbstractBindingAssignmentNode<NoBin
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return false;
 	}
+
+
 
 }

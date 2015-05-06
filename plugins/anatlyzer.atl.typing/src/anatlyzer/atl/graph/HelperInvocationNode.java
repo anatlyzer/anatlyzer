@@ -67,6 +67,11 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 	public OclExpression genCSP(CSPModel model) {	
 		return getDepending().genCSP(model);
 	}
+	
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {

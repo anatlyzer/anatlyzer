@@ -11,6 +11,7 @@ import org.eclipse.jface.text.IDocumentExtension4;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
+import anatlyzer.atl.quickfixast.QuickfixApplication.AddCommentBefore;
 import anatlyzer.atl.quickfixast.QuickfixApplication.DeleteAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
@@ -48,8 +49,22 @@ public class InDocumentSerializer extends ATLSerializer {
 	
 				this.currentAction = a;
 				
-				startVisiting(a.getTgt());
+				// Special action that does not have a tgt
+				if ( a instanceof AddCommentBefore ) {
+					LocatedElement element = ((AddCommentBefore) a).getElement();
+					String comment  = ((AddCommentBefore) a).getComment();
+					int[] offsets = help.getIndexChar(element.getLocation());
+
+					int start = offsets[0];
+					int length = 0;
+					String s = comment + "\n";
+					
+					document.replace(start, length, s);
+					return;
+				}
 				
+				
+				startVisiting(a.getTgt());
 				String s = g(a.getTgt());
 				
 				int start  = -1;

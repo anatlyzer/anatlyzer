@@ -78,7 +78,13 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 		
 		return result;		
 	}
-		
+	
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+
+
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		slice.addRule(this.rule);
@@ -94,6 +100,5 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 			return true;
 		return getDepending().isVarRequiredByErrorPath(v);
 	}
-
 	
 }

@@ -45,6 +45,12 @@ public class BindingTargetFeatureNotFound extends AbstractBindingAssignmentNode<
 		return model.createBooleanLiteral(true);
 	}
 
+
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		// Do nothing

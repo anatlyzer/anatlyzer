@@ -65,6 +65,12 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 	public OclExpression genCSP(CSPModel model) {
 		throw new UnsupportedOperationException(binding.getLocation());
 	}
+
+
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {

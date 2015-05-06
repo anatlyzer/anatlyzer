@@ -56,6 +56,11 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 	}
 
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		throw new UnsupportedOperationException();
 	}
@@ -69,5 +74,5 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {
 		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
 	}
-	
+
 }

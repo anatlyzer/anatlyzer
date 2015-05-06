@@ -134,6 +134,10 @@ public class CallExprNode extends AbstractDependencyNode {
 		}
 	}
 
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
 
 	private List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {
 		ArrayList<VariableDeclaration> selfs = new ArrayList<VariableDeclaration>();

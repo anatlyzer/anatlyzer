@@ -63,6 +63,11 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	}
 	
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
 	public void genTransformationSlice(TransformationSlice slice) {
 		throw new UnsupportedOperationException();
 	}

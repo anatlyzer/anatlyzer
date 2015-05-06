@@ -1,5 +1,8 @@
 package anatlyzer.atl.witness;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
@@ -24,8 +27,11 @@ import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
@@ -38,6 +44,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private EPackage errorSliceMM;
 	private boolean checkDiscardCause = true;
 	private boolean checkProblemsInPath;
+	private boolean checkPreconditions = true;
 
 	@Override
 	public WitnessResult find(Problem problem, AnalysisResult r) {
@@ -72,12 +79,25 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 	
+	@Override
+	public IWitnessFinder checkPreconditions(boolean b) {
+		this.checkPreconditions   = b;
+		return this;
+	}
 	
 	
 	@Override
 	public WitnessResult find(IDetectedProblem problem, AnalysisResult r) {
 		this.analyser = r.getAnalyser();
 
+		List<String> preconditions;
+		if ( checkPreconditions ) {
+			preconditions = getPreconditions(analyser.getATLModel());
+		} else {
+			preconditions = Collections.emptyList();
+		}
+		
+		
 		OclExpression constraint = problem.getWitnessCondition(); 
 		if ( constraint == null ) {
 			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
@@ -92,7 +112,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
-		WitnessResult result = applyUSE(problem, strConstraint, false);
+		WitnessResult result = applyUSE(problem, strConstraint, false, preconditions);
 		if ( checkDiscardCause && result == WitnessResult.ERROR_DISCARDED ) {
 			WitnessResult result2 = applyUSE(problem, "true", true);
 			if ( result2 == WitnessResult.ERROR_DISCARDED ) {
@@ -106,7 +126,41 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 
+	private List<String> getPreconditions(ATLModel atlModel) {
+		String tag = "@pre";
+		Unit root = atlModel.getRoot();
+		
+		List<String> result = new ArrayList<String>();
+		for (int i = 0; i < root.getCommentsBefore().size(); i++) {
+			String line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
+			int index   = line.indexOf(tag);
+			String pre  = null;
+			if ( index != -1 ) {
+				pre = line.substring(index + tag.length());
+				for(i = i + 1; i < root.getCommentsBefore().size(); i++) {
+					line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
+					if ( line.isEmpty() || line.startsWith("@") ) {
+						break;
+					}
+					pre += "\n\t" + line;
+				}
+				
+			}		
+			
+			if ( pre != null ) {
+				result.add(pre);
+			}
+		}
+		
+		return result;
+	}
+
 	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+		return applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
+	}
+	
+	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
+
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		if ( slice.hasHelpersNotSupported() )
 			return WitnessResult.NOT_SUPPORTED_BY_USE;
@@ -126,6 +180,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
 		generator.setMinScope(1);
 		generator.setMaxScope(4);
+		for (String pre : preconditions) {
+			generator.addAdditionaConstraint(pre);
+		}
+		
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}

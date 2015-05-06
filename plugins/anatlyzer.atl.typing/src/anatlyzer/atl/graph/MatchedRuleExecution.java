@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import java.util.HashMap;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -12,6 +13,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -51,6 +53,10 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 
 	@Override
 	public OclExpression genCSP(CSPModel model) {
+		return genPathCondition(model, (m) -> getDepending().genCSP(m));
+	}
+
+	protected OclExpression genPathCondition(CSPModel model, Function<CSPModel, OclExpression> generator) {
 		Metaclass[] patternTypes = ATLUtils.getAllPatternTypes(rule);
 		IteratorExp exists = null;
 		IteratorExp existsOuter = null;
@@ -143,12 +149,12 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			
 			// => set <? : whenFilter>
 			mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
-			OclExpression whenFilterExpr = getDepending().genCSP(model);
+			OclExpression whenFilterExpr = generator.apply(model); // getDepending().genCSP(model);
 			ifExp.setThenExpression(whenFilterExpr);
 		} else {
 			// set <? : allInstancesBody>
 			mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
-			OclExpression whenFilterExpr = getDepending().genCSP(model);
+			OclExpression whenFilterExpr = generator.apply(model); // getDepending().genCSP(model);
 
 			// set <? : allInstancesBody>
 			if ( letUsingDeclarations  == null )
@@ -174,6 +180,22 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		mapSuperRuleVariables(mappedVars, (MatchedRule) superRule.getSuperRule(), model);
 		
 	}
+	
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		Metaclass[] patternTypes = ATLUtils.getAllPatternTypes(rule);
+		if ( patternTypes.length > 1 ) {
+			throw new UnsupportedOperationException();
+		}
+		
+		OperationCallExp allInstancesCall = model.createAllInstances(patternTypes[0]);
+		CollectionOperationCallExp isEmpty = model.createCollectionOperationCall(allInstancesCall, "isEmpty");
+		
+		OclExpression rest = genPathCondition(model, (m) -> getDepending().genWeakestPrecondition(m));
+		
+		return model.createBinaryOperator(isEmpty, model.negateExpression(rest), "or");
+	}
+
 		
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {

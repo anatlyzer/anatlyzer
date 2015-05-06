@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.generators;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ExecutionNode;
@@ -46,8 +47,15 @@ public class CSPGenerator {
 	}
 
 	
-	public static OclExpression generateCSPCondition(ProblemPath path) {
-		
+	public static OclExpression generateCSPCondition(ProblemPath path) {		
+		return genCondition(path, (node, model) -> node.genCSP(model));
+	}
+
+	public static OclExpression generateWeakestPrecondition(ProblemPath path) {
+		return genCondition(path, (node, model) -> node.genWeakestPrecondition(model));
+	}
+	
+	protected static OclExpression genCondition(ProblemPath path, BiFunction<ExecutionNode, CSPModel, OclExpression> generator) {
 		if ( path.getExecutionNodes().size() == 0 ) {
 			// TODO: Dead code: Signal this otherwise
 			return null;
@@ -63,7 +71,7 @@ public class CSPGenerator {
 		for (ExecutionNode node : path.getExecutionNodes()) {		
 			model.resetScope();
 			
-			OclExpression exp = node.genCSP(model);
+			OclExpression exp = generator.apply(node, model); // node.genCSP(model);
 			if ( orOp == null ) {
 				orOp = exp;
 			} else {
@@ -80,6 +88,7 @@ public class CSPGenerator {
 		
 		return ctx;
 	}
+
 
 
 }

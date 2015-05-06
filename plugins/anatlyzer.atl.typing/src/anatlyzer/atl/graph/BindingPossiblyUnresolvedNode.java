@@ -85,24 +85,28 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 	@Override
 	public OclExpression genCSP(CSPModel model) {
+		return genProblemSpecificCondition(model, "and");
+	}
+
+	protected OclExpression genProblemSpecificCondition(CSPModel model, String operator) {
 		OclExpression result = null;
 		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
 		assert(rules.size() > 0);
 		
 		OclExpression value = genBindingRightPart(model, binding);		
 		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding)) ) {
-			result = createReferenceConstraint(model, rules, value);
+			result = createReferenceConstraint(model, rules, value, operator);
 		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {		
 			IteratorExp exists = model.createExists(value, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genAndRules(model, rules, varDcl);
+			OclExpression lastExpr = genAndRules(model, rules, varDcl, operator);
 			
 			exists.setBody(lastExpr);
 			
 			result = exists;
 		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
-			result = createReferenceConstraint(model, rules, value);
+			result = createReferenceConstraint(model, rules, value, operator);
 		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
 			CollectionOperationCallExp flattened = model.createCollectionOperationCall(value, "flatten");
 			
@@ -110,7 +114,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			IteratorExp exists = model.createExists(flattened, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genAndRules(model, rules, varDcl);
+			OclExpression lastExpr = genAndRules(model, rules, varDcl, operator);
 			
 			exists.setBody(lastExpr);
 			result = exists;
@@ -122,13 +126,18 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return result;
 	}
 
-
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		return genProblemSpecificCondition(model, "or");
+	}
+	
+	
 	private LetExp createReferenceConstraint(CSPModel model,
-			List<RuleResolutionInfo> rules, OclExpression value) {
+			List<RuleResolutionInfo> rules, OclExpression value, String operator) {
 		LetExp let = model.createLetScope(value, null, "_problem_");
 		VariableDeclaration varDcl = let.getVariable();
 		
-		OclExpression andRules = genAndRules(model, rules, varDcl);
+		OclExpression andRules = genAndRules(model, rules, varDcl, operator);
 		
 		// => not varDcl.oclIsUndefined()
 		VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
@@ -140,7 +149,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	private OclExpression genAndRules(CSPModel model,
-			List<RuleResolutionInfo> rules, VariableDeclaration varDcl) {
+			List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
 		
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {
@@ -179,7 +188,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			if ( lastExpr == null ) {
 				lastExpr = negatedIf;
 			} else {
-				lastExpr = model.createBinaryOperator(lastExpr, negatedIf, "and");
+				lastExpr = model.createBinaryOperator(lastExpr, negatedIf, operator);
 			}
 		}
 		return lastExpr;

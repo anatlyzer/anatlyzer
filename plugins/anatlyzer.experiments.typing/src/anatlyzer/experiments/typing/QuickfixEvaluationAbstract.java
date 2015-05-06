@@ -30,6 +30,7 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfixSet;
 import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
+import anatlyzer.atl.editor.quickfix.GeneratePrecondition;
 import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
@@ -248,7 +249,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof BindingPossiblyUnresolved_FilterBinding ||
 				 quickfix instanceof BindingInvalidTargetInResolvedRule_FilterBinding ) return "Q1.3";
 				
-			// TODO: Q1.4 Generate precondition
+			if ( quickfix instanceof GeneratePrecondition ) 
+				return "Q1.4";
 			
 			if ( quickfix instanceof BindingPossiblyUnresolved_AddRule ) return "Q2.1";
 			if ( quickfix instanceof NoRuleForBindingQuickfix_AddRule ) return "Q2.1";

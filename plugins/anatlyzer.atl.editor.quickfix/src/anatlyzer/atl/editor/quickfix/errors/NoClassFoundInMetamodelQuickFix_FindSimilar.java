@@ -27,7 +27,7 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		this.marker = marker;
+		setErrorMarker(marker);
 		return checkProblemType(marker, NoClassFoundInMetamodel.class);
 	}
 

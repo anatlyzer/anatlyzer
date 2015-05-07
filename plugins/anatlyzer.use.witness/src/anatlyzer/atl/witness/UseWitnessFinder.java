@@ -126,6 +126,23 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 
+	private List<String> getFootprints(ATLModel atlModel) {
+		String tag = "@footprint";
+		Unit root = atlModel.getRoot();
+		
+		List<String> result = new ArrayList<String>();
+		for (int i = 0; i < root.getCommentsBefore().size(); i++) {
+			String line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
+			int index   = line.indexOf(tag);
+			String footprint  = null;
+			if ( index != -1 ) {
+				footprint = line.substring(index + tag.length());
+				result.add(footprint);
+			}
+		}
+		return result;
+	}
+	
 	private List<String> getPreconditions(ATLModel atlModel) {
 		String tag = "@pre";
 		Unit root = atlModel.getRoot();
@@ -164,6 +181,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		if ( slice.hasHelpersNotSupported() )
 			return WitnessResult.NOT_SUPPORTED_BY_USE;
+		
+		if ( checkPreconditions ) {
+			List<String> footprints = getFootprints(analyser.getATLModel());			
+			footprints.forEach(f -> slice.loadFromString(f, analyser));
+		}
 		
 		EPackage errorSliceMM = generateErrorSliceMetamodel(problem, slice);
 		EPackage effective    = generateEffectiveMetamodel(problem);

@@ -12,7 +12,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		this.marker = marker;
+		setErrorMarker(marker);
 		return checkProblemType(marker, FeatureNotFound.class) && getSourceType() != null;
 	}
 

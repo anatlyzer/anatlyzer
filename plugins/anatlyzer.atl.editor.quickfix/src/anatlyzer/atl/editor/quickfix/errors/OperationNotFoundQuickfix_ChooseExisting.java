@@ -7,87 +7,64 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 
-import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
-import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
-public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends OperationNotFoundAbstractQuickFix {
+public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundAbstractQuickFix {
 		
 	private String  closest;
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		setErrorMarker(marker);
-		return checkProblemType(marker, OperationNotFoundInThisModule.class) && this.hasHelpers();			
+		return checkProblemType(marker, OperationNotFound.class) && this.hasHelpers();			
 	}
 	
 	private boolean hasHelpers() {
 		return !this.populateCandidateOps().isEmpty();		
 	}
-
-	private OperationCallExp getElement() {
-		try {
-			OperationNotFoundInThisModule p = (OperationNotFoundInThisModule) getProblem();
-		
-						
-			// p.getOperationName() is null at this point 
-			return (OperationCallExp)p.getElement();
-		} catch (CoreException e) {
-			
-		}
-		return null;
-	}
 	
 	private void addPredefined(Map<Integer, List<String>> ops) {
-		ops.putIfAbsent(2, new ArrayList<String>());
-		ops.get(2).add("resolveTemp");
+		ops.putIfAbsent(0, new ArrayList<String>());
+		ops.get(0).add("oclIsUndefined");
 	}
-		
+	
+			
 	@Override protected Map<Integer, List<String>> populateCandidateOps () {
 		Map<Integer, List<String>> stHelpers = new TreeMap<Integer, List<String>>();
+		
+		OperationCallExp op = (OperationCallExp) getProblematicElement();
+		Type srcType = op.getSource().getInferredType();
 		
 		ATLModel model = getAnalyserData(marker).getAnalyser().getATLModel();
 		
 		if ( model.getRoot() instanceof Module || model.getRoot() instanceof Library) {
-			Module m = (Module) model.getRoot();
-			stHelpers = m.getElements().stream().
-							filter(e -> e instanceof StaticHelper).
-							map(e -> (StaticHelper) e).
-							collect(Collectors.groupingBy(e -> ATLUtils.getArgumentNames(e).length,											// group by number of args 
-									                      Collectors.mapping( e -> ATLUtils.getHelperName(e), Collectors.toList())));		// but get name and fold into list
-			
-			Map<Integer, List<String>> lrules =  m.getElements().stream().
-							  		 filter ( e -> e instanceof LazyRule).
-							  		 map ( e -> (LazyRule)e).
-							  		 //map ( e -> e.getName()).
-							  		 collect(Collectors.groupingBy( (LazyRule e) -> e.getCallableParameters().size(),
-							  				 			             Collectors.mapping( LazyRule::getName, Collectors.toList() )));			
-			
-			for (Integer i : lrules.keySet())																								// merge both maps
-				stHelpers.merge(i, lrules.get(i), (l1, l2) -> { l1.addAll(l2); return l1; });
-		} 
-		
+			stHelpers = getCompatibleContextHelpers(srcType, model).stream().
+					collect(Collectors.groupingBy(e -> ATLUtils.getArgumentNames(e).length,											// group by number of args 
+		                      Collectors.mapping( e -> ATLUtils.getHelperName(e), Collectors.toList())));		// but get name and fold into list
+		}
 		// Now add the predefined operations
 		this.addPredefined(stHelpers);
 		
 		return stHelpers;
 	}
-	
+
 	private String getClosest() {
 		if (this.closest!=null) return this.closest;
 		//if (this.candidateOps.isEmpty()) return null;
 		
-		OperationCallExp res = this.getElement();		
+		OperationCallExp res = (OperationCallExp) this.getProblematicElement();		
 			
 		this.candidateOps = this.populateCandidateOps();
 		if (this.candidateOps.isEmpty()) return null;
@@ -106,16 +83,11 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		new InDocumentSerializer(qfa, document).serialize();		
 	}
 
-	@Override
-	public String getAdditionalProposalInfo() {
-		OperationCallExp res = this.getElement();
-		return "Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest();
-	}
 
 	@Override
 	public String getDisplayString() {
-		OperationCallExp res = this.getElement();
-		return "Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest();
+		OperationCallExp res = (OperationCallExp) this.getProblematicElement();
+		return "Operation "+res.getOperationName()+" not found, replace by "+this.getClosest();
 	}
 
 	@Override

@@ -41,7 +41,7 @@ import anatlyzer.atlext.OCL.VariableExp;
  * @author jesus
  *
  */
-public class NoBindingForCompulsoryFeature_FindSimilar extends AbstractAtlQuickfix {
+public class NoBindingForCompulsoryFeature_FindSimilarExpression extends AbstractAtlQuickfix {
 
 	private Binding similarBinding;
 

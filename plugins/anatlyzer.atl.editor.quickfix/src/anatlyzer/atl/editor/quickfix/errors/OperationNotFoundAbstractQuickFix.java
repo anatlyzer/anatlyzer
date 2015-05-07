@@ -12,11 +12,14 @@ import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -24,6 +27,8 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
@@ -191,4 +196,17 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 	}
 	
 	public String neededType() { return null; }
+
+
+	protected List<ContextHelper> getCompatibleContextHelpers(Type srcType, ATLModel m) {		
+		return ATLUtils.getAllHelpers(m).stream().
+						filter(e -> e instanceof ContextHelper).
+						map(e -> (ContextHelper) e).
+						filter(e -> hasCompatibleType(srcType, e.getDefinition().getContext_().getContext_().getInferredType())).collect(Collectors.toList());
+	}
+	
+	protected boolean hasCompatibleType(Type receptorType, Type helperType) {
+		return TypingModel.assignableTypesStatic(helperType, receptorType);
+	}
+
 }

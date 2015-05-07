@@ -71,12 +71,7 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.FeatureNotFoundQuickfixSet">
       </quickfixset>
    </extension>
-   <extension
-         point="anatlyzer.atl.editor.quickfix">
-      <quickfixset
-            detector="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundInThisModuleQuickfixSet">
-      </quickfixset>
-   </extension>
+
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfixset
@@ -175,4 +170,23 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.NoClassFoundInMetamodel_QuickfixSet">
       </quickfixset>
    </extension>
+
+
+   <extension
+     id="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundInThisModuleQuickfixSet"
+         name="Quickfixes for &quot;Operation not found in thisModule &quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundInThisModuleQuickfixSet">
+      </quickfixset>
+   </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundQuickfixSet"
+         name="Quickfixes for &quot;Operation not found&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundQuickfixSet">
+      </quickfixset>
+   </extension>
+   
 </plugin>

@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 
 
 
+
+
+
+
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -25,12 +29,9 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.Activator;
@@ -64,7 +65,8 @@ import anatlyzer.atl.editor.quickfix.errors.IncoherentDeclaredTypeQuickfix_Assig
 import anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType;
 import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_AddBinding;
 import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilar;
+import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarExpression;
+import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarFeature;
 import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_FindSimilar;
 import anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne;
@@ -85,6 +87,9 @@ import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_Crea
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChooseExisting;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFeatureCall;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
 import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix;
 import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;
 import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix;
@@ -137,7 +142,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected boolean useCSP    = true;
 	protected Workbook workbook = new XSSFWorkbook();
 	protected boolean compactNotClassified;
-	
+	protected boolean performRuleAnalysis = false;
 	
 	public static class QuickfixSummary {
 		int id;
@@ -276,7 +281,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof PrimitiveBindingInvalidAssignment_Quickfix ) return "Q4.2";
 			
 			if ( quickfix instanceof NoBindingForCompulsoryFeature_AddBinding )  return "Q5.1"; // TODO: Is this 4.2?
-			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilar ) return "Q5.2";
+			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarExpression ) return "Q5.2";
+			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarFeature ) return "Q5.3";
 			
 			// TODO: 5.3, suggest a similar feature in the meta-model
 			
@@ -298,10 +304,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression ) return "Q9.1";
 			// TODO: Consider features in subtype, 9.1
 			
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock ) return "Q9.2";
+			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock ) return "Q9.1 (b)";
 			// TODO: Consider features in subtype, 9.2, consider outer for access to undefined, 9.2
 
-			if ( quickfix instanceof AccessToUndefinedValue_AddRuleFilter ) return "Q9.3";
+			if ( quickfix instanceof AccessToUndefinedValue_AddRuleFilter ) return "Q9.2";
 			// TODO: Consider features in subtype, 9.3, consider rule filter for subyptes 9.3
 
 			if ( quickfix instanceof AccessToUndefinedValue_ChangeMetamodel ) return "Q10.1";
@@ -310,17 +316,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.2";
 			
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
+			if ( quickfix instanceof OperationNotFoundQuickfix_ChooseExisting) return "Q12.1";
 			if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
 			if ( quickfix instanceof CollectionOperationNotFoundQuickfix ) return "Q12.1";
 			// TODO: 12.1 context operations 
 			
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
+			if ( quickfix instanceof OperationNotFoundQuickfix_CreateHelper ) return "Q12.2";
 			if ( quickfix instanceof FeatureNotFoundQuickfix_CreateHelper ) return "Q12.2";
 			// TODO: 12.2 context operations 
 			
 			if ( quickfix instanceof FeatureNotFoundQuickFix_ChangeMetamodel ) return "Q12.3";
 			
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall ) return "Q12.4";
+			if ( quickfix instanceof OperationNotFoundQuickfix_ChangeToFeatureCall ) return "Q12.4";
 			if ( quickfix instanceof FeatureNotFoundQuickFix_FindSameOperation ) return "Q12.4";
 			// TODO: 12.4 context operations 		
 			
@@ -523,7 +532,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					return;
 				}
 				
-//				if ( ! getErrorCode(p).equals("E05") ) {
+//				if ( ! getErrorCode(p).startsWith("E14") ) {
 //					continue;
 //				}
 				
@@ -610,15 +619,28 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		if ( p instanceof NoBindingForCompulsoryFeature ) return "E05";
 		if ( p instanceof BindingExpectedOneAssignedMany ) return "E06";
 		if ( p instanceof NoClassFoundInMetamodel ) return "E07";
-		if ( p instanceof IncoherentVariableDeclaration ) return "E08 (var)";
-		if ( p instanceof IncoherentHelperReturnType ) return "E08 (helper)";
+		
+//		if ( p instanceof IncoherentVariableDeclaration ) return "E08 (var)";
+//		if ( p instanceof IncoherentHelperReturnType ) return "E08 (helper)";
+		if ( p instanceof IncoherentVariableDeclaration ) return "E08";
+		if ( p instanceof IncoherentHelperReturnType ) return "E08";
+		
 		if ( p instanceof AccessToUndefinedValue ) return "E10";
 		if ( p instanceof FeatureFoundInSubtype ) return "E11";
 		if ( p instanceof FeatureNotFound ) return "E12";
-		if ( p instanceof OperationNotFound ) return "E14 (ctx)";
-		if ( p instanceof OperationNotFoundInThisModule ) return "E14 (mod)";
-		if ( p instanceof CollectionOperationNotFound ) return "E14 (col)";
-		if ( p instanceof FeatureAccessInCollection ) return "E14 (col)";
+
+//		if ( p instanceof OperationNotFound ) return "E14 (ctx)";
+//		if ( p instanceof OperationNotFoundInThisModule ) return "E14 (mod)";
+//		if ( p instanceof CollectionOperationNotFound ) return "E14 (col)";
+//		if ( p instanceof FeatureAccessInCollection ) return "E14 (col)";
+//		if ( p instanceof InvalidOperator ) return "E14 (expr)";
+
+		if ( p instanceof OperationNotFound ) return "E14";
+		if ( p instanceof OperationNotFoundInThisModule ) return "E14";
+		if ( p instanceof CollectionOperationNotFound ) return "E14";
+		if ( p instanceof FeatureAccessInCollection ) return "E14";
+		if ( p instanceof InvalidOperator ) return "E14";
+
 		
 		if ( p instanceof OperationOverCollectionType ) return "E18"; // 101
 		if ( p instanceof CollectionOperationOverNoCollectionError ) return "E18"; // 102
@@ -632,7 +654,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		if ( p instanceof OperationCallInvalidNumberOfParameters ) return "E16";
 		
 		if ( p instanceof InvalidOperand ) return "E15";
-		if ( p instanceof InvalidOperator ) return "E14 (expr)";
 		
 		if ( compactNotClassified ) {
 			return "Other";

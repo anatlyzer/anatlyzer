@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
@@ -45,12 +46,15 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		ProblemPath path = pathgen.generatePath(p);
 		OclExpression expr = path.getWeakestPrecondition();
 		
+		ErrorSlice slice = path.getErrorSlice(result.getAnalyser());
+		String info = slice.toOneLineString();
+		
 		QuickfixApplication qfa = new QuickfixApplication();
 		qfa.addCommentBefore(getATLModel().getRoot(), () -> {
 			USEConstraint useConstraint = USESerializer.retypeAndGenerate(expr, path);	
 			String pre = useConstraint.asString();
 			pre = pre.replace("\n", "\n-- ");			
-			return "-- @pre " + pre;
+			return "-- @pre " + pre + "\n" + "-- @footprint " + info;
 		});
 		
 		

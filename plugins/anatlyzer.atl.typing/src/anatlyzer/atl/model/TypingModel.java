@@ -439,6 +439,10 @@ public class TypingModel {
 	 * @return
 	 */
 	public boolean assignableTypes(Type declaredType, Type runtimeType) {
+		return assignableTypesStatic(declaredType, runtimeType);
+	}
+	
+	public static boolean assignableTypesStatic(Type declaredType, Type runtimeType) {
 		if ( declaredType instanceof UnionType ) {
 			throw new IllegalArgumentException();
 		}
@@ -462,7 +466,7 @@ public class TypingModel {
 			// All types must be assignable to the declared type
 			UnionType u = (UnionType) runtimeType;
 			for(Type t : u.getPossibleTypes()) {
-				if ( ! assignableTypes(declaredType, t) ) 
+				if ( ! assignableTypesStatic(declaredType, t) ) 
 					return false;
 			}
 			return true;
@@ -484,7 +488,7 @@ public class TypingModel {
 			CollectionType rtm = (CollectionType) runtimeType;
 			if ( rtm.getContainedType() instanceof EmptyCollectionType ) return true; //
 
-			return assignableTypes(dcl.getContainedType(), rtm.getContainedType());
+			return assignableTypesStatic(dcl.getContainedType(), rtm.getContainedType());
 		} else if ( declaredType instanceof EnumType && runtimeType instanceof EnumType ) {
 			return ((EnumType) declaredType).getName().equals(((EnumType) runtimeType).getName());
 		} else if ( declaredType instanceof MapType && runtimeType instanceof MapType ) {
@@ -495,8 +499,8 @@ public class TypingModel {
 				return true;
 			}
 			
-			return assignableTypes(dcl.getKeyType(), rtm.getKeyType()) &&
-				assignableTypes(dcl.getValueType(), dcl.getValueType());
+			return assignableTypesStatic(dcl.getKeyType(), rtm.getKeyType()) &&
+				assignableTypesStatic(dcl.getValueType(), dcl.getValueType());
 		} else if ( declaredType instanceof TupleType & runtimeType instanceof TupleType ) {
 			TupleType dcl = (TupleType) declaredType;
 			TupleType rtm = (TupleType) runtimeType;

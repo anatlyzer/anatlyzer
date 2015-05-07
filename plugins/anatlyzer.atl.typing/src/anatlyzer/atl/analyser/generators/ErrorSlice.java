@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -16,6 +18,10 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
@@ -210,6 +216,91 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 					+ ")";
 		}
 		throw new UnsupportedOperationException(t.getClass().getName());
+	}
+
+	public String toOneLineString() {
+		String classes = explicitTypes.stream().map(e -> e.getName()).
+				collect(Collectors.joining(", "));
+
+		String features = explicitFeatures.stream().map(f -> f.getEContainingClass().getName() + "." + f.getName()).
+				collect(Collectors.joining(", "));
+
+		String helperList = helpers.keySet().stream().flatMap(k -> {
+			return (Stream<String>) helpers.get(k).stream().map(h -> k + "." + ATLUtils.getHelperName(h));
+		}).collect(Collectors.joining(", "));
+		
+		return classes + " | " + features + "|" + helperList;
+	}
+
+	public void loadFromString(String line, Analyser analyser) {
+		String[] parts = line.split("\\|");
+		if ( parts.length != 3 ) 
+			throw new IllegalArgumentException();
+		
+		String classes  = parts[0];
+		String features = parts[1];
+		String helpers  = parts[2];
+		
+		String[] classNames = classes.split(",");
+		for (String cname : classNames) {
+			cname = cname.trim();
+			EClass k = findClass(analyser.getNamespaces(), cname);
+			if ( k != null ) {
+				this.explicitTypes.add(k);
+			}
+		}
+		
+		String[] featureNames = features.split(",");
+		for (String f : featureNames) {
+			String[] twoParts = f.split("\\.");
+			String klass = twoParts[0].trim();
+			String name  = twoParts[1].trim();
+			EClass k = findClass(analyser.getNamespaces(), klass);
+			if ( k != null ) {
+				EStructuralFeature feature = k.getEStructuralFeature(name);
+				if ( feature != null )
+					addExplicitFeature(feature);
+			}
+		}
+		
+		String[] helperNames = helpers.split(",");
+		for (String h : helperNames) {
+			String[] twoParts = h.split("\\.");
+			String klass = twoParts[0].trim();
+			String name  = twoParts[1].trim();
+			List<Helper> allHelpers = ATLUtils.getAllHelpers(analyser.getATLModel());
+			for (Helper helper : allHelpers) {
+				// This is not completely accurate, not checking the actual model (it is not serialized)
+				if ( ATLUtils.getHelperType(helper).getName().equals(klass) && 
+					 ATLUtils.getHelperName(helper).equals(name) ) {
+					if ( helper instanceof StaticHelper ) {
+						addHelper((StaticHelper) helper);
+					} else {
+						addHelper((ContextHelper) helper);						
+					}
+					break;
+				}
+			}
+			
+			
+			EClass k = findClass(analyser.getNamespaces(), klass);
+			if ( k != null ) {
+				EStructuralFeature feature = k.getEStructuralFeature(name);
+				if ( feature != null )
+					addExplicitFeature(feature);
+			}
+		}
+	}
+
+	private EClass findClass(GlobalNamespace namespaces, String cname) {
+		List<MetamodelNamespace> mm = namespaces.getMetamodels();
+		for (MetamodelNamespace metamodelNamespace : mm) {
+			ITypeNamespace tn = metamodelNamespace.getClassifier(cname);
+			if ( tn != null && tn instanceof ClassNamespace ) {
+				return (((ClassNamespace) tn).getKlass());
+			}
+		}
+		return null;
 	}
 
 	

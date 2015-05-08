@@ -59,6 +59,15 @@ package atl_error {
 	abstract class InvalidArgumentProblem extends LocalProblem { }
 	abstract class TargetModelConformanceProblem extends LocalProblem { }
 
+	class RuleConflict extends Problem {
+		val ConflictingRuleSet[*] conflicts;
+	}
+	
+	class ConflictingRuleSet {
+		ref EObject[*] rules;
+		attr Object[0..1] analyserInfo;
+	}
+
 
 	// when: if the error will happen as soon as the transformation is loaded (always) or if the control flow needs to reach the error (model-dep)
 	//       note that this is different from precision.

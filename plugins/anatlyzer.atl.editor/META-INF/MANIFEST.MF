@@ -28,4 +28,5 @@ Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.atl.index,
  anatlyzer.atl.reveng,
  anatlyzer.atl.witness,
+ anatlyzer.ui.actions,
  anatlyzer.ui.util

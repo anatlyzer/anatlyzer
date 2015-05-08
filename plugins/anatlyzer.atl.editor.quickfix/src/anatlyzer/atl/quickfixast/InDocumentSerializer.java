@@ -36,10 +36,10 @@ public class InDocumentSerializer extends ATLSerializer {
 
 	public void serialize() {
 		IDocumentExtension4 ext4 = (IDocumentExtension4) document;
-		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
 		
-		qfa.getActions().forEach(a -> {
-			try {
+		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
+		try {
+			for(Action a : qfa.getActions()) {
 				if ( a instanceof PutInAction ) {
 					a = ((PutInAction) a).toMockReplacement();
 				} else if ( a instanceof DeleteAction ) {
@@ -88,12 +88,12 @@ public class InDocumentSerializer extends ATLSerializer {
 				
 				
 				document.replace(start, length, s);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			} finally {
-				ext4.stopRewriteSession(session);
 			}
-		});
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			ext4.stopRewriteSession(session);
+		}
 
 		
 	}

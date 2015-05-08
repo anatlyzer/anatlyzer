@@ -47,6 +47,14 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/RuleConflict">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/RuleConflict/conflicts"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ConflictingRuleSet">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/rules"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ConflictingRuleSet/analyserInfo"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/CollectionOperationOverNoCollectionError"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureAccessInCollection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureAccessInCollection/featureName"/>

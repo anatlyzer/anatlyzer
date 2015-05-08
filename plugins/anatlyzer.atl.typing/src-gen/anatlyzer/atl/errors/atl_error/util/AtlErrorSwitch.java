@@ -149,6 +149,20 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.RULE_CONFLICT: {
+				RuleConflict ruleConflict = (RuleConflict)theEObject;
+				T result = caseRuleConflict(ruleConflict);
+				if (result == null) result = caseProblem(ruleConflict);
+				if (result == null) result = caseAnalysisInfo(ruleConflict);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.CONFLICTING_RULE_SET: {
+				ConflictingRuleSet conflictingRuleSet = (ConflictingRuleSet)theEObject;
+				T result = caseConflictingRuleSet(conflictingRuleSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: {
 				CollectionOperationOverNoCollectionError collectionOperationOverNoCollectionError = (CollectionOperationOverNoCollectionError)theEObject;
 				T result = caseCollectionOperationOverNoCollectionError(collectionOperationOverNoCollectionError);
@@ -797,6 +811,36 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTargetModelConformanceProblem(TargetModelConformanceProblem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rule Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rule Conflict</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRuleConflict(RuleConflict object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Conflicting Rule Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Conflicting Rule Set</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseConflictingRuleSet(ConflictingRuleSet object) {
 		return null;
 	}
 

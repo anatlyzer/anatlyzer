@@ -188,5 +188,13 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.kinds.RuleConflictQuickfixSet"
+         name="Quickfixes for &quot;Rule Conflict&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.RuleConflictQuickfixSet">
+      </quickfixset>
+   </extension>
    
 </plugin>

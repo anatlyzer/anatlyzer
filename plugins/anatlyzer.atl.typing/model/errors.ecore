@@ -53,6 +53,15 @@
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="TargetModelConformanceProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RuleConflict" eSuperTypes="#//Problem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" upperBound="-1"
+          eType="#//atl_error/ConflictingRuleSet" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConflictingRuleSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="analyserInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationOverNoCollectionError"
         eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">

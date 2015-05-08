@@ -73,7 +73,10 @@ import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
@@ -169,6 +172,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
 		private ConflictingRules[] elements;
 		int numberOfConflicts = 0;
+		private Problem ruleConflictProblem;
 		
 		public RuleConflictAnalysisNode(TreeNode parent) {
 			super(parent);
@@ -202,6 +206,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					if ( job.result != null ) {
 						List<OverlappingRules> result = job.result;	
 						
+						// Create the problem
+						RuleConflict problem = AtlErrorFactory.eINSTANCE.createRuleConflict();
+						
+						
 						numberOfConflicts = 0;
 						int i = 0;
 						elements = new ConflictingRules[result.size()];
@@ -211,7 +219,19 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 								// It has not been discarded
 								numberOfConflicts++;
 							}
+							
+							if ( overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_SOLVER_CONFIRMED || 
+								 overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_STATIC_CONFIRMED	) {
+								ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
+								set.getRules().addAll(overlappingRules.getRules());
+								set.setAnalyserInfo(overlappingRules);
+								problem.getConflicts().add(set);
+							}
+							
+							ruleConflictProblem = problem;							
 						}
+						
+						
 						Display.getDefault().asyncExec(new Runnable() {	
 							@Override
 							public void run() {
@@ -823,22 +843,32 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				if ( currentResource != null && obj instanceof LocalProblemNode ) {
 					LocalProblemNode lpn = (LocalProblemNode) obj;
-					ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(lpn.p, currentAnalysis) );
-					List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
-					for (ICompletionProposal prop : quickfixes) {
-						quickfixesList.add((AtlProblemQuickfix) prop);
+					showQuickfixDialog(lpn.p);
+				} else if ( currentResource != null && obj instanceof RuleConflictAnalysisNode ) {
+					RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
+					if ( n.ruleConflictProblem != null ) {
+						showQuickfixDialog(n.ruleConflictProblem);
 					}
-									
-					QuickfixDialog dialog = new QuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
-					if ( dialog.open() == Window.OK ) {
-						AtlProblemQuickfix qf = dialog.getQuickfix();
-			
-						IWorkbenchPage page = getSite().getPage();
-						IEditorPart part = page.getActiveEditor();
-						if ( part instanceof AtlEditorExt ) {
-							IDocument doc = ((AtlEditorExt) part).getDocumentProvider().getDocument(part.getEditorInput());
-							qf.apply(doc);							
-						}
+					
+				}
+			}
+
+			protected void showQuickfixDialog(Problem p) {
+				ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, currentAnalysis) );
+				List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+				for (ICompletionProposal prop : quickfixes) {
+					quickfixesList.add((AtlProblemQuickfix) prop);
+				}
+								
+				QuickfixDialog dialog = new QuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
+				if ( dialog.open() == Window.OK ) {
+					AtlProblemQuickfix qf = dialog.getQuickfix();
+
+					IWorkbenchPage page = getSite().getPage();
+					IEditorPart part = page.getActiveEditor();
+					if ( part instanceof AtlEditorExt ) {
+						IDocument doc = ((AtlEditorExt) part).getDocumentProvider().getDocument(part.getEditorInput());
+						qf.apply(doc);							
 					}
 				}
 			}

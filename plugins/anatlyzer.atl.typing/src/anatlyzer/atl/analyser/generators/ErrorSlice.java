@@ -234,12 +234,10 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 
 	public void loadFromString(String line, Analyser analyser) {
 		String[] parts = line.split("\\|");
-		if ( parts.length != 3 ) 
-			throw new IllegalArgumentException();
 		
 		String classes  = parts[0];
-		String features = parts[1];
-		String helpers  = parts[2];
+		String features = parts.length == 2 ? parts[1] : "";
+		String helpers  = parts.length == 3 ? parts[2] : "";
 		
 		String[] classNames = classes.split(",");
 		for (String cname : classNames) {
@@ -253,6 +251,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		String[] featureNames = features.split(",");
 		for (String f : featureNames) {
 			String[] twoParts = f.split("\\.");
+			if ( twoParts.length != 2 )
+				continue;
+
 			String klass = twoParts[0].trim();
 			String name  = twoParts[1].trim();
 			EClass k = findClass(analyser.getNamespaces(), klass);
@@ -266,6 +267,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		String[] helperNames = helpers.split(",");
 		for (String h : helperNames) {
 			String[] twoParts = h.split("\\.");
+			if ( twoParts.length != 2 )
+				continue;
+			
 			String klass = twoParts[0].trim();
 			String name  = twoParts[1].trim();
 			List<Helper> allHelpers = ATLUtils.getAllHelpers(analyser.getATLModel());

@@ -31,7 +31,7 @@ public class EclipseUseWitnessFinder extends UseWitnessFinder implements IWitnes
 	private String tempDirectory = null;
 	
 	@Override
-	protected String getTempDirectory() {
+	public String getTempDirectory() {
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {

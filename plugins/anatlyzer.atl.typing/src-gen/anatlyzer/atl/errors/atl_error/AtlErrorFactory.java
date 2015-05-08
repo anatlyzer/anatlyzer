@@ -31,6 +31,24 @@ public interface AtlErrorFactory extends EFactory {
 	ModelElement createModelElement();
 
 	/**
+	 * Returns a new object of class '<em>Rule Conflict</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rule Conflict</em>'.
+	 * @generated
+	 */
+	RuleConflict createRuleConflict();
+
+	/**
+	 * Returns a new object of class '<em>Conflicting Rule Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Conflicting Rule Set</em>'.
+	 * @generated
+	 */
+	ConflictingRuleSet createConflictingRuleSet();
+
+	/**
 	 * Returns a new object of class '<em>Collection Operation Over No Collection Error</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

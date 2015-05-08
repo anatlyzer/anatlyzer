@@ -1,5 +1,6 @@
 package anatlyzer.experiments.typing;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -16,6 +17,14 @@ import java.util.stream.Collectors;
 
 
 
+
+
+
+
+
+
+
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,12 +37,16 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
+import transML.exceptions.transException;
+import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
@@ -132,6 +145,7 @@ import anatlyzer.experiments.export.CountingModel;
 import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
+import anatlyzer.ui.actions.CheckRuleConflicts;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
@@ -143,6 +157,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected Workbook workbook = new XSSFWorkbook();
 	protected boolean compactNotClassified;
 	protected boolean performRuleAnalysis = false;
+	protected boolean deleteUSETempFolder = true;
 	
 	public static class QuickfixSummary {
 		int id;
@@ -396,6 +411,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 		List<Problem> originalProblems;
 		List<Problem> retypedProblems;
+		private int withRuleConflict;
 		
 		
 		public List<Problem> getRetypedProblems() {
@@ -410,6 +426,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( retypedProblems == null )
 				return 0;
 			return originalProblems.size() - retypedProblems.size();
+		}
+
+		public void withRuleConflict() {
+			withRuleConflict++;
 		}
 		
 	}
@@ -526,13 +546,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 			monitor.beginTask("Processing problems.", allProblems.size());
 			
+			if ( performRuleAnalysis ) {
+				ArrayList<OverlappingRules> result = doRuleAnalysis(monitor, data);
+				if ( result.size() > 0 ) {
+					printMessage("RULE CONFLICT: " + fileName);
+				}
+			}
+			
 			int i = 0;
 			for (Problem p : allProblems) {
 				if ( monitor.isCanceled() ) {
 					return;
 				}
 				
-//				if ( ! getErrorCode(p).startsWith("E14") ) {
+//				if ( ! getErrorCode(p).startsWith("E02") ) {
 //					continue;
 //				}
 				
@@ -607,6 +634,19 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 	}
 
+	protected ArrayList<OverlappingRules> doRuleAnalysis(IProgressMonitor monitor, AnalyserData data) {
+		final CheckRuleConflicts action = new CheckRuleConflicts();
+		List<OverlappingRules> result = action.performAction(data, monitor);	
+		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
+		for (OverlappingRules overlappingRules : result) {
+			if ( overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_SOLVER_CONFIRMED || 
+				 overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_STATIC_CONFIRMED ) {
+				guiltyRules.add(overlappingRules);
+			}
+		}
+		return guiltyRules;
+	}
+
 	/**
 	 * Returns the error code for the problem corresponding to the table of the MODELS'15 paper
 	 * 
@@ -671,10 +711,19 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 //						checkProblemsInPath(checkProblemsInPath ).
 //						checkDiscardCause(false).
 //						find(p, r);
-				WitnessResult result = new EclipseUseWitnessFinder().
-						
+				
+				try {
+					transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
+					File dir = new File(transMLProperties.getProperty("temp"));
+					FileUtils.deleteDirectory(dir);
+				} catch (transException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				WitnessResult result = new EclipseUseWitnessFinder().			
 						checkProblemsInPath(checkProblemsInPath ).
 						checkDiscardCause(false).find(p, r);
+
 				
 				switch (result) {
 				case ERROR_CONFIRMED:
@@ -801,6 +850,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			}
 			*/
 			
+			try { 
+				if ( performRuleAnalysis ) {
+					ArrayList<OverlappingRules> result = doRuleAnalysis(null, original);
+					if ( result.size() > 0 ) {
+						qi.withRuleConflict();
+					}
+				}
+			} catch (Exception e) { }
+			
 			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
 			qi.setRetyped(newResult, newProblems);
 
@@ -813,6 +871,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			printMessage("Quickfix not implemented at the AST Level");
 			qi.setNotSupported();
 		} catch ( Exception e ) {
+			e.printStackTrace();
 			qi.setImplError();
 		}
 		

@@ -24,7 +24,9 @@ public class QuickfixEvaluationByMutation extends QuickfixEvaluationAbstract {
 	
 
 	public QuickfixEvaluationByMutation() {
-		compactNotClassified = true;;		
+		compactNotClassified = true;;	
+		
+		performRuleAnalysis = true;
 	}
 
 	// Here to allow its modification by the UI thread...

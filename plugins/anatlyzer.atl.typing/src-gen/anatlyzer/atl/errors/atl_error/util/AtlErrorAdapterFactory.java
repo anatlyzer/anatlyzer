@@ -115,6 +115,14 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createTargetModelConformanceProblemAdapter();
 			}
 			@Override
+			public Adapter caseRuleConflict(RuleConflict object) {
+				return createRuleConflictAdapter();
+			}
+			@Override
+			public Adapter caseConflictingRuleSet(ConflictingRuleSet object) {
+				return createConflictingRuleSetAdapter();
+			}
+			@Override
 			public Adapter caseCollectionOperationOverNoCollectionError(CollectionOperationOverNoCollectionError object) {
 				return createCollectionOperationOverNoCollectionErrorAdapter();
 			}
@@ -469,6 +477,34 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTargetModelConformanceProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.RuleConflict <em>Rule Conflict</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.RuleConflict
+	 * @generated
+	 */
+	public Adapter createRuleConflictAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet <em>Conflicting Rule Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ConflictingRuleSet
+	 * @generated
+	 */
+	public Adapter createConflictingRuleSetAdapter() {
 		return null;
 	}
 

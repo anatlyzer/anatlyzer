@@ -19,6 +19,7 @@ import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
 import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
@@ -62,6 +63,7 @@ import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.errors.atl_error.RuntimeError;
 import anatlyzer.atl.errors.atl_error.StyleHint;
 import anatlyzer.atl.errors.atl_error.TargetModelConformanceProblem;
@@ -148,6 +150,20 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass targetModelConformanceProblemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ruleConflictEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass conflictingRuleSetEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -728,6 +744,51 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EClass getTargetModelConformanceProblem() {
 		return targetModelConformanceProblemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getRuleConflict() {
+		return ruleConflictEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getRuleConflict_Conflicts() {
+		return (EReference)ruleConflictEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getConflictingRuleSet() {
+		return conflictingRuleSetEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConflictingRuleSet_Rules() {
+		return (EReference)conflictingRuleSetEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getConflictingRuleSet_AnalyserInfo() {
+		return (EAttribute)conflictingRuleSetEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1740,6 +1801,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		targetModelConformanceProblemEClass = createEClass(TARGET_MODEL_CONFORMANCE_PROBLEM);
 
+		ruleConflictEClass = createEClass(RULE_CONFLICT);
+		createEReference(ruleConflictEClass, RULE_CONFLICT__CONFLICTS);
+
+		conflictingRuleSetEClass = createEClass(CONFLICTING_RULE_SET);
+		createEReference(conflictingRuleSetEClass, CONFLICTING_RULE_SET__RULES);
+		createEAttribute(conflictingRuleSetEClass, CONFLICTING_RULE_SET__ANALYSER_INFO);
+
 		collectionOperationOverNoCollectionErrorEClass = createEClass(COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR);
 
 		featureAccessInCollectionEClass = createEClass(FEATURE_ACCESS_IN_COLLECTION);
@@ -1933,6 +2001,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		navigationProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		invalidArgumentProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		targetModelConformanceProblemEClass.getESuperTypes().add(this.getLocalProblem());
+		ruleConflictEClass.getESuperTypes().add(theAnalysisResultPackage.getProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getNavigationProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getRuntimeError());
 		featureAccessInCollectionEClass.getESuperTypes().add(this.getNavigationProblem());
@@ -2031,6 +2100,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(invalidArgumentProblemEClass, InvalidArgumentProblem.class, "InvalidArgumentProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(targetModelConformanceProblemEClass, TargetModelConformanceProblem.class, "TargetModelConformanceProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(ruleConflictEClass, RuleConflict.class, "RuleConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRuleConflict_Conflicts(), this.getConflictingRuleSet(), null, "conflicts", null, 0, -1, RuleConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(conflictingRuleSetEClass, ConflictingRuleSet.class, "ConflictingRuleSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getConflictingRuleSet_Rules(), ecorePackage.getEObject(), null, "rules", null, 0, -1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConflictingRuleSet_AnalyserInfo(), ecorePackage.getEJavaObject(), "analyserInfo", null, 0, 1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collectionOperationOverNoCollectionErrorEClass, CollectionOperationOverNoCollectionError.class, "CollectionOperationOverNoCollectionError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

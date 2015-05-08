@@ -57,6 +57,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case AtlErrorPackage.MODEL_ELEMENT: return createModelElement();
+			case AtlErrorPackage.RULE_CONFLICT: return createRuleConflict();
+			case AtlErrorPackage.CONFLICTING_RULE_SET: return createConflictingRuleSet();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
@@ -115,6 +117,26 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public ModelElement createModelElement() {
 		ModelElementImpl modelElement = new ModelElementImpl();
 		return modelElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public RuleConflict createRuleConflict() {
+		RuleConflictImpl ruleConflict = new RuleConflictImpl();
+		return ruleConflict;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ConflictingRuleSet createConflictingRuleSet() {
+		ConflictingRuleSetImpl conflictingRuleSet = new ConflictingRuleSetImpl();
+		return conflictingRuleSet;
 	}
 
 	/**

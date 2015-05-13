@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>anATLyzer by Miso</title>
+
+    <link rel="stylesheet" href="stylesheets/custom.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+	 <h1><a class="title" href="index.html">anATLyzer</a></h1>
+         <p>Advanced analysis of ATL transformations</p>
+
+        <ul>
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/binaries/anatlyzer-0.3.0.zip">Download <strong>anATLyzer</strong></a></li>
+
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/sites/anatlyzer.updatesite">or use the<strong>Update site</strong></a></li>
+
+          <li><a href="https://github.com/jesusc/anatlyzer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+
+      <section>
+	
+      <h2>Quick fixes</h2>
+      
+      Support for quick fixes has been added to An<span class="atlyzer">atl</span>yzer. This page provides information about this and the detailed results of
+our experiments.
+      </section>
+      <section>
+        <h3>
+<a name="idequickfix" class="anchor" href="#idequickfix"><span class="octicon octicon-link"></span></a>Quick fixes in the ATL editor</h3>
+	<p>
+	To enable quick fixes in the ATL editor, an<span class="atlyzer">atl</span>yzer must be activated. Please, follow the <a href="installation.html">installation instructions</a> and the <a href="usage.html">user guide</a>.
+	</p>
+	
+	<p>
+	  Given a problem reported in the Problem View or in the Analysis View, the quick fix proposals can be generated in three ways.
+	</p>
+
+<ul>
+<li>From the editor, press CTRL+1 (altough there are some known bugs with this)</li>
+<li>From the Problem view, select the problem and press CTRL+1. A dialog with the proposals will be shown.</li>
+<li>From the Analysis view, select the problem, right-click and select Quickfix. A dialog with the proposals will be shown.</li>
+</ul>
+
+
+    </section>
+
+    <section>
+
+<h3><a name="screencast" class="anchor" href="#screencast"><span class="octicon octicon-link"></span></a>Screencast</h3>
+To be done.
+    </section>
+
+    <section>
+        <h3>
+<a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Experiment results</h3>
+	<p>
+	  The completeness of our quickfixes has been evaluated by
+          generating mutants of a transformation in order to create a
+          wide range of problems.  The usefulness has been evaluated
+          by manually quick fixing a transformation written by a
+          third-party.  In both cases the amount of
+          applicable quick fixes and their impact after their
+          application, using the following automation script:
+	  <p>
+<pre>
+Input: transformation T, list of problems Lp
+
+Step 1: Confirm or discard problems using the model finder
+        If discarded, remove problem from Lp
+Step 2: Foreach P in Lp
+           Retrieve the set of available quick fixes for P
+           Foreach quick fix, Q
+              Copy T into Tq
+              Apply Q on Tq
+              Run the static analyser on Tq, obtaining
+                   the problems, Lpq, remaining after Q
+              Confirm or discard problems from Lpq, as in step 1
+              Compare Lp and Lpq
+</pre>
+	<p>
+	This script has been carried out using a custom-made
+	facility to automatically process transformations and
+	meta-models and export the results in textual form or in Excel
+	format. The detailed results and the data to replicate the experiments
+	are available in the following files.
+	</p>
+
+<ul>
+<li><a href="data/models2015/quickfixes_experiment.zip">Complete project (anatlyzer.evaluation.quickfixes)</a></li></li>
+<li><a href="data/models2015/quickfixes_mutants.xlsx">Results for mutants</a></li>
+<li><a href="data/models2015/quickfixes_cpl2spl.xlsx">Results for CPL2SPL</a></li>
+</ul>
+
+<p>
+  The <a href="data/models2015/quickfixes_experiment.zip">anatlyzer.evaluation.quickfixes</a> project includes two .exp files to easily run the experiments. For example, open quickfixes_test.exp, select the Result tab, and press Execute. After a few minutes, the results will appear in the text editor. The experiment over the mutated transformations may take more than 30 minutes.
+ </p>
+<p>
+	To run the experiments Eclipse must be configured to run with
+	a heap space of at least 2 GB. You must change eclipse.ini adding
+        <code>-Xms1024m -Xmx2048m</code>.
+<p>
+
+</section>
+
+
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jesusc">jesusc</a></p>
+        <p><small>Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11389533-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

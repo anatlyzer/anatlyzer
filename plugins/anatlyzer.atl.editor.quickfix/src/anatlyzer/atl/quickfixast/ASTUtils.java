@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
@@ -11,34 +14,39 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
-import anatlyzer.atl.types.TupleAttribute;
-import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
-import anatlyzer.atlext.OCL.TupleExp;
-import anatlyzer.atlext.OCL.TuplePart;
 
 public class ASTUtils {
 
@@ -115,6 +123,57 @@ public class ASTUtils {
 		};		
 		return create;
 	}
+
+	public static ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
+		Operation operation = OCLFactory.eINSTANCE.createOperation();
+		operation.setName(name);
+		operation.setReturnType( ATLUtils.getOclType   (returnType) );
+		operation.setBody      ( ASTUtils.defaultValue (returnType) );
+		
+		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
+		ctx.setContext_( ATLUtils.getOclType(receptorType) );
+		
+		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		def.setContext_(ctx);
+		def.setFeature (operation);
+		
+		int i=0;
+		for (OclExpression argument : arguments) {
+			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
+			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
+			parameter.setVarName( "param" + (i++) );
+			operation.getParameters().add(parameter);
+		}
+				
+		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
+		helper.setDefinition(def);
+		return helper;
+	}
+	
+
+	public static StaticHelper buildNewThisModuleOperation(String name, Type returnType, EList<OclExpression> arguments) {
+		Operation operation = OCLFactory.eINSTANCE.createOperation();
+		operation.setName(name);
+		operation.setReturnType( ATLUtils.getOclType   (returnType) );
+		operation.setBody      ( ASTUtils.defaultValue (returnType) );
+
+		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		// def.setContext_(ctx);
+		def.setFeature (operation);
+		
+		int i=0;
+		for (OclExpression argument : arguments) {
+			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
+			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
+			parameter.setVarName( "param" + (i++) );
+			operation.getParameters().add(parameter);
+		}
+				
+		StaticHelper helper = ATLFactory.eINSTANCE.createStaticHelper();
+		helper.setDefinition(def);
+		return helper;
+	}
+	
 	
 	public static void completeRule(RuleWithPattern r, Metaclass sourceType, Metaclass targetType) {
 		completeRule(r, sourceType, targetType, null);
@@ -192,6 +251,7 @@ public class ASTUtils {
 		neg.setSource(negated);
 		return neg;
 	}
-	
+
+
 	
 }

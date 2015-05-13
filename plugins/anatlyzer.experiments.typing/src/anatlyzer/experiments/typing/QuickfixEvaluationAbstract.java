@@ -10,20 +10,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -37,13 +23,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
-import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
@@ -70,6 +54,9 @@ import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_FilterBind
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_ModifiyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Remove;
 import anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickFix_ChooseExisting;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickFix_FindSameOperation;
+import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickfix_CreateHelper;
 import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChooseExisting;
 import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_FindSameOperation;
@@ -104,18 +91,21 @@ import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFe
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
 import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix;
+import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_ModifyRuleFilter;
 import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;
 import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix;
 import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
@@ -135,6 +125,7 @@ import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
@@ -271,6 +262,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 
 		public String getCode() {
+			if ( quickfix instanceof RuleConflictQuickfix_ModifyRuleFilter ) return "Q0.0";
+
 			if ( quickfix instanceof BindingPossiblyUnresolved_ModifiyRuleFilter ||
 			     quickfix instanceof BindingInvalidTargetInResolvedRule_ModifiyRuleFilter ) return "Q1.1";
 			
@@ -333,12 +326,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
 			if ( quickfix instanceof OperationNotFoundQuickfix_ChooseExisting) return "Q12.1";
 			if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
+			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_ChooseExisting ) return "Q12.1";			
 			if ( quickfix instanceof CollectionOperationNotFoundQuickfix ) return "Q12.1";
 			// TODO: 12.1 context operations 
-			
+						
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
 			if ( quickfix instanceof OperationNotFoundQuickfix_CreateHelper ) return "Q12.2";
+			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
 			if ( quickfix instanceof FeatureNotFoundQuickfix_CreateHelper ) return "Q12.2";
+			
 			// TODO: 12.2 context operations 
 			
 			if ( quickfix instanceof FeatureNotFoundQuickFix_ChangeMetamodel ) return "Q12.3";
@@ -346,6 +342,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall ) return "Q12.4";
 			if ( quickfix instanceof OperationNotFoundQuickfix_ChangeToFeatureCall ) return "Q12.4";
 			if ( quickfix instanceof FeatureNotFoundQuickFix_FindSameOperation ) return "Q12.4";
+			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_FindSameOperation ) return "Q12.4";
+
 			// TODO: 12.4 context operations 		
 			
 			
@@ -541,17 +539,28 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			counting.processingArtefact(fileName);
 			
 			List<Problem> allProblems = selectProblems(data.getProblems(), data);
+
+			if ( performRuleAnalysis ) {
+				RuleConflict rc = doRuleAnalysis(monitor, data);
+				if ( rc != null )
+					allProblems.add(rc);
+				/*
+				if ( rc != null ) {
+					QuickfixSummary qs = summary.get(getErrorCode(rc));
+					if ( qs == null ) {
+						qs = new QuickfixSummary(AnalyserUtils.getProblemId(rc), "Rule conflict", getErrorCode(rc));
+						summary.put(getErrorCode(rc), qs);										
+					}
+				}
+				*/
+			}
+
+			
 			AnalysedTransformation trafo = new AnalysedTransformation(resource, data, allProblems);
 			project.trafos.add(trafo);
 
 			monitor.beginTask("Processing problems.", allProblems.size());
 			
-			if ( performRuleAnalysis ) {
-				ArrayList<OverlappingRules> result = doRuleAnalysis(monitor, data);
-				if ( result.size() > 0 ) {
-					printMessage("RULE CONFLICT: " + fileName);
-				}
-			}
 			
 			int i = 0;
 			for (Problem p : allProblems) {
@@ -559,7 +568,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					return;
 				}
 				
-//				if ( ! getErrorCode(p).startsWith("E02") ) {
+//				if ( ! (getErrorCode(p).startsWith("E14") || getErrorCode(p).startsWith("E12")) ) {
 //					continue;
 //				}
 				
@@ -575,7 +584,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				monitor.subTask("Problem " + "(" + i + "/" + allProblems.size() + "): " + p.getDescription());
 				
 				printMessage("\n");
-				printMessage("[" + ((LocalProblem) p).getLocation() + "]" + p.getDescription());
+				printMessage("[" + (isLocal(p) ? ((LocalProblem) p).getLocation() : "") + "]" + p.getDescription());
 				
 				trafo.currentProblem(p);
 			
@@ -605,7 +614,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						trafo.appliedQuickfix(qi);
 						
 						if ( qi.getRetypedProblems() != null ) {
-							int newProblems = qi.getOriginalProblems().size() - qi.getRetypedProblems().size();
+							// int newProblems = qi.getOriginalProblems().size() - qi.getRetypedProblems().size();
+							int newProblems = qi.getNumOfFixes();
 							if ( newProblems < 0 ) {
 								errorsGenerated += -1 * newProblems;
 							} else {
@@ -634,7 +644,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 	}
 
-	protected ArrayList<OverlappingRules> doRuleAnalysis(IProgressMonitor monitor, AnalyserData data) {
+	private boolean isLocal(Problem p) {
+		return p instanceof LocalProblem;
+	}
+
+	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalyserData data) {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
@@ -644,7 +658,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				guiltyRules.add(overlappingRules);
 			}
 		}
-		return guiltyRules;
+		
+		if ( guiltyRules.size() > 0 ) {
+			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
+			rc.setDescription("Rule conflict");
+			for (OverlappingRules overlappingRules : guiltyRules) {
+				ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
+				set.setAnalyserInfo(overlappingRules);
+				set.getRules().addAll(overlappingRules.getRules());
+				rc.getConflicts().add(set);
+			}
+			return rc;
+		}
+		
+		return null;
 	}
 
 	/**
@@ -654,6 +681,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	 * @return
 	 */
 	private String getErrorCode(Problem p) {
+		if ( p instanceof RuleConflict ) return "E00";
 		if ( p instanceof BindingPossiblyUnresolved || p instanceof BindingWithoutRule ) return "E02";
 		if ( p instanceof BindingWithResolvedByIncompatibleRule) return "E03";
 		if ( p instanceof NoBindingForCompulsoryFeature ) return "E05";
@@ -675,11 +703,18 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 //		if ( p instanceof FeatureAccessInCollection ) return "E14 (col)";
 //		if ( p instanceof InvalidOperator ) return "E14 (expr)";
 
+		
 		if ( p instanceof OperationNotFound ) return "E14";
 		if ( p instanceof OperationNotFoundInThisModule ) return "E14";
 		if ( p instanceof CollectionOperationNotFound ) return "E14";
 		if ( p instanceof FeatureAccessInCollection ) return "E14";
 		if ( p instanceof InvalidOperator ) return "E14";
+
+//		if ( p instanceof OperationNotFound ) return "E12";
+//		if ( p instanceof OperationNotFoundInThisModule ) return "E12";
+//		if ( p instanceof CollectionOperationNotFound ) return "E12";
+//		if ( p instanceof FeatureAccessInCollection ) return "E12";
+//		if ( p instanceof InvalidOperator ) return "E12";
 
 		
 		if ( p instanceof OperationOverCollectionType ) return "E18"; // 101
@@ -716,7 +751,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
 					File dir = new File(transMLProperties.getProperty("temp"));
 					FileUtils.deleteDirectory(dir);
-				} catch (transException | IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
@@ -739,7 +774,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				case CANNOT_DETERMINE:
 				case INTERNAL_ERROR:
 				case NOT_SUPPORTED_BY_USE:
-					printMessage("USE ERROR: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
+					printMessage("USE ERROR: " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "") + ", " + ((LocalProblem) p).getFileLocation());
 					continue;
 				case PROBLEMS_IN_PATH:
 					// printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
@@ -765,12 +800,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			throw new IllegalStateException();
 		}
 		
-		int idx = original.getProblems().indexOf(p);					
-		LocalProblem newProblem = (LocalProblem) newResult.getProblems().get(idx);
-		if ( ! newProblem.getLocation().equals(((LocalProblem) p).getLocation()) ) {
-			throw new IllegalStateException("This should not happen");
+		Problem newProblem = null;
+		if ( p instanceof RuleConflict ) {
+			newProblem = doRuleAnalysis(null, newResult);
+			if ( newProblem == null ) {
+				throw new IllegalStateException();
+			}
+		} else {
+			int idx = original.getProblems().indexOf(p);					
+			newProblem = (LocalProblem) newResult.getProblems().get(idx);
+			if ( ! ((LocalProblem) newProblem).getLocation().equals(((LocalProblem) p).getLocation()) ) {
+				throw new IllegalStateException("This should not happen");
+			}
 		}
-
+		
 		quickfix.setErrorMarker(new MockMarker(newProblem, newResult));
 
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
@@ -850,16 +893,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			}
 			*/
 			
+			
+			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
 			try { 
 				if ( performRuleAnalysis ) {
-					ArrayList<OverlappingRules> result = doRuleAnalysis(null, original);
-					if ( result.size() > 0 ) {
+					RuleConflict rc = doRuleAnalysis(null, newResult);
+					if ( rc != null ) {
+						System.out.println(resource.getName());
+						System.out.println(f.getName());
+						newProblems.add(rc);
 						qi.withRuleConflict();
 					}
 				}
 			} catch (Exception e) { }
-			
-			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
+
 			qi.setRetyped(newResult, newProblems);
 
 //			if ( qi.getCode().equals("Q4.1") ) {
@@ -886,7 +933,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 	public void printLatexTable(PrintStream out) {
 		out.println("\\begin{table}[h]");
-		out.println("\\caption{Errors detected in the mutated transformations and their fixes}");
+		out.println("\\caption{Errors detected and their fixes}");
 		out.println("\\label{tab:mutant_fixes}");
 		out.println("\\scriptsize");
 		out.println("\\center");
@@ -970,7 +1017,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			// for (Problem p : t.problemToQuickfix.keySet()) {
 			for (Problem p : t.getOriginalProblems()) {			
 				st.createCell(s, row, startCol + 1, (long) AnalyserUtils.getProblemId(p));
-				st.createCell(s, row, startCol + 2, p.getDescription() + " at " + ((LocalProblem) p).getLocation());
+				st.createCell(s, row, startCol + 2, p.getDescription() + " at " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "-"));
 				
 				List<AppliedQuickfixInfo> quickfixes = t.getQuickfixes(p);
 				if ( quickfixes.isEmpty() ) {
@@ -983,7 +1030,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					st.createCell(s, row, startCol + 3, qi.description);
 					if ( qi.isNotSupported() ) {
 						st.cell(s, row, startCol + 4, (long) 0).background(HSSFColor.DARK_RED.index);
-						st.cell(s, row, startCol + 6, "No AST");							
+						st.cell(s, row, startCol + 6, "Impl. error");							
 					} else if ( qi.isImplError() ) {
 						st.cell(s, row, startCol + 4, (long) 0).background(HSSFColor.RED.index);	
 						st.cell(s, row, startCol + 6, "Impl. Error");							

@@ -49,6 +49,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -270,6 +271,14 @@ public class ATLUtils {
 					     helperParameters == operationArguments) {
 					     operation = helper;  // helper found
 					     break;
+					}
+				} else if ( helper instanceof StaticHelper ) {
+					String  helperName   = ATLUtils.getHelperName(helper);
+					int helperParameters = ATLUtils.getArgumentNames(helper).length;
+					if ( (operationName==null || helperName.equals(operationName)) && 
+						  helperParameters == operationArguments) {
+						  operation = helper;  // helper found
+						  break;
 					}
 				}
 			}

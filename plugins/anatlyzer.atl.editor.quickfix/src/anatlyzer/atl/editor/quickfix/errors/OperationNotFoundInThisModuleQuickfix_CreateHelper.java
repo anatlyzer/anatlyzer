@@ -6,39 +6,38 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
 
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixUtil;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.ASTUtils;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.impl.MetaclassImpl;
-import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
-import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
@@ -88,48 +87,17 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return checkProblemType(marker, OperationNotFoundInThisModule.class);
 	}
 	
-	private OperationCallExp getElement() {
-		try {
-			OperationNotFoundInThisModule p = (OperationNotFoundInThisModule) getProblem();
+	private StaticHelper buildNewHelper(OperationCallExp op) {		
+		Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
+		StaticHelper helper = ASTUtils.buildNewThisModuleOperation(op.getOperationName(), 
+				returnType,
+				op.getArguments());
 		
-						
-			// p.getOperationName() is null at this point 
-			return (OperationCallExp)p.getElement();
-		} catch (CoreException e) {
-			
-		}
-		return null;
-	}
-	
-	private Rule getContainerRule(OperationCallExp exp) {
-		return ATLUtils.getContainer(exp, Rule.class);
-	}
-	
-	private String getTypeName(Type inferredType) {		// This should be somewhere else...
-		if (types.get((Class<? extends Type>)inferredType.getClass()) != null)
-			return types.get((Class<? extends Type>)inferredType.getClass()).apply(inferredType);
-		else return "OclAny";
-	}
-	
-	private String buildNewHelper(OperationCallExp exp) {		
-		String typeName = this.getTypeName(exp.getSource().getInferredType());
-		
-		String newHelper = "\nhelper def: "+exp.getOperationName()+"(";
-		
-		int idx = 0;
-		for (OclExpression e : exp.getArguments()) {
-			if ( idx > 0 ) newHelper+= ","; 
-			newHelper += "arg"+idx+" : "+this.getTypeName(e.getInferredType());			
-			idx++;
-		}
-		
-		newHelper+= " ) : "+typeName+" =\n body;\n";
-		
-		return newHelper;
+		return helper;
 	}
 	
 
-	private String buildNewLazyRule(OperationCallExp exp, Binding b) {		
+	private StaticRule buildNewLazyRule(OperationCallExp exp, Binding b) {		
 		LazyRule r = ATLFactory.eINSTANCE.createLazyRule();
 		
 		InPattern p = ATLFactory.eINSTANCE.createInPattern();
@@ -145,7 +113,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return buildImperativeRule(r, exp, b);	
 	}
 
-	private String buildNewCalledRule(OperationCallExp exp, Binding b) {		
+	private StaticRule buildNewCalledRule(OperationCallExp exp, Binding b) {		
 		CalledRule r = ATLFactory.eINSTANCE.createCalledRule();
 
 		// Infer parameter types from the types of the actual arguments
@@ -172,7 +140,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return buildImperativeRule(r, exp, b);
 	}
 	
-	private String buildImperativeRule(StaticRule r, OperationCallExp exp, Binding b) {		
+	private StaticRule buildImperativeRule(StaticRule r, OperationCallExp exp, Binding b) {		
 		// 1. Name of the rule : the operation name
 		r.setName(exp.getOperationName());
 		
@@ -180,21 +148,45 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		// Done by the callee
 		// 3. Return type of the rule from the binding's expected type
 		Metaclass m = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
-		OclModelElement ome = ASTUtils.createOclModelElement(m);
+		OclModelElement ome = ASTUtils.createOclModelElement(selectConcreteType(m));
 		
 		OutPattern p = ATLFactory.eINSTANCE.createOutPattern();
 		r.setOutPattern(p);
 		SimpleOutPatternElement ope = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
-		ope.setVarName(m.getName().substring(0, 1).toLowerCase());
+		ope.setVarName(m.getName().substring(0, 1).toLowerCase() + "tgt");
 		ope.setType(ome);
 		p.getElements().add(ope);
 		
-		return "\n" + ATLSerializer.serialize(r) + "\n";
+		return r;
 	}
 	
 	
+	private Metaclass selectConcreteType(Metaclass m) {
+		if ( m.getKlass().isAbstract() ) {
+			ClassNamespace ns = (ClassNamespace) m.getMetamodelRef();
+			m = ns.getAllSubclasses(getAnalysisResult().getNamespace()).stream().filter(m2 -> ! m2.getKlass().isAbstract() ).
+				map(subclass -> {
+					// This is also done in BindingPossiblyUnresolved_AddRule quickfix, due
+					// to the same problem with the creation of objects outsie the analyser thread
+					Metaclass metaclass = TypesFactory.eINSTANCE.createMetaclass();
+					metaclass.setKlass(subclass.getKlass());
+					metaclass.setName(subclass.getKlass().getName());
+					MetaModel model = TypesFactory.eINSTANCE.createMetaModel();
+					model.setName(subclass.getMetamodelName());					
+					metaclass.setModel(model);
+					return metaclass;
+				}).
+				findAny().orElse(m);
+		}
+		return m;
+	}
+
 	@Override
 	public void apply(IDocument document) {
+		QuickfixApplication qfa = getQuickfixApplication();	
+		new InDocumentSerializer(qfa, document).serialize();
+
+		/*
 		OperationCallExp res = this.getElement();
 		
 		try {
@@ -216,12 +208,13 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		}
 		
 		System.out.println("Operation not found in thisModule: create helper or lazy/called rule");
+		*/
 	}
 
-	private String applyHeuristic(OperationCallExp op, 
-			BiFunction<OperationCallExp, Binding, String> onNewLazyRule,
-			BiFunction<OperationCallExp, Binding, String> onNewCalledRule,
-			Function<OperationCallExp, String> onNewHelper) {
+	private ModuleElement applyHeuristic(OperationCallExp op, 
+			BiFunction<OperationCallExp, Binding, ModuleElement> onNewLazyRule,
+			BiFunction<OperationCallExp, Binding, ModuleElement> onNewCalledRule,
+			Function<OperationCallExp, ModuleElement> onNewHelper) {
 
 		IteratorExp it = ATLUtils.getContainer(op, IteratorExp.class);
 		if ( op.getArguments().size() > 0 && it != null && it.getName().equals("collect") ) {
@@ -249,7 +242,20 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
+		OperationCallExp res = (OperationCallExp) this.getProblematicElement();
+	
+		ModuleElement anchor = ATLUtils.getContainer(res, ModuleElement.class);
+		
+		QuickfixApplication qfa = new QuickfixApplication();
+		qfa.insertAfter(anchor, () -> { 
+			ModuleElement newCode = applyHeuristic(res, 
+					this::buildNewLazyRule,
+					this::buildNewCalledRule,
+					this::buildNewHelper);
+			return newCode;
+		});
+		
+		return qfa;
 	}
 
 }

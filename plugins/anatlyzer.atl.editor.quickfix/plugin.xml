@@ -3,24 +3,6 @@
 <plugin>
    <extension
          point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix">
-      </quickfix>
-   </extension>
-   <extension
-         point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix">
-      </quickfix>
-   </extension>
-   <extension
-         point="anatlyzer.atl.editor.quickfix">
-      <quickfix
-            apply="anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix">
-      </quickfix>
-   </extension>
-   <extension
-         point="anatlyzer.atl.editor.quickfix">
       <quickfixset
             detector="anatlyzer.atl.editor.quickfix.kinds.NoRuleForBindingQuickfixSet">
       </quickfixset>
@@ -69,6 +51,14 @@
          point="anatlyzer.atl.editor.quickfix">
       <quickfixset
             detector="anatlyzer.atl.editor.quickfix.kinds.FeatureNotFoundQuickfixSet">
+      </quickfixset>
+   </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.kinds.FeatureNotFoundInThisModuleQuickfixSet"
+         name="Quickfixes for &quot;Feature not found in this module&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.FeatureNotFoundInThisModuleQuickfixSet">
       </quickfixset>
    </extension>
 
@@ -196,5 +186,28 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.RuleConflictQuickfixSet">
       </quickfixset>
    </extension>
+   
+   <!-- Constraint solving and slicing -->
+   
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix">
+      </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix">
+      </quickfix>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix">
+      </quickfix>
+   </extension>
+   
+    <!-- END-OF Constraint solving and slicing -->
    
 </plugin>

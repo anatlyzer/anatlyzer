@@ -1,28 +1,5 @@
-name: Quickfix application
+name: Quickfix application in existing transformations
 extensionID: typing.experiment.applyQuickfixes
-#projects: 
-#-  name: anatlyzer.example.models2015
-#   ignoredFiles: [ PNML2PetriNet.original.atl ]
-#-  name: CPL2SPL_UseCase
-#   ignoredFiles: [ CPL2CPL.atl ]
-#   ignoredFiles: [ XML2CPL.atl ]
-# -  name: CodeCloneTools_UseCase
-# -  name: OCL2SWRL_UseCase
 
-#projects:
-#-  name: ModelsMeasurement_UseCase
-#   ignoredFiles: [UML22Measure_all.atl EMOOSE4KM3.atl EMOOSE4UML2.atl FLAME4KM3.atl FLAME4UML2.atl MeasureHelpers.atl MOOD4KM3.atl MOOD4UML2.atl QMOOD4KM3.atl QMOOD4UML2.atl TableHelpers.atl] 
-
-######### ModelsMeasurement ############
 files:
-#- path: /ModelsMeasurement_UseCase/transformations/UML22Measure_all.atl
-#- path: /ModelsMeasurement_UseCase/transformations/HTML2XML.atl
-#- path: /ModelsMeasurement_UseCase/transformations/KM32Measure.atl
-
-######### CPL2SPL ############
-# 
-files: 
-# - path: /CPL2SPL_UseCase/CPL/XMLSyntax/XML2CPL_all.atl
-- path: /CPL2SPL_UseCase/CPL2SPL_no_recursion.atl
-#
-##############################
+- path: /anatlyzer.evaluation.quickfixes/transformations/CPL2SPL_no_recursion.atl

@@ -56,6 +56,7 @@ import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.model.ATLModel;
@@ -214,7 +215,7 @@ public class AnalyserUtils {
 	public static String getProblemDescription(Problem p) {
 		EAnnotation ann = p.eClass().getEAnnotation("description");
 		if ( ann == null ) 
-			return "No description";
+			return p.getDescription() == null ? "no-description" : p.getDescription();
 		return ann.getDetails().get("name");
 	}
 	
@@ -266,6 +267,8 @@ public class AnalyserUtils {
 		
 		// TODO: Change this class
 		if ( p instanceof InvalidArgument ) return 201;
+		
+		if ( p instanceof RuleConflict ) return 501;
 		
 		return -1;
 		// throw new UnsupportedOperationException(p.getClass().getName());

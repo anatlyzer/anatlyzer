@@ -346,7 +346,7 @@ public class ErrorModel {
 		initProblem(error, node);
 		error.setName(featureName);
 		
-		signalError(error, "No operation " + featureName + " in thisModule", node);
+		signalError(error, "No feature " + featureName + " in thisModule", node);
 	
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}

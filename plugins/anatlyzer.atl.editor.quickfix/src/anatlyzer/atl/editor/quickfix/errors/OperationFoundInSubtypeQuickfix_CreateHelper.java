@@ -70,29 +70,7 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 	}
 	
 	private ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
-		Operation operation = OCLFactory.eINSTANCE.createOperation();
-		operation.setName(name);
-		operation.setReturnType( ATLUtils.getOclType   (returnType) );
-		operation.setBody      ( ASTUtils.defaultValue (returnType) );
-		
-		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
-		ctx.setContext_( ATLUtils.getOclType(receptorType) );
-		
-		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
-		def.setContext_(ctx);
-		def.setFeature (operation);
-		
-		int i=0;
-		for (OclExpression argument : arguments) {
-			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
-			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
-			parameter.setVarName( "param" + (i++) );
-			operation.getParameters().add(parameter);
-		}
-				
-		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
-		helper.setDefinition(def);
-		return helper;
+		return ASTUtils.buildNewContextOperation(name, receptorType, returnType, arguments);		
 	}
 
 	private LazyRule buildNewContextLazyRule (String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		

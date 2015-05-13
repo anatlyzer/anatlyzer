@@ -4,25 +4,49 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
+import anatlyzer.atl.editor.quickfix.QuickfixUtil;
+import anatlyzer.atl.errors.atl_error.OperationNotFound;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class OperationNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {		// Separate into create helper/create lazy rule
 		
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, OperationNotFoundInThisModule.class);
+		return checkProblemType(marker, OperationNotFound.class);
 	}
 	
 		@Override
 	public String getDisplayString() {
-		return "Operation not found in thisModule: create helper";
+		return "Operation not found: create helper";
 	}
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
+		OperationCallExp op = (OperationCallExp) getProblematicElement();
+		
+		ModuleElement anchor = ATLUtils.getContainer(op, ModuleElement.class);
+		
+		QuickfixApplication qfa = new QuickfixApplication();
+		qfa.insertAfter(anchor, () -> { 
+			Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
+			ContextHelper helper = ASTUtils.buildNewContextOperation(op.getOperationName(), 
+					op.getSource().getInferredType(),
+					returnType,				
+					op.getArguments());
+			return helper;
+		});
+		
+		return qfa;
+
+		
 	}
 
 	@Override

@@ -5,19 +5,18 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.QuickfixUtil;
-import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
-import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
-import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
 
 /**
@@ -26,26 +25,25 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
  * 
  * @author jesusc
  */
-public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {		// Separate into create helper/create lazy rule
+public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAtlQuickfix {		// Separate into create helper/create lazy rule
 		
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, FeatureNotFound.class);
+		return checkProblemType(marker, AttributeNotFoundInThisModule.class);
 	}
-		
-
-	private ContextHelper buildNewContextAttributeHelper(String name, Type receptorType, Type returnType) {		
-		ContextHelper h = ATLFactory.eINSTANCE.createContextHelper();
+	
+	private StaticHelper buildThisModuleAttributeHelper(String name, Type returnType) {		
+		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
 		
 		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
 		h.setDefinition(def);
 
 		Attribute att = OCLFactory.eINSTANCE.createAttribute();		
-		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
-		def.setContext_(ctx);
+		// OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
+		// def.setContext_(ctx);
 		def.setFeature(att);
 		
-		ctx.setContext_( ASTUtils.createATLType(receptorType) );
+		// ctx.setContext_( ASTUtils.createATLType(receptorType) );
 		
 		att.setName(name);
 		att.setType( ASTUtils.createATLType(returnType) );
@@ -57,15 +55,14 @@ public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {	
 	@Override
 	public QuickfixApplication getQuickfixApplication()  {
 		final NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
-		final Type receptorType = nav.getSource().getInferredType();
-		final Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
+		final Type returnType   = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
 		final ModuleElement anchor = ATLUtils.getContainer(nav, ModuleElement.class);
 		
 		QuickfixApplication qfa = new QuickfixApplication();
 		qfa.insertAfter(anchor, () -> {			
-			return buildNewContextAttributeHelper(nav.getName(), receptorType, returnType);			
+			return buildThisModuleAttributeHelper(nav.getName(), returnType);
 		});
-		
+		 
 		return qfa;
 	}
 

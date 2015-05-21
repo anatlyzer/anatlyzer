@@ -30,7 +30,7 @@ public class ProblemGraph {
 		return tree;
 	}
 	
-	public ArrayList<ProblemPath> getProblemPaths() {
+	public List<ProblemPath> getProblemPaths() {
 		return problemPaths;
 	}
 	

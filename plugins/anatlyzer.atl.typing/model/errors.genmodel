@@ -7,6 +7,18 @@
   <foreignModel>errors.ecore</foreignModel>
   <genPackages prefix="AnalysisResult" basePackage="anatlyzer.atl" disposableProviderFactory="true"
       ecorePackage="errors.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//ProblemStatus">
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/STATICALLY_CONFIRMED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/WITNESS_REQUIRED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED_SPECULATIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED_DUE_TO_METAMODEL"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/INTERNAL_ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/CANNOT_DETERMINE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/NOT_SUPPORTED_BY_USE"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/PROBLEMS_IN_PATH"/>
+    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//SeverityKind">
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/ERROR"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//SeverityKind/WARNING"/>
@@ -22,6 +34,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/description"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/severity"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/needsCSP"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/status"/>
     </genClasses>
     <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>
     <nestedGenPackages prefix="AtlError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"

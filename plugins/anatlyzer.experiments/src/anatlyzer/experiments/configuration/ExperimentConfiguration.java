@@ -1,6 +1,7 @@
 package anatlyzer.experiments.configuration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -17,6 +18,7 @@ import anatlyzer.experiments.extensions.IExperiment;
 public class ExperimentConfiguration {
 	public String name;
 	public String extensionID;
+	public HashMap<String, Object> options = new HashMap<String, Object>();
 	public List<Project> projects = new ArrayList<Project>();
 	public List<ExpFile> files    = new ArrayList<ExpFile>();
 
@@ -50,6 +52,7 @@ public class ExperimentConfiguration {
 				});
 				monitor.done();
 				
+				experiment.setOptions(options);
 				monitor.beginTask("Executing experiment", selected.size());
 				int i = 0;
 				for (IResource iResource : selected) {

@@ -121,7 +121,7 @@ public class Analyser implements IAnalyserResult {
 
 	public ProblemGraph getDependencyGraph() {
 		if ( problemGraph == null ) {
-			problemGraph = new ErrorPathGenerator(trafo).perform();
+			problemGraph = new ErrorPathGenerator(this).perform();
 		}
 		return problemGraph;
 	}

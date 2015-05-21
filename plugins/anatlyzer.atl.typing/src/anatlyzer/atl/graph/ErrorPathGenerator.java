@@ -6,7 +6,8 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import anatlyzer.atl.errors.AnalysisResult;
+import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
@@ -18,8 +19,6 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.model.ErrorModel;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
@@ -44,23 +43,24 @@ import anatlyzer.atlext.OCL.VariableExp;
  *
  */
 public class ErrorPathGenerator {
-	private ErrorModel	errors;
-	private TypingModel	typ;
+//	private ErrorModel	errors;
+//	private TypingModel	typ;
 	private ATLModel	atlModel;
 
 	private ProblemGraph graph;
 	private ProblemPath	currentPath;
+	private Analyser analyser;
 	
-	public ErrorPathGenerator(ATLModel atlModel) {
-		this.errors = atlModel.getErrors();
-		this.typ    = atlModel.getTyping();
-		this.atlModel = atlModel;
+	public ErrorPathGenerator(Analyser r) {
+		this.analyser = r;
+		this.atlModel = r.getATLModel();
+//		this.errors = atlModel.getErrors();
+//		this.typ    = atlModel.getTyping();
 	}
 	
 	public ProblemGraph perform() {
 		ProblemGraph graph = new ProblemGraph();
-		AnalysisResult r = this.errors.getAnalysis();
-		for(Problem p : r.getProblems()) {
+		for(Problem p : analyser.getErrors().getProblems()) {
 			if ( p instanceof LocalProblem ) {
 				ProblemPath path = generatePath((LocalProblem) p);
 				if ( path != null )
@@ -216,7 +216,7 @@ public class ErrorPathGenerator {
 		while ( ! isControlFlowElement(parent) ) {
 			if ( isIteration(parent) ) {
 				LoopExp exp = (LoopExp) parent;
-				LoopNode loop = new LoopNode(exp.getSource(), exp.getIterators().get(0));
+				LoopNode loop = new LoopNode(exp);
 				node.addDependency(loop);
 				
 				// ?? Different from the pathToCall

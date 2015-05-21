@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
@@ -94,6 +95,12 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return ATLUtils.findVariableReference(start, v) != null 
 			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+
+	@Override
+	public void genIdentification(PathId id) {
+		id.next(id.gen(start));
+		followDepending(node -> node.genIdentification(id));
 	}
 
 }

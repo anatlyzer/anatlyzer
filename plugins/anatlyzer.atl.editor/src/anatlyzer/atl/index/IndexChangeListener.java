@@ -4,6 +4,6 @@ import anatlyzer.atl.analyser.AnalysisResult;
 
 public interface IndexChangeListener {
 
-	void analysisRegistered(String location, AnalysisResult result, boolean firstTime);
+	void analysisRegistered(String location, AnalysisResult result, AnalysisResult previous);
 
 }

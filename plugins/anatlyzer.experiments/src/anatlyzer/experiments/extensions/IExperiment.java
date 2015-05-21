@@ -2,6 +2,7 @@ package anatlyzer.experiments.extensions;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -17,4 +18,5 @@ public interface IExperiment {
 	void exportToExcel(String fileName) throws IOException;
 	void setExperimentConfiguration(IFile file);
 	void projectDone(IProject p);
+	void setOptions(HashMap<String, Object> options);
 }

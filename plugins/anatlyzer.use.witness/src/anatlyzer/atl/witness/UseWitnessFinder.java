@@ -22,13 +22,13 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.Unit;
@@ -47,8 +47,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean checkPreconditions = true;
 
 	@Override
-	public WitnessResult find(Problem problem, AnalysisResult r) {
-		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser().getATLModel());		
+	public ProblemStatus find(Problem problem, AnalysisResult r) {
+		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
 		ProblemPath path = null;
 		
 		if ( checkProblemsInPath ) {
@@ -58,7 +58,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				path = pathgen.generatePath((LocalProblem) problem);
 			} else {
 				// Depends on another error
-				return WitnessResult.PROBLEMS_IN_PATH;
+				return ProblemStatus.PROBLEMS_IN_PATH;
 			}			
 		} else {
 			path = pathgen.generatePath((LocalProblem) problem);
@@ -87,7 +87,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	
 	@Override
-	public WitnessResult find(IDetectedProblem problem, AnalysisResult r) {
+	public ProblemStatus find(IDetectedProblem problem, AnalysisResult r) {
 		this.analyser = r.getAnalyser();
 
 		List<String> preconditions;
@@ -101,26 +101,26 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		OclExpression constraint = problem.getWitnessCondition(); 
 		if ( constraint == null ) {
 			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
-			return WitnessResult.CANNOT_DETERMINE;
+			return ProblemStatus.CANNOT_DETERMINE;
 		}
 		
 		USEConstraint useConstraint = USESerializer.retypeAndGenerate(constraint, problem);	
 		if ( useConstraint.useNotSupported() ) {
-			return WitnessResult.NOT_SUPPORTED_BY_USE;
+			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		}
 		
 		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
-		WitnessResult result = applyUSE(problem, strConstraint, false, preconditions);
-		if ( checkDiscardCause && result == WitnessResult.ERROR_DISCARDED ) {
-			WitnessResult result2 = applyUSE(problem, "true", true);
-			if ( result2 == WitnessResult.ERROR_DISCARDED ) {
-				return WitnessResult.ERROR_DISCARDED_DUE_TO_METAMODEL;
+		ProblemStatus result = applyUSE(problem, strConstraint, false, preconditions);
+		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {
+			ProblemStatus result2 = applyUSE(problem, "true", true);
+			if ( result2 == ProblemStatus.ERROR_DISCARDED ) {
+				return ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
 		} 
-		if ( result == WitnessResult.ERROR_CONFIRMED && useConstraint.isSpeculative() ) {
-			return WitnessResult.ERROR_CONFIRMED_SPECULATIVE;
+		if ( result == ProblemStatus.ERROR_CONFIRMED && useConstraint.isSpeculative() ) {
+			return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 		}
 		
 		return result;
@@ -172,15 +172,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 
-	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
 		return applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
 	}
 	
-	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
+	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
 
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		if ( slice.hasHelpersNotSupported() )
-			return WitnessResult.NOT_SUPPORTED_BY_USE;
+			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		
 		if ( checkPreconditions ) {
 			List<String> footprints = getFootprints(analyser.getATLModel());			
@@ -212,13 +212,13 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setTempDirectoryPath(projectPath);
 		try {
 			if ( ! generator.generate() ) {
-				return WitnessResult.ERROR_DISCARDED;
+				return ProblemStatus.ERROR_DISCARDED;
 			} else {
-				return WitnessResult.ERROR_CONFIRMED;
+				return ProblemStatus.ERROR_CONFIRMED;
 			}
 		} catch (Exception e) {
 			onUSEInternalError(e);
-			return WitnessResult.INTERNAL_ERROR;
+			return ProblemStatus.INTERNAL_ERROR;
 		}
 	}
 	

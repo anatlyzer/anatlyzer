@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
@@ -53,6 +54,11 @@ public class RuleFilterNode implements ConstraintNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void genIdentification(PathId id) {
 		throw new UnsupportedOperationException();
 	}
 }

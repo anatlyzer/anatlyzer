@@ -7,6 +7,7 @@ import anatlyzer.atl.errors.AnalysisResult;
 import anatlyzer.atl.errors.AnalysisResultFactory;
 import anatlyzer.atl.errors.AnalysisResultPackage;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.Recovery;
 import anatlyzer.atl.errors.SeverityKind;
 
@@ -64,6 +65,13 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * @generated
 	 */
 	private EClass recoveryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum problemStatusEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -224,8 +232,26 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProblem_Status() {
+		return (EAttribute)problemEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRecovery() {
 		return recoveryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getProblemStatus() {
+		return problemStatusEEnum;
 	}
 
 	/**
@@ -275,10 +301,12 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		createEAttribute(problemEClass, PROBLEM__DESCRIPTION);
 		createEAttribute(problemEClass, PROBLEM__SEVERITY);
 		createEAttribute(problemEClass, PROBLEM__NEEDS_CSP);
+		createEAttribute(problemEClass, PROBLEM__STATUS);
 
 		recoveryEClass = createEClass(RECOVERY);
 
 		// Create enums
+		problemStatusEEnum = createEEnum(PROBLEM_STATUS);
 		severityKindEEnum = createEEnum(SEVERITY_KIND);
 	}
 
@@ -333,10 +361,23 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		initEAttribute(getProblem_Description(), ecorePackage.getEString(), "description", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_Severity(), this.getSeverityKind(), "severity", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_NeedsCSP(), ecorePackage.getEBoolean(), "needsCSP", "false", 0, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProblem_Status(), this.getProblemStatus(), "status", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(recoveryEClass, Recovery.class, "Recovery", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
+		initEEnum(problemStatusEEnum, ProblemStatus.class, "ProblemStatus");
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.STATICALLY_CONFIRMED);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.WITNESS_REQUIRED);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_CONFIRMED);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_DISCARDED);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.INTERNAL_ERROR);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.CANNOT_DETERMINE);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.NOT_SUPPORTED_BY_USE);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.PROBLEMS_IN_PATH);
+
 		initEEnum(severityKindEEnum, SeverityKind.class, "SeverityKind");
 		addEEnumLiteral(severityKindEEnum, SeverityKind.ERROR);
 		addEEnumLiteral(severityKindEEnum, SeverityKind.WARNING);

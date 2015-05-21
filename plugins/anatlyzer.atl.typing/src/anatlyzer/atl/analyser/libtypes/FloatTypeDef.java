@@ -45,6 +45,9 @@ public class FloatTypeDef extends AtlTypeDef {
 		operation("exp").returnType(float_());
 		operation("log").returnType(float_());
 		operation("sqrt").returnType(float_());
+		
+		// not documented
+		operation("round").returnType(float_());
 	}
 	
 }

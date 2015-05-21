@@ -15,6 +15,20 @@
         eType="#//SeverityKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="needsCSP" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+        eType="#//ProblemStatus"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProblemStatus">
+    <eLiterals name="STATICALLY_CONFIRMED"/>
+    <eLiterals name="WITNESS_REQUIRED" value="1"/>
+    <eLiterals name="ERROR_CONFIRMED" value="2"/>
+    <eLiterals name="ERROR_CONFIRMED_SPECULATIVE" value="3"/>
+    <eLiterals name="ERROR_DISCARDED" value="4"/>
+    <eLiterals name="ERROR_DISCARDED_DUE_TO_METAMODEL" value="5"/>
+    <eLiterals name="INTERNAL_ERROR" value="6"/>
+    <eLiterals name="CANNOT_DETERMINE" value="7"/>
+    <eLiterals name="NOT_SUPPORTED_BY_USE" value="8"/>
+    <eLiterals name="PROBLEMS_IN_PATH" value="9"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SeverityKind">
     <eLiterals name="ERROR"/>

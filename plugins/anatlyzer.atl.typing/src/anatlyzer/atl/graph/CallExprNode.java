@@ -2,6 +2,7 @@ package anatlyzer.atl.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -11,6 +12,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -23,6 +25,7 @@ import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
@@ -174,6 +177,20 @@ public class CallExprNode extends AbstractDependencyNode {
 	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return ATLUtils.findVariableReference(call, v) != null || getDepending().isVarRequiredByErrorPath(v);
+	}
+	
+	@Override
+	public void genIdentification(PathId id) {
+		String s = id.gen(call.getSource());
+		if ( call instanceof NavigationOrAttributeCallExp ) {
+			s += "." + ((NavigationOrAttributeCallExp) call).getName();
+		} else if ( call instanceof OperationCallExp ) {		
+			s += "." + ((OperationCallExp) call).getOperationName();
+			s += "[" + ((OperationCallExp) call).getArguments().stream().map(arg -> id.gen(arg)).collect(Collectors.joining(",")) + "]";			
+		}
+		
+		id.next(s);
+		followDepending(node -> node.genIdentification(id));
 	}
 	
 }

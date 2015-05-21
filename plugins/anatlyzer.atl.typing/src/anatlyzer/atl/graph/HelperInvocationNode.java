@@ -1,8 +1,11 @@
 package anatlyzer.atl.graph;
 
+import java.util.stream.Collectors;
+
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.types.Metaclass;
@@ -83,4 +86,20 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 		return getDepending().isVarRequiredByErrorPath(v);
 	}
 
+	@Override
+	public void genIdentification(PathId id) {
+		String s = null;
+		if ( helper instanceof ContextHelper) {
+			s = PathId.typeSig(ATLUtils.getHelperType(helper));			
+		} else {
+			s = "TM";
+		}
+		
+		s += "." + ATLUtils.getHelperName(helper) + "[";		
+		s += ATLUtils.getHelperArguments(helper).stream().map(p -> PathId.typeSig(p.getType())).collect(Collectors.joining(","));
+		s += "]";
+		id.next(s);
+		followDepending(node -> node.genIdentification(id));
+	}
+	
 }

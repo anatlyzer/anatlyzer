@@ -3,17 +3,15 @@ package anatlyzer.atl.retyping;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import javax.jws.Oneway;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.unit.UnitTest;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class TestRetyping extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -35,7 +33,7 @@ public class TestRetyping extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingWithoutRule);
 		
-		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));						
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));						
 	}
 
 	@Test
@@ -50,7 +48,7 @@ public class TestRetyping extends UnitTest {
 		assertTrue(problems().get(1) instanceof BindingWithoutRule);
 		
 		// The retyping should be done when trying to verify binding without rule.
-		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(1)));		
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(1)));		
 	}
 
 	@Test
@@ -69,7 +67,7 @@ public class TestRetyping extends UnitTest {
 		// TODO: Check
 		// assertEquals(WitnessResult.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(0)));		
 
-		assertEquals(WitnessResult.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));		
+		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));		
 	}
 
 }

@@ -11,12 +11,12 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.atlext.ATL.MatchedRule;
 
 public abstract class BindingInvalidTargetInResolvedRule_Abstract extends BindingProblemQuickFix {
@@ -47,7 +47,7 @@ public abstract class BindingInvalidTargetInResolvedRule_Abstract extends Bindin
 		
 		List<MatchedRule> guiltyRules = new ArrayList<MatchedRule>();
 		for (BindingWithResolvedByIncompatibleRule pSingle : problems) {
-			WitnessResult result = new EclipseUseWitnessFinder().find(pSingle, analysis);
+			ProblemStatus result = new EclipseUseWitnessFinder().find(pSingle, analysis);
 			switch ( result ) {
 			case ERROR_CONFIRMED: 
 			case ERROR_CONFIRMED_SPECULATIVE:

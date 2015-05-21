@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -83,6 +84,11 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
 		return ATLUtils.findVariableReference(binding.getValue(), v) != null 
 			|| getDepending().isVarRequiredByErrorPath(v);
+	}
+	
+	@Override
+	public void genIdentification(PathId id) {
+		throw new UnsupportedOperationException("RuleResolutionNode: Done in each kind of problem...");
 	}
 
 }

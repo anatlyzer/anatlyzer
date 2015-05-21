@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -8,6 +9,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -220,5 +222,16 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {
 		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
 	}
+	
+	@Override
+	public void genIdentification(PathId id) {
+		id.next(id.gen(binding.getValue()));
+		List<MatchedRule> allRules = binding.getResolvedBy().stream().flatMap(rri -> rri.getAllInvolvedRules().stream()).collect(Collectors.toList());
+		PathId.sortRules(allRules);
+		
+		String s = allRules.stream().map(r -> MatchedRuleExecution.ruleSignature(r, id)).collect(Collectors.joining(";"));
+		id.next(s);
+	}
+	
 	
 }

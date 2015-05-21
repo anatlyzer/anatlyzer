@@ -1,0 +1,31 @@
+name: Count type errors
+extensionID: typing.experiment.countTypeErrors
+projects: 
+-  name: Ant2Maven
+-  name: Bibtex2Docbook
+-  name: Book2Publication
+-  name: Class2Relational
+-  name: CPL2SPL
+-  name: DSLBridge
+   ignoredFiles: [ ATL-KM22SimpleExample.atl ]
+-  name: EMF2KM3
+-  name: Families2Persons
+-  name: Geometry
+-  name: Grafcet2PetriNet
+-  name: IEEE1471_2_MoDAF
+-  name: JavaSource2Table
+-  name: KM32ATLCopier
+   ignoredFiles: [ ATLCopier.atl ]
+-  name: KM32CONFATL
+-  name: KM32DOT   
+-  name: KM32EMF
+-  name: KM32Measure
+-  name: KM32Metrics
+-  name: KM32OWL
+-  name: KM32XML
+-  name: KMLInjector
+-  name: Make2Ant
+-  name: Maven2Ant
+   ignoredFiles: [ Ant2XML.atl ]
+   # A copy of the one in Make2Ant
+   

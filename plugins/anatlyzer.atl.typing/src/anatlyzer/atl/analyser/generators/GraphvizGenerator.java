@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.generators;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -17,7 +18,7 @@ public class GraphvizGenerator {
 	}
 	
 	public String generate(String location) {
-		ArrayList<ProblemPath> sorted = graph.getProblemPaths();
+		List<ProblemPath> sorted = graph.getProblemPaths();
 		
 		GraphvizBuffer gv = new GraphvizBuffer();
 		for(ProblemPath path : sorted) {

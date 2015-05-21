@@ -169,13 +169,22 @@ public interface AnalysisResultPackage extends EPackage {
 	int PROBLEM__NEEDS_CSP = ANALYSIS_INFO_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROBLEM__STATUS = ANALYSIS_INFO_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Problem</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 4;
+	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Problem</em>' class.
@@ -215,6 +224,16 @@ public interface AnalysisResultPackage extends EPackage {
 	int RECOVERY_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.ProblemStatus <em>Problem Status</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.ProblemStatus
+	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getProblemStatus()
+	 * @generated
+	 */
+	int PROBLEM_STATUS = 4;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.SeverityKind <em>Severity Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -222,7 +241,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getSeverityKind()
 	 * @generated
 	 */
-	int SEVERITY_KIND = 4;
+	int SEVERITY_KIND = 5;
 
 
 	/**
@@ -311,6 +330,17 @@ public interface AnalysisResultPackage extends EPackage {
 	EAttribute getProblem_NeedsCSP();
 
 	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Status</em>'.
+	 * @see anatlyzer.atl.errors.Problem#getStatus()
+	 * @see #getProblem()
+	 * @generated
+	 */
+	EAttribute getProblem_Status();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.Recovery <em>Recovery</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -319,6 +349,16 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getRecovery();
+
+	/**
+	 * Returns the meta object for enum '{@link anatlyzer.atl.errors.ProblemStatus <em>Problem Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Problem Status</em>'.
+	 * @see anatlyzer.atl.errors.ProblemStatus
+	 * @generated
+	 */
+	EEnum getProblemStatus();
 
 	/**
 	 * Returns the meta object for enum '{@link anatlyzer.atl.errors.SeverityKind <em>Severity Kind</em>}'.
@@ -424,6 +464,14 @@ public interface AnalysisResultPackage extends EPackage {
 		EAttribute PROBLEM__NEEDS_CSP = eINSTANCE.getProblem_NeedsCSP();
 
 		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROBLEM__STATUS = eINSTANCE.getProblem_Status();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.RecoveryImpl <em>Recovery</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -432,6 +480,16 @@ public interface AnalysisResultPackage extends EPackage {
 		 * @generated
 		 */
 		EClass RECOVERY = eINSTANCE.getRecovery();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.ProblemStatus <em>Problem Status</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.ProblemStatus
+		 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getProblemStatus()
+		 * @generated
+		 */
+		EEnum PROBLEM_STATUS = eINSTANCE.getProblemStatus();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.SeverityKind <em>Severity Kind</em>}' enum.

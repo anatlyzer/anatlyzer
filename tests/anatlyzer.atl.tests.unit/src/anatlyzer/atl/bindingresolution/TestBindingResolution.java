@@ -5,10 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.unit.UnitTest;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class TestBindingResolution extends UnitTest {
 	String ANT = metamodel("ant2maven/Ant");
@@ -26,7 +26,7 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
 	}
 	
 	@Test
@@ -37,7 +37,7 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
 	}
 
 	@Test
@@ -50,9 +50,9 @@ public class TestBindingResolution extends UnitTest {
 		assertTrue(problems().get(1) instanceof BindingPossiblyUnresolved);
 		assertTrue(problems().get(2) instanceof BindingWithResolvedByIncompatibleRule);
 
-		assertEquals(WitnessResult.ERROR_DISCARDED, confirmOrDiscardProblem(problems().get(0)));
-		assertEquals(WitnessResult.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));
-		assertEquals(WitnessResult.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(2)));
+		assertEquals(ProblemStatus.ERROR_DISCARDED, confirmOrDiscardProblem(problems().get(0)));
+		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));
+		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(2)));
 
 	}
 

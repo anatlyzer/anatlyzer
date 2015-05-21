@@ -1,6 +1,7 @@
 package anatlyzer.atl.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -393,6 +394,14 @@ public class ATLUtils {
 		}
 	}
 
+	public static List<Parameter> getHelperArguments(Helper h) {
+		if ( h.getDefinition().getFeature() instanceof Attribute ) {
+			return Collections.emptyList();
+		} else {
+			return Collections.unmodifiableList( ((Operation) h.getDefinition().getFeature()).getParameters());
+		}
+	}
+	
 	public static Type getSourceType(Binding binding) {
 		return binding.getValue().getInferredType();
 	}
@@ -718,7 +727,5 @@ public class ATLUtils {
 	}
 
 	
-
-
 	
 }

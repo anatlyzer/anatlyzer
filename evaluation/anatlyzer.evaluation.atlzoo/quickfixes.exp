@@ -1,4 +1,0 @@
-name: Quickfix application
-extensionID: typing.experiment.applyQuickfixes
-projects: 
--  name: anatlyzer.example.issre2014

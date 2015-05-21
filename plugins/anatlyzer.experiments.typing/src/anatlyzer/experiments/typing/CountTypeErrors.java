@@ -1,18 +1,24 @@
 package anatlyzer.experiments.typing;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 
+import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ErrorReport;
 import anatlyzer.experiments.export.Category;
@@ -41,6 +47,10 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 				return;
 
 			allData.add(data);
+		
+			if ( useCSP() ) {
+				System.out.println("REQUIRE!!");
+			}
 			
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
@@ -55,6 +65,65 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		} 
+	}
+
+	private List<Problem> selectProblems(List<Problem> problems, AnalysisResult r) {
+		ArrayList<Problem> allProblems = new ArrayList<Problem>();
+		for (Problem p : problems) {
+			if ( requireCSP(p) ) {
+				removePropertiesFile();
+				
+				ProblemStatus result = new EclipseUseWitnessFinder().			
+						// checkProblemsInPath(checkProblemsInPath ).
+						checkDiscardCause(false).find(p, r);
+
+				
+				switch (result) {
+				case ERROR_CONFIRMED:
+				case ERROR_CONFIRMED_SPECULATIVE:
+					// that's fine						
+					// printMessage("Confirmed: " + ((LocalProblem) p).getLocation());
+					allProblems.add(p);
+					break;
+				case ERROR_DISCARDED:
+				case ERROR_DISCARDED_DUE_TO_METAMODEL:
+					// printMessage("Discarded: " + ((LocalProblem) p).getLocation());
+					continue;
+				case CANNOT_DETERMINE:
+				case INTERNAL_ERROR:
+				case NOT_SUPPORTED_BY_USE:
+					// printMessage("USE ERROR: " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "") + ", " + ((LocalProblem) p).getFileLocation());
+					continue;
+				case PROBLEMS_IN_PATH:
+					// printMessage("Problems in path for: " + ((LocalProblem) p).getLocation() + ", " + ((LocalProblem) p).getFileLocation());
+					continue;					
+				}
+			} else {
+				allProblems.add(p);
+			}
+		}
+		return allProblems;
+	}
+
+	
+	private boolean requireCSP(Problem p) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private void removePropertiesFile() {
+		try {
+			transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
+			File dir = new File(transMLProperties.getProperty("temp"));
+			FileUtils.deleteDirectory(dir);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+
+	private boolean useCSP() {
+		return this.options.containsKey("use_model_finder") &&
+			(Boolean.parseBoolean((String) this.options.get("use_model_finder")));
 	}
 
 	@Override

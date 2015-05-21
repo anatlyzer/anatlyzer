@@ -222,6 +222,10 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 			createCategoryDescriptions(wb);
 		}
 		
+		if ( errors.size() > 0 ) {
+			createErrorSheet(wb);
+		}
+
 		// Save
 		FileOutputStream fileOut = new FileOutputStream(fileName);
 		wb.write(fileOut);
@@ -229,6 +233,28 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		fileOut.close();           
 	
 	}
+
+	private void createErrorSheet(Workbook wb) {
+		Sheet s = wb.createSheet("Errors");
+		ExcelUtil u = new ExcelUtil();
+		Styler    st = new Styler(wb);
+
+		int row = 1;
+		int startCol = 1;
+
+		st.cell(s, row, startCol + 0, "Resource").centeringBold();
+		st.cell(s, row, startCol + 1, "Error").centeringBold();
+		
+		row++;
+		for (Entry<String, Exception> entry : errors.entrySet()) {
+			st.cell(s, row, startCol + 0, entry.getKey());
+			st.cell(s, row, startCol + 1, entry.getValue().getMessage());			
+			row++;
+		}
+		
+		
+	}
+
 
 	private void createCategoryDescriptions(Workbook wb) {
 		Sheet s = wb.createSheet("Categories");

@@ -5,9 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.unit.UnitTest;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class TestConstraintGeneration extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -21,6 +21,6 @@ public class TestConstraintGeneration extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingWithResolvedByIncompatibleRule);
 		
-		assertEquals(WitnessResult.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
 	}
 }

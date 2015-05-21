@@ -10,8 +10,8 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 	
@@ -21,7 +21,7 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 			Problem problem = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);
 
-			WitnessResult result = new EclipseUseWitnessFinder().find(problem, analysisData);
+			ProblemStatus result = new EclipseUseWitnessFinder().find(problem, analysisData);
 			switch ( result ) {
 			case ERROR_DISCARDED: MessageDialog.openInformation(null, "Constraint solving", "No error. Witness model could be found"); break;
 			case ERROR_DISCARDED_DUE_TO_METAMODEL:	MessageDialog.openInformation(null, "Constraint solving", "Metamodel error!. Witness model could be found due to the meta-model not being 'instantiable'"); break;

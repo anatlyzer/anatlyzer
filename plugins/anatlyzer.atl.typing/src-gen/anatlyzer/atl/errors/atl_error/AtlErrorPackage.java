@@ -105,6 +105,15 @@ public interface AtlErrorPackage extends EPackage {
 	int LOCAL_PROBLEM__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCAL_PROBLEM__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -761,6 +770,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OCL_COMPLIANCE_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_COMPLIANCE_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -849,6 +867,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -941,6 +968,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1029,6 +1065,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int TARGET_MODEL_CONFORMANCE_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGET_MODEL_CONFORMANCE_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1129,6 +1174,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_CONFLICT__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Conflicts</b></em>' containment reference list.
@@ -1240,6 +1294,15 @@ public interface AtlErrorPackage extends EPackage {
 	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1328,6 +1391,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_ACCESS_IN_COLLECTION__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__STATUS = NAVIGATION_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1569,6 +1641,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_OVER_COLLECTION_TYPE__NEEDS_CSP = OCL_COMPLIANCE_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__STATUS = OCL_COMPLIANCE_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1657,6 +1738,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_NOT_FOUND__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND__STATUS = NAVIGATION_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1783,6 +1873,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_FOUND_IN_SUBTYPE__NEEDS_CSP = FEATURE_NOT_FOUND__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__STATUS = FEATURE_NOT_FOUND__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1918,6 +2017,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID__STATUS = NAVIGATION_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2064,6 +2172,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__STATUS = OPERATION_CALL_INVALID__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2206,6 +2323,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_FOUND_IN_SUBTYPE__NEEDS_CSP = OPERATION_NOT_FOUND__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FOUND_IN_SUBTYPE__STATUS = OPERATION_NOT_FOUND__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2361,6 +2487,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__STATUS = OPERATION_CALL_INVALID__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2503,6 +2638,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_PARAMETER__NEEDS_CSP = OPERATION_CALL_INVALID__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__STATUS = OPERATION_CALL_INVALID__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2658,6 +2802,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND_IN_THIS_MODULE__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2766,6 +2919,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2865,6 +3027,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND_IN_UNION_TYPE__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2962,6 +3133,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INVALID_OPERATOR__NEEDS_CSP = INVALID_ARGUMENT_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR__STATUS = INVALID_ARGUMENT_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3072,6 +3252,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_OPERAND__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3178,6 +3367,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__STATUS = NAVIGATION_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3288,6 +3486,15 @@ public interface AtlErrorPackage extends EPackage {
 	int DIFFERENT_BRANCH_TYPES__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENT_BRANCH_TYPES__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3394,6 +3601,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3504,6 +3720,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3592,6 +3817,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_BINDING_FOR_COMPULSORY_FEATURE__NEEDS_CSP = TARGET_MODEL_CONFORMANCE_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__STATUS = TARGET_MODEL_CONFORMANCE_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3702,6 +3936,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3808,6 +4051,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__STATUS = BINDING_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3918,6 +4170,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4024,6 +4285,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__STATUS = BINDING_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4197,6 +4467,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITHOUT_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4350,6 +4629,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4501,6 +4789,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_POSSIBLY_UNRESOLVED__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__STATUS = BINDING_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4737,6 +5034,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_WITHOUT_RULE__NEEDS_CSP = RESOLVE_TEMP_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_WITHOUT_RULE__STATUS = RESOLVE_TEMP_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4834,6 +5140,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__NEEDS_CSP = RESOLVE_TEMP_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__STATUS = RESOLVE_TEMP_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4944,6 +5259,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FLATTEN_OVER_NON_NESTED_COLLECTION__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLATTEN_OVER_NON_NESTED_COLLECTION__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5034,6 +5358,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_EMPTY_SEQUENCE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_EMPTY_SEQUENCE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5122,6 +5455,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int READING_TARGET_MODEL__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READING_TARGET_MODEL__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5223,6 +5565,15 @@ public interface AtlErrorPackage extends EPackage {
 	int LAZY_RULE_WITH_FILTER__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5311,6 +5662,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int AMBIGUOUS_TARGET_MODEL_REFERENCE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5412,6 +5772,15 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_MODEL_FOUND__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_MODEL_FOUND__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5511,6 +5880,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRONG_TYPE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRONG_TYPE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5599,6 +5977,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATOR_BODY_WRONG_TYPE__NEEDS_CSP = WRONG_TYPE__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_BODY_WRONG_TYPE__STATUS = WRONG_TYPE__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5691,6 +6078,15 @@ public interface AtlErrorPackage extends EPackage {
 	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5781,6 +6177,15 @@ public interface AtlErrorPackage extends EPackage {
 	int EXPECTED_COLLECTION_IN_FOR_EACH__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPECTED_COLLECTION_IN_FOR_EACH__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5869,6 +6274,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CLASS_FOUND_IN_METAMODEL__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CLASS_FOUND_IN_METAMODEL__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5970,6 +6384,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6058,6 +6481,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_NOT_FOUND__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_NOT_FOUND__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6159,6 +6591,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_NO_COLLECTION_TYPE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6256,6 +6697,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6366,6 +6816,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__STATUS = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6472,6 +6931,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INCOHERENT_HELPER_RETURN_TYPE__NEEDS_CSP = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__STATUS = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6593,6 +7061,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ACCESS_TO_UNDEFINED_VALUE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6692,6 +7169,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_INPLACE_INVALID__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__STATUS = BINDING_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6820,6 +7306,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__STATUS = LOCAL_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.

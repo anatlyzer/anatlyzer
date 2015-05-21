@@ -7,8 +7,8 @@ import java.util.List;
 import org.junit.Test;
 
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.unit.UnitTest;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 
 public class TestRuleConflicts extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -26,8 +26,8 @@ public class TestRuleConflicts extends UnitTest {
 		System.out.println(overlaps);
 		assertEquals(2, overlaps.size());
 		
-		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmedOrNot, WitnessResult.ERROR_CONFIRMED));
+		ProblemStatus[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
 	}
 
 	
@@ -40,8 +40,8 @@ public class TestRuleConflicts extends UnitTest {
 		System.out.println(overlaps);
 		assertEquals(1, overlaps.size());
 		
-		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmedOrNot, WitnessResult.ERROR_CONFIRMED));
+		ProblemStatus[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class TestRuleConflicts extends UnitTest {
 
 		// This fails, but I am not currently able to detect the failure
 		// which is that there is a recursive operation
-		WitnessResult[] confirmedOrNot = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmedOrNot, WitnessResult.NOT_SUPPORTED_BY_USE));
+		ProblemStatus[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, ProblemStatus.NOT_SUPPORTED_BY_USE));
 	}
 	
 

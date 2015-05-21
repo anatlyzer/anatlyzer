@@ -97,6 +97,7 @@ import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuic
 import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
@@ -131,7 +132,6 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.experiments.export.CountingModel;
 import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.extensions.IExperiment;
@@ -755,7 +755,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					e.printStackTrace();
 				}
 				
-				WitnessResult result = new EclipseUseWitnessFinder().			
+				ProblemStatus result = new EclipseUseWitnessFinder().			
 						checkProblemsInPath(checkProblemsInPath ).
 						checkDiscardCause(false).find(p, r);
 

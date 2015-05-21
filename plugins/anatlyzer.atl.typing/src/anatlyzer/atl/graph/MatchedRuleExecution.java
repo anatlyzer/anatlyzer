@@ -2,11 +2,13 @@ package anatlyzer.atl.graph;
 
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
@@ -207,4 +209,17 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		throw new IllegalStateException();
 	}
 
+	@Override
+	public void genIdentification(PathId id) {	
+		id.next(ruleSignature(rule, id));
+		followDepending(n -> n.genIdentification(id));
+	}
+	
+	public static String ruleSignature(MatchedRule rule, PathId id) {
+		String sig = rule.getInPattern().getElements().stream().map(e -> e.getType()).map(PathId::typeSig).collect(Collectors.joining("&"));
+		if ( rule.getInPattern().getFilter() != null ) {
+			sig += "[" + id.gen( rule.getInPattern().getFilter() ) + "]";
+		}
+		return sig;		
+	}
 }

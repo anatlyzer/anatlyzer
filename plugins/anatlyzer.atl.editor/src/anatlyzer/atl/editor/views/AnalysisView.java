@@ -1,10 +1,8 @@
 package anatlyzer.atl.editor.views;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -73,20 +71,18 @@ import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
-import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
-import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.optimizer.AtlOptimizer;
 import anatlyzer.atl.witness.IWitnessFinder;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
 import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.ui.actions.CheckRuleConflicts;
@@ -444,7 +440,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	class LocalProblemNode extends TreeNode implements IWithCodeLocation {
 
 		protected LocalProblem p;
-		protected WitnessResult status = null;
 
 		public LocalProblemNode(TreeNode parent, LocalProblem p) {
 			super(parent);
@@ -464,13 +459,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			String prefix = "";
-			if ( status != null ) {
-				switch(status) {
-				case CANNOT_DETERMINE: prefix = "[?] "; break;
+			if ( p != null ) {
+				switch(p.getStatus()) {				
+				case STATICALLY_CONFIRMED: prefix = ""; break;
+				case WITNESS_REQUIRED: prefix = "[?] "; break;				
 				case ERROR_CONFIRMED: prefix = "[C] "; break;
 				case ERROR_CONFIRMED_SPECULATIVE: prefix = "[CS] "; break;
 				case ERROR_DISCARDED: prefix = "[D] "; break;
 				case ERROR_DISCARDED_DUE_TO_METAMODEL: prefix = "[DM] "; break;
+				case CANNOT_DETERMINE: prefix = "[E2] "; break;
 				case INTERNAL_ERROR: prefix = "[E] "; break;
 				case NOT_SUPPORTED_BY_USE: prefix = "[U] "; break;
 				}
@@ -492,8 +489,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			WorkbenchUtil.goToEditorLocation(p.getFileLocation(), p.getLocation());   
 		}
 		
-		public void setStatus(WitnessResult status) {
-			this.status  = status;
+		public void setStatus(ProblemStatus status) {
+			this.p.setStatus(status);
 		}
 	}
 	
@@ -807,7 +804,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
 					if ( wf != null ) {
-						WitnessResult status = wf.find(lpn.p, currentAnalysis);
+						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);
 						viewer.refresh(lpn); //, true);
 					}
@@ -1014,7 +1011,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	@Override
-	public void analysisRegistered(String location, AnalysisResult result, boolean firstTime) {
+	public void analysisRegistered(String location, AnalysisResult result, AnalysisResult previous) {
 		IWorkbenchPage page = this.getSite().getPage();
 		IEditorPart part = page.getActiveEditor();
 		if ( part instanceof AtlEditorExt && 			

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EPackage;
 import witness.generator.ErrorMMGenerator;
 import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.witness.UseWitnessFinder;
 
 public class StandaloneWitnessFinder extends UseWitnessFinder {
@@ -29,7 +30,7 @@ public class StandaloneWitnessFinder extends UseWitnessFinder {
 		return "/tmp/witnessfinder/witnessfinder";
 	}
 	
-	private WitnessResult executeCommand() {
+	private ProblemStatus executeCommand() {
 		String params = "--launcher.suppressErrors -ecore " + getOutputFileName();
 		try {
 			ProcessBuilder pb = new ProcessBuilder()
@@ -42,29 +43,29 @@ public class StandaloneWitnessFinder extends UseWitnessFinder {
 			
 			switch (exitValue) {
 			case 1:
-				return WitnessResult.ERROR_CONFIRMED;
+				return ProblemStatus.ERROR_CONFIRMED;
 			case 2:
-				return WitnessResult.ERROR_DISCARDED;
+				return ProblemStatus.ERROR_DISCARDED;
 			case 3:
-				return WitnessResult.INTERNAL_ERROR;
+				return ProblemStatus.INTERNAL_ERROR;
 			default:
-				return WitnessResult.CANNOT_DETERMINE;
+				return ProblemStatus.CANNOT_DETERMINE;
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
-			return WitnessResult.CANNOT_DETERMINE;
+			return ProblemStatus.CANNOT_DETERMINE;
 		}
 	}
 	
 	
 	@Override
-	protected WitnessResult applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
-		WitnessResult res = super.applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses);
+	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+		ProblemStatus res = super.applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses);
 		// The intermediate file is generated correctly
-		if ( res == WitnessResult.ERROR_CONFIRMED ) {
+		if ( res == ProblemStatus.ERROR_CONFIRMED ) {
 			return executeCommand();
 		}
-		return WitnessResult.CANNOT_DETERMINE;
+		return ProblemStatus.CANNOT_DETERMINE;
 	}
 	
 

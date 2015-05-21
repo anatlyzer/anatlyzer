@@ -8,6 +8,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -87,4 +88,8 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 		return false;
 	}
 	
+	@Override
+	public void genIdentification(PathId id) {
+		// Do nothing
+	}
 }

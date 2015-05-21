@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
@@ -10,6 +11,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
@@ -17,10 +19,12 @@ public class LoopNode extends AbstractDependencyNode {
 
 	private OclExpression	receptor;
 	private Iterator	iteratorVar;
+	private LoopExp loop;
 
-	public LoopNode(OclExpression receptor, Iterator iterator) {
-		this.receptor = receptor;
-		this.iteratorVar = iterator;
+	public LoopNode(LoopExp loop) {
+		this.loop     = loop;
+		this.receptor = loop.getSource();
+		this.iteratorVar = loop.getIterators().get(0);
 	}
 
 	@Override
@@ -79,4 +83,10 @@ public class LoopNode extends AbstractDependencyNode {
 			|| getDepending().isVarRequiredByErrorPath(v);
 	}
 
+	@Override
+	public void genIdentification(PathId id) {
+		String s = id.gen(receptor) + "." + ((loop instanceof IteratorExp) ? ((IteratorExp) loop).getName() : "iterate");
+		id.next(s);
+		followDepending(node -> node.genIdentification(id));
+	}
 }

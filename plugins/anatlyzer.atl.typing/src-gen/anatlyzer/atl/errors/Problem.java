@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atl.errors.Problem#getDescription <em>Description</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getSeverity <em>Severity</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#isNeedsCSP <em>Needs CSP</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}</li>
  * </ul>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem()
@@ -121,5 +122,34 @@ public interface Problem extends AnalysisInfo {
 	 * @generated
 	 */
 	void setNeedsCSP(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Status</b></em>' attribute.
+	 * The literals are from the enumeration {@link anatlyzer.atl.errors.ProblemStatus}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Status</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Status</em>' attribute.
+	 * @see anatlyzer.atl.errors.ProblemStatus
+	 * @see #setStatus(ProblemStatus)
+	 * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem_Status()
+	 * @model required="true"
+	 * @generated
+	 */
+	ProblemStatus getStatus();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Status</em>' attribute.
+	 * @see anatlyzer.atl.errors.ProblemStatus
+	 * @see #getStatus()
+	 * @generated
+	 */
+	void setStatus(ProblemStatus value);
 
 } // Problem

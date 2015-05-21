@@ -1,6 +1,6 @@
 package anatlyzer.atl.unit;
 
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.examples.api.BaseTest;
 
 public class UnitTest extends BaseTest {
@@ -27,7 +27,7 @@ public class UnitTest extends BaseTest {
     	return "metamodels/" + name + ".ecore";
     }
     
-	protected int count(WitnessResult[] confirmed, WitnessResult expected) {
+	protected int count(ProblemStatus[] confirmed, ProblemStatus expected) {
 		int s = 0;
 		for(int i = 0; i < confirmed.length; i++) 
 			s += confirmed[i] == expected ? 1 : 0;

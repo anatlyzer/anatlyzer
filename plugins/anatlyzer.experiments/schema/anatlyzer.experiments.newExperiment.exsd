@@ -49,6 +49,9 @@
 
    <element name="experiment">
       <complexType>
+         <sequence>
+            <element ref="actions" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="delegate" type="string">
             <annotation>
                <documentation>
@@ -60,6 +63,28 @@
             </annotation>
          </attribute>
          <attribute name="resourceType" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="actions">
+      <complexType>
+         <attribute name="implementation" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":anatlyzer.experiments.IExperimentAction"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
                   

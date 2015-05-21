@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
@@ -50,10 +51,12 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
+import anatlyzer.experiments.IExperimentAction;
 import anatlyzer.experiments.configuration.ExperimentConfiguration;
 import anatlyzer.experiments.configuration.ExperimentConfigurationReader;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.extensions.NewExperimentExtension;
+import anatlyzer.experiments.extensions.NewExperimentExtension.DeclaredAction;
 
 /**
  * An example showing how to create a multi-page editor.
@@ -109,49 +112,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 				e.getStatus());
 		}
 	}
-	/**
-	 * Creates page 1 of the multi-page editor,
-	 * which allows you to change the font used in page 2.
-	 */
-	/*
-	void createPage1() {
 
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		GridLayout layout = new GridLayout();
-		composite.setLayout(layout);
-		layout.numColumns = 3;
-
-		Button executeButton = new Button(composite, SWT.NONE);
-		GridData gd = new GridData(GridData.BEGINNING);
-		gd.horizontalSpan = 1;
-		executeButton.setLayoutData(gd);
-		executeButton.setText("Execute");
-		
-		executeButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				executeExperiment();
-			}
-		});
-
-		Button exportToExcel = new Button(composite, SWT.NONE);
-		GridData gdExcel = new GridData(GridData.BEGINNING);
-		gdExcel.horizontalSpan = 2;
-		exportToExcel.setLayoutData(gdExcel);
-		exportToExcel.setText("Export to Excel");
-		
-		exportToExcel.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				exportToExcel();
-			}
-		});
-
-		
-		
-		int index = addPage(composite);
-		setPageText(index, "Properties");
-	}
-	*/
-	
 	/**
 	 * Creates page 2 of the multi-page editor,
 	 * which shows the sorted text.
@@ -159,7 +120,17 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 	void createPage2() {
 		Composite composite = new Composite(getContainer(), SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 3;
+		
+		
+		// Get info for additional buttons
+		ExperimentConfiguration conf = readConfigurationFile();
+		List<DeclaredAction> actions = Collections.emptyList();
+		if ( conf != null ) {
+			actions = NewExperimentExtension.getActions(conf);
+		}
+		
+		
+		layout.numColumns = 3 + actions.size();
 		composite.setLayout(layout);
 		
 		// Execute
@@ -177,7 +148,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 
 		Button exportToExcel = new Button(composite, SWT.NONE);
 		GridData gdExcel = new GridData(GridData.BEGINNING);
-		gdExcel.horizontalSpan = 2;
+		gdExcel.horizontalSpan = 1;
 		exportToExcel.setLayoutData(gdExcel);
 		exportToExcel.setText("Export to Excel");
 		
@@ -186,9 +157,30 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 				exportToExcel();
 			}
 		});
+
+		for(int i = 0; i < actions.size(); i++) {
+			Button b = new Button(composite, SWT.NONE);
+			GridData bd = new GridData(GridData.BEGINNING);
+			// gdExcel.horizontalSpan = 2 + i + 1;
+			bd.horizontalSpan = 1;
+			b.setLayoutData(bd);
+			b.setText(actions.get(i).name);
+			final IExperimentAction a = actions.get(i).action;
+			b.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent event) {
+					executeAction(a);
+				}
+
+				private void executeAction(IExperimentAction a) {
+					FileEditorInput input = (FileEditorInput) getEditorInput();
+					a.execute(experiment, input.getFile());
+				}
+			});
+		}
+		
 		// Text
 		GridData gd1 = new GridData(GridData.FILL_BOTH);
-		gd1.horizontalSpan = 2;
+		gd1.horizontalSpan = layout.numColumns - 1;
 				
 		text = new StyledText(composite, SWT.H_SCROLL | SWT.V_SCROLL);
 		
@@ -293,8 +285,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 
 	
 	void executeExperiment() {
-		String confText = editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
-		final ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);		
+		final ExperimentConfiguration conf = readConfigurationFile();		
 
 		IExperiment experiment = null;
 		String extension = null;
@@ -335,6 +326,12 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		} else {
 			text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
 		}
+	}
+	
+	protected ExperimentConfiguration readConfigurationFile() {
+		String confText = editor.getDocumentProvider().getDocument(editor.getEditorInput()).get();
+		final ExperimentConfiguration conf = ExperimentConfigurationReader.parseFromText(confText);
+		return conf;
 	}
 	
 	private class ExperimentJob extends Job {

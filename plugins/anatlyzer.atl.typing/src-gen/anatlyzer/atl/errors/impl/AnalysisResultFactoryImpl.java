@@ -71,6 +71,8 @@ public class AnalysisResultFactoryImpl extends EFactoryImpl implements AnalysisR
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
+			case AnalysisResultPackage.PROBLEM_STATUS:
+				return createProblemStatusFromString(eDataType, initialValue);
 			case AnalysisResultPackage.SEVERITY_KIND:
 				return createSeverityKindFromString(eDataType, initialValue);
 			default:
@@ -86,6 +88,8 @@ public class AnalysisResultFactoryImpl extends EFactoryImpl implements AnalysisR
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
+			case AnalysisResultPackage.PROBLEM_STATUS:
+				return convertProblemStatusToString(eDataType, instanceValue);
 			case AnalysisResultPackage.SEVERITY_KIND:
 				return convertSeverityKindToString(eDataType, instanceValue);
 			default:
@@ -101,6 +105,26 @@ public class AnalysisResultFactoryImpl extends EFactoryImpl implements AnalysisR
 	public AnalysisResult createAnalysisResult() {
 		AnalysisResultImpl analysisResult = new AnalysisResultImpl();
 		return analysisResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProblemStatus createProblemStatusFromString(EDataType eDataType, String initialValue) {
+		ProblemStatus result = ProblemStatus.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertProblemStatusToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

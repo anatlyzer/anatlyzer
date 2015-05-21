@@ -4,6 +4,7 @@ package anatlyzer.atl.errors.impl;
 
 import anatlyzer.atl.errors.AnalysisResultPackage;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.SeverityKind;
 
 import java.util.Collection;
@@ -33,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getSeverity <em>Severity</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#isNeedsCSP <em>Needs CSP</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getStatus <em>Status</em>}</li>
  * </ul>
  *
  * @generated
@@ -107,6 +109,26 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * @ordered
 	 */
 	protected boolean needsCSP = NEEDS_CSP_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getStatus() <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ProblemStatus STATUS_EDEFAULT = ProblemStatus.STATICALLY_CONFIRMED;
+
+	/**
+	 * The cached value of the '{@link #getStatus() <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected ProblemStatus status = STATUS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -207,6 +229,27 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ProblemStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStatus(ProblemStatus newStatus) {
+		ProblemStatus oldStatus = status;
+		status = newStatus == null ? STATUS_EDEFAULT : newStatus;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisResultPackage.PROBLEM__STATUS, oldStatus, status));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -232,6 +275,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return getSeverity();
 			case AnalysisResultPackage.PROBLEM__NEEDS_CSP:
 				return isNeedsCSP();
+			case AnalysisResultPackage.PROBLEM__STATUS:
+				return getStatus();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -258,6 +303,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__NEEDS_CSP:
 				setNeedsCSP((Boolean)newValue);
 				return;
+			case AnalysisResultPackage.PROBLEM__STATUS:
+				setStatus((ProblemStatus)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -282,6 +330,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__NEEDS_CSP:
 				setNeedsCSP(NEEDS_CSP_EDEFAULT);
 				return;
+			case AnalysisResultPackage.PROBLEM__STATUS:
+				setStatus(STATUS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -302,6 +353,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return severity != SEVERITY_EDEFAULT;
 			case AnalysisResultPackage.PROBLEM__NEEDS_CSP:
 				return needsCSP != NEEDS_CSP_EDEFAULT;
+			case AnalysisResultPackage.PROBLEM__STATUS:
+				return status != STATUS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -322,6 +375,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 		result.append(severity);
 		result.append(", needsCSP: ");
 		result.append(needsCSP);
+		result.append(", status: ");
+		result.append(status);
 		result.append(')');
 		return result.toString();
 	}

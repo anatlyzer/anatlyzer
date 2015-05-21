@@ -2,7 +2,6 @@ package anatlyzer.atl.analyser.libtypes;
 
 import java.util.HashMap;
 
-import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.types.Type;
 
 public abstract class AtlTypeDef {

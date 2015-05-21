@@ -4,6 +4,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -105,5 +106,9 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 		return ATLUtils.findVariableReference(binding.getValue(), v) != null;
 	}
 	
-
+	@Override
+	public void genIdentification(PathId id) {
+		id.next(id.gen(binding.getValue()));
+	}
+	
 }

@@ -3,9 +3,11 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
+import anatlyzer.atl.analyser.generators.PathIdStringVisitor;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.IfExp;
@@ -37,6 +39,19 @@ public class ConditionalNode extends AbstractDependencyNode {
 		generatedDependencies(slice);
 	}
 
+	@Override
+	public void genIdentification(PathId id) {
+		String s = "IF";
+		if ( branch == TRUE_BRANCH ) {
+			s += "T["; 
+		} else {
+			s += "F[";
+		}
+		s += PathIdStringVisitor.serialize(ifExpr.getCondition(), id) + "]";
+		id.next(s);
+		followDepending((dep) -> dep.genIdentification(id));
+	}
+	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
 		return problemInExpression(lp, ifExpr.getCondition()) 

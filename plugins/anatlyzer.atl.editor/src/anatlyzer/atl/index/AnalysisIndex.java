@@ -7,6 +7,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.problemtracking.ProblemTracker;
 
 /**
  * This class maintains a global index of the analysis already performed
@@ -16,7 +17,10 @@ import anatlyzer.atl.analyser.AnalysisResult;
  */
 public class AnalysisIndex {
 
+	
 	private static AnalysisIndex singleton = new AnalysisIndex();
+	
+	private boolean trackProblems = true;
 	private HashMap<String, AnalysisResult> index = new HashMap<String, AnalysisResult>();
 	private Set<IndexChangeListener> listeners = new HashSet<IndexChangeListener>();
 	
@@ -33,11 +37,17 @@ public class AnalysisIndex {
 	}
 	
 	public synchronized void register(String location, AnalysisResult result) {
-		boolean firstTime = index.containsKey(location);
+		AnalysisResult previous = index.get(location);
+		
+		if ( previous != null && trackProblems ) {
+			ProblemTracker tracker  = new ProblemTracker(previous, result);
+			tracker.copyStatus();
+		}
+		
 		index.put(location, result);
 		
 		for (IndexChangeListener indexChangeListener : listeners) {
-			indexChangeListener.analysisRegistered(location, result, firstTime);
+			indexChangeListener.analysisRegistered(location, result, previous);
 		}
 	}
 	

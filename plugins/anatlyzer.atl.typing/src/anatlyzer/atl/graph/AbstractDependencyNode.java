@@ -4,18 +4,18 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.StaticHelper;
@@ -139,6 +139,13 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 		throw new IllegalStateException("Only one depending node supported");
 	}
 
+	protected void followDepending(Consumer<GraphNode> consumer) {
+		DependencyNode dep = getDepending();
+		if ( dep != null ) {
+			consumer.accept(dep);
+		}
+	}
+	
 	public ConstraintNode getConstraint() {
 		if 		( constraints.size() == 0 ) return null;
 		else if ( constraints.size() == 1 ) return constraints.get(0);
@@ -201,6 +208,12 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	
 	public void setLeadsToExecution(boolean leadsToExecution) {
 		this.leadsToExecution  = leadsToExecution;
+	}
+	
+	
+	@Override
+	public void genIdentification(PathId id) {
+		throw new UnsupportedOperationException(this.getClass().getName() + " : " + problem);
 	}
 	
 }

@@ -104,6 +104,15 @@ public interface IdeErrorPackage extends EPackage {
 	int COULD_NOT_LOAD_METAMODEL__NEEDS_CSP = AtlErrorPackage.LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COULD_NOT_LOAD_METAMODEL__STATUS = AtlErrorPackage.LOCAL_PROBLEM__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

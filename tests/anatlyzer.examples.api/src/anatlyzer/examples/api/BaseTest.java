@@ -3,12 +3,10 @@ package anatlyzer.examples.api;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -19,8 +17,6 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.m2m.atl.core.emf.EMFModelFactory;
 import org.eclipse.m2m.atl.engine.parser.AtlParser;
 
-import witness.generator.WitnessGeneratorMemory;
-import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
@@ -29,16 +25,13 @@ import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.ErrorSliceGenerator;
 import anatlyzer.atl.analyser.generators.GraphvizGenerator;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ErrorReport;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessResult;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public class BaseTest {
@@ -190,11 +183,11 @@ public class BaseTest {
 	}
 	
 	// Error meta-model
-	public WitnessResult[] confirmOrDiscardRuleConflicts() {
+	public ProblemStatus[] confirmOrDiscardRuleConflicts() {
 		if ( possibleRuleConflicts == null )
 			possibleRuleConflicts = possibleRuleConflicts();
 		
-		WitnessResult[] results = new WitnessResult[possibleRuleConflicts.size()];		
+		ProblemStatus[] results = new ProblemStatus[possibleRuleConflicts.size()];		
 		int i = 0;
 		for (OverlappingRules overlappingRules : possibleRuleConflicts) {
 			results[i] = new TestUSEWitnessFinder().find(overlappingRules, analysisData);
@@ -206,8 +199,8 @@ public class BaseTest {
 		
 	
 	// This is the good one, remove the rest...
-	protected WitnessResult confirmOrDiscardProblem(LocalProblem problem) {
-		WitnessResult result = new TestUSEWitnessFinder().find(problem, analysisData);
+	protected ProblemStatus confirmOrDiscardProblem(LocalProblem problem) {
+		ProblemStatus result = new TestUSEWitnessFinder().find(problem, analysisData);
 		return result;
 	}
 

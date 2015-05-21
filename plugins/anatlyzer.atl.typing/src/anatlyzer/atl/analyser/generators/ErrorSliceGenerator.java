@@ -75,18 +75,4 @@ public class ErrorSliceGenerator {
 		}
 	}
 	
-	/*
-	public void generate(ProblemPath path, Resource r) {
-		ErrorSlice slice = null;
-		LocalProblem problemOfNode   = path.getProblem();
-		slice = path.getErrorNode().getErrorSlice(analyser);
-
-		String name = "error"; //  + (i + 1);
-		String info = ErrorUtils.getShortError(problemOfNode);
-
-		new EffectiveMetamodelBuilder(slice).extractSource(r, name, name, name, info);
-	}
-	*/
-	
-	
 }

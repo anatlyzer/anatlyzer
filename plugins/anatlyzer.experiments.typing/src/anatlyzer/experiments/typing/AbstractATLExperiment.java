@@ -1,6 +1,7 @@
 package anatlyzer.experiments.typing;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -20,7 +21,14 @@ import anatlyzer.ui.util.AtlEngineUtils;
 public abstract class AbstractATLExperiment  implements IExperiment {
 	
 	protected IFile experimentFile;
+	protected HashMap<String, Object> options;
 
+	@Override
+	public void setOptions(HashMap<String, Object> options) {
+		this.options = options;
+	}
+	
+	
 	@Override
 	public void setExperimentConfiguration(IFile file) {
 		this.experimentFile = file;

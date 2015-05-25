@@ -1,16 +1,12 @@
 package anatlyzer.atl.util;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -33,72 +29,93 @@ import anatlyzer.atlext.OCL.OclModel;
 
 public class ErrorReport {
 
+	public static class Report {
+		public int nMatchedRules;
+		public int nAbstractMatchedRules;
+		public int nHelpers;
+		public int nLazyRules;
+		public int nCalledRules;
+		public int nSourceClasses;
+		public int nTargetClasses;
+		public int nLOC;
+		
+	}
+	
 	public static void printStatistics(Analyser analyser, String atlTransformationFile) {
 		printStatistics(analyser, new String[] { atlTransformationFile }, System.out);
 	}
 	
 	public static void printStatistics(Analyser analyser, String[] fileLocations, OutputStream stream) {
 		PrintStream out = new PrintStream(stream);
+		Report r = computeStatistics(analyser, fileLocations);
+
+		
+		out.println("Transformation statistics");
+		out.println(" * LOC : " + r.nLOC);
+		if (r.nHelpers > 0)
+			out.println(" * Helpers : " + r.nHelpers);
+		if (r.nMatchedRules > 0)
+			out.println(" * Matched rules : "
+					+ r.nMatchedRules 
+					+ (r.nAbstractMatchedRules  > 0 ? "(abstract = " + r.nAbstractMatchedRules + ")"
+							: ""));
+		if (r.nLazyRules > 0)
+			out.println(" * Lazy rules : " + r.nLazyRules);
+		if (r.nCalledRules > 0)
+			out.println(" * Called rules : " + r.nCalledRules);
+
+
+		out.println("Metamodel statistics");
+		out.println(" * Source meta-model(s) : " + r.nSourceClasses);
+		out.println(" * Target meta-model(s) : " + r.nTargetClasses);
+
+		out.println();
+	}
+
+	public static Report computeStatistics(Analyser analyser, String atlTransformationFile) {
+		return computeStatistics(analyser, new String[] { atlTransformationFile });
+	}
+
+	public static Report computeStatistics(Analyser analyser, String[] fileLocations) {
+		Report r = new Report();
 		
 		ATLModel atlTransformation = analyser.getATLModel();
 		GlobalNamespace mm = analyser.getNamespaces();
 		
-		int helpers = 0, matchedRules = 0, abstractRules = 0, lazyRules = 0, calledRules = 0;
+		// int helpers = 0, matchedRules = 0, abstractRules = 0, lazyRules = 0, calledRules = 0;
 		Module module = atlTransformation.allObjectsOf(Module.class).get(0);
 		for (ModuleElement e : module.getElements()) {
 			if (e instanceof Helper && ! (ExtendTransformation.isAddedEOperation(e)))
-				helpers++;
+				r.nHelpers++;
 			else if (e instanceof LazyRule)
-				lazyRules++;
+				r.nLazyRules++;
 			else if (e instanceof MatchedRule) {
 				MatchedRule mr = (MatchedRule) e;
 				if (mr.isIsAbstract())
-					abstractRules++;
+					r.nAbstractMatchedRules++;
 				else
-					matchedRules++;
+					r.nMatchedRules++;
 			} else if (e instanceof CalledRule)
-				calledRules++;
+				r.nCalledRules++;
 		}
 
-		
-		int numberOfLines = 0;
-		for(String location : fileLocations) {
-			numberOfLines += countLOCs(location);
-		}
-				
-		out.println("Transformation statistics");
-		out.println(" * LOC : " + numberOfLines);
-		if (helpers > 0)
-			out.println(" * Helpers : " + helpers);
-		if (matchedRules > 0)
-			out.println(" * Matched rules : "
-					+ matchedRules
-					+ (abstractRules > 0 ? "(abstract = " + abstractRules + ")"
-							: ""));
-		if (lazyRules > 0)
-			out.println(" * Lazy rules : " + lazyRules);
-		if (calledRules > 0)
-			out.println(" * Called rules : " + calledRules);
-
-		int sourceClasses = 0;
-		int targetClasses = 0;
 		for (OclModel model : module.getInModels()) {
 			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
 					.getName());
-			sourceClasses += ns.getAllClasses().size();
+			r.nSourceClasses += ns.getAllClasses().size();
 		}
 
 		for (OclModel model : module.getOutModels()) {
 			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
 					.getName());
-			targetClasses += ns.getAllClasses().size();
+			r.nTargetClasses += ns.getAllClasses().size();
 		}
 
-		out.println("Metamodel statistics");
-		out.println(" * Source meta-model(s) : " + sourceClasses);
-		out.println(" * Target meta-model(s) : " + targetClasses);
-
-		out.println();
+		r.nLOC = 0;
+		for(String location : fileLocations) {
+			r.nLOC += countLOCs(location);
+		}
+		return r;
 	}
 
 	protected static int countLOCs(String atlTransformationFile) {

@@ -188,7 +188,7 @@
    </extension>
    
    <!-- Constraint solving and slicing -->
-   
+   <!--
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
@@ -207,7 +207,7 @@
             apply="anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix">
       </quickfix>
    </extension>
-   
+   -->
     <!-- END-OF Constraint solving and slicing -->
    
 </plugin>

@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.atl.typing;bundle-version="0.1.0",
  org.eclipse.core.resources,
  anatlyzer.atl.editor;bundle-version="0.1.0",
- anatlyzer.use.witness
+ org.eclipse.m2m.atl.engine.emfvm;bundle-version="3.5.0",
+ transML
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.resources,

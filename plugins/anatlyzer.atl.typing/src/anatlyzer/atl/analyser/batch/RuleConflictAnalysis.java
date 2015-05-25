@@ -13,6 +13,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -155,28 +156,29 @@ public class RuleConflictAnalysis {
 		protected Metaclass type;
 		protected HashSet<MatchedRule> rules = new HashSet<MatchedRule>();
 		
-		protected int analysisResult = ANALYSIS_NOT_PERFORMED;
+		//protected int analysisResult = ANALYSIS_NOT_PERFORMED;
+		protected ProblemStatus analysisResult = ProblemStatus.WITNESS_REQUIRED; // To signal it has not been process yet
 		
 		private ErrorSlice errorSlice;
 		private OclExpression condition;
 		
-		public static final int ANALYSIS_NOT_PERFORMED    = 0;
-		public static final int ANALYSIS_STATIC_CONFIRMED = 1;
-		public static final int ANALYSIS_SOLVER_CONFIRMED = 2;
-		public static final int ANALYSIS_SOLVER_DISCARDED = 3;
-		public static final int ANALYSIS_SOLVER_FAILED = 4;
-		public static final int ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL = 5;
+//		public static final int ANALYSIS_NOT_PERFORMED    = 0;
+//		public static final int ANALYSIS_STATIC_CONFIRMED = 1;
+//		public static final int ANALYSIS_SOLVER_CONFIRMED = 2;
+//		public static final int ANALYSIS_SOLVER_DISCARDED = 3;
+//		public static final int ANALYSIS_SOLVER_FAILED = 4;
+//		public static final int ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL = 5;
 		
 		public OverlappingRules(Metaclass type, MatchedRule r) {
 			this.type = type;
 			this.rules.add(r);
 		}
 		
-		public void setAnalysisResult(int analysisResult) {
+		public void setAnalysisResult(ProblemStatus analysisResult) {
 			this.analysisResult = analysisResult;
 		}
 		
-		public int getAnalysisResult() {
+		public ProblemStatus getAnalysisResult() {
 			return analysisResult;
 		}
 

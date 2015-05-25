@@ -55,8 +55,8 @@ public abstract class BindingInvalidTargetInResolvedRule_Abstract extends Bindin
 				break;
 			case ERROR_DISCARDED: 
 			case ERROR_DISCARDED_DUE_TO_METAMODEL:	
-			case INTERNAL_ERROR: 
-			case CANNOT_DETERMINE: 
+			case USE_INTERNAL_ERROR: 
+			case IMPL_INTERNAL_ERROR: 
 			case NOT_SUPPORTED_BY_USE:
 				// If the error is discarded or we cannot say, do not select the rule
 				break;

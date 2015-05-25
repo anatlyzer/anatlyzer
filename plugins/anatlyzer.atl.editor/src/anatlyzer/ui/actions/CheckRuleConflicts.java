@@ -17,6 +17,7 @@ import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
@@ -89,7 +90,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 	 */
 	private boolean processOverlap(OverlappingRules overlap, AnalyserData data) {
 		if ( ! overlap.requireConstraintSolving() ) {
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_STATIC_CONFIRMED);
+			overlap.setAnalysisResult(ProblemStatus.STATICALLY_CONFIRMED);
 			return true;
 		}
 			
@@ -98,73 +99,16 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 			wf = WitnessUtil.getFirstWitnessFinder();
 		}
 
-		switch ( wf.find(overlap, data) ) {
-		case CANNOT_DETERMINE:
-		case INTERNAL_ERROR: 
-		case NOT_SUPPORTED_BY_USE:
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
-			return true; // so that it is included
-		case ERROR_CONFIRMED:
-		case ERROR_CONFIRMED_SPECULATIVE:
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_CONFIRMED);
+		ProblemStatus result = wf.find(overlap, data);
+		overlap.setAnalysisResult(result);
+		if ( overlap.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+			 overlap.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+			 overlap.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
 			return true;
-		case ERROR_DISCARDED:			
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED);
-			return false;
-		case ERROR_DISCARDED_DUE_TO_METAMODEL:			
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL);
-			return false;			
 		}
 		
-		throw new IllegalStateException();
-		
-		// Error meta-model
-		// XMIResourceImpl r1 =  new XMIResourceImpl(URI.createURI("overlap_error"));
-		// EPackage errorSlice = new EffectiveMetamodelBuilder(overlap.getErrorSlice(data.getAnalyser())).extractSource(r1, "overlap", "http://overlap", "overlap", "overlap");
-		
-		// Effective meta-model
-		/*
-		if ( effective == null ) {
-			XMIResourceImpl r2 =  new XMIResourceImpl(URI.createURI("overlap_effective"));
-			TrafoMetamodelData trafoData = new TrafoMetamodelData(data.getAnalyser().getATLModel(), null);
-			
-			String logicalName = "effective_mm";
-			effective = new EffectiveMetamodelBuilder(trafoData).extractSource(r2, logicalName, logicalName, logicalName, logicalName);
-		}
-		*/
-		
-		// Language meta-model
-		/*
-		if ( language == null )
-			language  = AnalyserUtils.getSingleSourceMetamodel(data.getAnalyser()); //data.getSourceMetamodel();
-		*/
-		
-		/*
-		String projectPath = WorkbenchUtil.getProjectPath();
-		
-		OclExpression constraint = overlap.getWitnessCondition();
-		String constraintStr = USESerializer.retypeAndGenerate( constraint);
-		
-		System.out.println("Constraint: " + constraintStr);
-		
-		WitnessGeneratorMemory generator = new WitnessGeneratorMemory(errorSlice, effective, language, constraintStr);
-		generator.setTempDirectoryPath(projectPath);
-		try {
-			if ( ! generator.generate() ) {
-				System.out.println("Not witness found!");
-				overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_DISCARDED);
-				return false;
-			}
-			
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_CONFIRMED);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			overlap.setAnalysisResult(OverlappingRules.ANALYSIS_SOLVER_FAILED);
-			return true; // So that it is included
-		}
-		*/
-		
+		return false;
+				
 	}
 
 	@Override

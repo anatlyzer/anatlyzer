@@ -79,16 +79,24 @@ public enum ProblemStatus implements Enumerator {
 	ERROR_DISCARDED_DUE_TO_METAMODEL(5, "ERROR_DISCARDED_DUE_TO_METAMODEL", "ERROR_DISCARDED_DUE_TO_METAMODEL"),
 
 	/**
-	 * The '<em><b>INTERNAL ERROR</b></em>' literal object.
+	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #INTERNAL_ERROR_VALUE
+	 * @see #USE_INTERNAL_ERROR_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	INTERNAL_ERROR(6, "INTERNAL_ERROR", "INTERNAL_ERROR"),
+	USE_INTERNAL_ERROR(6, "USE_INTERNAL_ERROR", "USE_INTERNAL_ERROR"),
 
 	/**
+	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #IMPL_INTERNAL_ERROR_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	IMPL_INTERNAL_ERROR(7, "IMPL_INTERNAL_ERROR", "IMPL_INTERNAL_ERROR"), /**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -96,9 +104,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CANNOT_DETERMINE(7, "CANNOT_DETERMINE", "CANNOT_DETERMINE"),
-
-	/**
+	CANNOT_DETERMINE(8, "CANNOT_DETERMINE", "CANNOT_DETERMINE"), /**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -106,7 +112,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NOT_SUPPORTED_BY_USE(8, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
+	NOT_SUPPORTED_BY_USE(9, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal object.
@@ -116,7 +122,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PROBLEMS_IN_PATH(9, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
+	PROBLEMS_IN_PATH(10, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
 
 	/**
 	 * The '<em><b>STATICALLY CONFIRMED</b></em>' literal value.
@@ -209,19 +215,34 @@ public enum ProblemStatus implements Enumerator {
 	public static final int ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE = 5;
 
 	/**
-	 * The '<em><b>INTERNAL ERROR</b></em>' literal value.
+	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>INTERNAL ERROR</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>USE INTERNAL ERROR</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #INTERNAL_ERROR
+	 * @see #USE_INTERNAL_ERROR
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int INTERNAL_ERROR_VALUE = 6;
+	public static final int USE_INTERNAL_ERROR_VALUE = 6;
+
+	/**
+	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>IMPL INTERNAL ERROR</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #IMPL_INTERNAL_ERROR
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int IMPL_INTERNAL_ERROR_VALUE = 7;
 
 	/**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal value.
@@ -236,7 +257,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CANNOT_DETERMINE_VALUE = 7;
+	public static final int CANNOT_DETERMINE_VALUE = 8;
 
 	/**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal value.
@@ -251,7 +272,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NOT_SUPPORTED_BY_USE_VALUE = 8;
+	public static final int NOT_SUPPORTED_BY_USE_VALUE = 9;
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal value.
@@ -266,7 +287,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PROBLEMS_IN_PATH_VALUE = 9;
+	public static final int PROBLEMS_IN_PATH_VALUE = 10;
 
 	/**
 	 * An array of all the '<em><b>Problem Status</b></em>' enumerators.
@@ -282,7 +303,8 @@ public enum ProblemStatus implements Enumerator {
 			ERROR_CONFIRMED_SPECULATIVE,
 			ERROR_DISCARDED,
 			ERROR_DISCARDED_DUE_TO_METAMODEL,
-			INTERNAL_ERROR,
+			USE_INTERNAL_ERROR,
+			IMPL_INTERNAL_ERROR,
 			CANNOT_DETERMINE,
 			NOT_SUPPORTED_BY_USE,
 			PROBLEMS_IN_PATH,
@@ -348,7 +370,8 @@ public enum ProblemStatus implements Enumerator {
 			case ERROR_CONFIRMED_SPECULATIVE_VALUE: return ERROR_CONFIRMED_SPECULATIVE;
 			case ERROR_DISCARDED_VALUE: return ERROR_DISCARDED;
 			case ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE: return ERROR_DISCARDED_DUE_TO_METAMODEL;
-			case INTERNAL_ERROR_VALUE: return INTERNAL_ERROR;
+			case USE_INTERNAL_ERROR_VALUE: return USE_INTERNAL_ERROR;
+			case IMPL_INTERNAL_ERROR_VALUE: return IMPL_INTERNAL_ERROR;
 			case CANNOT_DETERMINE_VALUE: return CANNOT_DETERMINE;
 			case NOT_SUPPORTED_BY_USE_VALUE: return NOT_SUPPORTED_BY_USE;
 			case PROBLEMS_IN_PATH_VALUE: return PROBLEMS_IN_PATH;

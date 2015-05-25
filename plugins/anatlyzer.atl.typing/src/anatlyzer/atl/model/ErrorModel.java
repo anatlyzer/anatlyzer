@@ -18,6 +18,7 @@ import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.AnalysisResult;
 import anatlyzer.atl.errors.AnalysisResultFactory;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.Recovery;
 import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
@@ -312,9 +313,14 @@ public class ErrorModel {
 	}
 
 	public void initProblem(LocalProblem p, LocatedElement element) {
+		initProblem(p, element, ProblemStatus.STATICALLY_CONFIRMED);
+	}
+	
+	public void initProblem(LocalProblem p, LocatedElement element, ProblemStatus status) {
 		p.setLocation(element.getLocation());
 		p.setElement(element);
 		p.setFileLocation(element.getFileLocation());
+		p.setStatus(status);
 		result.getProblems().add(p);
 		
 		element.getProblems().add(p);
@@ -518,7 +524,7 @@ public class ErrorModel {
 			List<MatchedRule> problematicRules, List<EClass> sourceClasses, List<EClass> targetClasses) {
 			
 		BindingWithResolvedByIncompatibleRule error = AtlErrorFactory.eINSTANCE.createBindingWithResolvedByIncompatibleRule();
-		initProblem(error, b);
+		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED);
 
 		error.setRightType(rightType);
 		error.setTargetType(targetType);
@@ -566,7 +572,7 @@ public class ErrorModel {
 	
 	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses) {
 		BindingPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createBindingPossiblyUnresolved();
-		initProblem(error, b);
+		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED);
 
 		error.setRightType(rightType);
 		error.setTargetType(targetType);

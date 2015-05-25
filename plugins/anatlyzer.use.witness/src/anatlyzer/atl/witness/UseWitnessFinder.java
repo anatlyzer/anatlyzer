@@ -218,7 +218,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			}
 		} catch (Exception e) {
 			onUSEInternalError(e);
-			return ProblemStatus.INTERNAL_ERROR;
+			return ProblemStatus.USE_INTERNAL_ERROR;
 		}
 	}
 	

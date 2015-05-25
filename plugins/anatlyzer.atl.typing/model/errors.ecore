@@ -25,10 +25,11 @@
     <eLiterals name="ERROR_CONFIRMED_SPECULATIVE" value="3"/>
     <eLiterals name="ERROR_DISCARDED" value="4"/>
     <eLiterals name="ERROR_DISCARDED_DUE_TO_METAMODEL" value="5"/>
-    <eLiterals name="INTERNAL_ERROR" value="6"/>
-    <eLiterals name="CANNOT_DETERMINE" value="7"/>
-    <eLiterals name="NOT_SUPPORTED_BY_USE" value="8"/>
-    <eLiterals name="PROBLEMS_IN_PATH" value="9"/>
+    <eLiterals name="USE_INTERNAL_ERROR" value="6"/>
+    <eLiterals name="IMPL_INTERNAL_ERROR" value="7"/>
+    <eLiterals name="CANNOT_DETERMINE" value="8"/>
+    <eLiterals name="NOT_SUPPORTED_BY_USE" value="9"/>
+    <eLiterals name="PROBLEMS_IN_PATH" value="10"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SeverityKind">
     <eLiterals name="ERROR"/>

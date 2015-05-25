@@ -28,6 +28,7 @@ Bundle-ClassPath: lib/yamlbeans-1.08.jar,
 Export-Package: anatlyzer.experiments,
  anatlyzer.experiments.export,
  anatlyzer.experiments.extensions,
+ org.apache.poi.hssf.usermodel,
  org.apache.poi.hssf.util,
  org.apache.poi.ss.usermodel,
  org.apache.poi.xssf.usermodel

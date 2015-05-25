@@ -15,10 +15,10 @@
       <experiment
             delegate="anatlyzer.experiments.typing.CountTypeErrors"
             resourceType="file:atl">
-         <action
+         <actions
                implementation="anatlyzer.experiments.typing.ExportDetailTypeErrors"
                name="Export detail">
-         </action>
+         </actions>
       </experiment>
    </extension>
    <extension

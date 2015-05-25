@@ -329,11 +329,12 @@ public class Retyping extends AbstractVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
-		/*
+		
 		// In some cases USE cannot transform the invariant if it uses oclIsKindOf 
 		// (see line 32 of XML2CPL.atl, without this the quickfix just does not work
 		//
 		// UPDATE: The problem seems to be in oclAsType!
+		/*
 		if ( self.getOperationName().equals("oclIsKindOf") && self.getArguments().size() == 1 ) {
 			OclModelElement classRef = OCLFactory.eINSTANCE.createOclModelElement();
 			classRef.setName( ((OclModelElement) self.getArguments().get(0)).getName() );

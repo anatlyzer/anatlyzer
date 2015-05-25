@@ -317,9 +317,28 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		ExcelUtil u = new ExcelUtil();
 		Styler    st = new Styler(wb);
 		
+		int totalArtefacts = total;
+		if ( withRepetitions ) {
+			totalArtefacts = (int) results.values().stream().flatMap(v -> v.stream()).count();
+		}
+		
 		int initRow = 2;
 		int row = initRow;
 		int col = 1;
+		for (Category category : getAllCategories()) {
+			List<ART> values = results.get(category);
+			int categorySize = values.size();
+			
+			// Category
+			st.cell(s, row, col + 0, category.getName());
+			// Total of each
+			st.cell(s, row, col + 1, (long) categorySize);			
+			// Percentage
+			st.cell(s, row, col + 2, (1.0* categorySize / totalArtefacts)).percentage();
+			
+			row++;
+		}
+		/*
 		for (Entry<Category, List<ART>> entry : results.entrySet()) {
 			int category = entry.getValue().size();
 		
@@ -328,10 +347,11 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 			// Total of each
 			st.cell(s, row, col + 1, (int) entry.getValue().size());			
 			// Percentage
-			st.cell(s, row, col + 2, (1.0* category / total)).percentage();
+			st.cell(s, row, col + 2, (1.0* category / totalArtefacts)).percentage();
 			
 			row++;
 		}
+		*/
 
 		Cell c1 = u.createCellFormula(s, row, col + 1, "SUM(" + u.columnRange(initRow, row - 1, col + 1) + ")");
 		c1.setCellStyle(st.getNumeric());
@@ -342,7 +362,7 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		row++;
 		
 		u.createCell(s, row, col + 0, "Total artefacts:");		
-		u.createCell(s, row, col + 1, (long) total);
+		u.createCell(s, row, col + 1, (long) totalArtefacts);
 	}
 
 	private void createOverlapping(Workbook wb) {

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
@@ -219,6 +220,13 @@ public class AnalyserUtils {
 		return ann.getDetails().get("name");
 	}
 	
+	public static boolean isStaticPrecision(Problem p) {
+		EAnnotation ann = p.eClass().getEAnnotation("info");
+		if ( ann == null ) 
+			return false;
+		return "static".equals( ann.getDetails().get("prec") );
+	}
+	
 	public static int getProblemId(Problem p) {
 		if ( p instanceof NoBindingForCompulsoryFeature ) return 1;
 		if ( p instanceof BindingPossiblyUnresolved     ) return 2;
@@ -272,6 +280,12 @@ public class AnalyserUtils {
 		
 		return -1;
 		// throw new UnsupportedOperationException(p.getClass().getName());
+	}
+
+	public static boolean isConfirmed(Problem p) {
+		return p.getStatus() == ProblemStatus.STATICALLY_CONFIRMED ||
+			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED ||
+			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 	}
 	
 }

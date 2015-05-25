@@ -14,7 +14,8 @@
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED_SPECULATIVE"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_DISCARDED_DUE_TO_METAMODEL"/>
-      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/INTERNAL_ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/USE_INTERNAL_ERROR"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/IMPL_INTERNAL_ERROR"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/CANNOT_DETERMINE"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/NOT_SUPPORTED_BY_USE"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/PROBLEMS_IN_PATH"/>

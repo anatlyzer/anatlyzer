@@ -47,13 +47,13 @@ public class StandaloneWitnessFinder extends UseWitnessFinder {
 			case 2:
 				return ProblemStatus.ERROR_DISCARDED;
 			case 3:
-				return ProblemStatus.INTERNAL_ERROR;
+				return ProblemStatus.USE_INTERNAL_ERROR;
 			default:
-				return ProblemStatus.CANNOT_DETERMINE;
+				return ProblemStatus.IMPL_INTERNAL_ERROR;
 			}
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
-			return ProblemStatus.CANNOT_DETERMINE;
+			return ProblemStatus.IMPL_INTERNAL_ERROR;
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class StandaloneWitnessFinder extends UseWitnessFinder {
 		if ( res == ProblemStatus.ERROR_CONFIRMED ) {
 			return executeCommand();
 		}
-		return ProblemStatus.CANNOT_DETERMINE;
+		return ProblemStatus.IMPL_INTERNAL_ERROR;
 	}
 	
 

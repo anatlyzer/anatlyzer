@@ -35,7 +35,7 @@ public class NewExperimentExtension {
 				continue;
 			
 			
-			for (IConfigurationElement elem : c.getChildren("action")) {
+			for (IConfigurationElement elem : c.getChildren("actions")) {
 				try {
 					actions.add(new DeclaredAction(elem.getAttribute("name"), (IExperimentAction) elem.createExecutableExtension("implementation")));
 				} catch (InvalidRegistryObjectException e) {

@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.views;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -211,13 +212,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 						elements = new ConflictingRules[result.size()];
 						for (OverlappingRules overlappingRules : result) {
 							elements[i++] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
-							if ( overlappingRules.getAnalysisResult() != OverlappingRules.ANALYSIS_SOLVER_DISCARDED ) {
+							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
+								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
 								// It has not been discarded
 								numberOfConflicts++;
 							}
 							
-							if ( overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_SOLVER_CONFIRMED || 
-								 overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_STATIC_CONFIRMED	) {
+							if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
 								ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
 								set.getRules().addAll(overlappingRules.getRules());
 								set.setAnalyserInfo(overlappingRules);
@@ -282,12 +285,21 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public String toString() {
 			String s = null;
 			switch ( element.getAnalysisResult() ) {
-			case OverlappingRules.ANALYSIS_NOT_PERFORMED: s = "Not analysed!"; break;
-			case OverlappingRules.ANALYSIS_SOLVER_CONFIRMED: s = "Confirmed (by solver)"; break;
-			case OverlappingRules.ANALYSIS_SOLVER_DISCARDED: s = "Discarded (by solver)"; break;
-			case OverlappingRules.ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
-			case OverlappingRules.ANALYSIS_STATIC_CONFIRMED: s = "Confirmed (statically)";break;		
-			case OverlappingRules.ANALYSIS_SOLVER_FAILED: s = "Cannot determine (solver failed)";break;		
+			case WITNESS_REQUIRED: s = "Not analysed!"; break;
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case ERROR_CONFIRMED: s = "Confirmed (by solver)"; break;
+			case ERROR_DISCARDED: s = "Discarded (by solver)"; break;
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
+			case STATICALLY_CONFIRMED: s = "Confirmed (statically)";break;		
+			case CANNOT_DETERMINE:
+				s = "Cannot determine (e.g., no path to rule)";break;				
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+				s = "Cannot determine (solver failed)";break;		
+			case IMPL_INTERNAL_ERROR:
+				s = "Cannot determine (impl. error)";break;		
+			case PROBLEMS_IN_PATH:
+				throw new IllegalStateException();
 			}
 			
 			String r = element.toString();
@@ -467,8 +479,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				case ERROR_CONFIRMED_SPECULATIVE: prefix = "[CS] "; break;
 				case ERROR_DISCARDED: prefix = "[D] "; break;
 				case ERROR_DISCARDED_DUE_TO_METAMODEL: prefix = "[DM] "; break;
-				case CANNOT_DETERMINE: prefix = "[E2] "; break;
-				case INTERNAL_ERROR: prefix = "[E] "; break;
+				case IMPL_INTERNAL_ERROR: prefix = "[E3] "; break;
+				case USE_INTERNAL_ERROR: prefix = "[E1] "; break;
 				case NOT_SUPPORTED_BY_USE: prefix = "[U] "; break;
 				}
 			}

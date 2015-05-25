@@ -25,6 +25,7 @@ public class ATLModel {
 	private TypingModel typing;
 	private ErrorModel errors;
 
+	private String mainFileLocation;
 	private List<String> fileLocations = new ArrayList<String>(); 	
 	
 	/**
@@ -46,6 +47,7 @@ public class ATLModel {
 		resource = rs.createResource(URI.createURI("trafo.ext"));		
 		copier.copyResource(original, resource);
 		
+		mainFileLocation = fileLocation;
 		fileLocations.add(fileLocation);
 		
 		errors = new ErrorModel(resource);
@@ -89,6 +91,10 @@ public class ATLModel {
 	 */
 	public List<String> getFileLocations() {
 		return new ArrayList<String>(fileLocations);
+	}
+	
+	public String getMainFileLocation() {
+		return mainFileLocation;
 	}
 	
 	public Module getModule() {

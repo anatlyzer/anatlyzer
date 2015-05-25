@@ -648,31 +648,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return p instanceof LocalProblem;
 	}
 
-	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalyserData data) {
-		final CheckRuleConflicts action = new CheckRuleConflicts();
-		List<OverlappingRules> result = action.performAction(data, monitor);	
-		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
-		for (OverlappingRules overlappingRules : result) {
-			if ( overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_SOLVER_CONFIRMED || 
-				 overlappingRules.getAnalysisResult() == OverlappingRules.ANALYSIS_STATIC_CONFIRMED ) {
-				guiltyRules.add(overlappingRules);
-			}
-		}
-		
-		if ( guiltyRules.size() > 0 ) {
-			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
-			rc.setDescription("Rule conflict");
-			for (OverlappingRules overlappingRules : guiltyRules) {
-				ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
-				set.setAnalyserInfo(overlappingRules);
-				set.getRules().addAll(overlappingRules.getRules());
-				rc.getConflicts().add(set);
-			}
-			return rc;
-		}
-		
-		return null;
-	}
 
 	/**
 	 * Returns the error code for the problem corresponding to the table of the MODELS'15 paper
@@ -771,8 +746,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				case ERROR_DISCARDED_DUE_TO_METAMODEL:
 					// printMessage("Discarded: " + ((LocalProblem) p).getLocation());
 					continue;
-				case CANNOT_DETERMINE:
-				case INTERNAL_ERROR:
+				case IMPL_INTERNAL_ERROR:
+				case USE_INTERNAL_ERROR:
 				case NOT_SUPPORTED_BY_USE:
 					printMessage("USE ERROR: " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "") + ", " + ((LocalProblem) p).getFileLocation());
 					continue;

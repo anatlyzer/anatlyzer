@@ -442,6 +442,26 @@ public class TypingModel {
 		return assignableTypesStatic(declaredType, runtimeType);
 	}
 	
+	public static boolean isCompatibleOclKindOfParam(Type exprType, Type argumentType) {
+		if ( exprType instanceof UnionType ) {
+			UnionType u = (UnionType) exprType;
+			for (Type type : u.getPossibleTypes()) {
+				if ( assignableTypesStatic(type, argumentType) )
+					return true;
+			}
+			return false;
+		}
+		
+		return assignableTypesStatic(exprType, argumentType);
+	}
+
+	/**
+	 * Checks whether a declared type can be assigned a value with the given runtime type.
+	 * 
+	 * @param declaredType Cannot be an union type. 
+	 * @param runtimeType
+	 * @return
+	 */
 	public static boolean assignableTypesStatic(Type declaredType, Type runtimeType) {
 		if ( declaredType instanceof UnionType ) {
 			throw new IllegalArgumentException();

@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -20,8 +21,7 @@ public class BooleanNamespace extends PrimitiveTypeNamespace {
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = super.getOperationType(operationName, arguments, node);
 		if ( t == null ) {
-	
-			throw new UnsupportedOperationException(operationName + " - " + node.getLocation());
+			return checkLibraryOperation(AtlTypes.boolean_(), operationName, arguments, node);
 		}
 		return t;
 	}

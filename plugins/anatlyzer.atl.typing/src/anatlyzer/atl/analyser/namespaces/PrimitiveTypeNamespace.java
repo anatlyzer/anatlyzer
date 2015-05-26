@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.HashMap;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -18,6 +20,18 @@ public abstract class PrimitiveTypeNamespace extends AbstractTypeNamespace imple
 	private HashMap<String, VirtualFeature<PrimitiveTypeNamespace, Operation>> operations = 
 			new HashMap<String, VirtualFeature<PrimitiveTypeNamespace, Operation>>();
 
+	protected Type checkLibraryOperation(AtlTypeDef typeDef, String operationName, Type[] arguments, LocatedElement node) {
+		if ( ! typeDef.hasOperation(operationName) ) {
+			return AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);				
+		} else {
+			checkArguments(operationName, 
+					typeDef.getOperationParameters(operationName), 
+					typeDef.getOperationParametersNames(operationName), 
+					arguments, node);
+			return typeDef.getOperationReturnType(operationName);				
+		}		
+	}
+	
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
 		Type t = features.containsKey(featureName) ? features.get(featureName).returnType : null;

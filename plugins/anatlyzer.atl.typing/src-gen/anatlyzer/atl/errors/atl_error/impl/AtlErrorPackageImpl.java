@@ -44,6 +44,7 @@ import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
+import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OclCompliance;
@@ -416,6 +417,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass noModelFoundEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass noEnumLiteralEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1534,6 +1542,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getNoEnumLiteral() {
+		return noEnumLiteralEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNoEnumLiteral_Literal() {
+		return (EAttribute)noEnumLiteralEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getWrongType() {
 		return wrongTypeEClass;
 	}
@@ -1928,6 +1954,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		noModelFoundEClass = createEClass(NO_MODEL_FOUND);
 		createEAttribute(noModelFoundEClass, NO_MODEL_FOUND__MODEL_NAME);
 
+		noEnumLiteralEClass = createEClass(NO_ENUM_LITERAL);
+		createEAttribute(noEnumLiteralEClass, NO_ENUM_LITERAL__LITERAL);
+
 		wrongTypeEClass = createEClass(WRONG_TYPE);
 
 		iteratorBodyWrongTypeEClass = createEClass(ITERATOR_BODY_WRONG_TYPE);
@@ -2056,6 +2085,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
 		ambiguousTargetModelReferenceEClass.getESuperTypes().add(this.getLocalProblem());
 		noModelFoundEClass.getESuperTypes().add(this.getLocalProblem());
+		noEnumLiteralEClass.getESuperTypes().add(this.getLocalProblem());
 		wrongTypeEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorBodyWrongTypeEClass.getESuperTypes().add(this.getWrongType());
 		matchedRuleWithoutOutputPatternEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2227,6 +2257,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(noModelFoundEClass, NoModelFound.class, "NoModelFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNoModelFound_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, NoModelFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(noEnumLiteralEClass, NoEnumLiteral.class, "NoEnumLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNoEnumLiteral_Literal(), ecorePackage.getEString(), "literal", null, 1, 1, NoEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(wrongTypeEClass, WrongType.class, "WrongType", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2504,6 +2537,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Invalid meta-model name",
 			 "text", "The specified model is not declared"
+		   });	
+		addAnnotation
+		  (noEnumLiteralEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Enum literal not found",
+			 "text", "There is no enum declaration with the given enum literal"
 		   });	
 		addAnnotation
 		  (iteratorBodyWrongTypeEClass, 
@@ -2979,6 +3019,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (noModelFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-always",
+			 "when", "trafo-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (noEnumLiteralEClass, 
 		   source, 
 		   new String[] {
 			 "prec", "static",

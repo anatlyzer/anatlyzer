@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorModel;
@@ -22,10 +23,11 @@ public class IntegerNamespace extends PrimitiveTypeNamespace {
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = super.getOperationType(operationName, arguments, node);
 		if ( t == null ) {
-			return AnalyserContext.getErrorModel().signalNoOperationFound(getType(), operationName, node, null);
+			return checkLibraryOperation(AtlTypes.integer(), operationName, arguments, node);
 		}
 		return t;
 	}
+
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {

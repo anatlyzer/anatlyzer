@@ -28,15 +28,7 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = super.getOperationType(operationName, arguments, node);
 		if ( t == null ) {					
-			if ( ! AtlTypes.string().hasOperation(operationName) ) {
-				t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);				
-			} else {
-				checkArguments(operationName, 
-						AtlTypes.string().getOperationParameters(operationName), 
-						AtlTypes.string().getOperationParametersNames(operationName), 
-						arguments, node);
-				t = AtlTypes.string().getOperationReturnType(operationName);				
-			}
+			return checkLibraryOperation(AtlTypes.string(), operationName, arguments, node);
 		}
 		return t;
 	}

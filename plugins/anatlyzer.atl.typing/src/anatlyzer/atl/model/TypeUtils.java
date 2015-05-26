@@ -87,7 +87,7 @@ public class TypeUtils {
 		}
 		
 		if ( t instanceof PrimitiveType ) 
-			return t.getClass().getSimpleName();
+			return t.getClass().getSimpleName().replace("TypeImpl", "");
 		
 		if ( t instanceof EmptyCollectionType )
 			return "-";

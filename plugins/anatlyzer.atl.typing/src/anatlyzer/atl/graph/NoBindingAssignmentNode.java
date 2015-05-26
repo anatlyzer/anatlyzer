@@ -3,9 +3,11 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
@@ -65,6 +67,10 @@ public class NoBindingAssignmentNode extends AbstractBindingAssignmentNode<NoBin
 		return false;
 	}
 
-
+	@Override
+	public void genIdentification(PathId id) {
+		SimpleOutPatternElement op = (SimpleOutPatternElement) problem.getElement();
+		id.next(PathId.typeSig(op.getType()));
+	}
 
 }

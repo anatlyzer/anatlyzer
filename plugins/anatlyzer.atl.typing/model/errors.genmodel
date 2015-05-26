@@ -194,6 +194,9 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/NoModelFound">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoModelFound/modelName"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoEnumLiteral">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoEnumLiteral/literal"/>
+      </genClasses>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/WrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorBodyWrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleWithoutOutputPattern"/>

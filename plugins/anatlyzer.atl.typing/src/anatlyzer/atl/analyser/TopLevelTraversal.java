@@ -237,7 +237,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		
 		if ( self.getOutPattern() == null || self.getOutPattern().getElements().isEmpty() ) {
 			
-			if ( self.getOutPattern().getDropPattern() == null )
+			// if ( self.getOutPattern().getDropPattern() != null )
 				errors().signalMatchedRuleWithoutOutputPattern(self);
 			return;
 		}

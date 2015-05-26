@@ -19,6 +19,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -548,7 +549,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			if ( self.getOperationName().equals("oclIsKindOf") ||  self.getOperationName().equals("oclIsTypeOf") ) {
 				if ( arguments.length != 1 ) {
 					return;
-				} else if ( ! typ().assignableTypes(t, arguments[0]) ) {
+				} else if ( ! TypingModel.isCompatibleOclKindOfParam(t, arguments[0]) ) {
 					errors().signalInvalidArgument("oclIsKindOf", 
 							"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(t), self);
 					return;
@@ -648,8 +649,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 						compatibleRules.add(mr);
 						
 						// This is the rule!
-						for(OutPatternElement ope : ATLUtils.getAllOutputPatternElement(mr) ) {
-							SimpleOutPatternElement sope = (SimpleOutPatternElement) ope;
+						for(SimpleOutPatternElement sope : ATLUtils.getAllSimpleOutputPatternElement(mr) ) {
 							if ( sope.getVarName().equals(expectedVarName) ) {
 								Type t = attr.typeOf(sope.getType());
 								
@@ -781,7 +781,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			}
 		}
 		
-		errors().signalNoEnumLiteral(self.getName(), self);
+		attr.linkExprType( errors().signalNoEnumLiteral(self.getName(), self) );
 	}
 	
 	@Override
@@ -901,7 +901,19 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	@Override
+	public void beforeLazyRule(LazyRule self) {
+		// This is needed because in practice filters can be written, with "oclIsKindOf" expressions
+		// inside, although the runtime will ignore it the analyzer can't
+		attr.getVarScope().openScope();
+	}
+	
+	@Override
 	public void afterMatchedRule(MatchedRule self) {
+		attr.getVarScope().closeScope();
+	}
+
+	@Override
+	public void afterLazyRule(LazyRule self) {
 		attr.getVarScope().closeScope();
 	}
 	

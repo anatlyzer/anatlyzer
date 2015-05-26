@@ -542,6 +542,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.NO_ENUM_LITERAL: {
+				NoEnumLiteral noEnumLiteral = (NoEnumLiteral)theEObject;
+				T result = caseNoEnumLiteral(noEnumLiteral);
+				if (result == null) result = caseLocalProblem(noEnumLiteral);
+				if (result == null) result = caseProblem(noEnumLiteral);
+				if (result == null) result = caseAnalysisInfo(noEnumLiteral);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.WRONG_TYPE: {
 				WrongType wrongType = (WrongType)theEObject;
 				T result = caseWrongType(wrongType);
@@ -1381,6 +1390,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseNoModelFound(NoModelFound object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>No Enum Literal</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>No Enum Literal</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNoEnumLiteral(NoEnumLiteral object) {
 		return null;
 	}
 

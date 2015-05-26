@@ -56,7 +56,6 @@ public class VariableScope {
 	public Type getKindOf(OclExpression expr) {
 		OclKindOfApplication r = currentKindOf.findOclKindOfDefinition(expr, false);
 		if ( r != null ) {
-			// System.out.println(expr.getLocation());
 			return r.exprType.toType();
 		}
 		return null;
@@ -162,7 +161,7 @@ public class VariableScope {
 				}
 				
 				if ( mustBeInScope ) 
-					throw new IllegalStateException();
+					throw new IllegalStateException("Must be in scope: " + expr.getLocation());
 			}
 			return null;
 		}

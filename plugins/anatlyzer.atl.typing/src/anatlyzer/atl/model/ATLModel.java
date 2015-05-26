@@ -26,7 +26,8 @@ public class ATLModel {
 	private ErrorModel errors;
 
 	private String mainFileLocation;
-	private List<String> fileLocations = new ArrayList<String>(); 	
+	private List<String> fileLocations = new ArrayList<String>();
+	private boolean hasSyntaxErrors; 	
 	
 	/**
 	 * Constructs a new extended ATL model given a regular
@@ -52,8 +53,13 @@ public class ATLModel {
 		
 		errors = new ErrorModel(resource);
 		typing = new TypingModel(resource);
+		hasSyntaxErrors = resource.getErrors().size() > 0;
 	}
 
+	public boolean hasSyntaxErrors() {
+		return hasSyntaxErrors;
+	}
+	
 	public ATLModel() {
 		resource = new ResourceImpl();
 

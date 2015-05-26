@@ -42,11 +42,10 @@ public class PathId {
 	// Utility methods
 	
 	public static String typeSig(OclType t) {
-		if ( t instanceof OclModelElement ) return ((OclModelElement) t).getModel().getName() + "!" + t.getName();
-		String n = t.getName();
-		if ( n == null )
-			throw new IllegalStateException();
-		return n;
+		if ( t instanceof OclModelElement ) 
+			return ((OclModelElement) t).getModel().getName() + "!" + t.getName();
+		// It is a primitive type
+		return t.eClass().getName();
 	}	
 		
 	@Override

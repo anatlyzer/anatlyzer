@@ -2,8 +2,10 @@ package anatlyzer.atl.graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
@@ -150,6 +152,20 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 	protected boolean isRequiredByRuleFilter(VariableDeclaration v) {
 		return rule.getInPattern().getFilter() != null && 
 			ATLUtils.findVariableReference(rule.getInPattern().getFilter(), v) != null;
+	}
+
+	@Override
+	public void genIdentification(PathId id) {	
+		id.next(ruleSignature(rule, id));
+		followDepending(n -> n.genIdentification(id));
+	}
+	
+	public static String ruleSignature(MatchedRule rule, PathId id) {
+		String sig = rule.getInPattern().getElements().stream().map(e -> e.getType()).map(PathId::typeSig).collect(Collectors.joining("&"));
+		if ( rule.getInPattern().getFilter() != null ) {
+			sig += "[" + id.gen( rule.getInPattern().getFilter() ) + "]";
+		}
+		return sig;		
 	}
 
 }

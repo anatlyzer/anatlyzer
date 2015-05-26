@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorModel;
@@ -18,16 +19,7 @@ public class FloatNamespace extends PrimitiveTypeNamespace {
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = super.getOperationType(operationName, arguments, node);
 		if ( t == null ) {
-			if ( operationName.equals("floor") ) return AnalyserContext.getTypingModel().newIntegerType();
-		
-			if ( operationName.equals("sin") ) return AnalyserContext.getTypingModel().newFloatType();
-			if ( operationName.equals("cos") ) return AnalyserContext.getTypingModel().newFloatType();
-			if ( operationName.equals("sqrt") ) return AnalyserContext.getTypingModel().newFloatType();
-			if ( operationName.equals("toRadians") ) return AnalyserContext.getTypingModel().newFloatType();
-
-			if ( operationName.equals("max") ) return AnalyserContext.getTypingModel().newFloatType();
-
-			throw new UnsupportedOperationException(operationName + " - " + node.getLocation());
+			return checkLibraryOperation(AtlTypes.float_(), operationName, arguments, node);
 		}
 		return t;
 	}

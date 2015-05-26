@@ -322,6 +322,12 @@ package atl_error {
 	class NoModelFound extends LocalProblem {
 		attr String[1] modelName;				
 	}
+
+	@description(name="Enum literal not found", text="There is no enum declaration with the given enum literal")	 
+	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
+	class NoEnumLiteral extends LocalProblem {
+		attr String[1] literal;				
+	}
 	
 	abstract class WrongType extends LocalProblem {
 		

@@ -70,10 +70,10 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 				}
 			}
 		} else if ( isNotType.size() > 0 ) {
-			addNotTypes(ns, isNotType, selectedTypes);
-			if ( selectedTypes.size() == 0 ) {
-				selectedTypes.add(m);
-			}
+			addNotTypes((ClassNamespace) ns, isNotType, selectedTypes);
+//			if ( selectedTypes.size() == 0 ) {
+//				selectedTypes.add(m);
+//			}
 		} else {
 			throw new IllegalStateException("isType: " + isType + " - " + "isNotType: " + isNotType);
 		}
@@ -84,8 +84,11 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 		return ret;
 	}
 
-	protected static void addNotTypes(IClassNamespace ns, Set<Metaclass> isNotType, ArrayList<Type> selectedTypes) {
-		Collection<ClassNamespace> subclasses = ns.getDirectSubclasses();
+	protected static void addNotTypes(ClassNamespace ns, Set<Metaclass> isNotType, ArrayList<Type> selectedTypes) {
+		ArrayList<ClassNamespace> subclasses = new ArrayList<ClassNamespace>();
+		subclasses.add(ns);
+		subclasses.addAll(ns.getDirectSubclasses());
+		// Collection<ClassNamespace> subclasses = ns.getDirectSubclasses();
 
 		// First, add everything possibly needed to selected types
 		for(Type t : isNotType ) {

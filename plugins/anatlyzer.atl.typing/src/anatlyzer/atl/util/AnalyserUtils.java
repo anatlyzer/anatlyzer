@@ -44,6 +44,7 @@ import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
+import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
@@ -268,6 +269,8 @@ public class AnalyserUtils {
 		
 		if ( p instanceof InvalidOperand ) return 34;
 		if ( p instanceof InvalidOperator ) return 35; 
+
+		if ( p instanceof NoEnumLiteral ) return 40; 
 
 				// Ocl compliance
 		if ( p instanceof OperationOverCollectionType ) return 101;

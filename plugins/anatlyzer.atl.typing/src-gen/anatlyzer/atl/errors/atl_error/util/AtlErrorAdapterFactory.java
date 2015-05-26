@@ -271,6 +271,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createNoModelFoundAdapter();
 			}
 			@Override
+			public Adapter caseNoEnumLiteral(NoEnumLiteral object) {
+				return createNoEnumLiteralAdapter();
+			}
+			@Override
 			public Adapter caseWrongType(WrongType object) {
 				return createWrongTypeAdapter();
 			}
@@ -1009,6 +1013,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNoModelFoundAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.NoEnumLiteral <em>No Enum Literal</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.NoEnumLiteral
+	 * @generated
+	 */
+	public Adapter createNoEnumLiteralAdapter() {
 		return null;
 	}
 

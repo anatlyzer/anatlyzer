@@ -93,7 +93,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		if (resource instanceof IFile && resource.getName().endsWith(".atl")) {
 			IFile file = (IFile) resource;
 			deleteMarkers(file);
-			
+
 			AtlNbCharFile help = null;
 			try {				
 				help = new AtlNbCharFile(file.getContents());
@@ -102,6 +102,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				helpers.put(file.getLocation().toPortableString(), help);
 				
 				AnalyserData data = new AnalyserExecutor().exec(resource);
+				if ( data == null ) {
+					System.out.println("Syntax errors");
+					return; // if there are syntax errors!
+				}
+				
 				for (Problem problem : data.getNonIgnoredProblems()) {
 					IFile problemFile = file;
 					if ( problem instanceof LocalProblem ) {

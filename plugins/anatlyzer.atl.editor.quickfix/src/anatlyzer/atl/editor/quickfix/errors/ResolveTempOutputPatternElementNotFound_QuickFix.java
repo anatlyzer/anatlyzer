@@ -25,6 +25,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.StringExp;
@@ -45,7 +46,7 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 		Map<String, List<Type>> options = new HashMap<String, List<Type>>();
 		for (String rn : ruleNames) {
 			MatchedRule mr = rules.stream().filter( r -> r.getName().equals(rn)).collect(Collectors.toList()).get(0);
-			List<OutPatternElement> pe = ATLUtils.getAllOutputPatternElement(mr);
+			List<SimpleOutPatternElement> pe = ATLUtils.getAllSimpleOutputPatternElement(mr);
 			options.putAll(pe.stream().
 								filter( pattern -> this.isCompatibleWith(pattern.getInferredType(), expected) ).
 								collect(Collectors.groupingBy(OutPatternElement::getVarName, 

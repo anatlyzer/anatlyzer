@@ -337,6 +337,15 @@ public interface AtlErrorFactory extends EFactory {
 	NoModelFound createNoModelFound();
 
 	/**
+	 * Returns a new object of class '<em>No Enum Literal</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>No Enum Literal</em>'.
+	 * @generated
+	 */
+	NoEnumLiteral createNoEnumLiteral();
+
+	/**
 	 * Returns a new object of class '<em>Iterator Body Wrong Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

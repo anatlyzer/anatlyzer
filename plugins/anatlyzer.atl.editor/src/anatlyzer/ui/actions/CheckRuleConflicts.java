@@ -32,7 +32,8 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		IResource resource = editor.getUnderlyingResource();
 		try {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
-			performAction(data);
+			if ( data != null )
+				performAction(data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {

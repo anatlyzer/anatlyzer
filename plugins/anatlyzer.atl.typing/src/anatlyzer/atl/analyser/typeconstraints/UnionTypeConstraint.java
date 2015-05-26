@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
@@ -54,8 +55,8 @@ public class UnionTypeConstraint extends AbstractTypeConstraint {
 					Metaclass m = (Metaclass) t;
 					IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();
 					
-					MetaclassTypeConstraint.addNotTypes(ns, isNotType, selectedTypes);
-				}
+					MetaclassTypeConstraint.addNotTypes((ClassNamespace) ns, isNotType, selectedTypes);
+				}				
 			}
 		} else {
 			throw new IllegalStateException();

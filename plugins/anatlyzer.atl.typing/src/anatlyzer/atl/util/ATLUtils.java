@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
@@ -50,6 +51,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
@@ -338,6 +340,12 @@ public class ATLUtils {
 		return self.getDefinition().getContext_().getContext_();
 	}
 
+	public static List<SimpleOutPatternElement> getAllSimpleOutputPatternElement(MatchedRule r) {
+		return getAllOutputPatternElement(r).stream().
+			filter(o -> o instanceof SimpleOutPatternElement).
+			map(o -> (SimpleOutPatternElement) o).collect(Collectors.toList());
+	}
+	
 	public static List<OutPatternElement> getAllOutputPatternElement(MatchedRule r) {
 		ArrayList<OutPatternElement> result = new ArrayList<OutPatternElement>();
 		Stack<MatchedRule> rules = new Stack<MatchedRule>();

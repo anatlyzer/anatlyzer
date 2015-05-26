@@ -20,7 +20,8 @@ public class AnalysisIndex {
 	
 	private static AnalysisIndex singleton = new AnalysisIndex();
 	
-	private boolean trackProblems = true;
+	private boolean trackProblems = false;
+	
 	private HashMap<String, AnalysisResult> index = new HashMap<String, AnalysisResult>();
 	private Set<IndexChangeListener> listeners = new HashSet<IndexChangeListener>();
 	

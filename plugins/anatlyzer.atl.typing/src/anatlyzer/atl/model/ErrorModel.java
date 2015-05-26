@@ -54,6 +54,7 @@ import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
+import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
@@ -620,8 +621,12 @@ public class ErrorModel {
 	}
 	
 	
-	public void signalNoEnumLiteral(String name, LocatedElement node) {
-		signalNoRecoverableError("No enum literal " + name, node);
+	public Type signalNoEnumLiteral(String name, LocatedElement node) {
+		NoEnumLiteral error = AtlErrorFactory.eINSTANCE.createNoEnumLiteral();
+		initProblem(error, node);
+		
+		signalError(error, "No enum literal " + name, node);
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
 	public void warningMissingFeatureInUnionType(List<Type> noFeatureTypes, String featureName, LocatedElement node) {

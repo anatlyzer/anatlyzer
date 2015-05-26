@@ -36,7 +36,10 @@ public class AnalyserExecutor {
 
 	public AnalyserData exec(IResource resource, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile) resource;
-		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file);
+		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file, false);
+		if ( atlEMFModel == null )
+			return null;
+		
 		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
 		return exec(file, atlModel, addToIndex);
 	}

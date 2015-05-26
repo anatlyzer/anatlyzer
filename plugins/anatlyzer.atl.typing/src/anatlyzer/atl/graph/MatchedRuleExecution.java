@@ -209,17 +209,4 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		throw new IllegalStateException();
 	}
 
-	@Override
-	public void genIdentification(PathId id) {	
-		id.next(ruleSignature(rule, id));
-		followDepending(n -> n.genIdentification(id));
-	}
-	
-	public static String ruleSignature(MatchedRule rule, PathId id) {
-		String sig = rule.getInPattern().getElements().stream().map(e -> e.getType()).map(PathId::typeSig).collect(Collectors.joining("&"));
-		if ( rule.getInPattern().getFilter() != null ) {
-			sig += "[" + id.gen( rule.getInPattern().getFilter() ) + "]";
-		}
-		return sig;		
-	}
 }

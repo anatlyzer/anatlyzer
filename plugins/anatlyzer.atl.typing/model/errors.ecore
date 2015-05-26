@@ -667,6 +667,23 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NoEnumLiteral" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Enum literal not found"/>
+        <details key="text" value="There is no enum declaration with the given enum literal"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="error-always"/>
+        <details key="when" value="trafo-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="literal" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="WrongType" abstract="true" eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="IteratorBodyWrongType" eSuperTypes="#//atl_error/WrongType">
       <eAnnotations source="description">

@@ -121,9 +121,9 @@ public class Tester {
 		this.loadMetamodelsFromTransformation();
 		this.modelGenerationStrategy = strategy;
 		// initialize temporal folders
-		this.folderMutants = temporalFolder + "mutants/";
-		this.folderModels  = temporalFolder + "testmodels/";
-		this.folderTemp    = temporalFolder + "temp/";
+		this.folderMutants = temporalFolder + "mutants" + File.separator;
+		this.folderModels  = temporalFolder + "testmodels" + File.separator;
+		this.folderTemp    = temporalFolder + "temp" + File.separator;
 	}
 	
 	/**
@@ -352,8 +352,8 @@ public class Tester {
 				
 				// load input/output model
 				String iModel  = inputModel.getPath();
-				String oFolder = transformation.substring(transformation.lastIndexOf("m"), transformation.lastIndexOf("."));
-				String oModel  = this.folderTemp + oFolder + File.pathSeparator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
+				String oFolder = transformation.substring(transformation.lastIndexOf(File.separator)+1, transformation.lastIndexOf("."));
+				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
 				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
 				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
 
@@ -378,7 +378,10 @@ public class Tester {
 				if (error) break;
 			}
 		}
-		catch (transException e) { System.out.println("*** EXECUTION ERROR *** "); e.printStackTrace(); } 
+		catch (transException e) { 
+			e.printStackTrace();
+			System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")");  
+		} 
 
 		try {	
 			// anatlyze transformation
@@ -387,8 +390,9 @@ public class Tester {
 				report.setAnatlyserError(transformation, problems.get(0).getDescription());
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********"); 
+			// e.printStackTrace();
+			// report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********");
+			System.out.println("******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION (" + transformation + ")" );
 		}
 	}
 

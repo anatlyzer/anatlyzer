@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -16,15 +17,21 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -48,8 +55,12 @@ import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import witness.generator.MetaModel;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
@@ -61,6 +72,9 @@ import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
 import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 import anatlyzer.evaluation.mutators.creation.BindingCreationMutator;
+import anatlyzer.evaluation.mutators.creation.FilterCreationMutator;
+import anatlyzer.evaluation.mutators.creation.InElementCreationMutator;
+import anatlyzer.evaluation.mutators.creation.OutElementCreationMutator;
 import anatlyzer.evaluation.mutators.deletion.ArgumentDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.BindingDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.FilterDeletionMutator;
@@ -88,6 +102,7 @@ import anatlyzer.evaluation.mutators.modification.type.OutElementModificationMut
 import anatlyzer.evaluation.mutators.modification.type.ParameterModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.VariableModificationMutator;
 import anatlyzer.evaluation.report.Report;
+import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class Tester {
@@ -121,9 +136,9 @@ public class Tester {
 		this.loadMetamodelsFromTransformation();
 		this.modelGenerationStrategy = strategy;
 		// initialize temporal folders
-		this.folderMutants = temporalFolder + "mutants/";
-		this.folderModels  = temporalFolder + "testmodels/";
-		this.folderTemp    = temporalFolder + "temp/";
+		this.folderMutants = temporalFolder + "mutants" + File.separator;
+		this.folderModels  = temporalFolder + "testmodels" + File.separator;
+		this.folderTemp    = temporalFolder + "temp" + File.separator;
 	}
 	
 	/**
@@ -191,14 +206,14 @@ public class Tester {
 				// type modification
 				new InElementModificationMutator(),
 				new OutElementModificationMutator(),
-				new HelperReturnModificationMutator(),
+				new HelperReturnModificationMutator(), 
 				new HelperContextModificationMutator(),
 				new CollectionModificationMutator(),
 				new ParameterModificationMutator(),
 				new ArgumentModificationMutator(),
 				new VariableModificationMutator(),
 				// feature modification
-				new NavigationModificationMutator(),
+				new NavigationModificationMutator(), //
 				new BindingModificationMutator(),
 				// invocation modification
 				new CollectionOperationModificationMutator(),
@@ -208,7 +223,9 @@ public class Tester {
 				new IteratorModificationMutator(),
 				// creation
 				new BindingCreationMutator(),
-//				new FilterCreationMutator(),
+				new InElementCreationMutator(),
+				new OutElementCreationMutator(),
+////				new FilterCreationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);
@@ -352,8 +369,8 @@ public class Tester {
 				
 				// load input/output model
 				String iModel  = inputModel.getPath();
-				String oFolder = transformation.substring(transformation.lastIndexOf("m"), transformation.lastIndexOf("."));
-				String oModel  = this.folderTemp + oFolder + File.pathSeparator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
+				String oFolder = transformation.substring(transformation.lastIndexOf(File.separator)+1, transformation.lastIndexOf("."));
+				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
 				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
 				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
 
@@ -378,17 +395,21 @@ public class Tester {
 				if (error) break;
 			}
 		}
-		catch (transException e) { System.out.println("*** EXECUTION ERROR *** "); e.printStackTrace(); } 
+		catch (transException e) { 
+			// e.printStackTrace();
+			System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")");  
+		} 
 
 		try {	
 			// anatlyze transformation
-			List<Problem> problems = this.typing(transformation, true);
+			String problems = this.typing(transformation);
 			if (!problems.isEmpty()) 
-				report.setAnatlyserError(transformation, problems.get(0).getDescription());
+				report.setAnatlyserError(transformation, problems);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********"); 
+			// e.printStackTrace();
+			// report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********");
+			System.out.println("******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION (" + transformation + ")" );
 		}
 	}
 
@@ -441,11 +462,12 @@ public class Tester {
 	/**
 	 * It perform the type checking phase of a transformation.
 	 * @param atlTransformationFile
-	 * @param doDependencyAnalysis
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
-	private List<Problem> typing(String atlTransformationFile, boolean doDependencyAnalysis) throws IOException, ATLCoreException {
+	private String typing(String atlTransformationFile) throws IOException, ATLCoreException {
+		String problem = "";
+		
 		// the anatlyser needs to create the global namespace each time...
 		ResourceSet               rs                      = new ResourceSetImpl();
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
@@ -463,8 +485,21 @@ public class Tester {
 		// anatlyse
 		Analyser analyser = new Analyser(namespace, atlTransformation);
 		analyser.perform();
-
-		return analyser.getErrors().getAnalysis().getProblems();
+		
+		// build list of problems found 
+		for (Problem error : analyser.getErrors().getAnalysis().getProblems()) // {
+			problem += error.getDescription() + ";";
+			//System.out.println("---->"+error.getStatus()+" : "+problem);
+		//}
+		
+		// if no problem was found, check rule conflicts
+		if (problem.isEmpty()) {
+			List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
+			if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
+			else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
+		}
+		
+		return problem;
 	}
 	
 	/**

@@ -223,6 +223,18 @@ public abstract class AbstractMutator {
 			EStructuralFeature feature = element.eClass().getEStructuralFeature("name");
 			toString = element.eGet(feature).toString();
 		}
+		else if (pack.getEClassifier("StringType")!=null && pack.getEClassifier("StringType").isInstance(element)) {
+			toString = "String";
+		}
+		else if (pack.getEClassifier("BooleanType")!=null && pack.getEClassifier("BooleanType").isInstance(element)) {
+			toString = "Booelan";
+		}
+		else if (pack.getEClassifier("IntegerType")!=null && pack.getEClassifier("IntegerType").isInstance(element)) {
+			toString = "Integer";
+		}
+		else if (pack.getEClassifier("FloatType")!=null && pack.getEClassifier("FloatType").isInstance(element)) {
+			toString = "Float";
+		}
 		else if (pack.getEClassifier("CollectionType")!=null && pack.getEClassifier("CollectionType").isInstance(element)) {
 			toString = element.eClass().getName();
 		}

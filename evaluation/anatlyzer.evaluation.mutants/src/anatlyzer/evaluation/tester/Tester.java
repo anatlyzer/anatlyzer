@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -16,15 +17,21 @@ import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -48,8 +55,12 @@ import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import witness.generator.MetaModel;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
@@ -88,6 +99,7 @@ import anatlyzer.evaluation.mutators.modification.type.OutElementModificationMut
 import anatlyzer.evaluation.mutators.modification.type.ParameterModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.VariableModificationMutator;
 import anatlyzer.evaluation.report.Report;
+import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class Tester {
@@ -191,7 +203,7 @@ public class Tester {
 				// type modification
 				new InElementModificationMutator(),
 				new OutElementModificationMutator(),
-				new HelperReturnModificationMutator(),
+				new HelperReturnModificationMutator(), //
 				new HelperContextModificationMutator(),
 				new CollectionModificationMutator(),
 				new ParameterModificationMutator(),
@@ -379,15 +391,15 @@ public class Tester {
 			}
 		}
 		catch (transException e) { 
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")");  
 		} 
 
 		try {	
 			// anatlyze transformation
-			List<Problem> problems = this.typing(transformation, true);
+			String problems = this.typing(transformation, true);
 			if (!problems.isEmpty()) 
-				report.setAnatlyserError(transformation, problems.get(0).getDescription());
+				report.setAnatlyserError(transformation, problems);
 		}
 		catch (Exception e) {
 			// e.printStackTrace();
@@ -449,7 +461,9 @@ public class Tester {
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
-	private List<Problem> typing(String atlTransformationFile, boolean doDependencyAnalysis) throws IOException, ATLCoreException {
+	private String typing(String atlTransformationFile, boolean doDependencyAnalysis) throws IOException, ATLCoreException {
+		String problem = "";
+		
 		// the anatlyser needs to create the global namespace each time...
 		ResourceSet               rs                      = new ResourceSetImpl();
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
@@ -467,8 +481,19 @@ public class Tester {
 		// anatlyse
 		Analyser analyser = new Analyser(namespace, atlTransformation);
 		analyser.perform();
-
-		return analyser.getErrors().getAnalysis().getProblems();
+		
+		// build list of problems found 
+		for (Problem error : analyser.getErrors().getAnalysis().getProblems())
+			problem += error.getDescription() + ";";
+		
+		// if no problem was found, check rule conflicts
+		if (problem.isEmpty()) {
+			List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
+			if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
+			else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
+		}
+		
+		return problem;
 	}
 	
 	/**

@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import witness.generator.MetaModel;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
@@ -53,14 +55,15 @@ public class FilterCreationMutator extends AbstractMutator {
 					
 						// TODO: new filters
 						List<OclExpression> newfilters = new ArrayList<OclExpression>();
-						//newfilters.add(this.getFilter1((EClass)classifier, inElement)); // filter on a property value
+						newfilters.add(this.getFilter1((EClass)classifier, inElement)); // filter on a property value
 					
 						// for each new filter 
 						for (OclExpression filter : newfilters) {
 							if (filter!=null) {
-						
+								
 								// mutation: add filter
-								wrapper.source(rule.getInPattern()).eSet(feature, filter);
+								wrapper.source(rule.getInPattern()).eSet(feature, OCLFactory.eINSTANCE.createOperationCallExp());
+								//wrapper.source(rule.getInPattern()).eSet(feature, (OclExpression)filter);
 
 								// mutation: documentation
 								if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(rule.getInPattern()) + " in " + toString(rule) + " (line " + rule.getInPattern().getLocation() + " of original transformation)\n");
@@ -69,7 +72,8 @@ public class FilterCreationMutator extends AbstractMutator {
 								this.save(atlModel, outputFolder);
 
 								// restore: remove added filter and comment
-								wrapper.source(rule.getInPattern()).eSet(feature, null);
+								((InPattern)wrapper.source(rule.getInPattern())).setFilter(null);
+								//wrapper.source(rule.getInPattern()).eSet(feature, null);
 								if (comments!=null) comments.remove(comments.size()-1);
 							}
 						}

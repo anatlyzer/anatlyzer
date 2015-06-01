@@ -72,6 +72,9 @@ import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
 import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 import anatlyzer.evaluation.mutators.creation.BindingCreationMutator;
+import anatlyzer.evaluation.mutators.creation.FilterCreationMutator;
+import anatlyzer.evaluation.mutators.creation.InElementCreationMutator;
+import anatlyzer.evaluation.mutators.creation.OutElementCreationMutator;
 import anatlyzer.evaluation.mutators.deletion.ArgumentDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.BindingDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.FilterDeletionMutator;
@@ -203,14 +206,14 @@ public class Tester {
 				// type modification
 				new InElementModificationMutator(),
 				new OutElementModificationMutator(),
-				new HelperReturnModificationMutator(), //
+				new HelperReturnModificationMutator(), 
 				new HelperContextModificationMutator(),
 				new CollectionModificationMutator(),
 				new ParameterModificationMutator(),
 				new ArgumentModificationMutator(),
 				new VariableModificationMutator(),
 				// feature modification
-				new NavigationModificationMutator(),
+				new NavigationModificationMutator(), //
 				new BindingModificationMutator(),
 				// invocation modification
 				new CollectionOperationModificationMutator(),
@@ -220,7 +223,9 @@ public class Tester {
 				new IteratorModificationMutator(),
 				// creation
 				new BindingCreationMutator(),
-//				new FilterCreationMutator(),
+				new InElementCreationMutator(),
+				new OutElementCreationMutator(),
+////				new FilterCreationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);
@@ -397,7 +402,7 @@ public class Tester {
 
 		try {	
 			// anatlyze transformation
-			String problems = this.typing(transformation, true);
+			String problems = this.typing(transformation);
 			if (!problems.isEmpty()) 
 				report.setAnatlyserError(transformation, problems);
 		}
@@ -457,11 +462,10 @@ public class Tester {
 	/**
 	 * It perform the type checking phase of a transformation.
 	 * @param atlTransformationFile
-	 * @param doDependencyAnalysis
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
-	private String typing(String atlTransformationFile, boolean doDependencyAnalysis) throws IOException, ATLCoreException {
+	private String typing(String atlTransformationFile) throws IOException, ATLCoreException {
 		String problem = "";
 		
 		// the anatlyser needs to create the global namespace each time...
@@ -483,8 +487,10 @@ public class Tester {
 		analyser.perform();
 		
 		// build list of problems found 
-		for (Problem error : analyser.getErrors().getAnalysis().getProblems())
+		for (Problem error : analyser.getErrors().getAnalysis().getProblems()) // {
 			problem += error.getDescription() + ";";
+			//System.out.println("---->"+error.getStatus()+" : "+problem);
+		//}
 		
 		// if no problem was found, check rule conflicts
 		if (problem.isEmpty()) {

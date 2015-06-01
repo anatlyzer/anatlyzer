@@ -9,6 +9,7 @@ import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.atlext.OCL.OclExpression;
 
 public class StandaloneWitnessFinder extends UseWitnessFinder {
 
@@ -59,8 +60,8 @@ public class StandaloneWitnessFinder extends UseWitnessFinder {
 	
 	
 	@Override
-	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
-		ProblemStatus res = super.applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses);
+	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression constraint, boolean forceOnceInstanceOfConcreteClasses) {
+		ProblemStatus res = super.applyUSE(problem, constraint, forceOnceInstanceOfConcreteClasses);
 		// The intermediate file is generated correctly
 		if ( res == ProblemStatus.ERROR_CONFIRMED ) {
 			return executeCommand();

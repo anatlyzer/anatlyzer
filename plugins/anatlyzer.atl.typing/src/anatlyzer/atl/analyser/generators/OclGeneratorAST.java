@@ -50,6 +50,8 @@ public class OclGeneratorAST {
 	private ATLModel atlModel;
 	private LazyRuleCallTransformationStrategy lazyRuleStrategy = new LazyRuleNotSupported();
 	
+	
+	
 	public OclGeneratorAST(ATLModel atlModel) {
 		this.atlModel = atlModel;
 	}

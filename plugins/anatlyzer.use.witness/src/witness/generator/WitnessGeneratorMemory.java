@@ -42,7 +42,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			WitnessGeneratorMemory.index += 1;			
 		}
 		
-		adaptMetamodels(index);
+		try {
+			adaptMetamodels(index);
+		} catch ( Exception e ) {
+			throw new AdaptationInternalError(e);
+		}
 		
 		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
 		return witness != null;
@@ -217,5 +221,13 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return model;
 	}	
 
+	public static class AdaptationInternalError extends RuntimeException {
+
+		private static final long serialVersionUID = 1L;
+
+		public AdaptationInternalError(Throwable e) {
+			super(e);
+		}
+	}
 }
 

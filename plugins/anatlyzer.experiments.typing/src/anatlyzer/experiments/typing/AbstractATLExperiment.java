@@ -80,14 +80,19 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
-		for (OverlappingRules overlappingRules : result) {
-			if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-				guiltyRules.add(overlappingRules);
+		
+		if ( createIfEmpty ) {
+			guiltyRules.addAll(result);
+		} else {
+			for (OverlappingRules overlappingRules : result) {
+				if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+						 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+						 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+					guiltyRules.add(overlappingRules);
+				}
 			}
 		}
-		
+	
 		if ( guiltyRules.size() > 0 || createIfEmpty ) {
 			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
 			rc.setDescription("Rule conflict");

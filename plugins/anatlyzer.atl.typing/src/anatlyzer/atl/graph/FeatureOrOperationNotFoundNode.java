@@ -45,9 +45,9 @@ public class FeatureOrOperationNotFoundNode<P extends LocalProblem> extends Expr
 		if ( problem.getRecovery() instanceof FeatureFoundInSubtype ) {
 			FeatureFoundInSubtype recovery = (FeatureFoundInSubtype) problem;
 			PropertyCallExp pc = (PropertyCallExp) expr;
-			String oneSubClassName = recovery.getPossibleClasses().get(0).getName();
+			EClass oneSubClass = recovery.getPossibleClasses().get(0);
 			
-			return model.negateExpression(model.createKindOf_AllInstancesStyle(model.gen(pc.getSource()), null, oneSubClassName));
+			return model.negateExpression(model.createKindOf_AllInstancesStyle(model.gen(pc.getSource()), null, oneSubClass));
 		} else {
 			return super.genCSP(model);
 		}

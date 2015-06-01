@@ -135,6 +135,8 @@ public class ATLUtils {
 			oclModel.setName(((Metaclass) t).getModel().getName());
         	oclType.setName(((Metaclass)t).getName());
 			oclType.setModel(oclModel);
+			// This keeps a reference to the actual class... (because ErrorSliceDataWrapper/Retyping/ClassRenamingVisitor needs it)
+			oclType.setInferredType(t);
         	return oclType;
         }
 		if (t instanceof MapType) {

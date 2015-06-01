@@ -32,6 +32,8 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
@@ -104,26 +106,21 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.CANNOT_DETERMINE;
 		}
 		
-		USEConstraint useConstraint = USESerializer.retypeAndGenerate(constraint, problem);	
-		if ( useConstraint.useNotSupported() ) {
-			return ProblemStatus.NOT_SUPPORTED_BY_USE;
-		}
-		
-		String strConstraint = useConstraint.asString();
-		System.out.println("CSP Constraint: " + strConstraint);
-
-		ProblemStatus result = applyUSE(problem, strConstraint, false, preconditions);
+		ProblemStatus result = applyUSE(problem, constraint, false, preconditions);
 		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {
-			ProblemStatus result2 = applyUSE(problem, "true", true);
+			ProblemStatus result2 = applyUSE(problem, createTrue(), true);
 			if ( result2 == ProblemStatus.ERROR_DISCARDED ) {
 				return ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
 		} 
-		if ( result == ProblemStatus.ERROR_CONFIRMED && useConstraint.isSpeculative() ) {
-			return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
-		}
 		
 		return result;
+	}
+
+	private OclExpression createTrue() {
+		BooleanExp lit = OCLFactory.eINSTANCE.createBooleanExp();
+		lit.setBooleanSymbol(true);
+		return lit;
 	}
 
 	private List<String> getFootprints(ATLModel atlModel) {
@@ -172,11 +169,23 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 
-	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses) {
-		return applyUSE(problem, strConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
+	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+		return applyUSE(problem, originalConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
 	}
 	
-	protected ProblemStatus applyUSE(IDetectedProblem problem, String strConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
+	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
+		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
+		
+		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels);
+		ProblemInPathVisitor problems = new ProblemInPathVisitor();
+		problems.perform(originalConstraint);
+		USEConstraint useConstraint = USESerializer.retypeAndGenerate(originalConstraint, problem, renaming);	
+		if ( useConstraint.useNotSupported() ) {
+			return ProblemStatus.NOT_SUPPORTED_BY_USE;
+		}
+		
+		String strConstraint = useConstraint.asString();
+		System.out.println("CSP Constraint: " + strConstraint);
 
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		if ( slice.hasHelpersNotSupported() )
@@ -187,9 +196,9 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			footprints.forEach(f -> slice.loadFromString(f, analyser));
 		}
 		
-		EPackage errorSliceMM = generateErrorSliceMetamodel(problem, slice);
-		EPackage effective    = generateEffectiveMetamodel(problem);
-		EPackage language     = getSourceMetamodel();
+		EPackage errorSliceMM = generateErrorSliceMetamodel(slice, srcMetamodels, problems);
+		EPackage effective    = generateEffectiveMetamodel(srcMetamodels);
+		EPackage language     = srcMetamodels.getSinglePackage(); // getSourceMetamodel();
 		
 		String projectPath = getTempDirectory();
 		
@@ -214,8 +223,13 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			if ( ! generator.generate() ) {
 				return ProblemStatus.ERROR_DISCARDED;
 			} else {
+				if ( useConstraint.isSpeculative() ) 
+					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
 			}
+		} catch ( WitnessGeneratorMemory.AdaptationInternalError e1) {
+			e1.printStackTrace();
+			return ProblemStatus.IMPL_INTERNAL_ERROR;
 		} catch (Exception e) {
 			onUSEInternalError(e);
 			return ProblemStatus.USE_INTERNAL_ERROR;
@@ -253,7 +267,9 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return copy;
 	}
 
-	public EPackage generateErrorSliceMetamodel(IDetectedProblem problem, ErrorSlice slice) {
+	
+	
+	public EPackage generateErrorSliceMetamodel(ErrorSlice slice, SourceMetamodelsData srcMetamodels, ProblemInPathVisitor problems) {
 		Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
 		OclModel m = mod.getInModels().get(0);
 		String mm  = m.getMetamodel().getName();
@@ -261,17 +277,14 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource r = rs.createResource(URI.createURI(uri));
-		// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 		
-		this.errorSliceMM = new EffectiveMetamodelBuilder(slice).extractSource(r, "error", "http://error", "error", "error");
+		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
+		
+		this.errorSliceMM = new EffectiveMetamodelBuilder(wrapper).extractSource(r, "error", "http://error", "error", "error");
 		return errorSliceMM;
-		
-		// new ErrorSliceGenerator(analyser, null).generate(path, r);
-		
-		// return (EPackage) r.getContents().get(0);
 	}
 	
-	public EPackage generateEffectiveMetamodel(IDetectedProblem p) { //throws IOException {
+	public EPackage generateEffectiveMetamodel(SourceMetamodelsData srcMetamodels) { //throws IOException {
 		if ( effective != null ) {
 			return effective;
 		}
@@ -284,12 +297,13 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource r = rs.createResource(URI.createURI(uri));
 
-		// XMIResourceImpl r =  new XMIResourceImpl(URI.createURI(uri));
 		TrafoMetamodelData data = new TrafoMetamodelData(analyser.getATLModel(), 
 				analyser.getNamespaces().getNamespace(mm));
 		
+		EffectiveMetamodelDataWrapper wrapper = new EffectiveMetamodelDataWrapper(data, srcMetamodels);
+		
 		String logicalName = mm;
-		new EffectiveMetamodelBuilder(data).extractSource(r, logicalName, logicalName, logicalName, logicalName);
+		new EffectiveMetamodelBuilder(wrapper).extractSource(r, logicalName, logicalName, logicalName, logicalName);
 		
 		effective = (EPackage) r.getContents().get(0);
 		return effective;

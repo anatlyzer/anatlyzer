@@ -15,6 +15,7 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -166,7 +167,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			// => _problem_.oclIsKindOf(ruleFrom)
 			VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
 			v.setReferredVariable(varDcl);				
-			OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, ATLUtils.getInPatternType(info.getRule()).getName());			
+			OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, ATLUtils.getInPatternType(info.getRule()));			
 			
 			// Generate the filter
 			OclExpression filter = null;
@@ -176,7 +177,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 				
 				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-				OperationCallExp casting = model.createCastTo(varDcl, simpleElement.getType().getName());				
+				OperationCallExp casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
 				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 					
 				// Map the iterator var to the rule variable

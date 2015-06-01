@@ -53,8 +53,28 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(ProblemStatus.ERROR_DISCARDED, confirmOrDiscardProblem(problems().get(0)));
 		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));
 		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(2)));
-
 	}
 
-	
+	@Test
+	public void testBindingResolution_PathWithLazyRule() throws Exception {
+		String T = trafo("path_with_lazy_rule");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());
+		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
+
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+	}	
+
+
+	@Test
+	public void testBindingResolution_WithOclTypeOf() throws Exception {
+		String T = trafo("binding_resolution_with_ocltypeof");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());
+		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
+
+		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+	}	
 }

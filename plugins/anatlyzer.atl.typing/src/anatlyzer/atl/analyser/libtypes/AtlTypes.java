@@ -7,8 +7,10 @@ public class AtlTypes {
 	private static BooleanTypeDef boolean_instance = new BooleanTypeDef();
 	private static OclTypeDef ocltype_instance = new OclTypeDef();
 	private static MapTypeDef maptype_instance = new MapTypeDef();
+	private static OclAnyTypeDef oclany_instance = new OclAnyTypeDef();
 	
 	static {
+		oclany_instance.init();
 		string_instance.init();
 		float_instance.init();
 		integer_instance.init();
@@ -23,6 +25,7 @@ public class AtlTypes {
 	public static BooleanTypeDef boolean_() { return boolean_instance; }
 	public static OclTypeDef oclType() { return ocltype_instance; }
 	public static MapTypeDef map() { return maptype_instance; }
+	public static OclAnyTypeDef oclAny() { return oclany_instance; }
 	
 	public static SequenceTypeDef seq(AtlTypeDef t) {
 		return new SequenceTypeDef(t);

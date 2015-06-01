@@ -1,0 +1,58 @@
+package anatlyzer.atl.witness;
+
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
+
+import anatlyzer.footprint.IEffectiveMetamodelData;
+
+/**
+ * 
+ * @author jesus
+ *
+ */
+public class EffectiveMetamodelDataWrapper implements IEffectiveMetamodelData {
+
+	protected IEffectiveMetamodelData original;
+	protected SourceMetamodelsData mapping;
+
+	public EffectiveMetamodelDataWrapper(IEffectiveMetamodelData original, SourceMetamodelsData mapping) {
+		this.original = original;
+		this.mapping  = mapping;
+	}
+	
+	@Override
+	public Set<EClass> getClasses() {
+		Set<EClass> set = original.getClasses().stream().map(c -> getTarget(c)).collect(Collectors.toSet());
+		return set;
+	}
+
+	protected EClass getTarget(EClass c) {
+		EClass tgt = mapping.getTarget(c);
+		if ( tgt == null ) 
+			throw new IllegalStateException("Class not found: " + c);		
+		return tgt;
+	}
+
+	protected EStructuralFeature getTarget(EStructuralFeature f) {
+		EStructuralFeature tgt = mapping.getTarget(f);
+		if ( tgt == null ) 
+			throw new IllegalStateException();		
+		return tgt;
+	}
+	
+	@Override
+	public Set<EStructuralFeature> getFeatures() {
+		return original.getFeatures().stream().map(f -> getTarget(f) ).collect(Collectors.toSet());
+	}
+
+	@Override
+	public Collection<EAnnotation> getPackageAnnotations() {
+		return original.getPackageAnnotations();
+	}
+
+}

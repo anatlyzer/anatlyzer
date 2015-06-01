@@ -5,6 +5,7 @@ import java.util.List;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.model.ATLModel;
 
 /**
  * This class wraps the result of an analysis.
@@ -35,5 +36,9 @@ public class AnalysisResult {
 
 	public List<LocalProblem> getLocalProblems() {
 		return analyser.getErrors().getLocalProblems();
+	}
+	
+	public ATLModel getATLModel() {
+		return analyser.getATLModel();
 	}
 }

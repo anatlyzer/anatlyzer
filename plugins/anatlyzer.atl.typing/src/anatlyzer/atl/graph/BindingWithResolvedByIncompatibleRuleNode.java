@@ -17,6 +17,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -191,7 +192,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		// => _problem_.oclIsKindOf(ruleFrom)
 		VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
 		v.setReferredVariable(varDcl);				
-		OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, rule.getInputType().getName());
+		OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, rule.getInputType());
 		
 		// Generate the filter
 		OclExpression filter = null;
@@ -201,7 +202,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 			
 			// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-			OperationCallExp casting = model.createCastTo(varDcl, simpleElement.getType().getName());				
+			OperationCallExp casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
 			LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 				
 			// Map the iterator var to the rule variable

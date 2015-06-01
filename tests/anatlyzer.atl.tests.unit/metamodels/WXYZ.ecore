@@ -12,6 +12,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="W" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfW" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//W" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="X" eSuperTypes="#//W">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

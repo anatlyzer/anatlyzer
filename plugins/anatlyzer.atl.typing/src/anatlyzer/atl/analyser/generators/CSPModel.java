@@ -2,10 +2,14 @@ package anatlyzer.atl.analyser.generators;
 import java.util.HashMap;
 import java.util.Stack;
 
+import org.eclipse.emf.ecore.EClass;
+
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
@@ -36,7 +40,8 @@ public class CSPModel {
 	public OperationCallExp createAllInstances(Metaclass metaclass) {
 		OclModelElement classRef = OCLFactory.eINSTANCE.createOclModelElement();
 		classRef.setName(metaclass.getName());
-
+		classRef.setInferredType(metaclass);
+		
 		OperationCallExp allInstancesCall = OCLFactory.eINSTANCE.createOperationCallExp();
 		allInstancesCall.setOperationName("allInstances");
 		allInstancesCall.setSource(classRef);
@@ -133,7 +138,7 @@ public class CSPModel {
 		return exp;		
 	}
 	
-	public OperationCallExp createKindOf(OclExpression receptor, String modelName, String className) {
+	public OperationCallExp createKindOf(OclExpression receptor, String modelName, String className, Metaclass klass) {
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
 		op.setOperationName("oclIsKindOf");
 		op.setSource(receptor);
@@ -141,6 +146,10 @@ public class CSPModel {
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
 		m.setName(className);
 		op.getArguments().add(m);
+
+		if ( klass != null ) {
+			m.setInferredType(klass);
+		}
 		
 		if ( modelName != null ) {
 			OclModel model = OCLFactory.eINSTANCE.createOclModel();
@@ -151,14 +160,15 @@ public class CSPModel {
 		return op;
 	}
 
-	public OperationCallExp createCastTo(VariableDeclaration varToBeCasted, String className) {
+	public OperationCallExp createCastTo(VariableDeclaration varToBeCasted, Metaclass klass) {
 		VariableExp refToVarDcl = OCLFactory.eINSTANCE.createVariableExp();
 		refToVarDcl.setReferredVariable(varToBeCasted);	
 				
 		OperationCallExp opCall = createOperationCall(refToVarDcl, "oclAsType");
 		
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
-		m.setName(className);
+		m.setName(klass.getName());
+		m.setInferredType(klass);
 		
 		opCall.getArguments().add(m);
 		return opCall;
@@ -174,11 +184,19 @@ public class CSPModel {
 		
 		return createExists(op, THIS_MODULE_CONTEXT_VAR);
 	}
+
+	// This is not the ideal way of doing this, because the actual model cannot be set...
+	public OclExpression createKindOf_AllInstancesStyle(OclExpression receptor, String modelName, EClass klass) {
+		Metaclass m = TypesFactory.eINSTANCE.createMetaclass();
+		m.setKlass(klass);
+		m.setName(klass.getName());
+		return createKindOf_AllInstancesStyle(receptor, modelName, m);
+	}
 	
-	
-	public OclExpression createKindOf_AllInstancesStyle(OclExpression receptor, String modelName, String className) {
+	public OclExpression createKindOf_AllInstancesStyle(OclExpression receptor, String modelName, Metaclass klass) {
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
-		m.setName(className);
+		m.setName(klass.getName());
+		m.setInferredType(klass);
 
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
 		op.setOperationName("allInstances");

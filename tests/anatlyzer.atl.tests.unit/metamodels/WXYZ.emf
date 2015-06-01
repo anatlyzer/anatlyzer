@@ -12,6 +12,7 @@ class Model extends NamedElt {
 
 class W extends NamedElt {
   attr String propOfW;
+  val W[*] children;
 }
 
 class X extends W {

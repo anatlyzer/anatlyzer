@@ -40,7 +40,7 @@ public class StringTypeDef extends AtlTypeDef {
 			param("s", string()).
 			returnType(boolean_());
 		operation("indexOf").
-			param("index", integer()).
+			param("search", string()).
 			returnType(integer());
 		operation("split").
 			param("regexp", string()).
@@ -60,9 +60,16 @@ public class StringTypeDef extends AtlTypeDef {
 			param("s", string()).
 			returnType(string());
 
-		// Non-documented
+		// Non-documented, looked up in the source code
 		operation("firstToLower").
 			returnType(string());
+		operation("lastIndexOf").
+			param("index", string()).
+			returnType(integer());
+		operation("writeToWithCharset").
+			param("fileName", string()).
+			param("charset", string()).
+			returnType(boolean_());
 	}
 
 	@Override

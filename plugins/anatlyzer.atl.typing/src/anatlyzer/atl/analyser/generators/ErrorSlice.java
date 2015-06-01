@@ -46,8 +46,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashSet<EClass> explicitTypes = new HashSet<EClass>();
 	private HashSet<EStructuralFeature> explicitFeatures = new HashSet<EStructuralFeature>();
 
-	private HashMap<String, java.util.Set<Helper>> helpers = 
-			new HashMap<String, java.util.Set<Helper>>();
+	//private HashMap<String, java.util.Set<Helper>> helpers = 
+	//		new HashMap<String, java.util.Set<Helper>>();
+	private Set<Helper> helpers = new HashSet<Helper>();
 	
 	private Set<String>	metamodelNames;
 	private boolean retype = true; // retype by default
@@ -60,9 +61,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		this.problem        = problem;
 		
 		// Ugly hack
-		EClass thisModuleClass = EcoreFactory.eINSTANCE.createEClass();
-		thisModuleClass.setName(Analyser.USE_THIS_MODULE_CLASS);
-		addMetaclassNeededInError(thisModuleClass);
+//		EClass thisModuleClass = EcoreFactory.eINSTANCE.createEClass();
+//		thisModuleClass.setName(Analyser.USE_THIS_MODULE_CLASS);
+//		addMetaclassNeededInError(thisModuleClass);
 	}
 
 	public void addExplicitMetaclass(Metaclass type) {
@@ -113,111 +114,27 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	private HashSet<Helper> alreadyAdded = new HashSet<Helper>();
-	
+
 	private boolean addHelperAux(Helper helper, String ctxTypeName) {
 		if ( alreadyAdded.contains(helper) ) 
 			return false;		
 		alreadyAdded.add(helper);
 		
-		if ( ! helpers.containsKey(ctxTypeName) ) {
-			helpers.put(ctxTypeName, new HashSet<Helper>());
-		}
-
-		if ( retype ) {
-			// copy before retype, to avoid modifying objects that will later
-			// be used in other analysis
-			helper = (Helper) ATLCopier.copySingleElement(helper);
-			new Retyping(helper, problem).perform();		
-		}
-		
 		if ( ! new USEValidityChecker(helper).perform().isValid() ) {
 			helpersNotSupported.add(helper);
 		}
-		
-		helpers.get(ctxTypeName).add(helper);	
+	
+		helper = (Helper) ATLCopier.copySingleElement(helper);
+		helpers.add(helper);
+				
+		// helpers.get(ctxTypeName).add(helper);	
 		return true;
+	}	
+
+	public Set<Helper> getHelpers() {
+		return helpers;
 	}
 	
-	/**
-	 * The implementation of this method generates helpers in USE format.
-	 */
-	@Override
-	public Collection<EAnnotation> getPackageAnnotations() {
-		ArrayList<EAnnotation> result = new ArrayList<EAnnotation>();
-		for(String className : helpers.keySet()) {
-			EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
-			ann.setSource("operations: " + className);
-			
-			ann.getDetails().put("class", className);
-			
-			for(Helper ctx : helpers.get(className)) {
-				ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className));
-			}
-			result.add(ann);
-		}
-		
-		return result;
-	}
-
-	private String genUSEOperation(Helper ctx, String className) {
-		String s = ATLUtils.getHelperName(ctx) + "(";
-		
-		// The first parameter is always the ThisModule object */
-		s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
-		
-		String[] argNames = ATLUtils.getArgumentNames(ctx);
-		Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
-		for(int i = 0; i < argNames.length; i++) {
-			s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
-//			if ( i + 1 < ctx.getNames().size() ) {
-//				s += ","; 
-//			}
-		}
-		s += ")";
-		
-		if ( ctx.getStaticReturnType() instanceof EnumType ) {
-			s += " : " + "Integer" + " = ";
-		} else {
-			s += " : " + toUSETypeName(ctx.getStaticReturnType()) + " = ";
-		}
-
-		OclExpression body = ATLUtils.getBody(ctx);
-		
-		s += USESerializer.gen(body); 
-		
-		return s;
-	}
-
-	private String toUSETypeName(Type t) {
-		if (t instanceof Metaclass) {
-			return ((Metaclass) t).getName();
-		} else if (t instanceof StringType) {
-			return "String";
-		} else if (t instanceof BooleanType) {
-			return "Boolean";
-		} else if (t instanceof IntegerType) {
-			return "Integer";
-		} else if (t instanceof FloatType) {
-			return "Float";
-		} else if (t instanceof Unknown) {
-			return "OclAny";
-		} else if (t instanceof CollectionType) {
-			String typeName = null;
-			if (t instanceof SequenceType) {
-				typeName = "Sequence";
-			} else if (t instanceof SetType) {
-				typeName = "Set";
-			} else {
-				throw new UnsupportedOperationException();
-			}
-
-			return typeName + "("
-					+ toUSETypeName(((CollectionType) t).getContainedType())
-					+ ")";
-		}
-		throw new UnsupportedOperationException(t.getClass().getName());
-	}
-
 	public String toOneLineString() {
 		String classes = explicitTypes.stream().map(e -> e.getName()).
 				collect(Collectors.joining(", "));
@@ -225,11 +142,19 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		String features = explicitFeatures.stream().map(f -> f.getEContainingClass().getName() + "." + f.getName()).
 				collect(Collectors.joining(", "));
 
-		String helperList = helpers.keySet().stream().flatMap(k -> {
-			return (Stream<String>) helpers.get(k).stream().map(h -> k + "." + ATLUtils.getHelperName(h));
+		String helperList = helpers.stream().map(h -> {
+			return getContextName(h) + "." + ATLUtils.getHelperName(h);		
 		}).collect(Collectors.joining(", "));
 		
 		return classes + " | " + features + "|" + helperList;
+	}
+	
+	private String getContextName(Helper h) {
+		if ( h instanceof ContextHelper ) {
+			return TypeUtils.getNonQualifiedTypeName(((ContextHelper) h).getContextType());			
+		} else {
+			return Analyser.USE_THIS_MODULE_CLASS;
+		}
 	}
 
 	public void loadFromString(String line, Analyser analyser) {
@@ -307,6 +232,8 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		return null;
 	}
 
-	
-
+	@Override
+	public Collection<EAnnotation> getPackageAnnotations() {
+		throw new UnsupportedOperationException();
+	}
 }

@@ -1,6 +1,6 @@
 package anatlyzer.atl.analyser.libtypes;
 
-import static anatlyzer.atl.analyser.libtypes.AtlTypes.integer;
+import static anatlyzer.atl.analyser.libtypes.AtlTypes.*;
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.types.Type;
 
@@ -36,8 +36,12 @@ public class IntegerTypeDef extends AtlTypeDef {
 		operation("longValue").
 			returnType(integer()); // should be "long", how is that possible in OCL?
 		
-		
-		
+		// Looked up in the source code
+		operation("toHexString").
+			returnType(string()); 
+		operation("toBinaryString").
+			returnType(string()); 
+	
 	}
 	
 }

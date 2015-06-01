@@ -60,7 +60,7 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 			VariableExp itRef = OCLFactory.eINSTANCE.createVariableExp();
 			itRef.setReferredVariable( reject.getIterators().get(0) );
 			
-			OperationCallExp body = model.createKindOf(itRef, null, model.getTargetDummyClass());
+			OperationCallExp body = model.createKindOf(itRef, null, model.getTargetDummyClass(), null);
 			reject.setBody(body);
 			
 			value = reject;

@@ -10,6 +10,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
@@ -50,7 +51,14 @@ public class LetScopeNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genCSP(CSPModel model) {
-		return model.gen(let);
+		// return model.gen(let);
+		OclExpression varInit = model.gen(let.getVariable().getInitExpression());
+		LetExp genLet = model.createLetScope(varInit, null, let.getVariable().getVarName());
+
+		model.addToScope(let.getVariable(), genLet.getVariable());
+		OclExpression dep = getDepending().genCSP(model);
+		genLet.setIn_(dep);
+		return genLet;
 	}
 
 	@Override

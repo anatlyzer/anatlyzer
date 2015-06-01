@@ -270,7 +270,7 @@ public class WitnessGenerator extends AbstractHandler {
 				EClass partialClass  = (EClass)classifiers.get(i);
 				EClass completeClass = (EClass)completeMM.getEClassifier(partialClass.getName());
 				EClass languageClass = (EClass)languageMM.getEClassifier(partialClass.getName());
-				
+		
 				// It is because partialClass is only required because of an error
 				if ( completeClass == null ) {
 					completeClass = partialClass;

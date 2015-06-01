@@ -4,11 +4,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -390,7 +392,9 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 			
 			row++;
 			
-			for (Entry<String, List<Category>> entry : overlapping.entrySet()) {
+			Collection<Entry<String,List<Category>>> sorted = overlapping.entrySet().stream().sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey())).collect(Collectors.toList());
+			
+			for (Entry<String, List<Category>> entry : sorted) {
 				int beginPatterns = startCol + 2;
 				
 				st.cell(s, row, startCol, entry.getKey());	

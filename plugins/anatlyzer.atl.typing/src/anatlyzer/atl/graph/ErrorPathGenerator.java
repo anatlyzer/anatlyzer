@@ -108,7 +108,16 @@ public class ErrorPathGenerator {
 		if ( p.getElement() instanceof OclExpression ) {
 			pathFromErrorExpression((OclExpression) p.getElement(), node); 			
 		} else {
-			pathToControlFlow(p.getElement(), node, new TraversedSet());
+			TraversedSet traversed = new TraversedSet();
+			
+			// Same as the last part of pathToControlFlow
+			if ( p.getElement() instanceof Rule ) {
+				pathToRule((Rule) p.getElement(), node, traversed, false);
+			} else if ( p.getElement() instanceof Helper ){
+				pathToHelper((Helper) p.getElement(), node, traversed);			
+			} else {
+				pathToControlFlow(p.getElement(), node, traversed);
+			}			
 		}
 		
 	}

@@ -1,0 +1,33 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module pathwithlazyrule;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'default',
+    	elements <- let as : Sequence(ABCD!A) = src.elements->select(a | a.oclIsKindOf(ABCD!A))
+		            in src.elements->collect(a | thisModule.convertA(a) )		
+	)
+}
+
+lazy rule convertA {
+	from
+		a : ABCD!A
+	to 
+		x : WXYZ!X (
+			name <- 'default',
+			-- Unresolved binding1
+			children <- a.children
+		)
+}
+
+rule aRuleWithFilter {
+	from
+		a : ABCD!A  ( a.name = 'someName' )
+	to 
+		x : WXYZ!X (
+			name <- 'default'
+		)
+}

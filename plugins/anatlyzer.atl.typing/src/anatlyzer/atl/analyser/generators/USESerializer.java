@@ -80,19 +80,27 @@ public class USESerializer {
 	}
 	
 	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
-	public static USEConstraint retypeAndGenerate(OclExpression expr, IDetectedProblem problem) {
-		Retyping retyping = new Retyping(expr, problem).perform();		
-		USEConstraint constraint = gen(expr);
+	public static USEConstraint retypeAndGenerate(OclExpression expr, IDetectedProblem problem, IObjectVisitor... visitors) {
+		Retyping retyping = new Retyping(expr).perform();		
+		
+		TranslationState state = TranslationState.CORRECT;
+		
 		if ( retyping.usesSeqApproximation() || retyping.usesSubtypeSelectionOnFeatureAccess() ) {
 			// More information can be added to the constraint
-			constraint.setState(TranslationState.SPECULATIVE);
+			state = TranslationState.SPECULATIVE;
 		}
 		
 		if ( ! new USEValidityChecker(expr).perform().isValid() ) {
-			constraint.setState(TranslationState.USE_NOT_SUPPORTED);
+			state = TranslationState.USE_NOT_SUPPORTED;
 		}
-		
-		
+
+		for (IObjectVisitor abstractVisitor : visitors) {
+			abstractVisitor.perform(expr);
+		}
+
+		USEConstraint constraint = gen(expr);
+		constraint.setState(state);
+				
 		return constraint;
 	}
 

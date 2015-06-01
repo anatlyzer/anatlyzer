@@ -2,12 +2,12 @@ package anatlyzer.atl.analyser.generators;
 
 import java.util.HashSet;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
@@ -27,6 +27,7 @@ import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
@@ -40,6 +41,8 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
@@ -55,11 +58,9 @@ public class Retyping extends AbstractVisitor {
 	private HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
 	private HashSet<LocatedElement> subtypeSelectionOnFeatureAccess = new HashSet<LocatedElement>();
 	private VariableDeclaration thisModuleVar;
-	private IDetectedProblem problem;
 
-	public Retyping(EObject root, IDetectedProblem problem) {
+	public Retyping(EObject root) {
 		this.root    = root;
-		this.problem = problem;
 	}	
 	
 	public Retyping perform() {
@@ -104,6 +105,17 @@ public class Retyping extends AbstractVisitor {
 		retypeHelper(self);
 	}
 	
+
+	/**
+	 * Make the declared type be the inferred type, which is more likely to be
+	 * the correct one. A simple way is to remove the declared type.
+	 * The idea is that the user serialize does not include the type, but USE computes the correct one.
+	 */
+	@Override
+	public void inLetExp(LetExp self) {
+		self.getVariable().setType(null);
+	}
+	
 	public void retypeHelper(Helper self) {
 		boolean convertedToSet = false;
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
@@ -112,6 +124,15 @@ public class Retyping extends AbstractVisitor {
 			SetType t = TypesFactory.eINSTANCE.createSetType();
 			t.setContainedType(((CollectionType) self.getStaticReturnType()).getContainedType());
 			self.setStaticReturnType(t);
+			
+			OclType oclType = ATLUtils.getOclType(t);
+			if ( self.getDefinition().getFeature() instanceof Attribute ) {
+				((Attribute) self.getDefinition().getFeature()).setType(oclType);
+			} else {
+				((Operation) self.getDefinition().getFeature()).setReturnType(oclType);
+			}
+			
+			
 			
 			OclExpression body = ATLUtils.getBody(self);
 			if ( ! (body.getInferredType() instanceof SetType) ) {
@@ -135,15 +156,6 @@ public class Retyping extends AbstractVisitor {
 		opcall.setOperationName("asSet");
 		EcoreUtil.replace(body, opcall);
 		opcall.setSource(body);
-	}
-	
-	/**
-	 * Make the declared type be the inferred type, which is more likely to be
-	 * the correct one. A simple way is to remove the declared type.
-	 */
-	@Override
-	public void inLetExp(LetExp self) {
-		self.getVariable().setType(null);
 	}
 	
 	/**
@@ -179,13 +191,19 @@ public class Retyping extends AbstractVisitor {
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
 		FeatureFoundInSubtype p = (FeatureFoundInSubtype) AnalyserUtils.hasProblem(self, FeatureFoundInSubtype.class);
 		if ( p != null ) {
-			String className = p.getPossibleClasses().get(0).getName();			
-			OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+			EClass klass = p.getPossibleClasses().get(0);			
+			OperationCallExp oclAsType = createOclAsType(klass.getName(), null, createMetaclass(klass), self.getSource());
 			self.setSource(oclAsType);		
 			
 			if ( self.getUsedFeature() != null ) 
 				throw new IllegalStateException();
 		
+			// If the call refers to a feature, set the used feature!
+			EStructuralFeature f = klass.getEStructuralFeature(self.getName());
+			if ( f != null ) {
+				self.setUsedFeature(f);
+			}
+			
 			this.subtypeSelectionOnFeatureAccess.add(self);
 		} else if ( self.getSource().isImplicitlyCasted() ) {
 			Type t = self.getSource().getInferredType();
@@ -207,7 +225,7 @@ public class Retyping extends AbstractVisitor {
 				
 				if ( transform ) {
 					String className = ((Metaclass)	t).getName();		
-					OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+					OperationCallExp oclAsType = createOclAsType(className, null, (Metaclass) t, self.getSource());
 					self.setSource(oclAsType);		
 					
 					this.subtypeSelectionOnFeatureAccess.add(self);
@@ -245,6 +263,12 @@ public class Retyping extends AbstractVisitor {
 		}
 	}
 	
+	private Metaclass createMetaclass(EClass klass) {
+		Metaclass m = TypesFactory.eINSTANCE.createMetaclass();
+		m.setKlass(klass);
+		return m;
+	}
+
 	/**
 	 * USE checks that the types of both branches are compatible (there is a common type). 
 	 * This is not enforced by ATL, and the analyser does not report them to avoid many 
@@ -356,8 +380,8 @@ public class Retyping extends AbstractVisitor {
 		// Same as inFeatureCallExp
 		OperationFoundInSubtype p = (OperationFoundInSubtype) AnalyserUtils.hasProblem(self, OperationFoundInSubtype.class);
 		if ( p != null ) {
-			String className = p.getPossibleClasses().get(0).getName();			
-			OperationCallExp oclAsType = createOclAsType(className, null, self.getSource());
+			EClass klass = p.getPossibleClasses().get(0);
+			OperationCallExp oclAsType = createOclAsType(klass.getName(), null, createMetaclass(klass), self.getSource());
 
 			// The "thisModule" parameter has to be added, which should ideally be done in the
 			// retyping, but to do I need to set static resolver somehow... easier to do this here
@@ -480,7 +504,7 @@ public class Retyping extends AbstractVisitor {
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(collect.getIterators().get(0));
 
-			OperationCallExp oclAsType = createOclAsType(className, modelName, varRef);
+			OperationCallExp oclAsType = createOclAsType(className, modelName, (Metaclass) t, varRef);
 			collect.setBody(oclAsType);
 
 			
@@ -492,7 +516,7 @@ public class Retyping extends AbstractVisitor {
 		}
 	}
 
-	private OperationCallExp createOclAsType(String className, String modelName, OclExpression source) {
+	private OperationCallExp createOclAsType(String className, String modelName, Metaclass metaclass, OclExpression source) {
 		OclModelElement modelElement = OCLFactory.eINSTANCE.createOclModelElement();
 		modelElement.setName(className);
 
@@ -501,6 +525,8 @@ public class Retyping extends AbstractVisitor {
 			model.setName(modelName);
 			modelElement.setModel(model);
 		}
+		
+		modelElement.setInferredType(metaclass);
 		
 		OperationCallExp oclAsType = OCLFactory.eINSTANCE.createOperationCallExp();
 		oclAsType.setOperationName("oclAsType");

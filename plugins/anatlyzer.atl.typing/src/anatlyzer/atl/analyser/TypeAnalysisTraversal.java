@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.CollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.FeatureInfo;
@@ -515,9 +517,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
-		// Removed until I have a good way of checking that the operation is not one of the
-		// available in OclUndefined!
-		// checkAccessToUndefined(self);
+		if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
+			checkAccessToUndefined(self);
+		}
 		
 		if ( self.getOperationName().equals("resolveTemp") ) {
 			resolveResolveTemp(self);
@@ -549,12 +551,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			if ( self.getOperationName().equals("oclIsKindOf") ||  self.getOperationName().equals("oclIsTypeOf") ) {
 				if ( arguments.length != 1 ) {
 					return;
-				} else if ( ! TypingModel.isCompatibleOclKindOfParam(t, arguments[0]) ) {
-					errors().signalInvalidArgument("oclIsKindOf", 
-							"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(t), self);
-					return;
+				}  else {
+					// This is to avoid false positives in expressions such as: e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join)
+					Type noCasted = attr.noCastedTypeOf( self.getSource() );
+					if ( ! TypingModel.isCompatibleOclKindOfParam(noCasted, arguments[0]) ) {
+						errors().signalInvalidArgument("oclIsKindOf", 
+								"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(noCasted), self);
+						return;
+					}
 				}
-				
 			}
 			
 			

@@ -29,6 +29,7 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -517,6 +518,12 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
+		// This is a way to include unchecked exceptions
+		if ( self.getOperationName().equals("fail_") ) {
+			attr.linkExprType(TypesFactory.eINSTANCE.createTypeError());
+			return;
+		}
+		
 		if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
 			checkAccessToUndefined(self);
 		}

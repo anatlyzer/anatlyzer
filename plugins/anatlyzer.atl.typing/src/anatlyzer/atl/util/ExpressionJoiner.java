@@ -1,4 +1,4 @@
-package anatlyzer.atl.quickfixast;
+package anatlyzer.atl.util;
 
 import java.util.function.Supplier;
 import java.util.stream.Collector;

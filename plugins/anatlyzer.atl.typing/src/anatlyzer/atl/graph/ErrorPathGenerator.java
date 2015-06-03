@@ -8,7 +8,9 @@ import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.batch.PossibleConflictingRulesNode;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -91,6 +93,8 @@ public class ErrorPathGenerator {
 			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);				
 		} else if ( p instanceof FeatureNotFound ) {
 			generatePath_FeatureNotFound((FeatureNotFound) p);
+		} else if ( p instanceof AccessToUndefinedValue ) {
+			generatePath_AccessToUndefinedValue((AccessToUndefinedValue) p);
 		} else if ( p instanceof OperationNotFound ) {
 			generatePath_OperationNotFound((OperationNotFound) p);			
 		} else if ( p instanceof FlattenOverNonNestedCollection ) {
@@ -139,6 +143,17 @@ public class ErrorPathGenerator {
 		}
 	}
 
+
+	private void generatePath_AccessToUndefinedValue(AccessToUndefinedValue p) {
+		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
+		AccessToUndefinedValueNode node = new AccessToUndefinedValueNode(p, atlExpr);
+		currentPath = new ProblemPath(p, node);
+		
+		pathToControlFlow(atlExpr, node, new TraversedSet());
+		// System.out.println(p);
+		// pathFromErrorExpression(atlExpr.getSource(), node);		
+	}
+	
 	private void generatePath_OperationNotFound(OperationNotFound p) {
 		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
 		FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);

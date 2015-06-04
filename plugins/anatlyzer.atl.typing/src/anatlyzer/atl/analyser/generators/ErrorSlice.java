@@ -104,18 +104,16 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 	
 	public boolean addHelper(ContextHelper contextHelperAnn) {
-		String ctxTypeName = TypeUtils.getNonQualifiedTypeName(contextHelperAnn.getContextType());
-		
-		return addHelperAux(contextHelperAnn, ctxTypeName);
+		return addHelperAux(contextHelperAnn);
 	}
 	
 	public boolean addHelper(StaticHelper staticHelper) {
-		return addHelperAux(staticHelper, Analyser.USE_THIS_MODULE_CLASS);
+		return addHelperAux(staticHelper);
 	}
 
 	private HashSet<Helper> alreadyAdded = new HashSet<Helper>();
 
-	private boolean addHelperAux(Helper helper, String ctxTypeName) {
+	private boolean addHelperAux(Helper helper) {
 		if ( alreadyAdded.contains(helper) ) 
 			return false;		
 		alreadyAdded.add(helper);

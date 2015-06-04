@@ -119,9 +119,6 @@ public class ExcelUtil {
 	public String rowRange(int row, int initCol, int endCol) {
 		String bcol = getCol(initCol); // (char) ('A' + initCol);
 		String ecol = getCol(endCol);  // (char) ('A' + endCol);
-		System.out.println(bcol);
-		System.out.println(ecol);
-		System.out.println("---");
 		row = row + 1;
 		return bcol + "" + row + ":" + ecol + "" + row;
 	}

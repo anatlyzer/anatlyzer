@@ -91,6 +91,9 @@ public class SourceMetamodelsData {
 		return (EClass) trace.get(c);
 	}
 
+	public EEnum getTarget(EEnum c) {
+		return (EEnum) trace.get(c);
+	}
 
 	public EStructuralFeature getTarget(EStructuralFeature f) {
 		return (EStructuralFeature) trace.get(f);

@@ -3,7 +3,6 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -11,7 +10,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import witness.generator.WitnessGeneratorMemory;
@@ -25,8 +23,6 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
-import anatlyzer.atl.graph.ErrorPathGenerator;
-import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -42,7 +38,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 
 	private Analyser analyser;
 	private EPackage effective;
-	private EPackage language;
 	private EPackage errorSliceMM;
 	private boolean checkDiscardCause = true;
 	private boolean checkProblemsInPath;
@@ -50,22 +45,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
-		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
-		ProblemPath path = null;
-		
-		if ( checkProblemsInPath ) {
-			ProblemGraph g = pathgen.perform();
-			Optional<Problem> isTopLevel = g.getProblemTree().getNodes().stream().map(n -> n.getProblem()).filter(p -> p == problem).findAny();
-			if ( isTopLevel.isPresent() ) {
-				path = pathgen.generatePath((LocalProblem) problem);
-			} else {
-				// Depends on another error
-				return ProblemStatus.PROBLEMS_IN_PATH;
-			}			
-		} else {
-			path = pathgen.generatePath((LocalProblem) problem);
+		ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) problem, r, checkProblemsInPath);
+		if ( path == null ) {
+			return ProblemStatus.PROBLEMS_IN_PATH;
 		}
-		
 		return find(path, r);
 	}
 
@@ -252,22 +235,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 
 	protected abstract void onUSEInternalError(Exception e);
 	protected abstract String getTempDirectory();
-
-	public EPackage getSourceMetamodel() {
-		if ( language != null )
-			return language;
-		
-		// This should be improved somehow!
-		language = AnalyserUtils.getSingleSourceMetamodel(analyser);
-		// Make a copy and change the URI, because the witness find seems to
-		// register the meta-model...
-		EPackage copy = EcoreUtil.copy(language);
-		copy.setNsURI(language.getNsURI() + "/copy");
-
-		return copy;
-	}
-
-	
 	
 	public EPackage generateErrorSliceMetamodel(ErrorSlice slice, SourceMetamodelsData srcMetamodels, ProblemInPathVisitor problems) {
 		Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);

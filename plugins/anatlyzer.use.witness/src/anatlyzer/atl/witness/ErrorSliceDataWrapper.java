@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
@@ -127,19 +128,21 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		String[] argNames = ATLUtils.getArgumentNames(ctx);
 		Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
 		for(int i = 0; i < argNames.length; i++) {
+			// s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
 			s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
-//			if ( i + 1 < ctx.getNames().size() ) {
-//				s += ","; 
-//			}
 		}
 		s += ")";
 		
-		if ( ctx.getStaticReturnType() instanceof EnumType ) {
+		/* if ( ctx.getStaticReturnType() instanceof EnumType ) {
 			s += " : " + "Integer" + " = ";
 		} else {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
+		}*/
+		if ( ctx.getInferredReturnType() instanceof UnionType ) {
+			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
+		} else {
+			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType()) + " = ";			
 		}
-
 		OclExpression body = ATLUtils.getBody(ctx);
 		
 		s += USESerializer.gen(body); 
@@ -149,6 +152,8 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 
 	private String toUSETypeName(OclType t) {
 		if (t instanceof OclModelElement) {
+			return t.getName();
+		} else if ( t instanceof EnumType ) {
 			return t.getName();
 		} else if (t instanceof StringType) {
 			return "String";

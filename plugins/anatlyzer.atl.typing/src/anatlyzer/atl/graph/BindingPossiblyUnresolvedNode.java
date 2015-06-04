@@ -143,16 +143,15 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		OclExpression andRules = genAndRules(model, rules, varDcl, operator);
 		
 		// => not varDcl.oclIsUndefined()
-		/*
+		// It is necessary to check for undefined because otherwise setting a reference
+		// to undefined is a trivial solution to the expression
 		VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 		varRef.setReferredVariable(varDcl);
 		OperatorCallExp notUndefined = model.negateExpression(model.createOperationCall(varRef, "oclIsUndefined"));
 		
 		let.setIn_( model.createBinaryOperator(notUndefined, andRules, "and") );
-		*/
 		
-		// Checking for undefined seems to provoke problems...
-		let.setIn_(andRules);
+		// let.setIn_(andRules);
 		
 		return let;
 	}

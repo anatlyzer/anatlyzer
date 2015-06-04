@@ -57,6 +57,7 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -1082,6 +1083,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public IStructuredSelection getSelection() {
 		return (IStructuredSelection) viewer.getSelection();
+	}
+
+	@Override
+	public AnalysisResult getCurrentAnalysis() {
+		return currentAnalysis;
 	}
 	
 }

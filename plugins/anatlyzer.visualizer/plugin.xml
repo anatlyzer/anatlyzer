@@ -6,6 +6,9 @@
       <viewaction
             action="anatlyzer.visualizer.actions.VisualizeElement">
       </viewaction>
+      <viewaction
+            action="anatlyzer.visualizer.actions.GraphvizPathCondition">
+      </viewaction>
    </extension>
    <extension
          point="org.eclipse.ui.views">

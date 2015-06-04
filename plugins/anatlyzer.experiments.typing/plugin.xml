@@ -19,6 +19,10 @@
                implementation="anatlyzer.experiments.typing.ExportDetailTypeErrors"
                name="Export detail">
          </actions>
+         <actions
+               implementation="anatlyzer.experiments.typing.ExportPotentialProblemsSummary"
+               name="Export potential problems summary">
+         </actions>
       </experiment>
    </extension>
    <extension

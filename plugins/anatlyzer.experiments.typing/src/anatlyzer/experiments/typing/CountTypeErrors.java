@@ -24,6 +24,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ErrorReport;
 import anatlyzer.experiments.export.Category;
@@ -39,6 +40,10 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	protected HashMap<String, Project> projects = new HashMap<String, Project>();
 	protected List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
+	protected List<DetectedError> allProblems = new ArrayList<DetectedError>();
+
+	
+	protected HashMap<Integer, ErrorCount> errorOcurrences = new HashMap<Integer, ErrorCount>();
 
 	
 	public CountTypeErrors() {
@@ -77,24 +82,74 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			if ( useCSP() ) {
 				confirmProblems(data.getProblems(), data);
 			}
-			
+						
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
 			for(Problem p : data.getProblems()) {
-				if ( ! countPotential() && ! AnalyserUtils.isConfirmed(p) ) {
-					continue;
-				}
-				
 				int errorCode = AnalyserUtils.getProblemId(p);
+				String desc   = AnalyserUtils.getProblemDescription(p);
+				
+				ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) p, data, true);
+				summarizeError(p, errorCode, desc, path);
+				
 				DetectedError e = new DetectedError(errorCode, fileName, p);
-				counting.addByCategory(new ErrorCategory(errorCode, AnalyserUtils.getProblemDescription(p)), e);
+				e.setProblemsInPath(path == null);
+				
+				allProblems.add(e);
+				
+				if ( countPotential() || AnalyserUtils.isConfirmed(p) ) {
+					counting.addByCategory(new ErrorCategory(errorCode, desc), e);
+				}				
 			}
 			
 		} catch (Exception e) {
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
 		} 
+	}
+
+	protected void summarizeError(Problem p, int errorCode, String desc, ProblemPath path) {
+		boolean hasProblemsInPath = path == null;
+
+		errorOcurrences.putIfAbsent(errorCode, new ErrorCount(errorCode, desc));
+		ErrorCount c = errorOcurrences.get(errorCode);
+		c.ocurrences++;
+		
+		if ( hasProblemsInPath && p.getStatus() != ProblemStatus.STATICALLY_CONFIRMED )
+			c.problemsInPath++;		
+		
+		switch ( p.getStatus() ) {
+		case STATICALLY_CONFIRMED:
+			c.staticallyConfirmed++;
+			break;
+		case ERROR_CONFIRMED:
+		case ERROR_CONFIRMED_SPECULATIVE:
+			c.witnessConfirmed++;
+			if ( hasProblemsInPath ) c.problemsInPathRecovered++;		
+			break;
+		case ERROR_DISCARDED:
+			if ( hasProblemsInPath ) c.problemsInPathRecovered++;		
+			c.witnessDiscarded++;
+			break;
+		case ERROR_DISCARDED_DUE_TO_METAMODEL:
+			if ( hasProblemsInPath ) c.problemsInPathRecovered++;
+			c.witnessDiscardedMetamodel++;
+			break;
+		case USE_INTERNAL_ERROR:
+			c.e1_use++;
+			break;
+		case IMPL_INTERNAL_ERROR:
+			c.e2_impl++;
+			break;
+		case NOT_SUPPORTED_BY_USE:
+			c.e3_unsupp++;
+			break;
+		case WITNESS_REQUIRED:
+		case PROBLEMS_IN_PATH:
+		case CANNOT_DETERMINE:
+			throw new IllegalStateException();
+		}
 	}
 
 	private void confirmProblems(List<Problem> problems, AnalysisResult r) {
@@ -186,6 +241,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 		private int errorCode;
 		private String fileName;
 		private Problem problem;
+		private boolean problemsInPath;
 		
 		public DetectedError(int errorCode, String fileName, Problem p) {
 			this.errorCode = errorCode;
@@ -193,9 +249,21 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			this.problem   = p;
 		}
 		
+		public void setProblemsInPath(boolean b) {
+			this.problemsInPath = b;
+		}
+
+		public boolean hasProblemsInPath() {
+			return this.problemsInPath;
+		}
+		
 		//
 		// IArtefact methods
 		//
+		
+		public Problem getProblem() {
+			return problem;
+		}
 		
 		@Override
 		public String getId() {
@@ -215,6 +283,10 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 				location = ((LocalProblem) problem).getLocation();
 			hints.add(new SimpleHint(location));
 			hints.add(new SimpleHint(problem.getDescription()));			
+			if ( AnalyserUtils.isInternalError(problem) ) {
+				hints.add(new SimpleHint(problemsInPath ? "Prob. path" : ""));
+				hints.add(new SimpleHint(problem.getStatus().getName()));
+			}
 			return hints;
 		}
 	}
@@ -274,4 +346,25 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 		}
 	}
 	
+
+	public class ErrorCount {
+		int id;
+		String desc;
+		public ErrorCount(int id, String desc) {
+			this.id = id;
+			this.desc = desc;
+		}
+		
+		int problemsInPath;
+		int problemsInPathRecovered;
+		
+		int ocurrences;
+		int staticallyConfirmed;
+		int witnessConfirmed;
+		int witnessDiscarded;
+		int witnessDiscardedMetamodel;
+		int e1_use;
+		int e2_impl;
+		int e3_unsupp;
+	}
 }

@@ -1,6 +1,7 @@
 package anatlyzer.atl.util;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -9,13 +10,11 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -61,12 +60,32 @@ import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
+import anatlyzer.atl.graph.ErrorPathGenerator;
+import anatlyzer.atl.graph.ProblemGraph;
+import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.ATL.Module;
 
 public class AnalyserUtils {
+	
+	public static ProblemPath computeProblemPath(LocalProblem problem, AnalysisResult r, boolean checkProblemsInPath) {
+		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
+		ProblemPath path;
+		if ( checkProblemsInPath ) {
+			ProblemGraph g = pathgen.perform();
+			Optional<Problem> isTopLevel = g.getProblemTree().getNodes().stream().map(n -> n.getProblem()).filter(p -> p == problem).findAny();
+			if ( isTopLevel.isPresent() ) {
+				path = pathgen.generatePath(problem);
+			} else {
+				// Depends on another error
+				return null;
+			}			
+		} else {
+			path = pathgen.generatePath((LocalProblem) problem);
+		}
+		return path;
+	}
 	
 	public static LocalProblem hasProblem(LocatedElement e, Class<? extends LocalProblem> clazz) {
 		for(EObject p : e.getProblems()) {
@@ -76,30 +95,6 @@ public class AnalyserUtils {
 		}
 		return null;
 	}	
-	
-	public static EPackage getSingleSourceMetamodel(Analyser analyser) {
-		GlobalNamespace namespace = analyser.getNamespaces();
-		
-		Module mod = analyser.getATLModel().allObjectsOf(Module.class).get(0);
-		String n = mod.getInModels().get(0).getMetamodel().getName();
-		
-		if ( namespace.getNamespace(n).getResource().getContents().size() > 1 ) {
-			EPackage selected = null;
-			for (EObject c : namespace.getNamespace(n).getResource().getContents()) {
-				EPackage pkg = (EPackage) c;
-				if ( selected == null ) selected = pkg;
-				
-				if ( pkg.getEClassifiers().size() > selected.getEClassifiers().size() ) 
-					selected = pkg;
-			}
-			 
-			System.out.println("TODO: AnalyserExecutor: Using a very naive stratategy to select one package among several");
-			
-			return selected;
-		} else {
-			return (EPackage) namespace.getNamespace(n).getResource().getContents().get(0);
-		}
-	}
 	
 	public static GlobalNamespace prepare(ATLModel atlModel, IAtlFileLoader loader) throws CoreException, CannotLoadMetamodel {
 		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "lib")) {
@@ -289,6 +284,12 @@ public class AnalyserUtils {
 		return p.getStatus() == ProblemStatus.STATICALLY_CONFIRMED ||
 			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED ||
 			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
+	}
+
+	public static boolean isInternalError(Problem p) {
+		return p.getStatus() == ProblemStatus.USE_INTERNAL_ERROR ||
+				   p.getStatus() == ProblemStatus.IMPL_INTERNAL_ERROR ||
+				   p.getStatus() == ProblemStatus.NOT_SUPPORTED_BY_USE;	
 	}
 	
 }

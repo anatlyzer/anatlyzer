@@ -161,6 +161,7 @@ public class Retyping extends AbstractVisitor {
 	/**
 	 * Enum literals replaced by integers
 	 */
+	/*
 	@Override
 	public void inEnumLiteralExp(EnumLiteralExp self) {
 		// Enumerations are converted to integers
@@ -170,7 +171,8 @@ public class Retyping extends AbstractVisitor {
 
 		EcoreUtil.replace(self, tgt);
 	}
-	
+	*/
+		
 	/**
 	 * Retypings relative to feature access:
 	 * <ol>

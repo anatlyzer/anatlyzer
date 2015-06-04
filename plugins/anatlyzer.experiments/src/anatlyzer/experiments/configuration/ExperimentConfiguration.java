@@ -81,6 +81,7 @@ public class ExperimentConfiguration {
 			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(expFile.path));
 			if ( f != null && f.exists() ) {
 				monitor.subTask("File: " + expFile.path);
+				experiment.setOptions(options);
 				
 				experiment.perform(f, monitor);
 			}			

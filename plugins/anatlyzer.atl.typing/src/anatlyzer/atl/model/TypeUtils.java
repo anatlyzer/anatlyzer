@@ -193,6 +193,8 @@ public class TypeUtils {
 			if ( t instanceof SetType ) typeName = "Set";
 			
 			return typeName + "(" + getNonQualifiedTypeName(((CollectionType) t).getContainedType()) +")";
+		} else if ( t instanceof EnumType ) {
+			return ((EnumType) t).getName();
 		}
 		throw new UnsupportedOperationException(t.getClass().getName());
 	}

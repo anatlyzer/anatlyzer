@@ -34,6 +34,12 @@ public class GraphvizGenerator {
 		return gv.getText();
 	}
 
+	public String generate(ProblemPath path) {
+		GraphvizBuffer gv = new GraphvizBuffer();
+		path.getErrorNode().genGraphviz(gv);
+		return gv.getText();
+	}
+	
 	public void visualize(String path) {
 		visualize(path, null);
 	}
@@ -42,6 +48,19 @@ public class GraphvizGenerator {
 		String s = generate(location);
 		try {
 			FileWriter fw = new FileWriter(path);
+			fw.append(s);
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void visualize(ProblemPath path, String outputpath) {
+		String s = generate(path);
+		try {
+			FileWriter fw = new FileWriter(outputpath);
 			fw.append(s);
 			fw.close();
 		} catch (IOException e) {

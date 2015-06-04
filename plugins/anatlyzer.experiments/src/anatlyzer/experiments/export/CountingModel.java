@@ -291,11 +291,11 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		int row = initRow;
 		int col = 1;
 		
-		for (Entry<Category, List<ART>> entry : results.entrySet()) {
-			u.createCell(s, row, col, entry.getKey().getName());
+		for (Category c : getAllCategories()) {
+			u.createCell(s, row, col, c.getName());
 			
 			row++;
-			for (ART art : entry.getValue()) {
+			for (ART art : results.get(c)) {
 				u.createCell(s, row, col + 1, art.getName());				
 				
 				// Create hints if needed

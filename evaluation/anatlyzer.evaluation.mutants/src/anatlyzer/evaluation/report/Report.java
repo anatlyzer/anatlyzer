@@ -97,7 +97,7 @@ public class Report {
 	}
 	
 	/** result for a transformation */
-	class Result {
+	public class Result {
 		private boolean executionError = false;
 		private boolean outputError    = false;
 		private boolean anatlyzerError = false;

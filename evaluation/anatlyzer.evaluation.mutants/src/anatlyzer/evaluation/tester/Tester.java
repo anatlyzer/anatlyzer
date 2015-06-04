@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -16,22 +15,20 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -55,24 +52,27 @@ import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import witness.generator.MetaModel;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.evaluation.instrumentation.PossiblyUnresolvedBindingInstrumenter;
 import anatlyzer.evaluation.models.FullModelGenerationStrategy;
 import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
 import anatlyzer.evaluation.models.ModelGenerationStrategy;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 import anatlyzer.evaluation.mutators.creation.BindingCreationMutator;
-import anatlyzer.evaluation.mutators.creation.FilterCreationMutator;
 import anatlyzer.evaluation.mutators.creation.InElementCreationMutator;
 import anatlyzer.evaluation.mutators.creation.OutElementCreationMutator;
 import anatlyzer.evaluation.mutators.deletion.ArgumentDeletionMutator;
@@ -121,6 +121,11 @@ public class Tester {
 	private String folderModels;
 	private String folderTemp;
 	
+	// constants (errors and exceptions)
+	private final String ANATLYSER_EXCEPTION = "anatlyser exception";
+	private final String EXECUTION_EXCEPTION = "execution exception";
+	private final String EXECUTION_ERROR     = "execution error";
+	
 	/**
 	 * @param trafo transformation to be used in the evaluation
 	 * @param temporalFolder temporal folder used to store the generated mutants and input test models
@@ -154,7 +159,7 @@ public class Tester {
 		this.generateMutants ();
 		this.generateTestModels ();
 		this.evaluate();
-		//this.deleteDirectory(this.folderTemp, true); // delete temporal folder
+//		this.deleteDirectory(this.folderTemp, true); // delete temporal folder
 	}
 	
 	/**
@@ -225,7 +230,7 @@ public class Tester {
 				new BindingCreationMutator(),
 				new InElementCreationMutator(),
 				new OutElementCreationMutator(),
-////				new FilterCreationMutator(),
+//////				new FilterCreationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);
@@ -247,6 +252,7 @@ public class Tester {
 				break;
 			}
 		}
+		if (metamodel==null) metamodel = (EPackage)resource.getContents().get(0); // TODO: fix
 		if (metamodel.getNsURI()==null) metamodel.setNsURI(aliasToPaths.get(metamodel.getName()).getURIorPath());
 		
 		// create temporal and output folders
@@ -333,96 +339,69 @@ public class Tester {
 	 * model that is not conformant to the output metamodel). Both the anatlysis and the
 	 * execution should yield the same result (both successful or unsuccessful).
 	 * @param transformation
-	 */ 
+	 */
 	private void evaluateTransformation (String transformation) {		
 		System.out.println("evaluating " + transformation + "...");
+		String  errorsAnatlyser = "";
+		boolean errorsExecution = false;
 		
-		// name of input/output metamodels of the transformation
-		// TODO: there may be several input/output metamodels
-		String immAlias = this.inputMetamodels.get(0);
-		String ommAlias = this.outputMetamodels.get(0);
-		
-		try {
-			// compilation is performed when the mutant is generated, but just in case...
-			if (compileTransformation(transformation)==false) return;
+		// initialize report
+		report.addResult(transformation);
 
-			// initialize report
-			report.addResult(transformation);
-
-			// load transformation
-			String transformation_asm = transformation.replace(".atl", ".asm");
-			TrafoEngine engine = new ATLEngine();
-			engine.loadTransformation(transformation_asm);
-
-			// obtain input test models 
-			File[] inputModels = new File(folderModels).listFiles(
-				new FilenameFilter() {
-					public boolean accept(File directory, String fileName) {
-						return fileName.endsWith(".model"); 
-					}
-				});
-
-			boolean error = false;
-
-			// for each input test model
-			for (File inputModel : inputModels) {
-				
-				// load input/output model
-				String iModel  = inputModel.getPath();
-				String oFolder = transformation.substring(transformation.lastIndexOf(File.separator)+1, transformation.lastIndexOf("."));
-				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
-				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
-				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
-
-				// execute transformation
-				try {
-					// check whether the transformation does not crash
-					if (engine.execute()) {						
-						// check whether the output model is conformant to the output metamodel
-						// TODO: check OCL constraints of the meta-model as well						
-						URI uri = URI.createFileURI(oModel);
-						Resource resource = rs.getResource(uri, true);
-						for (EObject eObject : resource.getContents()) {
-							Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
-							if (diagnostic.getSeverity() != Diagnostic.OK) 
-								error = report.setOutputError(transformation, ((BasicDiagnostic)diagnostic.getChildren().get(0)).getMessage(), inputModel.getName());
-						}
-					}
-					else error = report.setExecutionError(transformation, "", inputModel.getName());
-				}
-				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
-				
-				if (error) break;
-			}
-		}
-		catch (transException e) { 
-			// e.printStackTrace();
-			System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")");  
-		} 
-
+		// anatlyse transformation
 		try {	
-			// anatlyze transformation
-			String problems = this.typing(transformation);
-			if (!problems.isEmpty()) 
-				report.setAnatlyserError(transformation, problems);
+			errorsAnatlyser = this.typing(transformation);
+			if (!errorsAnatlyser.isEmpty()) 
+				report.setAnatlyserError(transformation, errorsAnatlyser);
 		}
-		catch (Exception e) {
-			// e.printStackTrace();
-			// report.setAnatlyserError(transformation, "******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION ********");
-			System.out.println("******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION (" + transformation + ")" );
+		catch (Exception e) { System.out.println("******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION (" + transformation + ")" ); }
+		
+		// execute transformation
+		errorsExecution = this.executeTransformation(transformation);
+
+		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
+		// TODO: devolver lista de errores en vez de String (así sólo hago esto si ese es el único error del anatlyzer)
+		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
+	    if (!errorsExecution && errorsAnatlyser.contains("Possibly unresolved binding")) {
+			try {
+				java.nio.file.Path transformation_path      = new File(transformation).toPath();
+				java.nio.file.Path transformation_back_path = new File(transformation+".back").toPath();
+				java.nio.file.Path transformation_inst_path = new File(transformation.replace(".atl", ".inst.atl")).toPath();
+		    	// - instrument transformation
+				IWorkspace workspace = ResourcesPlugin.getWorkspace();    
+				IPath      location  = Path.fromOSString(transformation); 
+				IFile      ifile     = workspace.getRoot().getFileForLocation(location);
+				AnalyserData result  = new AnalyserExecutor().exec(ifile, false);
+				ATLModel   atlModel  = result.getATLModel();
+				PossiblyUnresolvedBindingInstrumenter instrumenter = new PossiblyUnresolvedBindingInstrumenter();
+				instrumenter.instrumentModel(atlModel);
+				// - save instrumented transformation (use name of original transformation)
+				Files.copy(transformation_path, transformation_back_path, StandardCopyOption.REPLACE_EXISTING);
+				ATLSerializer.serialize(atlModel, transformation);
+				if (compileTransformation(transformation, true)==false) return;
+				// - execute instrumented transformation
+				errorsExecution = this.executeTransformation(transformation);
+				Files.copy  (transformation_path, transformation_inst_path, StandardCopyOption.REPLACE_EXISTING);
+				Files.copy  (transformation_back_path, transformation_path, StandardCopyOption.REPLACE_EXISTING);
+				Files.delete(transformation_back_path);
+				if (compileTransformation(transformation, true)==false) return;
+			} 
+			catch (IOException | CoreException | CannotLoadMetamodel e) { e.printStackTrace(); }
 		}
 	}
 
 	/**
 	 * It compiles an atl transformation file. 
 	 * @param atlTransformationFile
+	 * @boolean forceCompilation false (by default, compile if no <atlTransformatinFile>.asm exists); true (compile anyway)  
 	 * @return true if the compilation was successful, false if there were compilation errors.
 	 */
-	private boolean compileTransformation (String atlTransformationFile) {
+	private boolean compileTransformation (String atlTransformationFile) { return compileTransformation(atlTransformationFile, false);	}
+	private boolean compileTransformation (String atlTransformationFile, boolean forceCompilation) {
 		CompileTimeError[] compileErrors         = null;
 		String             asmTransformationFile = atlTransformationFile.replace(".atl", ".asm");
 		
-		if (! new File(asmTransformationFile).exists() ) {
+		if (!new File(asmTransformationFile).exists() || forceCompilation) {
 			Atl2006Compiler compiler  = new Atl2006Compiler();
 			FileInputStream trafoFile;
 			try {
@@ -460,13 +439,15 @@ public class Tester {
 	}
 	
 	/**
-	 * It perform the type checking phase of a transformation.
+	 * It perform the type checking phase of a transformation. Method used by evaluateTransformation.
 	 * @param atlTransformationFile
+	 * @return list of confirmed problems
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
 	private String typing(String atlTransformationFile) throws IOException, ATLCoreException {
-		String problem = "";
+		String        problem = "";
+		ProblemStatus status  = null;
 		
 		// the anatlyser needs to create the global namespace each time...
 		ResourceSet               rs                      = new ResourceSetImpl();
@@ -487,19 +468,93 @@ public class Tester {
 		analyser.perform();
 		
 		// build list of problems found 
-		for (Problem error : analyser.getErrors().getAnalysis().getProblems()) // {
-			problem += error.getDescription() + ";";
-			//System.out.println("---->"+error.getStatus()+" : "+problem);
-		//}
+		for (Problem error : analyser.getErrors().getAnalysis().getProblems())  {
+			status = error.getStatus();
+			// if needed, generate witness to confirm the problem
+			if (status==ProblemStatus.WITNESS_REQUIRED) 
+				try                 { status = new EclipseUseWitnessFinder().checkDiscardCause(false).find(error, new AnalysisResult(analyser)); }
+				catch (Exception e) { status = ProblemStatus.IMPL_INTERNAL_ERROR; }	
+			// the problem has been confirmed
+			if (status != ProblemStatus.ERROR_DISCARDED) problem += error.getDescription() + " (" + status + ") ;";
+		}
 		
 		// if no problem was found, check rule conflicts
-		if (problem.isEmpty()) {
+		if (problem.isEmpty() || status == ProblemStatus.IMPL_INTERNAL_ERROR) {
 			List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
 			if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
 			else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
+			//for (OverlappingRules or : rules) System.out.println("------------->"+or.getAnalysisResult() );
 		}
 		
 		return problem;
+	}
+	
+	/**
+	 * It executes a transformation for all input models. Method used by evaluateTransformation.
+	 * @param atlTransformationFile
+	 * @return true if error, false otherwise
+	 * @throws IOException
+	 * @throws ATLCoreException
+	 */
+	private boolean executeTransformation (String transformation) {		
+		boolean error = false;
+
+		// name of input/output metamodels of the transformation
+		// TODO: there may be several input/output metamodels
+		String immAlias = this.inputMetamodels.get(0);
+		String ommAlias = this.outputMetamodels.get(0);
+		
+		// compilation is performed when the mutant is generated, but just in case...
+		if (compileTransformation(transformation)==false) return true;
+
+		try {
+			// load transformation
+			String transformation_asm = transformation.replace(".atl", ".asm");
+			TrafoEngine engine = new ATLEngine();
+			engine.loadTransformation(transformation_asm);
+
+			// obtain input test models 
+			File[] inputModels = new File(folderModels).listFiles(
+				new FilenameFilter() {
+					public boolean accept(File directory, String fileName) {
+						return fileName.endsWith(".model"); 
+					}
+				});
+
+			// for each input test model
+			for (File inputModel : inputModels) {
+				
+				// load input/output model
+				String iModel  = inputModel.getPath();
+				String oFolder = transformation.substring(transformation.lastIndexOf(File.separator)+1, transformation.lastIndexOf("."));
+				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
+				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
+				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
+
+				// execute transformation
+				try {
+					// check whether the transformation does not crash
+					if (engine.execute()) {						
+						// check whether the output model is conformant to the output metamodel
+						// TODO: check OCL constraints of the meta-model as well						
+						URI uri = URI.createFileURI(oModel);
+						Resource resource = rs.getResource(uri, true);
+						for (EObject eObject : resource.getContents()) {
+							Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
+							if (diagnostic.getSeverity() != Diagnostic.OK) 
+								error = report.setOutputError(transformation, ((BasicDiagnostic)diagnostic.getChildren().get(0)).getMessage(), inputModel.getName());
+						}
+					}
+					else error = report.setExecutionError(transformation, EXECUTION_ERROR, inputModel.getName());
+				}
+				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
+				
+				if (error) break;
+			}
+		}
+		catch (transException e) { System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")"); } 
+		
+		return error;
 	}
 	
 	/**

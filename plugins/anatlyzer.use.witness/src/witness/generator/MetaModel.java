@@ -59,4 +59,5 @@ public class MetaModel {
 	public String getName    () { return this.name;     }
 	public String getNsURI   () { return this.nsURI;    }
 	public String getNsPrefix() { return this.nsPrefix; }
+	public void setName (String name) { this.name = name; }
 }

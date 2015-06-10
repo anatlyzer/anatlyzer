@@ -86,6 +86,7 @@ import anatlyzer.evaluation.mutators.deletion.ParameterDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.ParentRuleDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.RuleDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.VariableDeletionMutator;
+import anatlyzer.evaluation.mutators.modification.ParentRuleModificationMutator;
 import anatlyzer.evaluation.mutators.modification.feature.BindingModificationMutator;
 import anatlyzer.evaluation.mutators.modification.feature.NavigationModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.CollectionOperationModificationMutator;
@@ -198,39 +199,41 @@ public class Tester {
 		
 		// generate mutants
 		AbstractMutator[] operators = {
-//				// deletion
-//				new ArgumentDeletionMutator(),
-//				new BindingDeletionMutator(),
-//				new FilterDeletionMutator(),
-//				new HelperDeletionMutator(),
-//				new InElementDeletionMutator(),
-//				new OutElementDeletionMutator(),
-//				new ParameterDeletionMutator(),
-//				new ParentRuleDeletionMutator(),
-//				new RuleDeletionMutator(),
-//				new VariableDeletionMutator(),
-//				new HelperContextDeletionMutator(),
-//				// type modification
-//				new InElementModificationMutator(),
-//				new OutElementModificationMutator(),
-//				new HelperReturnModificationMutator(), 
-//				new HelperContextModificationMutator(),
-//				new CollectionModificationMutator(),
-//				new ParameterModificationMutator(),
-//				new ArgumentModificationMutator(),
-//				new VariableModificationMutator(),
-//				// feature modification
-//				new NavigationModificationMutator(), //
-//				new BindingModificationMutator(),
-//				// invocation modification
-//				new CollectionOperationModificationMutator(),
-//				new OperatorModificationMutator(),
-//				new PredefinedOperationModificationMutator(),
-//				new HelperOperationModificationMutator(),
-//				new IteratorModificationMutator(),
-//				// creation
-//				new BindingCreationMutator(),
-//				new InElementCreationMutator(),
+				// deletion
+				new ArgumentDeletionMutator(),
+				new BindingDeletionMutator(),
+				new FilterDeletionMutator(),
+				new HelperDeletionMutator(),
+				new InElementDeletionMutator(),
+				new OutElementDeletionMutator(),
+				new ParameterDeletionMutator(),
+				new ParentRuleDeletionMutator(),
+				new RuleDeletionMutator(),
+				new VariableDeletionMutator(),
+				new HelperContextDeletionMutator(),
+				// type modification
+				new InElementModificationMutator(),
+				new OutElementModificationMutator(),
+				new HelperReturnModificationMutator(), 
+				new HelperContextModificationMutator(),
+				new CollectionModificationMutator(),
+				new ParameterModificationMutator(),
+				new ArgumentModificationMutator(),
+				new VariableModificationMutator(),
+				// feature modification
+				new NavigationModificationMutator(), //
+				new BindingModificationMutator(),
+				// invocation modification
+				new CollectionOperationModificationMutator(),
+				new OperatorModificationMutator(),
+				new PredefinedOperationModificationMutator(),
+				new HelperOperationModificationMutator(),
+				new IteratorModificationMutator(),
+				// other modifications
+//				new ParentRuleModificationMutator(),
+				// creation
+				new BindingCreationMutator(),
+				new InElementCreationMutator(),
 				new OutElementCreationMutator(),
 ////////				new FilterCreationMutator(),
 		}; 

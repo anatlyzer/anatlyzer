@@ -23,6 +23,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -40,6 +41,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -119,6 +122,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	private IResource currentResource;
 
+	private AnalysisViewComparator comparator;
+
 	
 	abstract class TreeNode {
 		private TreeNode parent;
@@ -134,6 +139,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 		
 		public String toColumn1() { return ""; }
+		
+		public ImageDescriptor getImage() {
+			return null;
+		}
 	}
 	
 	interface IBatchAnalysisNode {
@@ -164,6 +173,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			return "Batch analysis";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.batch_analysis_16x16;
 		}
 	}
 
@@ -259,6 +273,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			return "Rule conflict analysis";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.rule_conflicts_analysis_16x16;
 		}
 		
 		@Override
@@ -447,6 +466,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toString() {
 			return "Local problems";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.local_problems_16x16;
 		}
 	}
 	
@@ -694,6 +718,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		trclmnElement.setWidth(500);
 		trclmnElement.setText("Problem");
 		treeViewerColumn.setLabelProvider(new ViewProviders.FirstColumnViewLabelProvider());
+		trclmnElement.addSelectionListener(getSelectionAdapter(trclmnElement, 0));
 		
 //		treeViewerColumn.setLabelProvider(new TooltipSupport.ViewDecoratingStyledCellLabelProvider(
 //				new ViewProviders.FirstColumnViewLabelProvider(), new ViewLabelDecorator(), null
@@ -704,13 +729,17 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		treeViewerColumn_1.setLabelProvider(new ViewProviders.SecondColumnViewLabelProvider());
 		trclmnMetric.setWidth(50);
 		trclmnMetric.setText("Info.");
+		trclmnMetric.addSelectionListener(getSelectionAdapter(trclmnMetric, 1));
 		
 		ViewColumnViewerToolTipSupport.enableFor(viewer);
 		
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ViewContentProvider());
 		// viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
+		// viewer.setSorter(new NameSorter());
+		comparator = new AnalysisViewComparator();
+		viewer.setComparator(comparator);
+		
 		viewer.setInput(getViewSite());
 
 		IWorkbenchPage page = this.getSite().getPage();
@@ -728,6 +757,21 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		AnalysisIndex.getInstance().addListener(this);
 		
 	}
+
+  private SelectionAdapter getSelectionAdapter(final TreeColumn column,
+	      final int index) {
+	    SelectionAdapter selectionAdapter = new SelectionAdapter() {
+	      @Override
+	      public void widgetSelected(SelectionEvent e) {
+	        comparator.setColumn(index);
+	        int dir = comparator.getDirection();
+	        viewer.getTree().setSortDirection(dir);
+	        viewer.getTree().setSortColumn(column);
+	        viewer.refresh();
+	      }
+	    };
+	    return selectionAdapter;
+	  }
 
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");

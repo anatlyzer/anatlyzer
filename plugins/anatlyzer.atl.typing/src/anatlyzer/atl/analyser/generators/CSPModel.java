@@ -9,7 +9,9 @@ import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformat
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
@@ -40,7 +42,7 @@ public class CSPModel {
 	public OperationCallExp createAllInstances(Metaclass metaclass) {
 		OclModelElement classRef = OCLFactory.eINSTANCE.createOclModelElement();
 		classRef.setName(metaclass.getName());
-		classRef.setInferredType(metaclass);
+		setInferredType(classRef, metaclass);
 		
 		OperationCallExp allInstancesCall = OCLFactory.eINSTANCE.createOperationCallExp();
 		allInstancesCall.setOperationName("allInstances");
@@ -148,7 +150,7 @@ public class CSPModel {
 		op.getArguments().add(m);
 
 		if ( klass != null ) {
-			m.setInferredType(klass);
+			setInferredType(m, klass);
 		}
 		
 		if ( modelName != null ) {
@@ -168,7 +170,7 @@ public class CSPModel {
 		
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
 		m.setName(klass.getName());
-		m.setInferredType(klass);
+		setInferredType(m, klass);
 		
 		opCall.getArguments().add(m);
 		return opCall;
@@ -196,7 +198,7 @@ public class CSPModel {
 	public OclExpression createKindOf_AllInstancesStyle(OclExpression receptor, String modelName, Metaclass klass) {
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
 		m.setName(klass.getName());
-		m.setInferredType(klass);
+		setInferredType(m, klass);
 
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
 		op.setOperationName("allInstances");
@@ -316,6 +318,13 @@ public class CSPModel {
 
 	}
 
+	public static void setInferredType(OclExpression expr, Type t) {
+		expr.setInferredType(copy(t));
+	}
+
+	public static  Type copy(Type t) {
+		return (Type) ATLCopier.copySingleElement(t, true);
+	}
 
 	
 }

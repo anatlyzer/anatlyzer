@@ -85,6 +85,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -723,7 +724,14 @@ public class ErrorModel {
 		AccessToUndefinedValue error = AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue();
 		initProblem(error, node);
 		
-		signalError(error, "Possible access to undefined value", node);
+		String featName = "";
+		if ( node instanceof NavigationOrAttributeCallExp ) {
+			featName = ((NavigationOrAttributeCallExp) node).getName();
+		} else if ( node instanceof OperationCallExp ) {
+			featName = ((OperationCallExp) node).getOperationName();
+		}
+		
+		signalError(error, "Possible access to undefined value: " + featName, node);
 		
 	}
 	

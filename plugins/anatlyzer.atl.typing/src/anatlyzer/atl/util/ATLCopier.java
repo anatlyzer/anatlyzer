@@ -1,17 +1,20 @@
 package anatlyzer.atl.util;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import anatlyzer.atlext.ATL.InPatternElement;
-import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atl.types.TypesPackage;
 
 @SuppressWarnings("serial")
 public class ATLCopier extends EcoreUtil.Copier {
 
 	private EObject root;
-
+	private boolean copyTypes = false;
+	
 	public ATLCopier(EObject object) {
 		super();
 		this.root = object;
@@ -29,8 +32,18 @@ public class ATLCopier extends EcoreUtil.Copier {
 		return this;
 	}
 	
+	public ATLCopier copyTypes(boolean b) {
+		this.copyTypes = b;
+		return this;
+	}
+	
 	public static EObject copySingleElement(EObject obj) {
-	    ATLCopier copier = new ATLCopier(obj);
+		return copySingleElement(obj, false);
+	}
+
+
+	public static EObject copySingleElement(EObject obj, boolean copyTypes) {
+	    ATLCopier copier = new ATLCopier(obj).copyTypes(copyTypes);
 	    EObject result = copier.copy(obj);
 	    copier.copyReferences();	
 	    return result;
@@ -66,6 +79,64 @@ public class ATLCopier extends EcoreUtil.Copier {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Modification of the original copy
+	 */
+    public EObject copy(EObject eObject)
+    {
+      if (eObject == null)
+      {
+        return null;
+      }
+      else
+      {
+        EObject copyEObject = createCopy(eObject);
+        if (copyEObject != null)
+        {
+          put(eObject, copyEObject);
+          EClass eClass = eObject.eClass();
+          for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+          {
+            EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+            if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived())
+            {
+              if (eStructuralFeature instanceof EAttribute)
+              {
+                copyAttribute((EAttribute)eStructuralFeature, eObject, copyEObject);
+              }
+              else
+              {
+                EReference eReference = (EReference)eStructuralFeature;
+                if (eReference.isContainment())
+                {
+                  copyContainment(eReference, eObject, copyEObject);
+                } 
+                // Added to handle the copy of some non-containment references                
+                else {
+                  copyNonContainment(eReference, eObject, copyEObject);
+                }
+              }
+            }
+          }
+
+          copyProxyURI(eObject, copyEObject);
+        }
+
+        return copyEObject;
+      }
+    }
+
+	private void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
+		if ( ! copyTypes  ) {
+			return;
+		}
+		
+		if ( eReference.getEType() == TypesPackage.Literals.TYPE ) {
+			copyContainment(eReference, eObject, copyEObject);
+		}
+		
 	}
 
 

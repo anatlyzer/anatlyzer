@@ -7,8 +7,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.Analyser;
-import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.batch.PossibleConflictingRulesNode;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
@@ -25,10 +23,10 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
-import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.OCL.IfExp;
@@ -149,9 +147,7 @@ public class ErrorPathGenerator {
 		AccessToUndefinedValueNode node = new AccessToUndefinedValueNode(p, atlExpr);
 		currentPath = new ProblemPath(p, node);
 		
-		pathToControlFlow(atlExpr, node, new TraversedSet());
-		// System.out.println(p);
-		// pathFromErrorExpression(atlExpr.getSource(), node);		
+		pathToControlFlow(atlExpr, node, new TraversedSet());		
 	}
 	
 	private void generatePath_OperationNotFound(OperationNotFound p) {
@@ -224,7 +220,7 @@ public class ErrorPathGenerator {
 		ProblemNode node = new NoBindingAssignmentNode(p);
 		currentPath = new ProblemPath(p, node);
 		
-		SimpleOutPatternElement op = (SimpleOutPatternElement) p.getElement();
+		OutPatternElement op = (OutPatternElement) p.getElement();
 		Rule rule = op.getOutPattern().getRule();
 		pathToRule(rule, node, new TraversedSet(), false);	
 	}
@@ -238,7 +234,7 @@ public class ErrorPathGenerator {
 		EObject lastParent = (EObject) start; 
 		EObject parent = start.eContainer(); 
 		while ( ! isControlFlowElement(parent) ) {
-			if ( isIteration(parent) ) {
+			if ( isIteration(parent, lastParent) ) {
 				LoopExp exp = (LoopExp) parent;
 				LoopNode loop = new LoopNode(exp);
 				node.addDependency(loop);
@@ -269,8 +265,8 @@ public class ErrorPathGenerator {
 		return depReachability;
 	}
 	
-	private boolean isIteration(EObject element) {
-		return element instanceof LoopExp;
+	private boolean isIteration(EObject element, EObject children) {
+		return element instanceof LoopExp && ((LoopExp) element).getBody() == children;
 	}
 
 	public boolean isControlFlowElement(EObject element) {

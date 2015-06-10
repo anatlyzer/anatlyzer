@@ -60,7 +60,10 @@ public class OclGeneratorAST {
 		OclExpression copied = genAux(expr, vars);
 		copied.setLocation(expr.getLocation());
 		copied.getProblems().addAll(expr.getProblems());
-		copied.setInferredType( expr.getInferredType() );
+		
+		// copied.setInferredType( expr.getInferredType() );
+		CSPModel.setInferredType(copied, expr.getInferredType());
+		
 		copied.setImplicitlyCasted( expr.isImplicitlyCasted() );
 		copied.setNoCastedType(expr.getNoCastedType());
 		return copied;

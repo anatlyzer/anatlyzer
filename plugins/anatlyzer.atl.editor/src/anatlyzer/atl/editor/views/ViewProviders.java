@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.views;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
@@ -7,6 +8,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
+import anatlyzer.atl.editor.views.AnalysisView.BatchAnalysisNodeGroup;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeParent;
 
@@ -24,6 +26,13 @@ public class ViewProviders {
 	 
 	    @Override
 	    public Image getImage(Object obj) {
+	    	if ( obj instanceof TreeNode ) {
+	    		ImageDescriptor desc = ((TreeNode) obj).getImage();
+	    		if ( desc != null ) {
+	    			return desc.createImage();
+	    		}
+	    	}
+	    	
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
 			if (obj instanceof TreeParent)
 			   imageKey = ISharedImages.IMG_OBJ_FOLDER;

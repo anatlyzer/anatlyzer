@@ -27,6 +27,7 @@ public class LetScopeNode extends AbstractDependencyNode {
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, let.getVariable().getInitExpression());
 		OclSlice.slice(slice, let.getIn_());
+		generatedDependencies(slice);
 	}
 
 	@Override

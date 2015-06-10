@@ -3,7 +3,6 @@ package anatlyzer.atl.analyser.generators;
 import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -30,9 +29,7 @@ import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
-import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.IfExp;
-import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -118,6 +115,9 @@ public class Retyping extends AbstractVisitor {
 	
 	public void retypeHelper(Helper self) {
 		boolean convertedToSet = false;
+
+		System.out.println(ATLUtils.getHelperName(self));
+
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
 			markSeqAsSet(self);
 			
@@ -132,11 +132,10 @@ public class Retyping extends AbstractVisitor {
 				((Operation) self.getDefinition().getFeature()).setReturnType(oclType);
 			}
 			
-			
-			
 			OclExpression body = ATLUtils.getBody(self);
 			if ( ! (body.getInferredType() instanceof SetType) ) {
 				convertToSet(body);				
+				self.setInferredReturnType(t);
 				convertedToSet = true;
 			}
 		} 
@@ -289,10 +288,10 @@ public class Retyping extends AbstractVisitor {
 		Type thenExprType = self.getThenExpression().getInferredType();
 		Type elseExprType = self.getElseExpression().getInferredType();
 		
-		if ( thenExprType != null && elseExprType != null ) {
-			System.out.println("=> Retyping " + self);
-			System.out.println("=> Types " + TypeUtils.typeToString(thenExprType) + " - " + TypeUtils.typeToString(elseExprType) );
-		}
+//		if ( thenExprType != null && elseExprType != null ) {
+//			System.out.println("=> Retyping " + self);
+//			System.out.println("=> Types " + TypeUtils.typeToString(thenExprType) + " - " + TypeUtils.typeToString(elseExprType) );
+//		}
 		
 		
 		if ( thenExprType instanceof CollectionType && elseExprType instanceof CollectionType ) {
@@ -338,15 +337,17 @@ public class Retyping extends AbstractVisitor {
 			flatten.setSource(self.getThenExpression());
 			self.setThenExpression(flatten);
 
-			flatten.setInferredType(colElse);
+			// flatten.setInferredType(colElse);
+			CSPModel.setInferredType(flatten, colElse);
 			return true;
 		} else if ( colElse.getContainedType() instanceof CollectionType && !(colThen.getContainedType() instanceof CollectionType) ) {
 			CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
 			flatten.setOperationName("flatten");
 			flatten.setSource(self.getElseExpression());
 			self.setElseExpression(flatten);
-			
-			flatten.setInferredType(colThen);				
+						
+			// flatten.setInferredType(colThen);				
+			CSPModel.setInferredType(flatten, colThen);
 			return true;
 		}
 		return false;		
@@ -511,7 +512,8 @@ public class Retyping extends AbstractVisitor {
 
 			
 			// The new expression has 
-			collect.setInferredType(self.getInferredType());
+			// collect.setInferredType(self.getInferredType());
+			CSPModel.setInferredType(collect, self.getInferredType());
 			
 			EcoreUtil.replace(self, collect);
 			collect.setSource(self);
@@ -528,7 +530,7 @@ public class Retyping extends AbstractVisitor {
 			modelElement.setModel(model);
 		}
 		
-		modelElement.setInferredType(metaclass);
+		CSPModel.setInferredType(modelElement, metaclass);
 		
 		OperationCallExp oclAsType = OCLFactory.eINSTANCE.createOperationCallExp();
 		oclAsType.setOperationName("oclAsType");

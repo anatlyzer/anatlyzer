@@ -39,6 +39,7 @@ import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -734,6 +735,11 @@ public class ATLUtils {
 
 	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {
 		return TypingModel.getInvolvedMetaclassesOfType(b.getValue().getInferredType());
+	}
+
+	public static void setStaticResolverBidirectional(PropertyCallExp self, Callable h) {
+		self.setStaticResolver(h);
+		h.getCalledBy().add(self);
 	}
 
 	

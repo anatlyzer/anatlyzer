@@ -22,6 +22,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -130,7 +131,6 @@ public class ErrorPathGenerator {
 			FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);
 			currentPath = new ProblemPath(p, node);
 			
-			// System.out.println(p);
 			pathFromErrorExpression(atlExpr.getSource(), node);
 		} else if ( p.getElement() instanceof Binding ) {
 			Binding b = (Binding) p.getElement();

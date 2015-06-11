@@ -15,7 +15,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="OutPatternElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="Callable">
       <eStructuralFeatures xsi:type="ecore:EReference" name="calledBy" upperBound="-1"
-          eType="#//OCL/PropertyCallExp" eOpposite="#//OCL/PropertyCallExp/staticResolver"/>
+          eType="#//OCL/PropertyCallExp"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="callableParameters" upperBound="-1"
           eType="#//ATL/CallableParameter" containment="true"/>
     </eClassifiers>
@@ -76,7 +76,7 @@
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="staticResolver" lowerBound="1"
-          eType="#//ATL/Callable" eOpposite="#//ATL/Callable/calledBy"/>
+          eType="#//ATL/Callable"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="dynamicResolvers" upperBound="-1"
           eType="#//ATL/ContextHelper" eOpposite="#//ATL/ContextHelper/polymorphicCalledBy"/>
     </eClassifiers>

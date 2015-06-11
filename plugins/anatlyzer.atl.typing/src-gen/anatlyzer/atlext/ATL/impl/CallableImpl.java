@@ -4,19 +4,16 @@ package anatlyzer.atlext.ATL.impl;
 
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Callable;
-
 import anatlyzer.atlext.ATL.CallableParameter;
-import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -80,7 +77,7 @@ public abstract class CallableImpl extends MinimalEObjectImpl.Container implemen
 	 */
 	public EList<PropertyCallExp> getCalledBy() {
 		if (calledBy == null) {
-			calledBy = new EObjectWithInverseResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.CALLABLE__CALLED_BY, OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER);
+			calledBy = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.CALLABLE__CALLED_BY);
 		}
 		return calledBy;
 	}
@@ -102,26 +99,9 @@ public abstract class CallableImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ATLPackage.CALLABLE__CALLED_BY:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getCalledBy()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ATLPackage.CALLABLE__CALLED_BY:
-				return ((InternalEList<?>)getCalledBy()).basicRemove(otherEnd, msgs);
 			case ATLPackage.CALLABLE__CALLABLE_PARAMETERS:
 				return ((InternalEList<?>)getCallableParameters()).basicRemove(otherEnd, msgs);
 		}

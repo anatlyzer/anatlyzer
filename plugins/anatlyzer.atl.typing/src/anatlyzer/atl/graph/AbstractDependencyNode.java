@@ -81,8 +81,10 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 								return true;
 							}
 						}
+					} else if ( pce.getStaticResolver() == null ) {
+						// It is built-in operation
 					} else {
-						throw new UnsupportedOperationException(pce.getStaticResolver().getClass() + " not considered");
+						throw new UnsupportedOperationException(pce.getStaticResolver() + " not considered. " + pce.getLocation() + " " + pce.getFileLocation());
 					}
 				}
 			}

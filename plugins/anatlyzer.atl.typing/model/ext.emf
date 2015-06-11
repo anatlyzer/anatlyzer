@@ -17,7 +17,8 @@ package ATL {
   class OutPatternElement { }
   
   class Callable {  	
-    ref OCL.PropertyCallExp[*]#staticResolver calledBy;	
+//    ref OCL.PropertyCallExp[*]#staticResolver calledBy;	
+    ref OCL.PropertyCallExp[*] calledBy;	
     val CallableParameter[*] callableParameters;    
   }
   
@@ -81,7 +82,8 @@ package OCL {
 	ref EObject[0..1] receptorType;
 	
 	attr boolean[1] isStaticCall = false;
-	ref ATL.Callable[1]#calledBy staticResolver;
+	// ref ATL.Callable[1]#calledBy staticResolver;
+	ref ATL.Callable[1] staticResolver;
 	ref ATL.ContextHelper[0..*]#polymorphicCalledBy dynamicResolvers;		
   }
 

@@ -69,22 +69,35 @@ import anatlyzer.atlext.ATL.LocatedElement;
 
 public class AnalyserUtils {
 	
+	public static ProblemGraph computeProblemGraph(AnalysisResult r) {
+		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
+		ProblemGraph g = pathgen.perform();
+		return g;
+	}
+	
 	public static ProblemPath computeProblemPath(LocalProblem problem, AnalysisResult r, boolean checkProblemsInPath) {
 		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
 		ProblemPath path;
 		if ( checkProblemsInPath ) {
 			ProblemGraph g = pathgen.perform();
-			Optional<Problem> isTopLevel = g.getProblemTree().getNodes().stream().map(n -> n.getProblem()).filter(p -> p == problem).findAny();
-			if ( isTopLevel.isPresent() ) {
-				path = pathgen.generatePath(problem);
-			} else {
-				// Depends on another error
-				return null;
-			}			
+			path = computeProblemPath(problem, g);			
 		} else {
 			path = pathgen.generatePath((LocalProblem) problem);
 		}
 		return path;
+	}
+
+	protected static ProblemPath computeProblemPath(LocalProblem problem, ProblemGraph g) {
+		if ( isDependent(problem, g) ) {
+			return null;
+		} else {
+			return g.getPath(problem);
+		}
+	}
+
+	public static boolean isDependent(Problem problem, ProblemGraph g) {
+		Optional<Problem> isTopLevel = g.getProblemTree().getNodes().stream().map(n -> n.getProblem()).filter(p -> p == problem).findAny();
+		return ! isTopLevel.isPresent();
 	}
 	
 	public static LocalProblem hasProblem(LocatedElement e, Class<? extends LocalProblem> clazz) {

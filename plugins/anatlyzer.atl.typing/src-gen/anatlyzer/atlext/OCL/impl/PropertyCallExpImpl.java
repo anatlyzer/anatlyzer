@@ -297,33 +297,11 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetStaticResolver(Callable newStaticResolver, NotificationChain msgs) {
+	public void setStaticResolver(Callable newStaticResolver) {
 		Callable oldStaticResolver = staticResolver;
 		staticResolver = newStaticResolver;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER, oldStaticResolver, newStaticResolver);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setStaticResolver(Callable newStaticResolver) {
-		if (newStaticResolver != staticResolver) {
-			NotificationChain msgs = null;
-			if (staticResolver != null)
-				msgs = ((InternalEObject)staticResolver).eInverseRemove(this, ATLPackage.CALLABLE__CALLED_BY, Callable.class, msgs);
-			if (newStaticResolver != null)
-				msgs = ((InternalEObject)newStaticResolver).eInverseAdd(this, ATLPackage.CALLABLE__CALLED_BY, Callable.class, msgs);
-			msgs = basicSetStaticResolver(newStaticResolver, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER, newStaticResolver, newStaticResolver));
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER, oldStaticResolver, staticResolver));
 	}
 
 	/**
@@ -351,10 +329,6 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 				if (source != null)
 					msgs = ((InternalEObject)source).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OCLPackage.PROPERTY_CALL_EXP__SOURCE, null, msgs);
 				return basicSetSource((OclExpression)otherEnd, msgs);
-			case OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER:
-				if (staticResolver != null)
-					msgs = ((InternalEObject)staticResolver).eInverseRemove(this, ATLPackage.CALLABLE__CALLED_BY, Callable.class, msgs);
-				return basicSetStaticResolver((Callable)otherEnd, msgs);
 			case OCLPackage.PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getDynamicResolvers()).basicAdd(otherEnd, msgs);
 		}
@@ -371,8 +345,6 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 		switch (featureID) {
 			case OCLPackage.PROPERTY_CALL_EXP__SOURCE:
 				return basicSetSource(null, msgs);
-			case OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER:
-				return basicSetStaticResolver(null, msgs);
 			case OCLPackage.PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS:
 				return ((InternalEList<?>)getDynamicResolvers()).basicRemove(otherEnd, msgs);
 		}

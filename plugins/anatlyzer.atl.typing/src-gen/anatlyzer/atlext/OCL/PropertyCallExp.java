@@ -139,7 +139,6 @@ public interface PropertyCallExp extends OclExpression {
 
 	/**
 	 * Returns the value of the '<em><b>Static Resolver</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link anatlyzer.atlext.ATL.Callable#getCalledBy <em>Called By</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Static Resolver</em>' reference isn't clear,
@@ -149,8 +148,7 @@ public interface PropertyCallExp extends OclExpression {
 	 * @return the value of the '<em>Static Resolver</em>' reference.
 	 * @see #setStaticResolver(Callable)
 	 * @see anatlyzer.atlext.OCL.OCLPackage#getPropertyCallExp_StaticResolver()
-	 * @see anatlyzer.atlext.ATL.Callable#getCalledBy
-	 * @model opposite="calledBy" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	Callable getStaticResolver();

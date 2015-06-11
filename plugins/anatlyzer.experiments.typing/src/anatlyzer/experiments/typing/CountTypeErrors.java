@@ -24,6 +24,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ErrorReport;
@@ -86,12 +87,17 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
+			ProblemGraph pGraph = AnalyserUtils.computeProblemGraph(data);
 			for(Problem p : data.getProblems()) {
 				int errorCode = AnalyserUtils.getProblemId(p);
 				String desc   = AnalyserUtils.getProblemDescription(p);
+
+				ProblemPath path = null;
+				if ( ! AnalyserUtils.isDependent(p, pGraph) ) {
+					path = pGraph.getPath(p);
+				}
 				
-				ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) p, data, true);
-				summarizeError(p, errorCode, desc, path);
+				summarizeError(p, errorCode, desc, path);				
 				
 				DetectedError e = new DetectedError(errorCode, fileName, p);
 				e.setProblemsInPath(path == null);
@@ -146,6 +152,9 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			c.e3_unsupp++;
 			break;
 		case WITNESS_REQUIRED:
+			if ( useCSP() ) 
+				throw new IllegalStateException();
+			break;
 		case PROBLEMS_IN_PATH:
 		case CANNOT_DETERMINE:
 			throw new IllegalStateException();

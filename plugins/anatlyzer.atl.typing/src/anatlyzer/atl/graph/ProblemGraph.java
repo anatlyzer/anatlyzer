@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,12 +17,12 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
  *
  */
 public class ProblemGraph {
-	private ArrayList<ProblemPath> problemPaths = new ArrayList<ProblemPath>();
+	private HashMap<Problem, ProblemPath> problemPaths = new HashMap<Problem, ProblemPath>();
 	private ProblemTree tree = new ProblemTree();
 	
 	public void addProblemPath(ProblemPath path) {
 		assert(path != null);
-		this.problemPaths.add(path);
+		this.problemPaths.put(path.getProblem(), path);
 
 		tree.add(path);
 	}
@@ -31,11 +32,15 @@ public class ProblemGraph {
 	}
 	
 	public List<ProblemPath> getProblemPaths() {
-		return problemPaths;
+		return new ArrayList<ProblemPath>(problemPaths.values());
+	}
+	
+	public ProblemPath getPath(Problem p) {
+		return problemPaths.get(p);
 	}
 	
 	public List<ProblemPath> getSortedPathsByLocation() {
-		LinkedList<ProblemPath> sorted = new LinkedList<ProblemPath>(problemPaths);
+		LinkedList<ProblemPath> sorted = new LinkedList<ProblemPath>(problemPaths.values());
 		Collections.sort(sorted, new Comparator<ProblemPath>() {
 			@Override
 			public int compare(ProblemPath arg0, ProblemPath arg1) {

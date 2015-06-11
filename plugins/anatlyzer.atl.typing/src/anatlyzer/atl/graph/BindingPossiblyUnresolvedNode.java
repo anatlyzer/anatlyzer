@@ -95,8 +95,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		OclExpression result = null;
 		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
 		assert(rules.size() > 0);
-		
+
 		OclExpression value = genBindingRightPart(model, binding);		
+
 		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding)) ) {
 			result = createReferenceConstraint(model, rules, value, operator);
 		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {		

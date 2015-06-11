@@ -15,6 +15,8 @@ import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.MapElement;
+import anatlyzer.atlext.OCL.MapExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -130,6 +132,12 @@ public class OclSlice {
 			LetExp let = (LetExp) expr;
 			slice(slice, let.getVariable().getInitExpression(), isExternalDependency);
 			slice(slice, let.getIn_(), isExternalDependency);
+		} else if ( expr instanceof MapExp ) {
+			MapExp mapExp = (MapExp) expr;
+			for (MapElement mapElement : mapExp.getElements()) {
+				slice(slice, mapElement.getKey(), isExternalDependency);
+				slice(slice, mapElement.getValue(), isExternalDependency);				
+			}
 		} else if ( expr instanceof EnumLiteralExp ) {
 			// TODO: NOT SURE IF ENUMLITERAL SHOULD BE PART OF THE SLICE!
 		} else if ( ignore.contains(expr.getClass()) ) {

@@ -28,7 +28,6 @@ public interface Callable extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Called By</b></em>' reference list.
 	 * The list contents are of type {@link anatlyzer.atlext.OCL.PropertyCallExp}.
-	 * It is bidirectional and its opposite is '{@link anatlyzer.atlext.OCL.PropertyCallExp#getStaticResolver <em>Static Resolver</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Called By</em>' reference list isn't clear,
@@ -37,8 +36,7 @@ public interface Callable extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Called By</em>' reference list.
 	 * @see anatlyzer.atlext.ATL.ATLPackage#getCallable_CalledBy()
-	 * @see anatlyzer.atlext.OCL.PropertyCallExp#getStaticResolver
-	 * @model opposite="staticResolver"
+	 * @model
 	 * @generated
 	 */
 	EList<PropertyCallExp> getCalledBy();

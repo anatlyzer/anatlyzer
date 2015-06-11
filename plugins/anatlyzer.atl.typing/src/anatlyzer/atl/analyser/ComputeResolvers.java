@@ -226,7 +226,8 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 				OclFeature op = cn.getAttachedOclFeature(featureOrOperationName);
 			
 				Helper h = (Helper) op.eContainer().eContainer();
-				self.setStaticResolver( h );
+				ATLUtils.setStaticResolverBidirectional(self, h);
+				// self.setStaticResolver( h );
 				self.getDynamicResolvers().add( (ContextHelper) h ) ;
 			} else {
 				// Must be in the supertype, otherwise was signalled as an error
@@ -235,7 +236,8 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 						OclFeature op = sup.getAttachedOclFeature(featureOrOperationName);
 						
 						Helper h = (Helper) op.eContainer().eContainer();
-						self.setStaticResolver( h );
+						// self.setStaticResolver( h );
+						ATLUtils.setStaticResolverBidirectional(self, h);
 						self.getDynamicResolvers().add( (ContextHelper) h ) ;
 						break;
 					}
@@ -258,13 +260,16 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 				Helper h = (Helper) op.eContainer().eContainer();
 
 				//ModuleCallableAnn x = attr.<ModuleCallableAnn>annotationOf(h);
-				self.setStaticResolver( h );
+				// self.setStaticResolver( h );
+				ATLUtils.setStaticResolverBidirectional(self, h);
 			} else if ( tn.hasLazyRule(featureOrOperationName) ) {
 				LazyRule r = tn.getLazyRule(featureOrOperationName);
-				self.setStaticResolver( r  );
+				// self.setStaticResolver( r  );
+				ATLUtils.setStaticResolverBidirectional(self, r);
 			} else if ( tn.hasCalledRule(featureOrOperationName) ) {
 				CalledRule r = tn.getCalledRule(featureOrOperationName);
-				self.setStaticResolver( r );
+				// self.setStaticResolver( r );
+				ATLUtils.setStaticResolverBidirectional(self, r);
 			}
 		}
 	}

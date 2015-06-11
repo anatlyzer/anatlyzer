@@ -9,23 +9,17 @@ import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Query;
-
-import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
-
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -410,7 +404,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 */
 	public EList<PropertyCallExp> getCalledBy() {
 		if (calledBy == null) {
-			calledBy = new EObjectWithInverseResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.HELPER__CALLED_BY, OCLPackage.PROPERTY_CALL_EXP__STATIC_RESOLVER);
+			calledBy = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.HELPER__CALLED_BY);
 		}
 		return calledBy;
 	}
@@ -436,8 +430,6 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ATLPackage.HELPER__CALLED_BY:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getCalledBy()).basicAdd(otherEnd, msgs);
 			case ATLPackage.HELPER__QUERY:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -458,8 +450,6 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ATLPackage.HELPER__CALLED_BY:
-				return ((InternalEList<?>)getCalledBy()).basicRemove(otherEnd, msgs);
 			case ATLPackage.HELPER__CALLABLE_PARAMETERS:
 				return ((InternalEList<?>)getCallableParameters()).basicRemove(otherEnd, msgs);
 			case ATLPackage.HELPER__QUERY:

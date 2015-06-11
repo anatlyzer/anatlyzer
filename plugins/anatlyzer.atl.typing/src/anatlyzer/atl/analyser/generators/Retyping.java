@@ -116,8 +116,6 @@ public class Retyping extends AbstractVisitor {
 	public void retypeHelper(Helper self) {
 		boolean convertedToSet = false;
 
-		System.out.println(ATLUtils.getHelperName(self));
-
 		if ( self.getStaticReturnType() instanceof SequenceType ) {
 			markSeqAsSet(self);
 			

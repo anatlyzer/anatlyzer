@@ -62,8 +62,7 @@ public class FilterCreationMutator extends AbstractMutator {
 							if (filter!=null) {
 								
 								// mutation: add filter
-								wrapper.source(rule.getInPattern()).eSet(feature, OCLFactory.eINSTANCE.createOperationCallExp());
-								//wrapper.source(rule.getInPattern()).eSet(feature, (OclExpression)filter);
+								wrapper.source(rule.getInPattern()).eSet(feature, (OclExpression)filter);
 
 								// mutation: documentation
 								if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(rule.getInPattern()) + " in " + toString(rule) + " (line " + rule.getInPattern().getLocation() + " of original transformation)\n");

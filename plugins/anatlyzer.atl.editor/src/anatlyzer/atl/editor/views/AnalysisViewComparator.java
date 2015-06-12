@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 
 import anatlyzer.atl.editor.views.AnalysisView.BatchAnalysisNodeGroup;
+import anatlyzer.atl.editor.views.AnalysisView.LocalProblemNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeParent;
 
@@ -45,6 +46,13 @@ public class AnalysisViewComparator extends ViewerComparator {
 	    	return e1.getClass().getSimpleName().compareTo(e2.getClass().getSimpleName());
 	    }
 	    
+	    if ( n1 instanceof LocalProblemNode && propertyIndex == 1) {
+	    	int l1 = ((LocalProblemNode) n1).getLineLocation();
+	    	int l2 = ((LocalProblemNode) n2).getLineLocation();
+	    	
+	    	if ( l1 < l2 ) return -1;
+	    	if ( l2 < l1 ) return +1;
+	    }
 	    
 	    switch (propertyIndex) {
 	    case 0: rc = n1.toString().compareTo(n2.toString()); break;

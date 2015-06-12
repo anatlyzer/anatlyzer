@@ -92,7 +92,7 @@ public class RuleConflictAnalysis {
 			PossibleConflictingRulesNode node = new PossibleConflictingRulesNode(overlap.type, overlap.rules);
 		
 			// Compute error slice
-			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(this.model), overlap);
+			ErrorSlice slice = new ErrorSlice(analyser, ATLUtils.getSourceMetamodelNames(this.model), overlap);
 			node.genErrorSlice(slice);			
 			overlap.errorSlice = slice;
 

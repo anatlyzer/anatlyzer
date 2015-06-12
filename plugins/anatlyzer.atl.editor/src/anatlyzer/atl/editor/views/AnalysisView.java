@@ -143,6 +143,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public ImageDescriptor getImage() {
 			return null;
 		}
+		
 	}
 	
 	interface IBatchAnalysisNode {
@@ -519,6 +520,18 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		@Override
 		public String toColumn1() {
 			return p.getLocation(); // Return also the file, in case of libraries?
+		}
+		
+		public int getLineLocation() {
+			String[] parts;
+			if ( p.getLocation() == null ) {
+				parts = new String[] { "0", "0" };
+			} else {
+				parts = p.getLocation().split("-")[0].split(":"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			
+			int lineNumber = Integer.parseInt(parts[0]);
+			return lineNumber;
 		}
 		
 		@Override

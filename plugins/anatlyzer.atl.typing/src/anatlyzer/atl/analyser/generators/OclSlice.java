@@ -85,6 +85,12 @@ public class OclSlice {
 					slice(slice, arg, isExternalDependency);
 				}
 				
+				if ( op.getSource().getInferredType() instanceof Metaclass &&
+					 op.getOperationName().equals("oclIsTypeOf") && 
+					 op.getArguments().size() > 0 && op.getArguments().get(0).getInferredType() instanceof Metaclass ) {
+					slice.addSubtypeOf((Metaclass) op.getSource().getInferredType(), (Metaclass) op.getArguments().get(0).getInferredType());
+				}
+				
 				pce = op;
 			}
 

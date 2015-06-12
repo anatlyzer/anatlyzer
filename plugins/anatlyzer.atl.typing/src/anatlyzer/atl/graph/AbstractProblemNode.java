@@ -18,7 +18,7 @@ public abstract class AbstractProblemNode<P extends Problem> extends AbstractDep
 	@Override
 	public ErrorSlice getErrorSlice(IAnalyserResult result, IDetectedProblem p) {
 		if ( errorSlice == null ) {
-			errorSlice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(result.getATLModel()), p);			
+			errorSlice = new ErrorSlice(result, ATLUtils.getSourceMetamodelNames(result.getATLModel()), p);			
 			this.genErrorSlice(errorSlice);
 		}
 		return errorSlice;

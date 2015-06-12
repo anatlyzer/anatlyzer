@@ -36,7 +36,7 @@ public class ErrorSliceGenerator {
 
 	public void generate() {
 		for(ProblemPath path : graph.getProblemPaths()) {
-			ErrorSlice slice = new ErrorSlice(ATLUtils.getSourceMetamodelNames(analyser.getATLModel()), path);
+			ErrorSlice slice = new ErrorSlice(analyser, ATLUtils.getSourceMetamodelNames(analyser.getATLModel()), path);
 			path.getErrorNode().genErrorSlice(slice);
 		}
 	}

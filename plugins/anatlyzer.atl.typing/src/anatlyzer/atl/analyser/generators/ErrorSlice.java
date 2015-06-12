@@ -1,69 +1,82 @@
 package anatlyzer.atl.analyser.generators;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.TypeUtils;
-import anatlyzer.atl.types.BooleanType;
-import anatlyzer.atl.types.CollectionType;
-import anatlyzer.atl.types.EnumType;
-import anatlyzer.atl.types.FloatType;
-import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.SequenceType;
-import anatlyzer.atl.types.SetType;
-import anatlyzer.atl.types.StringType;
-import anatlyzer.atl.types.Type;
-import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.StaticHelper;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.footprint.IEffectiveMetamodelData;
 
 public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashSet<EClass> explicitTypes = new HashSet<EClass>();
 	private HashSet<EStructuralFeature> explicitFeatures = new HashSet<EStructuralFeature>();
-
+	
 	// private HashMap<String, java.util.Set<Helper>> helpers =
 	// new HashMap<String, java.util.Set<Helper>>();
 	private Set<Helper> helpers = new HashSet<Helper>();
 
 	private Set<String> metamodelNames;
-	private boolean retype = true; // retype by default
 
 	private List<Helper> helpersNotSupported = new LinkedList<Helper>();
 	private IDetectedProblem problem;
+	private IAnalyserResult analysisResult;
 
-	public ErrorSlice(Set<String> sourceMetamodels, IDetectedProblem problem) {
+	public ErrorSlice(IAnalyserResult r, Set<String> sourceMetamodels, IDetectedProblem problem) {
 		this.metamodelNames = sourceMetamodels;
 		this.problem = problem;
-
+		this.analysisResult = r;
 		// Ugly hack
 		// EClass thisModuleClass = EcoreFactory.eINSTANCE.createEClass();
 		// thisModuleClass.setName(Analyser.USE_THIS_MODULE_CLASS);
 		// addMetaclassNeededInError(thisModuleClass);
+	}
+
+	public void addSubtypeOf(Metaclass srcType, Metaclass typedOf) {
+		EClass c = pickSubClass(srcType, typedOf);
+		if ( c != null ) {
+			addMetaclassNeededInError(c);
+		}
+	}
+	
+	private EClass pickSubClass(Metaclass srcType, Metaclass typedOf) {
+		ClassNamespace ns = (ClassNamespace) srcType.getMetamodelRef();
+		
+		EClass smaller = null;
+		int size = Integer.MAX_VALUE;
+		for (ClassNamespace cn : ns.getAllSubclasses(analysisResult.getNamespaces())) {
+			// Ignore the class that it is checked in a oclIsTypeOf expression
+			if ( ns.getKlass() == typedOf.getKlass() )
+				continue;
+			
+			int s = cn.getKlass().getEAllReferences().size();
+			if ( s < size ) {
+				size = s;
+				smaller = cn.getKlass();
+			}
+		}
+		
+		return smaller;
 	}
 
 	public void addExplicitMetaclass(Metaclass type) {
@@ -241,4 +254,5 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	public Collection<EAnnotation> getPackageAnnotations() {
 		throw new UnsupportedOperationException();
 	}
+
 }

@@ -77,15 +77,15 @@ public abstract class AbstractMutator {
 				CompileTimeError[] errors = compiler.compile(trafoFile, asm_transformation);
 				trafoFile.close();
 					
-			// delete transformation if it has compilation errors (mutants should compile)
+			// delete transformation if it has compilation errors, or the compilation did not produce an asm file (mutants should compile)
 				boolean fatalErrors = false;
 				for (CompileTimeError error : errors) fatalErrors = fatalErrors || !error.getSeverity().equals("warning");
-				if  (fatalErrors) {
-					System.out.println( "---> [" + errors[0].getLocation() + "] " + errors[0].getDescription() );
+				if  (fatalErrors || !new File(asm_transformation).exists()) {
+					System.out.println( fatalErrors? "---> [" + errors[0].getLocation() + "] " + errors[0].getDescription() : "---> no asm file could be generated");
 					atl_file.delete();
 					return false;
 				}
-					
+				
 				return true;
 			}
 		} 

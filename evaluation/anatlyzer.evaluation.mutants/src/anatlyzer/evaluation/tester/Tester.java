@@ -230,7 +230,7 @@ public class Tester {
 				new HelperOperationModificationMutator(),
 				new IteratorModificationMutator(),
 				// other modifications
-//				new ParentRuleModificationMutator(),
+				new ParentRuleModificationMutator(),
 				// creation
 				new BindingCreationMutator(),
 				new InElementCreationMutator(),
@@ -403,7 +403,7 @@ public class Tester {
 	 */
 	private boolean compileTransformation (String atlTransformationFile) { return compileTransformation(atlTransformationFile, false);	}
 	private boolean compileTransformation (String atlTransformationFile, boolean forceCompilation) {
-		CompileTimeError[] compileErrors         = null;
+		CompileTimeError[] compileErrors         = {};
 		String             asmTransformationFile = atlTransformationFile.replace(".atl", ".asm");
 		
 		if (!new File(asmTransformationFile).exists() || forceCompilation) {

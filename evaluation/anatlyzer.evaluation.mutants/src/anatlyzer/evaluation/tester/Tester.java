@@ -269,14 +269,19 @@ public class Tester {
 		// build arrays with the name of classes and references; they will be used to generate 
 		// the scope for the number of objects for each class, and the number of links for each
 		// reference, which will be different in each generated model.
-		List<String> classes    = new ArrayList<String>();
-		List<String> references = new ArrayList<String>();
+		List<String>     classes    = new ArrayList<String>();
+		List<String>     references = new ArrayList<String>();
+		List<EReference> auxref     = new ArrayList<EReference>();
 		for (EClassifier classifier : metamodel.getEClassifiers()) {
 			if (classifier instanceof EClass) {
 				if (!((EClass)classifier).isAbstract()) 
 					classes.add(classifier.getName());
-				for (EReference ref : ((EClass)classifier).getEReferences())
-					references.add(((EClass)classifier).getName()+"."+ref.getName()); 
+				for (EReference ref : ((EClass)classifier).getEReferences()) {
+					// optimization: do not consider opposite
+					if (!auxref.contains(ref.getEOpposite()))
+						references.add(((EClass)classifier).getName()+"."+ref.getName());
+					auxref.add(ref);
+				}
 			}
 		}
 		

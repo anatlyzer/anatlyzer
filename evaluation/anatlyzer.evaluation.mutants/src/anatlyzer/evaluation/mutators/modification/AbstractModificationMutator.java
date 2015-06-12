@@ -24,7 +24,7 @@ public abstract class AbstractModificationMutator extends AbstractMutator {
 	 * @param metamodel
 	 * @return set of valid replacements for the attribute value.
 	 */
-	protected abstract List<String> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel);
+	protected abstract List<Object> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel);
 
 	/**
 	 * Generic modification. It allows subtypes of the class to modify.
@@ -73,8 +73,8 @@ public abstract class AbstractModificationMutator extends AbstractMutator {
 				EObject object2modify_src = wrapper.source(object2modify);			
 				Object oldFeatureValue = object2modify_src.eGet(featureDefinition); 
 
-				List<String> replacements = this.replacements(object2modify, oldFeatureValue.toString(), metamodel);
-				for (String replacement : replacements) {
+				List<Object> replacements = this.replacements(object2modify, oldFeatureValue.toString(), metamodel);
+				for (Object replacement : replacements) {
 					if (replacement!=null) {	
 						wrapper.source(object2modify).eSet(featureDefinition, replacement);
 					

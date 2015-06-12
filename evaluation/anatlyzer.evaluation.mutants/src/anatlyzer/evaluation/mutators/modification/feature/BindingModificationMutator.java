@@ -22,9 +22,9 @@ public class BindingModificationMutator extends AbstractFeatureModificationMutat
 	}
 
 	@Override
-	protected List<String> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {
+	protected List<Object> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {
 		return object2modify instanceof Binding? 
 			   this.featureReplacements(toString(((Binding)object2modify).getOutPatternElement().getType()), currentAttributeValue, metamodel) :
-			   new ArrayList<String>();	   
+			   new ArrayList<Object>();	   
 	}
 }

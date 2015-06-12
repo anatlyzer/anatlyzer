@@ -57,9 +57,9 @@ public class NavigationModificationMutator extends AbstractFeatureModificationMu
 					// obtain list of replacements
 					String type       = getType(navigationExpression, variable, inputMM, outputMM); 
 					String navigation = ((NavigationOrAttributeCallExp)navigationExpression).getName();
-					List<String> replacements = this.featureReplacements(type, navigation, inputMM);
+					List<Object> replacements = this.featureReplacements(type, navigation, inputMM);
 
-					for (String replacement : replacements) {
+					for (Object replacement : replacements) {
 						wrapper.source(navigationExpression).eSet(featureDefinition, replacement);
 
 						// mutation: documentation
@@ -190,7 +190,7 @@ public class NavigationModificationMutator extends AbstractFeatureModificationMu
 	}
 
 	@Override
-	protected List<String> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {
-		return new ArrayList<String>();
+	protected List<Object> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {
+		return new ArrayList<Object>();
 	}
 }

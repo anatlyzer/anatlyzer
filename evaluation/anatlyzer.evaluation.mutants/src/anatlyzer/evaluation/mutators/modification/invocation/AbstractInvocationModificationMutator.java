@@ -50,8 +50,8 @@ public abstract class AbstractInvocationModificationMutator extends AbstractModi
 	 * @param metamodel no used
 	 */   
 	@Override
-	protected List<String> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {		
-		List<String> replacements = new ArrayList<String>();
+	protected List<Object> replacements(EObject object2modify, String currentAttributeValue, MetaModel metamodel) {		
+		List<Object> replacements = new ArrayList<Object>();
 		Set<String> options       = new HashSet<String>();
 		
 		// obtain operations to be used as replacements

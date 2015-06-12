@@ -87,6 +87,7 @@ import anatlyzer.evaluation.mutators.deletion.ParentRuleDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.RuleDeletionMutator;
 import anatlyzer.evaluation.mutators.deletion.VariableDeletionMutator;
 import anatlyzer.evaluation.mutators.modification.ParentRuleModificationMutator;
+import anatlyzer.evaluation.mutators.modification.PrimitiveValueModificationMutator;
 import anatlyzer.evaluation.mutators.modification.feature.BindingModificationMutator;
 import anatlyzer.evaluation.mutators.modification.feature.NavigationModificationMutator;
 import anatlyzer.evaluation.mutators.modification.invocation.CollectionOperationModificationMutator;
@@ -231,11 +232,11 @@ public class Tester {
 				new IteratorModificationMutator(),
 				// other modifications
 				new ParentRuleModificationMutator(),
+				new PrimitiveValueModificationMutator(),
 				// creation
 				new BindingCreationMutator(),
 				new InElementCreationMutator(),
 				new OutElementCreationMutator(),
-////////				new FilterCreationMutator(),
 		}; 
 		for (AbstractMutator operator : operators) 
 			operator.generateMutants(atlModel, iMetaModel, oMetaModel, this.folderMutants);

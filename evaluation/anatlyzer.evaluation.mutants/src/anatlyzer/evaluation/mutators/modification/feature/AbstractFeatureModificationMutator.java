@@ -21,8 +21,8 @@ public abstract class AbstractFeatureModificationMutator extends AbstractModific
 	 * @param metamodel
 	 * @return
 	 */
-	protected List<String> featureReplacements (String type, String feature, MetaModel metamodel) {
-		List<String> replacements = new ArrayList<String>();
+	protected List<Object> featureReplacements (String type, String feature, MetaModel metamodel) {
+		List<Object> replacements = new ArrayList<Object>();
 		
 		EClass mmtype = (EClass)metamodel.getEClassifier(type);
 		if (mmtype!=null) {

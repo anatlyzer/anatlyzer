@@ -3,6 +3,7 @@
 package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
+import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 
 import java.util.Collection;
@@ -126,6 +127,38 @@ public class OperationFoundInSubtypeImpl extends OperationNotFoundImpl implement
 				return possibleClasses != null && !possibleClasses.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == FoundInSubtype.class) {
+			switch (derivedFeatureID) {
+				case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES: return AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == FoundInSubtype.class) {
+			switch (baseFeatureID) {
+				case AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES: return AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //OperationFoundInSubtypeImpl

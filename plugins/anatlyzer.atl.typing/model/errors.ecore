@@ -20,16 +20,17 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ProblemStatus">
     <eLiterals name="STATICALLY_CONFIRMED"/>
-    <eLiterals name="WITNESS_REQUIRED" value="1"/>
-    <eLiterals name="ERROR_CONFIRMED" value="2"/>
-    <eLiterals name="ERROR_CONFIRMED_SPECULATIVE" value="3"/>
-    <eLiterals name="ERROR_DISCARDED" value="4"/>
-    <eLiterals name="ERROR_DISCARDED_DUE_TO_METAMODEL" value="5"/>
-    <eLiterals name="USE_INTERNAL_ERROR" value="6"/>
-    <eLiterals name="IMPL_INTERNAL_ERROR" value="7"/>
-    <eLiterals name="CANNOT_DETERMINE" value="8"/>
-    <eLiterals name="NOT_SUPPORTED_BY_USE" value="9"/>
-    <eLiterals name="PROBLEMS_IN_PATH" value="10"/>
+    <eLiterals name="INITIALLY_DISCARDED" value="1"/>
+    <eLiterals name="WITNESS_REQUIRED" value="2"/>
+    <eLiterals name="ERROR_CONFIRMED" value="3"/>
+    <eLiterals name="ERROR_CONFIRMED_SPECULATIVE" value="4"/>
+    <eLiterals name="ERROR_DISCARDED" value="5"/>
+    <eLiterals name="ERROR_DISCARDED_DUE_TO_METAMODEL" value="6"/>
+    <eLiterals name="USE_INTERNAL_ERROR" value="7"/>
+    <eLiterals name="IMPL_INTERNAL_ERROR" value="8"/>
+    <eLiterals name="CANNOT_DETERMINE" value="9"/>
+    <eLiterals name="NOT_SUPPORTED_BY_USE" value="10"/>
+    <eLiterals name="PROBLEMS_IN_PATH" value="11"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SeverityKind">
     <eLiterals name="ERROR"/>
@@ -69,6 +70,19 @@
     <eClassifiers xsi:type="ecore:EClass" name="TargetModelConformanceProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="RuleConflict" eSuperTypes="#//Problem">
+      <eAnnotations source="description">
+        <details key="name" value="Rule conflict"/>
+        <details key="example" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="sometimes-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-rules"/>
+        <details key="phase" value="analysis (separate)"/>
+        <details key="source" value=""/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" upperBound="-1"
           eType="#//atl_error/ConflictingRuleSet" containment="true"/>
     </eClassifiers>
@@ -133,6 +147,7 @@
         <details key="text" value="Feature cannot be found in an object's class"/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="code" value="5"/>
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
         <details key="severity" value="runtime-error"/>
@@ -150,12 +165,17 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="metamodelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound #//atl_error/RuntimeError">
+    <eClassifiers xsi:type="ecore:EClass" name="FoundInSubtype" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound #//atl_error/FoundInSubtype #//atl_error/RuntimeError">
       <eAnnotations source="description">
         <details key="name" value="Feature found in subtype"/>
         <details key="text" value="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic."/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="code" value="6"/>
         <details key="prec" value="sometimes-solver"/>
         <details key="path" value="yes"/>
         <details key="severity" value="runtime-error"/>
@@ -164,8 +184,6 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
-          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalid" abstract="true"
         eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
@@ -197,7 +215,7 @@
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OperationFoundInSubtype" eSuperTypes="#//atl_error/OperationNotFound #//atl_error/RuntimeError">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationFoundInSubtype" eSuperTypes="#//atl_error/OperationNotFound #//atl_error/FoundInSubtype #//atl_error/RuntimeError">
       <eAnnotations source="description">
         <details key="name" value="Operation found in subtype"/>
         <details key="text" value="Operation cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic."/>
@@ -211,8 +229,6 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
-          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallInvalidNumberOfParameters"
         eSuperTypes="#//atl_error/OperationCallInvalid #//atl_error/RuntimeError">
@@ -238,7 +254,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="runtime-error"/>
+        <details key="severity" value="warning-behaviour"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
@@ -392,6 +408,7 @@
         <details key="text" value="Applicable to references and string attributes without default value."/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="code" value="1"/>
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
         <details key="severity" value="error-target"/>
@@ -403,6 +420,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingExpectedOneAssignedMany" eSuperTypes="#//atl_error/BindingProblem">
       <eAnnotations source="description">
+        <details key="code" value="4"/>
         <details key="name" value="Binding from feature with higher cardinality"/>
         <details key="text" value="The binding feature is mono-valued but the right part of the binding is a collection"/>
       </eAnnotations>
@@ -498,8 +516,9 @@
         <details key="text" value="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature"/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="code" value="3"/>
         <details key="prec" value="sometimes-solver"/>
-        <details key="path" value="no"/>
+        <details key="path" value="yes"/>
         <details key="severity" value="error-target"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="tgt-typing"/>
@@ -513,8 +532,9 @@
         <details key="text" value="A binding may be unresolved if certain conditions hold"/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="code" value="2"/>
         <details key="prec" value="always-solver"/>
-        <details key="path" value="no"/>
+        <details key="path" value="yes"/>
         <details key="severity" value="warning-behaviour"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="trafo-rules"/>
@@ -547,7 +567,7 @@
         <details key="severity" value="warning-behaviour"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="trafo-rules"/>
-        <details key="phase" value="analysis"/>
+        <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sourceType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
@@ -561,7 +581,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-behaviour"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="trafo-rules"/>
         <details key="phase" value="typing"/>
@@ -629,7 +649,7 @@
         <details key="severity" value="warning-behaviour"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="trafo-integrity"/>
-        <details key="phase" value="analysis"/>
+        <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
@@ -658,9 +678,9 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-always"/>
+        <details key="severity" value="error-load"/>
         <details key="when" value="trafo-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
@@ -675,9 +695,9 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-always"/>
+        <details key="severity" value="error-load"/>
         <details key="when" value="trafo-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="trafo-integrity"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
@@ -693,7 +713,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-source"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
@@ -708,7 +728,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-always"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="trafo-integrity"/>
         <details key="phase" value="typing"/>
@@ -723,7 +743,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-source"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
@@ -738,9 +758,9 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-always"/>
+        <details key="severity" value="error-load"/>
         <details key="when" value="trafo-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
@@ -749,13 +769,13 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidArgument" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
-        <details key="name" value="Invalid argument (TODO: merge with the other class)"/>
+        <details key="name" value="Invalid argument for built-in function"/>
         <details key="text" value=""/>
       </eAnnotations>
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-always"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
@@ -770,7 +790,7 @@
       <eAnnotations source="info">
         <details key="prec" value="static"/>
         <details key="path" value="no"/>
-        <details key="severity" value="error-source"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
@@ -845,7 +865,7 @@
       <eAnnotations source="info">
         <details key="prec" value="sometimes-solver"/>
         <details key="path" value="yes"/>
-        <details key="severity" value="warning-behaviour"/>
+        <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
@@ -881,7 +901,7 @@
         <details key="path" value="no"/>
         <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
-        <details key="kind" value="src-typing"/>
+        <details key="kind" value="trafo-integrity"/>
         <details key="phase" value="typing"/>
         <details key="source" value=""/>
       </eAnnotations>

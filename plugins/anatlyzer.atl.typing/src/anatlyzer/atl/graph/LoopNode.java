@@ -89,4 +89,11 @@ public class LoopNode extends AbstractDependencyNode {
 		id.next(s);
 		followDepending(node -> node.genIdentification(id));
 	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+
 }

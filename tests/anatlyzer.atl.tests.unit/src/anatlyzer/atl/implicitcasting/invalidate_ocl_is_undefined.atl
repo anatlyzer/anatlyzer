@@ -1,0 +1,22 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module invalidateoclisundefined;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def : simple() : String = 
+		self.optionalA.name;
+	
+--	if self.optionalA.oclIsUndefined() then
+--		'noError'
+--	else
+--		self.optionalA.name
+--	endif;
+
+	
+rule model {
+	from src : ABCD!Model ( not src.optionalA.oclIsUndefined() )
+    to   tgt : WXYZ!Model (
+    	name <- src.simple() -- src.name1() + '_' + src.name2()
+    )
+}
+

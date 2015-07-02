@@ -206,10 +206,17 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.FOUND_IN_SUBTYPE: {
+				FoundInSubtype foundInSubtype = (FoundInSubtype)theEObject;
+				T result = caseFoundInSubtype(foundInSubtype);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: {
 				FeatureFoundInSubtype featureFoundInSubtype = (FeatureFoundInSubtype)theEObject;
 				T result = caseFeatureFoundInSubtype(featureFoundInSubtype);
 				if (result == null) result = caseFeatureNotFound(featureFoundInSubtype);
+				if (result == null) result = caseFoundInSubtype(featureFoundInSubtype);
 				if (result == null) result = caseNavigationProblem(featureFoundInSubtype);
 				if (result == null) result = caseRuntimeError(featureFoundInSubtype);
 				if (result == null) result = caseLocalProblem(featureFoundInSubtype);
@@ -245,6 +252,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				OperationFoundInSubtype operationFoundInSubtype = (OperationFoundInSubtype)theEObject;
 				T result = caseOperationFoundInSubtype(operationFoundInSubtype);
 				if (result == null) result = caseOperationNotFound(operationFoundInSubtype);
+				if (result == null) result = caseFoundInSubtype(operationFoundInSubtype);
 				if (result == null) result = caseOperationCallInvalid(operationFoundInSubtype);
 				if (result == null) result = caseNavigationProblem(operationFoundInSubtype);
 				if (result == null) result = caseRuntimeError(operationFoundInSubtype);
@@ -895,6 +903,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFeatureNotFound(FeatureNotFound object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Found In Subtype</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Found In Subtype</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFoundInSubtype(FoundInSubtype object) {
 		return null;
 	}
 

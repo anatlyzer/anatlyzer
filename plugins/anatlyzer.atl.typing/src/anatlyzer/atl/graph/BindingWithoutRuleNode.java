@@ -111,4 +111,10 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 		id.next(id.gen(binding.getValue()));
 	}
 	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+	
 }

@@ -1,5 +1,7 @@
 package anatlyzer.atl.graph;
 
+import java.util.stream.Collectors;
+
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
@@ -11,14 +13,16 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.IfExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 
 public class ConditionalNode extends AbstractDependencyNode {
 
-	private IfExp	ifExpr;
-	private boolean	branch;
+	protected IfExp	ifExpr;
+	protected boolean	branch;
 	public final static boolean TRUE_BRANCH = true;
 	public final static boolean FALSE_BRANCH = false;
 	
@@ -26,8 +30,11 @@ public class ConditionalNode extends AbstractDependencyNode {
 		this.ifExpr = ifExpr;
 		this.branch = branch;
 	}
-	
 
+	public IfExp getIfExpr() {
+		return ifExpr;
+	}
+	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, ifExpr.getCondition());
@@ -88,7 +95,7 @@ public class ConditionalNode extends AbstractDependencyNode {
 		}
 		return exp;
 	}
-
+	
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
 		throw new UnsupportedOperationException();
@@ -107,5 +114,12 @@ public class ConditionalNode extends AbstractDependencyNode {
 		return ATLUtils.findVariableReference(ifExpr.getCondition(), v) != null 
 			|| getDepending().isVarRequiredByErrorPath(v);
 	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+	
 
 }

@@ -20,6 +20,7 @@ helper context Table!Table def: toString2(indent : String) : String =
 	self.groups->collect(g | g.toString2(''))->join('\n') + '\n' +
 	
 	indent + '\\end{tabular}' + '\n' +
+	indent + '\\caption{Problems detected statically in ATL transformations.}\\label{tbl:errors_detected}' + '\n' +
 	indent + '\\end{table*}'		+ '\n'
 ;
 

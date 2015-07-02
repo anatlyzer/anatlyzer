@@ -368,6 +368,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		// Initialize enums and add enum literals
 		initEEnum(problemStatusEEnum, ProblemStatus.class, "ProblemStatus");
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.STATICALLY_CONFIRMED);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.INITIALLY_DISCARDED);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.WITNESS_REQUIRED);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_CONFIRMED);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);

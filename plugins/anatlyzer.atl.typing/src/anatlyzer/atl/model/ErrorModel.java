@@ -77,6 +77,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
@@ -103,7 +104,8 @@ public class ErrorModel {
 	
 	protected Resource r;
 	protected AnalysisResult	result;
-	
+	protected List<Problem> discardedProblems = new ArrayList<Problem>();
+		
 	public ErrorModel(Resource resource) {
 		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
 		r = resource;
@@ -315,17 +317,19 @@ public class ErrorModel {
 	}
 
 	public void initProblem(LocalProblem p, LocatedElement element) {
-		initProblem(p, element, ProblemStatus.STATICALLY_CONFIRMED);
+		initProblem(p, element, ProblemStatus.STATICALLY_CONFIRMED, true);
 	}
 	
-	public void initProblem(LocalProblem p, LocatedElement element, ProblemStatus status) {
+	public void initProblem(LocalProblem p, LocatedElement element, ProblemStatus status, boolean addToProblems) {
 		p.setLocation(element.getLocation());
 		p.setElement(element);
 		p.setFileLocation(element.getFileLocation());
 		p.setStatus(status);
-		result.getProblems().add(p);
 		
-		element.getProblems().add(p);
+		if ( addToProblems ) {
+			result.getProblems().add(p);			
+			element.getProblems().add(p);
+		}
 	}
 
 	public Type signalIteratorOverNoCollectionType(Type receptorType, LocatedElement node) {
@@ -526,7 +530,7 @@ public class ErrorModel {
 			List<MatchedRule> problematicRules, List<EClass> sourceClasses, List<EClass> targetClasses) {
 			
 		BindingWithResolvedByIncompatibleRule error = AtlErrorFactory.eINSTANCE.createBindingWithResolvedByIncompatibleRule();
-		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED);
+		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED, true);
 
 		error.setRightType(rightType);
 		error.setTargetType(targetType);
@@ -574,7 +578,7 @@ public class ErrorModel {
 	
 	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses) {
 		BindingPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createBindingPossiblyUnresolved();
-		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED);
+		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED, true);
 
 		error.setRightType(rightType);
 		error.setTargetType(targetType);
@@ -721,8 +725,18 @@ public class ErrorModel {
 	
 
 	public void signalAccessToUndefinedValue(PropertyCallExp node) {
+		Pair<AccessToUndefinedValue, String> error = createAccessToUndefinedValue(node, ProblemStatus.STATICALLY_CONFIRMED, true);
+		signalError(error._1, error._2, node);	
+	}
+	
+	public void discardedAccessToUndefinedValue(PropertyCallExp node) {
+		Pair<AccessToUndefinedValue, String> error = createAccessToUndefinedValue(node, ProblemStatus.INITIALLY_DISCARDED, false);
+		discardedProblems.add(error._1);
+	}
+	
+	private Pair<AccessToUndefinedValue, String> createAccessToUndefinedValue(PropertyCallExp node, ProblemStatus status, boolean addToProblems) {
 		AccessToUndefinedValue error = AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue();
-		initProblem(error, node);
+		initProblem(error, node, status, addToProblems);
 		
 		String featName = "";
 		if ( node instanceof NavigationOrAttributeCallExp ) {
@@ -731,8 +745,10 @@ public class ErrorModel {
 			featName = ((OperationCallExp) node).getOperationName();
 		}
 		
-		signalError(error, "Possible access to undefined value: " + featName, node);
-		
+		error.setDescription("Possible access to undefined value: " + featName);
+		error.setSeverity(SeverityKind.ERROR);
+
+		return new Pair<AccessToUndefinedValue, String>(error, error.getDescription());
 	}
 	
 	public void signalOperationCallInvalidParameter(String operationName, Type[] formalArguments, Type[] arguments, List<String> blamedParameters, LocatedElement node) {
@@ -799,6 +815,19 @@ public class ErrorModel {
 	public void clear() {
 		EcoreUtil.delete(result);
 		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
+	}
+
+	public List<Problem> getDiscardedProblems() {
+		return new ArrayList<Problem>(this.discardedProblems);
+	}
+
+	public void moveDiscardedToWitnessRequired(Problem p) {
+		result.getProblems().add(p);
+		p.setStatus(ProblemStatus.WITNESS_REQUIRED);
+
+		// Not sure if I should mark the problem...
+		// element.getProblems().add(p);
+		
 	}
 
 	

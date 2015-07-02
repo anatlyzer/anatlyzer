@@ -13,9 +13,12 @@ import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.model.ATLModel;
@@ -78,11 +81,8 @@ public class ErrorPathGenerator {
 	public ProblemPath generatePath(LocalProblem p) {
 		currentPath = null;
 		
-		if ( p instanceof NoBindingForCompulsoryFeature ) {
-			generatePath_NoBindingForCompulsoryFeature((NoBindingForCompulsoryFeature) p);		
-		
 		// These two are very similar
-		} else if ( p instanceof BindingExpectedOneAssignedMany ) {
+		if ( p instanceof BindingExpectedOneAssignedMany ) {
 			generatePath_BindingExpectedOneAssignedMany((BindingExpectedOneAssignedMany) p);				
 		} else if ( p instanceof BindingWithoutRule ) {
 			generatePath_BindingWithoutRule((BindingWithoutRule) p);
@@ -90,14 +90,10 @@ public class ErrorPathGenerator {
 			generatePath_BindingWithResolvedByIncompatibleRule((BindingWithResolvedByIncompatibleRule) p);				
 		} else if ( p instanceof BindingPossiblyUnresolved ) {
 			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);				
-		} else if ( p instanceof FeatureNotFound ) {
-			generatePath_FeatureNotFound((FeatureNotFound) p);
+		} else if ( p instanceof FeatureFoundInSubtype ) {
+			generatePath_FoundInSubtype((FoundInSubtype) p);
 		} else if ( p instanceof AccessToUndefinedValue ) {
 			generatePath_AccessToUndefinedValue((AccessToUndefinedValue) p);
-		} else if ( p instanceof OperationNotFound ) {
-			generatePath_OperationNotFound((OperationNotFound) p);			
-		} else if ( p instanceof FlattenOverNonNestedCollection ) {
-			generatePath_FlattenOverNonNestedCollection((FlattenOverNonNestedCollection) p);					
 		} else {
 			generatePath_GenericError((LocalProblem) p);
 		}
@@ -125,20 +121,13 @@ public class ErrorPathGenerator {
 		
 	}
 
-	private void generatePath_FeatureNotFound(FeatureNotFound p) {
-		if ( p.getElement() instanceof PropertyCallExp ) {
-			PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
-			FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);
-			currentPath = new ProblemPath(p, node);
-			
-			pathFromErrorExpression(atlExpr.getSource(), node);
-		} else if ( p.getElement() instanceof Binding ) {
-			Binding b = (Binding) p.getElement();
-			BindingTargetFeatureNotFound node = new BindingTargetFeatureNotFound(p);
-			currentPath = new ProblemPath(p, node);
-		} else {
-			throw new UnsupportedOperationException();
-		}
+	private void generatePath_FoundInSubtype(FoundInSubtype f) {
+		NavigationProblem p = (NavigationProblem) f;
+		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
+		FeatureOrOperationFoundInSubtypeNode node = new FeatureOrOperationFoundInSubtypeNode(p, atlExpr);
+		currentPath = new ProblemPath(p, node);
+		
+		pathFromErrorExpression(atlExpr.getSource(), node);
 	}
 
 
@@ -150,24 +139,6 @@ public class ErrorPathGenerator {
 		pathToControlFlow(atlExpr, node, new TraversedSet());		
 	}
 	
-	private void generatePath_OperationNotFound(OperationNotFound p) {
-		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
-		FeatureOrOperationNotFoundNode node = new FeatureOrOperationNotFoundNode(p, atlExpr);
-		currentPath = new ProblemPath(p, node);
-		
-		pathFromErrorExpression(atlExpr.getSource(), node);		
-	}		
-
-
-	private void generatePath_FlattenOverNonNestedCollection(FlattenOverNonNestedCollection p) {
-		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
-		FlattenOverNonNestedCollectionNode node = new FlattenOverNonNestedCollectionNode(p, atlExpr);
-		currentPath = new ProblemPath(p, node);
-		
-		pathFromErrorExpression(atlExpr, node);		
-	}
-
-
 	private void generatePath_BindingWithoutRule(BindingWithoutRule p) {
 		Binding atlBinding = (Binding) p.getElement();
 
@@ -216,16 +187,6 @@ public class ErrorPathGenerator {
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
 
-	private void generatePath_NoBindingForCompulsoryFeature(NoBindingForCompulsoryFeature p) {
-		ProblemNode node = new NoBindingAssignmentNode(p);
-		currentPath = new ProblemPath(p, node);
-		
-		OutPatternElement op = (OutPatternElement) p.getElement();
-		Rule rule = op.getOutPattern().getRule();
-		pathToRule(rule, node, new TraversedSet(), false);	
-	}
-
-
 	//
 	// End-of errors
 	//
@@ -265,11 +226,11 @@ public class ErrorPathGenerator {
 		return depReachability;
 	}
 	
-	private boolean isIteration(EObject element, EObject children) {
+	public static boolean isIteration(EObject element, EObject children) {
 		return element instanceof LoopExp && ((LoopExp) element).getBody() == children;
 	}
 
-	public boolean isControlFlowElement(EObject element) {
+	public static boolean isControlFlowElement(EObject element) {
 		return (element instanceof Rule) || (element instanceof Helper) ||
 			    (element instanceof IfExp || (element instanceof LetExp ));
 	}
@@ -294,7 +255,7 @@ public class ErrorPathGenerator {
 	}
 
 	private boolean pathForCall(OclExpression call, DependencyNode depNode, TraversedSet traversed) {	
-		CallExprNode node = new CallExprNode((PropertyCallExp) call, atlModel);
+		CallExprNode node = new CallExprNode((PropertyCallExp) call);
 		depNode.addDependency(node);
 		
 		return checkReachesExecution(pathToControlFlow(call, node, traversed), node);
@@ -321,7 +282,7 @@ public class ErrorPathGenerator {
 		LetScopeNode newNode = new LetScopeNode((LetExp) lastParent);
 		node.addDependency(newNode);
 
-		return checkReachesExecution(pathToControlFlow(lastParent.eContainer(), newNode, traversed), newNode);
+		return checkReachesExecution(pathToControlFlow(lastParent, newNode, traversed), newNode);
 	}
 	
 	private boolean pathToIfExpr(IfExp expr, OclExpression directChild, DependencyNode node, TraversedSet traversed) {
@@ -367,7 +328,7 @@ public class ErrorPathGenerator {
 		
 		boolean leadsToExecution = false;
 		
-		ImperativeRuleExecution node = new ImperativeRuleExecution(r);
+		ImperativeRuleExecutionNode node = new ImperativeRuleExecutionNode(r);
 		dependent.addDependency(node);
 		for(PropertyCallExp expr : r.getCalledBy()) {
 			 if ( pathForCall(expr, node, traversed) ) {

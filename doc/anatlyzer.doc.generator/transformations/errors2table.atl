@@ -17,12 +17,12 @@ helper context ECORE!EModelElement def : getAnnotationEntry(name : String, key :
 				endif
 		endif;
 
-helper context ECORE!EPackage def : allKinds : Set(String) = 
+helper context ECORE!EPackage def : allKinds : Sequence(String) = 
 	self.eClassifiers->asSet()->
 		select(c | c.oclIsKindOf(ECORE!EClass))->
 		select(c | not c."abstract")->
 		collect(c | c.getAnnotationEntry('info', 'kind'))->
-		reject(v | v.oclIsUndefined())->asSet();
+		reject(v | v.oclIsUndefined())->asSet()->sortedBy(key | thisModule.kindOrder(key) );
 
 helper context ECORE!EPackage def : isErrorPackage : Boolean = self.name = 'atl_error' ;
 
@@ -46,6 +46,8 @@ helper def : kindNames : Map(String, String) =
 		('trafo-integrity', 'Transformation integrity constraints')}	
 ;
 
+helper def : kindOrder(v : String) : Integer = 
+	Sequence { 'src-typing', 'navigation', 'trafo-integrity', 'tgt-typing', 'trafo-rules' }->indexOf(v);
 
 helper context ECORE!EPackage def : elementsOfKind(kind : String) : Set(ECORE!EClass) = 
 	self.eClassifiers->

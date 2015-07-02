@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import anatlyzer.atl.analyser.batch.PossibleConflictingRulesNode;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -24,6 +24,7 @@ public class TestImplicitCasting extends UnitTest {
 		
 		assertEquals(1, problems().size());	
 		assertTrue(problems().get(0) instanceof FeatureFoundInSubtype);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 
 	@Test
@@ -32,6 +33,8 @@ public class TestImplicitCasting extends UnitTest {
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		
 		assertEquals(1, problems().size());		
+		assertTrue(problems().get(0) instanceof FeatureFoundInSubtype);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 	
 	@Test
@@ -41,6 +44,7 @@ public class TestImplicitCasting extends UnitTest {
 		
 		assertEquals(1, problems().size());		
 		assertTrue(problems().get(0) instanceof AccessToUndefinedValue);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 	
 	
@@ -51,7 +55,9 @@ public class TestImplicitCasting extends UnitTest {
 		
 		assertEquals(1, problems().size());		
 		assertTrue(problems().get(0) instanceof FeatureNotFound);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
+
 
 	/**
 	 * Test the following situation:
@@ -74,6 +80,34 @@ public class TestImplicitCasting extends UnitTest {
 		assertEquals(2, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 		assertTrue(problems().get(1) instanceof BindingWithResolvedByIncompatibleRule);
+	}
+
+	@Test
+	public void testInvalidateFoundInSubtype() throws Exception {
+		String T = trafo("invalidate_found_in_subtype");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(3, problems().size());		
+		
+		assertTrue(problems().get(0) instanceof FeatureFoundInSubtype);
+		assertEquals(ProblemStatus.WITNESS_REQUIRED, problems().get(0).getStatus());
+
+		assertTrue(problems().get(1) instanceof FeatureFoundInSubtype);
+		assertEquals(ProblemStatus.WITNESS_REQUIRED, problems().get(1).getStatus());
+
+		assertTrue(problems().get(2) instanceof FeatureFoundInSubtype);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(2).getStatus());
+
+	}	
+
+	@Test
+	public void testInvalidateOclIsUndefined() throws Exception {
+		String T = trafo("invalidate_ocl_is_undefined");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());		
+		assertTrue(problems().get(0) instanceof AccessToUndefinedValue);
+		assertEquals(ProblemStatus.WITNESS_REQUIRED, problems().get(0).getStatus());
 	}
 
 }

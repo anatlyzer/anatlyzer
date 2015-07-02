@@ -5,13 +5,14 @@ import org.eclipse.emf.ecore.EClass;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
-public class FeatureOrOperationNotFoundNode<P extends LocalProblem> extends ExpressionProblemNode<P> {
+public class FeatureOrOperationFoundInSubtypeNode<P extends LocalProblem> extends ExpressionProblemNode<P> {
 
-	public FeatureOrOperationNotFoundNode(P p, OclExpression expr) {
+	public FeatureOrOperationFoundInSubtypeNode(P p, OclExpression expr) {
 		super(p, expr);
 	}
 	
@@ -42,20 +43,22 @@ public class FeatureOrOperationNotFoundNode<P extends LocalProblem> extends Expr
 	
 	@Override
 	public OclExpression genCSP(CSPModel model) {
-		if ( problem.getRecovery() instanceof FeatureFoundInSubtype ) {
-			FeatureFoundInSubtype recovery = (FeatureFoundInSubtype) problem;
-			PropertyCallExp pc = (PropertyCallExp) expr;
-			EClass oneSubClass = recovery.getPossibleClasses().get(0);
-			
-			return model.negateExpression(model.createKindOf_AllInstancesStyle(model.gen(pc.getSource()), null, oneSubClass));
-		} else {
-			return super.genCSP(model);
-		}
+		FoundInSubtype p = (FoundInSubtype) this.problem;
+		PropertyCallExp pc = (PropertyCallExp) expr;
+		EClass oneSubClass = p.getPossibleClasses().get(0);
+		
+		return model.negateExpression(model.createKindOf_AllInstancesStyle(model.gen(pc.getSource()), null, oneSubClass));
 	}
 	
 	@Override
 	public boolean isStraightforward() {
-		return ! ( problem instanceof FeatureFoundInSubtype );
+		return false;
 	}
 
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+	
 }

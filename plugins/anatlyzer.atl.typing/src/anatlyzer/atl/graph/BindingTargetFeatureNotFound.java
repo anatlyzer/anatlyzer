@@ -66,4 +66,9 @@ public class BindingTargetFeatureNotFound extends AbstractBindingAssignmentNode<
 		return false;
 	}
 	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
 }

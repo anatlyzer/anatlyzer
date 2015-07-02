@@ -13,7 +13,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
-public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProblemNode<LocalProblem> {
+public abstract class ExpressionProblemNode<P extends LocalProblem> extends AbstractProblemNode<LocalProblem> {
 
 	protected OclExpression	expr;
 
@@ -78,4 +78,5 @@ public class ExpressionProblemNode<P extends LocalProblem> extends AbstractProbl
 		id.next(id.gen(expr));
 		followDepending(node -> node.genIdentification(id));
 	}
+	
 }

@@ -1,4 +1,4 @@
-<project name="gendoc" default="errors2table">
+<project name="gendoc" default="table2latex">
 	
 	<!-- ================================= 
           target: errors2table              

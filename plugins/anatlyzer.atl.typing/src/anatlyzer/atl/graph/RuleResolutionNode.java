@@ -91,4 +91,11 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 		throw new UnsupportedOperationException("RuleResolutionNode: Done in each kind of problem...");
 	}
 
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+
+	
 }

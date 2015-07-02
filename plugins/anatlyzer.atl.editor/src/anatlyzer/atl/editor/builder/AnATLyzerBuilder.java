@@ -14,9 +14,11 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.m2m.atl.engine.Messages;
 
@@ -24,8 +26,11 @@ import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.ui.configuration.ConfigurationReader;
+import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.WorkspaceLogger;
 
 public class AnATLyzerBuilder extends IncrementalProjectBuilder {
@@ -90,7 +95,10 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 	}
 
 	void checkATL(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(".atl")) {
+		if (resource instanceof IFile && resource.getName().endsWith(".atlc")) {
+			readConfiguration((IFile) resource);
+		}
+		else if (resource instanceof IFile && resource.getName().endsWith(".atl")) {
 			IFile file = (IFile) resource;
 			deleteMarkers(file);
 
@@ -126,6 +134,13 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 					
 					addMarker(problemFile, help, data, problem);
 				}
+				
+				// Launch the model finder automatically if the option is set
+				TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);
+				if ( c != null && c.isContinousWitnessFinder() ) {
+					execModelFinderJob((IFile) resource, data);
+				}
+				
 			} catch (AnalyserInternalError e) {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CoreException e) {
@@ -140,6 +155,37 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+
+	private void execModelFinderJob(IFile f, AnalyserData data) {
+		// Cancel previous jobs (there should be at most one) before launching the new one
+		Job[] jobs = Job.getJobManager().find(f);
+		for (Job job : jobs) {
+			if (!job.cancel()) {
+				try {
+					job.join();
+				} catch (InterruptedException e) { }
+			}
+		}
+		
+		WitnessFinderJob job = new WitnessFinderJob(f, data);
+		job.schedule();		
+	}
+
+	private void readConfiguration(IFile file) {
+		try {
+			IPath atlPath = file.getFullPath().removeFileExtension().addFileExtension("atl");
+			IFile atlFile = file.getWorkspace().getRoot().getFile(atlPath);
+			
+			if ( atlFile.exists() ) {
+				TransformationConfiguration c = ConfigurationReader.read(file.getContents());
+				AnalysisIndex.getInstance().register(atlFile, c);				
+			}
+		} catch (IOException e) {
+			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
+		} catch (CoreException e) {
+			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
 		}
 	}
 

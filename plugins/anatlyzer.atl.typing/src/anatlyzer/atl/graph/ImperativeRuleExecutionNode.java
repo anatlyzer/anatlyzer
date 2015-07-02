@@ -11,7 +11,6 @@ import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
@@ -26,16 +25,12 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 /**
  * Covers both lazy rule and called rule.
  */
-public class ImperativeRuleExecution extends AbstractDependencyNode {
+public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 
 	private StaticRule rule;
 
-	public ImperativeRuleExecution(StaticRule rule) {
+	public ImperativeRuleExecutionNode(StaticRule rule) {
 		this.rule = rule;
-	}
-		
-	public String genCSP(String dependent) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -133,4 +128,10 @@ public class ImperativeRuleExecution extends AbstractDependencyNode {
 		followDepending(node -> node.genIdentification(id));	
 	}
 		
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+
 }

@@ -1,0 +1,44 @@
+module invalidatefoundinsubtype;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from
+		src : ABCD!Model
+	to 
+		tgt : WXYZ!Model (
+			name <- 'default',
+			elements <- src.elements->select(a | a.oclIsKindOf(ABCD!B))->collect(b | thisModule.anA(b)),
+			
+			-- another option that could invalidate is an 'if'
+			elements <- src.elements->collect(b | 
+				if b.oclIsKindOf(ABCD!B) then
+					thisModule.anA_2(b)
+				else
+					OclUndefined
+				endif),
+			
+			-- but this does not provoke problems because the check is done over "c" objects
+			elements <- src.elements->select(a | a.oclIsKindOf(ABCD!C))->collect(c | thisModule.anA(c))
+		)
+}
+
+lazy rule anA {
+	from src : ABCD!A
+    to   tgt : WXYZ!X (
+    	name <- src.propOfB
+	)
+}
+
+lazy rule anA_2 {
+	from src : ABCD!A
+    to   tgt : WXYZ!X (
+    	name <- src.propOfB
+	)
+}
+
+lazy rule anA_3 {
+	from src : ABCD!A
+    to   tgt : WXYZ!X (
+    	name <- src.propOfB
+	)
+}

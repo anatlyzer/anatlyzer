@@ -24,6 +24,7 @@ abstract class Problem extends AnalysisInfo {
 
 enum ProblemStatus {	
 	STATICALLY_CONFIRMED;
+	INITIALLY_DISCARDED;
 	WITNESS_REQUIRED;
 	ERROR_CONFIRMED;
 	ERROR_CONFIRMED_SPECULATIVE;
@@ -75,6 +76,8 @@ package atl_error {
 	abstract class InvalidArgumentProblem extends LocalProblem { }
 	abstract class TargetModelConformanceProblem extends LocalProblem { }
 
+	@description(name="Rule conflict", example="")	 
+	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="analysis (separate)", source="")
 	class RuleConflict extends Problem {
 		val ConflictingRuleSet[*] conflicts;
 	}
@@ -105,7 +108,7 @@ package atl_error {
 	
 	
 	@description(name="Feature not found", text="Feature cannot be found in an object's class")	 
-	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
+	@info(code="5", prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
 	class FeatureNotFound extends NavigationProblem, RuntimeError {
 		attr String[1] featureName;
 		ref  types.Type[1] type;	   
@@ -114,11 +117,13 @@ package atl_error {
 		attr String[1] metamodelName;
 	}
 
+	abstract class FoundInSubtype { 
+		ref EClass[*] possibleClasses;	
+	}
 
 	@description(name="Feature found in subtype", text="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 
-	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
-	class FeatureFoundInSubtype extends FeatureNotFound, RuntimeError {
-		ref EClass[*] possibleClasses;	
+	@info(code="6", prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
+	class FeatureFoundInSubtype extends FeatureNotFound, FoundInSubtype, RuntimeError {	
 	}
 
 	abstract class OperationCallInvalid extends NavigationProblem, RuntimeError {
@@ -140,8 +145,7 @@ package atl_error {
 
 	@description(name="Operation found in subtype", text="Operation cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 
 	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")
-	class OperationFoundInSubtype extends OperationNotFound, RuntimeError {
-		ref EClass[*] possibleClasses;	
+	class OperationFoundInSubtype extends OperationNotFound, FoundInSubtype, RuntimeError {
 	}
 
 	@description(name="Invalid number of actual parameters", text="The number of actual parameters does not match the formal parameters")	 
@@ -150,7 +154,7 @@ package atl_error {
 	}
 
 	@description(name="Invalid actual parameter type", text="The types of the actual parameters does not match the formal parameters")	 
-	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="src-typing", phase="typing", source="none")			
 	class OperationCallInvalidParameter extends OperationCallInvalid, RuntimeError {		
 		attr String[*] blamedParameterNames;				
 	}
@@ -214,12 +218,12 @@ package atl_error {
 	}
 
 	@description(name="No binding for compulsory target feature", text="Applicable to references and string attributes without default value.")	 
-	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
+	@info(code="1", prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
 	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {
 	   
 	}
 
-	@description(name="Binding from feature with higher cardinality", text="The binding feature is mono-valued but the right part of the binding is a collection")	 
+	@description(code="4", name="Binding from feature with higher cardinality", text="The binding feature is mono-valued but the right part of the binding is a collection")	 
 	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")
 	class BindingExpectedOneAssignedMany extends BindingProblem {
 	}	
@@ -256,12 +260,12 @@ package atl_error {
 	}
 
 	@description(name="Binding resolved by rule with invalid target", text="A rule may resolve a binding but its first output pattern will produce a target element incompatible with the binding feature")	 
-	@info(prec="sometimes-solver", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")		
+	@info(code="3", prec="sometimes-solver", path="yes", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")		
 	class BindingWithResolvedByIncompatibleRule extends BindingProblem, BindingResolution {
 	}
 
 	@description(name="Binding possibly unresolved", text="A binding may be unresolved if certain conditions hold")	 
-	@info(prec="always-solver", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
+	@info(code="2", prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
 	class BindingPossiblyUnresolved extends BindingProblem, BindingResolution {
 	   ref EClass[+] problematicClasses;
 	}
@@ -278,13 +282,13 @@ package atl_error {
 	}
 
 	@description(name="No rule to resolve a resolveTemp operation", text="No rule able to resolve the resolveTemp operation can be found")	 
-	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")			
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
 	class ResolveTempWithoutRule extends ResolveTempProblem {			   
 	   	ref ecore.EClass[0..1] sourceType;
 	}
 
 	@description(name="Undefined output pattern in resolveTemp operation", text="The given output pattern of the possible matched rules is not defined")	 
-	@info(prec="static", path="no", severity="error-behaviour", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
 	class ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {			   
 	   	ref ecore.EClass[0..1] sourceType;
 		val ResolvedRuleInfo[*] rules;	   	
@@ -307,7 +311,7 @@ package atl_error {
 	}
 
 	@description(name="Lazy rule with filter", text="In practice filters in lazy rules are not evaluated")	 
-	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="analysis", source="none")			
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class LazyRuleWithFilter extends LocalProblem {		
 	}
 
@@ -318,13 +322,13 @@ package atl_error {
 	}
 
 	@description(name="Invalid meta-model name", text="The specified model is not declared")	 
-	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="error-load", when="trafo-dep", kind="src-typing", phase="typing", source="none")			
 	class NoModelFound extends LocalProblem {
 		attr String[1] modelName;				
 	}
 
 	@description(name="Enum literal not found", text="There is no enum declaration with the given enum literal")	 
-	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="error-load", when="trafo-dep", kind="trafo-integrity", phase="typing", source="none")
 	class NoEnumLiteral extends LocalProblem {
 		attr String[1] literal;				
 	}
@@ -334,38 +338,38 @@ package atl_error {
 	}
 	
 	@description(name="Wrong iterator body type", text="The inferred type of the iterator body is not compatible with the type expected by the iterator ")	 
-	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class IteratorBodyWrongType extends WrongType {
 		
 	}
 
 	@description(name="Matched rule without output pattern", text="This should be checked by the parser")	 
-	@info(prec="static", path="no", severity="error-always", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class MatchedRuleWithoutOutputPattern extends LocalProblem {
 		// Possibly using the matched rule as entrypint rule (see Measure2XHTML)
 	}
 
 	@description(name="Foreach statement expected collection", text="")	 
-	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class ExpectedCollectionInForEach extends LocalProblem {
 		
 	}
 
 	@description(name="Invalid meta-class name", text="The meta-class name cannot be found in the meta-model")	 
-	@info(prec="static", path="no", severity="error-always", when="trafo-dep", kind="navigation", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="error-load", when="trafo-dep", kind="src-typing", phase="typing", source="none")			
 	class NoClassFoundInMetamodel extends LocalProblem {
 		attr String[1] className;
 	}
 
 	// TODO: Replace with the other class to signal this kind of problems
-	@description(name="Invalid argument (TODO: merge with the other class)", text="")	 
-	@info(prec="static", path="no", severity="error-always", when="model-dep", kind="navigation", phase="typing", source="none")			
+	@description(name="Invalid argument for built-in function", text="")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class InvalidArgument extends LocalProblem {
 		
 	}
 
 	@description(name="Collection operation not found", text="")	 
-	@info(prec="static", path="no", severity="error-source", when="model-dep", kind="navigation", phase="typing", source="none")
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="none")
 	class CollectionOperationNotFound extends LocalProblem {
 		attr String[1] operationName;	
 	}
@@ -392,7 +396,7 @@ package atl_error {
 	}
 	
     @description(name="Possible access to undefined feature", text="Source cardinality check", example="")	 
-	@info(prec="sometimes-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
+	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
 	class AccessToUndefinedValue extends LocalProblem {
 		
 	}	
@@ -405,7 +409,7 @@ package atl_error {
 	
 	
 	@description(name="Abstract class instantiation", text="", example="")	 
-	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="")	
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="")	
 	class CannotInstantiateAbstractClass extends LocalProblem {
 		ref types.Metaclass[1] type;
 	}	

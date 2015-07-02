@@ -2,15 +2,15 @@ package anatlyzer.atl.graph;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
-public class AccessToUndefinedValueNode<P extends LocalProblem> extends ExpressionProblemNode<P> {
+public class AccessToUndefinedValueNode extends ExpressionProblemNode<AccessToUndefinedValue> {
 
-	public AccessToUndefinedValueNode(P p, OclExpression expr) {
+	public AccessToUndefinedValueNode(AccessToUndefinedValue p, OclExpression expr) {
 		super(p, expr);
 	}
 	
@@ -34,4 +34,9 @@ public class AccessToUndefinedValueNode<P extends LocalProblem> extends Expressi
 		return false;
 	}
 
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
 }

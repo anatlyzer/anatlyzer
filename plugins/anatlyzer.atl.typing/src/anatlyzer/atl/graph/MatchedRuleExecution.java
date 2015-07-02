@@ -209,4 +209,10 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		throw new IllegalStateException();
 	}
 
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+
 }

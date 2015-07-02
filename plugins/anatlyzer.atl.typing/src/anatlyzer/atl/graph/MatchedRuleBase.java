@@ -25,6 +25,10 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 		this.rule = atlRule;		
 	}
 	
+	public MatchedRule getRule() {
+		return rule;
+	}
+	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
 		for (VariableDeclaration var : rule.getVariables()) {

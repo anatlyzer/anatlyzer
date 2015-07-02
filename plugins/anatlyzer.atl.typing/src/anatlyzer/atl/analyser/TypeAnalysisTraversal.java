@@ -509,6 +509,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					// System.out.println("Undefined not checked! " + self.getLocation());
 					break;
 				case CANNOT_BE_UNDEFINED:
+					errors().discardedAccessToUndefinedValue(self);
 					break;
 				}
 				

@@ -10,8 +10,14 @@ import java.util.concurrent.Future;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
+import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
@@ -28,6 +34,7 @@ public class Analyser implements IAnalyserResult {
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
 	private int stage = 0;
+	private boolean doErrorRefinement = true;
 
 	private ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
@@ -45,6 +52,7 @@ public class Analyser implements IAnalyserResult {
 	public void perform() {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		Future<?> result = executor.submit(new Runnable() {			
+
 			@Override
 			public void run() {
 				AnalyserContext.setErrorModel(errors);
@@ -69,6 +77,11 @@ public class Analyser implements IAnalyserResult {
 				
 				
 				stage++;
+				
+				if ( doErrorRefinement )
+					refineErrors();
+				
+				stage++;
 			}
 		});
 
@@ -82,6 +95,29 @@ public class Analyser implements IAnalyserResult {
 		}
 	}
 
+	public void refineErrors() {
+		for (Problem p : getErrors().getProblems()) {
+			if ( p instanceof AccessToUndefinedValue || p instanceof FeatureFoundInSubtype ) {
+				ProblemPath path = getDependencyGraph().getPath(p);
+				if ( new WitnessRequiredChecker().isWitnessRequired(path) ) {
+					path.getProblem().setStatus(ProblemStatus.WITNESS_REQUIRED);
+				}	
+			}
+		}
+		
+		// This was for initially discarded elements, but I think that it does not makes sense
+		/*
+		// This problems will be AccessToUndefinedValue or FeatureFoundInSubtype
+		for (Problem p : getErrors().getDiscardedProblems()) {
+			ProblemPath path = new ErrorPathGenerator(this).generatePath((LocalProblem) p);
+			if ( new WitnessRequiredChecker().isWitnessRequired(path) ) {
+				errors.moveDiscardedToWitnessRequired(p);
+				getDependencyGraph().addProblemPath(path);
+			}	
+		}
+		*/
+	}
+	
 	private List<OverlappingRules> overlapping = null;
 	public List<OverlappingRules> ruleConflictAnalysis() {
 		ExecutorService executor = Executors.newSingleThreadExecutor();

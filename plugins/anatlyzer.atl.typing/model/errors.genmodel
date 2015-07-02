@@ -9,6 +9,7 @@
       ecorePackage="errors.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//ProblemStatus">
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/STATICALLY_CONFIRMED"/>
+      <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/INITIALLY_DISCARDED"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/WITNESS_REQUIRED"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED"/>
       <genEnumLiterals ecoreEnumLiteral="errors.ecore#//ProblemStatus/ERROR_CONFIRMED_SPECULATIVE"/>
@@ -81,10 +82,11 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
       </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype">
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureFoundInSubtype/possibleClasses"/>
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OperationCallInvalid">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/operationName"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -97,10 +99,7 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/actualParameters"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationFoundInSubtype/possibleClasses"/>
-      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidNumberOfParameters"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidParameter">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalidParameter/blamedParameterNames"/>

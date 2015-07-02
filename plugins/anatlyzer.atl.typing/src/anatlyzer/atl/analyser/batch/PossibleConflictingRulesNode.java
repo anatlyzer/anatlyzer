@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.graph.MatchedRuleExecution;
+import anatlyzer.atl.graph.IPathVisitor;
 import anatlyzer.atl.graph.RuleFilterNode;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.Pair;
@@ -153,6 +154,12 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
 	}
 
 }

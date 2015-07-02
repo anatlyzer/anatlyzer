@@ -85,11 +85,17 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 
 	@Override
 	public boolean isStraightforward() {
-		return false;
+		return true;
 	}
 	
 	@Override
 	public void genIdentification(PathId id) {
 		// Do nothing
+	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
 	}
 }

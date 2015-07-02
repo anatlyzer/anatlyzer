@@ -4,6 +4,7 @@ import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -1070,28 +1071,45 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private void setOpenedResource(IResource resource, AnalysisResult result) {
 		currentResource = resource;
 		currentAnalysis = result;
-		
+		refreshFromNonUI();
+	}
+
+	private void refreshFromNonUI() {
 		// To avoid "invalid thread access" when called from analysisRegistered
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				viewer.refresh();
 			}
-		});
+		});		
 	}
-
+	
 	@Override
 	public void analysisRegistered(String location, AnalysisResult result, AnalysisResult previous) {
+		performIfNeeded(location, (resource) -> {
+			setOpenedResource(resource, result);
+		});
+	}
+	
+	@Override
+	public void statusChanged(String location, Problem problem, ProblemStatus oldStatus) {
+		performIfNeeded(location, (resource) -> {
+			refreshFromNonUI();	
+		});		
+	}
+	
+	public void performIfNeeded(String location, Consumer<IResource> c) {
 		IWorkbenchPage page = this.getSite().getPage();
 		IEditorPart part = page.getActiveEditor();
 		if ( part instanceof AtlEditorExt && 			
 			((AtlEditorExt) part).getUnderlyingResource().getLocation().toPortableString().equals(location) ) {
-			setOpenedResource(((AtlEditorExt) part).getUnderlyingResource(), result);
+			c.accept(((AtlEditorExt) part).getUnderlyingResource());
 		}
 	}
 	
+	//
 	// Helper methods
-
+	//
 	private void addExtensionActions(IMenuManager manager) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_VIEW_ACTIONS_EXTENSION_POINT);

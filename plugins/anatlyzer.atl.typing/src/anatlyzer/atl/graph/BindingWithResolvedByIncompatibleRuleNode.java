@@ -246,4 +246,10 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		String s = allRules.stream().map(r -> MatchedRuleExecution.ruleSignature(r, id)).collect(Collectors.joining(";"));
 		id.next(s);		
 	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
 }

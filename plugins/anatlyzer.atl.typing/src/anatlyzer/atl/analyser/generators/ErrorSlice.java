@@ -66,7 +66,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		int size = Integer.MAX_VALUE;
 		for (ClassNamespace cn : ns.getAllSubclasses(analysisResult.getNamespaces())) {
 			// Ignore the class that it is checked in a oclIsTypeOf expression
-			if ( ns.getKlass() == typedOf.getKlass() )
+			if ( cn.getKlass() == typedOf.getKlass() )
 				continue;
 			
 			int s = cn.getKlass().getEAllReferences().size();

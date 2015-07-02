@@ -61,4 +61,9 @@ public class RuleFilterNode implements ConstraintNode {
 	public void genIdentification(PathId id) {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		throw new UnsupportedOperationException();
+	}
 }

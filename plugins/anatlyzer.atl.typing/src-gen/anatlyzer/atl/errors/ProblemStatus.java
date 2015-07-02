@@ -29,6 +29,14 @@ public enum ProblemStatus implements Enumerator {
 	STATICALLY_CONFIRMED(0, "STATICALLY_CONFIRMED", "STATICALLY_CONFIRMED"),
 
 	/**
+	 * The '<em><b>INITIALLY DISCARDED</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #INITIALLY_DISCARDED_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	INITIALLY_DISCARDED(1, "INITIALLY_DISCARDED", "INITIALLY_DISCARDED"), /**
 	 * The '<em><b>WITNESS REQUIRED</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -36,7 +44,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	WITNESS_REQUIRED(1, "WITNESS_REQUIRED", "WITNESS_REQUIRED"),
+	WITNESS_REQUIRED(2, "WITNESS_REQUIRED", "WITNESS_REQUIRED"),
 
 	/**
 	 * The '<em><b>ERROR CONFIRMED</b></em>' literal object.
@@ -46,7 +54,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ERROR_CONFIRMED(2, "ERROR_CONFIRMED", "ERROR_CONFIRMED"),
+	ERROR_CONFIRMED(3, "ERROR_CONFIRMED", "ERROR_CONFIRMED"),
 
 	/**
 	 * The '<em><b>ERROR CONFIRMED SPECULATIVE</b></em>' literal object.
@@ -56,7 +64,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ERROR_CONFIRMED_SPECULATIVE(3, "ERROR_CONFIRMED_SPECULATIVE", "ERROR_CONFIRMED_SPECULATIVE"),
+	ERROR_CONFIRMED_SPECULATIVE(4, "ERROR_CONFIRMED_SPECULATIVE", "ERROR_CONFIRMED_SPECULATIVE"),
 
 	/**
 	 * The '<em><b>ERROR DISCARDED</b></em>' literal object.
@@ -66,7 +74,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ERROR_DISCARDED(4, "ERROR_DISCARDED", "ERROR_DISCARDED"),
+	ERROR_DISCARDED(5, "ERROR_DISCARDED", "ERROR_DISCARDED"),
 
 	/**
 	 * The '<em><b>ERROR DISCARDED DUE TO METAMODEL</b></em>' literal object.
@@ -76,7 +84,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	ERROR_DISCARDED_DUE_TO_METAMODEL(5, "ERROR_DISCARDED_DUE_TO_METAMODEL", "ERROR_DISCARDED_DUE_TO_METAMODEL"),
+	ERROR_DISCARDED_DUE_TO_METAMODEL(6, "ERROR_DISCARDED_DUE_TO_METAMODEL", "ERROR_DISCARDED_DUE_TO_METAMODEL"),
 
 	/**
 	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal object.
@@ -86,7 +94,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	USE_INTERNAL_ERROR(6, "USE_INTERNAL_ERROR", "USE_INTERNAL_ERROR"),
+	USE_INTERNAL_ERROR(7, "USE_INTERNAL_ERROR", "USE_INTERNAL_ERROR"),
 
 	/**
 	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal object.
@@ -96,7 +104,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	IMPL_INTERNAL_ERROR(7, "IMPL_INTERNAL_ERROR", "IMPL_INTERNAL_ERROR"), /**
+	IMPL_INTERNAL_ERROR(8, "IMPL_INTERNAL_ERROR", "IMPL_INTERNAL_ERROR"), /**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,7 +112,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CANNOT_DETERMINE(8, "CANNOT_DETERMINE", "CANNOT_DETERMINE"), /**
+	CANNOT_DETERMINE(9, "CANNOT_DETERMINE", "CANNOT_DETERMINE"), /**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,7 +120,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NOT_SUPPORTED_BY_USE(9, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
+	NOT_SUPPORTED_BY_USE(10, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal object.
@@ -122,7 +130,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PROBLEMS_IN_PATH(10, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
+	PROBLEMS_IN_PATH(11, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
 
 	/**
 	 * The '<em><b>STATICALLY CONFIRMED</b></em>' literal value.
@@ -140,6 +148,21 @@ public enum ProblemStatus implements Enumerator {
 	public static final int STATICALLY_CONFIRMED_VALUE = 0;
 
 	/**
+	 * The '<em><b>INITIALLY DISCARDED</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>INITIALLY DISCARDED</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #INITIALLY_DISCARDED
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int INITIALLY_DISCARDED_VALUE = 1;
+
+	/**
 	 * The '<em><b>WITNESS REQUIRED</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -152,7 +175,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int WITNESS_REQUIRED_VALUE = 1;
+	public static final int WITNESS_REQUIRED_VALUE = 2;
 
 	/**
 	 * The '<em><b>ERROR CONFIRMED</b></em>' literal value.
@@ -167,7 +190,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ERROR_CONFIRMED_VALUE = 2;
+	public static final int ERROR_CONFIRMED_VALUE = 3;
 
 	/**
 	 * The '<em><b>ERROR CONFIRMED SPECULATIVE</b></em>' literal value.
@@ -182,7 +205,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ERROR_CONFIRMED_SPECULATIVE_VALUE = 3;
+	public static final int ERROR_CONFIRMED_SPECULATIVE_VALUE = 4;
 
 	/**
 	 * The '<em><b>ERROR DISCARDED</b></em>' literal value.
@@ -197,7 +220,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ERROR_DISCARDED_VALUE = 4;
+	public static final int ERROR_DISCARDED_VALUE = 5;
 
 	/**
 	 * The '<em><b>ERROR DISCARDED DUE TO METAMODEL</b></em>' literal value.
@@ -212,7 +235,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE = 5;
+	public static final int ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE = 6;
 
 	/**
 	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal value.
@@ -227,7 +250,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USE_INTERNAL_ERROR_VALUE = 6;
+	public static final int USE_INTERNAL_ERROR_VALUE = 7;
 
 	/**
 	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal value.
@@ -242,7 +265,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int IMPL_INTERNAL_ERROR_VALUE = 7;
+	public static final int IMPL_INTERNAL_ERROR_VALUE = 8;
 
 	/**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal value.
@@ -257,7 +280,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CANNOT_DETERMINE_VALUE = 8;
+	public static final int CANNOT_DETERMINE_VALUE = 9;
 
 	/**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal value.
@@ -272,7 +295,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NOT_SUPPORTED_BY_USE_VALUE = 9;
+	public static final int NOT_SUPPORTED_BY_USE_VALUE = 10;
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal value.
@@ -287,7 +310,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PROBLEMS_IN_PATH_VALUE = 10;
+	public static final int PROBLEMS_IN_PATH_VALUE = 11;
 
 	/**
 	 * An array of all the '<em><b>Problem Status</b></em>' enumerators.
@@ -298,6 +321,7 @@ public enum ProblemStatus implements Enumerator {
 	private static final ProblemStatus[] VALUES_ARRAY =
 		new ProblemStatus[] {
 			STATICALLY_CONFIRMED,
+			INITIALLY_DISCARDED,
 			WITNESS_REQUIRED,
 			ERROR_CONFIRMED,
 			ERROR_CONFIRMED_SPECULATIVE,
@@ -365,6 +389,7 @@ public enum ProblemStatus implements Enumerator {
 	public static ProblemStatus get(int value) {
 		switch (value) {
 			case STATICALLY_CONFIRMED_VALUE: return STATICALLY_CONFIRMED;
+			case INITIALLY_DISCARDED_VALUE: return INITIALLY_DISCARDED;
 			case WITNESS_REQUIRED_VALUE: return WITNESS_REQUIRED;
 			case ERROR_CONFIRMED_VALUE: return ERROR_CONFIRMED;
 			case ERROR_CONFIRMED_SPECULATIVE_VALUE: return ERROR_CONFIRMED_SPECULATIVE;

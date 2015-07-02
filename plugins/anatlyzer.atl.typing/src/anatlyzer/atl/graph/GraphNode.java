@@ -20,4 +20,5 @@ public interface GraphNode {
 	public boolean isProblemInPath(LocalProblem lp);
 	public boolean isExpressionInPath(OclExpression expr);
 	
+	public void bottomUp(IPathVisitor visitor);	
 }

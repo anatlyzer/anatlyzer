@@ -234,5 +234,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		id.next(s);
 	}
 	
-	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visitProblem(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
 }

@@ -35,12 +35,13 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class CallExprNode extends AbstractDependencyNode {
 
 	private PropertyCallExp	call;
-	private ATLModel atlModel;
 
-	public CallExprNode(PropertyCallExp start, ATLModel atlModel) {
+	public CallExprNode(PropertyCallExp start) {
 		this.call = start;
-		this.atlModel = atlModel;
-		// this.end   = end;
+	}
+	
+	public PropertyCallExp getCall() {
+		return call;
 	}
 	
 	@Override
@@ -192,5 +193,12 @@ public class CallExprNode extends AbstractDependencyNode {
 		id.next(s);
 		followDepending(node -> node.genIdentification(id));
 	}
+	
+	@Override
+	public void bottomUp(IPathVisitor visitor) {
+		boolean b = visitor.visit(this);
+		if ( b ) followDepending(node -> node.bottomUp(visitor));
+	}
+	
 	
 }

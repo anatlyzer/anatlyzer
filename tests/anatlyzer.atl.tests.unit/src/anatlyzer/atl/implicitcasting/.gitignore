@@ -2,3 +2,7 @@
 /implicit_if_else.asm
 /implicit_ocl_is_undefined.asm
 /implicit_in_rule.asm
+/invalidate_ocl_kind_of.asm
+/invalidate_found_in_subtype.asm
+/invalidate_undefined.asm
+/invalidate_ocl_is_undefined.asm

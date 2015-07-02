@@ -100,7 +100,10 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		if ( self.getInferredType() instanceof Metaclass ) {
 			Metaclass m = (Metaclass) self.getInferredType();
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
-			
+			if ( newClass == null ) {
+				System.out.println(m.getName());
+			}
+				
 			self.setName(newClass.getName());
 			m.setName(newClass.getName());
 

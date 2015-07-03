@@ -14,6 +14,12 @@ public class PathId {
 	private int currentPath = -1;
 	private ArrayList<String> paths = new ArrayList<String>();
 	
+	public PathId(String problemTypeName) {
+		// The first element is the type of the problem, to disambiguate
+		// problems of different kind, but with the same error path 
+		paths.add(problemTypeName);
+	}
+	
 	public void startPath() {
 		currentPath++;
 		paths.add("");

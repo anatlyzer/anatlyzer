@@ -63,11 +63,12 @@ public class ProblemTracker {
 	}
 	
 	public PathId computePathId(ProblemPath path) {
-		PathId pathId = new PathId();
+		PathId pathId = new PathId(path.getProblem().eClass().getName());
 		for (ExecutionNode node : path.getExecutionNodes()) {
 			pathId.startPath();
 			node.genIdentification(pathId);
 		}
+		
 		return pathId;
 	}
 

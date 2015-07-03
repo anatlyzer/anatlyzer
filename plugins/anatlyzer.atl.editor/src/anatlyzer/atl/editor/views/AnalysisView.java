@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.views;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,7 +60,6 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -126,7 +124,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private AnalysisViewComparator comparator;
 
 	
-	abstract class TreeNode {
+	public static abstract class TreeNode {
 		private TreeNode parent;
 
 		public TreeNode(TreeNode parent) {
@@ -593,8 +591,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
-		private TreeParent invisibleRoot;
-
+		// private TreeParent invisibleRoot;
+		private AnalysisViewNodes.InvisibleTreeRoot invisibleRoot;
+		
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 		
@@ -634,13 +633,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				return ((TreeNode)parent).hasChildren();
 			return false;
 		}
-/*
- * We will set up a dummy model to initialize tree heararchy.
- * In a real code, you will connect to a real model and
- * expose its hierarchy.
- */
+
 		private void initialize() {			
-			invisibleRoot = new TreeParent();
+			// invisibleRoot = new TreeParent();
+			invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
 		}
 		
 	}
@@ -1085,15 +1081,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	
 	@Override
-	public void analysisRegistered(String location, AnalysisResult result, AnalysisResult previous) {
-		performIfNeeded(location, (resource) -> {
+	public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) {
+		performIfNeeded(r.getLocation().toPortableString(), (resource) -> {
 			setOpenedResource(resource, result);
 		});
 	}
 	
 	@Override
-	public void statusChanged(String location, Problem problem, ProblemStatus oldStatus) {
-		performIfNeeded(location, (resource) -> {
+	public void statusChanged(IResource r, Problem problem, ProblemStatus oldStatus) {
+		performIfNeeded(r.getLocation().toPortableString(), (resource) -> {
 			refreshFromNonUI();	
 		});		
 	}

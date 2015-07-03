@@ -23,10 +23,13 @@ import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.m2m.atl.engine.Messages;
 
 import anatlyzer.atl.analyser.AnalyserInternalError;
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.ui.configuration.ConfigurationReader;
@@ -35,6 +38,52 @@ import anatlyzer.ui.util.WorkspaceLogger;
 
 public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 
+	// Configure the listener to remove or add markers as status changes
+	static {
+		AnalysisIndex.getInstance().addListener(new MarkerUpdaterListerner());
+	}
+	
+	static class MarkerUpdaterListerner implements IndexChangeListener {
+
+		@Override
+		public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) { }
+
+		@Override
+		public void statusChanged(IResource r, Problem problem, ProblemStatus oldStatus) {
+			TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(r);			
+			
+			try {
+				IMarker found = null;
+				IMarker[] markers = r.findMarkers(MARKER_TYPE, false, 1);
+				for (IMarker iMarker : markers) {
+					if ( iMarker.getAttribute(PROBLEM) == problem ) {
+						found = iMarker;
+						break;
+					}
+				}
+				
+				if ( found != null ) {
+					if ( ! c.isMarkerWanted(problem.getStatus() ) ) {
+						found.delete();
+					} else {
+						// Change por instance the severity, if needed						
+					}
+				} else {
+					if ( c.isMarkerWanted(problem.getStatus() ) ) {
+						AtlNbCharFile help = new AtlNbCharFile(((IFile) r).getContents());
+						AnalysisResult data  = AnalysisIndex.getInstance().getAnalysis(r);						
+						addMarker(r, help, data, problem);
+					}
+				}
+				
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
@@ -100,6 +149,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		}
 		else if (resource instanceof IFile && resource.getName().endsWith(".atl")) {
 			IFile file = (IFile) resource;
+			TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);
+			if ( c == null ) {
+				c = initConfigurationForAtl(file);
+			}
+			
 			deleteMarkers(file);
 
 			AtlNbCharFile help = null;
@@ -132,11 +186,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 						help = helpers.get(loc);
 					}
 					
-					addMarker(problemFile, help, data, problem);
+					if ( c.isMarkerWanted(problem.getStatus()) )
+						addMarker(problemFile, help, data, problem);
 				}
 				
 				// Launch the model finder automatically if the option is set
-				TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);
 				if ( c != null && c.isContinousWitnessFinder() ) {
 					execModelFinderJob((IFile) resource, data);
 				}
@@ -173,23 +227,48 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		job.schedule();		
 	}
 
-	private void readConfiguration(IFile file) {
+	/**
+	 * Reads the corresponding configuration file of a given transformation or
+	 * initializes a default value. In both cases the configuration is added to
+	 * the index.
+	 * 
+	 * @param atlFile
+	 * @return
+	 */
+	private TransformationConfiguration initConfigurationForAtl(IFile atlFile) {
+		IPath confPath = atlFile.getFullPath().removeFileExtension().addFileExtension("atlc");
+		IFile confFile = atlFile.getWorkspace().getRoot().getFile(confPath);
+		TransformationConfiguration c = readConfiguration(confFile, atlFile);		
+		if ( c == null ) {
+			c = new TransformationConfiguration();
+			AnalysisIndex.getInstance().register(atlFile, c);							
+		}
+		return c;
+	}
+	
+	private TransformationConfiguration readConfiguration(IFile file) {
+		IPath atlPath = file.getFullPath().removeFileExtension().addFileExtension("atl");
+		IFile atlFile = file.getWorkspace().getRoot().getFile(atlPath);
+		return readConfiguration(file, atlFile);
+	}
+	
+
+	private TransformationConfiguration readConfiguration(IFile confFile, IFile atlFile) {
 		try {
-			IPath atlPath = file.getFullPath().removeFileExtension().addFileExtension("atl");
-			IFile atlFile = file.getWorkspace().getRoot().getFile(atlPath);
-			
-			if ( atlFile.exists() ) {
-				TransformationConfiguration c = ConfigurationReader.read(file.getContents());
+			if ( confFile.exists() && atlFile.exists() ) {
+				TransformationConfiguration c = ConfigurationReader.read(confFile.getContents());
 				AnalysisIndex.getInstance().register(atlFile, c);				
+				return c;
 			}
 		} catch (IOException e) {
 			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
 		} catch (CoreException e) {
 			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
-		}
+		}		
+		return null;
 	}
 
-	private void addMarker(IFile file, AtlNbCharFile help, AnalyserData data, Problem problem) throws CoreException {
+	private static void addMarker(IResource file, AtlNbCharFile help, AnalysisResult data, Problem problem) throws CoreException {
 		LocalProblem lp = (LocalProblem) problem;
 		
 		int tabWidth = -1;

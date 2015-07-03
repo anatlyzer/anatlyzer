@@ -46,10 +46,8 @@ public class AnalysisIndex {
 	}
 
 	public synchronized void register(IResource file, AnalysisResult result) {
-		this.register(getFileId(file), result);
-	}
-	
-	private synchronized void register(String location, AnalysisResult result) {
+		String location = getFileId(file);
+
 		AnalysisResult previous = index.get(location);
 		
 		if ( previous != null && trackProblems(location) ) {
@@ -58,9 +56,9 @@ public class AnalysisIndex {
 		}
 		
 		index.put(location, result);
-		
+				
 		for (IndexChangeListener indexChangeListener : listeners) {
-			indexChangeListener.analysisRegistered(location, result, previous);
+			indexChangeListener.analysisRegistered(file, result, previous);
 		}
 	}
 
@@ -111,7 +109,7 @@ public class AnalysisIndex {
 		problem.setStatus(newStatus);
 		
 		for (IndexChangeListener indexChangeListener : listeners) {
-			indexChangeListener.statusChanged(getFileId(r), problem, old);
+			indexChangeListener.statusChanged(r, problem, old);
 		}
 	}
 }

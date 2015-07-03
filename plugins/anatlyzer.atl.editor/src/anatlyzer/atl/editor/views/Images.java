@@ -5,12 +5,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import anatlyzer.atl.editor.Activator;
 
 public class Images {
-	public static ImageDescriptor optimization_16x16;
-	public static ImageDescriptor error_dependencies_16x16;
-	public static ImageDescriptor quickfix_16x16;
-	public static ImageDescriptor batch_analysis_16x16;
-	public static ImageDescriptor local_problems_16x16;
-	public static ImageDescriptor rule_conflicts_analysis_16x16;
+	public static final ImageDescriptor optimization_16x16;
+	public static final ImageDescriptor error_dependencies_16x16;
+	public static final ImageDescriptor quickfix_16x16;
+	public static final ImageDescriptor batch_analysis_16x16;
+	public static final ImageDescriptor rule_conflicts_analysis_16x16;
+	public static final ImageDescriptor local_problems_16x16;
+	public static final ImageDescriptor discarded_problems_16x16;
+	public static final ImageDescriptor inevaluation_problems_16x16;
+	public static final ImageDescriptor uknown_problems_16x16;
 
 	static {
 		optimization_16x16 = Activator.getImageDescriptor("icons/optimization.png");
@@ -19,5 +22,8 @@ public class Images {
 		batch_analysis_16x16 = Activator.getImageDescriptor("icons/batch_analysis_16x16.png");	  
 		local_problems_16x16 = Activator.getImageDescriptor("icons/local_problems_16x16.png");	  
 		rule_conflicts_analysis_16x16 = Activator.getImageDescriptor("icons/rule_conflicts_16x16.png");	  
+		discarded_problems_16x16 = Activator.getImageDescriptor("icons/discarded_problems_16x16.png");	  
+		inevaluation_problems_16x16 = Activator.getImageDescriptor("icons/inevaluation_problems_16x16.png");	  
+		uknown_problems_16x16 = Activator.getImageDescriptor("icons/uknown_problems_16x16.png");	  
 	}
 }

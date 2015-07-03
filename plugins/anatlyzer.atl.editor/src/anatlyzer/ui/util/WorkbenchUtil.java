@@ -1,6 +1,7 @@
 package anatlyzer.ui.util;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
@@ -58,6 +59,10 @@ public class WorkbenchUtil {
 			e.printStackTrace();
 		}   
      
+	}
+
+	public static IResource getResource(String location) {
+		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(location));		
 	}
 
 }

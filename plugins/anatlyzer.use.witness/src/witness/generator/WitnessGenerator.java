@@ -222,7 +222,6 @@ public class WitnessGenerator extends AbstractHandler {
 //			for (int index=0; index<ocl_constraints.size(); index++) 
 //				generateWitness(fullpath, languageMM, ocl_constraints.get(index), index);
 //		} 
-//		catch (transException e) { e.printStackTrace(); console.println(e.toString()); } 
 //		return null;
 //	}
 
@@ -267,25 +266,33 @@ public class WitnessGenerator extends AbstractHandler {
 			if (classifiers.get(i) instanceof EClass) {
 				EClass partialClass  = (EClass)classifiers.get(i);
 				EClass languageClass = (EClass)languageMM.getEClassifier(partialClass.getName());
+				// add all mandatory features defined by the class in the language meta-model
+				if (languageClass != null) extendClassWithMandatory(partialClass, languageClass);
+			}
+		}
+	}
+	
+	/**
+	 * It extends the first class received as a parameter, with all mandatory features defined by the 
+	 * second class received as parameter. 
+	 * @param class2extend class to extend
+	 * @param classWithAllFeatures class with features 
+	 */
+	private void extendClassWithMandatory (EClass class2extend, EClass classWithAllFeatures) {
+		
+		// add all mandatory attributes defined for the class in the language meta-model,
+		// if they do not belong to the partial meta-model yet.
+		for (EAttribute attribute : classWithAllFeatures.getEAllAttributes()) 
+			if (attribute.getLowerBound() > 0 && class2extend.getEStructuralFeature(attribute.getName())==null) 
+				this.addAttribute2Class(attribute, classWithAllFeatures, class2extend);
 
-				if (languageClass != null) {				
-
-					// add all mandatory attributes defined for the class in the language meta-model,
-					// if they do not belong to the partial meta-model yet.
-					for (EAttribute attribute : languageClass.getEAllAttributes()) 
-						if (attribute.getLowerBound() > 0 && partialClass.getEStructuralFeature(attribute.getName())==null) 
-							this.addAttribute2Class(attribute, languageClass, partialClass);
-
-					// add all mandatory references defined for the class in the language meta-model,
-					// if they do not belong to the partial meta-model yet; add also all references 
-					// that are opposite of another reference in the partial meta-model
-					for (EReference reference : languageClass.getEAllReferences()) {
-						if ( (reference.getLowerBound() > 0  && partialClass.getEStructuralFeature(reference.getName())==null) ||
-							 (reference.getEOpposite()!=null && partialClass.getEStructuralFeature(reference.getName())==null && languageClass.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
-							this.addReference2Class(reference, languageClass, partialClass);
-						}
-					}
-				}				
+		// add all mandatory references defined for the class in the language meta-model,
+		// if they do not belong to the partial meta-model yet; add also all references 
+		// that are opposite of another reference in the partial meta-model
+		for (EReference reference : classWithAllFeatures.getEAllReferences()) {
+			if ( (reference.getLowerBound() > 0  && class2extend.getEStructuralFeature(reference.getName())==null) ||
+				 (reference.getEOpposite()!=null && class2extend.getEStructuralFeature(reference.getName())==null && classWithAllFeatures.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
+				this.addReference2Class(reference, classWithAllFeatures, class2extend);
 			}
 		}
 	}
@@ -327,10 +334,8 @@ public class WitnessGenerator extends AbstractHandler {
 							List<EClass> concrete_direct_children = concrete_direct_children(completeMM, (EClass)completeMM.getEClassifier(parent.getName()));
 							if (!concrete_direct_children.isEmpty()) {
 								EClass child = concrete_direct_children.get(0);
-								if (partialMM.getEClassifier(child.getName())==null) {
-									child = clone(child);
-									classifiers.add(child);
-								}
+								if (partialMM.getEClassifier(child.getName())==null) 
+									child = addClass2Metamodel(child, classifiers);
 								child.getESuperTypes().add(parent);
 							}
 							
@@ -338,10 +343,8 @@ public class WitnessGenerator extends AbstractHandler {
 							else {
 								List<EClass> all_direct_children = all_direct_children(completeMM, (EClass)completeMM.getEClassifier(parent.getName()));
 								for (EClass child : all_direct_children) {
-									if (partialMM.getEClassifier(child.getName())==null) {
-										child = clone(child);
-										classifiers.add(child);
-									}
+									if (partialMM.getEClassifier(child.getName())==null) 
+										child = addClass2Metamodel(child, classifiers);
 									child.getESuperTypes().add(parent);
 									children.add(child);
 								}
@@ -444,10 +447,7 @@ public class WitnessGenerator extends AbstractHandler {
 				EClass sourceAncestor = ancestors.get(i);
 				EClass targetAncestor = (EClass)targetMM.getEClassifier(sourceAncestor.getName());
 				// create ancestor if it does not exist
-				if (targetAncestor==null) {
-					targetAncestor = clone(sourceAncestor);
-					targetMM.getEClassifiers().add(targetAncestor);
-				}
+				if (targetAncestor==null) targetAncestor = addClass2Metamodel(sourceAncestor, targetMM);
 				// create inheritance relation if it does not exist
 				if (!ancestors.get(i-1).getESuperTypes().contains(targetAncestor))
 					ancestors.get(i-1).getESuperTypes().add(targetAncestor);
@@ -480,15 +480,10 @@ public class WitnessGenerator extends AbstractHandler {
 			// 2. if its type is user-defined, and the meta-model does not contain it, add it
 			String      attTypeName = attribute.getEType().getName();
 			EClassifier attType     = metamodel.getEClassifier(attTypeName);
-			if (attType==null) {
-				if (sourceClass.getEPackage().getEClassifier(attTypeName)==null) {
-					attType = attribute.getEType();
-				}
-				else {
-					attType = clone( attribute.getEType() );
-					metamodel.getEClassifiers().add(attType);
-				}
-			}
+			if (attType==null) 
+				attType = (sourceClass.getEPackage().getEClassifier(attTypeName)==null)?
+					       attribute.getEType() :
+					       addClassifier2Metamodel(attribute.getEType(), metamodel);
 			
 			// 3. assign type to reference; if the type is user-defined, and the meta-model does not contain it, add it
 			targetAttribute.setEType(attType);			
@@ -516,10 +511,9 @@ public class WitnessGenerator extends AbstractHandler {
 			EReference targetReference = clone(reference);
 			
 			// 2. assign type to reference; if the meta-model does not contain the type, add it
-			if (refType==null) {
-				refType = clone( (EClass)reference.getEType() );
-				metamodel.getEClassifiers().add( refType );
-			}
+			if (refType==null) 
+				refType = addClassifier2Metamodel(reference.getEType(), metamodel);
+			
 			targetReference.setEType(refType);
 			
 			// 3. add reference to class
@@ -542,6 +536,23 @@ public class WitnessGenerator extends AbstractHandler {
 			targetReference.setEOpposite( opposite );
 			opposite.setEOpposite( targetReference );
 		}
+	}
+	
+	/**
+	 * It copies a class into a meta-model. All mandatory attributes and references of the class are copied as well.
+	 * @param clazz class to be copied
+	 * @param metamodel meta-model where the class will be copied
+	 * @return the copied class
+	 */
+	private EClass      addClass2Metamodel      (EClass clazz,      EPackage metamodel)            { return (EClass)addClassifier2Metamodel(clazz, metamodel);   }
+	private EClass      addClass2Metamodel      (EClass clazz,      List<EClassifier> classifiers) { return (EClass)addClassifier2Metamodel(clazz, classifiers); }
+	private EClassifier addClassifier2Metamodel (EClassifier clazz, EPackage metamodel)            { return addClassifier2Metamodel(clazz, metamodel.getEClassifiers()); }
+	private EClassifier addClassifier2Metamodel (EClassifier clazz, List<EClassifier> classifiers) {
+		EClassifier newClass = clone(clazz);
+		classifiers.add(newClass);
+		if (clazz instanceof EClass && newClass instanceof EClass) 
+			extendClassWithMandatory((EClass)newClass, (EClass)clazz);
+		return newClass;
 	}
 	
 	/**
@@ -668,6 +679,9 @@ public class WitnessGenerator extends AbstractHandler {
 				if (datatype.getInstanceTypeName()==null) {
 					if (datatype.getName().equals("String") || datatype.getName().equals("Integer") || datatype.getName().equals("Boolean")) 
 						datatype.setInstanceTypeName("java.lang."+datatype.getName());
+//					if      (datatype.getName().endsWith("Integer")) datatype.setInstanceTypeName("java.lang.Integer");
+//					else if (datatype.getName().endsWith("Boolean")) datatype.setInstanceTypeName("java.lang.Boolean");
+//					else if (datatype.getName().endsWith("String")) datatype.setInstanceTypeName("java.lang.String");
 				}
 			}
 		}

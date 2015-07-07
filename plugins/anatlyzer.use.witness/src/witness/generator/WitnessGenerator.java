@@ -155,8 +155,8 @@ public class WitnessGenerator extends AbstractHandler {
 				EPackage errorMM    = errorMMs.get(index);
 				String   constraint = ocl_constraints.get(index);
 			
-				// extend error meta-model with mandatory classes in effective meta-model 
-				extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
+				// extend error meta-model with mandatory classes in language meta-model 
+				extendMetamodelWithMandatory(errorMM, languageMM);
 			
 				// extend error meta-model with concrete children classes of abstract leaf classes
 				extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);
@@ -254,56 +254,38 @@ public class WitnessGenerator extends AbstractHandler {
 	//-----------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * It extends the classes of a partial meta-model with the mandatory features defined in a complete meta-model.
-	 * The partial meta-model should be part of the complete meta-model. The complete meta-model should be part of
-	 * the language meta-model
+	 * It extends the classes of a partial meta-model with the mandatory features defined in the complete 
+	 * language meta-model. The partial meta-model should be part of the language meta-model.
 	 * @param partialMM meta-model to extend
-	 * @param completeMM complete meta-model
 	 * @param languageMM language meta-model
 	 */
-	protected void extendMetamodelWithMandatory (EPackage partialMM, MetaModel completeMM, MetaModel languageMM) {
+	protected void extendMetamodelWithMandatory (EPackage partialMM, MetaModel languageMM) {
 		List<EClassifier> classifiers = partialMM.getEClassifiers();
 
 		// for each class in the partial metamodel...
 		for (int i=0; i<classifiers.size(); i++) {
 			if (classifiers.get(i) instanceof EClass) {
 				EClass partialClass  = (EClass)classifiers.get(i);
-				EClass completeClass = (EClass)completeMM.getEClassifier(partialClass.getName());
 				EClass languageClass = (EClass)languageMM.getEClassifier(partialClass.getName());
-		
-				// It is because partialClass is only required because of an error
-				if ( completeClass == null ) {
-					completeClass = partialClass;
-				}
-				
-				// add all mandatory attributes defined for the class in the complete meta-model,
-				// if they do not belong to the partial meta-model yet.
 
-// TODO: change this
-// the effective meta-model does not include the partial meta-model !!!
-if (completeClass!=null) {				
-				for (EAttribute attribute : completeClass.getEAllAttributes()) 
-					if (attribute.getLowerBound() > 0 && partialClass.getEStructuralFeature(attribute.getName())==null) 
-						this.addAttribute2Class(attribute, completeClass, partialClass);
-				
-				// add all mandatory references defined for the class in the complete meta-model,
-				// if they do not belong to the partial meta-model yet; add also all references 
-				// that are opposite of another reference in the partial meta-model
-				for (EReference reference : completeClass.getEAllReferences()) {
-					if ( (reference.getLowerBound() > 0  && partialClass.getEStructuralFeature(reference.getName())==null) ||
-						 (reference.getEOpposite()!=null && partialClass.getEStructuralFeature(reference.getName())==null && completeClass.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
-						this.addReference2Class(reference, completeClass, partialClass);
+				if (languageClass != null) {				
+
+					// add all mandatory attributes defined for the class in the language meta-model,
+					// if they do not belong to the partial meta-model yet.
+					for (EAttribute attribute : languageClass.getEAllAttributes()) 
+						if (attribute.getLowerBound() > 0 && partialClass.getEStructuralFeature(attribute.getName())==null) 
+							this.addAttribute2Class(attribute, languageClass, partialClass);
+
+					// add all mandatory references defined for the class in the language meta-model,
+					// if they do not belong to the partial meta-model yet; add also all references 
+					// that are opposite of another reference in the partial meta-model
+					for (EReference reference : languageClass.getEAllReferences()) {
+						if ( (reference.getLowerBound() > 0  && partialClass.getEStructuralFeature(reference.getName())==null) ||
+							 (reference.getEOpposite()!=null && partialClass.getEStructuralFeature(reference.getName())==null && languageClass.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
+							this.addReference2Class(reference, languageClass, partialClass);
+						}
 					}
-				}
-}				
-				// add opposites of references in the partial meta-model (the previous loop only 
-				// considered the effective meta-model, we need to check the language meta-model as well)
-				for (EReference reference : partialClass.getEAllReferences()) {
-					EReference languageReference = ((EReference)languageClass.getEStructuralFeature(reference.getName()));
-					if (reference.getEOpposite()==null && languageReference.getEOpposite()!=null) {
-						this.addReference2Class(languageReference, languageClass, partialClass);
-					}
-				}
+				}				
 			}
 		}
 	}

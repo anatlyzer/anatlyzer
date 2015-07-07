@@ -59,8 +59,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	
 	
 	protected void adaptMetamodels(int idx) {
-		// extend error meta-model with mandatory classes in effective meta-model 
-		extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
+		// extend error meta-model with mandatory classes in language meta-model 
+		extendMetamodelWithMandatory(errorMM, languageMM);
 	
 		// extend error meta-model with concrete children classes of abstract leaf classes
 		extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);

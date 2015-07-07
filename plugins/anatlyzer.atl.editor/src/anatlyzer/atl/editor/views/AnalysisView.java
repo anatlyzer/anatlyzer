@@ -591,8 +591,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
-		// private TreeParent invisibleRoot;
-		private AnalysisViewNodes.InvisibleTreeRoot invisibleRoot;
+		private TreeParent invisibleRoot;
+		// private AnalysisViewNodes.InvisibleTreeRoot invisibleRoot;
 		
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
@@ -635,8 +635,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 
 		private void initialize() {			
-			// invisibleRoot = new TreeParent();
-			invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
+			invisibleRoot = new TreeParent();
+			// invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
 		}
 		
 	}

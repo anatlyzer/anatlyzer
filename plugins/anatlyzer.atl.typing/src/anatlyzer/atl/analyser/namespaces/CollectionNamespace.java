@@ -259,7 +259,8 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		} else if ( operatorSymbol.equals("<>") ) {
 			return typ.newBooleanType();
 		}
-		throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported. Location: " + node.getLocation());
+		return AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
+		// throw new UnsupportedOperationException("No symbol " + operatorSymbol + " supported. Location: " + node.getLocation());
 	}
 
 	@Override

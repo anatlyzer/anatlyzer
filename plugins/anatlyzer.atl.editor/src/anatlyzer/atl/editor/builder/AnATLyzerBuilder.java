@@ -240,7 +240,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		IFile confFile = atlFile.getWorkspace().getRoot().getFile(confPath);
 		TransformationConfiguration c = readConfiguration(confFile, atlFile);		
 		if ( c == null ) {
-			c = new TransformationConfiguration();
+			c = TransformationConfiguration.getDefault();
 			AnalysisIndex.getInstance().register(atlFile, c);							
 		}
 		return c;

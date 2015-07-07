@@ -11,6 +11,7 @@ public class TransformationConfiguration {
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
 	
 	public TransformationConfiguration() {
+		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
 	}
@@ -32,6 +33,14 @@ public class TransformationConfiguration {
 
 	public boolean isMarkerWanted(ProblemStatus status) {
 		return wantedMarkers.contains(status);
+	}
+
+	public static TransformationConfiguration getDefault() {
+		TransformationConfiguration c = new TransformationConfiguration();
+		for (ProblemStatus problemStatus : ProblemStatus.values()) {
+			c.wantedMarkers.add(problemStatus);
+		}
+		return c;
 	}
 	
 }

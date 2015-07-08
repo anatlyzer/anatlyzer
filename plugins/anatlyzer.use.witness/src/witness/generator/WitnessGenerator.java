@@ -489,7 +489,8 @@ public class WitnessGenerator extends AbstractHandler {
 			targetAttribute.setEType(attType);			
 			
 			// 4. add attribute to class
-			ownerClass.getEStructuralFeatures().add( targetAttribute );
+			if (ownerClass.getEStructuralFeature(targetAttribute.getName())==null) // check again because mandatory attributes are already added by addClassifier2Metamodel  
+				ownerClass.getEStructuralFeatures().add( targetAttribute );
 		}
 	}
 	
@@ -517,14 +518,15 @@ public class WitnessGenerator extends AbstractHandler {
 			targetReference.setEType(refType);
 			
 			// 3. add reference to class
-			ownerClass.getEStructuralFeatures().add( targetReference );
+			if (ownerClass.getEStructuralFeature(targetReference.getName())==null) // check again because mandatory references are already added by addClassifier2Metamodel  
+				ownerClass.getEStructuralFeatures().add( targetReference );
 		}	
 		
 		// 4. if there is an opposite reference, define it
 		//    except if it is not a changeable reference. 
-		//       This is needed to deal with e.g., Ecore meta-model where some references
-		//       are filled automatically by the Java code		
-		if (ownerClass!=null && reference.getEOpposite()!=null && reference.getEOpposite().isChangeable() ) {
+		//    This is needed to deal with e.g., Ecore meta-models where some references
+		//    are filled automatically by the Java code		
+		if (ownerClass!=null && reference.getEOpposite()!=null && reference.getEOpposite().isChangeable()) {
 			EReference targetReference = (EReference)targetClass.getEStructuralFeature(reference.getName());
 			String oppositeName = reference.getEOpposite().getName();
 			EReference opposite = (EReference)((EClass)refType).getEStructuralFeature(oppositeName);

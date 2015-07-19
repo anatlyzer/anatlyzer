@@ -155,8 +155,8 @@ public class WitnessGenerator extends AbstractHandler {
 				EPackage errorMM    = errorMMs.get(index);
 				String   constraint = ocl_constraints.get(index);
 			
-				// extend error meta-model with mandatory classes in effective meta-model 
-				extendMetamodelWithMandatory(errorMM, effectiveMM, languageMM);
+				// extend error meta-model with mandatory classes in language meta-model 
+				extendMetamodelWithMandatory(errorMM, languageMM);
 			
 				// extend error meta-model with concrete children classes of abstract leaf classes
 				extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);
@@ -222,7 +222,6 @@ public class WitnessGenerator extends AbstractHandler {
 //			for (int index=0; index<ocl_constraints.size(); index++) 
 //				generateWitness(fullpath, languageMM, ocl_constraints.get(index), index);
 //		} 
-//		catch (transException e) { e.printStackTrace(); console.println(e.toString()); } 
 //		return null;
 //	}
 
@@ -254,56 +253,46 @@ public class WitnessGenerator extends AbstractHandler {
 	//-----------------------------------------------------------------------------------------------------------------
 	
 	/**
-	 * It extends the classes of a partial meta-model with the mandatory features defined in a complete meta-model.
-	 * The partial meta-model should be part of the complete meta-model. The complete meta-model should be part of
-	 * the language meta-model
+	 * It extends the classes of a partial meta-model with the mandatory features defined in the complete 
+	 * language meta-model. The partial meta-model should be part of the language meta-model.
 	 * @param partialMM meta-model to extend
-	 * @param completeMM complete meta-model
 	 * @param languageMM language meta-model
 	 */
-	protected void extendMetamodelWithMandatory (EPackage partialMM, MetaModel completeMM, MetaModel languageMM) {
+	protected void extendMetamodelWithMandatory (EPackage partialMM, MetaModel languageMM) {
 		List<EClassifier> classifiers = partialMM.getEClassifiers();
 
 		// for each class in the partial metamodel...
 		for (int i=0; i<classifiers.size(); i++) {
 			if (classifiers.get(i) instanceof EClass) {
 				EClass partialClass  = (EClass)classifiers.get(i);
-				EClass completeClass = (EClass)completeMM.getEClassifier(partialClass.getName());
 				EClass languageClass = (EClass)languageMM.getEClassifier(partialClass.getName());
+				// add all mandatory features defined by the class in the language meta-model
+				if (languageClass != null) extendClassWithMandatory(partialClass, languageClass);
+			}
+		}
+	}
+	
+	/**
+	 * It extends the first class received as a parameter, with all mandatory features defined by the 
+	 * second class received as parameter. 
+	 * @param class2extend class to extend
+	 * @param classWithAllFeatures class with features 
+	 */
+	private void extendClassWithMandatory (EClass class2extend, EClass classWithAllFeatures) {
 		
-				// It is because partialClass is only required because of an error
-				if ( completeClass == null ) {
-					completeClass = partialClass;
-				}
-				
-				// add all mandatory attributes defined for the class in the complete meta-model,
-				// if they do not belong to the partial meta-model yet.
+		// add all mandatory attributes defined for the class in the language meta-model,
+		// if they do not belong to the partial meta-model yet.
+		for (EAttribute attribute : classWithAllFeatures.getEAllAttributes()) 
+			if (attribute.getLowerBound() > 0 && class2extend.getEStructuralFeature(attribute.getName())==null) 
+				this.addAttribute2Class(attribute, classWithAllFeatures, class2extend);
 
-// TODO: change this
-// the effective meta-model does not include the partial meta-model !!!
-if (completeClass!=null) {				
-				for (EAttribute attribute : completeClass.getEAllAttributes()) 
-					if (attribute.getLowerBound() > 0 && partialClass.getEStructuralFeature(attribute.getName())==null) 
-						this.addAttribute2Class(attribute, completeClass, partialClass);
-				
-				// add all mandatory references defined for the class in the complete meta-model,
-				// if they do not belong to the partial meta-model yet; add also all references 
-				// that are opposite of another reference in the partial meta-model
-				for (EReference reference : completeClass.getEAllReferences()) {
-					if ( (reference.getLowerBound() > 0  && partialClass.getEStructuralFeature(reference.getName())==null) ||
-						 (reference.getEOpposite()!=null && partialClass.getEStructuralFeature(reference.getName())==null && completeClass.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
-						this.addReference2Class(reference, completeClass, partialClass);
-					}
-				}
-}				
-				// add opposites of references in the partial meta-model (the previous loop only 
-				// considered the effective meta-model, we need to check the language meta-model as well)
-				for (EReference reference : partialClass.getEAllReferences()) {
-					EReference languageReference = ((EReference)languageClass.getEStructuralFeature(reference.getName()));
-					if (reference.getEOpposite()==null && languageReference.getEOpposite()!=null) {
-						this.addReference2Class(languageReference, languageClass, partialClass);
-					}
-				}
+		// add all mandatory references defined for the class in the language meta-model,
+		// if they do not belong to the partial meta-model yet; add also all references 
+		// that are opposite of another reference in the partial meta-model
+		for (EReference reference : classWithAllFeatures.getEAllReferences()) {
+			if ( (reference.getLowerBound() > 0  && class2extend.getEStructuralFeature(reference.getName())==null) ||
+				 (reference.getEOpposite()!=null && class2extend.getEStructuralFeature(reference.getName())==null && classWithAllFeatures.getEStructuralFeature(reference.getEOpposite().getName())!=null) ) {
+				this.addReference2Class(reference, classWithAllFeatures, class2extend);
 			}
 		}
 	}
@@ -345,10 +334,8 @@ if (completeClass!=null) {
 							List<EClass> concrete_direct_children = concrete_direct_children(completeMM, (EClass)completeMM.getEClassifier(parent.getName()));
 							if (!concrete_direct_children.isEmpty()) {
 								EClass child = concrete_direct_children.get(0);
-								if (partialMM.getEClassifier(child.getName())==null) {
-									child = clone(child);
-									classifiers.add(child);
-								}
+								if (partialMM.getEClassifier(child.getName())==null) 
+									child = addClass2Metamodel(child, classifiers);
 								child.getESuperTypes().add(parent);
 							}
 							
@@ -356,10 +343,8 @@ if (completeClass!=null) {
 							else {
 								List<EClass> all_direct_children = all_direct_children(completeMM, (EClass)completeMM.getEClassifier(parent.getName()));
 								for (EClass child : all_direct_children) {
-									if (partialMM.getEClassifier(child.getName())==null) {
-										child = clone(child);
-										classifiers.add(child);
-									}
+									if (partialMM.getEClassifier(child.getName())==null) 
+										child = addClass2Metamodel(child, classifiers);
 									child.getESuperTypes().add(parent);
 									children.add(child);
 								}
@@ -462,10 +447,7 @@ if (completeClass!=null) {
 				EClass sourceAncestor = ancestors.get(i);
 				EClass targetAncestor = (EClass)targetMM.getEClassifier(sourceAncestor.getName());
 				// create ancestor if it does not exist
-				if (targetAncestor==null) {
-					targetAncestor = clone(sourceAncestor);
-					targetMM.getEClassifiers().add(targetAncestor);
-				}
+				if (targetAncestor==null) targetAncestor = addClass2Metamodel(sourceAncestor, targetMM);
 				// create inheritance relation if it does not exist
 				if (!ancestors.get(i-1).getESuperTypes().contains(targetAncestor))
 					ancestors.get(i-1).getESuperTypes().add(targetAncestor);
@@ -498,21 +480,17 @@ if (completeClass!=null) {
 			// 2. if its type is user-defined, and the meta-model does not contain it, add it
 			String      attTypeName = attribute.getEType().getName();
 			EClassifier attType     = metamodel.getEClassifier(attTypeName);
-			if (attType==null) {
-				if (sourceClass.getEPackage().getEClassifier(attTypeName)==null) {
-					attType = attribute.getEType();
-				}
-				else {
-					attType = clone( attribute.getEType() );
-					metamodel.getEClassifiers().add(attType);
-				}
-			}
+			if (attType==null) 
+				attType = (sourceClass.getEPackage().getEClassifier(attTypeName)==null)?
+					       attribute.getEType() :
+					       addClassifier2Metamodel(attribute.getEType(), metamodel);
 			
 			// 3. assign type to reference; if the type is user-defined, and the meta-model does not contain it, add it
 			targetAttribute.setEType(attType);			
 			
 			// 4. add attribute to class
-			ownerClass.getEStructuralFeatures().add( targetAttribute );
+			if (ownerClass.getEStructuralFeature(targetAttribute.getName())==null) // check again because mandatory attributes are already added by addClassifier2Metamodel  
+				ownerClass.getEStructuralFeatures().add( targetAttribute );
 		}
 	}
 	
@@ -534,21 +512,21 @@ if (completeClass!=null) {
 			EReference targetReference = clone(reference);
 			
 			// 2. assign type to reference; if the meta-model does not contain the type, add it
-			if (refType==null) {
-				refType = clone( (EClass)reference.getEType() );
-				metamodel.getEClassifiers().add( refType );
-			}
+			if (refType==null) 
+				refType = addClassifier2Metamodel(reference.getEType(), metamodel);
+			
 			targetReference.setEType(refType);
 			
 			// 3. add reference to class
-			ownerClass.getEStructuralFeatures().add( targetReference );
+			if (ownerClass.getEStructuralFeature(targetReference.getName())==null) // check again because mandatory references are already added by addClassifier2Metamodel  
+				ownerClass.getEStructuralFeatures().add( targetReference );
 		}	
 		
 		// 4. if there is an opposite reference, define it
 		//    except if it is not a changeable reference. 
-		//       This is needed to deal with e.g., Ecore meta-model where some references
-		//       are filled automatically by the Java code		
-		if (ownerClass!=null && reference.getEOpposite()!=null && reference.getEOpposite().isChangeable() ) {
+		//    This is needed to deal with e.g., Ecore meta-models where some references
+		//    are filled automatically by the Java code		
+		if (ownerClass!=null && reference.getEOpposite()!=null && reference.getEOpposite().isChangeable()) {
 			EReference targetReference = (EReference)targetClass.getEStructuralFeature(reference.getName());
 			String oppositeName = reference.getEOpposite().getName();
 			EReference opposite = (EReference)((EClass)refType).getEStructuralFeature(oppositeName);
@@ -560,6 +538,23 @@ if (completeClass!=null) {
 			targetReference.setEOpposite( opposite );
 			opposite.setEOpposite( targetReference );
 		}
+	}
+	
+	/**
+	 * It copies a class into a meta-model. All mandatory attributes and references of the class are copied as well.
+	 * @param clazz class to be copied
+	 * @param metamodel meta-model where the class will be copied
+	 * @return the copied class
+	 */
+	private EClass      addClass2Metamodel      (EClass clazz,      EPackage metamodel)            { return (EClass)addClassifier2Metamodel(clazz, metamodel);   }
+	private EClass      addClass2Metamodel      (EClass clazz,      List<EClassifier> classifiers) { return (EClass)addClassifier2Metamodel(clazz, classifiers); }
+	private EClassifier addClassifier2Metamodel (EClassifier clazz, EPackage metamodel)            { return addClassifier2Metamodel(clazz, metamodel.getEClassifiers()); }
+	private EClassifier addClassifier2Metamodel (EClassifier clazz, List<EClassifier> classifiers) {
+		EClassifier newClass = clone(clazz);
+		classifiers.add(newClass);
+		if (clazz instanceof EClass && newClass instanceof EClass) 
+			extendClassWithMandatory((EClass)newClass, (EClass)clazz);
+		return newClass;
 	}
 	
 	/**
@@ -686,6 +681,9 @@ if (completeClass!=null) {
 				if (datatype.getInstanceTypeName()==null) {
 					if (datatype.getName().equals("String") || datatype.getName().equals("Integer") || datatype.getName().equals("Boolean")) 
 						datatype.setInstanceTypeName("java.lang."+datatype.getName());
+//					if      (datatype.getName().endsWith("Integer")) datatype.setInstanceTypeName("java.lang.Integer");
+//					else if (datatype.getName().endsWith("Boolean")) datatype.setInstanceTypeName("java.lang.Boolean");
+//					else if (datatype.getName().endsWith("String")) datatype.setInstanceTypeName("java.lang.String");
 				}
 			}
 		}

@@ -37,8 +37,8 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 	public void execute(IExperiment experiment, IFile confFile) {
 		CountTypeErrors exp = (CountTypeErrors) experiment;
 			
-		IProject project = confFile.getProject();
-		IFolder folder = project.getFolder("reports");
+		// IProject project = confFile.getProject();
+		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("reports"));
 		if ( ! folder.exists() ) {
 			try {
 				folder.create(true, true, null);

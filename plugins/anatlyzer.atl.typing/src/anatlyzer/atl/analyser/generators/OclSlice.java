@@ -5,6 +5,7 @@ import java.util.HashSet;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -145,7 +146,11 @@ public class OclSlice {
 				slice(slice, mapElement.getValue(), isExternalDependency);				
 			}
 		} else if ( expr instanceof EnumLiteralExp ) {
-			// TODO: NOT SURE IF ENUMLITERAL SHOULD BE PART OF THE SLICE!
+			// I should all only source ones, but weird conditions such as measureLevel for UML22Measure
+			// suggest that it could be a good idea to consider all of them
+			slice.addExplicitEnum((EnumType) expr.getInferredType());
+			
+			
 		} else if ( ignore.contains(expr.getClass()) ) {
 			// Ignore
 		} else {

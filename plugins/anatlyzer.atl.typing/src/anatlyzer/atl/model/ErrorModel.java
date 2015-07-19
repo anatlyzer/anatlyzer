@@ -31,6 +31,7 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
+import anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
@@ -467,6 +468,12 @@ public class ErrorModel {
 	}
 
 
+	public void signalSelectFirstAny(IteratorExp node) {
+		ChangeSelectFirstForAny error = AtlErrorFactory.eINSTANCE.createChangeSelectFirstForAny();
+		initProblem(error, node);
+		
+		signalWarning(error, "Select-first should be any", node);		
+	}
 
 	public void signalBindingWithoutRule(Binding b, ModelElement right, ModelElement left) {
 		BindingWithoutRule error = AtlErrorFactory.eINSTANCE.createBindingWithoutRule();

@@ -509,8 +509,8 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inStringExp(StringExp self) {
-		s("'" + self.getStringSymbol() + "'");
-	}
+		s("'" + self.getStringSymbol().replaceAll("(\\\\n|\\\\t)", "\\\\$1") + "'");
+	}  // \\\\\\\\n
 	
 	@Override
 	public void inIntegerExp(IntegerExp self) {

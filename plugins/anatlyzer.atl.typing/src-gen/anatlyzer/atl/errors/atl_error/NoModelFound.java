@@ -17,7 +17,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoModelFound()
  * @model annotation="description name='Invalid meta-model name' text='The specified model is not declared'"
- *        annotation="info prec='static' path='no' severity='error-always' when='trafo-dep' kind='navigation' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='error-load' when='trafo-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
 public interface NoModelFound extends LocalProblem {

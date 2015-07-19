@@ -34,13 +34,16 @@ public class BooleanNamespace extends PrimitiveTypeNamespace {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		}
 		 
+		if ( operatorSymbol.equals("not") ) {
+			return AnalyserContext.getTypingModel().newBooleanType();
+		}
 		if ( optionalArgument instanceof BooleanType ) {
-			if ( operatorSymbol.equals("not") || operatorSymbol.equals("or") ) {
+			if ( operatorSymbol.equals("or") ) {
 				return AnalyserContext.getTypingModel().newBooleanType();
 			} else if ( operatorSymbol.equals("and") ) {
 				return analyseAnd((BooleanType) optionalArgument);
 			}
-		}
+		} 
 
 		return AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
 	}

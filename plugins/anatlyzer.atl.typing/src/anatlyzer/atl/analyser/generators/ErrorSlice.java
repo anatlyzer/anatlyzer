@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
@@ -20,7 +21,9 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -30,6 +33,7 @@ import anatlyzer.footprint.IEffectiveMetamodelData;
 
 public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashSet<EClass> explicitTypes = new HashSet<EClass>();
+	private HashSet<EEnum> explicitEnums = new HashSet<EEnum>();
 	private HashSet<EStructuralFeature> explicitFeatures = new HashSet<EStructuralFeature>();
 	
 	// private HashMap<String, java.util.Set<Helper>> helpers =
@@ -93,6 +97,14 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 	}
 
+
+	public void addExplicitEnum(EnumType inferredType) {
+		EEnum e = (EEnum) inferredType.getEenum();
+		if ( e != null ) {
+			explicitEnums.add(e);
+		}
+	}
+	
 	public void addMetaclassNeededInError(EClass eClass) {
 		explicitTypes.add(eClass);
 	}
@@ -104,6 +116,11 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	@Override
 	public Set<EClass> getClasses() {
 		return Collections.unmodifiableSet(this.explicitTypes);
+	}
+	
+	@Override
+	public Set<EEnum> getEnums() {
+		return Collections.unmodifiableSet(explicitEnums);
 	}
 
 	@Override
@@ -254,5 +271,6 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	public Collection<EAnnotation> getPackageAnnotations() {
 		throw new UnsupportedOperationException();
 	}
+
 
 }

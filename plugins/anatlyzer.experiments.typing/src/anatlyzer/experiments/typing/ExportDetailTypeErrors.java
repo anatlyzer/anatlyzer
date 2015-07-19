@@ -44,8 +44,9 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 	public void execute(IExperiment experiment, IFile confFile) {
 		CountTypeErrors exp = (CountTypeErrors) experiment;
 			
-		IProject project = confFile.getProject();
-		IFolder folder = project.getFolder("details");
+//		IProject project = confFile.getProject();
+//		IFolder folder = project.getFolder("details");
+		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("details"));
 		if ( ! folder.exists() ) {
 			try {
 				folder.create(true, true, null);

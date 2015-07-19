@@ -19,6 +19,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.TypedElement;
@@ -64,12 +65,14 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		} else if ( t instanceof Metaclass ) {
 			Metaclass m = (Metaclass) t;
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
-		
 			m.setName(newClass.getName());
 		} else if ( t instanceof EnumType ) {
 			EnumType m = (EnumType) t;
 			EEnum newEEnum = srcMetamodels.getTarget((EEnum) m.getEenum());		
-			m.setName(newEEnum.getName());
+			// Could be null, see Oclslice
+			if ( newEEnum != null ) {
+				m.setName(newEEnum.getName());
+			}
 		}
 
 	}
@@ -100,9 +103,9 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		if ( self.getInferredType() instanceof Metaclass ) {
 			Metaclass m = (Metaclass) self.getInferredType();
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
-			if ( newClass == null ) {
-				System.out.println(m.getName());
-			}
+//			if ( newClass == null ) {
+//				System.out.println(m.getName());
+//			}
 				
 			self.setName(newClass.getName());
 			m.setName(newClass.getName());
@@ -110,11 +113,15 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		} else if ( self.getInferredType() instanceof EnumType ) {
 			EnumType m = (EnumType) self.getInferredType();
 			EEnum newEEnum = srcMetamodels.getTarget((EEnum) m.getEenum());
-			self.setName(newEEnum.getName());			
-			m.setName(newEEnum.getName());
+			// Could be null, see OclSlice
+			if ( newEEnum != null ) {
+				self.setName(newEEnum.getName());			
+				m.setName(newEEnum.getName());
+			}
 		}
-
 	}
+	
+	
 	
 //	@Override
 //	public void inOclModelElement(OclModelElement self) {
@@ -205,6 +212,13 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 	public void inVariableDeclaration(VariableDeclaration self) {
 		if ( UseReservedWords.isReserved(self.getVarName()) ) {
 			self.setVarName(UseReservedWords.getReplacement(self.getVarName()));
+		}
+	}
+	
+	@Override
+	public void inEnumLiteralExp(EnumLiteralExp self) {
+		if ( UseReservedWords.isReserved(self.getName()) ) {
+			self.setName(UseReservedWords.getReplacement(self.getName()));			
 		}
 	}
 	

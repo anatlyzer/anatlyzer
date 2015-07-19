@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -143,7 +144,6 @@ public class EffectiveMetamodelBuilder {
 		
 		return copy;
 	}
-
 	
 	/**
 	 * Takes an original EClass and the copied version and sets the
@@ -193,6 +193,11 @@ public class EffectiveMetamodelBuilder {
 	*/
 
 	public void transform(EffectiveMetamodelBuilder extractor) {
+		// It is possible to mention an enum explicitly
+		for(EEnum e : data.getEnums()) {
+			copyDataTypeIfNeeded(e);
+		}
+		
 		for(EClass c : data.getClasses()) {
 			extractor.copyClass(c);
 		}

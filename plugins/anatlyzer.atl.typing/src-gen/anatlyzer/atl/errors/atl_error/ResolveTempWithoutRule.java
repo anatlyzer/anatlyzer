@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolveTempWithoutRule()
  * @model annotation="description name='No rule to resolve a resolveTemp operation' text='No rule able to resolve the resolveTemp operation can be found'"
- *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='typing' source='none'"
  * @generated
  */
 public interface ResolveTempWithoutRule extends ResolveTempProblem {

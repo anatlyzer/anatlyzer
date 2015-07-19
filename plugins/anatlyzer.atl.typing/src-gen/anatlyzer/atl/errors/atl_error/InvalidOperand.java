@@ -20,7 +20,7 @@ import anatlyzer.atl.types.Type;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidOperand()
  * @model annotation="description name='Invalid operand' text='Operand of the wrong type.'"
- *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface InvalidOperand extends NavigationProblem, RuntimeError {

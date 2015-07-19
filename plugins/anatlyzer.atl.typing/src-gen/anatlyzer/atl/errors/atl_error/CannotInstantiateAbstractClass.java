@@ -18,7 +18,7 @@ import anatlyzer.atl.types.Metaclass;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCannotInstantiateAbstractClass()
  * @model annotation="description name='Abstract class instantiation' text='' example=''"
- *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source=''"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='trafo-integrity' phase='typing' source=''"
  * @generated
  */
 public interface CannotInstantiateAbstractClass extends LocalProblem {

@@ -363,7 +363,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationOverNoCollectionError()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 13;
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR = 23;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureAccessInCollectionImpl <em>Feature Access In Collection</em>}' class.
@@ -373,7 +373,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureAccessInCollection()
 	 * @generated
 	 */
-	int FEATURE_ACCESS_IN_COLLECTION = 14;
+	int FEATURE_ACCESS_IN_COLLECTION = 24;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl <em>Feature Not Found</em>}' class.
@@ -383,7 +383,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFound()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND = 16;
+	int FEATURE_NOT_FOUND = 15;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundImpl <em>Operation Not Found</em>}' class.
@@ -393,7 +393,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFound()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND = 20;
+	int OPERATION_NOT_FOUND = 16;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationNotFoundInThisModuleImpl <em>Operation Not Found In This Module</em>}' class.
@@ -403,7 +403,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationNotFoundInThisModule()
 	 * @generated
 	 */
-	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 24;
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE = 29;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AttributeNotFoundInThisModuleImpl <em>Attribute Not Found In This Module</em>}' class.
@@ -413,7 +413,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAttributeNotFoundInThisModule()
 	 * @generated
 	 */
-	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 25;
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE = 30;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundInUnionTypeImpl <em>Feature Not Found In Union Type</em>}' class.
@@ -423,7 +423,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureNotFoundInUnionType()
 	 * @generated
 	 */
-	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 26;
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE = 31;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperandImpl <em>Invalid Operand</em>}' class.
@@ -433,7 +433,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperand()
 	 * @generated
 	 */
-	int INVALID_OPERAND = 28;
+	int INVALID_OPERAND = 33;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoContainerForRefImmediateCompositeImpl <em>No Container For Ref Immediate Composite</em>}' class.
@@ -443,7 +443,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoContainerForRefImmediateComposite()
 	 * @generated
 	 */
-	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 29;
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE = 34;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.DifferentBranchTypesImpl <em>Different Branch Types</em>}' class.
@@ -453,7 +453,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getDifferentBranchTypes()
 	 * @generated
 	 */
-	int DIFFERENT_BRANCH_TYPES = 30;
+	int DIFFERENT_BRANCH_TYPES = 35;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingProblemImpl <em>Binding Problem</em>}' class.
@@ -463,7 +463,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingProblem()
 	 * @generated
 	 */
-	int BINDING_PROBLEM = 31;
+	int BINDING_PROBLEM = 36;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempProblemImpl <em>Resolve Temp Problem</em>}' class.
@@ -473,7 +473,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempProblem()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_PROBLEM = 32;
+	int RESOLVE_TEMP_PROBLEM = 37;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl <em>No Binding For Compulsory Feature</em>}' class.
@@ -483,7 +483,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeature()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE = 33;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE = 11;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingExpectedOneAssignedManyImpl <em>Binding Expected One Assigned Many</em>}' class.
@@ -493,7 +493,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingExpectedOneAssignedMany()
 	 * @generated
 	 */
-	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 34;
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY = 38;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl <em>Binding Resolution</em>}' class.
@@ -503,7 +503,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingResolution()
 	 * @generated
 	 */
-	int BINDING_RESOLUTION = 38;
+	int BINDING_RESOLUTION = 42;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithoutRuleImpl <em>Binding Without Rule</em>}' class.
@@ -513,7 +513,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithoutRule()
 	 * @generated
 	 */
-	int BINDING_WITHOUT_RULE = 39;
+	int BINDING_WITHOUT_RULE = 13;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl <em>Binding With Resolved By Incompatible Rule</em>}' class.
@@ -523,7 +523,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingWithResolvedByIncompatibleRule()
 	 * @generated
 	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 40;
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE = 14;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl <em>Binding Possibly Unresolved</em>}' class.
@@ -533,7 +533,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingPossiblyUnresolved()
 	 * @generated
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED = 41;
+	int BINDING_POSSIBLY_UNRESOLVED = 12;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl <em>Resolved Rule Info</em>}' class.
@@ -543,7 +543,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolvedRuleInfo()
 	 * @generated
 	 */
-	int RESOLVED_RULE_INFO = 42;
+	int RESOLVED_RULE_INFO = 43;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempWithoutRuleImpl <em>Resolve Temp Without Rule</em>}' class.
@@ -553,7 +553,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempWithoutRule()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_WITHOUT_RULE = 43;
+	int RESOLVE_TEMP_WITHOUT_RULE = 44;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempOutputPatternElementNotFoundImpl <em>Resolve Temp Output Pattern Element Not Found</em>}' class.
@@ -563,7 +563,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempOutputPatternElementNotFound()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 44;
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 45;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FlattenOverNonNestedCollectionImpl <em>Flatten Over Non Nested Collection</em>}' class.
@@ -573,7 +573,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFlattenOverNonNestedCollection()
 	 * @generated
 	 */
-	int FLATTEN_OVER_NON_NESTED_COLLECTION = 45;
+	int FLATTEN_OVER_NON_NESTED_COLLECTION = 46;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverEmptySequenceImpl <em>Iterator Over Empty Sequence</em>}' class.
@@ -583,7 +583,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverEmptySequence()
 	 * @generated
 	 */
-	int ITERATOR_OVER_EMPTY_SEQUENCE = 46;
+	int ITERATOR_OVER_EMPTY_SEQUENCE = 48;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ReadingTargetModelImpl <em>Reading Target Model</em>}' class.
@@ -593,7 +593,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 47;
+	int READING_TARGET_MODEL = 49;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.
@@ -603,7 +603,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 49;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 51;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -613,7 +613,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 50;
+	int NO_MODEL_FOUND = 52;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -623,7 +623,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 52;
+	int WRONG_TYPE = 54;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -633,7 +633,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 53;
+	int ITERATOR_BODY_WRONG_TYPE = 55;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -643,7 +643,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 54;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 56;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -653,7 +653,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 55;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 57;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -663,7 +663,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 56;
+	int NO_CLASS_FOUND_IN_METAMODEL = 58;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -673,7 +673,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 57;
+	int INVALID_ARGUMENT = 59;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -683,7 +683,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 58;
+	int COLLECTION_OPERATION_NOT_FOUND = 60;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -693,7 +693,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 59;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 61;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -1137,79 +1137,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuleConflict()
 	 * @generated
 	 */
-	int RULE_CONFLICT = 11;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__DEPENDENTS = AnalysisResultPackage.PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__DESCRIPTION = AnalysisResultPackage.PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__SEVERITY = AnalysisResultPackage.PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Conflicts</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__CONFLICTS = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Rule Conflict</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Rule Conflict</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
+	int RULE_CONFLICT = 21;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl <em>Conflicting Rule Set</em>}' class.
@@ -1219,250 +1147,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getConflictingRuleSet()
 	 * @generated
 	 */
-	int CONFLICTING_RULE_SET = 12;
-
-	/**
-	 * The feature id for the '<em><b>Rules</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFLICTING_RULE_SET__RULES = 0;
-
-	/**
-	 * The feature id for the '<em><b>Analyser Info</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFLICTING_RULE_SET__ANALYSER_INFO = 1;
-
-	/**
-	 * The number of structural features of the '<em>Conflicting Rule Set</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFLICTING_RULE_SET_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Conflicting Rule Set</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONFLICTING_RULE_SET_OPERATION_COUNT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__STATUS = NAVIGATION_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__LOCATION = NAVIGATION_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
-
-	/**
-	 * The number of structural features of the '<em>Collection Operation Over No Collection Error</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Collection Operation Over No Collection Error</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__STATUS = NAVIGATION_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__LOCATION = NAVIGATION_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION__FEATURE_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Feature Access In Collection</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Feature Access In Collection</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_ACCESS_IN_COLLECTION_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
+	int CONFLICTING_RULE_SET = 22;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl <em>Feature Found In Subtype</em>}' class.
@@ -1472,7 +1157,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFeatureFoundInSubtype()
 	 * @generated
 	 */
-	int FEATURE_FOUND_IN_SUBTYPE = 18;
+	int FEATURE_FOUND_IN_SUBTYPE = 19;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl <em>Operation Call Invalid</em>}' class.
@@ -1482,7 +1167,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalid()
 	 * @generated
 	 */
-	int OPERATION_CALL_INVALID = 19;
+	int OPERATION_CALL_INVALID = 26;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationFoundInSubtypeImpl <em>Operation Found In Subtype</em>}' class.
@@ -1492,7 +1177,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationFoundInSubtype()
 	 * @generated
 	 */
-	int OPERATION_FOUND_IN_SUBTYPE = 21;
+	int OPERATION_FOUND_IN_SUBTYPE = 17;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidNumberOfParametersImpl <em>Operation Call Invalid Number Of Parameters</em>}' class.
@@ -1502,7 +1187,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidNumberOfParameters()
 	 * @generated
 	 */
-	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = 22;
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS = 27;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidParameterImpl <em>Operation Call Invalid Parameter</em>}' class.
@@ -1512,7 +1197,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationCallInvalidParameter()
 	 * @generated
 	 */
-	int OPERATION_CALL_INVALID_PARAMETER = 23;
+	int OPERATION_CALL_INVALID_PARAMETER = 28;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperatorImpl <em>Invalid Operator</em>}' class.
@@ -1522,7 +1207,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperator()
 	 * @generated
 	 */
-	int INVALID_OPERATOR = 27;
+	int INVALID_OPERATOR = 32;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingButObjectAssignedImpl <em>Primitive Binding But Object Assigned</em>}' class.
@@ -1532,7 +1217,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingButObjectAssigned()
 	 * @generated
 	 */
-	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED = 35;
+	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED = 39;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ObjectBindingButPrimitiveAssignedImpl <em>Object Binding But Primitive Assigned</em>}' class.
@@ -1542,7 +1227,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getObjectBindingButPrimitiveAssigned()
 	 * @generated
 	 */
-	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED = 36;
+	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED = 40;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.PrimitiveBindingInvalidAssignmentImpl <em>Primitive Binding Invalid Assignment</em>}' class.
@@ -1552,7 +1237,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getPrimitiveBindingInvalidAssignment()
 	 * @generated
 	 */
-	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT = 37;
+	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT = 41;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.LazyRuleWithFilterImpl <em>Lazy Rule With Filter</em>}' class.
@@ -1562,7 +1247,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
 	 * @generated
 	 */
-	int LAZY_RULE_WITH_FILTER = 48;
+	int LAZY_RULE_WITH_FILTER = 50;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
@@ -1572,7 +1257,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 60;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 62;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
@@ -1582,7 +1267,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 61;
+	int INCOHERENT_VARIABLE_DECLARATION = 63;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
@@ -1592,7 +1277,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 	 * @generated
 	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 62;
+	int INCOHERENT_HELPER_RETURN_TYPE = 64;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
@@ -1602,7 +1287,17 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getOperationOverCollectionType()
 	 * @generated
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE = 15;
+	int OPERATION_OVER_COLLECTION_TYPE = 25;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl <em>Found In Subtype</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFoundInSubtype()
+	 * @generated
+	 */
+	int FOUND_IN_SUBTYPE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1611,7 +1306,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__DEPENDENTS = OCL_COMPLIANCE_PROBLEM__DEPENDENTS;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__DEPENDENTS = TARGET_MODEL_CONFORMANCE_PROBLEM__DEPENDENTS;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -1620,7 +1315,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__DESCRIPTION = OCL_COMPLIANCE_PROBLEM__DESCRIPTION;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__DESCRIPTION = TARGET_MODEL_CONFORMANCE_PROBLEM__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -1629,7 +1324,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__SEVERITY = OCL_COMPLIANCE_PROBLEM__SEVERITY;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__SEVERITY = TARGET_MODEL_CONFORMANCE_PROBLEM__SEVERITY;
 
 	/**
 	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
@@ -1638,7 +1333,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__NEEDS_CSP = OCL_COMPLIANCE_PROBLEM__NEEDS_CSP;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__NEEDS_CSP = TARGET_MODEL_CONFORMANCE_PROBLEM__NEEDS_CSP;
 
 	/**
 	 * The feature id for the '<em><b>Status</b></em>' attribute.
@@ -1647,7 +1342,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__STATUS = OCL_COMPLIANCE_PROBLEM__STATUS;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__STATUS = TARGET_MODEL_CONFORMANCE_PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1656,7 +1351,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__LOCATION = OCL_COMPLIANCE_PROBLEM__LOCATION;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>File Location</b></em>' attribute.
@@ -1665,7 +1360,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__FILE_LOCATION = OCL_COMPLIANCE_PROBLEM__FILE_LOCATION;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__FILE_LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__FILE_LOCATION;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -1674,7 +1369,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__ELEMENT = OCL_COMPLIANCE_PROBLEM__ELEMENT;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__ELEMENT = TARGET_MODEL_CONFORMANCE_PROBLEM__ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -1683,25 +1378,655 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE__RECOVERY = OCL_COMPLIANCE_PROBLEM__RECOVERY;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__RECOVERY = TARGET_MODEL_CONFORMANCE_PROBLEM__RECOVERY;
 
 	/**
-	 * The number of structural features of the '<em>Operation Over Collection Type</em>' class.
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE_FEATURE_COUNT = OCL_COMPLIANCE_PROBLEM_FEATURE_COUNT + 0;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__FEATURE = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Operation Over Collection Type</em>' class.
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OVER_COLLECTION_TYPE_OPERATION_COUNT = OCL_COMPLIANCE_PROBLEM_OPERATION_COUNT + 0;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__FEATURE_NAME = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>No Binding For Compulsory Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_FEATURE_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>No Binding For Compulsory Feature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_OPERATION_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__FEATURE = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__FEATURE_NAME = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Binding Problem</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of operations of the '<em>Binding Problem</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__SEVERITY = BINDING_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__RECOVERY = BINDING_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__FEATURE = BINDING_PROBLEM__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Right Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Problematic Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = BINDING_PROBLEM_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>Binding Possibly Unresolved</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of operations of the '<em>Binding Possibly Unresolved</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__SEVERITY = BINDING_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__RECOVERY = BINDING_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__FEATURE = BINDING_PROBLEM__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Right Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Binding Without Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Binding Without Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__SEVERITY = BINDING_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__STATUS = BINDING_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RECOVERY = BINDING_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FEATURE = BINDING_PROBLEM__FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Right Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of operations of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -1837,187 +2162,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_NOT_FOUND_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl <em>Found In Subtype</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFoundInSubtype()
-	 * @generated
-	 */
-	int FOUND_IN_SUBTYPE = 17;
-
-	/**
-	 * The feature id for the '<em><b>Possible Classes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = 0;
-
-	/**
-	 * The number of structural features of the '<em>Found In Subtype</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOUND_IN_SUBTYPE_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Found In Subtype</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOUND_IN_SUBTYPE_OPERATION_COUNT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__DEPENDENTS = FEATURE_NOT_FOUND__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__DESCRIPTION = FEATURE_NOT_FOUND__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__SEVERITY = FEATURE_NOT_FOUND__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__NEEDS_CSP = FEATURE_NOT_FOUND__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__STATUS = FEATURE_NOT_FOUND__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__LOCATION = FEATURE_NOT_FOUND__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__FILE_LOCATION = FEATURE_NOT_FOUND__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__ELEMENT = FEATURE_NOT_FOUND__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__RECOVERY = FEATURE_NOT_FOUND__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__FEATURE_NAME = FEATURE_NOT_FOUND__FEATURE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__TYPE = FEATURE_NOT_FOUND__TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__CLASS_NAME = FEATURE_NOT_FOUND__CLASS_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__METAMODEL_NAME = FEATURE_NOT_FOUND__METAMODEL_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Possible Classes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = FEATURE_NOT_FOUND_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Feature Found In Subtype</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE_FEATURE_COUNT = FEATURE_NOT_FOUND_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Feature Found In Subtype</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE_FOUND_IN_SUBTYPE_OPERATION_COUNT = FEATURE_NOT_FOUND_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -2486,6 +2630,720 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_FOUND_IN_SUBTYPE_OPERATION_COUNT = OPERATION_NOT_FOUND_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Possible Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Found In Subtype</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOUND_IN_SUBTYPE_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Found In Subtype</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOUND_IN_SUBTYPE_OPERATION_COUNT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__DEPENDENTS = FEATURE_NOT_FOUND__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__DESCRIPTION = FEATURE_NOT_FOUND__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__SEVERITY = FEATURE_NOT_FOUND__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__NEEDS_CSP = FEATURE_NOT_FOUND__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__STATUS = FEATURE_NOT_FOUND__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__LOCATION = FEATURE_NOT_FOUND__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__FILE_LOCATION = FEATURE_NOT_FOUND__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__ELEMENT = FEATURE_NOT_FOUND__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__RECOVERY = FEATURE_NOT_FOUND__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__FEATURE_NAME = FEATURE_NOT_FOUND__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__TYPE = FEATURE_NOT_FOUND__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__CLASS_NAME = FEATURE_NOT_FOUND__CLASS_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__METAMODEL_NAME = FEATURE_NOT_FOUND__METAMODEL_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Possible Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = FEATURE_NOT_FOUND_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Feature Found In Subtype</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE_FEATURE_COUNT = FEATURE_NOT_FOUND_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Feature Found In Subtype</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE_OPERATION_COUNT = FEATURE_NOT_FOUND_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ChangeSelectFirstForAnyImpl <em>Change Select First For Any</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.ChangeSelectFirstForAnyImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getChangeSelectFirstForAny()
+	 * @generated
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY = 47;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoEnumLiteralImpl <em>No Enum Literal</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.NoEnumLiteralImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoEnumLiteral()
+	 * @generated
+	 */
+	int NO_ENUM_LITERAL = 53;
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl <em>Access To Undefined Value</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAccessToUndefinedValue()
+	 * @generated
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE = 20;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Access To Undefined Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Access To Undefined Value</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__DEPENDENTS = AnalysisResultPackage.PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__DESCRIPTION = AnalysisResultPackage.PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__SEVERITY = AnalysisResultPackage.PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Conflicts</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT__CONFLICTS = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Rule Conflict</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Rule Conflict</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICT_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET__RULES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Analyser Info</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET__ANALYSER_INFO = 1;
+
+	/**
+	 * The number of structural features of the '<em>Conflicting Rule Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Conflicting Rule Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET_OPERATION_COUNT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Collection Operation Over No Collection Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Collection Operation Over No Collection Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__DEPENDENTS = NAVIGATION_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__DESCRIPTION = NAVIGATION_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__SEVERITY = NAVIGATION_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__NEEDS_CSP = NAVIGATION_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__STATUS = NAVIGATION_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__LOCATION = NAVIGATION_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__FILE_LOCATION = NAVIGATION_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__RECOVERY = NAVIGATION_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__FEATURE_NAME = NAVIGATION_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Feature Access In Collection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION_FEATURE_COUNT = NAVIGATION_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Feature Access In Collection</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION_OPERATION_COUNT = NAVIGATION_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DEPENDENTS = OCL_COMPLIANCE_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DESCRIPTION = OCL_COMPLIANCE_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__SEVERITY = OCL_COMPLIANCE_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__NEEDS_CSP = OCL_COMPLIANCE_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__STATUS = OCL_COMPLIANCE_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__LOCATION = OCL_COMPLIANCE_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__FILE_LOCATION = OCL_COMPLIANCE_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__ELEMENT = OCL_COMPLIANCE_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__RECOVERY = OCL_COMPLIANCE_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Operation Over Collection Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE_FEATURE_COUNT = OCL_COMPLIANCE_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Operation Over Collection Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE_OPERATION_COUNT = OCL_COMPLIANCE_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -3610,123 +4468,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_PROBLEM__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__SEVERITY = LOCAL_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__RECOVERY = LOCAL_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__FEATURE = LOCAL_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM__FEATURE_NAME = LOCAL_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Binding Problem</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>Binding Problem</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
 	int RESOLVE_TEMP_PROBLEM__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
 
 	/**
@@ -3818,123 +4559,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESOLVE_TEMP_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__DEPENDENTS = TARGET_MODEL_CONFORMANCE_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__DESCRIPTION = TARGET_MODEL_CONFORMANCE_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__SEVERITY = TARGET_MODEL_CONFORMANCE_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__NEEDS_CSP = TARGET_MODEL_CONFORMANCE_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__STATUS = TARGET_MODEL_CONFORMANCE_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__FILE_LOCATION = TARGET_MODEL_CONFORMANCE_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__ELEMENT = TARGET_MODEL_CONFORMANCE_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__RECOVERY = TARGET_MODEL_CONFORMANCE_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__FEATURE = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE__FEATURE_NAME = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>No Binding For Compulsory Feature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_FEATURE_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of operations of the '<em>No Binding For Compulsory Feature</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_OPERATION_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -4468,501 +5092,6 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_RESOLUTION_OPERATION_COUNT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__SEVERITY = BINDING_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__STATUS = BINDING_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__RECOVERY = BINDING_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__FEATURE = BINDING_PROBLEM__FEATURE;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Right Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Target Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Right</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Left</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
-
-	/**
-	 * The number of structural features of the '<em>Binding Without Rule</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
-
-	/**
-	 * The number of operations of the '<em>Binding Without Rule</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITHOUT_RULE_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__SEVERITY = BINDING_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__STATUS = BINDING_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LOCATION = BINDING_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RECOVERY = BINDING_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FEATURE = BINDING_PROBLEM__FEATURE;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Right Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Target Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Right</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Left</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
-
-	/**
-	 * The number of structural features of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 5;
-
-	/**
-	 * The number of operations of the '<em>Binding With Resolved By Incompatible Rule</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__DEPENDENTS = BINDING_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__DESCRIPTION = BINDING_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__SEVERITY = BINDING_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__NEEDS_CSP = BINDING_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__STATUS = BINDING_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__LOCATION = BINDING_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__FILE_LOCATION = BINDING_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__ELEMENT = BINDING_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__RECOVERY = BINDING_PROBLEM__RECOVERY;
-
-	/**
-	 * The feature id for the '<em><b>Feature</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__FEATURE = BINDING_PROBLEM__FEATURE;
-
-	/**
-	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__FEATURE_NAME = BINDING_PROBLEM__FEATURE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Right Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__RIGHT_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Target Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__TARGET_TYPE = BINDING_PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Right</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__RIGHT = BINDING_PROBLEM_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Left</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__LEFT = BINDING_PROBLEM_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__RULES = BINDING_PROBLEM_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Problematic Classes</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = BINDING_PROBLEM_FEATURE_COUNT + 5;
-
-	/**
-	 * The number of structural features of the '<em>Binding Possibly Unresolved</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 6;
-
-	/**
-	 * The number of operations of the '<em>Binding Possibly Unresolved</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int BINDING_POSSIBLY_UNRESOLVED_OPERATION_COUNT = BINDING_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5357,6 +5486,105 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FLATTEN_OVER_NON_NESTED_COLLECTION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Change Select First For Any</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Change Select First For Any</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -5879,16 +6107,6 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_MODEL_FOUND_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoEnumLiteralImpl <em>No Enum Literal</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.NoEnumLiteralImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoEnumLiteral()
-	 * @generated
-	 */
-	int NO_ENUM_LITERAL = 51;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -7170,116 +7388,6 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl <em>Access To Undefined Value</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAccessToUndefinedValue()
-	 * @generated
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE = 63;
-
-	/**
-	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
-
-	/**
-	 * The feature id for the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
-
-	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__SEVERITY = LOCAL_PROBLEM__SEVERITY;
-
-	/**
-	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
-
-	/**
-	 * The feature id for the '<em><b>Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__STATUS = LOCAL_PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__LOCATION = LOCAL_PROBLEM__LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>File Location</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
-
-	/**
-	 * The feature id for the '<em><b>Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
-
-	/**
-	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE__RECOVERY = LOCAL_PROBLEM__RECOVERY;
-
-	/**
-	 * The number of structural features of the '<em>Access To Undefined Value</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of operations of the '<em>Access To Undefined Value</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCESS_TO_UNDEFINED_VALUE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
-
-
-	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl <em>Binding Inplace Invalid</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7287,7 +7395,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingInplaceInvalid()
 	 * @generated
 	 */
-	int BINDING_INPLACE_INVALID = 64;
+	int BINDING_INPLACE_INVALID = 65;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -7424,7 +7532,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCannotInstantiateAbstractClass()
 	 * @generated
 	 */
-	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 65;
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 66;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -8525,6 +8633,16 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getFlattenOverNonNestedCollection();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny <em>Change Select First For Any</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Change Select First For Any</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny
+	 * @generated
+	 */
+	EClass getChangeSelectFirstForAny();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence <em>Iterator Over Empty Sequence</em>}'.
@@ -9737,6 +9855,16 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass FLATTEN_OVER_NON_NESTED_COLLECTION = eINSTANCE.getFlattenOverNonNestedCollection();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ChangeSelectFirstForAnyImpl <em>Change Select First For Any</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.ChangeSelectFirstForAnyImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getChangeSelectFirstForAny()
+		 * @generated
+		 */
+		EClass CHANGE_SELECT_FIRST_FOR_ANY = eINSTANCE.getChangeSelectFirstForAny();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverEmptySequenceImpl <em>Iterator Over Empty Sequence</em>}' class.

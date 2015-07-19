@@ -19,7 +19,8 @@ import org.eclipse.emf.common.util.EList;
  * </ul>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getRuleConflict()
- * @model
+ * @model annotation="description name='Rule conflict' example=''"
+ *        annotation="info prec='sometimes-solver' path='yes' severity='runtime-error' when='model-dep' kind='trafo-rules' phase='analysis (separate)' source=''"
  * @generated
  */
 public interface RuleConflict extends Problem {

@@ -63,6 +63,7 @@ import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -461,11 +462,13 @@ public class ATLUtils {
 		return result;
 	}
 
-	public static void replacePathTag(Unit root, String name, String newPath) {
-		replacePathTag(root, name, name, newPath);
+	public static void replacePathTag(ATLModel model, String name, String newPath) {
+		replacePathTag(model, name, name, newPath);
 	}
 	
-	public static void replacePathTag(Unit root, String name, String newName, String newPath) {
+	public static void replacePathTag(ATLModel model, String name, String newName, String newPath) {
+		Unit root = model.getRoot();
+		
 		// Partly copied from findCommaTags
 		String tag = "@path";
 		//List<String> result = new ArrayList<String>();
@@ -481,6 +484,15 @@ public class ATLUtils {
 				}
 			}		
 			i++;
+		}
+		
+		// Traverse the transformation and change ocurrences of OclModel to the new name
+		if ( ! name.equals(newName) ) {
+			model.allObjectsOf(OclModel.class).forEach(m -> {
+				if ( m.getName().equals(name) ) {
+					m.setName(newName);
+				}
+			});
 		}
 	}
 	

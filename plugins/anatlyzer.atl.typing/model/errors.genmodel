@@ -62,6 +62,28 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithoutRule"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithResolvedByIncompatibleRule"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureNotFound">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/featureName"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureNotFound/type"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype"/>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/RuleConflict">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/RuleConflict/conflicts"/>
       </genClasses>
@@ -75,18 +97,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureAccessInCollection/featureName"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationOverCollectionType"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureNotFound">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/featureName"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FeatureNotFound/type"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/className"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureNotFound/metamodelName"/>
-      </genClasses>
-      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
-      </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/OperationCallInvalid">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalid/operationName"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -98,8 +108,6 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/OperationCallInvalid/actualParameters"/>
       </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/OperationNotFound"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/OperationFoundInSubtype"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidNumberOfParameters"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/OperationCallInvalidParameter">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/OperationCallInvalidParameter/blamedParameterNames"/>
@@ -140,7 +148,6 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/BindingProblem/featureName"/>
       </genClasses>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/ResolveTempProblem"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingExpectedOneAssignedMany"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingButObjectAssigned"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ObjectBindingButPrimitiveAssigned"/>
@@ -153,12 +160,6 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/right"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/left"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingResolution/rules"/>
-      </genClasses>
-      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithoutRule"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithResolvedByIncompatibleRule"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/ResolvedRuleInfo">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ResolvedRuleInfo/location"/>
@@ -182,6 +183,7 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound/rules"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/FlattenOverNonNestedCollection"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ChangeSelectFirstForAny"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverEmptySequence"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ReadingTargetModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
@@ -218,7 +220,6 @@
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentVariableDeclaration"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IncoherentHelperReturnType"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingInplaceInvalid">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingInplaceInvalid/rightType"/>

@@ -17,7 +17,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoClassFoundInMetamodel()
  * @model annotation="description name='Invalid meta-class name' text='The meta-class name cannot be found in the meta-model'"
- *        annotation="info prec='static' path='no' severity='error-always' when='trafo-dep' kind='navigation' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='error-load' when='trafo-dep' kind='src-typing' phase='typing' source='none'"
  * @generated
  */
 public interface NoClassFoundInMetamodel extends LocalProblem {

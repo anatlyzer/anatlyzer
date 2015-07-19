@@ -17,7 +17,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCollectionOperationNotFound()
  * @model annotation="description name='Collection operation not found' text=''"
- *        annotation="info prec='static' path='no' severity='error-source' when='model-dep' kind='navigation' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface CollectionOperationNotFound extends LocalProblem {

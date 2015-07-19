@@ -17,6 +17,9 @@ helper context ECORE!EModelElement def : getAnnotationEntry(name : String, key :
 				endif
 		endif;
 
+helper context ECORE!EModelElement def : hasAnnotation(name : String) : Boolean = 
+	self.getEAnnotation(name) <> OclUndefined;
+		
 helper context ECORE!EPackage def : allKinds : Sequence(String) = 
 	self.eClassifiers->asSet()->
 		select(c | c.oclIsKindOf(ECORE!EClass))->
@@ -52,6 +55,7 @@ helper def : kindOrder(v : String) : Integer =
 helper context ECORE!EPackage def : elementsOfKind(kind : String) : Set(ECORE!EClass) = 
 	self.eClassifiers->
 		select(c | c.oclIsKindOf(ECORE!EClass))->	
+		select(c | not c.hasAnnotation('disabled'))->
 		select(c | c.getAnnotationEntry('info', 'kind') = kind)->asSet()
 	;
 	
@@ -60,7 +64,7 @@ rule package2table {
 		pkg : ECORE!EPackage ( pkg.isErrorPackage )
 	to 
 		table : Table!Table (
-			groups <- pkg.eClassifiers,
+			-- groups <- pkg.eClassifiers,
 			groups <- pkg.allKinds->collect(v | thisModule.createGroup(pkg, v)),
 			cols <- first,
 			cols <- thisModule.columnElements->collect(c | thisModule.createColumnHeader(c))

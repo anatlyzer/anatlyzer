@@ -371,7 +371,7 @@ public class Tester {
 		errorsExecution = this.executeTransformation(transformation);
 
 		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
-		// TODO: devolver lista de errores en vez de String (así sólo hago esto si ese es el único error del anatlyzer)
+		// TODO: devolver lista de errores en vez de String (asï¿½ sï¿½lo hago esto si ese es el ï¿½nico error del anatlyzer)
 		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
 	    if (!errorsExecution && errorsAnatlyser.contains("Possibly unresolved binding")) {
 			try {

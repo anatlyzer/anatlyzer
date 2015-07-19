@@ -10,8 +10,8 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidArgument()
- * @model annotation="description name='Invalid argument (TODO: merge with the other class)' text=''"
- *        annotation="info prec='static' path='no' severity='error-always' when='model-dep' kind='navigation' phase='typing' source='none'"
+ * @model annotation="description name='Invalid argument for built-in function' text=''"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface InvalidArgument extends LocalProblem {

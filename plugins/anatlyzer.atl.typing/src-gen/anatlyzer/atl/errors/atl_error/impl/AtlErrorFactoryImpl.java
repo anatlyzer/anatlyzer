@@ -57,15 +57,20 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case AtlErrorPackage.MODEL_ELEMENT: return createModelElement();
+			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: return createNoBindingForCompulsoryFeature();
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: return createBindingPossiblyUnresolved();
+			case AtlErrorPackage.BINDING_WITHOUT_RULE: return createBindingWithoutRule();
+			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: return createBindingWithResolvedByIncompatibleRule();
+			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
+			case AtlErrorPackage.OPERATION_NOT_FOUND: return createOperationNotFound();
+			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: return createOperationFoundInSubtype();
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: return createFeatureFoundInSubtype();
+			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
 			case AtlErrorPackage.RULE_CONFLICT: return createRuleConflict();
 			case AtlErrorPackage.CONFLICTING_RULE_SET: return createConflictingRuleSet();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
-			case AtlErrorPackage.FEATURE_NOT_FOUND: return createFeatureNotFound();
-			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: return createFeatureFoundInSubtype();
-			case AtlErrorPackage.OPERATION_NOT_FOUND: return createOperationNotFound();
-			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: return createOperationFoundInSubtype();
 			case AtlErrorPackage.OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS: return createOperationCallInvalidNumberOfParameters();
 			case AtlErrorPackage.OPERATION_CALL_INVALID_PARAMETER: return createOperationCallInvalidParameter();
 			case AtlErrorPackage.OPERATION_NOT_FOUND_IN_THIS_MODULE: return createOperationNotFoundInThisModule();
@@ -75,18 +80,15 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.INVALID_OPERAND: return createInvalidOperand();
 			case AtlErrorPackage.NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE: return createNoContainerForRefImmediateComposite();
 			case AtlErrorPackage.DIFFERENT_BRANCH_TYPES: return createDifferentBranchTypes();
-			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: return createNoBindingForCompulsoryFeature();
 			case AtlErrorPackage.BINDING_EXPECTED_ONE_ASSIGNED_MANY: return createBindingExpectedOneAssignedMany();
 			case AtlErrorPackage.PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED: return createPrimitiveBindingButObjectAssigned();
 			case AtlErrorPackage.OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED: return createObjectBindingButPrimitiveAssigned();
 			case AtlErrorPackage.PRIMITIVE_BINDING_INVALID_ASSIGNMENT: return createPrimitiveBindingInvalidAssignment();
-			case AtlErrorPackage.BINDING_WITHOUT_RULE: return createBindingWithoutRule();
-			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: return createBindingWithResolvedByIncompatibleRule();
-			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: return createBindingPossiblyUnresolved();
 			case AtlErrorPackage.RESOLVED_RULE_INFO: return createResolvedRuleInfo();
 			case AtlErrorPackage.RESOLVE_TEMP_WITHOUT_RULE: return createResolveTempWithoutRule();
 			case AtlErrorPackage.RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND: return createResolveTempOutputPatternElementNotFound();
 			case AtlErrorPackage.FLATTEN_OVER_NON_NESTED_COLLECTION: return createFlattenOverNonNestedCollection();
+			case AtlErrorPackage.CHANGE_SELECT_FIRST_FOR_ANY: return createChangeSelectFirstForAny();
 			case AtlErrorPackage.ITERATOR_OVER_EMPTY_SEQUENCE: return createIteratorOverEmptySequence();
 			case AtlErrorPackage.READING_TARGET_MODEL: return createReadingTargetModel();
 			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: return createLazyRuleWithFilter();
@@ -102,7 +104,6 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.ITERATOR_OVER_NO_COLLECTION_TYPE: return createIteratorOverNoCollectionType();
 			case AtlErrorPackage.INCOHERENT_VARIABLE_DECLARATION: return createIncoherentVariableDeclaration();
 			case AtlErrorPackage.INCOHERENT_HELPER_RETURN_TYPE: return createIncoherentHelperReturnType();
-			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
 			case AtlErrorPackage.BINDING_INPLACE_INVALID: return createBindingInplaceInvalid();
 			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS: return createCannotInstantiateAbstractClass();
 			default:
@@ -408,6 +409,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public FlattenOverNonNestedCollection createFlattenOverNonNestedCollection() {
 		FlattenOverNonNestedCollectionImpl flattenOverNonNestedCollection = new FlattenOverNonNestedCollectionImpl();
 		return flattenOverNonNestedCollection;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeSelectFirstForAny createChangeSelectFirstForAny() {
+		ChangeSelectFirstForAnyImpl changeSelectFirstForAny = new ChangeSelectFirstForAnyImpl();
+		return changeSelectFirstForAny;
 	}
 
 	/**

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
@@ -29,6 +30,13 @@ public class TrafoMetamodelData extends FootprintComputation implements IEffecti
 	}
 
 	@Override
+	public Set<EEnum> getEnums() {
+		HashSet<EEnum> result = new HashSet<EEnum>();
+		// Compute the enums in the footprint somehow
+		return result;
+	}
+
+	@Override
 	public Set<EStructuralFeature> getFeatures() {
 		HashSet<EStructuralFeature> result = new HashSet<EStructuralFeature>();
 		result.addAll(this.usedAttributes);
@@ -40,5 +48,6 @@ public class TrafoMetamodelData extends FootprintComputation implements IEffecti
 	public Collection<EAnnotation> getPackageAnnotations() {
 		return new ArrayList<EAnnotation>();
 	}
+
 
 }

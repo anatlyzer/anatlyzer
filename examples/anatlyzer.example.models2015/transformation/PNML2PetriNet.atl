@@ -1,37 +1,5 @@
 -- @path PNML=./anatlyzer.example.models2015/metamodels/PNML_simplified.ecore
 -- @path PetriNet=/anatlyzer.example.models2015/metamodels/PetriNet.ecore
-
--- @manual ThisModule.allInstances()->exists(thisModule|
---	 not (Arc.allInstances()->exists(a | 
---	    (a.source.oclIsKindOf(Place) and a.target.oclIsKindOf(Place)) or
---	    (a.source.oclIsKindOf(Transition) and a.target.oclIsKindOf(Transition)))))
---
--- @manual ThisModule.allInstances()->exists(thisModule|
---     not NetElement.allInstances()->exists(n|let arcsSet1 = n.contents->select(e|e.oclIsKindOf(Arc)) in
---	 (arcsSet1->exists(a | 
---	    (a.oclAsType(Arc).source.oclIsKindOf(Place) and a.oclAsType(Arc).target.oclIsKindOf(Place)) or
---	    (a.oclAsType(Arc).source.oclIsKindOf(Transition) and a.oclAsType(Arc).target.oclIsKindOf(Transition))))))
-
--- @pre ThisModule.allInstances()->exists(thisModule|(NetElement.allInstances()->isEmpty()) or (not (NetElement.allInstances()->exists(n|let arcsSet1 = n.contents->select(e|e.oclIsKindOf(Arc)) in
--- 	arcsSet1->exists(_problem_|(not (if Arc.allInstances()->includes(_problem_)
--- 	then let n2 = _problem_.oclAsType(Arc) in
--- 	(n2.source.oclIsKindOf(Place)) and (n2.target.oclIsKindOf(Transition))
--- 	else false
--- 	endif)) or (not (if Arc.allInstances()->includes(_problem_)
--- 	then let n3 = _problem_.oclAsType(Arc) in
--- 	(n3.source.oclIsKindOf(Transition)) and (n3.target.oclIsKindOf(Place))
--- 	else false
--- 	endif)))))))
--- @pre ThisModule.allInstances()->exists(thisModule|(NetElement.allInstances()->isEmpty()) or (not (NetElement.allInstances()->exists(n|let arcsSet1 = n.contents->select(e|e.oclIsKindOf(Arc)) in
--- 	arcsSet1->exists(_problem_|(not (if Arc.allInstances()->includes(_problem_)
--- 	then let n2 = _problem_.oclAsType(Arc) in
--- 	(n2.source.oclIsKindOf(Place)) and (n2.target.oclIsKindOf(Transition))
--- 	else false
--- 	endif)) or (not (if Arc.allInstances()->includes(_problem_)
--- 	then let n3 = _problem_.oclAsType(Arc) in
--- 	n3.target.oclIsKindOf(Place)
--- 	else false
--- 	endif)))))))
 module PNML2PetriNet;
 create OUT : PetriNet from IN : PNML;
 

@@ -86,6 +86,7 @@ import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.optimizer.AtlOptimizer;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -379,6 +380,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			// field setter
 			unconnectedElementsResult = r;
 		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.unconnected_16x16;
+		}
 	}
 	
 	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
@@ -540,6 +546,17 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		public void setStatus(ProblemStatus status) {
 			this.p.setStatus(status);
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+			if ( AnalyserUtils.getProblemSeverity(p).contains("warn") ) {
+				return Images.local_problem_warning_16x16;				
+			} else {
+				return Images.local_problem_16x16;								
+			}
+			
+			
 		}
 	}
 	

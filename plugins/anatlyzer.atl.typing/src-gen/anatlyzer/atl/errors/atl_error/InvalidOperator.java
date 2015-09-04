@@ -19,7 +19,7 @@ import anatlyzer.atl.types.Type;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidOperator()
  * @model annotation="description name='Invalid operator' text='Operator not applicable to a certain type.'"
- *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface InvalidOperator extends InvalidArgumentProblem, RuntimeError {

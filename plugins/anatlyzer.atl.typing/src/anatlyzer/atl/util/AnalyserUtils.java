@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -228,6 +229,17 @@ public class AnalyserUtils {
 			return p.getDescription() == null ? "no-description" : p.getDescription();
 		return ann.getDetails().get("name");
 	}
+
+	public static String getProblemSeverity(Problem p) {
+		EAnnotation ann = p.eClass().getEAnnotation("info");
+		return ann == null ? "no-severity" : ann.getDetails().get("severity");
+	}
+
+	public static String getProblemKind(Problem p) {
+		EAnnotation ann = p.eClass().getEAnnotation("info");
+		return ann == null ? "no-kind" : ann.getDetails().get("kind");
+	}
+
 	
 	public static boolean isStaticPrecision(Problem p) {
 		EAnnotation ann = p.eClass().getEAnnotation("info");
@@ -235,8 +247,16 @@ public class AnalyserUtils {
 			return false;
 		return "static".equals( ann.getDetails().get("prec") );
 	}
-	
+
 	public static int getProblemId(Problem p) {
+		int idx = AtlErrorPackage.eINSTANCE.getEClassifiers().indexOf(p.eClass());
+		if ( idx == -1 ) {
+			System.err.println("No problem class " + p.eClass());
+		}
+		return idx;
+	}
+	
+	public static int getProblemId_old(Problem p) {
 		if ( p instanceof NoBindingForCompulsoryFeature ) return 1;
 		if ( p instanceof BindingPossiblyUnresolved     ) return 2;
 		if ( p instanceof BindingWithResolvedByIncompatibleRule ) return 3;
@@ -300,9 +320,13 @@ public class AnalyserUtils {
 	}
 
 	public static boolean isInternalError(Problem p) {
-		return p.getStatus() == ProblemStatus.USE_INTERNAL_ERROR ||
-				   p.getStatus() == ProblemStatus.IMPL_INTERNAL_ERROR ||
-				   p.getStatus() == ProblemStatus.NOT_SUPPORTED_BY_USE;	
+		return isErrorStatus(p.getStatus());	
+	}
+	
+	public static boolean isErrorStatus(ProblemStatus s) {
+		return s == ProblemStatus.USE_INTERNAL_ERROR ||
+				   s == ProblemStatus.IMPL_INTERNAL_ERROR ||
+				   s == ProblemStatus.NOT_SUPPORTED_BY_USE;			
 	}
 	
 }

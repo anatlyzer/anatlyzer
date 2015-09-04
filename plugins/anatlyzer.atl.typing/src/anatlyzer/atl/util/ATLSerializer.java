@@ -289,10 +289,13 @@ public class ATLSerializer extends AbstractVisitor {
 		for(OutPatternElement e : self.getElements()) {
 			l.add(g(e));
 		}
-		
+				
 		String s = join(l);
 		
-		// TODO: Add bindings
+	
+		if ( self.getDropPattern() != null ) {
+			s += "\n\t" + "drop";
+		}
 		
 		s(s);
 	}
@@ -509,8 +512,8 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inStringExp(StringExp self) {
-		s("'" + self.getStringSymbol() + "'");
-	}
+		s("'" + self.getStringSymbol().replaceAll("(\\\\n|\\\\t)", "\\\\$1") + "'");
+	}  // \\\\\\\\n
 	
 	@Override
 	public void inIntegerExp(IntegerExp self) {

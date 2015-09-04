@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import org.eclipse.emf.ecore.EObject;
+
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
@@ -14,6 +16,7 @@ import anatlyzer.atl.types.Unknown;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
@@ -186,6 +189,8 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	}
 	
 	private Type selectIteratorType(IteratorExp node, Type bodyType) {
+		checkSelectFirstProblem(node);
+		
 		// If you have "m.classifiers->select(c | c.operationNotFound() )"
 		// a conservative action is to consider that the collection is never filtered.
 		if ( bodyType instanceof TypeError ) 
@@ -206,6 +211,13 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 			Type implicitType = this.newCollectionTypeAux( AnalyserContext.getTypingModel().getCommonType(b.getKindOfTypes() ) );
 			implicitType.setNoCastedType(normalType);
 			return implicitType;
+		}
+	}
+
+	private void checkSelectFirstProblem(IteratorExp node) {
+		EObject container = node.eContainer();
+		if ( container instanceof CollectionOperationCallExp  && ((CollectionOperationCallExp) container).getOperationName().equals("first")) {
+			AnalyserContext.getErrorModel().signalSelectFirstAny(node);
 		}
 	}
 

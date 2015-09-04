@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel_2" nsURI="http://bento/factory/2" nsPrefix="Factory2">
+  <eAnnotations source="error"/>
+  <eAnnotations source="invariant">
+    <details key="ocl" value="ThisModule.allInstances()->exists(thisModule|Factory.allInstances()->exists(f|f.machines->select(a|if not (a.oclIsKindOf(Assembler))&#xA;&#x9;then true&#xA;&#x9;else not (a.oclAsType(Assembler).priority)&#xA;&#x9;endif)->asSet()->union(f.operators->select(o|(o.state) &lt;> (#off)))->asSet()->union(f.machines->select(a|if not (a.oclIsKindOf(Assembler))&#xA;&#x9;then false&#xA;&#x9;else a.oclAsType(Assembler).priority&#xA;&#x9;endif)->collect(a|thisModule.resolveTemp(a,'p')))->flatten()->exists(_problem_|((not (if Operator.allInstances()->includes(_problem_)&#xA;&#x9;then let o1 = _problem_.oclAsType(Operator) in&#xA;&#x9;(o1.state) &lt;> (#off)&#xA;&#x9;else false&#xA;&#x9;endif)) and (not (if Machine.allInstances()->includes(_problem_)&#xA;&#x9;then let a2 = _problem_.oclAsType(Machine) in&#xA;&#x9;if not (a2.oclIsKindOf(Assembler))&#xA;&#x9;then true&#xA;&#x9;else not (a2.oclAsType(Assembler).priority)&#xA;&#x9;endif&#xA;&#x9;else false&#xA;&#x9;endif))) and (not (if Assembler.allInstances()->includes(_problem_)&#xA;&#x9;then let a3 = _problem_.oclAsType(Assembler) in&#xA;&#x9;a3.priority&#xA;&#x9;else false&#xA;&#x9;endif)))))"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EEnum" name="BreakStates">
+    <eLiterals name="off"/>
+    <eLiterals name="on" value="1"/>
+    <eLiterals name="under_repair" value="2"/>
+    <eLiterals name="broken" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Machine" abstract="true" eSuperTypes="#//BaseObject_">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = Factory.allInstances()->select(o|o.machines->includes(self))->any(true)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serialno" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThisModule" eSuperTypes="#//BaseObject_">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//Breakable">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = Factory.allInstances()->select(o|o.operators->includes(self))->any(true)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Assembler" eSuperTypes="#//Processor">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rate" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigDecimal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Factory" eSuperTypes="#//BaseObject_">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="machines" lowerBound="1"
+        upperBound="-1" eType="#//Machine" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operators" upperBound="-1"
+        eType="#//Operator" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Breakable" abstract="true" eSuperTypes="#//BaseObject_">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="state" lowerBound="1" eType="#//BreakStates"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Processor" abstract="true" eSuperTypes="#//Machine #//Breakable">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BaseObject_" abstract="true">
+    <eAnnotations source="operation: refImmediateComposite() : OclAny = oclUndefined(OclVoid)&#xA;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AuxiliaryClass4USE"/>
+</ecore:EPackage>

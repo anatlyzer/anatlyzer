@@ -1,25 +1,20 @@
 package anatlyzer.experiments.typing;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
-import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.Analyser;
-import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -46,11 +41,17 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	
 	protected HashMap<Integer, ErrorCount> errorOcurrences = new HashMap<Integer, ErrorCount>();
 
+	protected CountingModel<DetectedError> byKind = new CountingModel<DetectedError>();
+	protected CountingModel<DetectedError> bySeverity = new CountingModel<DetectedError>();
+	
+	
 	
 	public CountTypeErrors() {
-		counting.setRepetitions(true);
-		counting.showRepetitionDetails(false);
-		counting.showCategoryDescriptions(true);
+		for(CountingModel<?> c : new CountingModel<?>[] { counting, byKind, bySeverity }) {
+			c.setRepetitions(true);
+			c.showRepetitionDetails(false);
+			c.showCategoryDescriptions(true);
+		}
 	}
 	
 	@Override
@@ -106,6 +107,12 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 				
 				if ( countPotential() || AnalyserUtils.isConfirmed(p) ) {
 					counting.addByCategory(new ErrorCategory(errorCode, desc), e);
+					
+					String severity = AnalyserUtils.getProblemSeverity(p);
+					String kind     = AnalyserUtils.getProblemKind(p);
+					
+					bySeverity.addByCategory(new anatlyzer.experiments.export.Category(severity), e);
+					byKind.addByCategory(new anatlyzer.experiments.export.Category(kind), e);
 				}				
 			}
 			
@@ -160,36 +167,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			throw new IllegalStateException();
 		}
 	}
-
-	private void confirmProblems(List<Problem> problems, AnalysisResult r) {
-		for (Problem p : problems) {
-			if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
-				removeTempFile();
-				
-				ProblemStatus result = null;
-				try {
-					result = new EclipseUseWitnessFinder().			
-							checkDiscardCause(false).
-							find(p, r);
-				} catch ( Exception e ) {
-					result = ProblemStatus.IMPL_INTERNAL_ERROR;
-				}
-				
-				p.setStatus(result);
-			}
-		}
-	}
-
-	private void removeTempFile() {
-		try {
-			transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
-			File dir = new File(transMLProperties.getProperty("temp"));
-			FileUtils.deleteDirectory(dir);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
-	}
-
+	
 	private boolean useCSP() {
 		return this.options.containsKey("use_model_finder") &&
 			(Boolean.parseBoolean((String) this.options.get("use_model_finder")));
@@ -243,7 +221,14 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 
 	@Override
 	public void exportToExcel(String file) throws IOException {
-		counting.toExcel(file);
+		counting.toExcel(file.replace(".xlsx", "_byError.xlsx"));
+		byKind.toExcel(file.replace(".xlsx", "_byKind.xlsx"));
+		bySeverity.toExcel(file.replace(".xlsx", "_bySeverity.xlsx"));
+
+		counting.toLatex(file.replace(".xlsx", "byError.tex"));
+		byKind.toLatex(file.replace(".xlsx", "_byKind.tex"));
+		bySeverity.toLatex(file.replace(".xlsx", "_bySeverity.tex"));
+		
 	}
 
 	public class DetectedError implements IClassifiedArtefact {

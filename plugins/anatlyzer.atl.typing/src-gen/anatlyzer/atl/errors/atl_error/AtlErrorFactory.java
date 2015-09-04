@@ -292,6 +292,15 @@ public interface AtlErrorFactory extends EFactory {
 	FlattenOverNonNestedCollection createFlattenOverNonNestedCollection();
 
 	/**
+	 * Returns a new object of class '<em>Change Select First For Any</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Change Select First For Any</em>'.
+	 * @generated
+	 */
+	ChangeSelectFirstForAny createChangeSelectFirstForAny();
+
+	/**
 	 * Returns a new object of class '<em>Iterator Over Empty Sequence</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -6,3 +6,4 @@
 /invalidate_found_in_subtype.asm
 /invalidate_undefined.asm
 /invalidate_ocl_is_undefined.asm
+/xml2cpl_ocl_kind_of.asm

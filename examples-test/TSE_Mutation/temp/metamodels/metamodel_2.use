@@ -1,0 +1,78 @@
+model metamodel_2
+
+
+enum BreakStates {off, on, under_repair, broken}
+
+abstract class Machine < BaseObject_
+attributes
+  serialno : String
+operations
+  refImmediateComposite() : OclAny = Factory.allInstances()->select(o|o.machines->includes(self))->any(true)
+
+end
+
+class ThisModule < BaseObject_
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Operator < Breakable
+attributes
+  name : String
+operations
+  refImmediateComposite() : OclAny = Factory.allInstances()->select(o|o.operators->includes(self))->any(true)
+
+end
+
+class Assembler < Processor
+attributes
+  priority : Boolean
+  rate : String
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class Factory < BaseObject_
+attributes
+  name : String
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+abstract class Breakable < BaseObject_
+attributes
+  state : BreakStates
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+abstract class Processor < Machine, Breakable
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+abstract class BaseObject_
+operations
+  refImmediateComposite() : OclAny = oclUndefined(OclVoid)
+
+end
+
+class AuxiliaryClass4USE
+end
+
+association xxx1_machines between
+  Factory[0..1] role xxx1
+  Machine[1..*] role machines
+end
+
+association xxx2_operators between
+  Factory[0..1] role xxx2
+  Operator[*] role operators
+end
+
+constraints

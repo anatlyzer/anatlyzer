@@ -11,7 +11,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getIteratorBodyWrongType()
  * @model annotation="description name='Wrong iterator body type' text='The inferred type of the iterator body is not compatible with the type expected by the iterator '"
- *        annotation="info prec='static' path='no' severity='error-source' when='model-dep' kind='navigation' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='none'"
  * @generated
  */
 public interface IteratorBodyWrongType extends WrongType {

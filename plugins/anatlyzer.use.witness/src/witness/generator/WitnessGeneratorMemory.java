@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -138,7 +139,9 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 					mod.adapt(f, true);
 				}
 			}
-			
+			else if ( c instanceof EEnum ) {
+				mod.adapt((EEnum) c);
+			}
 		}
 	}
 

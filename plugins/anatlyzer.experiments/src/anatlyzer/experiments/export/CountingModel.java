@@ -2,6 +2,7 @@ package anatlyzer.experiments.export;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +10,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -232,8 +235,14 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		FileOutputStream fileOut = new FileOutputStream(fileName);
 		wb.write(fileOut);
 		wb.close();
-		fileOut.close();           
+		fileOut.close();           	
+	}
 	
+	public void toLatex(String fileName) throws IOException {
+		FileOutputStream outs = new FileOutputStream(fileName);
+		PrintStream out = new PrintStream(outs);
+
+		createLatexSummary(out);
 	}
 
 	private void createErrorSheet(Workbook wb) {
@@ -309,10 +318,44 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 				row++;
 			}
 		}
-		
-		
 	}
 
+	// Repeated from createSummary
+	private void createLatexSummary(PrintStream out) {		
+		out.println("\\begin{table}[h]");
+		out.println("\\caption{Summary}");
+		out.println("\\label{tab:summary}");
+		out.println("\\scriptsize");
+		out.println("\\center");
+		out.println("\\begin{tabular}{|l|c|c|c|c|c|}");
+		out.println("\\hline");
+
+		String header = "{\\bf Id.}  & {\\bf Total} & {\\bf \\%} & {\\bf Num.} & {\\bf Max} & {\\bf Avg} \\\\ \\hline";	
+		out.println(header);
+
+		int totalArtefacts = total;
+		if ( withRepetitions ) {
+			totalArtefacts = (int) results.values().stream().flatMap(v -> v.stream()).count();
+		}
+
+		for (Category category : getAllCategories()) {
+			List<ART> values = results.get(category);
+			int categorySize = values.size();
+		
+			double percentage = (100.0 * categorySize / totalArtefacts);
+			
+			CategoryStats stats = computeStatistics(category);
+			String row = String.format(Locale.US, "%s & %d & %.1f & %d & %d & %.1f  \\\\ \\hline" , 
+					category.getName(), categorySize, percentage, stats.numArtefacts, stats.max, stats.avg);
+			
+			out.println(row);			
+		}
+		
+		out.println("\\end{tabular}");
+		out.println("\\end{table}");		
+		
+	}
+	
 	private void createSummary(Workbook wb) {
 		Sheet s = wb.createSheet("Summary");
 		
@@ -323,10 +366,21 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		if ( withRepetitions ) {
 			totalArtefacts = (int) results.values().stream().flatMap(v -> v.stream()).count();
 		}
-		
+
 		int initRow = 2;
 		int row = initRow;
 		int col = 1;
+		int headerRow = initRow - 1;
+		
+		// Total of each
+		st.cell(s, headerRow, col + 1, "Total").centeringBold();			
+		st.cell(s, headerRow, col + 2, "%").centeringBold();
+		st.cell(s, headerRow, col + 3, "Num.").centeringBold();
+		st.cell(s, headerRow, col + 4, "Min").centeringBold();
+		st.cell(s, headerRow, col + 5, "Max").centeringBold();
+		st.cell(s, headerRow, col + 6, "Avg").centeringBold();
+		st.cell(s, headerRow, col + 7, "Avg (if exists").centeringBold();
+				
 		for (Category category : getAllCategories()) {
 			List<ART> values = results.get(category);
 			int categorySize = values.size();
@@ -337,6 +391,13 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 			st.cell(s, row, col + 1, (long) categorySize);			
 			// Percentage
 			st.cell(s, row, col + 2, (1.0* categorySize / totalArtefacts)).percentage();
+			
+			CategoryStats stats = computeStatistics(category);
+			st.cell(s, row, col + 3, (long) stats.numArtefacts);			
+			st.cell(s, row, col + 4, (long) stats.min);			
+			st.cell(s, row, col + 5, (long) stats.max);		
+			st.cell(s, row, col + 6, stats.avg);							
+			st.cell(s, row, col + 7, stats.avgAccOccurrences);				
 			
 			row++;
 		}
@@ -366,6 +427,61 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 		u.createCell(s, row, col + 0, "Total artefacts:");		
 		u.createCell(s, row, col + 1, (long) totalArtefacts);
 	}
+
+	private CategoryStats computeStatistics(Category category) {
+		// TODO Auto-generated method stub
+		HashMap<String, List<Category>> overlapping = computeOverlappingDetectedCategories(true);
+		List<ART> list = results.get(category);
+		
+		ArrayList<Integer> occurrences = new ArrayList<Integer>();
+		int max = Integer.MIN_VALUE;
+		int min = Integer.MAX_VALUE;
+		int numOccurrences = 0;
+		int totalOccurrences = 0;
+		for (Entry<String, List<Category>> entry : overlapping.entrySet()) {
+			String artefactId = entry.getKey();
+			
+			int numberOfCategoryOcurrencesInArtefactType = countOccurences(artefactId, list);
+			if ( numberOfCategoryOcurrencesInArtefactType > max ) {
+				max = numberOfCategoryOcurrencesInArtefactType;
+			} 
+			if ( numberOfCategoryOcurrencesInArtefactType < min ) {
+				min = numberOfCategoryOcurrencesInArtefactType;
+			}
+			
+			if ( numberOfCategoryOcurrencesInArtefactType > 0 ) {
+				occurrences.add(numberOfCategoryOcurrencesInArtefactType);
+				numOccurrences++;
+			}
+		
+			totalOccurrences += numberOfCategoryOcurrencesInArtefactType;
+			
+		}
+		
+		// double avgSingleOcc = ((double) numOccurrences) / ((double) list.size());
+		
+		double avgAccOcc = occurrences.stream().collect(Collectors.averagingDouble((i) -> (double) i));
+		double avg       = ((double) totalOccurrences) / overlapping.entrySet().size();
+		
+		return new CategoryStats(max, min, numOccurrences, avg, avgAccOcc);
+	}
+
+	public static class CategoryStats {
+		int max;
+		int min;
+		int numArtefacts;
+		double avgAccOccurrences;
+		double avg;
+		
+		public CategoryStats(int max, int min, int numArtefacts, double avg, double avgAccOccurrences) {
+			this.max = max;
+			this.min = min;
+			this.numArtefacts = numArtefacts;
+			this.avg          = avg;
+			this.avgAccOccurrences = avgAccOccurrences;
+		}
+	}
+	
 
 	private void createOverlapping(Workbook wb) {
 		HashMap<String, List<Category>> overlapping = computeOverlappingDetectedCategories(true);

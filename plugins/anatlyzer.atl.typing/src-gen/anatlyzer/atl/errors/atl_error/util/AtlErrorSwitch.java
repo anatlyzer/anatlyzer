@@ -149,6 +149,115 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: {
+				NoBindingForCompulsoryFeature noBindingForCompulsoryFeature = (NoBindingForCompulsoryFeature)theEObject;
+				T result = caseNoBindingForCompulsoryFeature(noBindingForCompulsoryFeature);
+				if (result == null) result = caseTargetModelConformanceProblem(noBindingForCompulsoryFeature);
+				if (result == null) result = caseBindingProblem(noBindingForCompulsoryFeature);
+				if (result == null) result = caseLocalProblem(noBindingForCompulsoryFeature);
+				if (result == null) result = caseProblem(noBindingForCompulsoryFeature);
+				if (result == null) result = caseAnalysisInfo(noBindingForCompulsoryFeature);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: {
+				BindingPossiblyUnresolved bindingPossiblyUnresolved = (BindingPossiblyUnresolved)theEObject;
+				T result = caseBindingPossiblyUnresolved(bindingPossiblyUnresolved);
+				if (result == null) result = caseBindingProblem(bindingPossiblyUnresolved);
+				if (result == null) result = caseBindingResolution(bindingPossiblyUnresolved);
+				if (result == null) result = caseLocalProblem(bindingPossiblyUnresolved);
+				if (result == null) result = caseProblem(bindingPossiblyUnresolved);
+				if (result == null) result = caseAnalysisInfo(bindingPossiblyUnresolved);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.BINDING_WITHOUT_RULE: {
+				BindingWithoutRule bindingWithoutRule = (BindingWithoutRule)theEObject;
+				T result = caseBindingWithoutRule(bindingWithoutRule);
+				if (result == null) result = caseBindingProblem(bindingWithoutRule);
+				if (result == null) result = caseBindingResolution(bindingWithoutRule);
+				if (result == null) result = caseLocalProblem(bindingWithoutRule);
+				if (result == null) result = caseProblem(bindingWithoutRule);
+				if (result == null) result = caseAnalysisInfo(bindingWithoutRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: {
+				BindingWithResolvedByIncompatibleRule bindingWithResolvedByIncompatibleRule = (BindingWithResolvedByIncompatibleRule)theEObject;
+				T result = caseBindingWithResolvedByIncompatibleRule(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = caseBindingProblem(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = caseBindingResolution(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = caseLocalProblem(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = caseProblem(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = caseAnalysisInfo(bindingWithResolvedByIncompatibleRule);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.FEATURE_NOT_FOUND: {
+				FeatureNotFound featureNotFound = (FeatureNotFound)theEObject;
+				T result = caseFeatureNotFound(featureNotFound);
+				if (result == null) result = caseNavigationProblem(featureNotFound);
+				if (result == null) result = caseRuntimeError(featureNotFound);
+				if (result == null) result = caseLocalProblem(featureNotFound);
+				if (result == null) result = caseProblem(featureNotFound);
+				if (result == null) result = caseAnalysisInfo(featureNotFound);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_NOT_FOUND: {
+				OperationNotFound operationNotFound = (OperationNotFound)theEObject;
+				T result = caseOperationNotFound(operationNotFound);
+				if (result == null) result = caseOperationCallInvalid(operationNotFound);
+				if (result == null) result = caseNavigationProblem(operationNotFound);
+				if (result == null) result = caseRuntimeError(operationNotFound);
+				if (result == null) result = caseLocalProblem(operationNotFound);
+				if (result == null) result = caseProblem(operationNotFound);
+				if (result == null) result = caseAnalysisInfo(operationNotFound);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: {
+				OperationFoundInSubtype operationFoundInSubtype = (OperationFoundInSubtype)theEObject;
+				T result = caseOperationFoundInSubtype(operationFoundInSubtype);
+				if (result == null) result = caseOperationNotFound(operationFoundInSubtype);
+				if (result == null) result = caseFoundInSubtype(operationFoundInSubtype);
+				if (result == null) result = caseOperationCallInvalid(operationFoundInSubtype);
+				if (result == null) result = caseNavigationProblem(operationFoundInSubtype);
+				if (result == null) result = caseRuntimeError(operationFoundInSubtype);
+				if (result == null) result = caseLocalProblem(operationFoundInSubtype);
+				if (result == null) result = caseProblem(operationFoundInSubtype);
+				if (result == null) result = caseAnalysisInfo(operationFoundInSubtype);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.FOUND_IN_SUBTYPE: {
+				FoundInSubtype foundInSubtype = (FoundInSubtype)theEObject;
+				T result = caseFoundInSubtype(foundInSubtype);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: {
+				FeatureFoundInSubtype featureFoundInSubtype = (FeatureFoundInSubtype)theEObject;
+				T result = caseFeatureFoundInSubtype(featureFoundInSubtype);
+				if (result == null) result = caseFeatureNotFound(featureFoundInSubtype);
+				if (result == null) result = caseFoundInSubtype(featureFoundInSubtype);
+				if (result == null) result = caseNavigationProblem(featureFoundInSubtype);
+				if (result == null) result = caseRuntimeError(featureFoundInSubtype);
+				if (result == null) result = caseLocalProblem(featureFoundInSubtype);
+				if (result == null) result = caseProblem(featureFoundInSubtype);
+				if (result == null) result = caseAnalysisInfo(featureFoundInSubtype);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: {
+				AccessToUndefinedValue accessToUndefinedValue = (AccessToUndefinedValue)theEObject;
+				T result = caseAccessToUndefinedValue(accessToUndefinedValue);
+				if (result == null) result = caseLocalProblem(accessToUndefinedValue);
+				if (result == null) result = caseProblem(accessToUndefinedValue);
+				if (result == null) result = caseAnalysisInfo(accessToUndefinedValue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.RULE_CONFLICT: {
 				RuleConflict ruleConflict = (RuleConflict)theEObject;
 				T result = caseRuleConflict(ruleConflict);
@@ -195,36 +304,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.FEATURE_NOT_FOUND: {
-				FeatureNotFound featureNotFound = (FeatureNotFound)theEObject;
-				T result = caseFeatureNotFound(featureNotFound);
-				if (result == null) result = caseNavigationProblem(featureNotFound);
-				if (result == null) result = caseRuntimeError(featureNotFound);
-				if (result == null) result = caseLocalProblem(featureNotFound);
-				if (result == null) result = caseProblem(featureNotFound);
-				if (result == null) result = caseAnalysisInfo(featureNotFound);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.FOUND_IN_SUBTYPE: {
-				FoundInSubtype foundInSubtype = (FoundInSubtype)theEObject;
-				T result = caseFoundInSubtype(foundInSubtype);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: {
-				FeatureFoundInSubtype featureFoundInSubtype = (FeatureFoundInSubtype)theEObject;
-				T result = caseFeatureFoundInSubtype(featureFoundInSubtype);
-				if (result == null) result = caseFeatureNotFound(featureFoundInSubtype);
-				if (result == null) result = caseFoundInSubtype(featureFoundInSubtype);
-				if (result == null) result = caseNavigationProblem(featureFoundInSubtype);
-				if (result == null) result = caseRuntimeError(featureFoundInSubtype);
-				if (result == null) result = caseLocalProblem(featureFoundInSubtype);
-				if (result == null) result = caseProblem(featureFoundInSubtype);
-				if (result == null) result = caseAnalysisInfo(featureFoundInSubtype);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case AtlErrorPackage.OPERATION_CALL_INVALID: {
 				OperationCallInvalid operationCallInvalid = (OperationCallInvalid)theEObject;
 				T result = caseOperationCallInvalid(operationCallInvalid);
@@ -233,32 +312,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(operationCallInvalid);
 				if (result == null) result = caseProblem(operationCallInvalid);
 				if (result == null) result = caseAnalysisInfo(operationCallInvalid);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.OPERATION_NOT_FOUND: {
-				OperationNotFound operationNotFound = (OperationNotFound)theEObject;
-				T result = caseOperationNotFound(operationNotFound);
-				if (result == null) result = caseOperationCallInvalid(operationNotFound);
-				if (result == null) result = caseNavigationProblem(operationNotFound);
-				if (result == null) result = caseRuntimeError(operationNotFound);
-				if (result == null) result = caseLocalProblem(operationNotFound);
-				if (result == null) result = caseProblem(operationNotFound);
-				if (result == null) result = caseAnalysisInfo(operationNotFound);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: {
-				OperationFoundInSubtype operationFoundInSubtype = (OperationFoundInSubtype)theEObject;
-				T result = caseOperationFoundInSubtype(operationFoundInSubtype);
-				if (result == null) result = caseOperationNotFound(operationFoundInSubtype);
-				if (result == null) result = caseFoundInSubtype(operationFoundInSubtype);
-				if (result == null) result = caseOperationCallInvalid(operationFoundInSubtype);
-				if (result == null) result = caseNavigationProblem(operationFoundInSubtype);
-				if (result == null) result = caseRuntimeError(operationFoundInSubtype);
-				if (result == null) result = caseLocalProblem(operationFoundInSubtype);
-				if (result == null) result = caseProblem(operationFoundInSubtype);
-				if (result == null) result = caseAnalysisInfo(operationFoundInSubtype);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -380,17 +433,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: {
-				NoBindingForCompulsoryFeature noBindingForCompulsoryFeature = (NoBindingForCompulsoryFeature)theEObject;
-				T result = caseNoBindingForCompulsoryFeature(noBindingForCompulsoryFeature);
-				if (result == null) result = caseTargetModelConformanceProblem(noBindingForCompulsoryFeature);
-				if (result == null) result = caseBindingProblem(noBindingForCompulsoryFeature);
-				if (result == null) result = caseLocalProblem(noBindingForCompulsoryFeature);
-				if (result == null) result = caseProblem(noBindingForCompulsoryFeature);
-				if (result == null) result = caseAnalysisInfo(noBindingForCompulsoryFeature);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case AtlErrorPackage.BINDING_EXPECTED_ONE_ASSIGNED_MANY: {
 				BindingExpectedOneAssignedMany bindingExpectedOneAssignedMany = (BindingExpectedOneAssignedMany)theEObject;
 				T result = caseBindingExpectedOneAssignedMany(bindingExpectedOneAssignedMany);
@@ -437,39 +479,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.BINDING_WITHOUT_RULE: {
-				BindingWithoutRule bindingWithoutRule = (BindingWithoutRule)theEObject;
-				T result = caseBindingWithoutRule(bindingWithoutRule);
-				if (result == null) result = caseBindingProblem(bindingWithoutRule);
-				if (result == null) result = caseBindingResolution(bindingWithoutRule);
-				if (result == null) result = caseLocalProblem(bindingWithoutRule);
-				if (result == null) result = caseProblem(bindingWithoutRule);
-				if (result == null) result = caseAnalysisInfo(bindingWithoutRule);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: {
-				BindingWithResolvedByIncompatibleRule bindingWithResolvedByIncompatibleRule = (BindingWithResolvedByIncompatibleRule)theEObject;
-				T result = caseBindingWithResolvedByIncompatibleRule(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = caseBindingProblem(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = caseBindingResolution(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = caseLocalProblem(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = caseProblem(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = caseAnalysisInfo(bindingWithResolvedByIncompatibleRule);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: {
-				BindingPossiblyUnresolved bindingPossiblyUnresolved = (BindingPossiblyUnresolved)theEObject;
-				T result = caseBindingPossiblyUnresolved(bindingPossiblyUnresolved);
-				if (result == null) result = caseBindingProblem(bindingPossiblyUnresolved);
-				if (result == null) result = caseBindingResolution(bindingPossiblyUnresolved);
-				if (result == null) result = caseLocalProblem(bindingPossiblyUnresolved);
-				if (result == null) result = caseProblem(bindingPossiblyUnresolved);
-				if (result == null) result = caseAnalysisInfo(bindingPossiblyUnresolved);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case AtlErrorPackage.RESOLVED_RULE_INFO: {
 				ResolvedRuleInfo resolvedRuleInfo = (ResolvedRuleInfo)theEObject;
 				T result = caseResolvedRuleInfo(resolvedRuleInfo);
@@ -502,6 +511,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(flattenOverNonNestedCollection);
 				if (result == null) result = caseProblem(flattenOverNonNestedCollection);
 				if (result == null) result = caseAnalysisInfo(flattenOverNonNestedCollection);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.CHANGE_SELECT_FIRST_FOR_ANY: {
+				ChangeSelectFirstForAny changeSelectFirstForAny = (ChangeSelectFirstForAny)theEObject;
+				T result = caseChangeSelectFirstForAny(changeSelectFirstForAny);
+				if (result == null) result = caseLocalProblem(changeSelectFirstForAny);
+				if (result == null) result = caseProblem(changeSelectFirstForAny);
+				if (result == null) result = caseAnalysisInfo(changeSelectFirstForAny);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -661,15 +679,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseOclCompliance(incoherentHelperReturnType);
 				if (result == null) result = caseProblem(incoherentHelperReturnType);
 				if (result == null) result = caseAnalysisInfo(incoherentHelperReturnType);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: {
-				AccessToUndefinedValue accessToUndefinedValue = (AccessToUndefinedValue)theEObject;
-				T result = caseAccessToUndefinedValue(accessToUndefinedValue);
-				if (result == null) result = caseLocalProblem(accessToUndefinedValue);
-				if (result == null) result = caseProblem(accessToUndefinedValue);
-				if (result == null) result = caseAnalysisInfo(accessToUndefinedValue);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1338,6 +1347,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseFlattenOverNonNestedCollection(FlattenOverNonNestedCollection object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Change Select First For Any</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Change Select First For Any</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseChangeSelectFirstForAny(ChangeSelectFirstForAny object) {
 		return null;
 	}
 

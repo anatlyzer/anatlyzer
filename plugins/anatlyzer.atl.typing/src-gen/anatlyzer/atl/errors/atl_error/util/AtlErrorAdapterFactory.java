@@ -115,6 +115,46 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createTargetModelConformanceProblemAdapter();
 			}
 			@Override
+			public Adapter caseNoBindingForCompulsoryFeature(NoBindingForCompulsoryFeature object) {
+				return createNoBindingForCompulsoryFeatureAdapter();
+			}
+			@Override
+			public Adapter caseBindingPossiblyUnresolved(BindingPossiblyUnresolved object) {
+				return createBindingPossiblyUnresolvedAdapter();
+			}
+			@Override
+			public Adapter caseBindingWithoutRule(BindingWithoutRule object) {
+				return createBindingWithoutRuleAdapter();
+			}
+			@Override
+			public Adapter caseBindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule object) {
+				return createBindingWithResolvedByIncompatibleRuleAdapter();
+			}
+			@Override
+			public Adapter caseFeatureNotFound(FeatureNotFound object) {
+				return createFeatureNotFoundAdapter();
+			}
+			@Override
+			public Adapter caseOperationNotFound(OperationNotFound object) {
+				return createOperationNotFoundAdapter();
+			}
+			@Override
+			public Adapter caseOperationFoundInSubtype(OperationFoundInSubtype object) {
+				return createOperationFoundInSubtypeAdapter();
+			}
+			@Override
+			public Adapter caseFoundInSubtype(FoundInSubtype object) {
+				return createFoundInSubtypeAdapter();
+			}
+			@Override
+			public Adapter caseFeatureFoundInSubtype(FeatureFoundInSubtype object) {
+				return createFeatureFoundInSubtypeAdapter();
+			}
+			@Override
+			public Adapter caseAccessToUndefinedValue(AccessToUndefinedValue object) {
+				return createAccessToUndefinedValueAdapter();
+			}
+			@Override
 			public Adapter caseRuleConflict(RuleConflict object) {
 				return createRuleConflictAdapter();
 			}
@@ -135,28 +175,8 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createOperationOverCollectionTypeAdapter();
 			}
 			@Override
-			public Adapter caseFeatureNotFound(FeatureNotFound object) {
-				return createFeatureNotFoundAdapter();
-			}
-			@Override
-			public Adapter caseFoundInSubtype(FoundInSubtype object) {
-				return createFoundInSubtypeAdapter();
-			}
-			@Override
-			public Adapter caseFeatureFoundInSubtype(FeatureFoundInSubtype object) {
-				return createFeatureFoundInSubtypeAdapter();
-			}
-			@Override
 			public Adapter caseOperationCallInvalid(OperationCallInvalid object) {
 				return createOperationCallInvalidAdapter();
-			}
-			@Override
-			public Adapter caseOperationNotFound(OperationNotFound object) {
-				return createOperationNotFoundAdapter();
-			}
-			@Override
-			public Adapter caseOperationFoundInSubtype(OperationFoundInSubtype object) {
-				return createOperationFoundInSubtypeAdapter();
 			}
 			@Override
 			public Adapter caseOperationCallInvalidNumberOfParameters(OperationCallInvalidNumberOfParameters object) {
@@ -203,10 +223,6 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createResolveTempProblemAdapter();
 			}
 			@Override
-			public Adapter caseNoBindingForCompulsoryFeature(NoBindingForCompulsoryFeature object) {
-				return createNoBindingForCompulsoryFeatureAdapter();
-			}
-			@Override
 			public Adapter caseBindingExpectedOneAssignedMany(BindingExpectedOneAssignedMany object) {
 				return createBindingExpectedOneAssignedManyAdapter();
 			}
@@ -227,18 +243,6 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createBindingResolutionAdapter();
 			}
 			@Override
-			public Adapter caseBindingWithoutRule(BindingWithoutRule object) {
-				return createBindingWithoutRuleAdapter();
-			}
-			@Override
-			public Adapter caseBindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule object) {
-				return createBindingWithResolvedByIncompatibleRuleAdapter();
-			}
-			@Override
-			public Adapter caseBindingPossiblyUnresolved(BindingPossiblyUnresolved object) {
-				return createBindingPossiblyUnresolvedAdapter();
-			}
-			@Override
 			public Adapter caseResolvedRuleInfo(ResolvedRuleInfo object) {
 				return createResolvedRuleInfoAdapter();
 			}
@@ -253,6 +257,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseFlattenOverNonNestedCollection(FlattenOverNonNestedCollection object) {
 				return createFlattenOverNonNestedCollectionAdapter();
+			}
+			@Override
+			public Adapter caseChangeSelectFirstForAny(ChangeSelectFirstForAny object) {
+				return createChangeSelectFirstForAnyAdapter();
 			}
 			@Override
 			public Adapter caseIteratorOverEmptySequence(IteratorOverEmptySequence object) {
@@ -321,10 +329,6 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseIncoherentHelperReturnType(IncoherentHelperReturnType object) {
 				return createIncoherentHelperReturnTypeAdapter();
-			}
-			@Override
-			public Adapter caseAccessToUndefinedValue(AccessToUndefinedValue object) {
-				return createAccessToUndefinedValueAdapter();
 			}
 			@Override
 			public Adapter caseBindingInplaceInvalid(BindingInplaceInvalid object) {
@@ -961,6 +965,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFlattenOverNonNestedCollectionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny <em>Change Select First For Any</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny
+	 * @generated
+	 */
+	public Adapter createChangeSelectFirstForAnyAdapter() {
 		return null;
 	}
 

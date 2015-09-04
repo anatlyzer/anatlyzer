@@ -17,7 +17,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoEnumLiteral()
  * @model annotation="description name='Enum literal not found' text='There is no enum declaration with the given enum literal'"
- *        annotation="info prec='static' path='no' severity='error-always' when='trafo-dep' kind='navigation' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='error-load' when='trafo-dep' kind='trafo-integrity' phase='typing' source='none'"
  * @generated
  */
 public interface NoEnumLiteral extends LocalProblem {

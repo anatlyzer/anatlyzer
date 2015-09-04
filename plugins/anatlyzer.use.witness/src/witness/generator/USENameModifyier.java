@@ -1,7 +1,11 @@
 package witness.generator;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import anatlyzer.atl.witness.UseReservedWords;
 
 public class USENameModifyier {
 
@@ -25,6 +29,14 @@ public class USENameModifyier {
 		
 		}
 		return f.getName();
+	}
+
+	public void adapt(EEnum c) {
+		for (EEnumLiteral lit : c.getELiterals()) {
+			if ( UseReservedWords.isReserved(lit.getName()) ) {
+				lit.setName(UseReservedWords.getReplacement(lit.getName()));
+			}
+		}
 	}
 	
 }

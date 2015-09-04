@@ -828,7 +828,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					IFile newMM = temp.getFile(name + "_" + id + ".ecore");
 					String newPath = newMM.getFullPath().toPortableString();					
 					
-					ATLUtils.replacePathTag(model.getRoot(), name, name, newPath);
+					ATLUtils.replacePathTag(model, name, name, newPath);
 					
 					try {
 						XMIResourceImpl res = new XMIResourceImpl();

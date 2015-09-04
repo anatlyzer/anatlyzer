@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingPossiblyUnresolved()
  * @model annotation="description name='Binding possibly unresolved' text='A binding may be unresolved if certain conditions hold'"
- *        annotation="info prec='always-solver' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
+ *        annotation="info prec='always-solver' path='yes' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
  * @generated
  */
 public interface BindingPossiblyUnresolved extends BindingProblem, BindingResolution {

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolveTempOutputPatternElementNotFound()
  * @model annotation="description name='Undefined output pattern in resolveTemp operation' text='The given output pattern of the possible matched rules is not defined'"
- *        annotation="info prec='static' path='no' severity='error-behaviour' when='model-dep' kind='trafo-rules' phase='typing' source='none'"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='trafo-rules' phase='typing' source='none'"
  * @generated
  */
 public interface ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {

@@ -24,28 +24,36 @@ public class Report {
 	/** the transformation did not execute correctly */
 	public boolean setExecutionError (String transformation, String error, String witness) {
 		Result r = this.getResult(getFileName(transformation));
-		r.setExecutionError();
-		r.setError(error);
-		r.setWitness(witness);
+		r.setExecutionRaisesException();
+		r.setExecutionError(error);
+		r.setExecutionWitness(witness);
 		return true;
 	}
 	
 	/** the transformation produces a model not conforming to the output metamodel */
 	public boolean setOutputError (String transformation, String error, String witness) {
 		Result r = this.getResult(getFileName(transformation));
-		r.setOutputError();
-		r.setError(error);
-		r.setWitness(witness);
+		r.setExecutionYieldsIllTarget();
+		r.setExecutionError("The transformation produces ill-typed target models.");
+		r.setExecutionWitness(witness);
 		return true;
 	}
 	
 	/** the anatlyzer reported an error in the transformation */
 	public boolean setAnatlyserError (String transformation, String error) {
 		Result r = this.getResult(getFileName(transformation));
-		r.setAnatlyzerError();
-		r.setError(error);
+		r.setAnatlyserNotifiesError();
+		r.setAnatlyserError(error);
 		return true;
 	}
+	
+	/** the anatlyser finished with an exception */
+	public boolean setAnatlyserException (String transformation, String error) {
+		Result r = this.getResult(getFileName(transformation));
+		r.setAnatlyserDoesNotFinish();
+		r.setAnatlyserError(error);
+		return true;
+	}	
 	
 	/** print report */
 	public void print () {
@@ -54,6 +62,7 @@ public class Report {
 		long total          = 0;
 		long falsePositives = 0;
 		long falseNegatives = 0;
+		long anatlyserExceptions = 0;
 		
 		console.println("==============================================================");
 		console.println("RESULTS");
@@ -61,19 +70,26 @@ public class Report {
 		
 		// print result of each analysis
 		for (String transformation : new TreeSet<String>(report.keySet())) {
-			Result  r = report.get(transformation);
-			boolean discrepancy = (r.isExecutionError()||r.isOutputError()) ^ r.isAnatlyzerError();
+			Result  r           = report.get(transformation);
+			
+			boolean discrepancy = (r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) ^ r.getAnatlyserNotifiesError();			
 			if (discrepancy) {
-				if (r.isAnatlyzerError()) 
+				if (r.getAnatlyserNotifiesError()) 
 					 falsePositives++;
 				else falseNegatives++;
 				console.println( " ** discrepancy in " + transformation + " --" + 
-								 " ANATLYZER: " + (r.isAnatlyzerError()?                       "error "+r.getError()+" --":"ok --") +
-	                             " EXECUTION: " + ((r.isExecutionError()||r.isOutputError())? ("error "+r.getError()+"; witness "+r.getWitness()):"ok") );
+								 " ANATLYZER: " + (r.getAnatlyserNotifiesError()? "error "+r.getAnatlyserError()+" --":"ok --") +
+	                             " EXECUTION: " + ((r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget())? ("error "+r.getExecutionError()+"; witness "+r.getExecutionWitness()):"ok") );
+			}			
+			else console.println( r.getAnatlyserNotifiesError()? 
+						 		  " ok: " +  transformation + " is incorrect [ANATLYSER =>" + r.getAnatlyserError() + "; EXECUTION => " + r.getExecutionError() + "]" :
+								  " ok: " +  transformation + " is correct" );	
+			
+			if (r.getAnatlyserDoesNotFinish()) {
+				anatlyserExceptions++;
+				console.println("    ---> WARNING: anATLyser raised the exception " + r.getAnatlyserError() );
 			}
-			else console.println( r.isAnatlyzerError()? 
-						 		  " ok: " +  transformation + " is incorrect (" + r.getError() + ")" :
-								  " ok: " +  transformation + " is correct" );
+			
 			total++;
 		}
 		
@@ -86,6 +102,7 @@ public class Report {
 			console.println(" Correctly anatlysed ..... = " + (total-falseNegatives-falsePositives) + " (" + (100*(total-falseNegatives-falsePositives)/total) + "%)");
 			console.println(" False positives ......... = " + falsePositives + " (" + (100*falsePositives/total) + "%)");
 			console.println(" False negatives ......... = " + falseNegatives + " (" + (100*falseNegatives/total) + "%)");
+			if (anatlyserExceptions>0) console.println(" [anATLyser exceptions ... = " + anatlyserExceptions + "]");
 		}
 		console.display();
 	}
@@ -98,22 +115,31 @@ public class Report {
 	
 	/** result for a transformation */
 	public class Result {
-		private boolean executionError = false;
-		private boolean outputError    = false;
-		private boolean anatlyzerError = false;
-		private String  error;
-		private String  witness;
+		private boolean anatlyserNotifiesError   = false;
+		private boolean anatlyserDoesNotFinish   = false; // the anatlysis raises an exception
+		// otherwise, it means the anatlysis reports no error
 		
-		void setExecutionError()        { executionError = true;  }
-		void setOutputError()           { outputError    = true;  }
-		void setAnatlyzerError()        { anatlyzerError = true;  }
-		void setError  (String error)   { this.error   = error;   }
-		void setWitness(String witness) { this.witness = witness; }
+		private boolean executionRaisesException = false;
+		private boolean executionYieldsIllTarget = false;
+		// otherwise, it means the execution always produces correct target models
 		
-		boolean isExecutionError() { return executionError; }
-		boolean isOutputError()    { return outputError;    }
-		boolean isAnatlyzerError() { return anatlyzerError; }
-		String  getError()         { return error;          }
-		String  getWitness()       { return witness;        }
+		private String executionError, anatlyserError;
+		private String executionWitness;
+		
+		void setAnatlyserNotifiesError()       { anatlyserNotifiesError   = true; }
+		void setAnatlyserDoesNotFinish()       { anatlyserDoesNotFinish   = true; }
+		void setExecutionRaisesException()     { executionRaisesException = true; }
+		void setExecutionYieldsIllTarget()     { executionYieldsIllTarget = true; }
+		void setAnatlyserError(String error)   { anatlyserError   = error;        }
+		void setExecutionError(String error)   { executionError   = error;        }
+		void setExecutionWitness(String error) { executionWitness = error;        }
+		
+		boolean getAnatlyserNotifiesError()   { return anatlyserNotifiesError;   }
+		boolean getAnatlyserDoesNotFinish()   { return anatlyserDoesNotFinish;   }
+		boolean getExecutionRaisesException() { return executionRaisesException; }
+		boolean getExecutionYieldsIllTarget() { return executionYieldsIllTarget; }		
+		String  getAnatlyserError()           { return anatlyserError;           }
+		String  getExecutionError()           { return executionError;           }
+		String  getExecutionWitness()         { return executionWitness;         }
 	}
 }

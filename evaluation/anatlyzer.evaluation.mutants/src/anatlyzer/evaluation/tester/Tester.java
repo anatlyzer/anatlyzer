@@ -365,7 +365,7 @@ public class Tester {
 			if (!errorsAnatlyser.isEmpty()) 
 				report.setAnatlyserError(transformation, errorsAnatlyser);
 		}
-		catch (Exception e) { System.out.println("******** REVISE: ANATLYZER DID NOT FINISH, IT RAISED AN EXCEPTION (" + transformation + ")" ); }
+		catch (Exception e) { report.setAnatlyserException(transformation, e.getMessage()); }
 		
 		// execute transformation
 		errorsExecution = this.executeTransformation(transformation);
@@ -456,7 +456,7 @@ public class Tester {
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
-	private String typing(String atlTransformationFile) throws IOException, ATLCoreException {
+	private String typing (String atlTransformationFile) throws IOException, ATLCoreException {
 		String        problem = "";
 		ProblemStatus status  = null;
 		

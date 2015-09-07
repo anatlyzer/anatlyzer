@@ -2,12 +2,14 @@ package anatlyzer.atl.analyser.generators;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -145,7 +147,8 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	}
 
 	private HashSet<Helper> alreadyAdded = new HashSet<Helper>();
-
+	private HashMap<Helper, Helper> helperTrace = new HashMap<Helper, Helper>();
+	
 	private boolean addHelperAux(Helper helper) {
 		if (alreadyAdded.contains(helper))
 			return false;
@@ -155,15 +158,24 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			helpersNotSupported.add(helper);
 		}
 
-		helper = (Helper) ATLCopier.copySingleElement(helper, true);
-		helpers.add(helper);
-
+		if ( ATLUtils.getHelperName(helper).equals("km3TypeExistsIn") ) {
+			System.out.println(helper);
+		}
+		
+		Helper newHelper = (Helper) ATLCopier.copySingleElement(helper, true);
+		helpers.add(newHelper);
+		helperTrace.put(helper, newHelper);
+		
 		// helpers.get(ctxTypeName).add(helper);
 		return true;
 	}
 
 	public Set<Helper> getHelpers() {
 		return helpers;
+	}
+	
+	public Helper getCopiedHelper(Helper h) {
+		return helperTrace.get(h);
 	}
 
 	public String toOneLineString() {
@@ -270,6 +282,19 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	@Override
 	public Collection<EAnnotation> getPackageAnnotations() {
 		throw new UnsupportedOperationException();
+	}
+
+	public static EClass pickClass(EList<EClass> problematicClassesImplicit) {
+		EClass result = null;
+		long smaller   = Long.MAX_VALUE;
+		for (EClass eClass : problematicClassesImplicit) {
+			long size = eClass.getEAllReferences().stream().filter(r -> r.getLowerBound() == 1).count();
+			if ( size < smaller ) {
+				result  = eClass;
+				smaller = size;
+			}
+		}
+		return result;
 	}
 
 

@@ -583,7 +583,7 @@ public class ErrorModel {
 	}
 
 	
-	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses) {
+	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
 		BindingPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createBindingPossiblyUnresolved();
 		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED, true);
 
@@ -592,6 +592,8 @@ public class ErrorModel {
 		error.setFeatureName(b.getPropertyName());
 		
 		error.getProblematicClasses().addAll(problematicClasses);
+		error.getProblematicClassesImplicit().addAll(problematicClassesImplicit);
+		
 		String s = "";
 		for (EClass eClass : problematicClasses) {
 			s += ", " + eClass.getName();

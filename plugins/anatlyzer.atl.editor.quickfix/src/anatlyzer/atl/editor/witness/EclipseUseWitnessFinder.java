@@ -23,7 +23,7 @@ public class EclipseUseWitnessFinder extends UseWitnessFinder implements IWitnes
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e.getMessage(), e);
+				WorkspaceLogger.writeLog(IStatus.ERROR, e.getMessage(), e);
 			}
 		});
 	}

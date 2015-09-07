@@ -1,0 +1,21 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module implicitifelse;
+create OUT : WXYZ from IN : ABCD;
+
+-- There is no problem
+helper context ABCD!Model def : name2() : String = self.elements->collect(e |
+    		if not e.oclIsKindOf(ABCD!B) then
+				'it is ok'
+			else
+				e.propOfB
+			endif
+    	)->first();
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- src.name2() --src.name1() + '_' + src.name2()
+    )
+}
+

@@ -1,6 +1,8 @@
 package anatlyzer.atl.analyser.generators;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -15,13 +17,17 @@ import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -36,11 +42,13 @@ import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -55,6 +63,8 @@ public class Retyping extends AbstractVisitor {
 	private HashSet<LocatedElement> seqAsSetModifications = new HashSet<LocatedElement>();
 	private HashSet<LocatedElement> subtypeSelectionOnFeatureAccess = new HashSet<LocatedElement>();
 	private VariableDeclaration thisModuleVar;
+
+	private List<Helper> newHelpers = new ArrayList<Helper>();
 
 	public Retyping(EObject root) {
 		this.root    = root;
@@ -72,7 +82,10 @@ public class Retyping extends AbstractVisitor {
 	public boolean usesSubtypeSelectionOnFeatureAccess() {
 		return ! subtypeSelectionOnFeatureAccess.isEmpty();
 	}
-	
+
+	public List<Helper> getNewHelpers() {
+		return newHelpers;
+	}
 
 	// To this right, the variable should be given externally, but this is
 	// not always possible
@@ -237,8 +250,10 @@ public class Retyping extends AbstractVisitor {
 			navT.setOperationName(self.getName());
 		
 			navT.setStaticResolver(self.getStaticResolver());
+			navT.getDynamicResolvers().addAll(self.getDynamicResolvers());
 			navT.setSource(self.getSource());
-
+			navT.setInferredType(self.getInferredType());
+			
 			// Pass thisModule
 			VariableExp thisModuleRef = OCLFactory.eINSTANCE.createVariableExp();
 			thisModuleRef.setReferredVariable(getThisModuleVar());
@@ -354,7 +369,6 @@ public class Retyping extends AbstractVisitor {
 	
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
-		
 		// In some cases USE cannot transform the invariant if it uses oclIsKindOf 
 		// (see line 32 of XML2CPL.atl, without this the quickfix just does not work
 		//
@@ -406,6 +420,18 @@ public class Retyping extends AbstractVisitor {
 			VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
 			thisModuleRef.setReferredVariable(getThisModuleVar());
 			self.getArguments().add(0, thisModuleRef);
+		
+			// Create helper if it is a primitive type
+			if ( self.getStaticResolver() instanceof ContextHelper && ((ContextHelper) self.getStaticResolver()).getContextType() instanceof PrimitiveType ) {
+				Helper newHelper = createHelperForPrimitiveTypeOperation(self, (ContextHelper) self.getStaticResolver());
+				self.setStaticResolver(newHelper); // change the resolver
+				
+				VariableExp thisModuleRef2 =  OCLFactory.eINSTANCE.createVariableExp();			
+				thisModuleRef2.setReferredVariable(getThisModuleVar());
+				
+				self.getArguments().add(self.getSource());
+				self.setSource(thisModuleRef2);
+			}
 		}
 		
 		// if ( self.getSource().getInferredType() instanceof CollectionType ) {
@@ -418,6 +444,46 @@ public class Retyping extends AbstractVisitor {
 		}
 	}
 	
+
+	private Helper createHelperForPrimitiveTypeOperation(OperationCallExp self, ContextHelper resolver) {
+		
+		Operation operation = OCLFactory.eINSTANCE.createOperation();
+		operation.setName(self.getOperationName());
+		operation.setReturnType(ATLUtils.getHelperReturnType(resolver) );
+		// operation.setBody      ( ASTUtils.defaultValue (returnType) );
+
+		// Not adding "ThisModule" because it is added in USESerializer
+		for (Parameter parameter : ATLUtils.getHelperArguments(resolver)) {
+			operation.getParameters().add((Parameter) ATLCopier.copySingleElement(parameter));
+		}
+		
+		Parameter theSelf = OCLFactory.eINSTANCE.createParameter();
+		theSelf.setVarName("ptypeSelf");
+		theSelf.setType((OclType) ATLCopier.copySingleElement(ATLUtils.getHelperType(resolver)));
+		theSelf.setInferredType(resolver.getContextType());
+		operation.getParameters().add(theSelf);
+		
+		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		// def.setContext_(ctx);
+		def.setFeature (operation);
+		
+		StaticHelper helper = ATLFactory.eINSTANCE.createStaticHelper();
+		helper.setDefinition(def);
+		helper.setInferredReturnType(resolver.getInferredReturnType());
+		
+		OclExpression body = ATLUtils.getBody(resolver);
+		ATLCopier copier = new ATLCopier(body);
+		body.eAllContents().forEachRemaining(it -> {
+			if ( it instanceof VariableExp && ((VariableExp) it).getReferredVariable().getVarName().equals("self") ) {
+				copier.bind(((VariableExp) it).getReferredVariable(), theSelf);
+			}
+		});
+		
+		operation.setBody((OclExpression) copier.copy());
+		
+		newHelpers.add(helper);
+		return helper;
+	}
 
 	@Override
 	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {

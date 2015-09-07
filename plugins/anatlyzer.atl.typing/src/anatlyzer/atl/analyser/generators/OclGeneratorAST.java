@@ -60,7 +60,7 @@ public class OclGeneratorAST {
 		OclExpression copied = genAux(expr, vars);
 		copied.setLocation(expr.getLocation());
 		copied.getProblems().addAll(expr.getProblems());
-		
+
 		// copied.setInferredType( expr.getInferredType() );
 		CSPModel.setInferredType(copied, expr.getInferredType());
 		
@@ -211,6 +211,10 @@ public class OclGeneratorAST {
 			if ( navS.getStaticResolver() instanceof StaticRule ) {
 				return lazyRuleStrategy.gen(atlModel, navS);
 			} 
+			if ( navS.getOperationName().equals("resolveTemp") ) {
+				// If it is within a collect, the collect could be removed...
+				return lazyRuleStrategy.gen(atlModel, navS);				
+			}
 			
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 

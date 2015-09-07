@@ -46,10 +46,12 @@ public class ErrorReport {
 	}
 	
 	public static void printStatistics(Analyser analyser, String[] fileLocations, OutputStream stream) {
-		PrintStream out = new PrintStream(stream);
 		Report r = computeStatistics(analyser, fileLocations);
+		printStatistics(r, stream);
+	}
 
-		
+	public static void printStatistics(Report r, OutputStream stream) {
+		PrintStream out = new PrintStream(stream);
 		out.println("Transformation statistics");
 		out.println(" * LOC : " + r.nLOC);
 		if (r.nHelpers > 0)

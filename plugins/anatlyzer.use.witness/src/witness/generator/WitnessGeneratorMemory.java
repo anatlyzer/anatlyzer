@@ -54,10 +54,14 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 
 	private ArrayList<String> additionalConstraints = new ArrayList<String>();
+	private int foundScope;
 	public void addAdditionaConstraint(String constraint) {
 		this.additionalConstraints.add(constraint);
 	}
 	
+	public int getFoundScope() {
+		return foundScope;
+	}
 	
 	protected void adaptMetamodels(int idx) {
 		// extend error meta-model with mandatory classes in language meta-model 
@@ -163,14 +167,30 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	 */
 	@Override
 	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
-		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
+		WitnessGenResult r = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
+		if ( r == null )
+			return null;
+		this.foundScope = r.scope;
+		return r.r;
 	}
 	
-	public static String generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope) throws transException {
+	
+	
+	public static WitnessGenResult generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope) throws transException {
 		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, new ArrayList<String>());
 	}
 		
-	public static String generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
+	public static class WitnessGenResult {
+		public String r;
+		public int scope;
+		
+		public WitnessGenResult(String r, int scope) {
+			this.r = r;
+			this.scope = scope;
+		}
+	}
+	
+	public static WitnessGenResult generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
 
 		// load properties file (it requires full path)
 		/*
@@ -199,10 +219,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		
 		String model = null;
+		int scope;
 		//root = metamodel.getEClassifier("SubAction");
 		try {
 			// use increasing scope (1,2,3...) to obtain smaller models
-			for (int scope=minScope; scope<=maxScope && model==null; scope++) {
+			for (scope=minScope; scope<=maxScope && model==null; scope++) {
 				transMLProperties.setProperty("solver.scope", ""+scope);
 				model = solver.find(metamodel, ocl_constraints);
 			}
@@ -220,8 +241,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			throw e;
 		}
 		
+		if ( model == null)
+			return null;
+		return new WitnessGenResult(model, scope);
+		
 		// return path of generated model
-		return model;
+		// return model;
 	}	
 
 	public static class AdaptationInternalError extends RuntimeException {

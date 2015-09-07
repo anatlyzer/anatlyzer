@@ -23,6 +23,12 @@
                implementation="anatlyzer.experiments.typing.ExportPotentialProblemsSummary"
                name="Export potential problems summary">
          </actions>
+
+         <actions
+               implementation="anatlyzer.experiments.typing.ExportTestFile"
+               name="Export test file">
+         </actions>
+         
       </experiment>
    </extension>
    <extension

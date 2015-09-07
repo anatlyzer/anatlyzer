@@ -12,6 +12,7 @@ import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -235,10 +236,12 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inMatchedRule(MatchedRule self) {
 		
-		if ( self.getOutPattern() == null || self.getOutPattern().getElements().isEmpty() ) {
+		if ( ruleWithoutOutputPattern(self) ) {
 			
+			if ( ATLUtils.allSuperRules(self).stream().allMatch(r -> ruleWithoutOutputPattern(r) ) ) {
 			// if ( self.getOutPattern().getDropPattern() != null )
 				errors().signalMatchedRuleWithoutOutputPattern(self);
+			}
 			return;
 		}
 		
@@ -252,6 +255,10 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		}
 	}
 
+	public boolean ruleWithoutOutputPattern(MatchedRule self) {
+		return self.getOutPattern() == null || self.getOutPattern().getElements().isEmpty();
+	}
+	
 	//  
 	// Variables 
 	//

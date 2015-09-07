@@ -192,6 +192,10 @@ public class TypeUtils {
 			if ( t instanceof SequenceType ) typeName = "Sequence";
 			if ( t instanceof SetType ) typeName = "Set";
 			
+			if ( ((CollectionType) t).getContainedType() instanceof EmptyCollectionType ) {
+				System.out.println(t);
+			}
+			
 			return typeName + "(" + getNonQualifiedTypeName(((CollectionType) t).getContainedType()) +")";
 		} else if ( t instanceof EnumType ) {
 			return ((EnumType) t).getName();

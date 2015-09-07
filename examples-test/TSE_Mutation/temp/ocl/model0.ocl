@@ -1,6 +1,0 @@
-context AuxiliaryClass4USE inv graph1:
-ThisModule.allInstances()->exists(thisModule|Assembler.allInstances()->exists(i1|(if not (i1.oclIsKindOf(Assembler))
-	then false
-	else not (i1.oclAsType(Assembler).priority)
-	endif) and (i1.priority)))
-

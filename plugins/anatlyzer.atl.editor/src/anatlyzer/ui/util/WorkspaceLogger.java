@@ -28,8 +28,13 @@ public class WorkspaceLogger {
 		LOGGER.log(status);
 	}
 	
-	private static void writeLog(int severity, String message) {
+	public static void writeLog(int severity, String message) {
 		IStatus status = new Status(severity, PLUGIN_ID, message);
+		LOGGER.log(status);
+	}
+
+	public static void writeLog(int severity, String message, Throwable e) {
+		IStatus status = new Status(severity, PLUGIN_ID, message, e);
 		LOGGER.log(status);
 	}
 

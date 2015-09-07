@@ -66,6 +66,8 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClassesImplicit"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithoutRule"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingWithResolvedByIncompatibleRule"/>

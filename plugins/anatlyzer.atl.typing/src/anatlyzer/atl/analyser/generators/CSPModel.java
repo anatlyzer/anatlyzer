@@ -24,6 +24,7 @@ import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -324,6 +325,13 @@ public class CSPModel {
 
 	public static  Type copy(Type t) {
 		return (Type) ATLCopier.copySingleElement(t, true);
+	}
+
+
+	public OclExpression createVarRef(VariableDeclaration vd) {
+		VariableExp varref = OCLFactory.eINSTANCE.createVariableExp();
+		varref.setReferredVariable(vd);
+		return varref;
 	}
 
 	

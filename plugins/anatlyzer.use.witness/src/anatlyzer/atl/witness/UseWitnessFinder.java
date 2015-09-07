@@ -42,6 +42,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean checkDiscardCause = true;
 	private boolean checkProblemsInPath;
 	private boolean checkPreconditions = true;
+	private int foundScope;
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -206,6 +207,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			if ( ! generator.generate() ) {
 				return ProblemStatus.ERROR_DISCARDED;
 			} else {
+				this.foundScope = generator.getFoundScope();
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
@@ -217,6 +219,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			onUSEInternalError(e);
 			return ProblemStatus.USE_INTERNAL_ERROR;
 		}
+	}
+	
+	public int getFoundScope() {
+		return foundScope;
 	}
 	
 	/**

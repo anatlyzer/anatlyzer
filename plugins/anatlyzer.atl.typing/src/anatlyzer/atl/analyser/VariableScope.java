@@ -40,7 +40,12 @@ public class VariableScope {
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
 		currentKindOf.addOclKindOf(vd, source, typeOfType);
 	}
-	
+
+	public void putNotKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
+		currentKindOf.addOclKindOf(vd, source, typeOfType);
+		currentKindOf.negate();
+	}
+
 	public void putIsUndefined(VariableDeclaration vd, OclExpression source) {
 		currentUndefined.addIsUndefined(vd, source);
 	}

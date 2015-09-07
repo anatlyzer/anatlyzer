@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getProblematicClasses <em>Problematic Classes</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}</li>
  * </ul>
  *
  * @generated
@@ -102,6 +103,16 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 	 * @ordered
 	 */
 	protected EList<EClass> problematicClasses;
+
+	/**
+	 * The cached value of the '{@link #getProblematicClassesImplicit() <em>Problematic Classes Implicit</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProblematicClassesImplicit()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EClass> problematicClassesImplicit;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -313,6 +324,18 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EClass> getProblematicClassesImplicit() {
+		if (problematicClassesImplicit == null) {
+			problematicClassesImplicit = new EObjectResolvingEList<EClass>(EClass.class, this, AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT);
+		}
+		return problematicClassesImplicit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -348,6 +371,8 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 				return getRules();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES:
 				return getProblematicClasses();
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT:
+				return getProblematicClassesImplicit();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -381,6 +406,10 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 				getProblematicClasses().clear();
 				getProblematicClasses().addAll((Collection<? extends EClass>)newValue);
 				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT:
+				getProblematicClassesImplicit().clear();
+				getProblematicClassesImplicit().addAll((Collection<? extends EClass>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -411,6 +440,9 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES:
 				getProblematicClasses().clear();
 				return;
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT:
+				getProblematicClassesImplicit().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -435,6 +467,8 @@ public class BindingPossiblyUnresolvedImpl extends BindingProblemImpl implements
 				return rules != null && !rules.isEmpty();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES:
 				return problematicClasses != null && !problematicClasses.isEmpty();
+			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT:
+				return problematicClassesImplicit != null && !problematicClassesImplicit.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -86,6 +86,7 @@ package atl_error {
 	@info(prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
 	class BindingPossiblyUnresolved extends BindingProblem, BindingResolution {
 	   ref EClass[+] problematicClasses;
+	   ref EClass[+] problematicClassesImplicit;
 	}
 
 	@description(name="No rule to resolve binding", text="No rule able to resolve the binding can be found")	 

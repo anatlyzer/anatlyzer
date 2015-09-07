@@ -9,9 +9,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.analyser.namespaces.PrimitiveTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
@@ -270,6 +272,14 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 				CalledRule r = tn.getCalledRule(featureOrOperationName);
 				// self.setStaticResolver( r );
 				ATLUtils.setStaticResolverBidirectional(self, r);
+			}
+		} else if ( srcType instanceof PrimitiveType ) {
+			self.setIsStaticCall(false);
+			PrimitiveTypeNamespace tn = (PrimitiveTypeNamespace) srcType.getMetamodelRef();
+			OclFeature op = tn.getAttachedOclFeature(featureOrOperationName);
+			if ( op != null ) {
+				Helper h = (Helper) op.eContainer().eContainer();
+				ATLUtils.setStaticResolverBidirectional(self, h);				
 			}
 		}
 	}

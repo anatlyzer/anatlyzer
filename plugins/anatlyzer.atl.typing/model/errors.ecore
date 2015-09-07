@@ -100,6 +100,8 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClasses" lowerBound="1"
           upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClassesImplicit"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingWithoutRule" eSuperTypes="#//atl_error/BindingProblem #//atl_error/BindingResolution">
       <eAnnotations source="description">

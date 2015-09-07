@@ -211,6 +211,10 @@ public class USESerializer {
 	}
 
 	private static String genPropertyCall(OclExpression expr) {
+		if ( ((PropertyCallExp) expr).getSource() == null ) {
+			System.out.println(((PropertyCallExp) expr));
+		}
+		
 		String receptor = genAux(((PropertyCallExp) expr).getSource());
 		String casting = "";
 

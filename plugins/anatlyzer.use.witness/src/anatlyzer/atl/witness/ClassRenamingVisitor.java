@@ -1,28 +1,23 @@
 package anatlyzer.atl.witness;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.generators.IObjectVisitor;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
-import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.processing.AbstractVisitor;
 

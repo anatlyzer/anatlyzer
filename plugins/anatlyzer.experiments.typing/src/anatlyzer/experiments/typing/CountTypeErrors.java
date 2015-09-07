@@ -13,11 +13,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 
-import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
@@ -34,7 +32,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 
 
 	protected HashMap<String, Project> projects = new HashMap<String, Project>();
-	protected List<AnalyserData> allData = new ArrayList<AnalyserData>();
+	protected List<ExpAnalyserData> allData = new ArrayList<ExpAnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 	protected List<DetectedError> allProblems = new ArrayList<DetectedError>();
 
@@ -67,29 +65,30 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 		}
 		Project project = projects.get(projectName);
 		
-		AnalyserData data;
+		AnalyserData original;
 		try {
-			data = executeAnalyser(resource);
-			if ( data == null )
+			original = executeAnalyser(resource);
+			if ( original == null )
 				return;
-
+			
 			if ( performRuleConflictAnalysis() ) {
-				RuleConflict rc = doRuleAnalysis(monitor, data, true);
+				RuleConflict rc = doRuleAnalysis(monitor, original, true);
 				project.conflicts.add(new RuleConflictResult((IFile) resource, rc));
 			}
-			
-			project.trafos.add(data);
-			allData.add(data);
-		
+					
 			if ( useCSP() ) {
-				confirmProblems(data.getProblems(), data);
+				confirmProblems(original.getProblems(), original);
 			}
 						
+			ExpAnalyserData data = copyData(original);
+			project.trafos.add(data);
+			allData.add(data);
+			
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
-			ProblemGraph pGraph = AnalyserUtils.computeProblemGraph(data);
-			for(Problem p : data.getProblems()) {
+			ProblemGraph pGraph = AnalyserUtils.computeProblemGraph(original);
+			for(Problem p : original.getProblems()) {
 				int errorCode = AnalyserUtils.getProblemId(p);
 				String desc   = AnalyserUtils.getProblemDescription(p);
 
@@ -100,7 +99,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 				
 				summarizeError(p, errorCode, desc, path);				
 				
-				DetectedError e = new DetectedError(errorCode, fileName, p);
+				DetectedError e = new DetectedError(errorCode, fileName, new ExpProblem(p));
 				e.setProblemsInPath(path == null);
 				
 				allProblems.add(e);
@@ -188,20 +187,20 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	public void printResult(PrintStream out) {
 		
 		out.println("Transformations - Detail");
-		for(AnalyserData data : allData) {
-			out.println(data.getAnalyser().getATLModel().getFileLocations().get(0));
+		for(ExpAnalyserData data : allData) {
+			out.println(data.getMainFileLocation());
 			
-			Analyser analyser = data.getAnalyser();
+			// Analyser analyser = data.getAnalyser();
 			
 			ByteArrayOutputStream outS = new ByteArrayOutputStream();
-			String[] fileLocations = new String[analyser.getATLModel().getFileLocations().size()];
+			String[] fileLocations = new String[data.getFileLocations().size()];
 			int i = 0;
-			for (String eclipseLocation : analyser.getATLModel().getFileLocations()) {
+			for (String eclipseLocation : data.getFileLocations()) {
 				fileLocations[i] = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(eclipseLocation)).getRawLocation().toPortableString();			
 				i++;
 			}
-			ErrorReport.printStatistics(data.getAnalyser(), fileLocations, outS);
-			ErrorReport.printErrorsByType(data.getAnalyser(), outS);
+			ErrorReport.printStatistics(data.getStatistics(), outS);
+			// ErrorReport.printErrorsByType(data.getAnalyser(), outS);
 			
 			out.print(outS.toString());
 			
@@ -234,10 +233,10 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	public class DetectedError implements IClassifiedArtefact {
 		private int errorCode;
 		private String fileName;
-		private Problem problem;
+		private ExpProblem problem;
 		private boolean problemsInPath;
 		
-		public DetectedError(int errorCode, String fileName, Problem p) {
+		public DetectedError(int errorCode, String fileName, ExpProblem p) {
 			this.errorCode = errorCode;
 			this.fileName  = fileName;
 			this.problem   = p;
@@ -251,13 +250,13 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			return this.problemsInPath;
 		}
 		
+		public ExpProblem getProblem() {
+			return problem;
+		}
+
 		//
 		// IArtefact methods
 		//
-		
-		public Problem getProblem() {
-			return problem;
-		}
 		
 		@Override
 		public String getId() {
@@ -272,12 +271,9 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 		@Override
 		public List<IHint> getHints() {
 			ArrayList<IHint> hints = new ArrayList<IHint>();
-			String location = "-";
-			if ( problem instanceof LocalProblem ) 
-				location = ((LocalProblem) problem).getLocation();
-			hints.add(new SimpleHint(location));
+			hints.add(new SimpleHint(problem.getLocation()));
 			hints.add(new SimpleHint(problem.getDescription()));			
-			if ( AnalyserUtils.isInternalError(problem) ) {
+			if ( AnalyserUtils.isErrorStatus(problem.getStatus()) ) {
 				hints.add(new SimpleHint(problemsInPath ? "Prob. path" : ""));
 				hints.add(new SimpleHint(problem.getStatus().getName()));
 			}
@@ -309,7 +305,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	}
 
 	class Project {
-		private List<AnalyserData> trafos = new ArrayList<AnalyserData>();
+		private List<ExpAnalyserData> trafos = new ArrayList<ExpAnalyserData>();
 		private List<RuleConflictResult> conflicts = new ArrayList<RuleConflictResult>();
 		private String name;
 
@@ -321,7 +317,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 			return name;
 		}
 		
-		public List<AnalyserData> getTrafos() {
+		public List<ExpAnalyserData> getTrafos() {
 			return trafos;
 		}
 		

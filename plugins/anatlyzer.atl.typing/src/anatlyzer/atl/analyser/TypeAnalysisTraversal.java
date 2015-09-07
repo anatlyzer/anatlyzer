@@ -264,7 +264,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 
 
-	private void treatVariableDeclaration(VariableDeclaration self) {
+	private void treatVariableDeclaration(VariableDeclaration self) {	
 		Type exprType = attr.typeOf( self.getInitExpression() );
 		if ( self.getType() == null ) {
 			attr.linkExprType(exprType);
@@ -572,13 +572,18 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			
 			// Discard those with a negation
-			boolean hasNegation = false;
+			// boolean hasNegation = false;
+			int numberOfNegations = 0;
 			boolean inConditionPosition = false;
 			OclExpression child = self;
 			EObject parent = self.eContainer();
 			while ( parent instanceof OclExpression ) {
-				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
-					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
+//				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
+//					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
+//				}
+
+				if ( parent instanceof OperatorCallExp && ((OperatorCallExp) parent).getOperationName().equals("not") ) {
+					numberOfNegations++;
 				}
 				else if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
 					inConditionPosition = true;
@@ -596,6 +601,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			if ( inConditionPosition ) {
 				VariableExp ve = VariableScope.findStartingVarExp(self);
+				boolean hasNegation = numberOfNegations % 2 == 1;
 				if ( ! hasNegation ) {
 					// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
 					if ( self.getOperationName().equals("oclIsUndefined") ) {
@@ -610,7 +616,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				} else {
 					if ( self.getOperationName().equals("oclIsUndefined") ) {
 						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
-					}				
+					} else {
+						Type kindOfType = attr.typeOf(self.getArguments().get(0));
+						attr.getVarScope().putNotKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+					}
 				}
 			}
 		}
@@ -638,7 +647,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			attr.linkExprType(typ().newUnknownType());
 			return;
 		}
-		
+				
 		OclExpression resolvedObj = self.getArguments().get(0);
 		String expectedVarName = ((StringExp) self.getArguments().get(1)).getStringSymbol();
 		ArrayList<MatchedRule> compatibleRules = new ArrayList<MatchedRule>();
@@ -654,9 +663,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				MatchedRule mr = (MatchedRule) e;
 				if ( mr.getInPattern().getElements().size() == 1 ) {
 					SimpleInPatternElement pe = (SimpleInPatternElement) mr.getInPattern().getElements().get(0);
-					Type subtype = attr.typeOf(pe.getType());
-		
-					if ( typ().isCompatible(subtype, type_) ) {
+					Type supertype = attr.typeOf(pe.getType());
+					if ( typ().isCompatible(type_, supertype) ) {
 						sourceCompatibleRuleFound = true;
 						
 						compatibleRules.add(mr);
@@ -713,7 +721,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					if ( ctx == null ) {
 						attr.linkExprType( getThisModuleType() ); // self may refer to thisModule in a global helper...						
 					} else {
-						attr.linkExprType( attr.typeOf(ctx.getContext_() ));
+						Type selfType = attr.typeOf(ctx.getContext_() );
+						attr.linkExprType(self.getReferredVariable(), selfType);
+						attr.linkExprType(selfType);
 					}
 					break;
 				}

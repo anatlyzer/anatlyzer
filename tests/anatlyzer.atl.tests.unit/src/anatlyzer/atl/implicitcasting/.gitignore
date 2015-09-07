@@ -7,3 +7,4 @@
 /invalidate_undefined.asm
 /invalidate_ocl_is_undefined.asm
 /xml2cpl_ocl_kind_of.asm
+/implicit_if_else_not_kind.asm

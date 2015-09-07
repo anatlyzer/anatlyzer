@@ -18,15 +18,10 @@ public class USENameModifyier {
 	}
 
 	public String adapt(EStructuralFeature f, boolean modify) {
-		if ( f.getName().equals("max") ) {
-			if ( modify ) f.setName("max_");
-			return "max_";
-		}
-		else if ( f.getName().equals("enum") ) {
-			
-			if ( modify ) f.setName("enum_");
-			return "enum_";
-		
+		if ( UseReservedWords.isReserved(f.getName()) ) {
+			String newWord = UseReservedWords.getReplacement(f.getName());
+			if ( modify ) f.setName(newWord);
+			return newWord;
 		}
 		return f.getName();
 	}

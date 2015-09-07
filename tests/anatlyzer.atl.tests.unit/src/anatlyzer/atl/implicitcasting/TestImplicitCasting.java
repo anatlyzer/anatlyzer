@@ -37,6 +37,16 @@ public class TestImplicitCasting extends UnitTest {
 		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 	
+
+	@Test
+	public void testImplicitCasting_IfElseNotKind() throws Exception {
+		String T = trafo("implicit_if_else_not_kind");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(0, problems().size());		
+	}
+	
+	
 	@Test
 	public void testImplicitOclIsUndefined() throws Exception {
 		String T = trafo("implicit_ocl_is_undefined");

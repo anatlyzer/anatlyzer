@@ -6,6 +6,7 @@ import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -37,8 +38,10 @@ public class USEValidityChecker extends AbstractVisitor {
 	
 	@Override
 	public void inIterateExp(IterateExp self) {
+		/*
 		System.out.println("NOT SUPPORTED: iterate, " + self.getLocation());
 		isValid = false;
+		*/
 	}
 	
 	@Override
@@ -77,6 +80,13 @@ public class USEValidityChecker extends AbstractVisitor {
 		}
 	}
 	
+	@Override
+	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
+		if ( self.getOperationName().equals("sortedBy")) {
+			System.out.println("=> Invalid " + "sortedBy!");
+			this.isValid = false;
+		}
+	}
 	
 	// TODO: Check for recursion, some how!!
 	

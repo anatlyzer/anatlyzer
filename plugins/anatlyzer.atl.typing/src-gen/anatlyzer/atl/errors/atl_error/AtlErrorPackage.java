@@ -1687,13 +1687,22 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = BINDING_PROBLEM_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Problematic Classes Implicit</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT = BINDING_PROBLEM_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Binding Possibly Unresolved</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 6;
+	int BINDING_POSSIBLY_UNRESOLVED_FEATURE_COUNT = BINDING_PROBLEM_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Binding Possibly Unresolved</em>' class.
@@ -8496,6 +8505,17 @@ public interface AtlErrorPackage extends EPackage {
 	EReference getBindingPossiblyUnresolved_ProblematicClasses();
 
 	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Problematic Classes Implicit</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved#getProblematicClassesImplicit()
+	 * @see #getBindingPossiblyUnresolved()
+	 * @generated
+	 */
+	EReference getBindingPossiblyUnresolved_ProblematicClassesImplicit();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ResolvedRuleInfo <em>Resolved Rule Info</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9743,6 +9763,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = eINSTANCE.getBindingPossiblyUnresolved_ProblematicClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>Problematic Classes Implicit</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT = eINSTANCE.getBindingPossiblyUnresolved_ProblematicClassesImplicit();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl <em>Resolved Rule Info</em>}' class.

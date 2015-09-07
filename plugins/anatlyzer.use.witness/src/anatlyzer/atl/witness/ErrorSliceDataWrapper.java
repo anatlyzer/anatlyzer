@@ -2,6 +2,8 @@ package anatlyzer.atl.witness;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,8 +18,10 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.Retyping;
 import anatlyzer.atl.analyser.generators.USESerializer;
+import anatlyzer.atl.analyser.generators.UnfoldRecursion;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.EnumType;
+import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
@@ -80,12 +84,41 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		ErrorSlice slice = (ErrorSlice) original;
 		Set<Helper> helperSet = slice.getHelpers();
 		
+		List<Helper> helpersAddedByRetyping = new ArrayList<Helper>();
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(mapping);
 		for (Helper helper : helperSet) {
 			problems.perform(helper);
-			new Retyping(helper).perform();		
-			renaming.perform(helper);
+			
+			Retyping retyping = new Retyping(helper);
+			retyping.perform();		
+			retyping.getNewHelpers().forEach(h -> renaming.perform(h));
+			helpersAddedByRetyping.addAll(retyping.getNewHelpers());
+			
+			renaming.perform(helper);			
 		}
+		
+		// The unfolding has to be done afterwards because helpers are copied and modified
+		// and we need to use all the modifications previously performed
+		boolean doUnfolding = false;
+		if ( doUnfolding ) {
+			for (Helper helper : new HashSet<Helper>(helperSet)) {
+				new UnfoldRecursion(helper, slice).perform().forEach(h -> {
+					//	new Retyping(h).perform();		
+					renaming.perform(h);			
+	
+					helperSet.add(h);	
+				});
+			}
+		}
+		
+		helperSet.addAll(helpersAddedByRetyping);
+		
+		/*
+		for (Helper helper : helperSet) {
+			System.out.println(ATLUtils.getTypeName(ATLUtils.getHelperType(helper).getInferredType()) + "." + ATLUtils.getHelperName(helper));
+		}
+		System.out.println("---");
+		*/
 		
 		Map<String, List<Helper>> helpers = organizeHelpers(helperSet);
 		ArrayList<EAnnotation>    result = new ArrayList<EAnnotation>();
@@ -95,6 +128,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 			
 			ann.getDetails().put("class", className);
 			
+			System.out.println(className);
 			for(Helper ctx : helpers.get(className)) {
 				ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className));
 			}
@@ -138,13 +172,13 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		} else {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		}*/
-		if ( ctx.getInferredReturnType() instanceof UnionType ) {
+		if ( ctx.getInferredReturnType() instanceof UnionType || ctx.getInferredReturnType() instanceof OclUndefinedType ) {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		} else {
 			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType()) + " = ";			
 		}
 		OclExpression body = ATLUtils.getBody(ctx);
-		
+
 		s += USESerializer.gen(body); 
 		
 		return s;

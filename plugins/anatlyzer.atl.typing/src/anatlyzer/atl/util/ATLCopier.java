@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.types.TypesPackage;
+import anatlyzer.atlext.ATL.LocatedElement;
 
 @SuppressWarnings("serial")
 public class ATLCopier extends EcoreUtil.Copier {
@@ -132,7 +133,7 @@ public class ATLCopier extends EcoreUtil.Copier {
 		if ( ! copyTypes  ) {
 			return;
 		}
-		
+				
 		if ( eReference.getEType() == TypesPackage.Literals.TYPE ) {
 			copyContainment(eReference, eObject, copyEObject);
 		}

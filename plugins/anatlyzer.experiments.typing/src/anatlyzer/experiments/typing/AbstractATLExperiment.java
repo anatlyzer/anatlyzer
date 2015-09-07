@@ -74,6 +74,10 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		return executeAnalyser(resource, atlModel);
 	}
 	
+	protected ExpAnalyserData copyData(AnalyserData data) { 
+		return new ExpAnalyserData(data);
+	}
+	
 	protected AnalyserData executeAnalyser(IResource resource, ATLModel atlModel)
 			throws IOException, CoreException, CannotLoadMetamodel {
 
@@ -83,6 +87,11 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected void confirmProblems(List<Problem> problems, AnalysisResult r) {
 		for (Problem p : problems) {
 			if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
+				System.out.println("--------------------------");
+				
+				System.out.println("Confirming: " + new ExpProblem(p).getLocation());
+				System.out.println("--------------------------");
+				
 				removeTempFile();
 				
 				ProblemStatus result = null;
@@ -102,7 +111,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 				checkDiscardCause(false);
 	}
 	
-	private void removeTempFile() {
+	protected void removeTempFile() {
 		try {
 			transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
 			File dir = new File(transMLProperties.getProperty("temp"));

@@ -21,6 +21,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -65,9 +66,28 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		OclSlice.slice(slice, binding.getValue());
 		
 		// Needed for the error
+		/*
 		for (EClass c : problem.getProblematicClasses()) {
 			slice.addMetaclassNeededInError(c);
 		}
+		*/
+
+		// New strategy to reduce the number of classes in the slice
+		System.out.println(binding.getLocation());
+		for (EClass c : problem.getProblematicClasses()) {
+			if ( ! problem.getProblematicClassesImplicit().contains(c) ) {
+				System.out.println(c.getName());
+				slice.addMetaclassNeededInError(c);
+			}
+		}
+		
+		EClass c = ErrorSlice.pickClass(problem.getProblematicClassesImplicit());
+		if ( c != null ) {
+			slice.addMetaclassNeededInError(c);
+		}
+		
+		// Classes whose type appear
+		
 		
 		List<RuleResolutionInfo> resolved = binding.getResolvedBy();
 		for (RuleResolutionInfo ruleInfo : resolved) {
@@ -190,8 +210,17 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			} else {
 				filter = model.createBooleanLiteral(true);
 			}
+						
+			// Originally it was enough with false
+			// BooleanExp lastIfResult = model.createBooleanLiteral(false);
+			// But there may be problems with undefined values, so it is better to check that if its undefined 
+			// it will become false after the negation of the "if"
+			// The alternative is to stick to "false" but check with the regular oclIsKindOf (instead of the AllInstancesStyle)
+			VariableExp refToProblem = OCLFactory.eINSTANCE.createVariableExp();
+			refToProblem.setReferredVariable(varDcl);
+			OclExpression lastIfResult = model.createOperationCall(refToProblem, "oclIsUndefined");
 			
-			IfExp ifexpr = model.createIfExpression(kindOfCondition, filter, model.createBooleanLiteral(false));
+			IfExp ifexpr = model.createIfExpression(kindOfCondition, filter, lastIfResult);
 			OperatorCallExp negatedIf = model.negateExpression(ifexpr);
 			
 			if ( lastExpr == null ) {

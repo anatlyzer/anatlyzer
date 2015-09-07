@@ -358,6 +358,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		pending.add( (ClassNamespace) rightMetaclass.getMetamodelRef() );
 	
 		LinkedList<ClassNamespace> notResolved = new LinkedList<ClassNamespace>();
+		LinkedList<ClassNamespace> notResolvedImplicit = new LinkedList<ClassNamespace>();
 		
 		while ( ! pending.isEmpty() ) {
 			ClassNamespace ns = pending.pop();
@@ -368,6 +369,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 					pending.addAll(direct);
 				} else {
 					notResolved.add(ns);
+					notResolvedImplicit.add(ns);
 				}
 			} else {
 				// There are rules but we don't know if the filters are complete
@@ -386,8 +388,14 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			for (IClassNamespace classNamespace : notResolved) {
 				problematicClasses.add(classNamespace.getKlass());
 			}
+
+			ArrayList<EClass> problematicClassesImplicit = new ArrayList<EClass>(notResolvedImplicit.size());
+			for (IClassNamespace classNamespace : notResolvedImplicit) {
+				problematicClassesImplicit.add(classNamespace.getKlass());
+			}
+
 			
-			errors().signalBindingPossiblyUnresolved(b, rightMetaclass.getKlass(), targetType, problematicClasses);
+			errors().signalBindingPossiblyUnresolved(b, rightMetaclass.getKlass(), targetType, problematicClasses, problematicClassesImplicit);
 
 			// BindingPossiblyUnresolved
 			// System.out.println("Problems with " + notResolved);

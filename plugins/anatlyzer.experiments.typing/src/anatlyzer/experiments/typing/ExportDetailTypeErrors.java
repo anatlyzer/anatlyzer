@@ -77,7 +77,7 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 		Styler   st = new Styler(wb);
 
 		Map<Integer, String> idToDescription = project.getTrafos().stream().flatMap(a -> a.getProblems().stream()).
-			collect(Collectors.toMap(p -> AnalyserUtils.getProblemId(p), p -> AnalyserUtils.getProblemDescription(p), (d1, d2) -> d1));
+			collect(Collectors.toMap(p -> p.getProblemId(), p -> p.getProblemTypeDescription(), (d1, d2) -> d1));
 		
 		List<Integer> allIds = idToDescription.keySet().stream().distinct().sorted().collect(Collectors.toList());
 		Function<Integer, Integer> idToRow = (id) -> allIds.indexOf(id);
@@ -94,7 +94,7 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 		
 		
 		for (int i = 0; i < project.getTrafos().size(); i++) {
-			AnalyserData analyserData = project.getTrafos().get(i);
+			ExpAnalyserData analyserData = project.getTrafos().get(i);
 			export(analyserData, sheet, st, i, idToRow);			
 		}
 
@@ -162,19 +162,13 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 		
 	}
 	
-	private void export(AnalyserData data, Sheet sheet, Styler st, int idx, Function<Integer, Integer> idToRow) throws IOException {
+	private void export(ExpAnalyserData data, Sheet sheet, Styler st, int idx, Function<Integer, Integer> idToRow) throws IOException {
 		
-		ATLModel atlModel = data.getAnalyser().getATLModel();
-		String trafoName = new File(atlModel.getMainFileLocation()).getName().replace(".atl", "");
-		
-		String[] fileLocations = new String[atlModel.getFileLocations().size()];
-		int i = 0;
-		for (String eclipseLocation : atlModel.getFileLocations()) {
-			fileLocations[i] = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(eclipseLocation)).getRawLocation().toPortableString();			
-			i++;
-		}
+		// ATLModel atlModel = data.getAnalyser().getATLModel();
+		// String trafoName = new File(atlModel.getMainFileLocation()).getName().replace(".atl", "");
+		String trafoName = new File(data.getMainFileLocation()).getName().replace(".atl", "");
 
-		Report r = ErrorReport.computeStatistics(data.getAnalyser(), fileLocations );
+		Report r = data.getStatistics();
 		
 		int baseCol   = (idx * 8);
 		int startCol  = 4 + baseCol;
@@ -211,12 +205,12 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 		
 	}
 
-	private HashMap<Integer, ProblemStatistics> groupProblems(AnalyserData data) {
+	private HashMap<Integer, ProblemStatistics> groupProblems(ExpAnalyserData data) {
 		HashMap<Integer, ProblemStatistics> problemData = new HashMap<Integer, ProblemStatistics>();
 		
-		for (Problem problem : data.getProblems()) {
-			int id = AnalyserUtils.getProblemId(problem);
-			ProblemStatistics ps = problemData.computeIfAbsent(id, k -> new ProblemStatistics(k, AnalyserUtils.getProblemDescription(problem), AnalyserUtils.isStaticPrecision(problem)));
+		for (ExpProblem problem : data.getProblems()) {
+			int id = problem.getProblemId();
+			ProblemStatistics ps = problemData.computeIfAbsent(id, k -> new ProblemStatistics(k, problem.getProblemTypeDescription(), problem.isStaticPrecision()));
 			ps.total++;
 			
 			switch (problem.getStatus()) {

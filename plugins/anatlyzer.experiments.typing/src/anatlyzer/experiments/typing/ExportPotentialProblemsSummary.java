@@ -38,7 +38,8 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 		CountTypeErrors exp = (CountTypeErrors) experiment;
 			
 		// IProject project = confFile.getProject();
-		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("reports"));
+		// IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("reports"));
+		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().removeFirstSegments(1).removeLastSegments(1).append("reports"));
 		if ( ! folder.exists() ) {
 			try {
 				folder.create(true, true, null);
@@ -78,7 +79,7 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 		
 		startRow++;
 		
-		Map<Integer, List<DetectedError>> result = allProblems.stream().filter(e -> AnalyserUtils.isInternalError(e.getProblem())).collect(Collectors.groupingBy(e -> AnalyserUtils.getProblemId(e.getProblem())));
+		Map<Integer, List<DetectedError>> result = allProblems.stream().filter(e -> AnalyserUtils.isErrorStatus( e.getProblem().getStatus() )).collect(Collectors.groupingBy(e -> e.getProblem().getProblemId() ));
 		for (Integer id : result.keySet().stream().sorted().collect(Collectors.toList())) {
 			st.cell(sheet, startRow, startCol + 0, id);
 

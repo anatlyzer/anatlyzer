@@ -167,11 +167,24 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	 */
 	@Override
 	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
+<<<<<<< HEAD
 		WitnessGenResult r = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
 		if ( r == null )
 			return null;
 		this.foundScope = r.scope;
 		return r.r;
+=======
+		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
+//		String witness = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
+//		
+//		// generate witness model visualization
+//		if (witness!=null && !witness.equals("")) 
+//			try {
+//				new EMFModelPlantUMLSerializer(errorMM, witness).generatePNG(witness.substring(0, witness.lastIndexOf("."))+".png");
+//			} catch (IOException e) { e.printStackTrace(); }
+//		
+//		return witness;
+>>>>>>> 88a495c22046155541863c26fa2e4cbd90153f13
 	}
 	
 	
@@ -258,4 +271,3 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		}
 	}
 }
-

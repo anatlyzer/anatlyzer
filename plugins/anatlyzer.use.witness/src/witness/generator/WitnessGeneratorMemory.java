@@ -228,32 +228,41 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			ocl_constraints.add(string);
 		}
 		
-		
-		String model = null;
-		int scope;
+		String  model = null;
+		int     scope = 0;
+		transException conformanceError = null;
 		//root = metamodel.getEClassifier("SubAction");
-		try {
-			// use increasing scope (1,2,3...) to obtain smaller models
-			for (scope=minScope; scope<=maxScope && model==null; scope++) {
+
+		// use increasing scope (1,2,3...) to obtain smaller models
+		for (scope=minScope; scope<=maxScope && model==null; scope++) {
+			try {				
 				transMLProperties.setProperty("solver.scope", ""+scope);
 				model = solver.find(metamodel, ocl_constraints);
 			}
-			metamodel.setName(metamodelName);
-
-			// console.println("generated model: " + ( model!=null? model : "NONE" ));
-			System.out.println("generated model: " + ( model!=null? model : "NONE" ));
-		}
-		catch (transException e) {
-			String error = e.getDetails().length>0? e.getDetails()[0] : e.getMessage();
-			if (error.endsWith("\n")) error = error.substring(0, error.lastIndexOf("\n"));
-			
-			// console.println("[ERROR] " + error);
-			System.out.println("[ERROR] " + error); 
-			throw e;
+			catch (transException e) {
+				// a) execution error
+				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
+					String error = e.getDetails().length>0? e.getDetails()[0] : e.getMessage();
+					if (error.endsWith("\n")) error = error.substring(0, error.lastIndexOf("\n"));
+					// console.println("[ERROR] " + error);
+					System.out.println("[ERROR] " + error); 
+					throw e;
+				}
+				// b) non-conformance error (USE found a model which violates some invariant)
+				else {
+					model = null;  // we will try a bigger scope
+					conformanceError = e;
+				}
+			}
 		}
 		
-		if ( model == null)
-			return null;
+		metamodel.setName(metamodelName);
+		// console.println("generated model: " + ( model!=null? model : "NONE" ));
+		System.out.println("generated model: " + ( model!=null? model : "NONE" ));
+		
+		if (model == null)
+			if   (conformanceError == null) return null;
+			else throw conformanceError;
 		return new WitnessGenResult(model, scope);
 		
 		// return path of generated model

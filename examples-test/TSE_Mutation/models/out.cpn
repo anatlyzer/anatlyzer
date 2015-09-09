@@ -12,9 +12,9 @@
     </tokens>
   </places>
   <places name="PackagedChecker 5" author="Juan" type="//@types.0"/>
-  <places name="Packager 4" author="Juan" type="//@types.0">
+  <places name="Assembler 7" author="Juan" type="//@types.0">
     <tokens>
-      <values>on</values>
+      <values>off</values>
     </tokens>
   </places>
   <places name="Operator Pepe" author="Juan" type="//@types.0">
@@ -22,21 +22,17 @@
       <values>on</values>
     </tokens>
   </places>
-  <places name="Assembler 7" author="Juan" type="//@types.0">
-    <tokens>
-      <values>off</values>
-    </tokens>
-  </places>
+  <transitions name="operator Assembler 1"/>
   <transitions name="operator Assembler 7"/>
   <transitions name="AssembledChecker 2 to Assembler 1" author="Juan"/>
   <transitions name="PackagedChecker 5 to Packager 3" author="Juan"/>
-  <transitions name="PackagedChecker 5 to Packager 4" author="Juan"/>
-  <arcs xsi:type="PetriNet:PlaceToTransArc" source="//@places.1" target="//@transitions.1"/>
-  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.1" target="//@places.0"/>
-  <arcs xsi:type="PetriNet:PlaceToTransArc" source="//@places.3" target="//@transitions.2"/>
-  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.2" target="//@places.2"/>
+  <transitions name="PackagedChecker 5 to Packager 0" author="Juan"/>
+  <arcs xsi:type="PetriNet:PlaceToTransArc" source="//@places.1" target="//@transitions.2"/>
+  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.2" target="//@places.0"/>
   <arcs xsi:type="PetriNet:PlaceToTransArc" source="//@places.3" target="//@transitions.3"/>
-  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.3" target="//@places.4"/>
+  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.3" target="//@places.2"/>
+  <arcs xsi:type="PetriNet:PlaceToTransArc" source="//@places.3" target="//@transitions.4"/>
+  <arcs xsi:type="PetriNet:TransToPlaceArc" source="//@transitions.4"/>
   <types name="BreakableState">
     <components name="state" primType="String"/>
   </types>

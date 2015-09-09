@@ -30,7 +30,6 @@
       checks="//@machines.2 //@machines.4"/>
   <machines
       xsi:type="Factory:Packager"
-      serialno="4"
       state="on"
       numFinished="2"/>
   <machines

@@ -9,11 +9,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi;bundle-version="2.7.0",
  org.eclipse.core.resources;bundle-version="3.7.0",
  org.eclipse.m2m.atl.engine;bundle-version="3.3.0",
- anatlyzer.atl.typing
+ anatlyzer.atl.typing,
+ transML
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/plantuml.jar,
- lib/transml.jar,
  lib/use/antlr-3.4-complete.jar,
  lib/use/combinatoricslib-0.2.jar,
  lib/use/gsbase.jar,
@@ -21,8 +21,4 @@ Bundle-ClassPath: lib/plantuml.jar,
  lib/use/ModelValidator_fat.jar,
  .
 Export-Package: anatlyzer.atl.witness,
- transML.exceptions,
- transML.utils,
- transML.utils.modeling,
- transML.utils.solver,
  witness.generator

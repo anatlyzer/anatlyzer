@@ -165,10 +165,18 @@ public class Tester {
 	}
 	
 	/**
-	 * It prints of the console the result of the evaluation.
+	 * It prints the result of the evaluation to the console.
 	 */
 	public void printReport () {
 		report.print();
+	}
+	
+	/**
+	 * It prints the result of the evaluation to an excel file.
+	 * @param String folder
+	 */
+	public void printReport (String folder) {
+		report.print(folder);
 	}
 	
 	/**
@@ -371,7 +379,7 @@ public class Tester {
 		errorsExecution = this.executeTransformation(transformation);
 
 		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
-		// TODO: devolver lista de errores en vez de String (as� s�lo hago esto si ese es el �nico error del anatlyzer)
+		// TODO: devolver lista de errores en vez de String (solo hago esto si ese es el unico error del anatlyzer)
 		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
 	    if (!errorsExecution && errorsAnatlyser.contains("Possibly unresolved binding")) {
 			try {

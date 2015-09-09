@@ -1,6 +1,9 @@
 package anatlyzer.evaluation.report;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -55,7 +58,7 @@ public class Report {
 		return true;
 	}	
 	
-	/** print report */
+	/** print report to console */
 	public void print () {
 		ReportConsole console = new ReportConsole();
 		console.clear();
@@ -64,11 +67,12 @@ public class Report {
 		long falseNegatives = 0;
 		long anatlyserExceptions = 0;
 		
+		// print header
 		console.println("==============================================================");
 		console.println("RESULTS");
 		console.println("==============================================================");
 		
-		// print result of each analysis
+		// print result of each transformation
 		for (String transformation : new TreeSet<String>(report.keySet())) {
 			Result  r           = report.get(transformation);
 			
@@ -106,6 +110,65 @@ public class Report {
 		}
 		console.display();
 	}
+	
+	/** print report to file **/
+	public void print (String folder) {
+		if (folder==null || !new File(folder).exists()) return;
+		
+		PrintWriter xls = null;
+		try { xls = new PrintWriter(folder + File.separator + "evaluation.xls", "UTF-8"); } 
+	    catch (FileNotFoundException|UnsupportedEncodingException e) {}
+		if (xls == null) return;
+
+		Integer numrecords = 0;
+
+		// printer header
+		xls.println("MUTANT\t" +
+			    "ANATLYSER\t" +
+			    "EXECUTION\t" +
+			    "RESULT\t" +
+			    "AN. OUTPUT\t" +
+			    "EX. OUTPUT\t" +
+			    "AN. EXCEPTION");
+		
+		// print result of each transformation
+		for (String transformation : new TreeSet<String>(report.keySet())) {
+			numrecords++;
+			Result r = report.get(transformation);
+			xls.println(transformation + "\t" + 
+		            convert(r.getAnatlyserNotifiesError()) + "\t" + 
+				    convert(r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) + "\t" +
+		            "=SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"error\"); \"true positive\";" +
+		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"correct\"); \"true negative\";" +
+		            " SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"correct\"); \"false positive\";" +
+		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"error\"); \"false negative\"; \"unknown\"))))" + "\t" +
+		            (r.getAnatlyserNotifiesError()? r.getAnatlyserError() : "") + "\t" +
+		            (r.getExecutionError()  !=null? r.getExecutionError() : "") +
+		            (r.getAnatlyserDoesNotFinish()? "\t ***WARNING*** anATLyser raised the exception " + r.getAnatlyserError() : ""));
+		}
+		
+		// print summary
+		xls.println();
+		xls.println();
+		xls.println("\tEvaluated transformations\t"+numrecords);
+		xls.println("\tTrue positives\t=CONTAR.SI(D2:D"+(numrecords+1)+";\"true positive\")\t=CONCATENAR(REDONDEAR(C"+(numrecords+5)+"/C"+(numrecords+4)+"%;2);\"%\")");
+		xls.println("\tTrue negatives\t=CONTAR.SI(D2:D"+(numrecords+1)+";\"true negative\")\t=CONCATENAR(REDONDEAR(C"+(numrecords+6)+"/C"+(numrecords+4)+"%;2);\"%\")");
+		xls.println("\tFalse positives\t=CONTAR.SI(D2:D"+(numrecords+1)+";\"false positive\")\t=CONCATENAR(REDONDEAR(C"+(numrecords+7)+"/C"+(numrecords+4)+"%;2);\"%\")");
+		xls.println("\tFalse negatives\t=CONTAR.SI(D2:D"+(numrecords+1)+";\"false negative\")\t=CONCATENAR(REDONDEAR(C"+(numrecords+8)+"/C"+(numrecords+4)+"%;2);\"%\")");
+		xls.println("\tPrecision\t=REDONDEAR(C"+(numrecords+5)+"/(C"+(numrecords+5)+"+C"+(numrecords+7)+");2)");
+		xls.println("\tRecall\t=REDONDEAR(C"+(numrecords+5)+"/(C"+(numrecords+5)+"+C"+(numrecords+8)+");2)");
+		xls.println("\tAccuracy\t=REDONDEAR((C"+(numrecords+5)+"+C"+(numrecords+6)+")/(C"+(numrecords+5)+"+C"+(numrecords+6)+"+C"+(numrecords+7)+"+C"+(numrecords+8)+");2)");
+		xls.println("\tF-score\t=REDONDEAR((2*C"+(numrecords+9)+"*C"+(numrecords+10)+")/(C"+(numrecords+9)+"+C"+(numrecords+10)+");2)");
+		xls.println("\tAnatlyser exceptions\t=C"+(numrecords+4)+"-CONTAR.BLANCO(G2:G"+(numrecords+1)+")");
+		
+		xls.close();
+		
+		ReportConsole console = new ReportConsole();
+		console.println("\n>> The results of the analysis were saved in file evaluation.xls");
+		console.display();
+	}
+	
+	private String convert (boolean value) { return value? "error" : "correct"; }
 	
 	/** it returns the name of a file, given its full or relative path**/
 	private String getFileName(String path) {

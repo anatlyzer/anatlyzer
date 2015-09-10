@@ -10,23 +10,29 @@ import java.util.TreeSet;
 
 public class Report {
 	private Map<String,Result> report =  new HashMap<String,Result>();
+
+	/** clear report **/
+	public void clear () {
+		report.clear();
+	}
 	
 	/** analysis of a new transformation */
-	private Result getResult (String transformation) {
-		if (!report.containsKey(transformation)) 
-			report.put(transformation, new Result());
-		return report.get(transformation);
+	public Result getResult (String transformation) {
+		String transformation2 = getFileName(transformation);
+		if (!report.containsKey(transformation2)) 
+			report.put(transformation2, new Result());
+		return report.get(transformation2);
 	}
 
 	/** analysis of a new transformation */
 	public boolean addResult (String transformation) {
-		this.getResult(getFileName(transformation));
+		this.getResult(transformation);
 		return false;
 	}
 
 	/** the transformation did not execute correctly */
 	public boolean setExecutionError (String transformation, String error, String witness) {
-		Result r = this.getResult(getFileName(transformation));
+		Result r = this.getResult(transformation);
 		r.setExecutionRaisesException();
 		r.setExecutionError(error);
 		r.setExecutionWitness(witness);
@@ -35,7 +41,7 @@ public class Report {
 	
 	/** the transformation produces a model not conforming to the output metamodel */
 	public boolean setOutputError (String transformation, String error, String witness) {
-		Result r = this.getResult(getFileName(transformation));
+		Result r = this.getResult(transformation);
 		r.setExecutionYieldsIllTarget();
 		r.setExecutionError("The transformation produces ill-typed target models.");
 		r.setExecutionWitness(witness);
@@ -44,7 +50,7 @@ public class Report {
 	
 	/** the anatlyzer reported an error in the transformation */
 	public boolean setAnatlyserError (String transformation, String error) {
-		Result r = this.getResult(getFileName(transformation));
+		Result r = this.getResult(transformation);
 		r.setAnatlyserNotifiesError();
 		r.setAnatlyserError(error);
 		return true;
@@ -52,7 +58,7 @@ public class Report {
 	
 	/** the anatlyser finished with an exception */
 	public boolean setAnatlyserException (String transformation, String error) {
-		Result r = this.getResult(getFileName(transformation));
+		Result r = this.getResult(transformation);
 		r.setAnatlyserDoesNotFinish();
 		r.setAnatlyserError(error);
 		return true;
@@ -197,12 +203,12 @@ public class Report {
 		void setExecutionError(String error)   { executionError   = error;        }
 		void setExecutionWitness(String error) { executionWitness = error;        }
 		
-		boolean getAnatlyserNotifiesError()   { return anatlyserNotifiesError;   }
-		boolean getAnatlyserDoesNotFinish()   { return anatlyserDoesNotFinish;   }
-		boolean getExecutionRaisesException() { return executionRaisesException; }
-		boolean getExecutionYieldsIllTarget() { return executionYieldsIllTarget; }		
-		String  getAnatlyserError()           { return anatlyserError;           }
-		String  getExecutionError()           { return executionError;           }
-		String  getExecutionWitness()         { return executionWitness;         }
+		public boolean getAnatlyserNotifiesError()   { return anatlyserNotifiesError;   }
+		public boolean getAnatlyserDoesNotFinish()   { return anatlyserDoesNotFinish;   }
+		public boolean getExecutionRaisesException() { return executionRaisesException; }
+		public boolean getExecutionYieldsIllTarget() { return executionYieldsIllTarget; }		
+		public String  getAnatlyserError()           { return anatlyserError;           }
+		public String  getExecutionError()           { return executionError;           }
+		public String  getExecutionWitness()         { return executionWitness;         }
 	}
 }

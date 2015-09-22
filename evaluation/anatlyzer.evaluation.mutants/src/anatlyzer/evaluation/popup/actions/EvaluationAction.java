@@ -49,7 +49,8 @@ public class EvaluationAction implements IObjectActionDelegate {
 	    	
 	    	Tester tester = new Tester(trafo, folder, modelGenerationStrategy);
 	    	tester.runEvaluation();
-	    	tester.printReport();
+	    	tester.printReport(); 
+	    	tester.printReport(completePath.removeLastSegments(1).toString());
 	    }
 	    catch (Exception e) {
 	    	e.printStackTrace();

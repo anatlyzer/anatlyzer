@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
@@ -104,11 +105,13 @@ import anatlyzer.evaluation.mutators.modification.type.OutElementModificationMut
 import anatlyzer.evaluation.mutators.modification.type.ParameterModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.VariableModificationMutator;
 import anatlyzer.evaluation.report.Report;
+import anatlyzer.evaluation.report.Report.Result;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class Tester {
 	
+	private String   atlFile;          // atl file with the original transformation
 	private EMFModel atlModel;         // model of the original transformation
 	private GlobalNamespace namespace; // meta-models used by the transformation (union of inputMetamodels and outputMetamodels)
 	private List<String> inputMetamodels  = new ArrayList<String>(); // input metamodels (IN)
@@ -139,6 +142,7 @@ public class Tester {
 	public Tester (String trafo, String temporalFolder, ModelGenerationStrategy.STRATEGY strategy) throws ATLCoreException, transException {
 		this.rs       = new ResourceSetImpl();
 		this.report   = new Report();
+		this.atlFile  = trafo;
 		this.atlModel = this.loadTransformationModel(trafo);
 		this.loadMetamodelsFromTransformation();
 		this.modelGenerationStrategy = strategy;
@@ -158,17 +162,39 @@ public class Tester {
 	 * @throws IOException 
 	 */
 	public void runEvaluation () throws transException, ATLCoreException, IOException {
-		this.generateMutants ();
 		this.generateTestModels ();
+		
+		// if the original transformation has errors, do not perform the evaluation
+		this.evaluateTransformation(atlFile);
+		Result r = report.getResult(atlFile);
+		String t = "";
+		if (r.getAnatlyserNotifiesError())      t = r.getAnatlyserError();
+		else if (r.getAnatlyserDoesNotFinish()) t = "anATLyser raised an exception";
+		else if (r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) t = r.getExecutionError();
+		report.clear();
+		if (!t.isEmpty()) {
+			MessageDialog.openError(null, "Evaluation", "The evaluation cannot be performed because the transformation has errors: \n"+ t);
+			return;
+		}
+		
+		this.generateMutants ();
 		this.evaluate();
 //		this.deleteDirectory(this.folderTemp, true); // delete temporal folder
 	}
 	
 	/**
-	 * It prints of the console the result of the evaluation.
+	 * It prints the result of the evaluation to the console.
 	 */
 	public void printReport () {
 		report.print();
+	}
+	
+	/**
+	 * It prints the result of the evaluation to an excel file.
+	 * @param String folder
+	 */
+	public void printReport (String folder) {
+		report.print(folder);
 	}
 	
 	/**
@@ -371,7 +397,7 @@ public class Tester {
 		errorsExecution = this.executeTransformation(transformation);
 
 		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
-		// TODO: devolver lista de errores en vez de String (as� s�lo hago esto si ese es el �nico error del anatlyzer)
+		// TODO: devolver lista de errores en vez de String (solo hago esto si ese es el unico error del anatlyzer)
 		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
 	    if (!errorsExecution && errorsAnatlyser.contains("Possibly unresolved binding")) {
 			try {
@@ -537,7 +563,8 @@ public class Tester {
 				
 				// load input/output model
 				String iModel  = inputModel.getPath();
-				String oFolder = transformation.substring(transformation.lastIndexOf(File.separator)+1, transformation.lastIndexOf("."));
+				String aux     = URI.createFileURI(transformation).lastSegment();
+				String oFolder = aux.substring(0, aux.lastIndexOf("."));
 				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
 				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
 				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());

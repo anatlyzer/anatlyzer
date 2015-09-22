@@ -86,7 +86,7 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 			for (DetectedError error : result.get(id)) {
 				startRow++;
 
-				String location = error.getName() + ((error.getProblem() instanceof LocalProblem) ? " " + ((LocalProblem) error.getProblem()).getLocation() : "");
+				String location = error.getName() + " " + error.getProblem().getLocation(); //((error.getProblem() instanceof LocalProblem) ? " " + ((LocalProblem) error.getProblem()).getLocation() : "");
 				
 				st.cell(sheet, startRow, startCol + 1, location);				
 				st.cell(sheet, startRow, startCol + 2, error.getProblem().getStatus().getName());

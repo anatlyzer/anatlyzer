@@ -99,7 +99,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		
 		// The unfolding has to be done afterwards because helpers are copied and modified
 		// and we need to use all the modifications previously performed
-		boolean doUnfolding = false;
+		boolean doUnfolding = true;
 		if ( doUnfolding ) {
 			for (Helper helper : new HashSet<Helper>(helperSet)) {
 				new UnfoldRecursion(helper, slice).perform().forEach(h -> {

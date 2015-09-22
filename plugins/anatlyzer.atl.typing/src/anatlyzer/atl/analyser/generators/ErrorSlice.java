@@ -288,6 +288,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		EClass result = null;
 		long smaller   = Long.MAX_VALUE;
 		for (EClass eClass : problematicClassesImplicit) {
+			if ( eClass.isAbstract() )
+				continue;
+			
 			long size = eClass.getEAllReferences().stream().filter(r -> r.getLowerBound() == 1).count();
 			if ( size < smaller ) {
 				result  = eClass;

@@ -279,12 +279,13 @@ public class WitnessGenerator extends AbstractHandler {
 	 * @param classWithAllFeatures class with features 
 	 */
 	private void extendClassWithMandatory (EClass class2extend, EClass classWithAllFeatures) {
-		
-		// add all mandatory attributes defined for the class in the language meta-model,
-		// if they do not belong to the partial meta-model yet.
-		for (EAttribute attribute : classWithAllFeatures.getEAllAttributes()) 
-			if (attribute.getLowerBound() > 0 && class2extend.getEStructuralFeature(attribute.getName())==null) 
-				this.addAttribute2Class(attribute, classWithAllFeatures, class2extend);
+	
+// REMOVED TO IMPROVE EFFICIENCY		
+//		// add all mandatory attributes defined for the class in the language meta-model,
+//		// if they do not belong to the partial meta-model yet.
+//		for (EAttribute attribute : classWithAllFeatures.getEAllAttributes()) 
+//			if (attribute.getLowerBound() > 0 && class2extend.getEStructuralFeature(attribute.getName())==null) 
+//				this.addAttribute2Class(attribute, classWithAllFeatures, class2extend);
 
 		// add all mandatory references defined for the class in the language meta-model,
 		// if they do not belong to the partial meta-model yet; add also all references 

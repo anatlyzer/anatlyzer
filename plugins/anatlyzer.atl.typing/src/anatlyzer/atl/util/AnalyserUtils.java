@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -230,6 +231,12 @@ public class AnalyserUtils {
 		return ann.getDetails().get("name");
 	}
 
+
+	public static String getProblemDescription(EClass eclass) {
+		EAnnotation ann = eclass.getEAnnotation("description");
+		return ann.getDetails().get("name");
+	}
+	
 	public static String getProblemSeverity(Problem p) {
 		EAnnotation ann = p.eClass().getEAnnotation("info");
 		return ann == null ? "no-severity" : ann.getDetails().get("severity");
@@ -328,5 +335,6 @@ public class AnalyserUtils {
 				   s == ProblemStatus.IMPL_INTERNAL_ERROR ||
 				   s == ProblemStatus.NOT_SUPPORTED_BY_USE;			
 	}
+
 	
 }

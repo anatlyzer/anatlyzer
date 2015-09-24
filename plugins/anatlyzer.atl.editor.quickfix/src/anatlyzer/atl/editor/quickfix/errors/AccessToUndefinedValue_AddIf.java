@@ -20,7 +20,10 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  * expression "not obj.optionalProperty.oclIsUndefined()".
  * 
  * The quickfix tries to generate a reasonable default for the false branch.
- *  
+ * 
+ * @qfxName  Surround with 'if' expression
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue}
+ * 
  * @author jesusc
  */
 public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {

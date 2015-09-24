@@ -2,7 +2,6 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -10,6 +9,12 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**
+ * This quick fix modifies a feature to make it compulsory so that 
+ * the problem cannot occur for any well-formed model.
+ * 
+ * @qfxName Change meta-model
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue}
+ * 
  * @author jesusc
  */
 public class AccessToUndefinedValue_ChangeMetamodel extends AbstractMetamodelChangeQuickfix {

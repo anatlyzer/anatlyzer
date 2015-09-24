@@ -27,7 +27,10 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  * The application of this quickfix may provoke the side-effect of generating
  * an "Possible unresolved binding" problem. This is not checked. A solution
  * would be to allow the developer to apply two quickfixes in cascade.
- *  
+ * 
+ * @qfxName  Add rule filter
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue}
+ * 
  * @author jesusc
  */
 public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix {

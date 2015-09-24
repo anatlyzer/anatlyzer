@@ -1,5 +1,7 @@
--- @path CPN=./TSE_Mutation/metamodels/ColouredPetriNet.ecore
--- @path FAC=./TSE_Mutation/metamodels/Factory.ecore
+-- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
+-- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
+-- @pre Factory.allInstances()->size() > 0 
+-- @footprint Factory
 
 module factory2pn;
 create OUT : CPN from IN : FAC;

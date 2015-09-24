@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -68,6 +69,7 @@ import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.evaluation.instrumentation.PossiblyUnresolvedBindingInstrumenter;
 import anatlyzer.evaluation.models.FullModelGenerationStrategy;
 import anatlyzer.evaluation.models.LiteModelGenerationStrategy;
@@ -164,22 +166,26 @@ public class Tester {
 	public void runEvaluation () throws transException, ATLCoreException, IOException {
 		this.generateTestModels ();
 		
-		// if the original transformation has errors, do not perform the evaluation
+		// if the original transformation has no errors, perform the evaluation
 		this.evaluateTransformation(atlFile);
 		Result r = report.getResult(atlFile);
-		String t = "";
-		if (r.getAnatlyserNotifiesError())      t = r.getAnatlyserError();
-		else if (r.getAnatlyserDoesNotFinish()) t = "anATLyser raised an exception";
-		else if (r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) t = r.getExecutionError();
-		report.clear();
-		if (!t.isEmpty()) {
-			MessageDialog.openError(null, "Evaluation", "The evaluation cannot be performed because the transformation has errors: \n"+ t);
-			return;
+		String error = "";
+		if      (r.getAnatlyserNotifiesError())   error = "The evaluation CANNOT be performed\nbecause the anatlyser detected an error in the transformation:\n\n"+r.getAnatlyserError();
+		else if (r.getAnatlyserDoesNotFinish())   error = "The evaluation CANNOT be performed\nbecause the anatlyser raised an exception when analysing the transformation:\n\n"+r.getAnatlyserError();
+		else if (r.getExecutionRaisesException()) error = "The evaluation CANNOT be performed\nbecause the transformation fails at runtime with model "+r.getExecutionWitness()+":\n\n"+r.getExecutionError();
+		else if (r.getExecutionYieldsIllTarget()) error = "The evaluation CANNOT be performed\nbecause the transformation of model "+r.getExecutionWitness()+"\nyields an incorrect target model:\n\n"+r.getExecutionError();
+		
+		if (error.isEmpty()) {
+			report.clear();
+			this.generateMutants ();
+			this.evaluate();
+//			this.deleteDirectory(this.folderTemp, true); // delete temporal folder
+			this.printReport();
+			this.printReport(URI.createURI(atlFile).trimSegments(1).toString());
 		}
 		
-		this.generateMutants ();
-		this.evaluate();
-//		this.deleteDirectory(this.folderTemp, true); // delete temporal folder
+		// otherwise, return an error
+		else report.printError(error);
 	}
 	
 	/**
@@ -315,6 +321,14 @@ public class Tester {
 		Properties properties = new Properties(); 
 		saveTransMLProperties(properties);
 		
+		// load transformation preconditions (defined as comments annotated by @prec)
+		Module       module        = new ATLModel(atlModel.getResource()).getModule();
+		List<String> preconditions = new ArrayList<String>();
+		for (String s : module.getCommentsBefore()) {
+			if (s.contains("@pre")) 
+				preconditions.add(s.substring( s.indexOf("@pre")+4 ).trim());
+		}
+		
 		// generate models
 		SolverWrapper solver = FactorySolver.getInstance().createSolverWrapper();
 		ModelGenerationStrategy modelGenerationStrategy =
@@ -324,7 +338,7 @@ public class Tester {
 		for (Properties propertiesUse : modelGenerationStrategy) {
 			try {
 				saveTransMLProperties(propertiesUse);
-				String model = solver.find(metamodel, Collections.<String>emptyList());
+				String model = solver.find(metamodel, preconditions); // Collections.<String>emptyList());
 				System.out.println("generated model: " + ( model!=null? model : "NONE" ));
 			}
 			catch (transException e) {

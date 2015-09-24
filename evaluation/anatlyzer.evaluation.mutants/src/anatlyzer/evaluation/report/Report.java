@@ -174,6 +174,12 @@ public class Report {
 		console.display();
 	}
 	
+	public void printError (String error) {
+		ReportConsole console = new ReportConsole();
+		console.println(error);
+		console.display();
+	}
+	
 	private String convert (boolean value) { return value? "error" : "correct"; }
 	
 	/** it returns the name of a file, given its full or relative path**/

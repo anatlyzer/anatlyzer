@@ -47,10 +47,7 @@ public class EvaluationAction implements IObjectActionDelegate {
 	    			ModelGenerationStrategy.STRATEGY.Full : 
 	    			ModelGenerationStrategy.STRATEGY.Lite;
 	    	
-	    	Tester tester = new Tester(trafo, folder, modelGenerationStrategy);
-	    	tester.runEvaluation();
-	    	tester.printReport(); 
-	    	tester.printReport(completePath.removeLastSegments(1).toString());
+	    	new Tester(trafo, folder, modelGenerationStrategy).runEvaluation();
 	    }
 	    catch (Exception e) {
 	    	e.printStackTrace();

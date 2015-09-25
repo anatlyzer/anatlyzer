@@ -148,9 +148,9 @@ public class Report {
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"correct\"); \"true negative\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"correct\"); \"false positive\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"error\"); \"false negative\"; \"unknown\"))))" + "\t" +
-		            (r.getAnatlyserNotifiesError()? r.getAnatlyserError() : "") + "\t" +
-		            (r.getExecutionError()  !=null? r.getExecutionError() : "") +
-		            (r.getAnatlyserDoesNotFinish()? "\t ***WARNING*** anATLyser raised the exception " + r.getAnatlyserError() : ""));
+		            (r.getAnatlyserNotifiesError()? convert(r.getAnatlyserError()) : "") + "\t" +
+		            (r.getExecutionError()  !=null? convert(r.getExecutionError()) : "") +
+		            (r.getAnatlyserDoesNotFinish()? "\t ***WARNING*** anATLyser raised the exception " + convert(r.getAnatlyserError()) : ""));
 		}
 		
 		// print summary
@@ -181,6 +181,7 @@ public class Report {
 	}
 	
 	private String convert (boolean value) { return value? "error" : "correct"; }
+	private String convert (String  value) { return value.replaceAll("\\s", " "); }
 	
 	/** it returns the name of a file, given its full or relative path**/
 	private String getFileName(String path) {

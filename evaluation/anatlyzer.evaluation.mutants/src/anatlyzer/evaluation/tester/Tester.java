@@ -16,10 +16,12 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -254,7 +256,7 @@ public class Tester {
 				new ArgumentModificationMutator(),
 				new VariableModificationMutator(),
 				// feature modification
-				new NavigationModificationMutator(), //
+				new NavigationModificationMutator(), 
 				new BindingModificationMutator(),
 				// invocation modification
 				new CollectionOperationModificationMutator(),
@@ -422,6 +424,7 @@ public class Tester {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();    
 				IPath      location  = Path.fromOSString(transformation); 
 				IFile      ifile     = workspace.getRoot().getFileForLocation(location);
+				ifile.refreshLocal(IResource.DEPTH_ZERO, null);
 				AnalyserData result  = new AnalyserExecutor().exec(ifile, false);
 				ATLModel   atlModel  = result.getATLModel();
 				PossiblyUnresolvedBindingInstrumenter instrumenter = new PossiblyUnresolvedBindingInstrumenter();

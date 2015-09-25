@@ -185,7 +185,10 @@ public class ATLSerializer extends AbstractVisitor {
 			}
 			s += "}" + cr();
 		}
-		s += tab(1) + "  to " + g(self.getOutPattern()) + cr();
+		
+		if ( self.getOutPattern() != null ) {
+			s += tab(1) + "  to " + g(self.getOutPattern()) + cr();
+		}
 		
 		if ( self.getActionBlock() != null ) {
 			s += g(self.getActionBlock());

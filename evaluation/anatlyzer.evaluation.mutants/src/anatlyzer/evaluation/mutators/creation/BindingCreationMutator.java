@@ -52,39 +52,42 @@ public class BindingCreationMutator extends AbstractMutator {
 //			List<? extends VariableDeclaration> ivariables = rule.getInPattern().getElements();
 			List<? extends VariableDeclaration> ivariables = getVariableDeclarations(rule);
 			
-			// for each out class
-			for (OutPatternElement outElement : rule.getOutPattern().getElements()) {
-				EClassifier classifier = outputMM.getEClassifier( outElement.getType().getName() );
-				if (classifier instanceof EClass) {
+			if (rule.getOutPattern()!=null) {
+				
+				// for each out class
+				for (OutPatternElement outElement : rule.getOutPattern().getElements()) {
+					EClassifier classifier = outputMM.getEClassifier( outElement.getType().getName() );
+					if (classifier instanceof EClass) {
 					
-					// current bindings 
-					EStructuralFeature feature = wrapper.source(outElement).eClass().getEStructuralFeature("bindings");
-					List<Binding> realbindings = (List<Binding>)wrapper.source(outElement).eGet(feature);
+						// current bindings 
+						EStructuralFeature feature = wrapper.source(outElement).eClass().getEStructuralFeature("bindings");
+						List<Binding> realbindings = (List<Binding>)wrapper.source(outElement).eGet(feature);
 					
-					// new bindings
-					List<Binding> newbindings = new ArrayList<Binding>();
-					newbindings.add(this.getBinding1((EClass)classifier, outElement.getBindings(), ivariables)); // duplicate binding
-					newbindings.add(this.getBinding2((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding with primitive type and correct value
-					newbindings.add(this.getBinding3((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding with non-primitive type and correct value
-					newbindings.add(this.getBinding4((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding and assign an incorrect value
-					newbindings.add(this.getBinding5((EClass)classifier, outputMM,                 ivariables)); // binding for property of subclass (correct value)
+						// new bindings
+						List<Binding> newbindings = new ArrayList<Binding>();
+						newbindings.add(this.getBinding1((EClass)classifier, outElement.getBindings(), ivariables)); // duplicate binding
+						newbindings.add(this.getBinding2((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding with primitive type and correct value
+						newbindings.add(this.getBinding3((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding with non-primitive type and correct value
+						newbindings.add(this.getBinding4((EClass)classifier, outElement.getBindings(), ivariables)); // non-duplicate binding and assign an incorrect value
+						newbindings.add(this.getBinding5((EClass)classifier, outputMM,                 ivariables)); // binding for property of subclass (correct value)
 					
-					// for each new binding 
-					for (Binding binding : newbindings) {
-						if (binding!=null) {
+						// for each new binding 
+						for (Binding binding : newbindings) {
+							if (binding!=null) {
 						
-							// mutation: add binding
-							realbindings.add(binding);
+								// mutation: add binding
+								realbindings.add(binding);
 
-							// mutation: documentation
-							if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(binding) + " in " + toString(outElement) + " (line " + outElement.getLocation() + " of original transformation)\n");
+								// mutation: documentation
+								if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(binding) + " in " + toString(outElement) + " (line " + outElement.getLocation() + " of original transformation)\n");
 
-							// save mutant
-							this.save(atlModel, outputFolder);
+								// save mutant
+								this.save(atlModel, outputFolder);
 
-							// restore: remove added binding and comment
-							realbindings.remove(binding);
-							if (comments!=null) comments.remove(comments.size()-1);						
+								// restore: remove added binding and comment
+								realbindings.remove(binding);
+								if (comments!=null) comments.remove(comments.size()-1);						
+							}
 						}
 					}
 				}

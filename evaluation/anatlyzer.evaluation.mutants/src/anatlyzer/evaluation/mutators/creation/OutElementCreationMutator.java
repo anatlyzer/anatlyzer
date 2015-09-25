@@ -38,30 +38,33 @@ public class OutElementCreationMutator extends AbstractMutator {
 		// for each matched rule
 		for (MatchedRule rule : (List<MatchedRule>)wrapper.allObjectsOf(MatchedRule.class)) {
 			
-			// current out-pattern elements 
-			EStructuralFeature feature = wrapper.source(rule.getOutPattern()).eClass().getEStructuralFeature("elements");
-			List<PatternElement> realelements = (List<PatternElement>)wrapper.source(rule.getOutPattern()).eGet(feature);
+			if (rule.getOutPattern()!=null) {
+				
+				// current out-pattern elements 
+				EStructuralFeature feature = wrapper.source(rule.getOutPattern()).eClass().getEStructuralFeature("elements");
+				List<PatternElement> realelements = (List<PatternElement>)wrapper.source(rule.getOutPattern()).eGet(feature);
 					
-			// new out-pattern elements
-			List<PatternElement> newelements = new ArrayList<PatternElement>();
-			newelements.addAll(this.getOutElement1(outputMM)); // out-pattern element for each meta-model class
+				// new out-pattern elements
+				List<PatternElement> newelements = new ArrayList<PatternElement>();
+				newelements.addAll(this.getOutElement1(outputMM)); // out-pattern element for each meta-model class
 					
-			// for each new out-pattern element 
-			for (PatternElement element : newelements) {
-				if (element!=null) {
+				// for each new out-pattern element 
+				for (PatternElement element : newelements) {
+					if (element!=null) {
 						
-					// mutation: add out-pattern element
-					realelements.add(element);
+						// mutation: add out-pattern element
+						realelements.add(element);
 
-					// mutation: documentation
-					if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(element) + " in " + toString(rule) + " (line " + rule.getLocation() + " of original transformation)\n");
+						// mutation: documentation
+						if (comments!=null) comments.add("\n-- MUTATION \"" + this.getDescription() + "\" " + toString(element) + " in " + toString(rule) + " (line " + rule.getLocation() + " of original transformation)\n");
 
-					// save mutant
-					this.save(atlModel, outputFolder);
+						// save mutant
+						this.save(atlModel, outputFolder);
 
-					// restore: remove added out-pattern element and comment
-					realelements.remove(element);
-					if (comments!=null) comments.remove(comments.size()-1);						
+						// restore: remove added out-pattern element and comment
+						realelements.remove(element);
+						if (comments!=null) comments.remove(comments.size()-1);						
+					}
 				}
 			}
 		}

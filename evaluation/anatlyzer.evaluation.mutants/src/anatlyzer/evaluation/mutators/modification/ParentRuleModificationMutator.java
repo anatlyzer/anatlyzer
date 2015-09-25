@@ -1,5 +1,6 @@
 package anatlyzer.evaluation.mutators.modification;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -9,6 +10,8 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 import witness.generator.MetaModel;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.evaluation.mutators.ATLModel;
 import anatlyzer.evaluation.mutators.AbstractMutator;
 
@@ -31,12 +34,21 @@ public class ParentRuleModificationMutator extends AbstractMutator {
 		for (MatchedRule rule : (List<MatchedRule>)wrapper.allObjectsOf(MatchedRule.class)) {
 			
 			// obtain current parent rule 
-			EStructuralFeature feature = wrapper.source(rule).eClass().getEStructuralFeature("superRule");
-			MatchedRule superrule = (MatchedRule)wrapper.source(rule).eGet(feature);
+			EStructuralFeature feature   = wrapper.source(rule).eClass().getEStructuralFeature("superRule");
+			Object             superrule = wrapper.source(rule).eGet(feature);
 					
 			// matched rules
 			List<MatchedRule> parents = (List<MatchedRule>)wrapper.allObjectsOf(MatchedRule.class);
+			
+			// exclude itself, and other rules that would make an inheritance cycle
+			List<MatchedRule> remove = new ArrayList<MatchedRule>();
+			for (MatchedRule parent : parents) {
+				RuleWithPattern r = parent.getSuperRule();
+				while (r!=null && r!=rule) r = r.getSuperRule();
+				if (r==rule) remove.add(parent);
+			}
 			parents.remove(rule);
+			parents.removeAll(remove);
 					
 			// for each matched rule 
 			for (MatchedRule parent : parents) {

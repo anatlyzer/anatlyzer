@@ -67,19 +67,19 @@ rule AssemblerToPlaces {
 
 abstract rule ConnectChecker {
 	from c : FAC!Checker,
-	     m : FAC!Machine
+	     m : FAC!Machine (if not m.oclIsKindOf(FAC!Assembler) then m.serialno > 1 else true endif)
 		 
 	to t : CPN!Transition (
 		name <- c.ident+' to '+m.ident,
 		author <- thisModule.author
 	),
 	a : CPN!PlaceToTransArc( 
-		source <- thisModule.resolveTemp(c, 'p'),
+		source <- c, --thisModule.resolveTemp(c, 'p'),
 		target <- t
 	),
 	b : CPN!TransToPlaceArc(
 		source <- t,
-		target <- thisModule.resolveTemp(m, 'p')
+		target <- m -- thisModule.resolveTemp(m, 'p')
 	)
 	
 	
@@ -89,7 +89,7 @@ abstract rule ConnectChecker {
 
 rule ConnectAssemChecker extends ConnectChecker{
 	from c : FAC!AssembledChecker,
-	     m : FAC!Machine ( c.checks = m )
+	     m : FAC!Assembler ( c.checks = m )
 	do { -- Otherwise it does not work in the parent rule
 		thisModule.addTransitions(Sequence{t});
 		thisModule.addArcs(Sequence{a, b});
@@ -98,7 +98,7 @@ rule ConnectAssemChecker extends ConnectChecker{
 
 rule ConnectPackagedChecker extends ConnectChecker {
 	from c : FAC!PackagedChecker,
-	     m : FAC!Machine ( c.checks->includes(m) )
+	     m : FAC!Packager ( c.checks->includes(m))
 	do {
 		thisModule.addTransitions(Sequence{t});
 		thisModule.addArcs(Sequence{a, b});

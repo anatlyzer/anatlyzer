@@ -89,7 +89,7 @@ abstract rule ConnectChecker {
 
 rule ConnectAssemChecker extends ConnectChecker{
 	from c : FAC!AssembledChecker,
-	     m : FAC!Assembler ( c.checks = m )
+	     m : FAC!Assembler ( c.checks = m and not m.operatedBy.oclIsUndefined())
 	do { -- Otherwise it does not work in the parent rule
 		thisModule.addTransitions(Sequence{t});
 		thisModule.addArcs(Sequence{a, b});

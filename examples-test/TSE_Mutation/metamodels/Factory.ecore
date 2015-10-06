@@ -48,7 +48,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="BreakStates">
     <eLiterals name="off"/>
     <eLiterals name="on" value="1"/>
-    <eLiterals name="under_repair" value="2"/>
+    <eLiterals name="underRepair" value="2" literal="underRepair"/>
     <eLiterals name="broken" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//Breakable">

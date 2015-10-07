@@ -181,7 +181,7 @@ public class Report {
 	}
 	
 	private String convert (boolean value) { return value? "error" : "correct"; }
-	private String convert (String  value) { String value2 = value.replaceAll("\\s", " "); return value2.length()<100? value2 : value2.substring(0, 2100); }
+	private String convert (String  value) { String value2 = value.replaceAll("\\s", " "); return value2.length()<100? value2 : value2.substring(0, 100); }
 	
 	/** it returns the name of a file, given its full or relative path**/
 	private String getFileName(String path) {

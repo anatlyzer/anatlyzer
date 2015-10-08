@@ -1,0 +1,293 @@
+MUTANT	ANATLYSER	EXECUTION	RESULT	AN. OUTPUT	EX. OUTPUT	AN. EXCEPTION
+ArgumentTypeModification_mutant1.atl	error	error	true positive	In resolveTemp - no output pattern n in rule(s):   MachineToPlaces 54:1-71:2  (STATICALLY_CONFIRMED)	Unable to access transitions on OclUndefined	
+ArgumentTypeModification_mutant10.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant11.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant12.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant13.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(Arc)), given addArcs(Set(Union {PlaceToTransAr		
+ArgumentTypeModification_mutant14.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant15.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(Arc)), given addArcs(Set(Union {PlaceToTransAr		
+ArgumentTypeModification_mutant16.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant17.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant18.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant19.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(Arc)), given addArcs(Set(Union {PlaceToTransAr		
+ArgumentTypeModification_mutant2.atl	error	error	true positive	In resolveTemp - no output pattern n in rule(s):   MachineToPlaces 54:1-71:2  (STATICALLY_CONFIRMED)	Unable to access arcs on OclUndefined	
+ArgumentTypeModification_mutant20.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant21.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(Arc)), given addArcs(Set(Union {PlaceToTransAr		
+ArgumentTypeModification_mutant22.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant23.atl	error	correct	false positive	"Invalid argument for oclIsKindOf. Type Factory not compatible with Machine (STATICALLY_CONFIRMED) ;I"		
+ArgumentTypeModification_mutant24.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant25.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant26.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant27.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant28.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant29.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant3.atl	error	error	true positive	"No feature Machine.author found (STATICALLY_CONFIRMED) ;"	Feature author does not exist on Assembler	
+ArgumentTypeModification_mutant30.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant31.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant32.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant33.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant34.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant35.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant36.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant37.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant38.atl	correct	correct	true negative			
+ArgumentTypeModification_mutant4.atl	error	correct	false positive	"Invalid argument for oclIsKindOf. Type Factory not compatible with Machine (STATICALLY_CONFIRMED) ;"		
+ArgumentTypeModification_mutant5.atl	error	error	true positive	"Invalid argument for oclIsKindOf. Type Factory not compatible with Machine (STATICALLY_CONFIRMED) ;"	Trying to register several rules as default for element org.eclipse.emf.ecore.impl.DynamicEObjectImp	
+ArgumentTypeModification_mutant6.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant7.atl	correct	correct	true negative			 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.IllegalStateException: No type for anatlyzer.atle
+ArgumentTypeModification_mutant8.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Transition)), given addTransitions(Set(		
+ArgumentTypeModification_mutant9.atl	error	correct	false positive	"Invalid argument for oclIsKindOf. Type Factory not compatible with Machine (STATICALLY_CONFIRMED) ;"		
+Binding-targetModification_mutant1.atl	correct	correct	true negative			
+Binding-targetModification_mutant10.atl	error	error	true positive	"In binding Type.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In binding T"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant11.atl	error	error	true positive	In binding Type.components : Sequence(PrimitiveAttribute), expected object type, received primitive 	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant12.atl	error	error	true positive	"In binding Type.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In binding T"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant13.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant14.atl	error	error	true positive	In binding Place.type : Type, expected object type, received primitive value (STATICALLY_CONFIRMED) 	The value of type 'class java.lang.String' must be of type 'org.eclipse.emf.ecore.impl.EClassImpl@4d	
+Binding-targetModification_mutant15.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant16.atl	correct	correct	true negative			
+Binding-targetModification_mutant17.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant18.atl	error	error	true positive	"In binding Place.name : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;In"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant19.atl	error	error	true positive	"In binding Place.author : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant2.atl	error	error	true positive	In binding PetriNet.places : Sequence(Place), expected object type, received primitive value (STATIC	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant20.atl	error	error	true positive	"In binding Place.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In binding "	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant21.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant22.atl	error	error	true positive	In binding Place.type : Type, expected object type, received primitive value (STATICALLY_CONFIRMED) 	The value of type 'class java.lang.String' must be of type 'org.eclipse.emf.ecore.impl.EClassImpl@94	
+Binding-targetModification_mutant23.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant24.atl	correct	correct	true negative			
+Binding-targetModification_mutant25.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant26.atl	error	error	true positive	"In binding Place.name : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;In"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant27.atl	error	error	true positive	"In binding Place.author : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant28.atl	error	error	true positive	"In binding Place.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In binding "	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant29.atl	error	error	true positive	In rule AssemblerToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED)	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant3.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant30.atl	error	error	true positive	In binding Place.type : Type, expected object type, received primitive value (STATICALLY_CONFIRMED) 	The value of type 'class java.lang.String' must be of type 'org.eclipse.emf.ecore.impl.EClassImpl@11	
+Binding-targetModification_mutant31.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant32.atl	correct	correct	true negative			
+Binding-targetModification_mutant33.atl	error	error	true positive	In binding Place.tokens : Sequence(Token), expected object type, received primitive value (STATICALL	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant34.atl	error	error	true positive	"In binding Place.name : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;In"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant35.atl	error	error	true positive	"In binding Place.author : String, expected primitive type, received objects (STATICALLY_CONFIRMED) ;"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant36.atl	error	error	true positive	"In binding Place.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In binding "	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant37.atl	error	error	true positive	In rule AssemblerToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED)	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant38.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+Binding-targetModification_mutant39.atl	correct	correct	true negative			
+Binding-targetModification_mutant4.atl	error	error	true positive	In binding PetriNet.places : Sequence(Place), expected object type, received primitive value (STATIC	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+Binding-targetModification_mutant40.atl	error	error	true positive	In binding PlaceToTransArc.weight : Integer, expected primitive type, received objects (STATICALLY_C	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant41.atl	error	error	true positive	"No rule for binding: Transition (STATICALLY_CONFIRMED) ;In rule ConnectChecker, no binding for compu"	The value of type 'org.eclipse.emf.ecore.impl.EClassImpl@f7cd68 (name: Transition) (instanceClassNam	
+Binding-targetModification_mutant42.atl	error	error	true positive	In binding PlaceToTransArc.weight : Integer, expected primitive type, received objects (STATICALLY_C	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant43.atl	error	error	true positive	"No rule for binding: Transition (STATICALLY_CONFIRMED) ;In rule ConnectChecker, no binding for compu"	The value of type 'org.eclipse.emf.ecore.impl.EClassImpl@e15f40 (name: Transition) (instanceClassNam	
+Binding-targetModification_mutant44.atl	error	error	true positive	In binding TransToPlaceArc.weight : Integer, expected primitive type, received objects (STATICALLY_C	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant45.atl	error	error	true positive	In binding TransToPlaceArc.weight : Integer, expected primitive type, received objects (STATICALLY_C	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant46.atl	error	error	true positive	"In rule CreateAttribute, no binding for compulsory PrimitiveAttribute.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant47.atl	error	error	true positive	In rule CreateAttribute, no binding for compulsory PrimitiveAttribute.primType (STATICALLY_CONFIRMED	The transformation produces ill-typed target models.	
+Binding-targetModification_mutant5.atl	error	correct	false positive	"No rule for binding: Type (STATICALLY_CONFIRMED) ;"		
+Binding-targetModification_mutant6.atl	error	error	true positive	"In binding PetriNet.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In bindi"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant7.atl	error	correct	false positive	Binding may be resolved by rule with invalid target type (src : Machine). 19:4-27:6  MachineToPlaces		
+Binding-targetModification_mutant8.atl	error	error	true positive	"In binding PetriNet.name, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In bindi"	The value of type 'class org.eclipse.emf.ecore.impl.DynamicEObjectImpl' must be of type 'class java.	
+Binding-targetModification_mutant9.atl	error	error	true positive	In binding Type.components : Sequence(PrimitiveAttribute), expected object type, received primitive 	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant1.atl	error	error	true positive	In binding PetriNet.places : Sequence(Place), expected object type, received primitive value (STATIC	java.lang.Boolean cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant10.atl	error	error	true positive	"Collection operation intersection not supported (STATICALLY_CONFIRMED) ;"	Operation not found: Sequence {}.intersection(java.util.ArrayList)	
+CollectionOperationCallModification_mutant11.atl	error	error	true positive	"Collection operation excludesAll not supported (STATICALLY_CONFIRMED) ;"	java.lang.Boolean cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant12.atl	correct	error	false negative		Operation asSet: wrong number of parameters	
+CollectionOperationCallModification_mutant13.atl	correct	correct	true negative			
+CollectionOperationCallModification_mutant14.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;Incoherent declared type (PetriNet) and inferred (an"	Unable to access transitions on OclUndefined	
+CollectionOperationCallModification_mutant15.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;Incoherent declared type (PetriNet) and inferred (an"	Unable to access transitions on OclUndefined	
+CollectionOperationCallModification_mutant16.atl	correct	error	false negative		java.lang.Boolean cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant17.atl	error	error	true positive	"Collection operation intersection not supported (STATICALLY_CONFIRMED) ;"	Operation not found: Sequence {}.intersection(java.util.ArrayList)	
+CollectionOperationCallModification_mutant18.atl	error	error	true positive	"Collection operation excludesAll not supported (STATICALLY_CONFIRMED) ;"	java.lang.Boolean cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant19.atl	correct	error	false negative		Operation asSet: wrong number of parameters	
+CollectionOperationCallModification_mutant2.atl	error	error	true positive	"Collection operation intersection not supported (STATICALLY_CONFIRMED) ;"	Operation not found: Sequence {IN!<unnamed>}.intersection(java.util.ArrayList)	
+CollectionOperationCallModification_mutant20.atl	error	error	true positive	"Flatten over non-nested collection (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFI"	Unable to access arcs on OclUndefined	
+CollectionOperationCallModification_mutant21.atl	correct	correct	true negative			
+CollectionOperationCallModification_mutant22.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;Incoherent declared type (PetriNet) and inferred (an"	Unable to access arcs on OclUndefined	
+CollectionOperationCallModification_mutant23.atl	error	error	true positive	"Flatten over non-nested collection (STATICALLY_CONFIRMED) ;Feature access in collection, author (STA"	Collections do not have properties, use ->collect()	
+CollectionOperationCallModification_mutant24.atl	correct	correct	true negative			
+CollectionOperationCallModification_mutant25.atl	error	error	true positive	"No operation Integer.author (STATICALLY_CONFIRMED) ;"	java.lang.Integer does not have properties	
+CollectionOperationCallModification_mutant3.atl	error	error	true positive	"Collection operation excludesAll not supported (STATICALLY_CONFIRMED) ;"	java.lang.Boolean cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CollectionOperationCallModification_mutant4.atl	error	error	true positive	"Possibly unresolved binding (Machine):  Machine (USE_INTERNAL_ERROR) ;"	Operation asSet: wrong number of parameters	
+CollectionOperationCallModification_mutant5.atl	correct	correct	true negative			
+CollectionOperationCallModification_mutant6.atl	correct	error	false negative		Operation size: wrong number of parameters	
+CollectionOperationCallModification_mutant7.atl	correct	error	false negative		Operation isEmpty: wrong number of parameters	
+CollectionOperationCallModification_mutant8.atl	correct	error	false negative		Operation not found: Sequence {IN!<unnamed>}.not()	
+CollectionOperationCallModification_mutant9.atl	correct	error	false negative		Operation last: wrong number of parameters	
+CollectionTypeModification_mutant1.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(PetriNet)), given addTransitions(Sequen		
+CollectionTypeModification_mutant2.atl	error	correct	false positive	Invalid parameter types: s. Expected addTransitions(Sequence(Type)), given addTransitions(Sequence(T		
+CollectionTypeModification_mutant3.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(PlaceToTransArc)), given addArcs(Sequence(Unio		
+CollectionTypeModification_mutant4.atl	error	correct	false positive	Invalid parameter types: s. Expected addArcs(Sequence(PetriNet)), given addArcs(Sequence(Union {Plac		
+CollectionTypeModification_mutant5.atl	error	correct	false positive	Incoherent return type. Declared type (Set(PetriNet)) and inferred (Set(Token)) (STATICALLY_CONFIRME		
+CreationofBinding_mutant1.atl	correct	correct	true negative			
+CreationofBinding_mutant10.atl	correct	correct	true negative			
+CreationofBinding_mutant11.atl	error	correct	false positive	"In binding Transition.author, expected mono-valued, received collection (STATICALLY_CONFIRMED) ;In b"		
+CreationofBinding_mutant12.atl	correct	correct	true negative			
+CreationofBinding_mutant13.atl	error	error	true positive	"No rule for binding: Checker (STATICALLY_CONFIRMED) ;"	The value of type 'org.eclipse.emf.ecore.impl.EClassImpl@afa105 (name: Place) (instanceClassName: nu	
+CreationofBinding_mutant14.atl	correct	correct	true negative			
+CreationofBinding_mutant15.atl	error	correct	false positive	In binding PlaceToTransArc.weight, expected mono-valued, received collection (STATICALLY_CONFIRMED) 		
+CreationofBinding_mutant16.atl	error	correct	false positive	"No rule for binding: Checker (STATICALLY_CONFIRMED) ;"		
+CreationofBinding_mutant17.atl	correct	correct	true negative			
+CreationofBinding_mutant18.atl	error	correct	false positive	In binding TransToPlaceArc.weight, expected mono-valued, received collection (STATICALLY_CONFIRMED) 		
+CreationofBinding_mutant19.atl	error	correct	false positive	In binding Token.values : Sequence(String), expected primitive type, received objects (STATICALLY_CO		
+CreationofBinding_mutant2.atl	correct	correct	true negative			
+CreationofBinding_mutant20.atl	correct	correct	true negative			
+CreationofBinding_mutant3.atl	error	error	true positive	In binding PetriNet.transitions : Sequence(Transition), expected object type, received primitive val	java.lang.String cannot be cast to org.eclipse.emf.ecore.InternalEObject	
+CreationofBinding_mutant4.atl	correct	correct	true negative			
+CreationofBinding_mutant5.atl	correct	correct	true negative			
+CreationofBinding_mutant6.atl	correct	correct	true negative			
+CreationofBinding_mutant7.atl	error	error	true positive	Binding may be resolved by rule with invalid target type (src : Machine). 70:4-70:13  MachineToPlace	The value of type 'org.eclipse.emf.ecore.impl.EClassImpl@ecdf02 (name: Place) (instanceClassName: nu	
+CreationofBinding_mutant8.atl	correct	correct	true negative			
+CreationofBinding_mutant9.atl	correct	correct	true negative			
+CreationofInPatternElement_mutant1.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant10.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant11.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant12.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant12.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant13.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant13.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant14.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant14.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant15.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant15.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant16.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant16.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant17.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant17.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant18.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant18.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant19.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant19.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant2.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant20.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant20.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant21.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant21.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant22.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant22.inst.atl	correct	error	false negative		Operation not found: 'Fail'.fail_()	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: java.lang.UnsupportedOperationException: anatlyzer.atl.anal
+CreationofInPatternElement_mutant23.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant24.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant25.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant26.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant27.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant28.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant29.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant3.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant30.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant31.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant32.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant33.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;Poss"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant34.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant35.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant36.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant37.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant38.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant39.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant4.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant40.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant41.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant42.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant43.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant44.atl	correct	error	false negative		The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant45.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant46.atl	correct	error	false negative		Trying to register several rules as default for element Tuple {m=org.eclipse.emf.ecore.impl.DynamicE	
+CreationofInPatternElement_mutant47.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant48.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant49.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant5.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant50.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant51.atl	correct	error	false negative		Trying to register several rules as default for element Tuple {m=org.eclipse.emf.ecore.impl.DynamicE	
+CreationofInPatternElement_mutant52.atl	correct	error	false negative		-1	
+CreationofInPatternElement_mutant53.atl	correct	error	false negative		Trying to register several rules as default for element Tuple {m=org.eclipse.emf.ecore.impl.DynamicE	
+CreationofInPatternElement_mutant54.atl	correct	error	false negative		Trying to register several rules as default for element Tuple {m=org.eclipse.emf.ecore.impl.DynamicE	
+CreationofInPatternElement_mutant55.atl	correct	error	false negative		Trying to register several rules as default for element Tuple {m=org.eclipse.emf.ecore.impl.DynamicE	
+CreationofInPatternElement_mutant6.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant7.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant8.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofInPatternElement_mutant9.atl	error	error	true positive	"No rule for resolveTemp (STATICALLY_CONFIRMED) ;No rule for resolveTemp (STATICALLY_CONFIRMED) ;No r"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant1.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant10.atl	error	error	true positive	"Abstract classes cannot be instantiated: IdentifiableElement (STATICALLY_CONFIRMED) ;In rule Factory"	The class 'IdentifiableElement' is not a valid classifier	
+CreationofOutPatternElement_mutant11.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant12.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory Type.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant13.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory PrimitiveAttribute.name (STATICALLY_CONFIRMED) ;In"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant14.atl	correct	correct	true negative			
+CreationofOutPatternElement_mutant15.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;I"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant16.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant17.atl	error	error	true positive	"Abstract classes cannot be instantiated: Arc (STATICALLY_CONFIRMED) ;"	The class 'Arc' is not a valid classifier	
+CreationofOutPatternElement_mutant18.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory PlaceToTransArc.target (STATICALLY_CONFIRMED) ;In "	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant19.atl	error	error	true positive	"In rule Operator2Place, no binding for compulsory TransToPlaceArc.target (STATICALLY_CONFIRMED) ;In "	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant2.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory Type.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant20.atl	error	error	true positive	"Abstract classes cannot be instantiated: IdentifiableElement (STATICALLY_CONFIRMED) ;In rule Operato"	The class 'IdentifiableElement' is not a valid classifier	
+CreationofOutPatternElement_mutant21.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant22.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory Type.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant23.atl	error	error	true positive	In rule MachineToPlaces, no binding for compulsory PrimitiveAttribute.primType (STATICALLY_CONFIRMED	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant24.atl	correct	correct	true negative			
+CreationofOutPatternElement_mutant25.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant26.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant27.atl	error	error	true positive	"Abstract classes cannot be instantiated: Arc (STATICALLY_CONFIRMED) ;"	The class 'Arc' is not a valid classifier	
+CreationofOutPatternElement_mutant28.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory PlaceToTransArc.source (STATICALLY_CONFIRMED) ;In"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant29.atl	error	error	true positive	"In rule MachineToPlaces, no binding for compulsory TransToPlaceArc.source (STATICALLY_CONFIRMED) ;In"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant3.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory PrimitiveAttribute.name (STATICALLY_CONFIRMED) ;In ru"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant30.atl	error	error	true positive	"Abstract classes cannot be instantiated: IdentifiableElement (STATICALLY_CONFIRMED) ;In rule Machine"	The class 'IdentifiableElement' is not a valid classifier	
+CreationofOutPatternElement_mutant31.atl	error	error	true positive	In rule AssemblerToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED)	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant32.atl	error	error	true positive	"In rule AssemblerToPlaces, no binding for compulsory Type.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant33.atl	error	error	true positive	In rule AssemblerToPlaces, no binding for compulsory PrimitiveAttribute.primType (STATICALLY_CONFIRM	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant34.atl	correct	correct	true negative			
+CreationofOutPatternElement_mutant35.atl	error	error	true positive	"In rule AssemblerToPlaces, no binding for compulsory Place.type (STATICALLY_CONFIRMED) ;In rule Asse"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant36.atl	error	error	true positive	In rule AssemblerToPlaces, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED)	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant37.atl	error	error	true positive	"Abstract classes cannot be instantiated: Arc (STATICALLY_CONFIRMED) ;"	The class 'Arc' is not a valid classifier	
+CreationofOutPatternElement_mutant38.atl	error	error	true positive	"In rule AssemblerToPlaces, no binding for compulsory PlaceToTransArc.source (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant39.atl	error	error	true positive	"In rule AssemblerToPlaces, no binding for compulsory TransToPlaceArc.source (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant4.atl	correct	correct	true negative			
+CreationofOutPatternElement_mutant40.atl	error	error	true positive	"Abstract classes cannot be instantiated: IdentifiableElement (STATICALLY_CONFIRMED) ;In rule Assembl"	The class 'IdentifiableElement' is not a valid classifier	
+CreationofOutPatternElement_mutant41.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant42.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory Type.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant43.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory PrimitiveAttribute.name (STATICALLY_CONFIRMED) ;In"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant44.atl	correct	correct	true negative			
+CreationofOutPatternElement_mutant45.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;I"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant46.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant47.atl	correct	error	false negative		The class 'Arc' is not a valid classifier	
+CreationofOutPatternElement_mutant48.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory PlaceToTransArc.target (STATICALLY_CONFIRMED) ;In "	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant49.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory TransToPlaceArc.source (STATICALLY_CONFIRMED) ;In "	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant5.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;In r"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant50.atl	error	error	true positive	"In rule ConnectChecker, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The class 'IdentifiableElement' is not a valid classifier	
+CreationofOutPatternElement_mutant6.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory IdentifiableElement.name (STATICALLY_CONFIRMED) ;"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant7.atl	error	error	true positive	"Abstract classes cannot be instantiated: Arc (STATICALLY_CONFIRMED) ;"	The class 'Arc' is not a valid classifier	
+CreationofOutPatternElement_mutant8.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory PlaceToTransArc.source (STATICALLY_CONFIRMED) ;In rul"	The transformation produces ill-typed target models.	
+CreationofOutPatternElement_mutant9.atl	error	error	true positive	"In rule Factory2Net, no binding for compulsory TransToPlaceArc.source (STATICALLY_CONFIRMED) ;In rul"	The transformation produces ill-typed target models.	
+DeletionofArgument_mutant1.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: oclIsKindOf (STATICALLY_CONFIRMED) ;Possibly "	Do not know how to handle type: null	
+DeletionofArgument_mutant10.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant11.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: oclIsKindOf (STATICALLY_CONFIRMED) ;Possibly "	Do not know how to handle type: null	
+DeletionofArgument_mutant12.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant13.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant14.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: addTransitions (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at addTransitions#13(factory2pn.atl[175:22-175:47])  	
+DeletionofArgument_mutant15.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant16.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant17.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant18.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant19.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: oclIsKindOf (STATICALLY_CONFIRMED) ;"	Do not know how to handle type: null	
+DeletionofArgument_mutant2.atl	error	error	true positive	"Invalid number of arguments, 1, expected 2. Operation: CreateAttribute (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at __resolve__#3(factory2pn.atl)   local variables: s	
+DeletionofArgument_mutant20.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: addTransitions (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at addTransitions#13(factory2pn.atl[175:22-175:47])  	
+DeletionofArgument_mutant21.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: addArcs (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at addArcs#13(factory2pn.atl[185:15-185:33])   local 	
+DeletionofArgument_mutant22.atl	error	correct	false positive	"Invalid number of arguments, 0, expected 1. Operation: addTransitions (STATICALLY_CONFIRMED) ;"		
+DeletionofArgument_mutant23.atl	error	correct	false positive	"Invalid number of arguments, 0, expected 1. Operation: addArcs (STATICALLY_CONFIRMED) ;"		
+DeletionofArgument_mutant24.atl	correct	error	false negative		Unable to access transitions on OclUndefined	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant25.atl	correct	error	false negative		Unable to access transitions on OclUndefined	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant26.atl	correct	error	false negative		Unable to access arcs on OclUndefined	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant27.atl	correct	error	false negative		Unable to access arcs on OclUndefined	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant28.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: TokenCreation (STATICALLY_CONFIRMED) ;"	Unable to access state on OclUndefined	
+DeletionofArgument_mutant29.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: oclIsKindOf (STATICALLY_CONFIRMED) ;Invalid p"	Do not know how to handle type: null	
+DeletionofArgument_mutant3.atl	error	error	true positive	"Invalid number of arguments, 1, expected 2. Operation: CreateAttribute (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at __resolve__#3(factory2pn.atl)   local variables: s	
+DeletionofArgument_mutant4.atl	error	error	true positive	"Invalid number of arguments, 1, expected 2. Operation: CreateAttribute (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at __resolve__#3(factory2pn.atl)   local variables: s	
+DeletionofArgument_mutant5.atl	error	error	true positive	"Invalid number of arguments, 1, expected 2. Operation: CreateAttribute (STATICALLY_CONFIRMED) ;"	org.eclipse.m2m.atl.engine.emfvm.VMException   at __resolve__#3(factory2pn.atl)   local variables: s	
+DeletionofArgument_mutant6.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant7.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+DeletionofArgument_mutant8.atl	error	error	true positive	"Invalid number of arguments, 0, expected 1. Operation: TokenCreation (STATICALLY_CONFIRMED) ;"	Unable to access state on OclUndefined	
+DeletionofArgument_mutant9.atl	correct	error	false negative		The transformation produces ill-typed target models.	 ***WARNING*** anATLyser raised the exception java.util.concurrent.ExecutionException: anatlyzer.atl.model.ErrorModel$NoRecoverableError: resolveT
+						
+						
+	Evaluated transformations	280				
+	True positives	139	49,64%			
+	True negatives	47	16,79%			
+	False positives	27	9,64%			
+	False negatives	67	23,93%			
+	Precision	0,84				
+	Recall	0,67				
+	Accuracy	0,66				
+	F-score	0,75				
+	Anatlyser exceptions	46				

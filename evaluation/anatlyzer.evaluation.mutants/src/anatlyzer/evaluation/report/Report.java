@@ -149,7 +149,7 @@ public class Report {
 		            " SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"correct\"); \"false positive\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"error\"); \"false negative\"; \"unknown\"))))" + "\t" +
 		            (r.getAnatlyserNotifiesError()? convert(r.getAnatlyserError()) : "") + "\t" +
-		            (r.getExecutionError()  !=null? convert(r.getExecutionError()) : "") +
+		            (r.getExecutionError()  !=null? convert(r.getExecutionError())+"; witness "+r.getExecutionWitness() : "") +
 		            (r.getAnatlyserDoesNotFinish()? "\t ***WARNING*** anATLyser raised the exception " + convert(r.getAnatlyserError()) : ""));
 		}
 		

@@ -65,13 +65,16 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		
 		OclSlice.slice(slice, binding.getValue());
 		
-		// Needed for the error
-		for (EClass c : problem.getProblematicClasses()) {
-			slice.addMetaclassNeededInError(c);
-		}
 
-		/*
-		// New strategy to reduce the number of classes in the slice
+// This is not enough if the class that will raise the error is "implicit" (i.e., it 
+// does not appear in the path but it is a subclass)
+//		// Needed for the error
+//		for (EClass c : problem.getProblematicClasses()) {
+//			slice.addMetaclassNeededInError(c);
+//		}
+
+
+//		 New strategy to reduce the number of classes in the slice
 		System.out.println(binding.getLocation());
 		for (EClass c : problem.getProblematicClasses()) {
 			if ( ! problem.getProblematicClassesImplicit().contains(c) ) {
@@ -84,7 +87,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		if ( c != null ) {
 			slice.addMetaclassNeededInError(c);
 		}
-		*/
+
 		
 		// Classes whose type appear
 		

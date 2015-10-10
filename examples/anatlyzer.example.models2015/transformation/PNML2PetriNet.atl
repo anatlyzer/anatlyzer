@@ -1,5 +1,14 @@
 -- @path PNML=./anatlyzer.example.models2015/metamodels/PNML_simplified.ecore
 -- @path PetriNet=/anatlyzer.example.models2015/metamodels/PetriNet.ecore
+-- @pre ThisModule.allInstances()->exists(thisModule|(PNML_Arc.allInstances()->isEmpty()) or (not (PNML_Arc.allInstances()->exists(n|if n.target.oclIsKindOf(PNML_Place)
+-- 	then let _problem_1 = n.source in
+-- 	if PNML_Place.allInstances()->includes(_problem_1)
+-- 	then true
+-- 	else false
+-- 	endif
+-- 	else false
+-- 	endif))))
+-- @footprint Transition, NetContentElement, Arc, Place | Arc.source, Arc.target|
 module PNML2PetriNet;
 create OUT : PetriNet from IN : PNML;
 

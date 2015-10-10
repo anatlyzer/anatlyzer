@@ -24,6 +24,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.Operation;
@@ -501,15 +502,43 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			
 		resolvingRules.add(rule);		
 
-		for(EClass c : eClass.getESuperTypes()) {
+		// For any supertype, the rule *may* resolve the object 
+
+// Not doing this recursively because it interfieres with the handling of subtypes
+//		for(EClass c : eClass.getESuperTypes()) {
+//			if ( c.eIsProxy() ) { 
+//				// TODO: Handle this: System.out.println("WARNING: Ignoring proxy (extendType, ClassNamespace)"); 
+//				continue; 
+//			}
+//			
+//			IClassNamespace ns = (IClassNamespace) metamodel.getClassifier(c.getName());
+//			ns.attachResolvingRule(ruleName, returnType, rule);
+//		}
+		
+		for(EClass c : eClass.getEAllSuperTypes()) {
 			if ( c.eIsProxy() ) { 
 				// TODO: Handle this: System.out.println("WARNING: Ignoring proxy (extendType, ClassNamespace)"); 
 				continue; 
 			}
 			
 			IClassNamespace ns = (IClassNamespace) metamodel.getClassifier(c.getName());
-			ns.attachResolvingRule(ruleName, returnType, rule);
-		}		
+			if ( ns instanceof ClassNamespace ) {
+				((ClassNamespace) ns).resolvingRules.add(rule);
+			}			
+			
+		}
+		
+		System.out.println(ruleName + " " + getKlass().getName());
+		System.out.println("--");
+		
+		// For any subtype, the rule will certainly resolve the object (modulo the rule filter)
+		ArrayList<IClassNamespace> nss = new ArrayList<IClassNamespace>(this.getAllSubclasses());		
+		for(IClassNamespace sub : nss) {
+			if ( sub instanceof ClassNamespace ) {
+				((ClassNamespace) sub).resolvingRules.add(rule);
+			}
+		}
+
 	}
 
 	/* (non-Javadoc)

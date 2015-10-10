@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -299,7 +300,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	protected void analyseRuleResolution(Binding self, Type rightType, EReference f) {
 		if ( rightType instanceof Metaclass ) {			
 			Metaclass rightMetaclass = (Metaclass) rightType;
-			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();
+			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();			
 			
 			Set<MatchedRule> rules = ns.getResolvingRules();
 			boolean isAssignable    = TypeUtils.isClassAssignableTo(rightMetaclass.getKlass(), f.getEReferenceType());

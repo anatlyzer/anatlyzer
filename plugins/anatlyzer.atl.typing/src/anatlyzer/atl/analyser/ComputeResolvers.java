@@ -12,6 +12,7 @@ import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.PrimitiveTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ThisModuleType;
@@ -123,8 +124,7 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		// 
 		// To avoid adding the same rules many times a set is used
 		HashSet<MatchedRule> alreadyAdded = new HashSet<MatchedRule>();
-		
-		// System.out.println(self.getLocaanntion() + " " + TypeUtils.typeToString(srcType));
+	
 		for(Metaclass m: typ().getInvolvedMetaclasses(srcType)) {
 			IClassNamespace srcNs = (IClassNamespace) m.getMetamodelRef();
 			ArrayList<IClassNamespace> nss = new ArrayList<IClassNamespace>(srcNs.getAllSubclasses());

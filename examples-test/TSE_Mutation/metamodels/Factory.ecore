@@ -5,14 +5,16 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="machines" ordered="false"
-        lowerBound="1" upperBound="-1" eType="#//Machine" containment="true"/>
+        lowerBound="1" upperBound="-1" eType="#//Machine" containment="true" eOpposite="#//Machine/factory"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operators" ordered="false"
-        upperBound="-1" eType="#//Operator" containment="true"/>
+        upperBound="-1" eType="#//Operator" containment="true" eOpposite="#//Operator/factory"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Machine" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operatedBy" eType="#//Operator"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="serialno" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="factory" lowerBound="1"
+        eType="#//Factory" eOpposite="#//Factory/machines"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Processor" abstract="true" eSuperTypes="#//Machine #//Breakable">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parts" ordered="false"
@@ -46,10 +48,12 @@
   <eClassifiers xsi:type="ecore:EEnum" name="BreakStates">
     <eLiterals name="off"/>
     <eLiterals name="on" value="1"/>
-    <eLiterals name="under_repair" value="2"/>
+    <eLiterals name="underRepair" value="2" literal="underRepair"/>
     <eLiterals name="broken" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operator" eSuperTypes="#//Breakable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="factory" lowerBound="1"
+        eType="#//Factory" eOpposite="#//Factory/operators"/>
   </eClassifiers>
 </ecore:EPackage>

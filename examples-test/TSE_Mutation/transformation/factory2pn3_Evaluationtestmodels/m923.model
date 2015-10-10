@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Factory:Factory xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Factory="http://bento/factory" name="string2" author="string1">
+  <machines xsi:type="Factory:AssembledChecker" serialno="8" checks="//@machines.1"/>
+  <machines xsi:type="Factory:Assembler" serialno="10" state="broken"/>
+  <machines xsi:type="Factory:Packager" serialno="7" state="underRepair" numFinished="7"/>
+  <machines xsi:type="Factory:PackagedChecker" serialno="8"/>
+  <machines xsi:type="Factory:Assembler" serialno="10" state="broken" priority="true"/>
+  <machines xsi:type="Factory:Packager" serialno="8" state="on" numFinished="10">
+    <parts timeStamp="10"/>
+  </machines>
+  <operators state="broken" name="string5"/>
+  <operators state="broken" name="string2"/>
+</Factory:Factory>

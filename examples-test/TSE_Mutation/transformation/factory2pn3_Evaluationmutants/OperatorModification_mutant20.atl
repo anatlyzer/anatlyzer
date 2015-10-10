@@ -1,0 +1,215 @@
+-- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
+-- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
+-- @pre Factory.allInstances()->size() > 0 
+-- @footprint Factory
+
+-- MUTATION "Operator Modification" from and to >= (line 70:24-70:114 of original transformation)
+
+module factory2pn;
+create OUT : CPN from IN : FAC;
+
+rule Factory2Net {
+ from
+  f : FAC!Factory
+ to
+  n : CPN!PetriNet (
+   author <- f.author,
+   name <- f.name,
+   types <- Sequence {t, t2},
+   places <- f.machines->select(m |
+    if not m.oclIsKindOf(FAC!Assembler) then
+     m.serialno > 1
+    else
+     true
+    endif
+   )->union(f.operators->select(o |
+    o.state <> #off
+   ))
+  ),
+  t : CPN!Type (
+   name <- 'BreakableState',
+   components <- Sequence {thisModule.CreateAttribute('state', 'String')}
+  ),
+  t2 : CPN!Type (
+   name <- 'TimeStamp',
+   components <- Sequence {thisModule.CreateAttribute('timeStamp', 'Integer')}
+  )
+}
+
+rule Operator2Place {
+ from
+  o : FAC!Operator
+  (
+   o.state <> #off
+  )
+ to
+  p : CPN!Place (
+   name <- 'Operator ' + o.name,
+   author <- thisModule.author,
+   type <- thisModule.resolveTemp(o.refImmediateComposite(), 't'),
+   tokens <- Set {thisModule.TokenCreation(o)}
+  )
+}
+
+rule MachineToPlaces {
+ from
+  a : FAC!Machine
+  (
+   if not a.oclIsKindOf(FAC!Assembler) then
+    a.serialno > 1
+   else
+    a.operatedBy.oclIsUndefined()
+   endif
+  )
+ to
+  p : CPN!Place (
+   name <- a.ident,
+   author <- thisModule.author,
+   type <- thisModule.resolveTemp(a.refImmediateComposite(), 't'),
+   tokens <- a.tokens
+  )
+}
+
+rule AssemblerToPlaces {
+ from
+  a : FAC!Assembler
+  (
+   not a.operatedBy.oclIsUndefined()
+  )
+ to
+  p : CPN!Place (
+   name <- a.ident,
+   author <- thisModule.author,
+   type <- thisModule.resolveTemp(a.refImmediateComposite(), 't'),
+   tokens <- a.tokens
+  ),
+  t : CPN!Transition (
+   name <- 'operator ' + p.name
+  )
+ do {
+  thisModule.addTransitions(Sequence {t});
+ }
+}
+
+abstract rule ConnectChecker {
+ from
+  c : FAC!Checker,
+  m : FAC!Machine
+  (
+   if not m.oclIsKindOf(FAC!Assembler) then
+    m.serialno > 1
+   else
+    true
+   endif >= c.serialno > 1
+  )
+ to
+  t : CPN!Transition (
+   name <- c.ident + ' to ' + m.ident,
+   author <- thisModule.author
+  ),
+  a : CPN!PlaceToTransArc (
+   source <- thisModule.resolveTemp(c, 'p'),
+   target <- t
+  ),
+  b : CPN!TransToPlaceArc (
+   source <- t,
+   target <- thisModule.resolveTemp(m, 'p')
+  )
+} -- Connection rules
+-- Connection rules
+rule ConnectAssemChecker extends ConnectChecker {
+ from
+  c : FAC!AssembledChecker,
+  m : FAC!Assembler
+  (
+   c.checks = m and not m.operatedBy.oclIsUndefined()
+  )
+ do {
+  -- Otherwise it does not work in the parent rule
+  -- Otherwise it does not work in the parent rule
+  -- Otherwise it does not work in the parent rule
+  thisModule.addTransitions(Sequence {t});
+  thisModule.addArcs(Sequence {a, b});
+ }
+}
+
+rule ConnectPackagedChecker extends ConnectChecker {
+ from
+  c : FAC!PackagedChecker,
+  m : FAC!Packager
+  (
+   c.checks->includes(m)
+  )
+ do {
+  thisModule.addTransitions(Sequence {t});
+  thisModule.addArcs(Sequence {a, b});
+ }
+} -- Lazy rules ======================================================================
+-- Lazy rules ======================================================================
+lazy rule TokenCreation {
+ from
+  o : FAC!Breakable
+ to
+  t : CPN!Token (
+   values <- Sequence {o.state.toString()}
+  )
+} -- Called rules ======================================================================
+-- Called rules ======================================================================
+rule CreateAttribute(nam : String, type : String) {
+ to
+  pa : CPN!PrimitiveAttribute (
+   name <- nam,
+   primType <- type
+  )
+ do {
+  pa;
+ }
+}
+
+rule addTransitions(s : Sequence(CPN!Transition)) {
+ using
+ {
+  net : CPN!PetriNet = thisModule.resolveTemp(FAC!Factory.allInstances()->first(), 'n');
+ }
+ do {
+  net.transitions <- net.transitions->union(s);
+ }
+}
+
+rule addArcs(s : Sequence(CPN!Arc)) {
+ using
+ {
+  net : CPN!PetriNet = thisModule.resolveTemp(FAC!Factory.allInstances()->first(), 'n');
+ }
+ do {
+  net.arcs <- net.arcs->union(s);
+ }
+} -- Helpers ================================================================================
+-- Helpers ================================================================================
+helper def: author : String =
+ FAC!Factory.allInstances()->first().author;
+
+helper context FAC!Machine def: ident : String =
+ self.typeName + ' ' + self.serialno;
+
+helper context FAC!Machine def: typeName : String =
+ 'Machine'; -- Had to add this to remove anatlyzer 'error'
+-- Had to add this to remove anatlyzer 'error'
+helper context FAC!Assembler def: typeName : String =
+ 'Assembler';
+
+helper context FAC!Packager def: typeName : String =
+ 'Packager';
+
+helper context FAC!AssembledChecker def: typeName : String =
+ 'AssembledChecker';
+
+helper context FAC!PackagedChecker def: typeName : String =
+ 'PackagedChecker';
+
+helper context FAC!Machine def: tokens : Set(CPN!Token) =
+ if self.oclIsKindOf(FAC!Processor) then
+  Set {thisModule.TokenCreation(self)}
+ else
+  Set {}
+ endif;

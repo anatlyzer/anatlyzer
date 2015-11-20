@@ -6,6 +6,7 @@ import anatlyzer.atl.errors.AnalysisResultPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -1399,13 +1400,31 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_BINDING_FOR_COMPULSORY_FEATURE__FEATURE_NAME = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Subrule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__SUBRULE = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__KIND = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>No Binding For Compulsory Feature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_FEATURE_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 2;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_FEATURE_COUNT = TARGET_MODEL_CONFORMANCE_PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of operations of the '<em>No Binding For Compulsory Feature</em>' class.
@@ -7653,6 +7672,17 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
+	 * @generated
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 67;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.LocalProblem <em>Local Problem</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8359,6 +8389,28 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getNoBindingForCompulsoryFeature();
 
 	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getSubrule <em>Subrule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Subrule</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getSubrule()
+	 * @see #getNoBindingForCompulsoryFeature()
+	 * @generated
+	 */
+	EReference getNoBindingForCompulsoryFeature_Subrule();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getKind <em>Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Kind</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getKind()
+	 * @see #getNoBindingForCompulsoryFeature()
+	 * @generated
+	 */
+	EAttribute getNoBindingForCompulsoryFeature_Kind();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany <em>Binding Expected One Assigned Many</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9016,6 +9068,16 @@ public interface AtlErrorPackage extends EPackage {
 	EReference getCannotInstantiateAbstractClass_Type();
 
 	/**
+	 * Returns the meta object for enum '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>No Binding For Compulsory Feature Kind</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind
+	 * @generated
+	 */
+	EEnum getNoBindingForCompulsoryFeatureKind();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9637,6 +9699,22 @@ public interface AtlErrorPackage extends EPackage {
 		EClass NO_BINDING_FOR_COMPULSORY_FEATURE = eINSTANCE.getNoBindingForCompulsoryFeature();
 
 		/**
+		 * The meta object literal for the '<em><b>Subrule</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NO_BINDING_FOR_COMPULSORY_FEATURE__SUBRULE = eINSTANCE.getNoBindingForCompulsoryFeature_Subrule();
+
+		/**
+		 * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NO_BINDING_FOR_COMPULSORY_FEATURE__KIND = eINSTANCE.getNoBindingForCompulsoryFeature_Kind();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingExpectedOneAssignedManyImpl <em>Binding Expected One Assigned Many</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -10211,6 +10289,16 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE = eINSTANCE.getCannotInstantiateAbstractClass_Type();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
+		 * @generated
+		 */
+		EEnum NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = eINSTANCE.getNoBindingForCompulsoryFeatureKind();
 
 	}
 

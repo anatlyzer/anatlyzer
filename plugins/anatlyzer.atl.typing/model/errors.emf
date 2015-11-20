@@ -80,6 +80,13 @@ package atl_error {
 	@description(name="No binding for compulsory target feature", text="Applicable to references and string attributes without default value.")	 
 	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
 	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {	   
+		ref EObject[0..1] subrule;
+		attr NoBindingForCompulsoryFeatureKind kind;
+	}
+	
+	enum NoBindingForCompulsoryFeatureKind {
+		IN_NORMAL_RULE = 0;
+		MISSING_SUBRULE	= 1;			
 	}
 	
 	@description(name="Binding possibly unresolved", text="A binding may be unresolved if certain conditions hold")	 

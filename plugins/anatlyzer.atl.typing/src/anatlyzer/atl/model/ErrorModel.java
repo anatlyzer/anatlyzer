@@ -53,6 +53,7 @@ import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
@@ -86,6 +87,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclFeature;
@@ -437,13 +439,20 @@ public class ErrorModel {
 
 	// Binding problems
 	
-	public void signalNoBindingForCompulsoryFeature(EStructuralFeature unboundCompulsoryFeature, OutPatternElement pe) {
+	public void signalNoBindingForCompulsoryFeature(EStructuralFeature unboundCompulsoryFeature, OutPatternElement pe, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern subrule) {
 		NoBindingForCompulsoryFeature error = AtlErrorFactory.eINSTANCE.createNoBindingForCompulsoryFeature();
 		initProblem(error, pe);
 		error.setFeature(unboundCompulsoryFeature);
 		error.setFeatureName(unboundCompulsoryFeature.getName());
+		error.setKind(kind);
 		
-		signalWarning(error, "In rule " + pe.getOutPattern().getRule().getName() + ", no binding for compulsory " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName(), pe);						
+		String initialText = "In rule " + pe.getOutPattern().getRule().getName();
+		if ( subrule != null ) {
+			error.setSubrule(subrule);
+			initialText = "In subrule " + subrule.getName();
+		}
+		
+		signalWarning(error, initialText + ", no binding for compulsory " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName(), pe);						
 	}
 
 	

@@ -304,6 +304,16 @@ public class ATLUtils {
 		} while ( true );
 	}
 	
+	public static List<RuleWithPattern> allSuperRules(RuleWithPattern r) {
+		List<RuleWithPattern> result = new ArrayList<RuleWithPattern>();
+		do {
+			r = r.getSuperRule();
+			if ( r == null ) 
+				return result;
+			result.add(r);
+		} while ( true );
+	}
+	
 	public static OclExpression getBody(Helper self) {
 		if ( self.getDefinition().getFeature() instanceof Attribute ) {
 			return ((Attribute) self.getDefinition().getFeature()).getInitExpression();

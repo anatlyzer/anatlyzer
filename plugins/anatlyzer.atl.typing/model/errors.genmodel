@@ -41,6 +41,10 @@
     <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>
     <nestedGenPackages prefix="AtlError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_error">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/IN_NORMAL_RULE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/MISSING_SUBRULE"/>
+      </genEnums>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/location"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/fileLocation"/>
@@ -62,7 +66,11 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/NoBindingForCompulsoryFeature/subrule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoBindingForCompulsoryFeature/kind"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>

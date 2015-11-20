@@ -5,6 +5,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 import anatlyzer.atl.errors.atl_error.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -108,6 +109,36 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS: return createCannotInstantiateAbstractClass();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE_KIND:
+				return createNoBindingForCompulsoryFeatureKindFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE_KIND:
+				return convertNoBindingForCompulsoryFeatureKindToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -609,6 +640,26 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public CannotInstantiateAbstractClass createCannotInstantiateAbstractClass() {
 		CannotInstantiateAbstractClassImpl cannotInstantiateAbstractClass = new CannotInstantiateAbstractClassImpl();
 		return cannotInstantiateAbstractClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NoBindingForCompulsoryFeatureKind createNoBindingForCompulsoryFeatureKindFromString(EDataType eDataType, String initialValue) {
+		NoBindingForCompulsoryFeatureKind result = NoBindingForCompulsoryFeatureKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertNoBindingForCompulsoryFeatureKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

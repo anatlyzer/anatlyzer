@@ -44,6 +44,7 @@ import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
@@ -80,6 +81,7 @@ import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
 import anatlyzer.atl.types.TypesPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -559,6 +561,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass cannotInstantiateAbstractClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum noBindingForCompulsoryFeatureKindEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1243,6 +1252,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNoBindingForCompulsoryFeature_Subrule() {
+		return (EReference)noBindingForCompulsoryFeatureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNoBindingForCompulsoryFeature_Kind() {
+		return (EAttribute)noBindingForCompulsoryFeatureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBindingExpectedOneAssignedMany() {
 		return bindingExpectedOneAssignedManyEClass;
 	}
@@ -1810,6 +1837,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getNoBindingForCompulsoryFeatureKind() {
+		return noBindingForCompulsoryFeatureKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1862,6 +1898,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		targetModelConformanceProblemEClass = createEClass(TARGET_MODEL_CONFORMANCE_PROBLEM);
 
 		noBindingForCompulsoryFeatureEClass = createEClass(NO_BINDING_FOR_COMPULSORY_FEATURE);
+		createEReference(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__SUBRULE);
+		createEAttribute(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__KIND);
 
 		bindingPossiblyUnresolvedEClass = createEClass(BINDING_POSSIBLY_UNRESOLVED);
 		createEReference(bindingPossiblyUnresolvedEClass, BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES);
@@ -2029,6 +2067,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		cannotInstantiateAbstractClassEClass = createEClass(CANNOT_INSTANTIATE_ABSTRACT_CLASS);
 		createEReference(cannotInstantiateAbstractClassEClass, CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE);
+
+		// Create enums
+		noBindingForCompulsoryFeatureKindEEnum = createEEnum(NO_BINDING_FOR_COMPULSORY_FEATURE_KIND);
 	}
 
 	/**
@@ -2173,6 +2214,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(targetModelConformanceProblemEClass, TargetModelConformanceProblem.class, "TargetModelConformanceProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(noBindingForCompulsoryFeatureEClass, NoBindingForCompulsoryFeature.class, "NoBindingForCompulsoryFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getNoBindingForCompulsoryFeature_Subrule(), ecorePackage.getEObject(), null, "subrule", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNoBindingForCompulsoryFeature_Kind(), this.getNoBindingForCompulsoryFeatureKind(), "kind", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bindingPossiblyUnresolvedEClass, BindingPossiblyUnresolved.class, "BindingPossiblyUnresolved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingPossiblyUnresolved_ProblematicClasses(), ecorePackage.getEClass(), null, "problematicClasses", null, 1, -1, BindingPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2340,6 +2383,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(cannotInstantiateAbstractClassEClass, CannotInstantiateAbstractClass.class, "CannotInstantiateAbstractClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCannotInstantiateAbstractClass_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, CannotInstantiateAbstractClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.class, "NoBindingForCompulsoryFeatureKind");
+		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE);
+		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE);
 
 		// Create annotations
 		// description

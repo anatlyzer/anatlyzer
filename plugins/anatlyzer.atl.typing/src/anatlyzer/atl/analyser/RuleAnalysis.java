@@ -2,12 +2,15 @@ package anatlyzer.atl.analyser;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -19,6 +22,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.CollectionType;
@@ -30,15 +34,18 @@ import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.types.UnresolvedTypeError;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -93,6 +100,62 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	}
 	
 	@Override
+	public void inMatchedRule(MatchedRule self) {
+		if ( self.isIsAbstract() )
+			return;
+		
+		checkInheritedCompulsoryFeatures(self);
+	}
+	
+	@Override
+	public void inLazyRule(LazyRule self) {
+		if ( self.isIsAbstract() )
+			return;
+
+		checkInheritedCompulsoryFeatures(self);
+	}
+	
+	/**
+	 * If some of the inherited output patterns is not redefined, then
+	 * the check for compulsory features.
+	 * @param self
+	 */
+	private void checkInheritedCompulsoryFeatures(RuleWithPattern self) {
+		if ( self.getSuperRule() == null )
+			return;
+		
+		Map<String, OutPatternElement> overriden = null;
+		if ( self.getOutPattern() == null ) {
+			overriden = new HashMap<String, OutPatternElement>();
+		} else {
+			overriden = self.getOutPattern().getElements().stream().collect(
+					Collectors.toMap(e -> e.getVarName(), e -> e));
+		}
+		ArrayList<OutPatternElement> toCheck = new ArrayList<OutPatternElement>();
+		
+		for (RuleWithPattern sup : ATLUtils.allSuperRules(self)) {
+			for (OutPatternElement inherited : sup.getOutPattern().getElements()) {
+				if ( ! overriden.containsKey(inherited.getVarName()) ) {
+					toCheck.add(inherited);
+					overriden.put(inherited.getVarName(), inherited);
+				}
+			}
+		}		
+	
+		toCheck.forEach(t -> {
+			Metaclass mc = (Metaclass) t.getType().getInferredType();
+			if ( mc instanceof UnresolvedTypeError ) 
+				return;
+
+			//setCurrentCompulsoryFeatures(mc);
+			checkCompulsoryFeature(t, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE, self);
+		});
+		
+	}
+	
+	
+
+	@Override
 	public VisitingActions preBinding(Binding self) {
 		return actions();
 	}
@@ -102,7 +165,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		// self.getInPattern().getElements().get(0);
 	}
 	
-	private HashSet<EStructuralFeature> compulsoryFeatures = null;
+	// private HashSet<EStructuralFeature> compulsoryFeatures = null;
 	private HashSet<EStructuralFeature> allWrittenFeatures = new HashSet<EStructuralFeature>();
 	
 	@Override
@@ -112,25 +175,39 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		// Using flattened bindings provoke error duplication in super/sub rules.
 	}
 	
-	public List<Binding> getFlattenedBindings(SimpleOutPatternElement self) {
+	protected Pair<List<Binding>, List<BindingStat>> getFlattenedBindings(OutPatternElement self) {
 		List<Binding> result = new ArrayList<Binding>(self.getBindings());
+		List<BindingStat> stats = new ArrayList<BindingStat>();
 		OutPattern outPattern = (OutPattern) self.eContainer();
 		Rule r = (Rule) outPattern.eContainer();
-		if ( outPattern.getElements().get(0) == self && r instanceof MatchedRule && ((MatchedRule) r).getSuperRule() != null) {
-			List<Binding> supers = getFlattenedBindings( (SimpleOutPatternElement) ((MatchedRule) r).getSuperRule().getOutPattern().getElements().get(0) );
-			result.addAll(supers);
+		
+		addBindings(self, r, result, stats);
+		
+		if ( r instanceof RuleWithPattern ) {
+			for (RuleWithPattern sup : ATLUtils.allSuperRules((RuleWithPattern) r)) {
+				addBindings(self, sup, result, stats);
+			}
 		}
-		return result;
+		
+		return new Pair<List<Binding>, List<BindingStat>>(result, stats);
 	}
 	
-	@Override
-	public void beforeSimpleOutPatternElement(SimpleOutPatternElement self) {
-		// Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
-		Metaclass mc = (Metaclass) self.getType().getInferredType();
-		if ( mc instanceof UnresolvedTypeError ) 
-			return;
-		
-		setCurrentCompulsoryFeatures(mc);
+	private void addBindings(OutPatternElement out, Rule r, List<Binding> result, List<BindingStat> stats) {
+		r.getOutPattern().getElements().stream().filter(e -> e.getVarName().equals(out.getVarName())).forEach(e ->  { 
+			result.addAll(e.getBindings());
+		});
+
+		// This should be more fine-grained, filtering accoring to the type of out, but for the moment take all
+		ActionBlock actionBlock = r.getActionBlock();
+		if ( actionBlock != null ) {
+			TreeIterator<EObject> it = actionBlock.eAllContents();
+			while ( it.hasNext() ) {
+				EObject obj = (EObject) it.next();
+				if ( obj instanceof BindingStat ) {
+					stats.add((BindingStat) obj);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -140,7 +217,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		if ( mc instanceof UnresolvedTypeError ) 
 			return;
 
-		setCurrentCompulsoryFeatures(mc);
+		checkCompulsoryFeature(self, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE, null);
 	}
 
 	
@@ -152,47 +229,57 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			 // Do not check the first output pattern of abstract classes
 			return; 
 		}
-		
-		ActionBlock actionBlock = ((Rule) self.eContainer().eContainer()).getActionBlock();
-		if ( actionBlock != null ) {
-			TreeIterator<EObject> it = actionBlock.eAllContents();
-			while ( it.hasNext() ) {
-				EObject obj = (EObject) it.next();
-				if ( obj instanceof BindingStat ) {
-					checkBindingStat((BindingStat) obj);
-				}
-			}
-		}
-		checkCompulsoryFeature(self);
+	
+		checkCompulsoryFeature(self, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE, null);
 	}
 	
 	@Override
 	public void inForEachOutPatternElement(ForEachOutPatternElement self) {
-		checkCompulsoryFeature(self);
+		checkCompulsoryFeature(self, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE, null);
 	}
 
-	private void setCurrentCompulsoryFeatures(Metaclass mc) {
-		compulsoryFeatures = new HashSet<EStructuralFeature>();
+	private HashSet<EStructuralFeature> getCurrentCompulsoryFeatures(Metaclass mc) {
+		HashSet<EStructuralFeature> compulsoryFeatures = new HashSet<EStructuralFeature>();
 		
-		for(EStructuralFeature f : mc.getKlass().getEAllStructuralFeatures() ) {
+		for(EStructuralFeature f : mc.getKlass().getEAllStructuralFeatures() ) {			
 			if ( f.getLowerBound() != 0 && f.getDefaultValue() == null ) {
 				compulsoryFeatures.add(f);
 			}
 		}
+		
+		return compulsoryFeatures;
 	}
 
-	protected void checkCompulsoryFeature(OutPatternElement self) {
-		// compulsoryFeatures may be null if there is an unresolved type in the outputpattern
-		if ( compulsoryFeatures != null && compulsoryFeatures.size() != 0 ) {
-			for (EStructuralFeature f : compulsoryFeatures) {
-				if ( f instanceof EReference && allWrittenFeatures.contains( ((EReference) f).getEOpposite()) ) 
-					continue; // Assumes that if the opposite is written in other rule, it is the one that corresponds to this object
-					
-				if ( TypeUtils.isFeatureMustBeInitialized(f) )
-					errors().signalNoBindingForCompulsoryFeature(f, self);				
-			}
+	protected void checkCompulsoryFeature(OutPatternElement self, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern rule) {		
+		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
+		Type targetVar = self.getInferredType();
+		if ( targetVar instanceof UnresolvedTypeError ) 
+			return;
+		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
+		
+		HashSet<EStructuralFeature> compulsoryFeatures = getCurrentCompulsoryFeatures((Metaclass) targetVar);
+		
+		Pair<List<Binding>, List<BindingStat>> pair = getFlattenedBindings(self);
+		for (Binding binding : pair._1) {
+			EStructuralFeature f = ns.getStructuralFeatureInfo(binding.getPropertyName());
+			// An error indicating that the target feature of the binding is not valid
+			// should have been collected
+			if ( f == null )
+				continue; 
+			compulsoryFeatures.remove(f);
 		}
-		compulsoryFeatures = null;
+		
+		for (BindingStat bStat : pair._2) {
+			checkBindingStat(bStat, compulsoryFeatures);
+		}
+		
+		for (EStructuralFeature f : compulsoryFeatures) {			
+			if ( f instanceof EReference && allWrittenFeatures.contains( ((EReference) f).getEOpposite()) ) 
+				continue; // Assumes that if the opposite is written in other rule, it is the one that corresponds to this object
+				
+			if ( TypeUtils.isFeatureMustBeInitialized(f) )
+				errors().signalNoBindingForCompulsoryFeature(f, self, kind, rule);				
+		}
 	}
 
 	@Override
@@ -209,11 +296,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		// should have been collected
 		if ( f == null )
 			return; 
-		
-		// The feature is removed from the current compulsoryFeatures set, which is
-		// checked later to be empty
-		compulsoryFeatures.remove(f);
-		
+						
 		if ( rightType instanceof UnionType ) {
 			UnionType ut = (UnionType) rightType;
 			for(Type t : ut.getPossibleTypes() ) {
@@ -224,7 +307,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		}
 	}
 	
-	public void checkBindingStat(BindingStat self) {
+	private void checkBindingStat(BindingStat self, HashSet<EStructuralFeature> compulsoryFeatures) {
 		if ( ! (self.getSource() instanceof NavigationOrAttributeCallExp) )
 			return;
 		
@@ -238,7 +321,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 				// The same as the declarative case
 				IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 				EStructuralFeature f = ns.getStructuralFeatureInfo(assigned.getName());
-				
+		
 				// The feature is removed from the current compulsoryFeatures set, which is
 				// checked later to be empty
 				compulsoryFeatures.remove(f);

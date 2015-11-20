@@ -83,6 +83,12 @@
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//atl_error/NoBindingForCompulsoryFeatureKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="NoBindingForCompulsoryFeatureKind">
+      <eLiterals name="IN_NORMAL_RULE"/>
+      <eLiterals name="MISSING_SUBRULE" value="1"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingPossiblyUnresolved" eSuperTypes="#//atl_error/BindingProblem #//atl_error/BindingResolution">
       <eAnnotations source="description">

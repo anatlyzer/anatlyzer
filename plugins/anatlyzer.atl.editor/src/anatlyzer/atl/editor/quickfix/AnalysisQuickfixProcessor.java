@@ -1,18 +1,22 @@
 package anatlyzer.atl.editor.quickfix;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.quickassist.IQuickAssistInvocationContext;
 import org.eclipse.jface.text.quickassist.IQuickAssistProcessor;
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.TextInvocationContext;
 import org.eclipse.ui.texteditor.MarkerAnnotation;
 
 import anatlyzer.atl.editor.Activator;
@@ -20,8 +24,6 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 
 
 public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
-
-	private MarkerAnnotation annotation;
 
 	@Override
 	public String getErrorMessage() {
@@ -31,14 +33,14 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 
 	@Override
 	public boolean canFix(Annotation annotation) {
-		if ( annotation.isMarkedDeleted() )
+		if ( annotation.isMarkedDeleted() || !(annotation instanceof MarkerAnnotation) )
 			return false;
 		
 		boolean canFix = false;
 		MarkerAnnotation markerAnnotation = (MarkerAnnotation) annotation;
 		try {
 			 canFix = markerAnnotation.getMarker().getType().equals(AnATLyzerBuilder.MARKER_TYPE);
-			 this.annotation = markerAnnotation;
+			 // this.annotation = markerAnnotation;
 		} catch (CoreException e) { }
 		
 		return canFix;
@@ -52,27 +54,53 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		return false;
 	}
 
-	/** See: XtextQuickAssistProcessor */
+	/** See: SpellingCorrectionProcessor (before was, XtextQuickAssistProcessor) */
 	@Override
 	public ICompletionProposal[] computeQuickAssistProposals(
 			IQuickAssistInvocationContext invocationContext) {
 
-		ISourceViewer sourceViewer = invocationContext.getSourceViewer();
-		if (sourceViewer == null || annotation == null)
+		ISourceViewer viewer= invocationContext.getSourceViewer();
+		int documentOffset= invocationContext.getOffset();
+
+		int length= viewer != null ? viewer.getSelectedRange().y : -1;
+		TextInvocationContext context= new TextInvocationContext(viewer, documentOffset, length);
+
+		IAnnotationModel model= viewer.getAnnotationModel();
+		if (model == null)
 			return new ICompletionProposal[0]; 
-	
-		final IDocument document = sourceViewer.getDocument();
-		return getQuickfixes(this.annotation.getMarker());
-		/*
-		ICompletionProposal
 		
-		ConstraintSolvingQuickFix qf = new ConstraintSolvingQuickFix(annotation.getMarker());
-		*/
+		// From computeProposals
+		int offset= context.getOffset();
+		ArrayList<IMarker> annotationMarkers = new ArrayList<IMarker>();
+		Iterator iter= model.getAnnotationIterator();
+		while (iter.hasNext()) {
+			Annotation annotation = (Annotation)iter.next();
+			if (canFix(annotation)) {
+				Position pos= model.getPosition(annotation);
+				if (isAtPosition(offset, pos)) {
+					collectMarkers(annotation, annotationMarkers);
+				}
+			}
+		}
+
+		List<ICompletionProposal> allProposals = new ArrayList<ICompletionProposal>();
+		for (IMarker iMarker : annotationMarkers) {
+			ICompletionProposal[] qfixes = getQuickfixes(iMarker);
+			for (ICompletionProposal iCompletionProposal : qfixes) {
+				allProposals.add(iCompletionProposal);
+			}
+		}
 		
-		// Reset 
-		// annotation = null;
-		
-		// return new ICompletionProposal[] { qf };
+		return (ICompletionProposal[]) allProposals.toArray(new ICompletionProposal[allProposals.size()]);
+	}
+
+	private boolean isAtPosition(int offset, Position pos) {
+		return (pos != null) && (offset >= pos.getOffset() && offset <= (pos.getOffset() +  pos.getLength()));
+	}
+
+	private void collectMarkers(Annotation annotation, List<IMarker> markers) {	
+		if (annotation instanceof MarkerAnnotation)
+			markers.add( ((MarkerAnnotation) annotation).getMarker());
 	}
 	
 	public static ICompletionProposal[] getQuickfixes(IMarker iMarker) {

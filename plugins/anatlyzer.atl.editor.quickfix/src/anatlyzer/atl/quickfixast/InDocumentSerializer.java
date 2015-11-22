@@ -8,6 +8,7 @@ import org.eclipse.jface.text.DocumentRewriteSession;
 import org.eclipse.jface.text.DocumentRewriteSessionType;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
+import org.eclipse.m2m.atl.adt.ui.editor.formatter.AtlCodeFormatter;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
@@ -86,6 +87,9 @@ public class InDocumentSerializer extends ATLSerializer {
 				}
 				// For the moment analysing the cases, because I do not want to make Actions dependent on AtlHelp...
 				
+				
+				AtlCodeFormatter formatter = new AtlCodeFormatter();
+				s = formatter.format(new ByteArrayInputStream(s.getBytes()));
 				
 				document.replace(start, length, s);
 			}

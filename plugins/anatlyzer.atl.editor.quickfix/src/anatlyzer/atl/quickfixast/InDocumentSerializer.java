@@ -1,6 +1,8 @@
 package anatlyzer.atl.quickfixast;
 
 import java.io.ByteArrayInputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
@@ -8,7 +10,8 @@ import org.eclipse.jface.text.DocumentRewriteSession;
 import org.eclipse.jface.text.DocumentRewriteSessionType;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentExtension4;
-import org.eclipse.m2m.atl.adt.ui.editor.formatter.AtlCodeFormatter;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.m2m.atl.adt.ui.text.atl.AtlModelAnalyser;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
@@ -18,6 +21,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 public class InDocumentSerializer extends ATLSerializer {
@@ -26,6 +30,7 @@ public class InDocumentSerializer extends ATLSerializer {
 	private IDocument document;
 	private Action currentAction;
 	private AtlNbCharFile help;
+	private AtlModelAnalyser modelAnalyser;
 
 	public InDocumentSerializer(QuickfixApplication qfa, IDocument document) {
 		this.qfa = qfa;
@@ -64,6 +69,8 @@ public class InDocumentSerializer extends ATLSerializer {
 					return;
 				}
 				
+		
+				setInitialIndent(a.getTgt());
 				
 				startVisiting(a.getTgt());
 				String s = g(a.getTgt());
@@ -88,11 +95,34 @@ public class InDocumentSerializer extends ATLSerializer {
 				// For the moment analysing the cases, because I do not want to make Actions dependent on AtlHelp...
 				
 				
-				AtlCodeFormatter formatter = new AtlCodeFormatter();
-				s = formatter.format(new ByteArrayInputStream(s.getBytes()));
+//				MyATLCodeFormatter formatter = new MyATLCodeFormatter();
+//				s = formatter.format(new ByteArrayInputStream(s.getBytes()));
 				
 				document.replace(start, length, s);
+	
+				/*
+				AtlCompletionHelper h = new AtlCompletionHelper(document.get());
+
+				Document document2 = new Document();
+				document2.set(document.get());
+				AtlSourceManager sourceManager = new AtlSourceManager();
+				sourceManager.updateDataSource(document2.get());
+				AtlModelAnalyser modelAnalyser = new AtlModelAnalyser(h, sourceManager
+						.getModel(), 0, AtlCompletionDataSource.getATLFileContext(sourceManager));
+
+				EObject theEObject = modelAnalyser.getLocatedElement(start);
+				
+				MyATLCodeFormatter formatter = new MyATLCodeFormatter();				
+				formatter.format(document2, AtlCodeFormatterPreferences.getDefaultOptions(), modelAnalyser);
+
+				System.out.println(document2.get());
+				*/
+				// String s2 = formatter.format(new ByteArrayInputStream(document.get().getBytes()), 0);
+
+				// System.out.println(s2);
+				
 			}
+			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -369,6 +399,37 @@ public class InDocumentSerializer extends ATLSerializer {
 	}
 	*/
 	
+	private void setInitialIndent(EObject tgt) {
+		EObject parent = tgt;
+		while ( parent != null ) {
+			parent = parent.eContainer();
+			if ( parent instanceof Binding ) {
+				bindingInitialIndent((Binding) parent); return;
+			}
+		}
+	}
+
+	private void bindingInitialIndent(Binding b) {
+		int line;
+		try {
+			line = document.getLineOfOffset(help.getIndexChar(b.getLocation())[0]);
+			IRegion lineInfo = document.getLineInformation(line);
+			String lineText = document.get(lineInfo.getOffset(), lineInfo.getLength());
+
+			Pattern p = Pattern.compile("^(\\s+)");
+			Matcher m = p.matcher(lineText);
+			if ( m.find() ) {
+				String spacesBefore = m.group(1);
+				this.indentationStack.add(spacesBefore);
+				inctab();
+			}
+		} catch (BadLocationException e) {
+			inctab(); inctab(); 
+			//cindent = 2;
+		}
+		
+	}
+
 	@Override
 	protected String g(EObject obj) {
 		if ( currentAction.getTrace().isPreserved(obj)  ){

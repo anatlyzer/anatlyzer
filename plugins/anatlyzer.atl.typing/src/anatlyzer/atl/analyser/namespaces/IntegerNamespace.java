@@ -31,6 +31,13 @@ public class IntegerNamespace extends PrimitiveTypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
+		if ( logicalOperators.contains(operatorSymbol) ) {
+			if ( ! (optionalArgument instanceof FloatType || optionalArgument instanceof IntegerType)  ) {
+				AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
+			}			
+			return AnalyserContext.getTypingModel().newBooleanType();
+		}
+			
 		Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
 		if ( t != null )
 			return t;

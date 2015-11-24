@@ -30,6 +30,21 @@ public class TestRuleConflicts extends UnitTest {
 		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
 	}
 
+	@Test
+	public void testRuleConflict_SuperTypes_Multiple_Input_Elements() throws Exception {
+		String T = trafo("rule_conflicts_inheritance_multi_input");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		List<OverlappingRules> overlaps = possibleRuleConflicts();
+		assertEquals(1, overlaps.size());
+		
+		ProblemStatus[] confirmedOrNot = confirmOrDiscardRuleConflicts();
+		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
+	
+		// TODO: The witness model that is generated is wrong because it is not
+		// considering inheritance
+	}
+
 	
 	@Test
 	public void testRuleConflict_CommonSubtype() throws Exception {

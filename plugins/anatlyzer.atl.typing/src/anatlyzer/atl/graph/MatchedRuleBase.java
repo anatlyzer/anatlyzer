@@ -95,7 +95,7 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 			}
 		}
 		
-		if ( considerOutputPattern ) {
+		if ( considerOutputPattern && rule.getOutPattern() != null ) {
 			// For each target pattern element, a new local variable is introduced with
 			// value OclUndefined. This is needed because the output pattern variable needs
 			// to be in the scope when the parameter passing is done.

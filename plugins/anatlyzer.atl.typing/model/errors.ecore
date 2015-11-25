@@ -196,6 +196,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="FoundInSubtype" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="missingClasses" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound #//atl_error/FoundInSubtype #//atl_error/RuntimeError">
       <eAnnotations source="description">

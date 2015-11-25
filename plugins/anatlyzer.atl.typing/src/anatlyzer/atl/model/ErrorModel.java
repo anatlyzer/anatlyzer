@@ -2,6 +2,7 @@ package anatlyzer.atl.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -263,7 +264,7 @@ public class ErrorModel {
 	}
 
 	
-	public void warningFeatureFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String featureName, LocatedElement node) {
+	public void warningFeatureFoundInSubType(Metaclass type, Collection<EClass> foundClasses, Collection<EClass> missingClasses, String featureName, LocatedElement node) {
 		FeatureFoundInSubtype error = AtlErrorFactory.eINSTANCE.createFeatureFoundInSubtype();
 		initProblem(error, node);
 
@@ -275,10 +276,14 @@ public class ErrorModel {
 			error.getPossibleClasses().add(metaclass);
 		}
 		
-		signalError(error, "Feature " + featureName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
+		for (EClass metaclass : missingClasses) {
+			error.getMissingClasses().add(metaclass);
+		}
+		
+		signalError(error, "Feature " + featureName + " expected in " + type.getName() + ". Missing in " + TypeUtils.classifiersToString(missingClasses) + ", but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 	}
 
-	public void warningOperationFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String operationName, LocatedElement node) {
+	public void warningOperationFoundInSubType(Metaclass type, Collection<EClass> foundClasses, Collection<EClass> missingClasses, String operationName, LocatedElement node) {
 		OperationFoundInSubtype error = AtlErrorFactory.eINSTANCE.createOperationFoundInSubtype();
 		initProblem(error, node);
 
@@ -289,8 +294,12 @@ public class ErrorModel {
 		for (EClass metaclass : foundClasses) {
 			error.getPossibleClasses().add(metaclass);
 		}
-		
-		signalError(error, "Operation " + operationName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
+
+		for (EClass metaclass : missingClasses) {
+			error.getMissingClasses().add(metaclass);
+		}
+
+		signalError(error, "Operation " + operationName + " expected in " + type.getName() + ". Missing in " + TypeUtils.classifiersToString(missingClasses) + ", but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 
 		// System.err.println("WARNING: Feature " + operationName + " expected in " + type.getName() + " but found in subtype " + subtype.getName() + ". " + node.getLocation() );		
 	} 

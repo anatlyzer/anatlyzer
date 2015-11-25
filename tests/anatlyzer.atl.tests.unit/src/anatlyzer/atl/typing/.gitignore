@@ -1,3 +1,7 @@
 /if_collection.asm
 /if_ptypes.asm
 /typing_ocl_any_declared.asm
+/typing_feature_found_in_all_subtypes.asm
+/typing_feature_found_in_all_subtypes_except_one.asm
+/typing_operation_found_in_all_subtypes.asm
+/typing_operation_found_in_all_subtypes_except_one.asm

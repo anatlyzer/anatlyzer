@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abcd:Model
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:abcd="http://anatlyzer/test/abcd"
+    xsi:schemaLocation="http://anatlyzer/test/abcd ../../../../metamodels/ABCD.ecore">
+  <elements
+      xsi:type="abcd:C"
+      name="aC"/>
+  <elements
+      xsi:type="abcd:B"
+      name="aB"/>
+</abcd:Model>

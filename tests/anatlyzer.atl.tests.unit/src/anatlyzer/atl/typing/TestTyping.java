@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
@@ -33,5 +34,34 @@ public class TestTyping extends UnitTest {
 		assertTrue(helper2.getInferredReturnType() instanceof SequenceType &&
 				   ((CollectionType) helper2.getInferredReturnType()).getContainedType() instanceof Metaclass);		
 	}
+
 	
+	@Test
+	public void testFeatureFoundInAllSubtypes() throws Exception {
+		String T = trafo("typing_feature_found_in_all_subtypes");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		// TODO: Create another test in which the problem is in a non-abstract class
+		assertEquals(0, problems().size());
+	}
+	
+	@Test
+	public void testOperationFoundInAllSubtypes() throws Exception {
+		String T = trafo("typing_operation_found_in_all_subtypes");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		// TODO: Create another test in which the problem is in a non-abstract class
+		assertEquals(0, problems().size());
+	}
+	
+	@Test
+	public void testOperationFoundInAllSubtypesExceptOne() throws Exception {
+		String T = trafo("typing_operation_found_in_all_subtypes_except_one");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());
+		assertTrue(problems().get(0) instanceof OperationFoundInSubtype);
+		
+	}
+
 }

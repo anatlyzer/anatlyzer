@@ -1,0 +1,31 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module featurefoundinallsubtypes;
+create OUT : WXYZ from IN : ABCD;
+
+-- No helper defined 
+-- helper context ABCD!NamedElt def : getName : String = 
+--	'theName';
+
+helper context ABCD!B def : getName() : String = 
+	'B' + self.name;
+
+helper context ABCD!C def : getName() : String = 
+	'C' + self.name;
+
+helper context ABCD!D def : getName() : String = 
+	'D' + self.name;
+
+helper context ABCD!Other def : getName() : String = 
+	'Other' + self.name;
+
+helper context ABCD!Model def : getName() : String = 
+	'Model' + self.name;
+
+rule model {
+	from src : ABCD!NamedElt
+    to   tgt : WXYZ!X (
+    	name <- src.getName()		
+	)
+}
+

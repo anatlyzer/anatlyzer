@@ -1,0 +1,25 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module conflictsinheritance;
+create OUT : WXYZ from IN : ABCD;
+
+abstract rule multiple {
+        from a : ABCD!A, 
+             b: ABCD!B 
+        to   tgt : WXYZ!W 
+}
+
+rule simple extends multiple {
+        from a : ABCD!C 
+        to   tgt : WXYZ!W ( 
+        	name <- 'Wsimple'	
+        )
+}
+
+rule conflicting {
+        from c : ABCD!C
+        to   tgt : WXYZ!W ( 
+        	name <- 'Wconflicting'	
+        )
+}
+

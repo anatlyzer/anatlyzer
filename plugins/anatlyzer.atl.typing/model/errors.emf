@@ -129,6 +129,7 @@ package atl_error {
 
 	abstract class FoundInSubtype { 
 		ref EClass[*] possibleClasses;	
+		ref EClass[*] missingClasses;
 	}
 
 	@description(name="Feature found in subtype", text="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 

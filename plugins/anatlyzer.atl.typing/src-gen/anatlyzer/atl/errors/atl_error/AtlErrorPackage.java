@@ -2642,13 +2642,22 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = OPERATION_NOT_FOUND_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Missing Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FOUND_IN_SUBTYPE__MISSING_CLASSES = OPERATION_NOT_FOUND_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Operation Found In Subtype</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_FOUND_IN_SUBTYPE_FEATURE_COUNT = OPERATION_NOT_FOUND_FEATURE_COUNT + 1;
+	int OPERATION_FOUND_IN_SUBTYPE_FEATURE_COUNT = OPERATION_NOT_FOUND_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Operation Found In Subtype</em>' class.
@@ -2669,13 +2678,22 @@ public interface AtlErrorPackage extends EPackage {
 	int FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Missing Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOUND_IN_SUBTYPE__MISSING_CLASSES = 1;
+
+	/**
 	 * The number of structural features of the '<em>Found In Subtype</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOUND_IN_SUBTYPE_FEATURE_COUNT = 1;
+	int FOUND_IN_SUBTYPE_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Found In Subtype</em>' class.
@@ -2813,13 +2831,22 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = FEATURE_NOT_FOUND_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Missing Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES = FEATURE_NOT_FOUND_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Feature Found In Subtype</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_FOUND_IN_SUBTYPE_FEATURE_COUNT = FEATURE_NOT_FOUND_FEATURE_COUNT + 1;
+	int FEATURE_FOUND_IN_SUBTYPE_FEATURE_COUNT = FEATURE_NOT_FOUND_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Feature Found In Subtype</em>' class.
@@ -7998,6 +8025,17 @@ public interface AtlErrorPackage extends EPackage {
 	EReference getFoundInSubtype_PossibleClasses();
 
 	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.FoundInSubtype#getMissingClasses <em>Missing Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Missing Classes</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.FoundInSubtype#getMissingClasses()
+	 * @see #getFoundInSubtype()
+	 * @generated
+	 */
+	EReference getFoundInSubtype_MissingClasses();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype <em>Feature Found In Subtype</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9369,6 +9407,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FOUND_IN_SUBTYPE__POSSIBLE_CLASSES = eINSTANCE.getFoundInSubtype_PossibleClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>Missing Classes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FOUND_IN_SUBTYPE__MISSING_CLASSES = eINSTANCE.getFoundInSubtype_MissingClasses();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl <em>Feature Found In Subtype</em>}' class.

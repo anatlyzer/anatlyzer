@@ -91,6 +91,8 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/missingClasses"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>

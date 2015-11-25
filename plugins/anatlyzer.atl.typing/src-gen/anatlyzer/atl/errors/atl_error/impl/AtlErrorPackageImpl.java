@@ -919,6 +919,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFoundInSubtype_MissingClasses() {
+		return (EReference)foundInSubtypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFeatureFoundInSubtype() {
 		return featureFoundInSubtypeEClass;
 	}
@@ -1921,6 +1930,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		foundInSubtypeEClass = createEClass(FOUND_IN_SUBTYPE);
 		createEReference(foundInSubtypeEClass, FOUND_IN_SUBTYPE__POSSIBLE_CLASSES);
+		createEReference(foundInSubtypeEClass, FOUND_IN_SUBTYPE__MISSING_CLASSES);
 
 		featureFoundInSubtypeEClass = createEClass(FEATURE_FOUND_IN_SUBTYPE);
 
@@ -2237,6 +2247,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(foundInSubtypeEClass, FoundInSubtype.class, "FoundInSubtype", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFoundInSubtype_PossibleClasses(), ecorePackage.getEClass(), null, "possibleClasses", null, 0, -1, FoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFoundInSubtype_MissingClasses(), ecorePackage.getEClass(), null, "missingClasses", null, 0, -1, FoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureFoundInSubtypeEClass, FeatureFoundInSubtype.class, "FeatureFoundInSubtype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

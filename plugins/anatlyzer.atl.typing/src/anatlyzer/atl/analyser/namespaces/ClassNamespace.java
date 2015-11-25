@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -167,10 +168,61 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return null;
 	}
 	
-	private Type tryRecovery(String featureName, LocatedElement node) {		
+	private Type tryRecovery(String featureName, LocatedElement node) {			
 		HashSet<EClass> foundClasses = new HashSet<EClass>();
 		Type returnedType = null;
 		
+		LinkedList<ClassNamespace> pending = new LinkedList<ClassNamespace>();
+		HashSet<EClass> withoutOperation = new HashSet<EClass>();
+		pending.add(this);
+
+		while ( ! pending.isEmpty() ) {
+			ClassNamespace ns = pending.pop();
+			EClass subtype = ns.eClass;
+			boolean operationExistsForType = false;
+			
+			EStructuralFeature f = subtype.getEStructuralFeature(featureName);
+			if (f != null) {
+				foundClasses.add(subtype);
+				if ( returnedType == null ) {
+					returnedType = AnalyserContext.getConverter().convert(f, metamodel);					
+				}				
+				operationExistsForType = true;
+			} else {			
+				if ( ns.hasFeature(featureName)) {
+					foundClasses.add(ns.eClass);
+					if ( returnedType == null ) {
+						returnedType = ns.getFeatureType(featureName, node);
+					}
+					operationExistsForType = true;
+				}		
+			}
+
+			if ( ! operationExistsForType ) {
+				Collection<ClassNamespace> direct = ns.getDirectSubclasses();
+				if ( direct.size() > 0 ) {
+					pending.addAll(direct);
+				} else {
+					withoutOperation.add(ns.eClass);
+				}
+			}			
+		}
+		
+		if ( foundClasses.size() > 0 && withoutOperation.size() > 0 ) {			
+			AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), foundClasses, withoutOperation, featureName, node);
+			return returnedType;		
+		} else {
+			// TODO: Check that the return type of all operations is compatible, actually the 
+			// same type
+			if ( returnedType != null )	{
+				return returnedType;
+			} else {
+				return AnalyserContext.getErrorModel().signalNoFeature(eClass, featureName, node);
+			}
+		}
+
+		
+		/*
 		for(ClassNamespace c : getAllSubclasses()) {
 			EClass subtype = c.eClass;
 			
@@ -197,33 +249,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), TypeUtils.getUpperInHierarchy(foundClasses), featureName, node);
 			return returnedType;
 		}
-		
-		/*
-		List<EClass> allClasses = metamodel.getAllClasses();
-		for (EClass subtype : allClasses) {
-			// Es un subtipo 
-			if (subtype.getEAllSuperTypes().contains(eClass)) {
-				EStructuralFeature f = subtype.getEStructuralFeature(featureName);
-				if (f != null) {
-					// lastNavigatedFeature = f;
-					Metaclass t = (Metaclass) metamodel.getClassifier(subtype.getName()).createType(false);
-					AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), t, featureName, node);
-					return AnalyserContext.getConverter().convert(f, metamodel);
-				}
-				
-				// Check extended features
-				ClassNamespace cn = (ClassNamespace) metamodel.getClassifier(subtype.getName());
-				if ( cn.hasFeature(featureName)) {
-					AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), cn.getType(), featureName, node);
-					return cn.getFeatureType(featureName, node);
-				}		
-				
-			}
-		
-		}
 		*/
-				
-		return AnalyserContext.getErrorModel().signalNoFeature(eClass, featureName, node);
+		
 	}
 
 	/* (non-Javadoc)
@@ -387,7 +414,39 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	private Type tryRecoveryGetOperation(String operationName, Type[] arguments, LocatedElement node) {
 		HashSet<EClass> foundClasses = new HashSet<EClass>();
 		Type returnedType = null;
+
+		LinkedList<ClassNamespace> pending = new LinkedList<ClassNamespace>();
+		HashSet<EClass> withoutOperation = new HashSet<EClass>();
+		pending.add(this);
+
+		while ( ! pending.isEmpty() ) {
+			ClassNamespace ns = pending.pop();
+			if ( ns.hasOperation(operationName, arguments)) {
+				// Fine. This branch is covered
+				foundClasses.add(ns.eClass);
+				if ( returnedType == null) {
+					returnedType = ns.getOperationType(operationName, arguments, node);
+				}
+			} else {
+				Collection<ClassNamespace> direct = ns.getDirectSubclasses();
+				if ( direct.size() > 0 ) {
+					pending.addAll(direct);
+				} else {
+					withoutOperation.add(ns.eClass);
+				}
+			}
+		}
 		
+		if ( foundClasses.size() > 0 && withoutOperation.size() > 0 ) {			
+			AnalyserContext.getErrorModel().warningOperationFoundInSubType(getType(), foundClasses, withoutOperation, operationName, node);
+			return returnedType;			
+		} else {
+			// TODO: Check that the return type of all operations is compatible, actually the 
+			// same type
+			return returnedType;
+		}
+		
+		/*
 		for(ClassNamespace c : getAllSubclasses()) {
 			EClass subtype = c.eClass;
 			ClassNamespace cn = (ClassNamespace) metamodel.getClassifier(subtype.getName());
@@ -403,22 +462,10 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			AnalyserContext.getErrorModel().warningOperationFoundInSubType(getType(), TypeUtils.getUpperInHierarchy(foundClasses), operationName, node);
 			return returnedType;
 		}
-		
-		/*
-		List<EClass> allClasses = metamodel.getAllClasses();
-		for (EClass subtype : allClasses) {
-			// Es un subtipo 
-			if (subtype.getEAllSuperTypes().contains(eClass)) {
-				ClassNamespace cn = (ClassNamespace) metamodel.getClassifier(subtype.getName());
-				if ( cn.hasOperation(operationName, arguments)) {
-					AnalyserContext.getErrorModel().warningOperationFoundInSubType(getType(), cn.getType(), operationName, node);
-					return cn.getOperationType(operationName, arguments, node);
-				}		
-			}
-		}
-		*/
-		
 		return null;
+		 */
+		
+		
 	}
 
 
@@ -527,9 +574,6 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			}			
 			
 		}
-		
-		System.out.println(ruleName + " " + getKlass().getName());
-		System.out.println("--");
 		
 		// For any subtype, the rule will certainly resolve the object (modulo the rule filter)
 		ArrayList<IClassNamespace> nss = new ArrayList<IClassNamespace>(this.getAllSubclasses());		

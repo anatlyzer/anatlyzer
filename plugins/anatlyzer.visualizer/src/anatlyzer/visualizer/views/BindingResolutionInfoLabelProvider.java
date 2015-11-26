@@ -1,6 +1,8 @@
 package anatlyzer.visualizer.views;
 
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
@@ -111,7 +113,9 @@ public class BindingResolutionInfoLabelProvider implements ILabelProvider, IColo
 
 	private String ruleToString(MatchedRule r) {
 		String s = "rule " + r.getName() + "\n";
-		s = s + INDENT + "from " + TypeUtils.typeToString(ATLUtils.getInPatternType(r));
+		s = s + INDENT + "from " + r.getInPattern().getElements().stream().
+				map(e -> e.getVarName() + " : " + TypeUtils.typeToString(e.getInferredType())).
+				collect(Collectors.joining(", "));
 		if ( r.getInPattern().getFilter() != null ) {
 			String f = ATLSerializer.serialize(r.getInPattern().getFilter());
 			s += " ( " + f + " )";

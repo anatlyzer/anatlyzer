@@ -7,6 +7,7 @@ import anatlyzer.atlext.ATL.*;
 import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
+import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
@@ -209,6 +210,10 @@ public class ATLAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseForStat(ForStat object) {
 				return createForStatAdapter();
+			}
+			@Override
+			public Adapter caseStringToStringMap(Map.Entry<String, String> object) {
+				return createStringToStringMapAdapter();
 			}
 			@Override
 			public Adapter caseCallableParameter(CallableParameter object) {
@@ -733,6 +738,20 @@ public class ATLAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createForStatAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>String To String Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createStringToStringMapAdapter() {
 		return null;
 	}
 

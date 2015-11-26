@@ -173,8 +173,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	private static LetExp createReferenceConstraint(CSPModel model,
 			List<RuleResolutionInfo> rules, OclExpression value, String operator) {
 		LetExp let = model.createLetScope(value, null, "_problem_");
-		VariableDeclaration varDcl = let.getVariable();
-		
+		VariableDeclaration varDcl = let.getVariable();		
 		OclExpression andRules = genAndRules(model, rules, varDcl, operator);
 		
 		// => not varDcl.oclIsUndefined()
@@ -211,7 +210,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 				
 				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-				OperationCallExp casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
+				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
 				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 					
 				// Map the iterator var to the rule variable

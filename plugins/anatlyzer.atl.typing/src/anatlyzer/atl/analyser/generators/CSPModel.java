@@ -12,6 +12,8 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
@@ -119,6 +121,11 @@ public class CSPModel {
 	public LetExp createLetScope(OclExpression newVarExpr, OclExpression result, String varName) {
 		LetExp let = OCLFactory.eINSTANCE.createLetExp();
 		VariableDeclaration vd = OCLFactory.eINSTANCE.createVariableDeclaration();
+		
+		// This is needed because later I will create a cast over _problem_, and I need to know the type
+		// to decide whether to cast
+		vd.setInferredType(newVarExpr.getInferredType());
+		
 		// No type : vd.setType(?)
 		vd.setVarName(varName + genId());
 		vd.setInitExpression(newVarExpr);
@@ -163,10 +170,18 @@ public class CSPModel {
 		return op;
 	}
 
-	public OperationCallExp createCastTo(VariableDeclaration varToBeCasted, Metaclass klass) {
+	public OclExpression createCastTo(VariableDeclaration varToBeCasted, Metaclass klass) {
 		VariableExp refToVarDcl = OCLFactory.eINSTANCE.createVariableExp();
 		refToVarDcl.setReferredVariable(varToBeCasted);	
 				
+		if ( varToBeCasted.getInferredType() != null ) {
+			Metaclass originalClass = (Metaclass) varToBeCasted.getInferredType();
+			if ( klass.getKlass().isSuperTypeOf(originalClass.getKlass())) {
+				// No need to cast, and we are not going to cast because USE complains
+				return refToVarDcl;
+			}
+		}
+		
 		OperationCallExp opCall = createOperationCall(refToVarDcl, "oclAsType");
 		
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
@@ -243,6 +258,15 @@ public class CSPModel {
 		scope.put(varDcl, newVar);
 	}
 	
+	public LetExp rebind(VariableDeclaration srcVarDcl) {
+		VariableDeclaration tgtVarDcl = scope.getVar(srcVarDcl);		
+		LetExp let = createLetScope(createVarRef(tgtVarDcl), null, tgtVarDcl.getVarName() + "_rebind");
+		// Assumes that a copy of the scope has been made, so that we can redefine
+		scope.put(srcVarDcl, let.getVariable());
+		return let;		
+	}
+
+	
 	public void resetScope() {
 		scope.clear();
 	}
@@ -250,6 +274,12 @@ public class CSPModel {
 	public void openEmptyScope() {
 		previousScopes.push(scope);
 		scope = new CSPModelScope(scope.getThisModuleVar());
+		// scope.setThisModuleVariable(scope.getThisModuleVar());
+	}
+
+	public void copyScope() {
+		previousScopes.push(scope);
+		scope = new CSPModelScope(scope.getThisModuleVar(), scope);
 		// scope.setThisModuleVariable(scope.getThisModuleVar());
 	}
 
@@ -288,6 +318,11 @@ public class CSPModel {
 			this.thisModule = thisModule;			
 		}
 		
+		public CSPModelScope(VariableDeclaration thisModule, CSPModelScope previousScope) {
+			this(thisModule);
+			this.putAll(previousScope);
+		}
+		
 		/*
 		public void setThisModuleVariable(VariableDeclaration thisModule) {
 			this.thisModule = thisModule;
@@ -302,15 +337,25 @@ public class CSPModel {
 		}
 		
 		public VariableDeclaration getVar(VariableExp expr) {
-			VariableDeclaration vd = get( expr.getReferredVariable());
+			return getVar(expr.getReferredVariable(), expr);
+		}
+
+		public VariableDeclaration getVar(VariableDeclaration aVar) {
+			return getVar(aVar, aVar);
+		}
+
+		protected VariableDeclaration getVar(VariableDeclaration aVar, LocatedElement context) {
+			VariableDeclaration vd = get( aVar );
 			if ( vd == null ) {
-				if ( expr.getReferredVariable().getVarName().equals("thisModule") && thisModule != null )
+				if ( aVar.getVarName().equals("thisModule") && thisModule != null )
 					return thisModule;
 				
-				throw new IllegalStateException("Expected mapping for var " + expr.getReferredVariable().getVarName() + " => " + expr.getLocation());
+				throw new IllegalStateException("Expected mapping for var " + aVar.getVarName() + " => " + context.getLocation());
 			}
 			return vd;
 		}
+
+		
 
 		public VariableDeclaration getThisModuleVar() {
 			if ( thisModule == null ) throw new IllegalStateException();
@@ -333,6 +378,8 @@ public class CSPModel {
 		varref.setReferredVariable(vd);
 		return varref;
 	}
+
+
 
 	
 }

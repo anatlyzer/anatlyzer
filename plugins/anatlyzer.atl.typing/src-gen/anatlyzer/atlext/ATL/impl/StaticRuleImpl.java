@@ -18,8 +18,10 @@ import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -27,6 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -43,6 +46,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getFileObject <em>File Object</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getProblems <em>Problems</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getAnnotations <em>Annotations</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getActionBlock <em>Action Block</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getVariables <em>Variables</em>}</li>
@@ -141,6 +145,16 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * @ordered
 	 */
 	protected EList<EObject> problems;
+
+	/**
+	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<String, String> annotations;
 
 	/**
 	 * The cached value of the '{@link #getOutPattern() <em>Out Pattern</em>}' containment reference.
@@ -315,6 +329,18 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<String, String> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EcoreEMap<String,String>(ATLPackage.Literals.STRING_TO_STRING_MAP, StringToStringMapImpl.class, this, ATLPackage.STATIC_RULE__ANNOTATIONS);
+		}
+		return annotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public OutPattern getOutPattern() {
 		return outPattern;
 	}
@@ -460,6 +486,8 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case ATLPackage.STATIC_RULE__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				return basicSetOutPattern(null, msgs);
 			case ATLPackage.STATIC_RULE__ACTION_BLOCK:
@@ -490,6 +518,9 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				return getFileObject();
 			case ATLPackage.STATIC_RULE__PROBLEMS:
 				return getProblems();
+			case ATLPackage.STATIC_RULE__ANNOTATIONS:
+				if (coreType) return getAnnotations();
+				else return getAnnotations().map();
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				return getOutPattern();
 			case ATLPackage.STATIC_RULE__ACTION_BLOCK:
@@ -531,6 +562,9 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 			case ATLPackage.STATIC_RULE__PROBLEMS:
 				getProblems().clear();
 				getProblems().addAll((Collection<? extends EObject>)newValue);
+				return;
+			case ATLPackage.STATIC_RULE__ANNOTATIONS:
+				((EStructuralFeature.Setting)getAnnotations()).set(newValue);
 				return;
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				setOutPattern((OutPattern)newValue);
@@ -575,6 +609,9 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 			case ATLPackage.STATIC_RULE__PROBLEMS:
 				getProblems().clear();
 				return;
+			case ATLPackage.STATIC_RULE__ANNOTATIONS:
+				getAnnotations().clear();
+				return;
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				setOutPattern((OutPattern)null);
 				return;
@@ -611,6 +648,8 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				return FILE_OBJECT_EDEFAULT == null ? fileObject != null : !FILE_OBJECT_EDEFAULT.equals(fileObject);
 			case ATLPackage.STATIC_RULE__PROBLEMS:
 				return problems != null && !problems.isEmpty();
+			case ATLPackage.STATIC_RULE__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 			case ATLPackage.STATIC_RULE__OUT_PATTERN:
 				return outPattern != null;
 			case ATLPackage.STATIC_RULE__ACTION_BLOCK:
@@ -638,6 +677,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				case ATLPackage.STATIC_RULE__FILE_LOCATION: return ATLPackage.LOCATED_ELEMENT__FILE_LOCATION;
 				case ATLPackage.STATIC_RULE__FILE_OBJECT: return ATLPackage.LOCATED_ELEMENT__FILE_OBJECT;
 				case ATLPackage.STATIC_RULE__PROBLEMS: return ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+				case ATLPackage.STATIC_RULE__ANNOTATIONS: return ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
 				default: return -1;
 			}
 		}
@@ -673,6 +713,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 				case ATLPackage.LOCATED_ELEMENT__FILE_LOCATION: return ATLPackage.STATIC_RULE__FILE_LOCATION;
 				case ATLPackage.LOCATED_ELEMENT__FILE_OBJECT: return ATLPackage.STATIC_RULE__FILE_OBJECT;
 				case ATLPackage.LOCATED_ELEMENT__PROBLEMS: return ATLPackage.STATIC_RULE__PROBLEMS;
+				case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS: return ATLPackage.STATIC_RULE__ANNOTATIONS;
 				default: return -1;
 			}
 		}

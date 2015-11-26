@@ -8,11 +8,13 @@ import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class MatchedRuleAbstract extends MatchedRuleBase {
@@ -55,6 +57,35 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 		
 		LetExp letUsingDeclaration = letPair._1;
 		LetExp letUsingDeclarationInnerLet = letPair._2;
+
+		model.copyScope();
+		
+		// We have to rebind the rule input pattern elements to variables with a cast
+		// to the supertype.
+		LetExp letInPatternDeclarations  = null;
+		LetExp letInPatternDeclarationInnerLet  = null;
+		if ( rule.getInPattern() != null ) {
+			for (InPatternElement ipe : rule.getInPattern().getElements()) {
+				LetExp let = model.rebind(ipe);	
+				let.getVariable().setInferredType(ipe.getInferredType());
+				let.getVariable().getAnnotations().put("GEN_INFERRED_DECLARATION", "YES");
+				
+				if ( letInPatternDeclarations  != null ) {
+					letInPatternDeclarationInnerLet.setIn_(let);
+				} else {
+					letInPatternDeclarations = let; // the first let
+				}
+				letInPatternDeclarationInnerLet  = let;
+			}
+		}
+		
+		if ( letUsingDeclaration != null ) {
+			letUsingDeclarationInnerLet.setIn_(letInPatternDeclarations);
+			letUsingDeclarationInnerLet = letInPatternDeclarationInnerLet;
+		} else {
+			letUsingDeclaration = letInPatternDeclarations;
+			letUsingDeclarationInnerLet = letInPatternDeclarationInnerLet;
+		}
 		
 		OclExpression result = null;
 		
@@ -76,6 +107,7 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 			result = letUsingDeclaration;
 		}
 		
+		model.closeScope();
 		return result;		
 	}
 	

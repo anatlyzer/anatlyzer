@@ -52,6 +52,7 @@ import anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage;
 
 import anatlyzer.atlext.PrimitiveTypes.impl.PrimitiveTypesPackageImpl;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -316,6 +317,13 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass stringToStringMapEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass callableParameterEClass = null;
 
 	/**
@@ -458,6 +466,15 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 */
 	public EReference getLocatedElement_Problems() {
 		return (EReference)locatedElementEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLocatedElement_Annotations() {
+		return (EReference)locatedElementEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -1428,6 +1445,33 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getStringToStringMap() {
+		return stringToStringMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringToStringMap_Key() {
+		return (EAttribute)stringToStringMapEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringToStringMap_Value() {
+		return (EAttribute)stringToStringMapEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCallableParameter() {
 		return callableParameterEClass;
 	}
@@ -1521,6 +1565,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		createEAttribute(locatedElementEClass, LOCATED_ELEMENT__FILE_LOCATION);
 		createEAttribute(locatedElementEClass, LOCATED_ELEMENT__FILE_OBJECT);
 		createEReference(locatedElementEClass, LOCATED_ELEMENT__PROBLEMS);
+		createEReference(locatedElementEClass, LOCATED_ELEMENT__ANNOTATIONS);
 
 		unitEClass = createEClass(UNIT);
 		createEReference(unitEClass, UNIT__LIBRARIES);
@@ -1663,6 +1708,10 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		createEReference(forStatEClass, FOR_STAT__COLLECTION);
 		createEReference(forStatEClass, FOR_STAT__STATEMENTS);
 
+		stringToStringMapEClass = createEClass(STRING_TO_STRING_MAP);
+		createEAttribute(stringToStringMapEClass, STRING_TO_STRING_MAP__KEY);
+		createEAttribute(stringToStringMapEClass, STRING_TO_STRING_MAP__VALUE);
+
 		callableParameterEClass = createEClass(CALLABLE_PARAMETER);
 		createEAttribute(callableParameterEClass, CALLABLE_PARAMETER__NAME);
 		createEReference(callableParameterEClass, CALLABLE_PARAMETER__STATIC_TYPE);
@@ -1752,6 +1801,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEAttribute(getLocatedElement_FileLocation(), ecorePackage.getEString(), "fileLocation", null, 0, 1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocatedElement_FileObject(), ecorePackage.getEJavaObject(), "fileObject", null, 0, 1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocatedElement_Problems(), ecorePackage.getEObject(), null, "problems", null, 0, -1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLocatedElement_Annotations(), this.getStringToStringMap(), null, "annotations", null, 0, -1, LocatedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(unitEClass, Unit.class, "Unit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUnit_Libraries(), this.getLibraryRef(), this.getLibraryRef_Unit(), "libraries", null, 0, -1, Unit.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -1893,6 +1943,10 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEReference(getForStat_Iterator(), theOCLPackage.getIterator(), null, "iterator", null, 1, 1, ForStat.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getForStat_Collection(), theOCLPackage.getOclExpression(), null, "collection", null, 1, 1, ForStat.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getForStat_Statements(), this.getStatement(), null, "statements", null, 0, -1, ForStat.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stringToStringMapEClass, Map.Entry.class, "StringToStringMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStringToStringMap_Key(), ecorePackage.getEString(), "key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringToStringMap_Value(), ecorePackage.getEString(), "value", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(callableParameterEClass, CallableParameter.class, "CallableParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCallableParameter_Name(), ecorePackage.getEString(), "name", null, 1, 1, CallableParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

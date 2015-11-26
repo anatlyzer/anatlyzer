@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -134,9 +135,15 @@ public class USESerializer {
 		} else if ( expr instanceof LetExp ) {
 			LetExp let = (LetExp) expr;
 			String type = "";
+			
 			if ( let.getVariable().getType() != null) {
 				type = " : " + genAux(let.getVariable().getType());
 			}
+			
+			if ( let.getVariable().getAnnotations().containsKey("GEN_INFERRED_DECLARATION") ) {
+				type = " : " + TypeUtils.typeToString(let.getVariable().getInferredType());				
+			}
+			
 			return "let " + let.getVariable().getVarName() + type + " = " + genAux(let.getVariable().getInitExpression()) + " in\n\t" + genAux(let.getIn_());
 		} else if ( expr instanceof CollectionExp ) {
 			CollectionExp col = (CollectionExp) expr;

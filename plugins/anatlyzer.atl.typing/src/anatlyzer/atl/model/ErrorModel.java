@@ -350,11 +350,11 @@ public class ErrorModel {
 		IteratorOverNoCollectionType error = AtlErrorFactory.eINSTANCE.createIteratorOverNoCollectionType();
 		initProblem(error, node);
 		
-		if ( isErrorType(receptorType) )
-			return createDependentError(error, receptorType);
+//		if ( isErrorType(receptorType) )
+//			return createDependentError(error, receptorType);
 
-		signalNoRecoverableError("Iterator operation over " + receptorType, node);		
-		return null;
+		signalError(error, "Iterator operation over " + TypeUtils.typeToString(receptorType), node);		
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
 	public Type signalNoThisModuleOperation(String operationName, LocatedElement node) {

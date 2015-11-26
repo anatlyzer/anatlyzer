@@ -79,7 +79,7 @@ abstract rule ConnectChecker {
 	),
 	b : CPN!TransToPlaceArc(
 		source <- t,
-		target <- thisModule.resolveTemp(m, 'p')
+		target <- m --thisModule.resolveTemp(m, 'p')
 	)
 	
 	

@@ -189,6 +189,14 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempWithoutRule/sourceType"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempPossiblyUnresolved">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClassesImplicit"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/resolvedExpression"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound/sourceType"/>

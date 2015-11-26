@@ -2,19 +2,14 @@
  */
 package anatlyzer.atlext.OCL.impl;
 
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-
+import anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl;
 import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.ResolveTempResolution;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,23 +19,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl#getElement <em>Element</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container implements ResolveTempResolution {
-	/**
-	 * The cached value of the '{@link #getRule() <em>Rule</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRule()
-	 * @generated
-	 * @ordered
-	 */
-	protected MatchedRule rule;
-
+public class ResolveTempResolutionImpl extends RuleResolutionInfoImpl implements ResolveTempResolution {
 	/**
 	 * The cached value of the '{@link #getElement() <em>Element</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -68,44 +52,6 @@ public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	protected EClass eStaticClass() {
 		return OCLPackage.Literals.RESOLVE_TEMP_RESOLUTION;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MatchedRule getRule() {
-		if (rule != null && rule.eIsProxy()) {
-			InternalEObject oldRule = (InternalEObject)rule;
-			rule = (MatchedRule)eResolveProxy(oldRule);
-			if (rule != oldRule) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE, oldRule, rule));
-			}
-		}
-		return rule;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public MatchedRule basicGetRule() {
-		return rule;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRule(MatchedRule newRule) {
-		MatchedRule oldRule = rule;
-		rule = newRule;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE, oldRule, rule));
 	}
 
 	/**
@@ -154,9 +100,6 @@ public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE:
-				if (resolve) return getRule();
-				return basicGetRule();
 			case OCLPackage.RESOLVE_TEMP_RESOLUTION__ELEMENT:
 				if (resolve) return getElement();
 				return basicGetElement();
@@ -172,9 +115,6 @@ public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE:
-				setRule((MatchedRule)newValue);
-				return;
 			case OCLPackage.RESOLVE_TEMP_RESOLUTION__ELEMENT:
 				setElement((OutPatternElement)newValue);
 				return;
@@ -190,9 +130,6 @@ public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE:
-				setRule((MatchedRule)null);
-				return;
 			case OCLPackage.RESOLVE_TEMP_RESOLUTION__ELEMENT:
 				setElement((OutPatternElement)null);
 				return;
@@ -208,8 +145,6 @@ public class ResolveTempResolutionImpl extends MinimalEObjectImpl.Container impl
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OCLPackage.RESOLVE_TEMP_RESOLUTION__RULE:
-				return rule != null;
 			case OCLPackage.RESOLVE_TEMP_RESOLUTION__ELEMENT:
 				return element != null;
 		}

@@ -593,6 +593,27 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sourceType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempPossiblyUnresolved" eSuperTypes="#//atl_error/ResolveTempProblem #//atl_error/BindingResolution">
+      <eAnnotations source="description">
+        <details key="name" value="ResolveTemp possibly unresolved"/>
+        <details key="text" value="A resolve temp be unresolved if certain conditions hold"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="always-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="warning-behaviour"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-rules"/>
+        <details key="phase" value="analysis"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClasses" lowerBound="1"
+          upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClassesImplicit"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedExpression" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResolveTempOutputPatternElementNotFound"
         eSuperTypes="#//atl_error/ResolveTempProblem">
       <eAnnotations source="description">

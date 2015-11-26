@@ -4,6 +4,7 @@ package anatlyzer.atlext.OCL.util;
 
 import anatlyzer.atlext.ATL.LocatedElement;
 
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.OCL.*;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -312,6 +313,10 @@ public class OCLAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseLocatedElement(LocatedElement object) {
 				return createLocatedElementAdapter();
+			}
+			@Override
+			public Adapter caseRuleResolutionInfo(RuleResolutionInfo object) {
+				return createRuleResolutionInfoAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -1184,6 +1189,20 @@ public class OCLAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLocatedElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atlext.ATL.RuleResolutionInfo <em>Rule Resolution Info</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atlext.ATL.RuleResolutionInfo
+	 * @generated
+	 */
+	public Adapter createRuleResolutionInfoAdapter() {
 		return null;
 	}
 

@@ -378,8 +378,6 @@
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//OCL/ResolveTempResolution">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference merged.ecore#//OCL/ResolveTempResolution/rule"/>
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//OCL/ResolveTempResolution/element"/>
       </genClasses>
       <genClasses ecoreClass="merged.ecore#//OCL/JavaBody"/>

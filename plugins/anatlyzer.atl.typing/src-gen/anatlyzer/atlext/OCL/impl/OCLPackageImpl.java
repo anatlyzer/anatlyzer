@@ -1918,17 +1918,8 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getResolveTempResolution_Rule() {
-		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getResolveTempResolution_Element() {
-		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(1);
+		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2182,7 +2173,6 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		createEReference(typedElementEClass, TYPED_ELEMENT__INFERRED_TYPE);
 
 		resolveTempResolutionEClass = createEClass(RESOLVE_TEMP_RESOLUTION);
-		createEReference(resolveTempResolutionEClass, RESOLVE_TEMP_RESOLUTION__RULE);
 		createEReference(resolveTempResolutionEClass, RESOLVE_TEMP_RESOLUTION__ELEMENT);
 
 		javaBodyEClass = createEClass(JAVA_BODY);
@@ -2281,6 +2271,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		attributeEClass.getESuperTypes().add(this.getOclFeature());
 		operationEClass.getESuperTypes().add(this.getOclFeature());
 		oclModelEClass.getESuperTypes().add(theATLPackage.getLocatedElement());
+		resolveTempResolutionEClass.getESuperTypes().add(theATLPackage.getRuleResolutionInfo());
 		javaBodyEClass.getESuperTypes().add(this.getOclExpression());
 		getAppliedStereotypesBodyEClass.getESuperTypes().add(this.getJavaBody());
 
@@ -2490,7 +2481,6 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		initEReference(getTypedElement_InferredType(), theTypesPackage.getType(), null, "inferredType", null, 0, 1, TypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resolveTempResolutionEClass, ResolveTempResolution.class, "ResolveTempResolution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getResolveTempResolution_Rule(), theATLPackage.getMatchedRule(), null, "rule", null, 1, 1, ResolveTempResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResolveTempResolution_Element(), theATLPackage.getOutPatternElement(), null, "element", null, 1, 1, ResolveTempResolution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(javaBodyEClass, JavaBody.class, "JavaBody", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

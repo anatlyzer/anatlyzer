@@ -136,12 +136,7 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 
 					alreadyAdded.add(r);
 					
-					List<MatchedRule> superRules = new ArrayList<MatchedRule>();
-					for(MatchedRule sup : ATLUtils.allSuperRules(r)) {
-						superRules.add( sup );
-					}
-					
-					RuleResolutionInfo ruleResolution = createRuleResolutionInfo(r, superRules);
+					RuleResolutionInfo ruleResolution = createRuleResolutionInfo(r, ATLUtils.allSuperRules(r));
 					self.getResolvedBy().add( ruleResolution ) ;					
 				}
 			}
@@ -153,7 +148,9 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		RuleResolutionInfo rr = ATLFactory.eINSTANCE.createRuleResolutionInfo();
 		rr.setRule(rule);
 		rr.getAllInvolvedRules().add(rule);
-		rr.getAllInvolvedRules().addAll(superRules);
+		for (MatchedRule sup : superRules) {
+			rr.getAllInvolvedRules().add(sup);			
+		}		
 		return rr;
 	}
 

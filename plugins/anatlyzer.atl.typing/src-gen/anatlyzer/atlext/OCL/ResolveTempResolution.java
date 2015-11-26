@@ -2,10 +2,8 @@
  */
 package anatlyzer.atlext.OCL;
 
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-
-import org.eclipse.emf.ecore.EObject;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
 /**
  * <!-- begin-user-doc -->
@@ -16,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}</li>
  * </ul>
  *
@@ -24,33 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ResolveTempResolution extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Rule</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rule</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Rule</em>' reference.
-	 * @see #setRule(MatchedRule)
-	 * @see anatlyzer.atlext.OCL.OCLPackage#getResolveTempResolution_Rule()
-	 * @model required="true"
-	 * @generated
-	 */
-	MatchedRule getRule();
-
-	/**
-	 * Sets the value of the '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Rule</em>' reference.
-	 * @see #getRule()
-	 * @generated
-	 */
-	void setRule(MatchedRule value);
-
+public interface ResolveTempResolution extends RuleResolutionInfo {
 	/**
 	 * Returns the value of the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->

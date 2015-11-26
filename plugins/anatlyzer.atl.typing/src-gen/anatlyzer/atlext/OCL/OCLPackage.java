@@ -13481,7 +13481,16 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION__RULE = 0;
+	int RESOLVE_TEMP_RESOLUTION__RULE = ATLPackage.RULE_RESOLUTION_INFO__RULE;
+
+	/**
+	 * The feature id for the '<em><b>All Involved Rules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION__ALL_INVOLVED_RULES = ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -13490,7 +13499,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION__ELEMENT = 1;
+	int RESOLVE_TEMP_RESOLUTION__ELEMENT = ATLPackage.RULE_RESOLUTION_INFO_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Resolve Temp Resolution</em>' class.
@@ -13499,7 +13508,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION_FEATURE_COUNT = 2;
+	int RESOLVE_TEMP_RESOLUTION_FEATURE_COUNT = ATLPackage.RULE_RESOLUTION_INFO_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Resolve Temp Resolution</em>' class.
@@ -13508,7 +13517,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION_OPERATION_COUNT = 0;
+	int RESOLVE_TEMP_RESOLUTION_OPERATION_COUNT = ATLPackage.RULE_RESOLUTION_INFO_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.
@@ -15516,17 +15525,6 @@ public interface OCLPackage extends EPackage {
 	EClass getResolveTempResolution();
 
 	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Rule</em>'.
-	 * @see anatlyzer.atlext.OCL.ResolveTempResolution#getRule()
-	 * @see #getResolveTempResolution()
-	 * @generated
-	 */
-	EReference getResolveTempResolution_Rule();
-
-	/**
 	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16879,14 +16877,6 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EClass RESOLVE_TEMP_RESOLUTION = eINSTANCE.getResolveTempResolution();
-
-		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RESOLVE_TEMP_RESOLUTION__RULE = eINSTANCE.getResolveTempResolution_Rule();
 
 		/**
 		 * The meta object literal for the '<em><b>Element</b></em>' reference feature.

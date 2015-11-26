@@ -64,6 +64,7 @@ import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
@@ -379,6 +380,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass resolveTempWithoutRuleEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass resolveTempPossiblyUnresolvedEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1495,6 +1503,42 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getResolveTempPossiblyUnresolved() {
+		return resolveTempPossiblyUnresolvedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ProblematicClasses() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ProblematicClassesImplicit() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ResolvedExpression() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getResolveTempOutputPatternElementNotFound() {
 		return resolveTempOutputPatternElementNotFoundEClass;
 	}
@@ -2021,6 +2065,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		resolveTempWithoutRuleEClass = createEClass(RESOLVE_TEMP_WITHOUT_RULE);
 		createEReference(resolveTempWithoutRuleEClass, RESOLVE_TEMP_WITHOUT_RULE__SOURCE_TYPE);
 
+		resolveTempPossiblyUnresolvedEClass = createEClass(RESOLVE_TEMP_POSSIBLY_UNRESOLVED);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RESOLVED_EXPRESSION);
+
 		resolveTempOutputPatternElementNotFoundEClass = createEClass(RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND);
 		createEReference(resolveTempOutputPatternElementNotFoundEClass, RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__SOURCE_TYPE);
 		createEReference(resolveTempOutputPatternElementNotFoundEClass, RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__RULES);
@@ -2170,6 +2219,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		objectBindingButPrimitiveAssignedEClass.getESuperTypes().add(this.getBindingProblem());
 		primitiveBindingInvalidAssignmentEClass.getESuperTypes().add(this.getBindingProblem());
 		resolveTempWithoutRuleEClass.getESuperTypes().add(this.getResolveTempProblem());
+		resolveTempPossiblyUnresolvedEClass.getESuperTypes().add(this.getResolveTempProblem());
+		resolveTempPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingResolution());
 		resolveTempOutputPatternElementNotFoundEClass.getESuperTypes().add(this.getResolveTempProblem());
 		flattenOverNonNestedCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		changeSelectFirstForAnyEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2337,6 +2388,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(resolveTempWithoutRuleEClass, ResolveTempWithoutRule.class, "ResolveTempWithoutRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResolveTempWithoutRule_SourceType(), ecorePackage.getEClass(), null, "sourceType", null, 0, 1, ResolveTempWithoutRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(resolveTempPossiblyUnresolvedEClass, ResolveTempPossiblyUnresolved.class, "ResolveTempPossiblyUnresolved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getResolveTempPossiblyUnresolved_ProblematicClasses(), ecorePackage.getEClass(), null, "problematicClasses", null, 1, -1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResolveTempPossiblyUnresolved_ProblematicClassesImplicit(), ecorePackage.getEClass(), null, "problematicClassesImplicit", null, 1, -1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResolveTempPossiblyUnresolved_ResolvedExpression(), ecorePackage.getEObject(), null, "resolvedExpression", null, 1, 1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resolveTempOutputPatternElementNotFoundEClass, ResolveTempOutputPatternElementNotFound.class, "ResolveTempOutputPatternElementNotFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResolveTempOutputPatternElementNotFound_SourceType(), ecorePackage.getEClass(), null, "sourceType", null, 0, 1, ResolveTempOutputPatternElementNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2609,6 +2665,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "No rule to resolve a resolveTemp operation",
 			 "text", "No rule able to resolve the resolveTemp operation can be found"
+		   });	
+		addAnnotation
+		  (resolveTempPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ResolveTemp possibly unresolved",
+			 "text", "A resolve temp be unresolved if certain conditions hold"
 		   });	
 		addAnnotation
 		  (resolveTempOutputPatternElementNotFoundEClass, 
@@ -3087,6 +3150,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "trafo-rules",
 			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (resolveTempPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "always-solver",
+			 "path", "yes",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "analysis",
 			 "source", "none"
 		   });	
 		addAnnotation

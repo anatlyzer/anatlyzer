@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
@@ -438,6 +439,15 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	}
 
 	private void findPossibleUnresolvedClasses(Binding b, Metaclass rightMetaclass, EClass targetType) { //, List<MatchedRule> rules) {
+		RuleAnalysis.findPossibleUnresolvedClasses(rightMetaclass, 
+				(problematicClasses, problematicClassesImplicit) -> {					
+					errors().signalBindingPossiblyUnresolved(b, rightMetaclass.getKlass(), targetType, problematicClasses, problematicClassesImplicit);				
+					return true;
+				});
+	}
+	
+	public static void findPossibleUnresolvedClasses(Metaclass rightMetaclass, 
+			BiFunction<List<EClass>, List<EClass>, Boolean> info) { 
 		LinkedList<ClassNamespace> pending = new LinkedList<ClassNamespace>();
 		pending.add( (ClassNamespace) rightMetaclass.getMetamodelRef() );
 	
@@ -477,23 +487,10 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			for (IClassNamespace classNamespace : notResolvedImplicit) {
 				problematicClassesImplicit.add(classNamespace.getKlass());
 			}
-
 			
-			errors().signalBindingPossiblyUnresolved(b, rightMetaclass.getKlass(), targetType, problematicClasses, problematicClassesImplicit);
+			info.apply(problematicClasses, problematicClassesImplicit);
+		}
 
-			// BindingPossiblyUnresolved
-			// System.out.println("Problems with " + notResolved);
-		}
-		
-		/*
-		ns.getDirectSubclasses();
-		
-		System.out.println("* " + rightMetaclass.getName());
-		for (MatchedRule matchedRule : rules) {
-			System.out.println(matchedRule.getName());
-		}
-		*/
-		// System.out.println("RuleAnalysis.findPossibleUnresolvedClasses()");
 	}
 }
 

@@ -302,6 +302,15 @@ package atl_error {
 	   	ref ecore.EClass[0..1] sourceType;
 	}
 
+	@description(name="ResolveTemp possibly unresolved", text="A resolve temp be unresolved if certain conditions hold")	 
+	@info(prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
+	class ResolveTempPossiblyUnresolved extends ResolveTempProblem, BindingResolution {
+	   ref EClass[+] problematicClasses;
+	   ref EClass[+] problematicClassesImplicit;
+	   
+	   ref EObject[1] resolvedExpression;
+	}
+
 	@description(name="Undefined output pattern in resolveTemp operation", text="The given output pattern of the possible matched rules is not defined")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
 	class ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {			   

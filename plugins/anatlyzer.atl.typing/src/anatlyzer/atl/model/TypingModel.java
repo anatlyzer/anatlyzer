@@ -1,6 +1,8 @@
 package anatlyzer.atl.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -604,6 +606,13 @@ public class TypingModel {
 		return t1;
 	}
 
+	
+	public static Collection<Type> allPossibleTypes(Type srcType) {
+		if ( srcType instanceof UnionType ) {
+			return Collections.unmodifiableList(((UnionType) srcType).getPossibleTypes());			
+		} 
+		return Collections.singleton(srcType);
+	}
 	
 	public List<Metaclass> getInvolvedMetaclasses(Type srcType) {
 		return TypingModel.getInvolvedMetaclassesOfType(srcType);

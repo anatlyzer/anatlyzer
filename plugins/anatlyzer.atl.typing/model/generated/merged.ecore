@@ -507,9 +507,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="inferredType" eType="ecore:EClass ../types.ecore#//Type"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempResolution">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="rule" lowerBound="1"
-          eType="#//ATL/MatchedRule"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempResolution" eSuperTypes="#//ATL/RuleResolutionInfo">
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
           eType="#//ATL/OutPatternElement"/>
     </eClassifiers>

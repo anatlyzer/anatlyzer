@@ -70,6 +70,7 @@ import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
@@ -91,6 +92,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -518,6 +520,29 @@ public class ErrorModel {
 
 		signalError(error, "No rule for resolveTemp", resolveTempOperation);				
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+
+	
+	public void signalResolveTempPossiblyUnresolved(OperationCallExp resolveTempOperation, OclExpression resolvedObj, EClass sourceType, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
+		ResolveTempPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createResolveTempPossiblyUnresolved();
+		initProblem(error, resolveTempOperation, ProblemStatus.WITNESS_REQUIRED, true);
+
+		error.setRightType(sourceType);
+		// error.setTargetType(targetType);
+		// error.setFeatureName(b.getPropertyName());
+		
+		error.getProblematicClasses().addAll(problematicClasses);
+		error.getProblematicClassesImplicit().addAll(problematicClassesImplicit);
+		
+		error.setResolvedExpression(resolvedObj);
+		
+		String s = "";
+		for (EClass eClass : problematicClasses) {
+			s += ", " + eClass.getName();
+		}
+		s = s.replaceFirst(",", "");
+		
+		signalWarning(error, "Possibly unresolved resolveTemp (" + sourceType.getName() + "): "  + s, resolveTempOperation);
 	}
 
 

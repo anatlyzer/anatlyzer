@@ -87,6 +87,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.PRIMITIVE_BINDING_INVALID_ASSIGNMENT: return createPrimitiveBindingInvalidAssignment();
 			case AtlErrorPackage.RESOLVED_RULE_INFO: return createResolvedRuleInfo();
 			case AtlErrorPackage.RESOLVE_TEMP_WITHOUT_RULE: return createResolveTempWithoutRule();
+			case AtlErrorPackage.RESOLVE_TEMP_POSSIBLY_UNRESOLVED: return createResolveTempPossiblyUnresolved();
 			case AtlErrorPackage.RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND: return createResolveTempOutputPatternElementNotFound();
 			case AtlErrorPackage.FLATTEN_OVER_NON_NESTED_COLLECTION: return createFlattenOverNonNestedCollection();
 			case AtlErrorPackage.CHANGE_SELECT_FIRST_FOR_ANY: return createChangeSelectFirstForAny();
@@ -420,6 +421,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public ResolveTempWithoutRule createResolveTempWithoutRule() {
 		ResolveTempWithoutRuleImpl resolveTempWithoutRule = new ResolveTempWithoutRuleImpl();
 		return resolveTempWithoutRule;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResolveTempPossiblyUnresolved createResolveTempPossiblyUnresolved() {
+		ResolveTempPossiblyUnresolvedImpl resolveTempPossiblyUnresolved = new ResolveTempPossiblyUnresolvedImpl();
+		return resolveTempPossiblyUnresolved;
 	}
 
 	/**

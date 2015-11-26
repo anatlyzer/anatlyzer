@@ -14,6 +14,7 @@ import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.CollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.FeatureInfo;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
@@ -653,9 +654,84 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		ArrayList<MatchedRule> compatibleRules = new ArrayList<MatchedRule>();
 		String withSameVarRules = ""; // TODO: Convert into a collection
 
-		Type selectedType = null;
 		Type type_ = attr.typeOf(resolvedObj);
 		
+		Type errorType = null;
+		
+		List<Type> selectedTypes = new ArrayList<Type>();		
+		
+		for(Type t : typ().allPossibleTypes(type_)) {
+			if ( ! (t instanceof Metaclass) ) {
+				errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);
+				continue;
+			}
+			
+			// This is similar to RuleAnalysis#analyseRuleResolution
+			Metaclass m = (Metaclass) t;
+			IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();						
+			Set<MatchedRule> rules = ns.getResolvingRules();
+			
+			if ( rules.size() == 0 ) {
+				Type r = errors().signalResolveTempWithoutRule(self, type_); 
+				errorType = r;
+			} else {
+				Type selectedType = null;
+				for (MatchedRule mr : rules) {
+					// This is the rule!
+					for(SimpleOutPatternElement sope : ATLUtils.getAllSimpleOutputPatternElement(mr) ) {
+						if ( sope.getVarName().equals(expectedVarName) ) {
+							Type tsope = attr.typeOf(sope.getType());
+							
+							withSameVarRules += mr.getName() + ", ";
+							if ( selectedType != null && ! typ().equalTypes(tsope, selectedType)) {
+								errors().signalResolveTempGetsDifferentTargetTypes("Several rules may resolve the same resolveTemp with different target types: " + withSameVarRules, self);
+							}
+							
+							// Create a resolution info object, even when what it is resolved may be
+							// conflicting. Perhaps it could be marked what conflicts with what!
+							ResolveTempResolution resolution = OCLFactory.eINSTANCE.createResolveTempResolution();
+							resolution.setRule(mr);
+							resolution.setElement(sope);
+							resolution.getAllInvolvedRules().add(mr);
+							resolution.getAllInvolvedRules().addAll(ATLUtils.allSuperRules(mr));
+							self.getResolveTempResolvedBy().add(resolution);
+							
+							selectedType = tsope;								
+						}
+					}									
+				}
+				
+
+				if ( selectedType != null ) {
+					// The source element may be resolved by at least one rule.
+					selectedTypes.add(selectedType);
+					// Now we check if resolution is complete
+					RuleAnalysis.findPossibleUnresolvedClasses(m, 
+							(problematicClasses, problematicClassesImplicit) -> {					
+								errors().signalResolveTempPossiblyUnresolved(self, resolvedObj, m.getKlass(), problematicClasses, problematicClassesImplicit);
+								return true;
+							});					
+				} else {
+					errorType = errors().signalResolveTempOutputPatternElementNotFound(self, type_, expectedVarName, compatibleRules);					
+				}
+			}
+		}
+		
+		Type finalType = null;
+		if ( selectedTypes.isEmpty() ) {
+			finalType = errorType;
+		} else {
+			finalType = typ().getCommonType(selectedTypes);			
+		}
+		
+		if ( finalType == null ) {
+			throw new IllegalStateException();
+		}
+
+		attr.linkExprType(finalType);
+
+		
+		/*
 		boolean sourceCompatibleRuleFound = false;
 		Module m = (Module) root;
 		for(ModuleElement e : m.getElements()) {
@@ -707,6 +783,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			Type r = errors().signalResolveTempOutputPatternElementNotFound(self, type_, expectedVarName, compatibleRules);
 			attr.linkExprType(r);
 		}
+		*/
 	}
 
 

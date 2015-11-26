@@ -274,6 +274,15 @@ public interface AtlErrorFactory extends EFactory {
 	ResolveTempWithoutRule createResolveTempWithoutRule();
 
 	/**
+	 * Returns a new object of class '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * @generated
+	 */
+	ResolveTempPossiblyUnresolved createResolveTempPossiblyUnresolved();
+
+	/**
 	 * Returns a new object of class '<em>Resolve Temp Output Pattern Element Not Found</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

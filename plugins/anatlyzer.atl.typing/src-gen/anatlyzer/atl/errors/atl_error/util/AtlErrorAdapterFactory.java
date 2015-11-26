@@ -251,6 +251,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createResolveTempWithoutRuleAdapter();
 			}
 			@Override
+			public Adapter caseResolveTempPossiblyUnresolved(ResolveTempPossiblyUnresolved object) {
+				return createResolveTempPossiblyUnresolvedAdapter();
+			}
+			@Override
 			public Adapter caseResolveTempOutputPatternElementNotFound(ResolveTempOutputPatternElementNotFound object) {
 				return createResolveTempOutputPatternElementNotFoundAdapter();
 			}
@@ -937,6 +941,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResolveTempWithoutRuleAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved <em>Resolve Temp Possibly Unresolved</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved
+	 * @generated
+	 */
+	public Adapter createResolveTempPossiblyUnresolvedAdapter() {
 		return null;
 	}
 

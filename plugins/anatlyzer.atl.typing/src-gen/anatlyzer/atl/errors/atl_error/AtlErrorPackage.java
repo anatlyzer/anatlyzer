@@ -564,7 +564,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempOutputPatternElementNotFound()
 	 * @generated
 	 */
-	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 45;
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND = 46;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.FlattenOverNonNestedCollectionImpl <em>Flatten Over Non Nested Collection</em>}' class.
@@ -574,7 +574,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getFlattenOverNonNestedCollection()
 	 * @generated
 	 */
-	int FLATTEN_OVER_NON_NESTED_COLLECTION = 46;
+	int FLATTEN_OVER_NON_NESTED_COLLECTION = 47;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverEmptySequenceImpl <em>Iterator Over Empty Sequence</em>}' class.
@@ -584,7 +584,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverEmptySequence()
 	 * @generated
 	 */
-	int ITERATOR_OVER_EMPTY_SEQUENCE = 48;
+	int ITERATOR_OVER_EMPTY_SEQUENCE = 49;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ReadingTargetModelImpl <em>Reading Target Model</em>}' class.
@@ -594,7 +594,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 49;
+	int READING_TARGET_MODEL = 50;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.
@@ -604,7 +604,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 51;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 52;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -614,7 +614,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 52;
+	int NO_MODEL_FOUND = 53;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -624,7 +624,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 54;
+	int WRONG_TYPE = 55;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -634,7 +634,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 55;
+	int ITERATOR_BODY_WRONG_TYPE = 56;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -644,7 +644,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 56;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 57;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -654,7 +654,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 57;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 58;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -664,7 +664,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 58;
+	int NO_CLASS_FOUND_IN_METAMODEL = 59;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -674,7 +674,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 59;
+	int INVALID_ARGUMENT = 60;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -684,7 +684,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 60;
+	int COLLECTION_OPERATION_NOT_FOUND = 61;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -694,7 +694,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 61;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 62;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -1248,7 +1248,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
 	 * @generated
 	 */
-	int LAZY_RULE_WITH_FILTER = 50;
+	int LAZY_RULE_WITH_FILTER = 51;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
@@ -1258,7 +1258,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 62;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 63;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
@@ -1268,7 +1268,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 63;
+	int INCOHERENT_VARIABLE_DECLARATION = 64;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
@@ -1278,7 +1278,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 	 * @generated
 	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 64;
+	int INCOHERENT_HELPER_RETURN_TYPE = 65;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
@@ -2865,7 +2865,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getChangeSelectFirstForAny()
 	 * @generated
 	 */
-	int CHANGE_SELECT_FIRST_FOR_ANY = 47;
+	int CHANGE_SELECT_FIRST_FOR_ANY = 48;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoEnumLiteralImpl <em>No Enum Literal</em>}' class.
@@ -2875,7 +2875,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoEnumLiteral()
 	 * @generated
 	 */
-	int NO_ENUM_LITERAL = 53;
+	int NO_ENUM_LITERAL = 54;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl <em>Access To Undefined Value</em>}' class.
@@ -5327,6 +5327,187 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_WITHOUT_RULE_OPERATION_COUNT = RESOLVE_TEMP_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempPossiblyUnresolvedImpl <em>Resolve Temp Possibly Unresolved</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.ResolveTempPossiblyUnresolvedImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempPossiblyUnresolved()
+	 * @generated
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED = 45;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__DEPENDENTS = RESOLVE_TEMP_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__DESCRIPTION = RESOLVE_TEMP_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__SEVERITY = RESOLVE_TEMP_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__NEEDS_CSP = RESOLVE_TEMP_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__STATUS = RESOLVE_TEMP_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__LOCATION = RESOLVE_TEMP_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__FILE_LOCATION = RESOLVE_TEMP_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__ELEMENT = RESOLVE_TEMP_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RECOVERY = RESOLVE_TEMP_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Right Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RIGHT_TYPE = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Target Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__TARGET_TYPE = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Right</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RIGHT = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Left</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__LEFT = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Rules</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RULES = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Problematic Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Problematic Classes Implicit</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Resolved Expression</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RESOLVED_EXPRESSION = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 7;
+
+	/**
+	 * The number of structural features of the '<em>Resolve Temp Possibly Unresolved</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED_FEATURE_COUNT = RESOLVE_TEMP_PROBLEM_FEATURE_COUNT + 8;
+
+	/**
+	 * The number of operations of the '<em>Resolve Temp Possibly Unresolved</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED_OPERATION_COUNT = RESOLVE_TEMP_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7450,7 +7631,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingInplaceInvalid()
 	 * @generated
 	 */
-	int BINDING_INPLACE_INVALID = 65;
+	int BINDING_INPLACE_INVALID = 66;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -7587,7 +7768,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCannotInstantiateAbstractClass()
 	 * @generated
 	 */
-	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 66;
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 67;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -7706,7 +7887,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 67;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 68;
 
 
 	/**
@@ -8701,6 +8882,49 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getResolveTempWithoutRule_SourceType();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved <em>Resolve Temp Possibly Unresolved</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved
+	 * @generated
+	 */
+	EClass getResolveTempPossiblyUnresolved();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClasses <em>Problematic Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Problematic Classes</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClasses()
+	 * @see #getResolveTempPossiblyUnresolved()
+	 * @generated
+	 */
+	EReference getResolveTempPossiblyUnresolved_ProblematicClasses();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Problematic Classes Implicit</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClassesImplicit()
+	 * @see #getResolveTempPossiblyUnresolved()
+	 * @generated
+	 */
+	EReference getResolveTempPossiblyUnresolved_ProblematicClassesImplicit();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getResolvedExpression <em>Resolved Expression</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resolved Expression</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getResolvedExpression()
+	 * @see #getResolveTempPossiblyUnresolved()
+	 * @generated
+	 */
+	EReference getResolveTempPossiblyUnresolved_ResolvedExpression();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound <em>Resolve Temp Output Pattern Element Not Found</em>}'.
@@ -9971,6 +10195,40 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RESOLVE_TEMP_WITHOUT_RULE__SOURCE_TYPE = eINSTANCE.getResolveTempWithoutRule_SourceType();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempPossiblyUnresolvedImpl <em>Resolve Temp Possibly Unresolved</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.ResolveTempPossiblyUnresolvedImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getResolveTempPossiblyUnresolved()
+		 * @generated
+		 */
+		EClass RESOLVE_TEMP_POSSIBLY_UNRESOLVED = eINSTANCE.getResolveTempPossiblyUnresolved();
+
+		/**
+		 * The meta object literal for the '<em><b>Problematic Classes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES = eINSTANCE.getResolveTempPossiblyUnresolved_ProblematicClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>Problematic Classes Implicit</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT = eINSTANCE.getResolveTempPossiblyUnresolved_ProblematicClassesImplicit();
+
+		/**
+		 * The meta object literal for the '<em><b>Resolved Expression</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RESOLVED_EXPRESSION = eINSTANCE.getResolveTempPossiblyUnresolved_ResolvedExpression();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempOutputPatternElementNotFoundImpl <em>Resolve Temp Output Pattern Element Not Found</em>}' class.

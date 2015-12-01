@@ -283,7 +283,16 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inSimpleInPatternElement(SimpleInPatternElement self) {
-		s(self.getVarName() + " : " + g(self.getType()));
+		String modelConstraint = "";
+		if ( self.getModels().size() > 0 ) {
+			modelConstraint = " in ";
+			List<String> l = sl();
+			for(OclModel e : self.getModels()) {
+				l.add(g(e));
+			}
+			modelConstraint += join(l, ", ");
+		}
+		s(self.getVarName() + " : " + g(self.getType()) + modelConstraint);
 	}
 	
 	@Override
@@ -342,7 +351,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inBinding(Binding self) {
-		s(self.getPropertyName() + " <- " + g(self.getValue()));
+		s(genTab() + self.getPropertyName() + " <- " + g(self.getValue()));
 	}
 	
 	//
@@ -614,6 +623,11 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		s += join(l) + " }";
 		s(s);			
+	}
+
+	@Override
+	public void inOclModel(OclModel self) {
+		s(self.getName());
 	}
 	
 	@Override

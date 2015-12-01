@@ -1903,12 +1903,20 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("value");
+					}
+			f = object.eClass().getEStructuralFeature("value");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setValue( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -1917,48 +1925,104 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variable");
+					}
+			f = object.eClass().getEStructuralFeature("variable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("in_");
+					}
+			f = object.eClass().getEStructuralFeature("in_");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIn_( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -1967,45 +2031,97 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("referredVariable");
+					}
+			f = object.eClass().getEStructuralFeature("referredVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setReferredVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2014,46 +2130,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2062,55 +2230,119 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("body");
+					}
+			f = object.eClass().getEStructuralFeature("body");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBody( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("iterators");
+					}
+			f = object.eClass().getEStructuralFeature("iterators");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getIterators().add( (anatlyzer.atlext.OCL.Iterator) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("result");
+						}
+			f = object.eClass().getEStructuralFeature("result");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setResult( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2119,15 +2351,27 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("map");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMap( (anatlyzer.atlext.OCL.MapExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("key");
+					}
+			f = object.eClass().getEStructuralFeature("key");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setKey( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("value");
+					}
+			f = object.eClass().getEStructuralFeature("value");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setValue( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2136,45 +2380,97 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2183,46 +2479,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2231,9 +2579,13 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("expression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2242,72 +2594,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elementType");
+					}
+			f = object.eClass().getEStructuralFeature("elementType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElementType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2316,49 +2756,105 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("arguments");
+					}
+			f = object.eClass().getEStructuralFeature("arguments");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getArguments().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2367,10 +2863,14 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("libraries");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getLibraries().add( (anatlyzer.atlext.ATL.LibraryRef) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2379,73 +2879,161 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attributes");
+					}
+			f = object.eClass().getEStructuralFeature("attributes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getAttributes().add( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2454,15 +3042,27 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("definition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinition( (anatlyzer.atlext.OCL.OclFeatureDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("type");
+					}
+			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2471,49 +3071,105 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("arguments");
+					}
+			f = object.eClass().getEStructuralFeature("arguments");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getArguments().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2522,17 +3178,29 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("metamodel");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMetamodel( (anatlyzer.atlext.OCL.OclModel) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.OclModelElement) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("model");
+						}
+			f = object.eClass().getEStructuralFeature("model");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getModel().add( (anatlyzer.atlext.OCL.OclModel) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2541,25 +3209,49 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("tuple");
+						}
+			f = object.eClass().getEStructuralFeature("tuple");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTuple( (anatlyzer.atlext.OCL.TupleExp) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2568,42 +3260,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2612,14 +3352,22 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("libraries");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getLibraries().add( (anatlyzer.atlext.ATL.LibraryRef) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("helpers");
+						}
+			f = object.eClass().getEStructuralFeature("helpers");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getHelpers().add( (anatlyzer.atlext.ATL.Helper) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2628,15 +3376,27 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("query");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setQuery( (anatlyzer.atlext.ATL.Query) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("library");
+					}
+			f = object.eClass().getEStructuralFeature("library");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLibrary( (anatlyzer.atlext.ATL.Library) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definition");
+					}
+			f = object.eClass().getEStructuralFeature("definition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinition( (anatlyzer.atlext.OCL.OclFeatureDefinition) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2645,12 +3405,20 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("definition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinition( (anatlyzer.atlext.OCL.OclFeatureDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("context_");
+					}
+			f = object.eClass().getEStructuralFeature("context_");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setContext_( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2659,72 +3427,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elementType");
+					}
+			f = object.eClass().getEStructuralFeature("elementType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElementType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2733,42 +3589,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2777,42 +3681,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2821,22 +3773,42 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2845,46 +3817,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2893,13 +3917,21 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("rule");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setRule( (anatlyzer.atlext.ATL.Rule) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("statements");
+					}
+			f = object.eClass().getEStructuralFeature("statements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getStatements().add( (anatlyzer.atlext.ATL.Statement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2908,69 +3940,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -2979,25 +4095,49 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("loopExpr");
+						}
+			f = object.eClass().getEStructuralFeature("loopExpr");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExpr( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3006,46 +4146,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3054,72 +4246,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elementType");
+					}
+			f = object.eClass().getEStructuralFeature("elementType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElementType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3128,9 +4408,13 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("unit");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setUnit( (anatlyzer.atlext.ATL.Unit) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3139,9 +4423,13 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3150,19 +4438,35 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("definition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinition( (anatlyzer.atlext.OCL.OclFeatureDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parameters");
+					}
+			f = object.eClass().getEStructuralFeature("parameters");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getParameters().add( (anatlyzer.atlext.OCL.Parameter) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("returnType");
+						}
+			f = object.eClass().getEStructuralFeature("returnType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setReturnType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("body");
+					}
+			f = object.eClass().getEStructuralFeature("body");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBody( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3171,41 +4475,85 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("outPattern");
+						}
+			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("sourceElement");
+					}
+			f = object.eClass().getEStructuralFeature("sourceElement");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSourceElement( (anatlyzer.atlext.ATL.InPatternElement) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("bindings");
+					}
+			f = object.eClass().getEStructuralFeature("bindings");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getBindings().add( (anatlyzer.atlext.ATL.Binding) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("model");
+						}
+			f = object.eClass().getEStructuralFeature("model");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setModel( (anatlyzer.atlext.OCL.OclModel) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("iterator");
+					}
+			f = object.eClass().getEStructuralFeature("iterator");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIterator( (anatlyzer.atlext.OCL.Iterator) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3214,52 +4562,112 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("body");
+					}
+			f = object.eClass().getEStructuralFeature("body");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBody( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("iterators");
+					}
+			f = object.eClass().getEStructuralFeature("iterators");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getIterators().add( (anatlyzer.atlext.OCL.Iterator) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3268,42 +4676,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3312,39 +4768,79 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("outPattern");
+						}
+			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("sourceElement");
+					}
+			f = object.eClass().getEStructuralFeature("sourceElement");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSourceElement( (anatlyzer.atlext.ATL.InPatternElement) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("bindings");
+					}
+			f = object.eClass().getEStructuralFeature("bindings");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getBindings().add( (anatlyzer.atlext.ATL.Binding) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("model");
+						}
+			f = object.eClass().getEStructuralFeature("model");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setModel( (anatlyzer.atlext.OCL.OclModel) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("reverseBindings");
+					}
+			f = object.eClass().getEStructuralFeature("reverseBindings");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getReverseBindings().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3353,25 +4849,49 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("rule");
+						}
+			f = object.eClass().getEStructuralFeature("rule");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setRule( (anatlyzer.atlext.ATL.Rule) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3380,72 +4900,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elementType");
+					}
+			f = object.eClass().getEStructuralFeature("elementType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElementType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3454,17 +5062,29 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("condition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCondition( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("thenStatements");
+					}
+			f = object.eClass().getEStructuralFeature("thenStatements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getThenStatements().add( (anatlyzer.atlext.ATL.Statement) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("elseStatements");
+						}
+			f = object.eClass().getEStructuralFeature("elseStatements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElseStatements().add( (anatlyzer.atlext.ATL.Statement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3473,26 +5093,50 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("actionBlock");
+					}
+			f = object.eClass().getEStructuralFeature("actionBlock");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setActionBlock( (anatlyzer.atlext.ATL.ActionBlock) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variables");
+					}
+			f = object.eClass().getEStructuralFeature("variables");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariables().add( (anatlyzer.atlext.ATL.RuleVariableDeclaration) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("inPattern");
+						}
+			f = object.eClass().getEStructuralFeature("inPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInPattern( (anatlyzer.atlext.ATL.InPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("children");
+					}
+			f = object.eClass().getEStructuralFeature("children");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getChildren().add( (anatlyzer.atlext.ATL.RuleWithPattern) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("superRule");
+						}
+			f = object.eClass().getEStructuralFeature("superRule");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSuperRule( (anatlyzer.atlext.ATL.RuleWithPattern) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3501,72 +5145,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elementType");
+					}
+			f = object.eClass().getEStructuralFeature("elementType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElementType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3575,20 +5307,36 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("actionBlock");
+					}
+			f = object.eClass().getEStructuralFeature("actionBlock");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setActionBlock( (anatlyzer.atlext.ATL.ActionBlock) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variables");
+					}
+			f = object.eClass().getEStructuralFeature("variables");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariables().add( (anatlyzer.atlext.ATL.RuleVariableDeclaration) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("parameters");
+						}
+			f = object.eClass().getEStructuralFeature("parameters");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getParameters().add( (anatlyzer.atlext.OCL.Parameter) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3597,46 +5345,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tuplePart");
+					}
+			f = object.eClass().getEStructuralFeature("tuplePart");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getTuplePart().add( (anatlyzer.atlext.OCL.TuplePart) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3645,12 +5445,20 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleType");
+					}
+			f = object.eClass().getEStructuralFeature("tupleType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleType( (anatlyzer.atlext.OCL.TupleType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3659,51 +5467,111 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("thenExpression");
+					}
+			f = object.eClass().getEStructuralFeature("thenExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setThenExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("condition");
+					}
+			f = object.eClass().getEStructuralFeature("condition");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCondition( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elseExpression");
+					}
+			f = object.eClass().getEStructuralFeature("elseExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setElseExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3712,75 +5580,167 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("valueType");
+					}
+			f = object.eClass().getEStructuralFeature("valueType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setValueType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("keyType");
+					}
+			f = object.eClass().getEStructuralFeature("keyType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setKeyType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3789,49 +5749,105 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("source");
+					}
+			f = object.eClass().getEStructuralFeature("source");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSource( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("arguments");
+					}
+			f = object.eClass().getEStructuralFeature("arguments");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getArguments().add( (anatlyzer.atlext.OCL.OclExpression) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3840,42 +5856,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3884,69 +5948,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -3955,69 +6103,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4026,12 +6258,20 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("value");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setValue( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("outPatternElement");
+					}
+			f = object.eClass().getEStructuralFeature("outPatternElement");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPatternElement( (anatlyzer.atlext.ATL.OutPatternElement) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4040,22 +6280,38 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("libraries");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getLibraries().add( (anatlyzer.atlext.ATL.LibraryRef) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("inModels");
+						}
+			f = object.eClass().getEStructuralFeature("inModels");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getInModels().add( (anatlyzer.atlext.OCL.OclModel) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("outModels");
+						}
+			f = object.eClass().getEStructuralFeature("outModels");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getOutModels().add( (anatlyzer.atlext.OCL.OclModel) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("elements");
+						}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.ATL.ModuleElement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4064,42 +6320,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4108,22 +6412,42 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4132,12 +6456,20 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("feature");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setFeature( (anatlyzer.atlext.OCL.OclFeature) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("context_");
+					}
+			f = object.eClass().getEStructuralFeature("context_");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setContext_( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4146,13 +6478,21 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.ATL.InPatternElement) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("filter");
+						}
+			f = object.eClass().getEStructuralFeature("filter");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setFilter( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4161,42 +6501,90 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4205,17 +6593,29 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("libraries");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getLibraries().add( (anatlyzer.atlext.ATL.LibraryRef) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("body");
+						}
+			f = object.eClass().getEStructuralFeature("body");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBody( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("helpers");
+					}
+			f = object.eClass().getEStructuralFeature("helpers");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getHelpers().add( (anatlyzer.atlext.ATL.Helper) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4224,46 +6624,98 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.OCL.MapElement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4272,16 +6724,28 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("rule");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setRule( (anatlyzer.atlext.ATL.Rule) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("dropPattern");
+					}
+			f = object.eClass().getEStructuralFeature("dropPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDropPattern( (anatlyzer.atlext.ATL.DropPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("elements");
+					}
+			f = object.eClass().getEStructuralFeature("elements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getElements().add( (anatlyzer.atlext.ATL.OutPatternElement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4290,32 +6754,64 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initExpression");
+					}
+			f = object.eClass().getEStructuralFeature("initExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("baseExp");
+					}
+			f = object.eClass().getEStructuralFeature("baseExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setBaseExp( (anatlyzer.atlext.OCL.IterateExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableExp");
+					}
+			f = object.eClass().getEStructuralFeature("variableExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariableExp().add( (anatlyzer.atlext.OCL.VariableExp) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("mapsTo");
+						}
+			f = object.eClass().getEStructuralFeature("mapsTo");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapsTo( (anatlyzer.atlext.ATL.OutPatternElement) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("inPattern");
+					}
+			f = object.eClass().getEStructuralFeature("inPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInPattern( (anatlyzer.atlext.ATL.InPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("models");
+					}
+			f = object.eClass().getEStructuralFeature("models");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getModels().add( (anatlyzer.atlext.OCL.OclModel) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4324,69 +6820,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4395,69 +6975,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4466,72 +7130,160 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("model");
+					}
+			f = object.eClass().getEStructuralFeature("model");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setModel( (anatlyzer.atlext.OCL.OclModel) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4540,69 +7292,153 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("type");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setType( (anatlyzer.atlext.OCL.OclType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp3");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp3");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp3( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("appliedProperty");
+					}
+			f = object.eClass().getEStructuralFeature("appliedProperty");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAppliedProperty( (anatlyzer.atlext.OCL.PropertyCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.CollectionExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("letExp");
+					}
+			f = object.eClass().getEStructuralFeature("letExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLetExp( (anatlyzer.atlext.OCL.LetExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("loopExp");
+					}
+			f = object.eClass().getEStructuralFeature("loopExp");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setLoopExp( (anatlyzer.atlext.OCL.LoopExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("parentOperation");
+					}
+			f = object.eClass().getEStructuralFeature("parentOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setParentOperation( (anatlyzer.atlext.OCL.OperationCallExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("initializedVariable");
+					}
+			f = object.eClass().getEStructuralFeature("initializedVariable");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInitializedVariable( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp2");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp2( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningOperation");
+					}
+			f = object.eClass().getEStructuralFeature("owningOperation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("ifExp1");
+					}
+			f = object.eClass().getEStructuralFeature("ifExp1");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIfExp1( (anatlyzer.atlext.OCL.IfExp) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("owningAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("owningAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOwningAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("definitions");
+					}
+			f = object.eClass().getEStructuralFeature("definitions");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setDefinitions( (anatlyzer.atlext.OCL.OclContextDefinition) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("oclExpression");
+					}
+			f = object.eClass().getEStructuralFeature("oclExpression");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOclExpression( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("operation");
+					}
+			f = object.eClass().getEStructuralFeature("operation");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOperation( (anatlyzer.atlext.OCL.Operation) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType2");
+					}
+			f = object.eClass().getEStructuralFeature("mapType2");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType2( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("attribute");
+					}
+			f = object.eClass().getEStructuralFeature("attribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setAttribute( (anatlyzer.atlext.OCL.Attribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("mapType");
+					}
+			f = object.eClass().getEStructuralFeature("mapType");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setMapType( (anatlyzer.atlext.OCL.MapType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collectionTypes");
+					}
+			f = object.eClass().getEStructuralFeature("collectionTypes");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollectionTypes( (anatlyzer.atlext.OCL.CollectionType) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+					}
+			f = object.eClass().getEStructuralFeature("tupleTypeAttribute");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setTupleTypeAttribute( (anatlyzer.atlext.OCL.TupleTypeAttribute) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variableDeclaration");
+					}
+			f = object.eClass().getEStructuralFeature("variableDeclaration");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setVariableDeclaration( (anatlyzer.atlext.OCL.VariableDeclaration) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4611,16 +7447,28 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("iterator");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setIterator( (anatlyzer.atlext.OCL.Iterator) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("collection");
+					}
+			f = object.eClass().getEStructuralFeature("collection");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setCollection( (anatlyzer.atlext.OCL.OclExpression) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("statements");
+					}
+			f = object.eClass().getEStructuralFeature("statements");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getStatements().add( (anatlyzer.atlext.ATL.Statement) getTarget((EObject) child));
 		}
-					
+						}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 
@@ -4629,26 +7477,50 @@ public class AbstractDynamicToStaticCopier {
 		EStructuralFeature f = null;
 		EObject v = null;
 			f = object.eClass().getEStructuralFeature("outPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setOutPattern( (anatlyzer.atlext.ATL.OutPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("actionBlock");
+					}
+			f = object.eClass().getEStructuralFeature("actionBlock");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setActionBlock( (anatlyzer.atlext.ATL.ActionBlock) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("variables");
+					}
+			f = object.eClass().getEStructuralFeature("variables");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getVariables().add( (anatlyzer.atlext.ATL.RuleVariableDeclaration) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("inPattern");
+						}
+			f = object.eClass().getEStructuralFeature("inPattern");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setInPattern( (anatlyzer.atlext.ATL.InPattern) getTarget( v ) );
-						f = object.eClass().getEStructuralFeature("children");
+					}
+			f = object.eClass().getEStructuralFeature("children");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		for(EObject child : ((List<EObject>) object.eGet(f))) {
 		    newObj.getChildren().add( (anatlyzer.atlext.ATL.RuleWithPattern) getTarget((EObject) child));
 		}
-							f = object.eClass().getEStructuralFeature("superRule");
+						}
+			f = object.eClass().getEStructuralFeature("superRule");
+		// This check is to allow versions of the meta-models to be copied
+		// but should be parameterized not to check in all cases
+		if ( f != null ) {
 		   		v = (EObject) object.eGet(f);
 		if ( v != null ) newObj.setSuperRule( (anatlyzer.atlext.ATL.RuleWithPattern) getTarget( v ) );
-				
+					}
+	
 		trace.put(object, newObj);
 		return newObj;
 	} 

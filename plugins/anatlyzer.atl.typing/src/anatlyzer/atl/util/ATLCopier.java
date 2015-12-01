@@ -9,12 +9,18 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.OCL.OclModel;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 
 @SuppressWarnings("serial")
 public class ATLCopier extends EcoreUtil.Copier {
 
 	private EObject root;
 	private boolean copyTypes = false;
+	private HashSet<EObject> ignoredElements = new HashSet<EObject>();
 	
 	public ATLCopier(EObject object) {
 		super();
@@ -32,6 +38,17 @@ public class ATLCopier extends EcoreUtil.Copier {
 		this.put(key, value);
 		return this;
 	}
+
+	public ATLCopier ignored(Collection<? extends EObject> toBeIgnored) {
+		this.ignoredElements.addAll(toBeIgnored);
+		return this;
+	}
+
+	public ATLCopier bindAll(HashMap<? extends EObject, ? extends EObject> map) {
+		this.putAll(map);
+		return this;
+	}
+
 	
 	public ATLCopier copyTypes(boolean b) {
 		this.copyTypes = b;
@@ -129,6 +146,14 @@ public class ATLCopier extends EcoreUtil.Copier {
       }
     }
 
+    @Override
+    protected EObject createCopy(EObject eObject) {
+        if ( ignoredElements.contains(eObject) ) {
+      	  return null;
+        } 
+    	return super.createCopy(eObject);
+    }
+    
 	private void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
 		if ( ! copyTypes  ) {
 			return;

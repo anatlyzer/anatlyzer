@@ -27,7 +27,8 @@ public class ATLModel {
 
 	private String mainFileLocation;
 	private List<String> fileLocations = new ArrayList<String>();
-	private boolean hasSyntaxErrors; 	
+	private boolean hasSyntaxErrors;
+	private ATLModelTrace copierTrace; 	
 	
 	/**
 	 * Constructs a new extended ATL model given a regular
@@ -40,6 +41,14 @@ public class ATLModel {
 	}
 	
 	public ATLModel(Resource original, String fileLocation) {
+		this(original, fileLocation, false);
+	}
+	
+	public ATLModelTrace getCopierTrace() {
+		return copierTrace;
+	}
+	
+	public ATLModel(Resource original, String fileLocation, boolean keepCopier) { 
 		DynamicToStaticCopier copier = new DynamicToStaticCopier(fileLocation);
 		ResourceSet rs = original.getResourceSet();
 		if ( rs == null ) {
@@ -47,6 +56,10 @@ public class ATLModel {
 		}
 		resource = rs.createResource(URI.createURI("trafo.ext"));		
 		copier.copyResource(original, resource);
+	
+		if ( keepCopier ) {
+			this.copierTrace = new ATLModelTrace(copier);
+		}
 		
 		mainFileLocation = fileLocation;
 		fileLocations.add(fileLocation);
@@ -56,6 +69,11 @@ public class ATLModel {
 		hasSyntaxErrors = resource.getErrors().size() > 0;
 	}
 
+
+	public ATLModelTrace getTrace() {
+		return copierTrace;
+	}
+	
 	public boolean hasSyntaxErrors() {
 		return hasSyntaxErrors;
 	}
@@ -171,5 +189,6 @@ public class ATLModel {
 		errors.clear();
 		// typing.impl.getContents().clear();
 	}
+
 	
 }

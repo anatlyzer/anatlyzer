@@ -52,6 +52,7 @@ import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
@@ -932,7 +933,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		return typ().getCommonType(values);
 	}
-
 
 	/* Same as SequenceExp */
 	@Override

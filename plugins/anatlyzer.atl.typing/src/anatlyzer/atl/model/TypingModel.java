@@ -669,5 +669,4 @@ public class TypingModel {
 		return (T) t;
 	}
 
-
 }

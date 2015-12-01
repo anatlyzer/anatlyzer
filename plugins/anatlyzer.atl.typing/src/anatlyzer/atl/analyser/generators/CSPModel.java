@@ -33,8 +33,8 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class CSPModel {
 
 	public static final String THIS_MODULE_CONTEXT_VAR = "thisModule";
-	private ATLModel atlModel;
-	private OclGeneratorAST generator;
+	protected ATLModel atlModel;
+	protected OclGeneratorAST generator;
 
 	public CSPModel() {
 		atlModel = new ATLModel();

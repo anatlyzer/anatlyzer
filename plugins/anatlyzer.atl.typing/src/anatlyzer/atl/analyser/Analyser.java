@@ -38,7 +38,7 @@ public class Analyser implements IAnalyserResult {
 
 	private ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
-	public Analyser(GlobalNamespace mm, ATLModel atlModel) throws IOException {
+	public Analyser(GlobalNamespace mm, ATLModel atlModel) {
 		this.mm    = mm;
 		this.trafo = atlModel;
 		this.typ   = atlModel.getTyping();

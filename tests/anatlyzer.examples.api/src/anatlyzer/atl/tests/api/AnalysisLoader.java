@@ -47,6 +47,34 @@ public class AnalysisLoader {
 		return result;
 	}
 
+
+	public static AnalysisLoader fromATLModel(ATLModel trafo, Object[] metamodels, String[] names) {
+		AnalysisLoader result = new AnalysisLoader();
+		
+		ResourceSet rs = new ResourceSetImpl();
+		int i = 0;
+		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
+		ArrayList<Resource> resources = new ArrayList<Resource>();
+		for (Object fileOrResource : metamodels) {
+			Resource r = null;
+			if (fileOrResource instanceof String) {
+				r = rs.getResource(URI.createURI((String) fileOrResource), true);
+				if ( r == null )
+					throw new IllegalStateException();
+			} else {
+				r = (Resource) fileOrResource;
+			}
+			resources.add(r);
+			logicalNamesToResources.put(names[i], r);
+			i++;
+		}
+
+		result.globalNamespace = new GlobalNamespace(resources, logicalNamesToResources);		
+		result.atlTransformation = trafo;		
+		
+		return result;
+	}
+
 	public ATLModelTrace getTrace() {
 		return this.atlTransformation.getTrace();
 	}

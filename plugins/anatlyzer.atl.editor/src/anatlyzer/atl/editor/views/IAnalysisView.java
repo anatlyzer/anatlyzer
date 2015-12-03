@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
+import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.errors.Problem;
 
 public interface IAnalysisView {
@@ -15,6 +16,7 @@ public interface IAnalysisView {
 	Kind getSelectionKind();
 	IStructuredSelection getSelection();	
 	
+	public AtlEditorExt getAssociatedEditor();
 	public AnalysisResult getCurrentAnalysis();
 	public Result getUnconnectedElementAnalysis();
 	public Problem getProblem();

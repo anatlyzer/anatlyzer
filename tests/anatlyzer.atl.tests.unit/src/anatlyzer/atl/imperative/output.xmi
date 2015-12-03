@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wxyz:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wxyz="http://anatlyzer/test/wxyz" name="default">
+  <elements xsi:type="wxyz:X" name="anX1"/>
+  <elements xsi:type="wxyz:X" name="anX2"/>
+  <elements xsi:type="wxyz:Other" name="other"/>
+</wxyz:Model>

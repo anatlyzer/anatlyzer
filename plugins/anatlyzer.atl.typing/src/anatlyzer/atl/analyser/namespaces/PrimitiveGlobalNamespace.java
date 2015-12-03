@@ -8,7 +8,9 @@ import anatlyzer.atl.types.Type;
 public class PrimitiveGlobalNamespace implements IMetamodelNamespace {
 
 	public static final String	SEQUENCE_TYPE	= "Sequence";
+	public static final String	BAG_TYPE	= "Bag";	
 	public static final String	SET_TYPE	= "Set";
+	public static final String	ORDERED_SET_TYPE	= "OrderedSet";	
 	public static final String	STRING_TYPE	= "String";
 	public static final String	INTEGER_TYPE	= "Integer";
 	public static final String	FLOAT_TYPE	= "Float";
@@ -48,7 +50,12 @@ public class PrimitiveGlobalNamespace implements IMetamodelNamespace {
 			return new SequenceNamespace(typ, nested);
 		} else if ( name.equals(SET_TYPE) ) {
 			return new SetNamespace(typ, nested);
+		} else if ( name.equals(ORDERED_SET_TYPE) ) {
+			return new OrderedSetNamespace(typ, nested);
+		} else if ( name.equals(BAG_TYPE) ) {
+			return new BagNamespace(typ, nested);
 		}
+
 		return null;
 	}
 

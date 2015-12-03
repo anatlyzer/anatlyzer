@@ -23,6 +23,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
+import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -34,6 +35,7 @@ import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
@@ -245,6 +247,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 	public VisitingActions preLetExp(anatlyzer.atlext.OCL.LetExp self) { return actions("type" , "variable" , "in_"); } 
 
+	@Override
+	public void inMatchedRule(MatchedRule self) {
+		if ( self.getInPattern() != null && self.getInPattern().getFilter() != null ) {
+			Type t = attr.typeOf(self.getInPattern().getFilter());
+			if ( ! (t instanceof BooleanType )) {
+				errors().signalMatchedRuleWithNonBooleanFilter(t, self);
+			}
+		}
+	}
+	
 	
 	@Override
 	public void inBinding(Binding self) {
@@ -252,6 +264,27 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( attr.wasCasted(self.getValue()) ){
 			self.getValue().setInferredType(t); 
 			typ().markImplicitlyCasted(self.getValue(), t, attr.noCastedTypeOf(self.getValue()));
+		}
+	}
+	
+	@Override
+	public void inBindingStat(BindingStat self) {
+		Type left = attr.typeOf(self.getSource());
+		Type right = attr.typeOf(self.getValue());
+		
+		if ( !(left instanceof TypeError || right instanceof TypeError) ) {
+			// The semantics of binding statements is addition, so I need to 
+			// unwrap the nested element
+			if ( left instanceof CollectionType ) {
+				left = ((CollectionType) left).getContainedType();
+				if (right instanceof CollectionType ) {
+					right = ((CollectionType) right).getContainedType();					
+				}
+			}
+			
+			if ( ! typ().assignableTypes(left, right) ) {
+				errors().signalInvalidAssignmentInBindingStatement(attr.typeOf(self.getSource()), attr.typeOf(self.getValue()), self);
+			}
 		}
 	}
 	
@@ -934,6 +967,18 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		return typ().getCommonType(values);
 	}
 
+	
+	/* Same as SequenceExp */
+	@Override
+	public void inBagExp(BagExp self) {
+		if ( self.getElements().isEmpty() ) {
+			attr.linkExprType( typ().newBagType( typ().newEmptyCollectionType() ) );
+		} else {
+			Type commonType = computeCommonType(self.getElements());
+			attr.linkExprType( typ().newBagType( commonType ) );
+		}		
+	}
+
 	/* Same as SequenceExp */
 	@Override
 	public void inSetExp(SetExp self) {
@@ -950,10 +995,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inOrderedSetExp(OrderedSetExp self) {
 		if ( self.getElements().isEmpty() ) {
-			attr.linkExprType( typ().newSetType( typ().newEmptyCollectionType() ) );
+			attr.linkExprType( typ().newOrderedSetType( typ().newEmptyCollectionType() ) );
 		} else {
 			Type commonType = computeCommonType(self.getElements());
-			attr.linkExprType( typ().newSetType( commonType ) );
+			attr.linkExprType( typ().newOrderedSetType( commonType ) );
 		}		
 	}
 

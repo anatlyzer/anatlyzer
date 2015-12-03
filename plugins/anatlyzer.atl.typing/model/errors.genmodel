@@ -71,6 +71,7 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/NoBindingForCompulsoryFeature/subrule"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoBindingForCompulsoryFeature/kind"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidAssignmentImperativeBinding"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
@@ -221,6 +222,7 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/WrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorBodyWrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleWithoutOutputPattern"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleFilterNonBoolean"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ExpectedCollectionInForEach"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/NoClassFoundInMetamodel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoClassFoundInMetamodel/className"/>

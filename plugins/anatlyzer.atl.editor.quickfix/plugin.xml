@@ -2,6 +2,14 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="anatlyzer.atl.editor.views.additionalactions">
+      <viewaction
+            action="anatlyzer.atl.editor.quickfix.dialog.ProposeSpeculativeQuickfixes">
+      </viewaction>
+   </extension>
+   
+
+   <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfixset
             detector="anatlyzer.atl.editor.quickfix.kinds.NoRuleForBindingQuickfixSet">

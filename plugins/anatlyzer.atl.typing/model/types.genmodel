@@ -66,6 +66,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference types.ecore#//CollectionType/containedType"/>
     </genClasses>
     <genClasses ecoreClass="types.ecore#//SequenceType"/>
+    <genClasses ecoreClass="types.ecore#//BagType"/>
     <genClasses ecoreClass="types.ecore#//SetType"/>
+    <genClasses ecoreClass="types.ecore#//OrderedSetType"/>
   </genPackages>
 </genmodel:GenModel>

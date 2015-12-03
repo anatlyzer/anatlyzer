@@ -1,9 +1,10 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
+import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Type;
-import anatlyzer.atl.types.TypeError;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 
@@ -20,7 +21,7 @@ public class SequenceNamespace extends CollectionNamespace {
 	
 	@Override
 	public boolean hasOperation(String operationName, Type[] arguments) {
-		boolean b = super.hasOperation(operationName, arguments);
+		boolean b = super.hasOperation(operationName, arguments);		
 		if (!b) {
 			if ( operationName.equals("first") || operationName.equals("indexOf") ||
 				 operationName.equals("at") || operationName.equals("last")) {
@@ -32,18 +33,36 @@ public class SequenceNamespace extends CollectionNamespace {
 	
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
-		if ( operationName.equals("first") ) return nested;
-		if ( operationName.equals("last") ) return nested;
-		if ( operationName.equals("at") ) return nested; // TODO: Indicate somehow that at may return null
+		Type t = null;
+		if ( operationName.equals("first") ) t = nested;
+		if ( operationName.equals("last") ) t = nested;
+		if ( operationName.equals("at") ) t = nested; // TODO: Indicate somehow that at may return null
 		if ( operationName.equals("indexOf") ) {
 			// TODO: indexOf may return a "bottom" value???
-			return typ.newIntegerType();
+			t = typ.newIntegerType();
 		}
 
-		Type t = super.getOperationType(operationName, arguments, node);
+		if ( t == null )
+			t = super.getOperationType(operationName, arguments, node);
+	
+		// check the arguments... 
+		// Currently the check is dual, part hardcoded in the namespace classes and
+		// part in the library definition. There are inconsistencies that cause IllegalArgumentException
+		// when it is correctly checked in the namespace but the operation is not added yet to the library
+		AtlTypeDef typeDef = getLibTypeDef();
+		try {
+			checkArguments(operationName, 
+					typeDef.getOperationParameters(operationName), 
+					typeDef.getOperationParametersNames(operationName), 
+					arguments, node);
+		} catch ( IllegalArgumentException e ) { }
+			
 		return t;
 	}
 
+	public AtlTypeDef getLibTypeDef() {
+		return AtlTypes.seq();
+	}
 
 }
 

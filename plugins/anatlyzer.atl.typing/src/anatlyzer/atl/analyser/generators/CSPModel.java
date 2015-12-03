@@ -378,8 +378,5 @@ public class CSPModel {
 		varref.setReferredVariable(vd);
 		return varref;
 	}
-
-
-
 	
 }

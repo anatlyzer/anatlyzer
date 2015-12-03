@@ -263,11 +263,27 @@ public class TypesSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case TypesPackage.BAG_TYPE: {
+				BagType bagType = (BagType)theEObject;
+				T result = caseBagType(bagType);
+				if (result == null) result = caseCollectionType(bagType);
+				if (result == null) result = caseType(bagType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case TypesPackage.SET_TYPE: {
 				SetType setType = (SetType)theEObject;
 				T result = caseSetType(setType);
 				if (result == null) result = caseCollectionType(setType);
 				if (result == null) result = caseType(setType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case TypesPackage.ORDERED_SET_TYPE: {
+				OrderedSetType orderedSetType = (OrderedSetType)theEObject;
+				T result = caseOrderedSetType(orderedSetType);
+				if (result == null) result = caseCollectionType(orderedSetType);
+				if (result == null) result = caseType(orderedSetType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -666,6 +682,21 @@ public class TypesSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Bag Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Bag Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBagType(BagType object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Set Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -677,6 +708,21 @@ public class TypesSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSetType(SetType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ordered Set Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ordered Set Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOrderedSetType(OrderedSetType object) {
 		return null;
 	}
 

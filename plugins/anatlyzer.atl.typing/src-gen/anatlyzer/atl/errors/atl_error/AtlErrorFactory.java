@@ -193,6 +193,15 @@ public interface AtlErrorFactory extends EFactory {
 	NoBindingForCompulsoryFeature createNoBindingForCompulsoryFeature();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Assignment Imperative Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Assignment Imperative Binding</em>'.
+	 * @generated
+	 */
+	InvalidAssignmentImperativeBinding createInvalidAssignmentImperativeBinding();
+
+	/**
 	 * Returns a new object of class '<em>Binding Expected One Assigned Many</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -380,6 +389,15 @@ public interface AtlErrorFactory extends EFactory {
 	 * @generated
 	 */
 	MatchedRuleWithoutOutputPattern createMatchedRuleWithoutOutputPattern();
+
+	/**
+	 * Returns a new object of class '<em>Matched Rule Filter Non Boolean</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Matched Rule Filter Non Boolean</em>'.
+	 * @generated
+	 */
+	MatchedRuleFilterNonBoolean createMatchedRuleFilterNonBoolean();
 
 	/**
 	 * Returns a new object of class '<em>Expected Collection In For Each</em>'.

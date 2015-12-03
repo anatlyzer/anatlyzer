@@ -119,6 +119,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createNoBindingForCompulsoryFeatureAdapter();
 			}
 			@Override
+			public Adapter caseInvalidAssignmentImperativeBinding(InvalidAssignmentImperativeBinding object) {
+				return createInvalidAssignmentImperativeBindingAdapter();
+			}
+			@Override
 			public Adapter caseBindingPossiblyUnresolved(BindingPossiblyUnresolved object) {
 				return createBindingPossiblyUnresolvedAdapter();
 			}
@@ -301,6 +305,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMatchedRuleWithoutOutputPattern(MatchedRuleWithoutOutputPattern object) {
 				return createMatchedRuleWithoutOutputPatternAdapter();
+			}
+			@Override
+			public Adapter caseMatchedRuleFilterNonBoolean(MatchedRuleFilterNonBoolean object) {
+				return createMatchedRuleFilterNonBooleanAdapter();
 			}
 			@Override
 			public Adapter caseExpectedCollectionInForEach(ExpectedCollectionInForEach object) {
@@ -805,6 +813,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding <em>Invalid Assignment Imperative Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding
+	 * @generated
+	 */
+	public Adapter createInvalidAssignmentImperativeBindingAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany <em>Binding Expected One Assigned Many</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1123,6 +1145,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMatchedRuleWithoutOutputPatternAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean <em>Matched Rule Filter Non Boolean</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean
+	 * @generated
+	 */
+	public Adapter createMatchedRuleFilterNonBooleanAdapter() {
 		return null;
 	}
 

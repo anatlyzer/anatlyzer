@@ -2010,6 +2010,79 @@ public interface TypesPackage extends EPackage {
 	int SEQUENCE_TYPE_OPERATION_COUNT = COLLECTION_TYPE_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.types.impl.BagTypeImpl <em>Bag Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.types.impl.BagTypeImpl
+	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getBagType()
+	 * @generated
+	 */
+	int BAG_TYPE = 26;
+
+	/**
+	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__MULTIVALUED = COLLECTION_TYPE__MULTIVALUED;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__MAY_BE_UNDEFINED = COLLECTION_TYPE__MAY_BE_UNDEFINED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Contained Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__CONTAINED_TYPE = COLLECTION_TYPE__CONTAINED_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Bag Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE_FEATURE_COUNT = COLLECTION_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Bag Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE_OPERATION_COUNT = COLLECTION_TYPE_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.types.impl.SetTypeImpl <em>Set Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2017,7 +2090,7 @@ public interface TypesPackage extends EPackage {
 	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getSetType()
 	 * @generated
 	 */
-	int SET_TYPE = 26;
+	int SET_TYPE = 27;
 
 	/**
 	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
@@ -2081,6 +2154,80 @@ public interface TypesPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_TYPE_OPERATION_COUNT = COLLECTION_TYPE_OPERATION_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atl.types.impl.OrderedSetTypeImpl <em>Ordered Set Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.types.impl.OrderedSetTypeImpl
+	 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getOrderedSetType()
+	 * @generated
+	 */
+	int ORDERED_SET_TYPE = 28;
+
+	/**
+	 * The feature id for the '<em><b>Multivalued</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__MULTIVALUED = COLLECTION_TYPE__MULTIVALUED;
+
+	/**
+	 * The feature id for the '<em><b>Metamodel Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__METAMODEL_REF = COLLECTION_TYPE__METAMODEL_REF;
+
+	/**
+	 * The feature id for the '<em><b>May Be Undefined</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__MAY_BE_UNDEFINED = COLLECTION_TYPE__MAY_BE_UNDEFINED;
+
+	/**
+	 * The feature id for the '<em><b>No Casted Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__NO_CASTED_TYPE = COLLECTION_TYPE__NO_CASTED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Contained Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__CONTAINED_TYPE = COLLECTION_TYPE__CONTAINED_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>Ordered Set Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE_FEATURE_COUNT = COLLECTION_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Ordered Set Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE_OPERATION_COUNT = COLLECTION_TYPE_OPERATION_COUNT + 0;
 
 
 	/**
@@ -2575,6 +2722,16 @@ public interface TypesPackage extends EPackage {
 	EClass getSequenceType();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.types.BagType <em>Bag Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Bag Type</em>'.
+	 * @see anatlyzer.atl.types.BagType
+	 * @generated
+	 */
+	EClass getBagType();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.types.SetType <em>Set Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2583,6 +2740,16 @@ public interface TypesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSetType();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.types.OrderedSetType <em>Ordered Set Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ordered Set Type</em>'.
+	 * @see anatlyzer.atl.types.OrderedSetType
+	 * @generated
+	 */
+	EClass getOrderedSetType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -3036,6 +3203,16 @@ public interface TypesPackage extends EPackage {
 		EClass SEQUENCE_TYPE = eINSTANCE.getSequenceType();
 
 		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.BagTypeImpl <em>Bag Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.types.impl.BagTypeImpl
+		 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getBagType()
+		 * @generated
+		 */
+		EClass BAG_TYPE = eINSTANCE.getBagType();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.SetTypeImpl <em>Set Type</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3044,6 +3221,16 @@ public interface TypesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SET_TYPE = eINSTANCE.getSetType();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.types.impl.OrderedSetTypeImpl <em>Ordered Set Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.types.impl.OrderedSetTypeImpl
+		 * @see anatlyzer.atl.types.impl.TypesPackageImpl#getOrderedSetType()
+		 * @generated
+		 */
+		EClass ORDERED_SET_TYPE = eINSTANCE.getOrderedSetType();
 
 	}
 

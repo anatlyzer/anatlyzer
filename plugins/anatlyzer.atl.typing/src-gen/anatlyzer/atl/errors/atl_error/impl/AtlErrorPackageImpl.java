@@ -33,6 +33,7 @@ import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
+import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
@@ -40,6 +41,7 @@ import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean;
 import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
@@ -316,6 +318,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass invalidAssignmentImperativeBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass bindingExpectedOneAssignedManyEClass = null;
 
 	/**
@@ -471,6 +480,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass matchedRuleWithoutOutputPatternEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass matchedRuleFilterNonBooleanEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1287,6 +1303,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvalidAssignmentImperativeBinding() {
+		return invalidAssignmentImperativeBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBindingExpectedOneAssignedMany() {
 		return bindingExpectedOneAssignedManyEClass;
 	}
@@ -1701,6 +1726,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMatchedRuleFilterNonBoolean() {
+		return matchedRuleFilterNonBooleanEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExpectedCollectionInForEach() {
 		return expectedCollectionInForEachEClass;
 	}
@@ -1954,6 +1988,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__SUBRULE);
 		createEAttribute(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__KIND);
 
+		invalidAssignmentImperativeBindingEClass = createEClass(INVALID_ASSIGNMENT_IMPERATIVE_BINDING);
+
 		bindingPossiblyUnresolvedEClass = createEClass(BINDING_POSSIBLY_UNRESOLVED);
 		createEReference(bindingPossiblyUnresolvedEClass, BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES);
 		createEReference(bindingPossiblyUnresolvedEClass, BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT);
@@ -2100,6 +2136,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		matchedRuleWithoutOutputPatternEClass = createEClass(MATCHED_RULE_WITHOUT_OUTPUT_PATTERN);
 
+		matchedRuleFilterNonBooleanEClass = createEClass(MATCHED_RULE_FILTER_NON_BOOLEAN);
+
 		expectedCollectionInForEachEClass = createEClass(EXPECTED_COLLECTION_IN_FOR_EACH);
 
 		noClassFoundInMetamodelEClass = createEClass(NO_CLASS_FOUND_IN_METAMODEL);
@@ -2170,6 +2208,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		targetModelConformanceProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getTargetModelConformanceProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getBindingProblem());
+		invalidAssignmentImperativeBindingEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingResolution());
 		bindingWithoutRuleEClass.getESuperTypes().add(this.getBindingProblem());
@@ -2233,6 +2272,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		wrongTypeEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorBodyWrongTypeEClass.getESuperTypes().add(this.getWrongType());
 		matchedRuleWithoutOutputPatternEClass.getESuperTypes().add(this.getLocalProblem());
+		matchedRuleFilterNonBooleanEClass.getESuperTypes().add(this.getLocalProblem());
 		expectedCollectionInForEachEClass.getESuperTypes().add(this.getLocalProblem());
 		noClassFoundInMetamodelEClass.getESuperTypes().add(this.getLocalProblem());
 		invalidArgumentEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2277,6 +2317,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(noBindingForCompulsoryFeatureEClass, NoBindingForCompulsoryFeature.class, "NoBindingForCompulsoryFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNoBindingForCompulsoryFeature_Subrule(), ecorePackage.getEObject(), null, "subrule", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNoBindingForCompulsoryFeature_Kind(), this.getNoBindingForCompulsoryFeatureKind(), "kind", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(invalidAssignmentImperativeBindingEClass, InvalidAssignmentImperativeBinding.class, "InvalidAssignmentImperativeBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bindingPossiblyUnresolvedEClass, BindingPossiblyUnresolved.class, "BindingPossiblyUnresolved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingPossiblyUnresolved_ProblematicClasses(), ecorePackage.getEClass(), null, "problematicClasses", null, 1, -1, BindingPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2424,6 +2466,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(matchedRuleWithoutOutputPatternEClass, MatchedRuleWithoutOutputPattern.class, "MatchedRuleWithoutOutputPattern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(matchedRuleFilterNonBooleanEClass, MatchedRuleFilterNonBoolean.class, "MatchedRuleFilterNonBoolean", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(expectedCollectionInForEachEClass, ExpectedCollectionInForEach.class, "ExpectedCollectionInForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(noClassFoundInMetamodelEClass, NoClassFoundInMetamodel.class, "NoClassFoundInMetamodel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2479,6 +2523,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "No binding for compulsory target feature",
 			 "text", "Applicable to references and string attributes without default value."
+		   });	
+		addAnnotation
+		  (invalidAssignmentImperativeBindingEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid assignment in imperative binding",
+			 "text", "Left and right types of a binding statement are not compatible"
 		   });	
 		addAnnotation
 		  (bindingPossiblyUnresolvedEClass, 
@@ -2751,6 +2802,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "text", "This should be checked by the parser"
 		   });	
 		addAnnotation
+		  (matchedRuleFilterNonBooleanEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Matched rule with non-boolean filter",
+			 "text", "The filter of a matched rule must be boolean"
+		   });	
+		addAnnotation
 		  (expectedCollectionInForEachEClass, 
 		   source, 
 		   new String[] {
@@ -2838,6 +2896,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "tgt-typing",
 			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidAssignmentImperativeBindingEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "typing",
 			 "source", "none"
 		   });	
 		addAnnotation
@@ -3298,6 +3368,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "source", "none"
 		   });	
 		addAnnotation
+		  (matchedRuleFilterNonBooleanEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
 		  (expectedCollectionInForEachEClass, 
 		   source, 
 		   new String[] {
@@ -3385,6 +3467,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (bindingInplaceInvalidEClass, 
 		   source, 
 		   new String[] {
+			 "ignoredoc", "true",
 			 "prec", "static",
 			 "path", "yes",
 			 "severity", "error-target",

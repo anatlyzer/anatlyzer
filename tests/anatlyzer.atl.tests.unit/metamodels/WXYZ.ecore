@@ -9,6 +9,8 @@
         eType="#//W" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="others" upperBound="-1"
         eType="#//Other" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalX" eType="#//X"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="W" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfW" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

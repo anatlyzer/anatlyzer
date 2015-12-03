@@ -86,6 +86,22 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//atl_error/NoBindingForCompulsoryFeatureKind"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidAssignmentImperativeBinding"
+        eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid assignment in imperative binding"/>
+        <details key="text" value="Left and right types of a binding statement are not compatible"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="tgt-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="NoBindingForCompulsoryFeatureKind">
       <eLiterals name="IN_NORMAL_RULE"/>
       <eLiterals name="MISSING_SUBRULE" value="1"/>
@@ -794,6 +810,21 @@
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MatchedRuleFilterNonBoolean" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Matched rule with non-boolean filter"/>
+        <details key="text" value="The filter of a matched rule must be boolean"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExpectedCollectionInForEach" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
         <details key="name" value="Foreach statement expected collection"/>
@@ -922,6 +953,7 @@
         <details key="example" value=""/>
       </eAnnotations>
       <eAnnotations source="info">
+        <details key="ignoredoc" value="true"/>
         <details key="prec" value="static"/>
         <details key="path" value="yes"/>
         <details key="severity" value="error-target"/>

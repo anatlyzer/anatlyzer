@@ -59,6 +59,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 		switch (eClass.getClassifierID()) {
 			case AtlErrorPackage.MODEL_ELEMENT: return createModelElement();
 			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE: return createNoBindingForCompulsoryFeature();
+			case AtlErrorPackage.INVALID_ASSIGNMENT_IMPERATIVE_BINDING: return createInvalidAssignmentImperativeBinding();
 			case AtlErrorPackage.BINDING_POSSIBLY_UNRESOLVED: return createBindingPossiblyUnresolved();
 			case AtlErrorPackage.BINDING_WITHOUT_RULE: return createBindingWithoutRule();
 			case AtlErrorPackage.BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE: return createBindingWithResolvedByIncompatibleRule();
@@ -99,6 +100,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.NO_ENUM_LITERAL: return createNoEnumLiteral();
 			case AtlErrorPackage.ITERATOR_BODY_WRONG_TYPE: return createIteratorBodyWrongType();
 			case AtlErrorPackage.MATCHED_RULE_WITHOUT_OUTPUT_PATTERN: return createMatchedRuleWithoutOutputPattern();
+			case AtlErrorPackage.MATCHED_RULE_FILTER_NON_BOOLEAN: return createMatchedRuleFilterNonBoolean();
 			case AtlErrorPackage.EXPECTED_COLLECTION_IN_FOR_EACH: return createExpectedCollectionInForEach();
 			case AtlErrorPackage.NO_CLASS_FOUND_IN_METAMODEL: return createNoClassFoundInMetamodel();
 			case AtlErrorPackage.INVALID_ARGUMENT: return createInvalidArgument();
@@ -338,6 +340,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public InvalidAssignmentImperativeBinding createInvalidAssignmentImperativeBinding() {
+		InvalidAssignmentImperativeBindingImpl invalidAssignmentImperativeBinding = new InvalidAssignmentImperativeBindingImpl();
+		return invalidAssignmentImperativeBinding;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public BindingExpectedOneAssignedMany createBindingExpectedOneAssignedMany() {
 		BindingExpectedOneAssignedManyImpl bindingExpectedOneAssignedMany = new BindingExpectedOneAssignedManyImpl();
 		return bindingExpectedOneAssignedMany;
@@ -541,6 +553,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public MatchedRuleWithoutOutputPattern createMatchedRuleWithoutOutputPattern() {
 		MatchedRuleWithoutOutputPatternImpl matchedRuleWithoutOutputPattern = new MatchedRuleWithoutOutputPatternImpl();
 		return matchedRuleWithoutOutputPattern;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MatchedRuleFilterNonBoolean createMatchedRuleFilterNonBoolean() {
+		MatchedRuleFilterNonBooleanImpl matchedRuleFilterNonBoolean = new MatchedRuleFilterNonBooleanImpl();
+		return matchedRuleFilterNonBoolean;
 	}
 
 	/**

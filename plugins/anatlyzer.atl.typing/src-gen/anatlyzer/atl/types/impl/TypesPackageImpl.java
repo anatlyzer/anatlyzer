@@ -2,6 +2,7 @@
  */
 package anatlyzer.atl.types.impl;
 
+import anatlyzer.atl.types.BagType;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollection;
@@ -13,6 +14,7 @@ import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OclUndefinedType;
+import anatlyzer.atl.types.OrderedSetType;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.RefType;
 import anatlyzer.atl.types.ReflectiveClass;
@@ -231,7 +233,21 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass bagTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass setTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass orderedSetTypeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -722,8 +738,26 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBagType() {
+		return bagTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSetType() {
 		return setTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOrderedSetType() {
+		return orderedSetTypeEClass;
 	}
 
 	/**
@@ -827,7 +861,11 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 
 		sequenceTypeEClass = createEClass(SEQUENCE_TYPE);
 
+		bagTypeEClass = createEClass(BAG_TYPE);
+
 		setTypeEClass = createEClass(SET_TYPE);
+
+		orderedSetTypeEClass = createEClass(ORDERED_SET_TYPE);
 	}
 
 	/**
@@ -882,7 +920,9 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 		reflectiveClassEClass.getESuperTypes().add(this.getReflectiveType());
 		collectionTypeEClass.getESuperTypes().add(this.getType());
 		sequenceTypeEClass.getESuperTypes().add(this.getCollectionType());
+		bagTypeEClass.getESuperTypes().add(this.getCollectionType());
 		setTypeEClass.getESuperTypes().add(this.getCollectionType());
+		orderedSetTypeEClass.getESuperTypes().add(this.getCollectionType());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(typeEClass, Type.class, "Type", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -958,7 +998,11 @@ public class TypesPackageImpl extends EPackageImpl implements TypesPackage {
 
 		initEClass(sequenceTypeEClass, SequenceType.class, "SequenceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(bagTypeEClass, BagType.class, "BagType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
 		initEClass(setTypeEClass, SetType.class, "SetType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(orderedSetTypeEClass, OrderedSetType.class, "OrderedSetType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -2,10 +2,12 @@ package anatlyzer.atl.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -45,6 +47,7 @@ import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
+import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
@@ -52,6 +55,8 @@ import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean;
+import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
@@ -83,6 +88,7 @@ import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -108,13 +114,23 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  */
 public class ErrorModel {
 	
-	protected Resource r;
+	protected Resource resource;
 	protected AnalysisResult	result;
 	protected List<Problem> discardedProblems = new ArrayList<Problem>();
 		
 	public ErrorModel(Resource resource) {
-		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
-		r = resource;
+		this.resource = resource;
+		for (EObject eObject : resource.getContents()) {
+			if ( eObject instanceof AnalysisResult ) {
+				result = (AnalysisResult) eObject;
+				break;
+			}
+		}
+		
+		if ( result == null ) {
+			result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
+			this.resource.getContents().add(result);
+		}
 	}
 
 	public AnalysisResult getAnalysis() {
@@ -645,6 +661,14 @@ public class ErrorModel {
 		
 		signalWarning(error, "Possibly unresolved binding (" + rightType.getName() + "): "  + s, b);
 	}
+	
+	public void signalInvalidAssignmentInBindingStatement(Type left, Type right, BindingStat b) {
+		InvalidAssignmentImperativeBinding error = AtlErrorFactory.eINSTANCE.createInvalidAssignmentImperativeBinding();
+		initProblem(error, b);
+		
+		signalError(error, "Invalid assignment in binding statement. Left: " + 
+				TypeUtils.typeToString(left) + ". Right: " + TypeUtils.typeToString(right), b);		
+	}
 	// End-of binding problems
 
 
@@ -671,12 +695,19 @@ public class ErrorModel {
 	}
 
 	public void signalMatchedRuleWithoutOutputPattern(MatchedRule rule) {
-		AmbiguousTargetModelReference error = AtlErrorFactory.eINSTANCE.createAmbiguousTargetModelReference();
+		MatchedRuleWithoutOutputPattern error = AtlErrorFactory.eINSTANCE.createMatchedRuleWithoutOutputPattern();
 		initProblem(error, rule);
 		
 		signalWarning(error, "Matched rule without output pattern: " + rule.getName(), rule);		
 	}
 	
+
+	public void signalMatchedRuleWithNonBooleanFilter(Type t, MatchedRule rule) {
+		MatchedRuleFilterNonBoolean error = AtlErrorFactory.eINSTANCE.createMatchedRuleFilterNonBoolean();
+		initProblem(error, rule);
+		
+		signalWarning(error, "Matched rule " + rule.getName() + " with non-boolean filter: " + TypeUtils.typeToString(t), rule);				
+	}
 	
 	public Type signalNoEnumLiteral(String name, LocatedElement node) {
 		NoEnumLiteral error = AtlErrorFactory.eINSTANCE.createNoEnumLiteral();
@@ -866,7 +897,17 @@ public class ErrorModel {
 
 	public void clear() {
 		EcoreUtil.delete(result);
+		
+		List<EObject> toBeRemoved = resource.getContents().stream().filter(e -> e instanceof Problem).collect(Collectors.toList());
+		for (EObject eObject : toBeRemoved) {
+			EcoreUtil.delete(eObject, true);
+		}
+		
+		// This does not work because the resource is shared
+		// while ( ! r.getContents().isEmpty() ) 
+		// 	EcoreUtil.delete(r.getContents().get(0), true);		
 		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
+		resource.getContents().add(result);
 	}
 
 	public List<Problem> getDiscardedProblems() {
@@ -881,6 +922,5 @@ public class ErrorModel {
 		// element.getProblems().add(p);
 		
 	}
-
 	
 }

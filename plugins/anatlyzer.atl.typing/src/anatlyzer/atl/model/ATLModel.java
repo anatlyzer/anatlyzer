@@ -8,12 +8,15 @@ import java.util.List;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atl.types.TypesPackage;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -21,14 +24,14 @@ import anatlyzer.atlext.ATL.Unit;
 
 public class ATLModel {
 	
-	private Resource resource;
-	private TypingModel typing;
-	private ErrorModel errors;
+	protected Resource resource;
+	protected TypingModel typing;
+	protected ErrorModel errors;
 
-	private String mainFileLocation;
-	private List<String> fileLocations = new ArrayList<String>();
-	private boolean hasSyntaxErrors;
-	private ATLModelTrace copierTrace; 	
+	protected String mainFileLocation;
+	protected List<String> fileLocations = new ArrayList<String>();
+	protected boolean hasSyntaxErrors;
+	protected ATLModelTrace copierTrace; 	
 	
 	/**
 	 * Constructs a new extended ATL model given a regular
@@ -185,10 +188,80 @@ public class ATLModel {
 		return atlModel;
 	}
 
+	public CopiedATLModel copyAll() {
+		return new MyATLModelCopier().copy(this);
+	}
+	
 	public void clear() {
 		errors.clear();
+		typing.clear();
 		// typing.impl.getContents().clear();
 	}
 
 	
+	public static class MyATLModelCopier extends ATLCopier {
+
+		private Resource copyResource;
+
+		public MyATLModelCopier() {
+			// There is no root element, we are going to copy everything
+			super(null);
+			useOriginalReferences = false;
+		}
+		
+		public CopiedATLModel copy(ATLModel src) {
+			CopiedATLModel atlModel = new CopiedATLModel(src, this);
+			this.copyResource = atlModel.getResource();
+			
+			// Remove from the original resource the elements that has been
+			// created in the initialisation of CopiedATLModel (via ATLModel)
+			// This is needed because I want an exact copy of the original resource,
+			// not being polluted with elements that will be duplicated that will be
+			// created by the copy.
+			while ( copyResource.getContents().size() > 0 ) 
+				EcoreUtil.delete(copyResource.getContents().get(0));
+			
+			Collection<EObject> c = copyAll(src.resource.getContents());
+			copyReferences();
+			atlModel.resource.getContents().addAll(c);
+			atlModel.fileLocations.addAll(src.fileLocations);
+			atlModel.errors = new ErrorModel(atlModel.resource);
+			atlModel.typing = new TypingModel(atlModel.resource);
+			
+			this.copyResource = null;
+			
+			return atlModel;
+		}
+		
+		@Override
+		protected void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
+			if ( eReference.getEType() == TypesPackage.Literals.TYPE ) {
+				copyContainment(eReference, eObject, copyEObject);
+			}		
+		}
+		
+		@Override
+		protected void copyPerformed(EObject src, EObject copy) {
+			this.copyResource.getContents().add(copy);
+		}
+	}
+	
+	
+	public static class CopiedATLModel extends ATLModel {
+		protected ATLModel original;
+		protected ATLCopier trace;
+
+		public CopiedATLModel(ATLModel original, ATLCopier trace) {
+			this.original = original;
+			this.trace    = trace;
+		}
+		
+		public ATLModel getOriginal() {
+			return original;
+		}
+		
+		public EObject getTarget(EObject src) {
+			return trace.get(src);
+		}
+	}
 }

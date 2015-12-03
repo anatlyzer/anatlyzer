@@ -84,6 +84,11 @@ package atl_error {
 		attr NoBindingForCompulsoryFeatureKind kind;
 	}
 	
+	@description(name="Invalid assignment in imperative binding", text="Left and right types of a binding statement are not compatible")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="tgt-typing", phase="typing", source="none")	
+	class InvalidAssignmentImperativeBinding extends BindingProblem {	   
+	}
+	
 	enum NoBindingForCompulsoryFeatureKind {
 		IN_NORMAL_RULE = 0;
 		MISSING_SUBRULE	= 1;			
@@ -379,6 +384,11 @@ package atl_error {
 		// Possibly using the matched rule as entrypint rule (see Measure2XHTML)
 	}
 
+	@description(name="Matched rule with non-boolean filter", text="The filter of a matched rule must be boolean")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
+	class MatchedRuleFilterNonBoolean extends LocalProblem {
+	}
+
 	@description(name="Foreach statement expected collection", text="")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class ExpectedCollectionInForEach extends LocalProblem {
@@ -426,11 +436,10 @@ package atl_error {
 	}
 		
 	@description(name="Invalid in-place binding assignment", text="", example="")	 
-	@info(prec="static", path="yes", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="")	
+	@info(ignoredoc="true", prec="static", path="yes", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="")	
 	class BindingInplaceInvalid extends BindingProblem {
 		ref types.Type[1] rightType;
 	}	
-	
 	
 	@description(name="Abstract class instantiation", text="", example="")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="")	

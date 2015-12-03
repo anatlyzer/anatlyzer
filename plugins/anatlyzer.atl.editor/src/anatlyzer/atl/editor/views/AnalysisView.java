@@ -23,6 +23,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -72,6 +73,7 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.MockMarker;
+import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
@@ -105,6 +107,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private Action runAnalyserAction;
 	private Action runWitnessAction;
 	private Action runQuickfixDialog;
+	// private Action runSpeculativeQuickfixDialog;
 	
 	private Action transformationInformationAction;
 	private Action sortByDependencyAction;
@@ -831,6 +834,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(runWitnessAction);
+		// manager.add(runSpeculativeQuickfixDialog);
 		manager.add(runQuickfixDialog);		
 		addExtensionActions(manager);
 		drillDownAdapter.addNavigationActions(manager);
@@ -916,42 +920,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			getImageDescriptor(ISharedImages.IMG_ETOOL_CLEAR));
 		
 
-		// quickfix
-		
-		runQuickfixDialog = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				if ( currentResource != null && obj instanceof LocalProblemNode ) {
-					LocalProblemNode lpn = (LocalProblemNode) obj;
-					showQuickfixDialog(lpn.p);
-				} else if ( currentResource != null && obj instanceof RuleConflictAnalysisNode ) {
-					RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
-					if ( n.ruleConflictProblem != null ) {
-						showQuickfixDialog(n.ruleConflictProblem);
-					}
-					
-				}
+		runQuickfixDialog = new QuickfixAction(this) {
+			@Override
+			protected Dialog createDialog(List<AtlProblemQuickfix> quickfixesList) {
+				return new QuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
 			}
 
-			protected void showQuickfixDialog(Problem p) {
-				ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, currentAnalysis) );
-				List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
-				for (ICompletionProposal prop : quickfixes) {
-					quickfixesList.add((AtlProblemQuickfix) prop);
-				}
-								
-				QuickfixDialog dialog = new QuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
-				if ( dialog.open() == Window.OK ) {
-					AtlProblemQuickfix qf = dialog.getQuickfix();
-
-					IWorkbenchPage page = getSite().getPage();
-					IEditorPart part = page.getActiveEditor();
-					if ( part instanceof AtlEditorExt ) {
-						IDocument doc = ((AtlEditorExt) part).getDocumentProvider().getDocument(part.getEditorInput());
-						qf.apply(doc);							
-					}
-				}
+			@Override
+			protected AtlProblemQuickfix getSelected(Dialog dialog) {
+				return ((QuickfixDialog) dialog).getQuickfix();
 			}
 		};
 		
@@ -959,7 +936,22 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		runQuickfixDialog.setToolTipText("Find quickfixes");
 		runQuickfixDialog.setImageDescriptor(Images.quickfix_16x16);
 
+		/*
+		runSpeculativeQuickfixDialog = new QuickfixAction() {
+			protected Dialog createDialog(List<AtlProblemQuickfix> quickfixesList) {
+				return new SpeculativeQuickfixDialog(AnalysisView.this.getSite().getShell(), quickfixesList);
+			}
+
+			@Override
+			protected AtlProblemQuickfix getSelected(Dialog dialog) {
+				return ((QuickfixDialog) dialog).getQuickfix();
+			}
+		};
 		
+		runSpeculativeQuickfixDialog.setText("Quickfix (speculative)");
+		runSpeculativeQuickfixDialog.setToolTipText("Find quickfixes (speculative)");
+		runSpeculativeQuickfixDialog.setImageDescriptor(Images.quickfix_16x16);
+		*/
 		
 		// transformationAction
 		
@@ -1161,7 +1153,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public Problem getProblem() {
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-		return ((LocalProblemNode) selection.getFirstElement()).p;
+		Object obj = selection.getFirstElement();
+		if ( obj instanceof LocalProblemNode ) {
+			LocalProblemNode lpn = (LocalProblemNode) obj;
+			return lpn.p;
+		} else if ( obj instanceof RuleConflictAnalysisNode ) {
+			RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
+			return n.ruleConflictProblem;
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 	
 	public Result getUnconnectedElementAnalysis() {
@@ -1176,6 +1177,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public AnalysisResult getCurrentAnalysis() {
 		return currentAnalysis;
+	}
+	
+	@Override
+	public AtlEditorExt getAssociatedEditor() {
+		IWorkbenchPage page = getSite().getPage();
+		IEditorPart part = page.getActiveEditor();
+		if ( part instanceof AtlEditorExt ) {
+			return ((AtlEditorExt) part);
+		}
+		return null;
 	}
 	
 }

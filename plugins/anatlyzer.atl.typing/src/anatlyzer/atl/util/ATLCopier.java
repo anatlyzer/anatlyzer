@@ -113,6 +113,7 @@ public class ATLCopier extends EcoreUtil.Copier {
         EObject copyEObject = createCopy(eObject);
         if (copyEObject != null)
         {
+          copyPerformed(eObject, copyEObject);
           put(eObject, copyEObject);
           EClass eClass = eObject.eClass();
           for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
@@ -146,7 +147,11 @@ public class ATLCopier extends EcoreUtil.Copier {
       }
     }
 
-    @Override
+    protected void copyPerformed(EObject src, EObject copy) {
+		// Call back method to be implemented by subclasses
+	}
+
+	@Override
     protected EObject createCopy(EObject eObject) {
         if ( ignoredElements.contains(eObject) ) {
       	  return null;
@@ -154,15 +159,14 @@ public class ATLCopier extends EcoreUtil.Copier {
     	return super.createCopy(eObject);
     }
     
-	private void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
+	protected void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
 		if ( ! copyTypes  ) {
 			return;
 		}
 				
 		if ( eReference.getEType() == TypesPackage.Literals.TYPE ) {
 			copyContainment(eReference, eObject, copyEObject);
-		}
-		
+		}		
 	}
 
 

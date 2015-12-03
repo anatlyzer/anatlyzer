@@ -91,6 +91,10 @@ public class BaseTest {
 		return analyser.getATLModel();
 	}
 	
+	public AnalysisResult getAnalysisResult() {
+		return analysisData;
+	}
+	
 	protected List<LocalProblem> problems() {
 		return analyser.getErrors().getLocalProblems();
 	}

@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**
@@ -30,19 +31,29 @@ public class AccessToUndefinedValue_ChangeMetamodel extends AbstractMetamodelCha
 	}
 
 	@Override public QuickfixApplication getQuickfixApplication() {
-		PropertyCallExp pce = (PropertyCallExp) this.getProblematicElement();
-		PropertyCallExp src = ((PropertyCallExp) pce.getSource());
+		PropertyCallExp optionalFeatureAccess = getOptionalFeatureAccess();
 		
-		Metaclass m = (Metaclass) src.getInferredType();
-		EStructuralFeature feature = (EStructuralFeature) src.getUsedFeature();
-		
+		EStructuralFeature feature = (EStructuralFeature) optionalFeatureAccess.getUsedFeature();
 		
 		QuickfixApplication qfa = new QuickfixApplication();
-		qfa.mmModify(feature, m.getModel().getName(), (f) -> {
+		qfa.mmModify(feature, getChangedMetamodel(), (f) -> {
 			f.setLowerBound(1);
 		});
 				
 		return qfa;
 	}
 
+	// The problematic element includes the call, so it is <src>.optionalFeature.call
+	protected PropertyCallExp getOptionalFeatureAccess() {
+		PropertyCallExp fullCall = (PropertyCallExp) this.getProblematicElement();
+		PropertyCallExp optionalFeatureAccess = ((PropertyCallExp) fullCall.getSource());
+		return optionalFeatureAccess;
+	}
+
+	@Override
+	public String getChangedMetamodel() {
+		PropertyCallExp optionalFeatureAccess = getOptionalFeatureAccess();
+		return ((Metaclass) optionalFeatureAccess.getSource().getInferredType()).getModel().getName();
+	}
+	
 }

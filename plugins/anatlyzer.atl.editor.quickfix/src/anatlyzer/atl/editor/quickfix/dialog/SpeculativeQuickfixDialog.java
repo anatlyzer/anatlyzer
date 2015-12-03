@@ -30,7 +30,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
 
-public class SpeculativeQuickfixDialog extends Dialog {
+public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeListener {
 	private Table table;
 	private List<AtlProblemQuickfix> quickfixes;
 	private TableViewer tableViewer;
@@ -41,6 +41,7 @@ public class SpeculativeQuickfixDialog extends Dialog {
 	private AnalysisResult analysisResult;
 	private Problem problem;
 	private SpeculativeMainThread speculativeThread;
+	private TableViewer tblViewerProblems;
 
 	/**
 	 * Create the dialog.
@@ -67,6 +68,7 @@ public class SpeculativeQuickfixDialog extends Dialog {
 			throw new IllegalStateException();
 		}
 		speculativeThread = new SpeculativeMainThread(analysisResult, problem, quickfixes);
+		speculativeThread.setListener(this);
 		speculativeThread.start();
 	}
 
@@ -96,8 +98,8 @@ public class SpeculativeQuickfixDialog extends Dialog {
 		gd_composite.minimumWidth = 200;
 		composite.setLayoutData(gd_composite);
 		
-		TableViewer tableViewer_1 = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
-		tblProblems = tableViewer_1.getTable();
+		tblViewerProblems = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		tblProblems = tblViewerProblems.getTable();
 		
 		TextViewer textViewer = new TextViewer(container, SWT.BORDER);
 		StyledText styledText = textViewer.getTextWidget();
@@ -108,6 +110,9 @@ public class SpeculativeQuickfixDialog extends Dialog {
 		tableViewer.setLabelProvider(new QuickfixLabelProvider());
 		tableViewer.setInput(quickfixes);
 		tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
+		
+		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
 		
 		
 		initThreads();
@@ -169,10 +174,16 @@ public class SpeculativeQuickfixDialog extends Dialog {
 			if ( speculativeThread.isFinished(current) ) {
 				lblProblems.setText("Analysing new problems...");
 			} else {
-				AnalysisResult r = speculativeThread.getAnalysis(current);
-				lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");		
+				updateAnalysis(current);
 			}
 		}		
+	}
+	
+	private void updateAnalysis(AtlProblemQuickfix current) {
+		AnalysisResult r = speculativeThread.getAnalysis(current);
+		lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");	
+		tblViewerProblems.setInput(r);
+		tblViewerProblems.refresh();
 	}
 	
 	
@@ -207,5 +218,23 @@ public class SpeculativeQuickfixDialog extends Dialog {
 	
 	public AtlProblemQuickfix getQuickfix() {
 		return selectedElement;
+	}
+
+	
+	//
+	// Speculative listener callbacks
+	//
+	
+	@Override
+	public void finished(Problem p, AtlProblemQuickfix qfx, AnalysisResult r) {
+		getShell().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				AtlProblemQuickfix current = (AtlProblemQuickfix) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
+				if ( current == qfx ) {
+				updateAnalysis(current);
+				}
+			}
+		});
 	}
 }

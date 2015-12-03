@@ -96,6 +96,7 @@ import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -504,7 +505,7 @@ public class ErrorModel {
 	}
 
 
-	public void signalSelectFirstAny(IteratorExp node) {
+	public void signalSelectFirstAny(CollectionOperationCallExp node) {
 		ChangeSelectFirstForAny error = AtlErrorFactory.eINSTANCE.createChangeSelectFirstForAny();
 		initProblem(error, node);
 		

@@ -5,17 +5,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.unit.UnitTest;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OclModel;
@@ -58,7 +63,7 @@ public class TestATLModel extends UnitTest {
 				}
 			});
 			
-			tocheck.forEach(tgt2 -> {
+			tocheck.stream().filter(e -> !(e instanceof EModelElement)).forEach(tgt2 -> {
 				// It is not in the original resource...
 				TreeIterator<EObject> it = original.getResource().getAllContents();
 				while ( it.hasNext() ) {
@@ -102,6 +107,48 @@ public class TestATLModel extends UnitTest {
 		assertTrue(pSrc != pTgt);
 		assertTrue(pSrc.getElement() != pTgt.getElement());
 		assertTrue(pTgt.getElement().eResource() == freshCopy.getResource());
-	}
 	
+	
+		// Check metaclass references
+		checkMetaclassReferences(original, freshCopy);
+	}
+
+
+	protected void checkMetaclassReferences(ATLModel original,
+			CopiedATLModel freshCopy) {
+
+		original.getResource().getContents().forEach(src -> {
+			EObject tgt = freshCopy.getTarget(src);
+			
+			if ( tgt instanceof Metaclass) { 
+				assertNotNull(((Metaclass) src).getKlass());
+				assertEquals(((Metaclass) src).getKlass(), ((Metaclass) tgt).getKlass());
+			}
+		});
+		
+		// Check that no spurious metaclass references has been created
+		freshCopy.getResource().getContents().forEach(tgt -> {			
+			if ( tgt instanceof Metaclass) { 
+				assertNotNull(((Metaclass) tgt).getKlass());
+			}
+		});
+	}
+
+	@Test
+	public void testIncrementalChangingMetamodel() throws Exception {
+		String T = trafo("simple_trafo");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());
+		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
+
+		AnalysisResult result = getAnalysisResult();		
+		MetamodelNamespace nsSrc = result.getNamespace().getNamespace("ABCD");
+		
+		
+		IncrementalAnalyser inc = new IncrementalAnalyser(result, Collections.singletonList("ABCD"));
+		MetamodelNamespace nsTgt = inc.getNamespaces().getNamespace("ABCD");
+		
+		assertTrue(nsSrc != nsTgt);	
+	}
 }

@@ -16,6 +16,7 @@ public class SpeculativeMainThread extends Thread {
 	private AnalysisResult analysis;
 	private Map<AtlProblemQuickfix, SpeculativeThread> threads;
 	private Problem problem;
+	private SpeculativeListener listener;
 
 	public SpeculativeMainThread(AnalysisResult r, Problem p, List<AtlProblemQuickfix> quickfixes) {
 		this.quickfixes = quickfixes;
@@ -43,6 +44,9 @@ public class SpeculativeMainThread extends Thread {
 		while ( ! allThreads.isEmpty() ) {
 			SpeculativeThread t = allThreads.get(0);
 			if ( ! t.isAlive() ) {
+				if ( listener != null ) {
+					listener.finished(problem, t.qfx, t.getNewAnalysis());
+				}
 				allThreads.remove(0);
 			}
 		}
@@ -66,6 +70,10 @@ public class SpeculativeMainThread extends Thread {
 	public AnalysisResult getAnalysis(AtlProblemQuickfix qfx) {
 		SpeculativeThread t = threads.get(qfx);
 		return t.getNewAnalysis();
+	}
+
+	public void setListener(SpeculativeListener listener) {
+		this.listener = listener;
 	}
 	
 }

@@ -1,7 +1,8 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
+import java.util.Collections;
+
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
@@ -12,10 +13,10 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 
 public class SpeculativeThread extends Thread {
-	private AtlProblemQuickfix qfx;
-	private AnalysisResult baseAnalysis;
-	private AnalysisResult newAnalysis;
-	private Problem problem;
+	protected AtlProblemQuickfix qfx;
+	protected AnalysisResult baseAnalysis;
+	protected AnalysisResult newAnalysis;
+	protected Problem problem;
 
 	public SpeculativeThread(AnalysisResult baseAnalysis, Problem p, AtlProblemQuickfix qfx) {
 		this.qfx = qfx;
@@ -25,11 +26,17 @@ public class SpeculativeThread extends Thread {
 	
 	@Override
 	public void run() {
-		IncrementalAnalyser inc = new IncrementalAnalyser(baseAnalysis);
+		IncrementalAnalyser inc = null;
+		if ( qfx.isMetamodelChanging() ) {
+			inc = new IncrementalAnalyser(baseAnalysis, Collections.singletonList(qfx.getChangedMetamodel()));			
+		} else {
+			inc = new IncrementalAnalyser(baseAnalysis);
+		}
+		
 		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
 		if ( tgtProblem == null )
 			throw new IllegalStateException();
-		
+				
 		qfx.setErrorMarker(new MockMarker(tgtProblem, new AnalysisResult(inc)));
 
 		QuickfixApplication qfa;

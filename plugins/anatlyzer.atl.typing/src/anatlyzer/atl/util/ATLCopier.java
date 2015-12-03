@@ -67,8 +67,7 @@ public class ATLCopier extends EcoreUtil.Copier {
 	    return result;
 	}
 	
-	protected void copyReference(EReference eReference, EObject eObject,
-			EObject copyEObject) {
+	protected void copyReference(EReference eReference, EObject eObject, EObject copyEObject) {
 		super.copyReference(eReference, eObject, copyEObject);
 
 		if (eObject.eIsSet(eReference)) {

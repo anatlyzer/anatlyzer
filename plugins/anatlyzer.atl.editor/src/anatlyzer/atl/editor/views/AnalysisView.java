@@ -620,8 +620,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		public void dispose() {
 		}
 		
-		
-		
 		public Object[] getElements(Object parent) {
 			if (parent.equals(getViewSite())) {
 				if ( invisibleRoot == null ) 

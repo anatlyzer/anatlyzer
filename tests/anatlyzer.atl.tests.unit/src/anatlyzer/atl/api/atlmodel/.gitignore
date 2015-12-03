@@ -5,3 +5,5 @@
 /binding_resolution_with_ocltypeof.asm
 /resolvetemp_basic.asm
 /simple_trafo.asm
+/simple.asm
+/simple_class2table.asm

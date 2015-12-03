@@ -27,6 +27,7 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
@@ -343,6 +344,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		if ( f instanceof EAttribute && !(rightType instanceof PrimitiveType )) {
 			if (rightType instanceof CollectionType && ((CollectionType) rightType).getContainedType() instanceof PrimitiveType ) {
 				// That's fine
+			} else if (rightType instanceof CollectionType && ((CollectionType) rightType).getContainedType() instanceof EmptyCollectionType ) {
+				// That's fine				
 			} else if ( rightType instanceof EnumType && f.getEType() instanceof EEnum ) {
 				// That's fine				
 			} else {

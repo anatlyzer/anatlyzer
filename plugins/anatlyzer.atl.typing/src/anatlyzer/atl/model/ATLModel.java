@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.Library;
@@ -206,13 +207,14 @@ public class ATLModel {
 		public MyATLModelCopier() {
 			// There is no root element, we are going to copy everything
 			super(null);
-			useOriginalReferences = false;
+			// This is needed to copy the references to the EClass
+			useOriginalReferences = true;
 		}
 		
 		public CopiedATLModel copy(ATLModel src) {
 			CopiedATLModel atlModel = new CopiedATLModel(src, this);
 			this.copyResource = atlModel.getResource();
-			
+
 			// Remove from the original resource the elements that has been
 			// created in the initialisation of CopiedATLModel (via ATLModel)
 			// This is needed because I want an exact copy of the original resource,
@@ -220,10 +222,12 @@ public class ATLModel {
 			// created by the copy.
 			while ( copyResource.getContents().size() > 0 ) 
 				EcoreUtil.delete(copyResource.getContents().get(0));
+
 			
 			Collection<EObject> c = copyAll(src.resource.getContents());
 			copyReferences();
 			atlModel.resource.getContents().addAll(c);
+			
 			atlModel.fileLocations.addAll(src.fileLocations);
 			atlModel.errors = new ErrorModel(atlModel.resource);
 			atlModel.typing = new TypingModel(atlModel.resource);
@@ -235,9 +239,8 @@ public class ATLModel {
 		
 		@Override
 		protected void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
-			if ( eReference.getEType() == TypesPackage.Literals.TYPE ) {
-				copyContainment(eReference, eObject, copyEObject);
-			}		
+			// Code removed because I do not want to copy non-containment references in this case
+			// because all anATLyzer types and problems are copied because they are in the resource
 		}
 		
 		@Override

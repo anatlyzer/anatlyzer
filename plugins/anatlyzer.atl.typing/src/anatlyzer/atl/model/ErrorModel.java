@@ -50,6 +50,8 @@ import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
@@ -91,6 +93,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -175,6 +178,16 @@ public class ErrorModel {
 		
 		signalError(error, "Lazy rule's filter is ignored at runtime, in rule " + element.getName(), element);
 	}
+	
+	public void signalInvalidRuleInheritance(InPattern inPattern, InvalidRuleInheritanceKind kind, String explanation) {
+		InvalidRuleInheritance error = AtlErrorFactory.eINSTANCE.createInvalidRuleInheritance();
+		initProblem(error, inPattern);
+		
+		error.setKind(kind);
+		
+		signalError(error, "Invalid rule inheritance. " + explanation, inPattern);	
+	}
+
 	
 	public Type signalNoFeature(EClass c, String featureName, LocatedElement element) {
 		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
@@ -923,5 +936,6 @@ public class ErrorModel {
 		// element.getProblems().add(p);
 		
 	}
+
 	
 }

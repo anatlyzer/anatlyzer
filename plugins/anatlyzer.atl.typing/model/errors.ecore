@@ -727,6 +727,27 @@
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidRuleInheritance" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid rule inheritance"/>
+        <details key="text" value="Problems with rule inheritance of diverse kind"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//atl_error/InvalidRuleInheritanceKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="InvalidRuleInheritanceKind">
+      <eLiterals name="DIFFERENT_NUMBER_OF_IPE"/>
+      <eLiterals name="OTHER" value="1"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AmbiguousTargetModelReference" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="disabled"/>
       <eAnnotations source="description">
@@ -947,13 +968,13 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingInplaceInvalid" eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="disabled"/>
       <eAnnotations source="description">
         <details key="name" value="Invalid in-place binding assignment"/>
         <details key="text" value=""/>
         <details key="example" value=""/>
       </eAnnotations>
       <eAnnotations source="info">
-        <details key="ignoredoc" value="true"/>
         <details key="prec" value="static"/>
         <details key="path" value="yes"/>
         <details key="severity" value="error-target"/>

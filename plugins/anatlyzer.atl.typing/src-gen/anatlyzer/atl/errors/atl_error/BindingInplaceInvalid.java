@@ -11,14 +11,14 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid#getRightType <em>Right Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingInplaceInvalid()
  * @model annotation="description name='Invalid in-place binding assignment' text='' example=''"
- *        annotation="info ignoredoc='true' prec='static' path='yes' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source=''"
+ *        annotation="info prec='static' path='yes' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source=''"
  * @generated
  */
 public interface BindingInplaceInvalid extends BindingProblem {

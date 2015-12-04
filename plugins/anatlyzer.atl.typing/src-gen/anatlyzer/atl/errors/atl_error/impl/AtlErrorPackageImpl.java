@@ -36,6 +36,8 @@ import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
 import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
@@ -444,6 +446,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass invalidRuleInheritanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass ambiguousTargetModelReferenceEClass = null;
 
 	/**
@@ -592,6 +601,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EEnum noBindingForCompulsoryFeatureKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum invalidRuleInheritanceKindEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1645,6 +1661,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvalidRuleInheritance() {
+		return invalidRuleInheritanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvalidRuleInheritance_Kind() {
+		return (EAttribute)invalidRuleInheritanceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAmbiguousTargetModelReference() {
 		return ambiguousTargetModelReferenceEClass;
 	}
@@ -1933,6 +1967,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getInvalidRuleInheritanceKind() {
+		return invalidRuleInheritanceKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -2121,6 +2164,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		lazyRuleWithFilterEClass = createEClass(LAZY_RULE_WITH_FILTER);
 
+		invalidRuleInheritanceEClass = createEClass(INVALID_RULE_INHERITANCE);
+		createEAttribute(invalidRuleInheritanceEClass, INVALID_RULE_INHERITANCE__KIND);
+
 		ambiguousTargetModelReferenceEClass = createEClass(AMBIGUOUS_TARGET_MODEL_REFERENCE);
 		createEAttribute(ambiguousTargetModelReferenceEClass, AMBIGUOUS_TARGET_MODEL_REFERENCE__MODEL_NAME);
 
@@ -2167,6 +2213,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		// Create enums
 		noBindingForCompulsoryFeatureKindEEnum = createEEnum(NO_BINDING_FOR_COMPULSORY_FEATURE_KIND);
+		invalidRuleInheritanceKindEEnum = createEEnum(INVALID_RULE_INHERITANCE_KIND);
 	}
 
 	/**
@@ -2266,6 +2313,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		iteratorOverEmptySequenceEClass.getESuperTypes().add(this.getLocalProblem());
 		readingTargetModelEClass.getESuperTypes().add(this.getLocalProblem());
 		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
+		invalidRuleInheritanceEClass.getESuperTypes().add(this.getLocalProblem());
 		ambiguousTargetModelReferenceEClass.getESuperTypes().add(this.getLocalProblem());
 		noModelFoundEClass.getESuperTypes().add(this.getLocalProblem());
 		noEnumLiteralEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2451,6 +2499,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(lazyRuleWithFilterEClass, LazyRuleWithFilter.class, "LazyRuleWithFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(invalidRuleInheritanceEClass, InvalidRuleInheritance.class, "InvalidRuleInheritance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInvalidRuleInheritance_Kind(), this.getInvalidRuleInheritanceKind(), "kind", null, 1, 1, InvalidRuleInheritance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(ambiguousTargetModelReferenceEClass, AmbiguousTargetModelReference.class, "AmbiguousTargetModelReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAmbiguousTargetModelReference_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, AmbiguousTargetModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2499,6 +2550,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEEnum(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.class, "NoBindingForCompulsoryFeatureKind");
 		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE);
 		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE);
+
+		initEEnum(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.class, "InvalidRuleInheritanceKind");
+		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE);
+		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.OTHER);
 
 		// Create annotations
 		// description
@@ -2765,6 +2820,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Lazy rule with filter",
 			 "text", "In practice filters in lazy rules are not evaluated"
+		   });	
+		addAnnotation
+		  (invalidRuleInheritanceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid rule inheritance",
+			 "text", "Problems with rule inheritance of diverse kind"
 		   });	
 		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
@@ -3308,6 +3370,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "source", "none"
 		   });	
 		addAnnotation
+		  (invalidRuleInheritanceEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
 		   source, 
 		   new String[] {
@@ -3467,7 +3541,6 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (bindingInplaceInvalidEClass, 
 		   source, 
 		   new String[] {
-			 "ignoredoc", "true",
 			 "prec", "static",
 			 "path", "yes",
 			 "severity", "error-target",
@@ -3505,6 +3578,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (bindingInplaceInvalidEClass, 
 		   source, 
 		   new String[] {
 		   });

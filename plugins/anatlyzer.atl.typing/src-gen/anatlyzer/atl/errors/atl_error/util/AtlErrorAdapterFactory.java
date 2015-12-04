@@ -283,6 +283,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createLazyRuleWithFilterAdapter();
 			}
 			@Override
+			public Adapter caseInvalidRuleInheritance(InvalidRuleInheritance object) {
+				return createInvalidRuleInheritanceAdapter();
+			}
+			@Override
 			public Adapter caseAmbiguousTargetModelReference(AmbiguousTargetModelReference object) {
 				return createAmbiguousTargetModelReferenceAdapter();
 			}
@@ -1061,6 +1065,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLazyRuleWithFilterAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidRuleInheritance <em>Invalid Rule Inheritance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidRuleInheritance
+	 * @generated
+	 */
+	public Adapter createInvalidRuleInheritanceAdapter() {
 		return null;
 	}
 

@@ -45,6 +45,10 @@
         <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/IN_NORMAL_RULE"/>
         <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/MISSING_SUBRULE"/>
       </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/InvalidRuleInheritanceKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_NUMBER_OF_IPE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/OTHER"/>
+      </genEnums>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/location"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/fileLocation"/>
@@ -210,6 +214,9 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/LazyRuleWithFilter"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidRuleInheritance">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidRuleInheritance/kind"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/AmbiguousTargetModelReference">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AmbiguousTargetModelReference/modelName"/>
       </genClasses>

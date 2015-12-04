@@ -18,6 +18,7 @@ import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
@@ -249,11 +250,31 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 	@Override
 	public void inMatchedRule(MatchedRule self) {
-		if ( self.getInPattern() != null && self.getInPattern().getFilter() != null ) {
+		// This is a sanity check. The parser does not allow matched rules
+		// without from part.
+		if ( self.getInPattern() == null )
+			return;
+		
+		if ( self.getInPattern().getFilter() != null ) {
 			Type t = attr.typeOf(self.getInPattern().getFilter());
 			if ( ! (t instanceof BooleanType )) {
 				errors().signalMatchedRuleWithNonBooleanFilter(t, self);
 			}
+		}
+		
+		// Check inheritance structure
+		// We follow: "Surveying Rule Inheritance in Model-to-Model Transformation Languages"
+		
+		if ( self.getSuperRule() != null ) {
+			RuleWithPattern sup = self.getSuperRule();
+			// 1. Check that the number of input patterns is the same as the number of
+			//    elements in the super rule
+			if ( sup.getInPattern().getElements().size() != self.getInPattern().getElements().size() ) {
+				errors().signalInvalidRuleInheritance(self.getInPattern(), 
+						InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE,
+						"Different number of input elements in the super rule");
+			}
+			
 		}
 	}
 	

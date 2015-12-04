@@ -95,6 +95,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.ITERATOR_OVER_EMPTY_SEQUENCE: return createIteratorOverEmptySequence();
 			case AtlErrorPackage.READING_TARGET_MODEL: return createReadingTargetModel();
 			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: return createLazyRuleWithFilter();
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE: return createInvalidRuleInheritance();
 			case AtlErrorPackage.AMBIGUOUS_TARGET_MODEL_REFERENCE: return createAmbiguousTargetModelReference();
 			case AtlErrorPackage.NO_MODEL_FOUND: return createNoModelFound();
 			case AtlErrorPackage.NO_ENUM_LITERAL: return createNoEnumLiteral();
@@ -125,6 +126,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 		switch (eDataType.getClassifierID()) {
 			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE_KIND:
 				return createNoBindingForCompulsoryFeatureKindFromString(eDataType, initialValue);
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE_KIND:
+				return createInvalidRuleInheritanceKindFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -140,6 +143,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 		switch (eDataType.getClassifierID()) {
 			case AtlErrorPackage.NO_BINDING_FOR_COMPULSORY_FEATURE_KIND:
 				return convertNoBindingForCompulsoryFeatureKindToString(eDataType, instanceValue);
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE_KIND:
+				return convertInvalidRuleInheritanceKindToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -510,6 +515,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public InvalidRuleInheritance createInvalidRuleInheritance() {
+		InvalidRuleInheritanceImpl invalidRuleInheritance = new InvalidRuleInheritanceImpl();
+		return invalidRuleInheritance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AmbiguousTargetModelReference createAmbiguousTargetModelReference() {
 		AmbiguousTargetModelReferenceImpl ambiguousTargetModelReference = new AmbiguousTargetModelReferenceImpl();
 		return ambiguousTargetModelReference;
@@ -692,6 +707,26 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	 * @generated
 	 */
 	public String convertNoBindingForCompulsoryFeatureKindToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InvalidRuleInheritanceKind createInvalidRuleInheritanceKindFromString(EDataType eDataType, String initialValue) {
+		InvalidRuleInheritanceKind result = InvalidRuleInheritanceKind.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertInvalidRuleInheritanceKindToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

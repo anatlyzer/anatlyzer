@@ -3,54 +3,52 @@
 package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-import anatlyzer.atl.errors.atl_error.NoModelFound;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
 
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>No Model Found</b></em>'.
+ * An implementation of the model object '<em><b>Invalid Rule Inheritance</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl#getModelName <em>Model Name</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.InvalidRuleInheritanceImpl#getKind <em>Kind</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
+public class InvalidRuleInheritanceImpl extends LocalProblemImpl implements InvalidRuleInheritance {
 	/**
-	 * The default value of the '{@link #getModelName() <em>Model Name</em>}' attribute.
+	 * The default value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getModelName()
+	 * @see #getKind()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String MODEL_NAME_EDEFAULT = null;
-
+	protected static final InvalidRuleInheritanceKind KIND_EDEFAULT = InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE;
 	/**
-	 * The cached value of the '{@link #getModelName() <em>Model Name</em>}' attribute.
+	 * The cached value of the '{@link #getKind() <em>Kind</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getModelName()
+	 * @see #getKind()
 	 * @generated
 	 * @ordered
 	 */
-	protected String modelName = MODEL_NAME_EDEFAULT;
+	protected InvalidRuleInheritanceKind kind = KIND_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NoModelFoundImpl() {
+	protected InvalidRuleInheritanceImpl() {
 		super();
 	}
 
@@ -61,7 +59,7 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AtlErrorPackage.Literals.NO_MODEL_FOUND;
+		return AtlErrorPackage.Literals.INVALID_RULE_INHERITANCE;
 	}
 
 	/**
@@ -69,8 +67,8 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getModelName() {
-		return modelName;
+	public InvalidRuleInheritanceKind getKind() {
+		return kind;
 	}
 
 	/**
@@ -78,11 +76,11 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModelName(String newModelName) {
-		String oldModelName = modelName;
-		modelName = newModelName;
+	public void setKind(InvalidRuleInheritanceKind newKind) {
+		InvalidRuleInheritanceKind oldKind = kind;
+		kind = newKind == null ? KIND_EDEFAULT : newKind;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.NO_MODEL_FOUND__MODEL_NAME, oldModelName, modelName));
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.INVALID_RULE_INHERITANCE__KIND, oldKind, kind));
 	}
 
 	/**
@@ -93,8 +91,8 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AtlErrorPackage.NO_MODEL_FOUND__MODEL_NAME:
-				return getModelName();
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE__KIND:
+				return getKind();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -107,8 +105,8 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AtlErrorPackage.NO_MODEL_FOUND__MODEL_NAME:
-				setModelName((String)newValue);
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE__KIND:
+				setKind((InvalidRuleInheritanceKind)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -122,8 +120,8 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.NO_MODEL_FOUND__MODEL_NAME:
-				setModelName(MODEL_NAME_EDEFAULT);
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE__KIND:
+				setKind(KIND_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -137,8 +135,8 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.NO_MODEL_FOUND__MODEL_NAME:
-				return MODEL_NAME_EDEFAULT == null ? modelName != null : !MODEL_NAME_EDEFAULT.equals(modelName);
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE__KIND:
+				return kind != KIND_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -153,10 +151,10 @@ public class NoModelFoundImpl extends LocalProblemImpl implements NoModelFound {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (modelName: ");
-		result.append(modelName);
+		result.append(" (kind: ");
+		result.append(kind);
 		result.append(')');
 		return result.toString();
 	}
 
-} //NoModelFoundImpl
+} //InvalidRuleInheritanceImpl

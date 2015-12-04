@@ -346,6 +346,15 @@ public interface AtlErrorFactory extends EFactory {
 	LazyRuleWithFilter createLazyRuleWithFilter();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Rule Inheritance</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Rule Inheritance</em>'.
+	 * @generated
+	 */
+	InvalidRuleInheritance createInvalidRuleInheritance();
+
+	/**
 	 * Returns a new object of class '<em>Ambiguous Target Model Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -12,11 +12,11 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.InvalidOperand#getOperatorSymbol <em>Operator Symbol</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.InvalidOperand#getType <em>Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidOperand()
  * @model annotation="description name='Invalid operand' text='Operand of the wrong type.'"

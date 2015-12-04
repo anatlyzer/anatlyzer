@@ -10,93 +10,93 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the literals of the enumeration '<em><b>No Binding For Compulsory Feature Kind</b></em>',
+ * A representation of the literals of the enumeration '<em><b>Invalid Rule Inheritance Kind</b></em>',
  * and utility methods for working with them.
  * <!-- end-user-doc -->
- * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoBindingForCompulsoryFeatureKind()
+ * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidRuleInheritanceKind()
  * @model
  * @generated
  */
-public enum NoBindingForCompulsoryFeatureKind implements Enumerator {
+public enum InvalidRuleInheritanceKind implements Enumerator {
 	/**
-	 * The '<em><b>IN NORMAL RULE</b></em>' literal object.
+	 * The '<em><b>DIFFERENT NUMBER OF IPE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #IN_NORMAL_RULE_VALUE
+	 * @see #DIFFERENT_NUMBER_OF_IPE_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	IN_NORMAL_RULE(0, "IN_NORMAL_RULE", "IN_NORMAL_RULE"),
+	DIFFERENT_NUMBER_OF_IPE(0, "DIFFERENT_NUMBER_OF_IPE", "DIFFERENT_NUMBER_OF_IPE"),
 
 	/**
-	 * The '<em><b>MISSING SUBRULE</b></em>' literal object.
+	 * The '<em><b>OTHER</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #MISSING_SUBRULE_VALUE
+	 * @see #OTHER_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	MISSING_SUBRULE(1, "MISSING_SUBRULE", "MISSING_SUBRULE");
+	OTHER(1, "OTHER", "OTHER");
 
 	/**
-	 * The '<em><b>IN NORMAL RULE</b></em>' literal value.
+	 * The '<em><b>DIFFERENT NUMBER OF IPE</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>IN NORMAL RULE</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>DIFFERENT NUMBER OF IPE</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #IN_NORMAL_RULE
+	 * @see #DIFFERENT_NUMBER_OF_IPE
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int IN_NORMAL_RULE_VALUE = 0;
+	public static final int DIFFERENT_NUMBER_OF_IPE_VALUE = 0;
 
 	/**
-	 * The '<em><b>MISSING SUBRULE</b></em>' literal value.
+	 * The '<em><b>OTHER</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>MISSING SUBRULE</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>OTHER</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #MISSING_SUBRULE
+	 * @see #OTHER
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int MISSING_SUBRULE_VALUE = 1;
+	public static final int OTHER_VALUE = 1;
 
 	/**
-	 * An array of all the '<em><b>No Binding For Compulsory Feature Kind</b></em>' enumerators.
+	 * An array of all the '<em><b>Invalid Rule Inheritance Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final NoBindingForCompulsoryFeatureKind[] VALUES_ARRAY =
-		new NoBindingForCompulsoryFeatureKind[] {
-			IN_NORMAL_RULE,
-			MISSING_SUBRULE,
+	private static final InvalidRuleInheritanceKind[] VALUES_ARRAY =
+		new InvalidRuleInheritanceKind[] {
+			DIFFERENT_NUMBER_OF_IPE,
+			OTHER,
 		};
 
 	/**
-	 * A public read-only list of all the '<em><b>No Binding For Compulsory Feature Kind</b></em>' enumerators.
+	 * A public read-only list of all the '<em><b>Invalid Rule Inheritance Kind</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<NoBindingForCompulsoryFeatureKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<InvalidRuleInheritanceKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>No Binding For Compulsory Feature Kind</b></em>' literal with the specified literal value.
+	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static NoBindingForCompulsoryFeatureKind get(String literal) {
+	public static InvalidRuleInheritanceKind get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			NoBindingForCompulsoryFeatureKind result = VALUES_ARRAY[i];
+			InvalidRuleInheritanceKind result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -105,14 +105,14 @@ public enum NoBindingForCompulsoryFeatureKind implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>No Binding For Compulsory Feature Kind</b></em>' literal with the specified name.
+	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static NoBindingForCompulsoryFeatureKind getByName(String name) {
+	public static InvalidRuleInheritanceKind getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			NoBindingForCompulsoryFeatureKind result = VALUES_ARRAY[i];
+			InvalidRuleInheritanceKind result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -121,15 +121,15 @@ public enum NoBindingForCompulsoryFeatureKind implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>No Binding For Compulsory Feature Kind</b></em>' literal with the specified integer value.
+	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static NoBindingForCompulsoryFeatureKind get(int value) {
+	public static InvalidRuleInheritanceKind get(int value) {
 		switch (value) {
-			case IN_NORMAL_RULE_VALUE: return IN_NORMAL_RULE;
-			case MISSING_SUBRULE_VALUE: return MISSING_SUBRULE;
+			case DIFFERENT_NUMBER_OF_IPE_VALUE: return DIFFERENT_NUMBER_OF_IPE;
+			case OTHER_VALUE: return OTHER;
 		}
 		return null;
 	}
@@ -161,7 +161,7 @@ public enum NoBindingForCompulsoryFeatureKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private NoBindingForCompulsoryFeatureKind(int value, String name, String literal) {
+	private InvalidRuleInheritanceKind(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -205,4 +205,4 @@ public enum NoBindingForCompulsoryFeatureKind implements Enumerator {
 		return literal;
 	}
 	
-} //NoBindingForCompulsoryFeatureKind
+} //InvalidRuleInheritanceKind

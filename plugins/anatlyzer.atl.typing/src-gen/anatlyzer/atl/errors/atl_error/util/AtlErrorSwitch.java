@@ -50,7 +50,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -568,6 +568,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(lazyRuleWithFilter);
 				if (result == null) result = caseProblem(lazyRuleWithFilter);
 				if (result == null) result = caseAnalysisInfo(lazyRuleWithFilter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE: {
+				InvalidRuleInheritance invalidRuleInheritance = (InvalidRuleInheritance)theEObject;
+				T result = caseInvalidRuleInheritance(invalidRuleInheritance);
+				if (result == null) result = caseLocalProblem(invalidRuleInheritance);
+				if (result == null) result = caseProblem(invalidRuleInheritance);
+				if (result == null) result = caseAnalysisInfo(invalidRuleInheritance);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1467,6 +1476,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLazyRuleWithFilter(LazyRuleWithFilter object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Rule Inheritance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Rule Inheritance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidRuleInheritance(InvalidRuleInheritance object) {
 		return null;
 	}
 

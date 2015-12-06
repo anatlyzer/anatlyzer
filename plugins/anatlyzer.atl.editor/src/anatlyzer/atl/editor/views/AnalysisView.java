@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.views;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
@@ -25,8 +24,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDecorationContext;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -40,7 +37,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -70,11 +66,10 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
-import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.GenericProblemNode;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -93,6 +88,7 @@ import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.ui.actions.CheckRuleConflicts;
+import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.WorkbenchUtil;
 
 public class AnalysisView extends ViewPart implements IPartListener, IndexChangeListener, IAnalysisView {
@@ -111,6 +107,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	private Action transformationInformationAction;
 	private Action sortByDependencyAction;
+	private Action batchModeAction;
 	
 	private Action doubleClickAction;
 
@@ -119,6 +116,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private Action optimizerAction;
 
 	private boolean sortByDependency = false;
+	private boolean batchMode = false;
 
 	// Set from the tree...
 	private Result unconnectedElementsResult;
@@ -558,8 +556,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			} else {
 				return Images.local_problem_16x16;								
 			}
-			
-			
 		}
 	}
 	
@@ -611,8 +607,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class ViewContentProvider implements IStructuredContentProvider, 
 										   ITreeContentProvider {
-		private TreeParent invisibleRoot;
+		// private TreeParent invisibleRoot;
 		// private AnalysisViewNodes.InvisibleTreeRoot invisibleRoot;
+		private TreeNode invisibleRoot;
 		
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
@@ -653,8 +650,13 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 
 		private void initialize() {			
-			invisibleRoot = new TreeParent();
+			// invisibleRoot = new TreeParent();
 			// invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
+			if ( batchMode ) {
+				invisibleRoot = new TreeParent();
+			} else {
+				invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
+			}
 		}
 		
 	}
@@ -849,6 +851,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(runAnalyserAction);
+		manager.add(batchModeAction);
 		manager.add(sortByDependencyAction);		
 		manager.add(new Separator());		
 		manager.add(transformationInformationAction);
@@ -897,18 +900,20 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					
 					System.out.println( selection.getFirstElement() );					
 				}
-				/*
-				IWorkbenchPage page = getSite().getPage();
-				IEditorPart part = page.getActiveEditor();
-				if ( part instanceof AtlEditorExt ) {
-					try {
-						// Not sure if this is the cleanest way of forcing a rebuild
-						((AtlEditorExt) part).getUnderlyingResource().touch(null);
-					} catch (CoreException e) {
-						e.printStackTrace();
+				else if ( selection != null && ( selection.getFirstElement() instanceof GenericProblemNode )) {
+					GenericProblemNode lpn = (GenericProblemNode) selection.getFirstElement();
+					
+					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+					if ( wf != null ) {
+						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
+						lpn.setStatus(status);
+						viewer.refresh();
 					}
+					
+					System.out.println( selection.getFirstElement() );					
 				}
-				*/
+				
+				
 			}
 		};
 		
@@ -997,6 +1002,26 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		sortByDependencyAction.setText("Group by dependencies");
 		sortByDependencyAction.setToolTipText("Group by dependencies");
 		sortByDependencyAction.setImageDescriptor(Images.error_dependencies_16x16);
+
+		//
+		
+		batchModeAction = new Action("Batch mode", IAction.AS_CHECK_BOX) {
+			public void run() {
+				TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(currentResource);
+				if (! conf.isContinousWitnessFinder() ) {
+					AnalysisView.this.batchMode = true;				
+				} else {
+					AnalysisView.this.batchMode = ! AnalysisView.this.batchMode;
+				}				
+				
+				viewer.setContentProvider(new ViewContentProvider());
+				viewer.refresh();
+			}
+		};
+		batchModeAction.setText("Batch mode");
+		batchModeAction.setToolTipText("Batch mode");
+		batchModeAction.setImageDescriptor(Images.batch_analysis_16x16);
+		
 		
 		//
 		
@@ -1074,6 +1099,20 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private void setOpenedResource(IResource resource, AnalysisResult result) {
 		currentResource = resource;
 		currentAnalysis = result;
+		
+		if ( currentResource != null ) {
+			TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(currentResource);
+			if (! conf.isContinousWitnessFinder() ) {
+				batchModeAction.setEnabled(false);				
+				batchModeAction.run();
+			} else {
+				batchModeAction.setEnabled(true);
+				batchModeAction.setChecked(false);
+				AnalysisView.this.batchMode = true; // will be change to false in run
+				batchModeAction.run();				
+			}
+		}
+		
 		refreshFromNonUI();
 	}
 
@@ -1155,11 +1194,14 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		if ( obj instanceof LocalProblemNode ) {
 			LocalProblemNode lpn = (LocalProblemNode) obj;
 			return lpn.p;
+		} else if ( obj instanceof GenericProblemNode ) {
+			// This is needed for the continous analysis view (in AnalysisViewNodes)
+			return ((GenericProblemNode) obj).p;
 		} else if ( obj instanceof RuleConflictAnalysisNode ) {
 			RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
 			return n.ruleConflictProblem;
 		} else {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Node: " + obj.getClass());
 		}
 	}
 	

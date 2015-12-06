@@ -12,6 +12,7 @@ import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.ui.util.WorkbenchUtil;
 
 public class AnalysisViewNodes {
@@ -193,6 +194,14 @@ public class AnalysisViewNodes {
 			return prefix + desc;
 		}
 
+		public ImageDescriptor getImage() {
+			if ( AnalyserUtils.getProblemSeverity(p).contains("warn") ) {
+				return Images.local_problem_warning_16x16;				
+			} else {
+				return Images.local_problem_16x16;								
+			}
+		}
+		
 		@Override
 		public String toColumn1() {
 			return p.getLocation(); // Return also the file, in case of libraries?

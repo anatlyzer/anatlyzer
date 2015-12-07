@@ -2,7 +2,7 @@
 <feature
       id="anatlyzer.feature.visualization"
       label="Anatlyzer Visualization"
-      version="0.3.1.qualifier"
+      version="0.3.3.qualifier"
       provider-name="Miso Team">
 
    <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
@@ -25,7 +25,7 @@
          id="anatlyzer.visualizer"
          download-size="0"
          install-size="0"
-         version="0.3.1.qualifier"
+         version="0.3.3.qualifier"
          unpack="false"/>
 
 </feature>

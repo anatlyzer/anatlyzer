@@ -1103,13 +1103,23 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		if ( currentResource != null ) {
 			TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(currentResource);
 			if (! conf.isContinousWitnessFinder() ) {
-				batchModeAction.setEnabled(false);				
-				batchModeAction.run();
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						batchModeAction.setEnabled(false);				
+						batchModeAction.run();
+					}
+				});					
 			} else {
-				batchModeAction.setEnabled(true);
-				batchModeAction.setChecked(false);
-				AnalysisView.this.batchMode = true; // will be change to false in run
-				batchModeAction.run();				
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						batchModeAction.setEnabled(true);
+						batchModeAction.setChecked(false);
+						AnalysisView.this.batchMode = true; // will be change to false in run
+						batchModeAction.run();				
+					}
+				});					
 			}
 		}
 		

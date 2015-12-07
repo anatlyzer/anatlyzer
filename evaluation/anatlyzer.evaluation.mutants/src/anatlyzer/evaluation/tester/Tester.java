@@ -115,7 +115,7 @@ import anatlyzer.ui.util.AtlEngineUtils;
 
 public class Tester {
 	
-	private String   atlFile;          // atl file with the original transformation
+	private String atlFile;            // name of original transformation
 	private EMFModel atlModel;         // model of the original transformation
 	private GlobalNamespace namespace; // meta-models used by the transformation (union of inputMetamodels and outputMetamodels)
 	private List<String> inputMetamodels  = new ArrayList<String>(); // input metamodels (IN)
@@ -129,11 +129,6 @@ public class Tester {
 	private String folderMutants;
 	private String folderModels;
 	private String folderTemp;
-	
-	// constants (errors and exceptions)
-	private final String ANATLYSER_EXCEPTION = "anatlyser exception";
-	private final String EXECUTION_EXCEPTION = "execution exception";
-	private final String EXECUTION_ERROR     = "execution error";
 	
 	/**
 	 * @param trafo transformation to be used in the evaluation
@@ -422,7 +417,7 @@ public class Tester {
 				java.nio.file.Path transformation_inst_path = new File(transformation.replace(".atl", ".inst.atl")).toPath();
 		    	// - instrument transformation
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();    
-				IPath      location  = Path.fromOSString(transformation); 
+				IPath      location  = Path.fromOSString(transformation);
 				IFile      ifile     = workspace.getRoot().getFileForLocation(location);
 				ifile.refreshLocal(IResource.DEPTH_ZERO, null);
 				AnalyserData result  = new AnalyserExecutor().exec(ifile, false);
@@ -557,6 +552,8 @@ public class Tester {
 		// TODO: there may be several input/output metamodels
 		String immAlias = this.inputMetamodels.get(0);
 		String ommAlias = this.outputMetamodels.get(0);
+		String aux      = URI.createFileURI(transformation).lastSegment();
+		String oFolder  = aux.substring(0, aux.lastIndexOf("."));
 		
 		// compilation is performed when the mutant is generated, but just in case...
 		if (compileTransformation(transformation)==false) return true;
@@ -574,14 +571,12 @@ public class Tester {
 						return fileName.endsWith(".model"); 
 					}
 				});
-
+			
 			// for each input test model
 			for (File inputModel : inputModels) {
 				
 				// load input/output model
 				String iModel  = inputModel.getPath();
-				String aux     = URI.createFileURI(transformation).lastSegment();
-				String oFolder = aux.substring(0, aux.lastIndexOf("."));
 				String oModel  = this.folderTemp + oFolder + File.separator + inputModel.getName(); // generate output model in temporal folder, because it will be deleted
 				engine.loadSourcemodel(immAlias, iModel, aliasToPaths.get(immAlias).getURIorPath()); 
 				engine.loadTargetmodel(ommAlias, oModel, aliasToPaths.get(ommAlias).getURIorPath());
@@ -600,14 +595,15 @@ public class Tester {
 								error = report.setOutputError(transformation, ((BasicDiagnostic)diagnostic.getChildren().get(0)).getMessage(), inputModel.getName());
 						}
 					}
-					else error = report.setExecutionError(transformation, EXECUTION_ERROR, inputModel.getName());
+					else error = report.setExecutionError(transformation, "EXECUTION_ERROR", inputModel.getName());
 				}
 				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
 				
 				if (error) break;
 			}
 		}
-		catch (transException e) { System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")"); } 
+		catch (transException e) { System.out.println("******** REVISE: EXECUTION_ERROR (" + transformation + ")"); }
+		finally { deleteDirectory(oFolder, true); }
 		
 		return error;
 	}

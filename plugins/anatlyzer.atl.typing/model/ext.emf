@@ -12,7 +12,15 @@ package ATL {
   	
   	/* Points to a list of problems, if any */
   	ref EObject[*] problems;
+
+	val StringToStringMap[*] annotations;	
   } 
+  
+  class StringToStringMap : java.util.Map$Entry {
+  	attr String[1] key;
+  	attr String[1] value;  	
+  }
+  
   class MatchedRule { } 
   class OutPatternElement { }
   
@@ -91,8 +99,7 @@ package OCL {
   	val ResolveTempResolution[*] resolveTempResolvedBy;	
   }
   
-  class ResolveTempResolution {
-	ref ATL.MatchedRule[1] rule; 
+  class ResolveTempResolution extends ATL.RuleResolutionInfo {
 	ref ATL.OutPatternElement[1] element;  	
   }
   

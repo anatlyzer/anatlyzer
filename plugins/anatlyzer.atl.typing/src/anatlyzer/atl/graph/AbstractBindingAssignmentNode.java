@@ -14,7 +14,6 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.Type;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
@@ -32,15 +31,19 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 	}
 	
 
-	protected List<RuleResolutionInfo> sortRules(List<RuleResolutionInfo> resolvedBy) {
+	protected List<RuleResolutionInfo> sortRules(List<? extends RuleResolutionInfo> resolvedBy) {
 		return resolvedBy.stream().sorted((o1, o2) -> {
 			return o1.getRule().getLocation().compareTo(o2.getRule().getLocation());
 		}).collect(Collectors.toList());
 	}
 	
 	protected OclExpression genBindingRightPart(CSPModel model, Binding binding) {
-		OclExpression value = model.gen(binding.getValue(), new OclGeneratorAST.LazyRuleToDummyValue(model.getTargetDummyVariable()));
-		Type srcType = ATLUtils.getSourceType(binding);
+		return genValueRightPart(model, binding.getValue());
+	}
+	
+	protected static OclExpression genValueRightPart(CSPModel model, OclExpression originalValue) {
+		OclExpression value = model.gen(originalValue, new OclGeneratorAST.LazyRuleToDummyValue(model.getTargetDummyVariable()));
+		Type srcType = originalValue.getInferredType();
 		if ( TypeUtils.isCollection(srcType) ) {
 			// This could go in retyping...
 			CollectionType colType = (CollectionType) srcType;
@@ -54,7 +57,7 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 		
 		// Remove any possible use of the target dummy variable by filtering
 		// Look out: I need to use the original expression, not the path expression
-		if ( exprContainsTargetValue(binding.getValue()) ) {
+		if ( exprContainsTargetValue(originalValue) ) {
 
 			IteratorExp reject = model.createIterator(value, "reject");
 			VariableExp itRef = OCLFactory.eINSTANCE.createVariableExp();
@@ -95,7 +98,7 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 	 * @param value
 	 * @return
 	 */
-	private boolean exprContainsTargetValue(OclExpression value) {
+	private static boolean exprContainsTargetValue(OclExpression value) {
 		TreeIterator<EObject> it = value.eAllContents();
 		while ( it.hasNext() ) {
 			EObject expr = (EObject) it.next();

@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_recovery.impl.TentativeTypeAssignedImpl#getType <em>Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

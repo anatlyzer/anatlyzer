@@ -28,6 +28,10 @@ public interface IClassNamespace extends ITypeNamespace {
 	public abstract void attachResolvingRule(String ruleName, Type returnType,
 			MatchedRule rule);
 
+	/**
+	 * @return the set of rules that can resolve an object of the current type when it
+	 *         appears in the right-hand side of a binding.
+	 */
 	public abstract Set<MatchedRule> getResolvingRules();
 
 	public abstract List<MatchedRule> getRules();

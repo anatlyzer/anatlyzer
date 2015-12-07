@@ -176,8 +176,16 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 				return createSequenceTypeAdapter();
 			}
 			@Override
+			public Adapter caseBagType(BagType object) {
+				return createBagTypeAdapter();
+			}
+			@Override
 			public Adapter caseSetType(SetType object) {
 				return createSetTypeAdapter();
+			}
+			@Override
+			public Adapter caseOrderedSetType(OrderedSetType object) {
+				return createOrderedSetTypeAdapter();
 			}
 			@Override
 			public Adapter caseEModelElement(EModelElement object) {
@@ -580,6 +588,20 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.types.BagType <em>Bag Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.types.BagType
+	 * @generated
+	 */
+	public Adapter createBagTypeAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.types.SetType <em>Set Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -590,6 +612,20 @@ public class TypesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSetTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.types.OrderedSetType <em>Ordered Set Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.types.OrderedSetType
+	 * @generated
+	 */
+	public Adapter createOrderedSetTypeAdapter() {
 		return null;
 	}
 

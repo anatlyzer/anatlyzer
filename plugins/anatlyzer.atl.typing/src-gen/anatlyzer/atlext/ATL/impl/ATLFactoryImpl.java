@@ -4,6 +4,7 @@ package anatlyzer.atlext.ATL.impl;
 
 import anatlyzer.atlext.ATL.*;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -79,6 +80,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 			case ATLPackage.BINDING_STAT: return createBindingStat();
 			case ATLPackage.IF_STAT: return createIfStat();
 			case ATLPackage.FOR_STAT: return createForStat();
+			case ATLPackage.STRING_TO_STRING_MAP: return (EObject)createStringToStringMap();
 			case ATLPackage.CALLABLE_PARAMETER: return createCallableParameter();
 			case ATLPackage.RULE_RESOLUTION_INFO: return createRuleResolutionInfo();
 			default:
@@ -314,6 +316,16 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	public ForStat createForStat() {
 		ForStatImpl forStat = new ForStatImpl();
 		return forStat;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, String> createStringToStringMap() {
+		StringToStringMapImpl stringToStringMap = new StringToStringMapImpl();
+		return stringToStringMap;
 	}
 
 	/**

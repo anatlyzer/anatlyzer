@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Anatlyzer Api Examples
 Bundle-SymbolicName: anatlyzer.atl.tests.api
-Bundle-Version: 0.3.1.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Version: 0.3.3.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf;bundle-version="2.6.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.9.1",
  org.eclipse.m2m.atl.dsls;bundle-version="3.4.0",
@@ -11,5 +11,6 @@ Require-Bundle: org.eclipse.emf;bundle-version="2.6.0",
  org.eclipse.m2m.atl.engine;bundle-version="3.4.0",
  anatlyzer.atl.typing,
  anatlyzer.use.witness;bundle-version="0.1.0"
-Export-Package: anatlyzer.examples.api
+Export-Package: anatlyzer.atl.tests.api,
+ anatlyzer.examples.api
 Bundle-ClassPath: .

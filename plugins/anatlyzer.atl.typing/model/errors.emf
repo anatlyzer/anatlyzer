@@ -80,6 +80,18 @@ package atl_error {
 	@description(name="No binding for compulsory target feature", text="Applicable to references and string attributes without default value.")	 
 	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
 	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {	   
+		ref EObject[0..1] subrule;
+		attr NoBindingForCompulsoryFeatureKind kind;
+	}
+	
+	@description(name="Invalid assignment in imperative binding", text="Left and right types of a binding statement are not compatible")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="tgt-typing", phase="typing", source="none")	
+	class InvalidAssignmentImperativeBinding extends BindingProblem {	   
+	}
+	
+	enum NoBindingForCompulsoryFeatureKind {
+		IN_NORMAL_RULE = 0;
+		MISSING_SUBRULE	= 1;			
 	}
 	
 	@description(name="Binding possibly unresolved", text="A binding may be unresolved if certain conditions hold")	 
@@ -122,6 +134,7 @@ package atl_error {
 
 	abstract class FoundInSubtype { 
 		ref EClass[*] possibleClasses;	
+		ref EClass[*] missingClasses;
 	}
 
 	@description(name="Feature found in subtype", text="Feature cannot be found in an object's class, but found in subtype. The error may not happen depending on the program logic.")	 
@@ -294,6 +307,15 @@ package atl_error {
 	   	ref ecore.EClass[0..1] sourceType;
 	}
 
+	@description(name="ResolveTemp possibly unresolved", text="A resolve temp be unresolved if certain conditions hold")	 
+	@info(prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
+	class ResolveTempPossiblyUnresolved extends ResolveTempProblem, BindingResolution {
+	   ref EClass[+] problematicClasses;
+	   ref EClass[+] problematicClassesImplicit;
+	   
+	   ref EObject[1] resolvedExpression;
+	}
+
 	@description(name="Undefined output pattern in resolveTemp operation", text="The given output pattern of the possible matched rules is not defined")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
 	class ResolveTempOutputPatternElementNotFound extends ResolveTempProblem {			   
@@ -326,6 +348,18 @@ package atl_error {
 	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class LazyRuleWithFilter extends LocalProblem {		
 	}
+
+	@description(name="Invalid rule inheritance", text="Problems with rule inheritance of diverse kind")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
+	class InvalidRuleInheritance extends LocalProblem {
+		attr InvalidRuleInheritanceKind[1] kind;		
+	}
+	
+	enum InvalidRuleInheritanceKind {
+		DIFFERENT_NUMBER_OF_IPE;
+		OTHER;
+	}
+	
 
 	@disabled
 	@description(name="Ambiguous model reference", text="[TODO]: Implemented but need to find an example")	 
@@ -360,6 +394,11 @@ package atl_error {
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
 	class MatchedRuleWithoutOutputPattern extends LocalProblem {
 		// Possibly using the matched rule as entrypint rule (see Measure2XHTML)
+	}
+
+	@description(name="Matched rule with non-boolean filter", text="The filter of a matched rule must be boolean")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
+	class MatchedRuleFilterNonBoolean extends LocalProblem {
 	}
 
 	@description(name="Foreach statement expected collection", text="")	 
@@ -408,12 +447,12 @@ package atl_error {
 	class IncoherentHelperReturnType extends AbstractIncoherentVariableDeclaration {   		
 	}
 		
+    @disabled    	
 	@description(name="Invalid in-place binding assignment", text="", example="")	 
 	@info(prec="static", path="yes", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="")	
 	class BindingInplaceInvalid extends BindingProblem {
 		ref types.Type[1] rightType;
 	}	
-	
 	
 	@description(name="Abstract class instantiation", text="", example="")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="")	

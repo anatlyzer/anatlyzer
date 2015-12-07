@@ -1,3 +1,4 @@
 /rule_conflicts_common_subtype.asm
 /rule_conflicts_inheritance.asm
 /bibtex2docbook_two_rules.asm
+/rule_conflicts_inheritance_multi_input.asm

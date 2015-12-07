@@ -33,17 +33,22 @@ import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
+import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean;
 import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
@@ -63,6 +68,7 @@ import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempProblem;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
@@ -80,6 +86,7 @@ import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
 import anatlyzer.atl.types.TypesPackage;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -313,6 +320,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass invalidAssignmentImperativeBindingEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass bindingExpectedOneAssignedManyEClass = null;
 
 	/**
@@ -383,6 +397,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass resolveTempPossiblyUnresolvedEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass resolveTempOutputPatternElementNotFoundEClass = null;
 
 	/**
@@ -425,6 +446,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass invalidRuleInheritanceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass ambiguousTargetModelReferenceEClass = null;
 
 	/**
@@ -461,6 +489,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass matchedRuleWithoutOutputPatternEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass matchedRuleFilterNonBooleanEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -559,6 +594,20 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass cannotInstantiateAbstractClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum noBindingForCompulsoryFeatureKindEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum invalidRuleInheritanceKindEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -910,6 +959,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFoundInSubtype_MissingClasses() {
+		return (EReference)foundInSubtypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFeatureFoundInSubtype() {
 		return featureFoundInSubtypeEClass;
 	}
@@ -1243,6 +1301,33 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNoBindingForCompulsoryFeature_Subrule() {
+		return (EReference)noBindingForCompulsoryFeatureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNoBindingForCompulsoryFeature_Kind() {
+		return (EAttribute)noBindingForCompulsoryFeatureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInvalidAssignmentImperativeBinding() {
+		return invalidAssignmentImperativeBindingEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBindingExpectedOneAssignedMany() {
 		return bindingExpectedOneAssignedManyEClass;
 	}
@@ -1459,6 +1544,42 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getResolveTempPossiblyUnresolved() {
+		return resolveTempPossiblyUnresolvedEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ProblematicClasses() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ProblematicClassesImplicit() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResolveTempPossiblyUnresolved_ResolvedExpression() {
+		return (EReference)resolveTempPossiblyUnresolvedEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getResolveTempOutputPatternElementNotFound() {
 		return resolveTempOutputPatternElementNotFoundEClass;
 	}
@@ -1540,6 +1661,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvalidRuleInheritance() {
+		return invalidRuleInheritanceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvalidRuleInheritance_Kind() {
+		return (EAttribute)invalidRuleInheritanceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAmbiguousTargetModelReference() {
 		return ambiguousTargetModelReferenceEClass;
 	}
@@ -1614,6 +1753,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EClass getMatchedRuleWithoutOutputPattern() {
 		return matchedRuleWithoutOutputPatternEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMatchedRuleFilterNonBoolean() {
+		return matchedRuleFilterNonBooleanEClass;
 	}
 
 	/**
@@ -1810,6 +1958,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getNoBindingForCompulsoryFeatureKind() {
+		return noBindingForCompulsoryFeatureKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getInvalidRuleInheritanceKind() {
+		return invalidRuleInheritanceKindEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public AtlErrorFactory getAtlErrorFactory() {
 		return (AtlErrorFactory)getEFactoryInstance();
 	}
@@ -1862,6 +2028,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		targetModelConformanceProblemEClass = createEClass(TARGET_MODEL_CONFORMANCE_PROBLEM);
 
 		noBindingForCompulsoryFeatureEClass = createEClass(NO_BINDING_FOR_COMPULSORY_FEATURE);
+		createEReference(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__SUBRULE);
+		createEAttribute(noBindingForCompulsoryFeatureEClass, NO_BINDING_FOR_COMPULSORY_FEATURE__KIND);
+
+		invalidAssignmentImperativeBindingEClass = createEClass(INVALID_ASSIGNMENT_IMPERATIVE_BINDING);
 
 		bindingPossiblyUnresolvedEClass = createEClass(BINDING_POSSIBLY_UNRESOLVED);
 		createEReference(bindingPossiblyUnresolvedEClass, BINDING_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES);
@@ -1883,6 +2053,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		foundInSubtypeEClass = createEClass(FOUND_IN_SUBTYPE);
 		createEReference(foundInSubtypeEClass, FOUND_IN_SUBTYPE__POSSIBLE_CLASSES);
+		createEReference(foundInSubtypeEClass, FOUND_IN_SUBTYPE__MISSING_CLASSES);
 
 		featureFoundInSubtypeEClass = createEClass(FEATURE_FOUND_IN_SUBTYPE);
 
@@ -1973,6 +2144,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		resolveTempWithoutRuleEClass = createEClass(RESOLVE_TEMP_WITHOUT_RULE);
 		createEReference(resolveTempWithoutRuleEClass, RESOLVE_TEMP_WITHOUT_RULE__SOURCE_TYPE);
 
+		resolveTempPossiblyUnresolvedEClass = createEClass(RESOLVE_TEMP_POSSIBLY_UNRESOLVED);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__PROBLEMATIC_CLASSES_IMPLICIT);
+		createEReference(resolveTempPossiblyUnresolvedEClass, RESOLVE_TEMP_POSSIBLY_UNRESOLVED__RESOLVED_EXPRESSION);
+
 		resolveTempOutputPatternElementNotFoundEClass = createEClass(RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND);
 		createEReference(resolveTempOutputPatternElementNotFoundEClass, RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__SOURCE_TYPE);
 		createEReference(resolveTempOutputPatternElementNotFoundEClass, RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__RULES);
@@ -1988,6 +2164,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		lazyRuleWithFilterEClass = createEClass(LAZY_RULE_WITH_FILTER);
 
+		invalidRuleInheritanceEClass = createEClass(INVALID_RULE_INHERITANCE);
+		createEAttribute(invalidRuleInheritanceEClass, INVALID_RULE_INHERITANCE__KIND);
+
 		ambiguousTargetModelReferenceEClass = createEClass(AMBIGUOUS_TARGET_MODEL_REFERENCE);
 		createEAttribute(ambiguousTargetModelReferenceEClass, AMBIGUOUS_TARGET_MODEL_REFERENCE__MODEL_NAME);
 
@@ -2002,6 +2181,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		iteratorBodyWrongTypeEClass = createEClass(ITERATOR_BODY_WRONG_TYPE);
 
 		matchedRuleWithoutOutputPatternEClass = createEClass(MATCHED_RULE_WITHOUT_OUTPUT_PATTERN);
+
+		matchedRuleFilterNonBooleanEClass = createEClass(MATCHED_RULE_FILTER_NON_BOOLEAN);
 
 		expectedCollectionInForEachEClass = createEClass(EXPECTED_COLLECTION_IN_FOR_EACH);
 
@@ -2029,6 +2210,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		cannotInstantiateAbstractClassEClass = createEClass(CANNOT_INSTANTIATE_ABSTRACT_CLASS);
 		createEReference(cannotInstantiateAbstractClassEClass, CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE);
+
+		// Create enums
+		noBindingForCompulsoryFeatureKindEEnum = createEEnum(NO_BINDING_FOR_COMPULSORY_FEATURE_KIND);
+		invalidRuleInheritanceKindEEnum = createEEnum(INVALID_RULE_INHERITANCE_KIND);
 	}
 
 	/**
@@ -2070,6 +2255,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		targetModelConformanceProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getTargetModelConformanceProblem());
 		noBindingForCompulsoryFeatureEClass.getESuperTypes().add(this.getBindingProblem());
+		invalidAssignmentImperativeBindingEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingResolution());
 		bindingWithoutRuleEClass.getESuperTypes().add(this.getBindingProblem());
@@ -2119,18 +2305,22 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		objectBindingButPrimitiveAssignedEClass.getESuperTypes().add(this.getBindingProblem());
 		primitiveBindingInvalidAssignmentEClass.getESuperTypes().add(this.getBindingProblem());
 		resolveTempWithoutRuleEClass.getESuperTypes().add(this.getResolveTempProblem());
+		resolveTempPossiblyUnresolvedEClass.getESuperTypes().add(this.getResolveTempProblem());
+		resolveTempPossiblyUnresolvedEClass.getESuperTypes().add(this.getBindingResolution());
 		resolveTempOutputPatternElementNotFoundEClass.getESuperTypes().add(this.getResolveTempProblem());
 		flattenOverNonNestedCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		changeSelectFirstForAnyEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverEmptySequenceEClass.getESuperTypes().add(this.getLocalProblem());
 		readingTargetModelEClass.getESuperTypes().add(this.getLocalProblem());
 		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
+		invalidRuleInheritanceEClass.getESuperTypes().add(this.getLocalProblem());
 		ambiguousTargetModelReferenceEClass.getESuperTypes().add(this.getLocalProblem());
 		noModelFoundEClass.getESuperTypes().add(this.getLocalProblem());
 		noEnumLiteralEClass.getESuperTypes().add(this.getLocalProblem());
 		wrongTypeEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorBodyWrongTypeEClass.getESuperTypes().add(this.getWrongType());
 		matchedRuleWithoutOutputPatternEClass.getESuperTypes().add(this.getLocalProblem());
+		matchedRuleFilterNonBooleanEClass.getESuperTypes().add(this.getLocalProblem());
 		expectedCollectionInForEachEClass.getESuperTypes().add(this.getLocalProblem());
 		noClassFoundInMetamodelEClass.getESuperTypes().add(this.getLocalProblem());
 		invalidArgumentEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2173,6 +2363,10 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(targetModelConformanceProblemEClass, TargetModelConformanceProblem.class, "TargetModelConformanceProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(noBindingForCompulsoryFeatureEClass, NoBindingForCompulsoryFeature.class, "NoBindingForCompulsoryFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getNoBindingForCompulsoryFeature_Subrule(), ecorePackage.getEObject(), null, "subrule", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNoBindingForCompulsoryFeature_Kind(), this.getNoBindingForCompulsoryFeatureKind(), "kind", null, 0, 1, NoBindingForCompulsoryFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(invalidAssignmentImperativeBindingEClass, InvalidAssignmentImperativeBinding.class, "InvalidAssignmentImperativeBinding", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bindingPossiblyUnresolvedEClass, BindingPossiblyUnresolved.class, "BindingPossiblyUnresolved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBindingPossiblyUnresolved_ProblematicClasses(), ecorePackage.getEClass(), null, "problematicClasses", null, 1, -1, BindingPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2194,6 +2388,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(foundInSubtypeEClass, FoundInSubtype.class, "FoundInSubtype", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFoundInSubtype_PossibleClasses(), ecorePackage.getEClass(), null, "possibleClasses", null, 0, -1, FoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFoundInSubtype_MissingClasses(), ecorePackage.getEClass(), null, "missingClasses", null, 0, -1, FoundInSubtype.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureFoundInSubtypeEClass, FeatureFoundInSubtype.class, "FeatureFoundInSubtype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2284,6 +2479,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(resolveTempWithoutRuleEClass, ResolveTempWithoutRule.class, "ResolveTempWithoutRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResolveTempWithoutRule_SourceType(), ecorePackage.getEClass(), null, "sourceType", null, 0, 1, ResolveTempWithoutRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(resolveTempPossiblyUnresolvedEClass, ResolveTempPossiblyUnresolved.class, "ResolveTempPossiblyUnresolved", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getResolveTempPossiblyUnresolved_ProblematicClasses(), ecorePackage.getEClass(), null, "problematicClasses", null, 1, -1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResolveTempPossiblyUnresolved_ProblematicClassesImplicit(), ecorePackage.getEClass(), null, "problematicClassesImplicit", null, 1, -1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResolveTempPossiblyUnresolved_ResolvedExpression(), ecorePackage.getEObject(), null, "resolvedExpression", null, 1, 1, ResolveTempPossiblyUnresolved.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(resolveTempOutputPatternElementNotFoundEClass, ResolveTempOutputPatternElementNotFound.class, "ResolveTempOutputPatternElementNotFound", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResolveTempOutputPatternElementNotFound_SourceType(), ecorePackage.getEClass(), null, "sourceType", null, 0, 1, ResolveTempOutputPatternElementNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResolveTempOutputPatternElementNotFound_Rules(), this.getResolvedRuleInfo(), null, "rules", null, 0, -1, ResolveTempOutputPatternElementNotFound.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2299,6 +2499,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(lazyRuleWithFilterEClass, LazyRuleWithFilter.class, "LazyRuleWithFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(invalidRuleInheritanceEClass, InvalidRuleInheritance.class, "InvalidRuleInheritance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInvalidRuleInheritance_Kind(), this.getInvalidRuleInheritanceKind(), "kind", null, 1, 1, InvalidRuleInheritance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		initEClass(ambiguousTargetModelReferenceEClass, AmbiguousTargetModelReference.class, "AmbiguousTargetModelReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAmbiguousTargetModelReference_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, AmbiguousTargetModelReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -2313,6 +2516,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(iteratorBodyWrongTypeEClass, IteratorBodyWrongType.class, "IteratorBodyWrongType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(matchedRuleWithoutOutputPatternEClass, MatchedRuleWithoutOutputPattern.class, "MatchedRuleWithoutOutputPattern", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(matchedRuleFilterNonBooleanEClass, MatchedRuleFilterNonBoolean.class, "MatchedRuleFilterNonBoolean", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(expectedCollectionInForEachEClass, ExpectedCollectionInForEach.class, "ExpectedCollectionInForEach", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2341,6 +2546,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(cannotInstantiateAbstractClassEClass, CannotInstantiateAbstractClass.class, "CannotInstantiateAbstractClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCannotInstantiateAbstractClass_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, CannotInstantiateAbstractClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		// Initialize enums and add enum literals
+		initEEnum(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.class, "NoBindingForCompulsoryFeatureKind");
+		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE);
+		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE);
+
+		initEEnum(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.class, "InvalidRuleInheritanceKind");
+		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE);
+		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.OTHER);
+
 		// Create annotations
 		// description
 		createDescriptionAnnotations();
@@ -2364,6 +2578,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "No binding for compulsory target feature",
 			 "text", "Applicable to references and string attributes without default value."
+		   });	
+		addAnnotation
+		  (invalidAssignmentImperativeBindingEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid assignment in imperative binding",
+			 "text", "Left and right types of a binding statement are not compatible"
 		   });	
 		addAnnotation
 		  (bindingPossiblyUnresolvedEClass, 
@@ -2552,6 +2773,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "text", "No rule able to resolve the resolveTemp operation can be found"
 		   });	
 		addAnnotation
+		  (resolveTempPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "ResolveTemp possibly unresolved",
+			 "text", "A resolve temp be unresolved if certain conditions hold"
+		   });	
+		addAnnotation
 		  (resolveTempOutputPatternElementNotFoundEClass, 
 		   source, 
 		   new String[] {
@@ -2594,6 +2822,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "text", "In practice filters in lazy rules are not evaluated"
 		   });	
 		addAnnotation
+		  (invalidRuleInheritanceEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid rule inheritance",
+			 "text", "Problems with rule inheritance of diverse kind"
+		   });	
+		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
 		   source, 
 		   new String[] {
@@ -2627,6 +2862,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Matched rule without output pattern",
 			 "text", "This should be checked by the parser"
+		   });	
+		addAnnotation
+		  (matchedRuleFilterNonBooleanEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Matched rule with non-boolean filter",
+			 "text", "The filter of a matched rule must be boolean"
 		   });	
 		addAnnotation
 		  (expectedCollectionInForEachEClass, 
@@ -2716,6 +2958,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "tgt-typing",
 			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidAssignmentImperativeBindingEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "typing",
 			 "source", "none"
 		   });	
 		addAnnotation
@@ -3031,6 +3285,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "source", "none"
 		   });	
 		addAnnotation
+		  (resolveTempPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "always-solver",
+			 "path", "yes",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-rules",
+			 "phase", "analysis",
+			 "source", "none"
+		   });	
+		addAnnotation
 		  (resolveTempOutputPatternElementNotFoundEClass, 
 		   source, 
 		   new String[] {
@@ -3104,6 +3370,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "source", "none"
 		   });	
 		addAnnotation
+		  (invalidRuleInheritanceEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
 		   source, 
 		   new String[] {
@@ -3153,6 +3431,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (matchedRuleWithoutOutputPatternEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (matchedRuleFilterNonBooleanEClass, 
 		   source, 
 		   new String[] {
 			 "prec", "static",
@@ -3288,6 +3578,11 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (ambiguousTargetModelReferenceEClass, 
+		   source, 
+		   new String[] {
+		   });	
+		addAnnotation
+		  (bindingInplaceInvalidEClass, 
 		   source, 
 		   new String[] {
 		   });

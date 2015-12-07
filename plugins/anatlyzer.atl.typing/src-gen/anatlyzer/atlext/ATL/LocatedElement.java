@@ -4,6 +4,7 @@ package anatlyzer.atlext.ATL;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getFileObject <em>File Object</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getProblems <em>Problems</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement()
@@ -153,5 +155,22 @@ public interface LocatedElement extends EObject {
 	 * @generated
 	 */
 	EList<EObject> getProblems();
+
+	/**
+	 * Returns the value of the '<em><b>Annotations</b></em>' map.
+	 * The key is of type {@link java.lang.String},
+	 * and the value is of type {@link java.lang.String},
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Annotations</em>' map isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Annotations</em>' map.
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement_Annotations()
+	 * @model mapType="anatlyzer.atlext.ATL.StringToStringMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EString>"
+	 * @generated
+	 */
+	EMap<String, String> getAnnotations();
 
 } // LocatedElement

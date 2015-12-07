@@ -11,10 +11,10 @@ import anatlyzer.atl.types.Metaclass;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass#getType <em>Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCannotInstantiateAbstractClass()
  * @model annotation="description name='Abstract class instantiation' text='' example=''"

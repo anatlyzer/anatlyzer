@@ -123,6 +123,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_EXPRESSION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_EXPRESSION__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -338,6 +347,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -566,6 +584,15 @@ public interface OCLPackage extends EPackage {
 	int SUPER_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUPER_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -783,6 +810,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -998,6 +1034,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_EXP__ANNOTATIONS = PRIMITIVE_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1226,6 +1271,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_EXP__ANNOTATIONS = PRIMITIVE_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1452,6 +1506,15 @@ public interface OCLPackage extends EPackage {
 	int NUMERIC_EXP__PROBLEMS = PRIMITIVE_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_EXP__ANNOTATIONS = PRIMITIVE_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1667,6 +1730,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int REAL_EXP__PROBLEMS = NUMERIC_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_EXP__ANNOTATIONS = NUMERIC_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -1895,6 +1967,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_EXP__PROBLEMS = NUMERIC_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_EXP__ANNOTATIONS = NUMERIC_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2119,6 +2200,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2347,6 +2437,15 @@ public interface OCLPackage extends EPackage {
 	int BAG_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_EXP__ANNOTATIONS = COLLECTION_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2571,6 +2670,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDERED_SET_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_EXP__ANNOTATIONS = COLLECTION_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2799,6 +2907,15 @@ public interface OCLPackage extends EPackage {
 	int SEQUENCE_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_EXP__ANNOTATIONS = COLLECTION_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3023,6 +3140,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SET_EXP__PROBLEMS = COLLECTION_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_EXP__ANNOTATIONS = COLLECTION_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3251,6 +3377,15 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3477,6 +3612,15 @@ public interface OCLPackage extends EPackage {
 	int VARIABLE_DECLARATION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE_DECLARATION__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3638,6 +3782,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_PART__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_PART__ANNOTATIONS = VARIABLE_DECLARATION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3810,6 +3963,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4038,6 +4200,15 @@ public interface OCLPackage extends EPackage {
 	int MAP_ELEMENT__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_ELEMENT__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Map</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4145,6 +4316,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENUM_LITERAL_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENUM_LITERAL_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4373,6 +4553,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_UNDEFINED_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_UNDEFINED_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4588,6 +4777,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PROPERTY_CALL_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4859,6 +5057,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__ANNOTATIONS = PROPERTY_CALL_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -5139,6 +5346,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__ANNOTATIONS = PROPERTY_CALL_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -5439,6 +5655,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__PROBLEMS = OPERATION_CALL_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__ANNOTATIONS = OPERATION_CALL_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5735,6 +5960,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_CALL_EXP__PROBLEMS = OPERATION_CALL_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__ANNOTATIONS = OPERATION_CALL_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -6035,6 +6269,15 @@ public interface OCLPackage extends EPackage {
 	int LOOP_EXP__PROBLEMS = PROPERTY_CALL_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__ANNOTATIONS = PROPERTY_CALL_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6322,6 +6565,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_EXP__PROBLEMS = LOOP_EXP__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__ANNOTATIONS = LOOP_EXP__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -6622,6 +6874,15 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR_EXP__PROBLEMS = LOOP_EXP__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__ANNOTATIONS = LOOP_EXP__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6920,6 +7181,15 @@ public interface OCLPackage extends EPackage {
 	int LET_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LET_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7153,6 +7423,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IF_EXP__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_EXP__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -7399,6 +7678,15 @@ public interface OCLPackage extends EPackage {
 	int ITERATOR__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR__ANNOTATIONS = VARIABLE_DECLARATION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7571,6 +7859,15 @@ public interface OCLPackage extends EPackage {
 	int PARAMETER__PROBLEMS = VARIABLE_DECLARATION__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PARAMETER__ANNOTATIONS = VARIABLE_DECLARATION__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7732,6 +8029,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_TYPE__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_TYPE__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -8039,6 +8345,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_TYPE__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -8357,6 +8672,15 @@ public interface OCLPackage extends EPackage {
 	int PRIMITIVE__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8662,6 +8986,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRING_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TYPE__ANNOTATIONS = PRIMITIVE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -8971,6 +9304,15 @@ public interface OCLPackage extends EPackage {
 	int BOOLEAN_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BOOLEAN_TYPE__ANNOTATIONS = PRIMITIVE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9276,6 +9618,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NUMERIC_TYPE__PROBLEMS = PRIMITIVE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NUMERIC_TYPE__ANNOTATIONS = PRIMITIVE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -9585,6 +9936,15 @@ public interface OCLPackage extends EPackage {
 	int INTEGER_TYPE__PROBLEMS = NUMERIC_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTEGER_TYPE__ANNOTATIONS = NUMERIC_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9892,6 +10252,15 @@ public interface OCLPackage extends EPackage {
 	int REAL_TYPE__PROBLEMS = NUMERIC_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REAL_TYPE__ANNOTATIONS = NUMERIC_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10197,6 +10566,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BAG_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BAG_TYPE__ANNOTATIONS = COLLECTION_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -10515,6 +10893,15 @@ public interface OCLPackage extends EPackage {
 	int ORDERED_SET_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDERED_SET_TYPE__ANNOTATIONS = COLLECTION_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10829,6 +11216,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SEQUENCE_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEQUENCE_TYPE__ANNOTATIONS = COLLECTION_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -11147,6 +11543,15 @@ public interface OCLPackage extends EPackage {
 	int SET_TYPE__PROBLEMS = COLLECTION_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SET_TYPE__ANNOTATIONS = COLLECTION_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11463,6 +11868,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_ANY_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_ANY_TYPE__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11768,6 +12182,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int TUPLE_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -12086,6 +12509,15 @@ public interface OCLPackage extends EPackage {
 	int TUPLE_TYPE_ATTRIBUTE__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TUPLE_TYPE_ATTRIBUTE__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12193,6 +12625,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_MODEL_ELEMENT__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL_ELEMENT__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -12509,6 +12950,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MAP_TYPE__PROBLEMS = OCL_TYPE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MAP_TYPE__ANNOTATIONS = OCL_TYPE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -12836,6 +13286,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE_DEFINITION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE_DEFINITION__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Feature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12934,6 +13393,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OCL_CONTEXT_DEFINITION__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_CONTEXT_DEFINITION__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -13036,6 +13504,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_FEATURE__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_FEATURE__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13125,6 +13602,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ATTRIBUTE__PROBLEMS = OCL_FEATURE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__ANNOTATIONS = OCL_FEATURE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -13243,6 +13729,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION__PROBLEMS = OCL_FEATURE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__ANNOTATIONS = OCL_FEATURE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' container reference.
@@ -13372,6 +13867,15 @@ public interface OCLPackage extends EPackage {
 	int OCL_MODEL__PROBLEMS = ATLPackage.LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_MODEL__ANNOTATIONS = ATLPackage.LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13481,7 +13985,16 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION__RULE = 0;
+	int RESOLVE_TEMP_RESOLUTION__RULE = ATLPackage.RULE_RESOLUTION_INFO__RULE;
+
+	/**
+	 * The feature id for the '<em><b>All Involved Rules</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION__ALL_INVOLVED_RULES = ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES;
 
 	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
@@ -13490,7 +14003,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION__ELEMENT = 1;
+	int RESOLVE_TEMP_RESOLUTION__ELEMENT = ATLPackage.RULE_RESOLUTION_INFO_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Resolve Temp Resolution</em>' class.
@@ -13499,7 +14012,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION_FEATURE_COUNT = 2;
+	int RESOLVE_TEMP_RESOLUTION_FEATURE_COUNT = ATLPackage.RULE_RESOLUTION_INFO_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Resolve Temp Resolution</em>' class.
@@ -13508,7 +14021,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOLVE_TEMP_RESOLUTION_OPERATION_COUNT = 0;
+	int RESOLVE_TEMP_RESOLUTION_OPERATION_COUNT = ATLPackage.RULE_RESOLUTION_INFO_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atlext.OCL.impl.JavaBodyImpl <em>Java Body</em>}' class.
@@ -13573,6 +14086,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int JAVA_BODY__PROBLEMS = OCL_EXPRESSION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int JAVA_BODY__ANNOTATIONS = OCL_EXPRESSION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -13790,6 +14312,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int GET_APPLIED_STEREOTYPES_BODY__PROBLEMS = JAVA_BODY__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GET_APPLIED_STEREOTYPES_BODY__ANNOTATIONS = JAVA_BODY__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -15516,17 +16047,6 @@ public interface OCLPackage extends EPackage {
 	EClass getResolveTempResolution();
 
 	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getRule <em>Rule</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Rule</em>'.
-	 * @see anatlyzer.atlext.OCL.ResolveTempResolution#getRule()
-	 * @see #getResolveTempResolution()
-	 * @generated
-	 */
-	EReference getResolveTempResolution_Rule();
-
-	/**
 	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16879,14 +17399,6 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EClass RESOLVE_TEMP_RESOLUTION = eINSTANCE.getResolveTempResolution();
-
-		/**
-		 * The meta object literal for the '<em><b>Rule</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RESOLVE_TEMP_RESOLUTION__RULE = eINSTANCE.getResolveTempResolution_Rule();
 
 		/**
 		 * The meta object literal for the '<em><b>Element</b></em>' reference feature.

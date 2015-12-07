@@ -78,7 +78,9 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 			case TypesPackage.THIS_MODULE_TYPE: return createThisModuleType();
 			case TypesPackage.REFLECTIVE_CLASS: return createReflectiveClass();
 			case TypesPackage.SEQUENCE_TYPE: return createSequenceType();
+			case TypesPackage.BAG_TYPE: return createBagType();
 			case TypesPackage.SET_TYPE: return createSetType();
+			case TypesPackage.ORDERED_SET_TYPE: return createOrderedSetType();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -309,9 +311,29 @@ public class TypesFactoryImpl extends EFactoryImpl implements TypesFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public BagType createBagType() {
+		BagTypeImpl bagType = new BagTypeImpl();
+		return bagType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SetType createSetType() {
 		SetTypeImpl setType = new SetTypeImpl();
 		return setType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public OrderedSetType createOrderedSetType() {
+		OrderedSetTypeImpl orderedSetType = new OrderedSetTypeImpl();
+		return orderedSetType;
 	}
 
 	/**

@@ -26,10 +26,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl#getConflicts <em>Conflicts</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

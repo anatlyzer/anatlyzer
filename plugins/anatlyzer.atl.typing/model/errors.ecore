@@ -83,6 +83,28 @@
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//atl_error/NoBindingForCompulsoryFeatureKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidAssignmentImperativeBinding"
+        eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid assignment in imperative binding"/>
+        <details key="text" value="Left and right types of a binding statement are not compatible"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="tgt-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="NoBindingForCompulsoryFeatureKind">
+      <eLiterals name="IN_NORMAL_RULE"/>
+      <eLiterals name="MISSING_SUBRULE" value="1"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingPossiblyUnresolved" eSuperTypes="#//atl_error/BindingProblem #//atl_error/BindingResolution">
       <eAnnotations source="description">
@@ -189,6 +211,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FoundInSubtype" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="missingClasses" upperBound="-1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureFoundInSubtype" eSuperTypes="#//atl_error/FeatureNotFound #//atl_error/FoundInSubtype #//atl_error/RuntimeError">
@@ -585,6 +609,27 @@
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sourceType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResolveTempPossiblyUnresolved" eSuperTypes="#//atl_error/ResolveTempProblem #//atl_error/BindingResolution">
+      <eAnnotations source="description">
+        <details key="name" value="ResolveTemp possibly unresolved"/>
+        <details key="text" value="A resolve temp be unresolved if certain conditions hold"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="always-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="warning-behaviour"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-rules"/>
+        <details key="phase" value="analysis"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClasses" lowerBound="1"
+          upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClassesImplicit"
+          lowerBound="1" upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resolvedExpression" lowerBound="1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResolveTempOutputPatternElementNotFound"
         eSuperTypes="#//atl_error/ResolveTempProblem">
       <eAnnotations source="description">
@@ -682,6 +727,27 @@
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidRuleInheritance" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid rule inheritance"/>
+        <details key="text" value="Problems with rule inheritance of diverse kind"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
+          eType="#//atl_error/InvalidRuleInheritanceKind"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="InvalidRuleInheritanceKind">
+      <eLiterals name="DIFFERENT_NUMBER_OF_IPE"/>
+      <eLiterals name="OTHER" value="1"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AmbiguousTargetModelReference" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="disabled"/>
       <eAnnotations source="description">
@@ -754,6 +820,21 @@
       <eAnnotations source="description">
         <details key="name" value="Matched rule without output pattern"/>
         <details key="text" value="This should be checked by the parser"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MatchedRuleFilterNonBoolean" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Matched rule with non-boolean filter"/>
+        <details key="text" value="The filter of a matched rule must be boolean"/>
       </eAnnotations>
       <eAnnotations source="info">
         <details key="prec" value="static"/>
@@ -887,6 +968,7 @@
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingInplaceInvalid" eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="disabled"/>
       <eAnnotations source="description">
         <details key="name" value="Invalid in-place binding assignment"/>
         <details key="text" value=""/>

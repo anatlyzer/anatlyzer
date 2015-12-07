@@ -9,16 +9,22 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,6 +40,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getFileObject <em>File Object</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getProblems <em>Problems</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
  *
  * @generated
@@ -128,6 +135,16 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * @ordered
 	 */
 	protected EList<EObject> problems;
+
+	/**
+	 * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<String, String> annotations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -252,6 +269,32 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<String, String> getAnnotations() {
+		if (annotations == null) {
+			annotations = new EcoreEMap<String,String>(ATLPackage.Literals.STRING_TO_STRING_MAP, StringToStringMapImpl.class, this, ATLPackage.LOCATED_ELEMENT__ANNOTATIONS);
+		}
+		return annotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS:
+				return ((InternalEList<?>)getAnnotations()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -267,6 +310,9 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 				return getFileObject();
 			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
 				return getProblems();
+			case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS:
+				if (coreType) return getAnnotations();
+				else return getAnnotations().map();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -301,6 +347,9 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 				getProblems().clear();
 				getProblems().addAll((Collection<? extends EObject>)newValue);
 				return;
+			case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS:
+				((EStructuralFeature.Setting)getAnnotations()).set(newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -331,6 +380,9 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
 				getProblems().clear();
 				return;
+			case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS:
+				getAnnotations().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +407,8 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 				return FILE_OBJECT_EDEFAULT == null ? fileObject != null : !FILE_OBJECT_EDEFAULT.equals(fileObject);
 			case ATLPackage.LOCATED_ELEMENT__PROBLEMS:
 				return problems != null && !problems.isEmpty();
+			case ATLPackage.LOCATED_ELEMENT__ANNOTATIONS:
+				return annotations != null && !annotations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

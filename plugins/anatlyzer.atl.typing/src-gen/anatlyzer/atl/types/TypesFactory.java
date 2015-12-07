@@ -220,6 +220,15 @@ public interface TypesFactory extends EFactory {
 	SequenceType createSequenceType();
 
 	/**
+	 * Returns a new object of class '<em>Bag Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Bag Type</em>'.
+	 * @generated
+	 */
+	BagType createBagType();
+
+	/**
 	 * Returns a new object of class '<em>Set Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -227,6 +236,15 @@ public interface TypesFactory extends EFactory {
 	 * @generated
 	 */
 	SetType createSetType();
+
+	/**
+	 * Returns a new object of class '<em>Ordered Set Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Ordered Set Type</em>'.
+	 * @generated
+	 */
+	OrderedSetType createOrderedSetType();
 
 	/**
 	 * Returns the package supported by this factory.

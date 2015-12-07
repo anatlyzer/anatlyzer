@@ -14,14 +14,17 @@ import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.CollectionNamespace;
 import anatlyzer.atl.analyser.namespaces.FeatureInfo;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
+import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -33,6 +36,7 @@ import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
@@ -51,6 +55,7 @@ import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
@@ -243,6 +248,36 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 	public VisitingActions preLetExp(anatlyzer.atlext.OCL.LetExp self) { return actions("type" , "variable" , "in_"); } 
 
+	@Override
+	public void inMatchedRule(MatchedRule self) {
+		// This is a sanity check. The parser does not allow matched rules
+		// without from part.
+		if ( self.getInPattern() == null )
+			return;
+		
+		if ( self.getInPattern().getFilter() != null ) {
+			Type t = attr.typeOf(self.getInPattern().getFilter());
+			if ( ! (t instanceof BooleanType )) {
+				errors().signalMatchedRuleWithNonBooleanFilter(t, self);
+			}
+		}
+		
+		// Check inheritance structure
+		// We follow: "Surveying Rule Inheritance in Model-to-Model Transformation Languages"
+		
+		if ( self.getSuperRule() != null ) {
+			RuleWithPattern sup = self.getSuperRule();
+			// 1. Check that the number of input patterns is the same as the number of
+			//    elements in the super rule
+			if ( sup.getInPattern().getElements().size() != self.getInPattern().getElements().size() ) {
+				errors().signalInvalidRuleInheritance(self.getInPattern(), 
+						InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE,
+						"Different number of input elements in the super rule");
+			}
+			
+		}
+	}
+	
 	
 	@Override
 	public void inBinding(Binding self) {
@@ -250,6 +285,27 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( attr.wasCasted(self.getValue()) ){
 			self.getValue().setInferredType(t); 
 			typ().markImplicitlyCasted(self.getValue(), t, attr.noCastedTypeOf(self.getValue()));
+		}
+	}
+	
+	@Override
+	public void inBindingStat(BindingStat self) {
+		Type left = attr.typeOf(self.getSource());
+		Type right = attr.typeOf(self.getValue());
+		
+		if ( !(left instanceof TypeError || right instanceof TypeError) ) {
+			// The semantics of binding statements is addition, so I need to 
+			// unwrap the nested element
+			if ( left instanceof CollectionType ) {
+				left = ((CollectionType) left).getContainedType();
+				if (right instanceof CollectionType ) {
+					right = ((CollectionType) right).getContainedType();					
+				}
+			}
+			
+			if ( ! typ().assignableTypes(left, right) ) {
+				errors().signalInvalidAssignmentInBindingStatement(attr.typeOf(self.getSource()), attr.typeOf(self.getValue()), self);
+			}
 		}
 	}
 	
@@ -653,9 +709,84 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		ArrayList<MatchedRule> compatibleRules = new ArrayList<MatchedRule>();
 		String withSameVarRules = ""; // TODO: Convert into a collection
 
-		Type selectedType = null;
 		Type type_ = attr.typeOf(resolvedObj);
 		
+		Type errorType = null;
+		
+		List<Type> selectedTypes = new ArrayList<Type>();		
+		
+		for(Type t : typ().allPossibleTypes(type_)) {
+			if ( ! (t instanceof Metaclass) ) {
+				errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);
+				continue;
+			}
+			
+			// This is similar to RuleAnalysis#analyseRuleResolution
+			Metaclass m = (Metaclass) t;
+			IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();						
+			Set<MatchedRule> rules = ns.getResolvingRules();
+			
+			if ( rules.size() == 0 ) {
+				Type r = errors().signalResolveTempWithoutRule(self, type_); 
+				errorType = r;
+			} else {
+				Type selectedType = null;
+				for (MatchedRule mr : rules) {
+					// This is the rule!
+					for(SimpleOutPatternElement sope : ATLUtils.getAllSimpleOutputPatternElement(mr) ) {
+						if ( sope.getVarName().equals(expectedVarName) ) {
+							Type tsope = attr.typeOf(sope.getType());
+							
+							withSameVarRules += mr.getName() + ", ";
+							if ( selectedType != null && ! typ().equalTypes(tsope, selectedType)) {
+								errors().signalResolveTempGetsDifferentTargetTypes("Several rules may resolve the same resolveTemp with different target types: " + withSameVarRules, self);
+							}
+							
+							// Create a resolution info object, even when what it is resolved may be
+							// conflicting. Perhaps it could be marked what conflicts with what!
+							ResolveTempResolution resolution = OCLFactory.eINSTANCE.createResolveTempResolution();
+							resolution.setRule(mr);
+							resolution.setElement(sope);
+							resolution.getAllInvolvedRules().add(mr);
+							resolution.getAllInvolvedRules().addAll(ATLUtils.allSuperRules(mr));
+							self.getResolveTempResolvedBy().add(resolution);
+							
+							selectedType = tsope;								
+						}
+					}									
+				}
+				
+
+				if ( selectedType != null ) {
+					// The source element may be resolved by at least one rule.
+					selectedTypes.add(selectedType);
+					// Now we check if resolution is complete
+					RuleAnalysis.findPossibleUnresolvedClasses(m, 
+							(problematicClasses, problematicClassesImplicit) -> {					
+								errors().signalResolveTempPossiblyUnresolved(self, resolvedObj, m.getKlass(), problematicClasses, problematicClassesImplicit);
+								return true;
+							});					
+				} else {
+					errorType = errors().signalResolveTempOutputPatternElementNotFound(self, type_, expectedVarName, compatibleRules);					
+				}
+			}
+		}
+		
+		Type finalType = null;
+		if ( selectedTypes.isEmpty() ) {
+			finalType = errorType;
+		} else {
+			finalType = typ().getCommonType(selectedTypes);			
+		}
+		
+		if ( finalType == null ) {
+			throw new IllegalStateException();
+		}
+
+		attr.linkExprType(finalType);
+
+		
+		/*
 		boolean sourceCompatibleRuleFound = false;
 		Module m = (Module) root;
 		for(ModuleElement e : m.getElements()) {
@@ -707,6 +838,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			Type r = errors().signalResolveTempOutputPatternElementNotFound(self, type_, expectedVarName, compatibleRules);
 			attr.linkExprType(r);
 		}
+		*/
 	}
 
 
@@ -856,6 +988,17 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		return typ().getCommonType(values);
 	}
 
+	
+	/* Same as SequenceExp */
+	@Override
+	public void inBagExp(BagExp self) {
+		if ( self.getElements().isEmpty() ) {
+			attr.linkExprType( typ().newBagType( typ().newEmptyCollectionType() ) );
+		} else {
+			Type commonType = computeCommonType(self.getElements());
+			attr.linkExprType( typ().newBagType( commonType ) );
+		}		
+	}
 
 	/* Same as SequenceExp */
 	@Override
@@ -873,10 +1016,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inOrderedSetExp(OrderedSetExp self) {
 		if ( self.getElements().isEmpty() ) {
-			attr.linkExprType( typ().newSetType( typ().newEmptyCollectionType() ) );
+			attr.linkExprType( typ().newOrderedSetType( typ().newEmptyCollectionType() ) );
 		} else {
 			Type commonType = computeCommonType(self.getElements());
-			attr.linkExprType( typ().newSetType( commonType ) );
+			attr.linkExprType( typ().newOrderedSetType( commonType ) );
 		}		
 	}
 

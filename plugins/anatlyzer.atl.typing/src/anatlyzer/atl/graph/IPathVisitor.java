@@ -26,6 +26,8 @@ public interface IPathVisitor {
 
 	public boolean visitProblem(FeatureOrOperationFoundInSubtypeNode<?> node);
 
+	public boolean visitProblem(ResolveTempPossiblyUnresolvedNode node);
+
 	public boolean visitProblem(BindingPossiblyUnresolvedNode node);
 
 	public boolean visitProblem(BindingTargetFeatureNotFound node);

@@ -8,6 +8,7 @@ abstract class NamedElt {
 class Model extends NamedElt {
   val W[*] elements;
   val Other[*] others;
+  val X[0..1] optionalX;
 }
 
 class W extends NamedElt {

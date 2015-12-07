@@ -193,6 +193,15 @@ public interface AtlErrorFactory extends EFactory {
 	NoBindingForCompulsoryFeature createNoBindingForCompulsoryFeature();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Assignment Imperative Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Assignment Imperative Binding</em>'.
+	 * @generated
+	 */
+	InvalidAssignmentImperativeBinding createInvalidAssignmentImperativeBinding();
+
+	/**
 	 * Returns a new object of class '<em>Binding Expected One Assigned Many</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -274,6 +283,15 @@ public interface AtlErrorFactory extends EFactory {
 	ResolveTempWithoutRule createResolveTempWithoutRule();
 
 	/**
+	 * Returns a new object of class '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * @generated
+	 */
+	ResolveTempPossiblyUnresolved createResolveTempPossiblyUnresolved();
+
+	/**
 	 * Returns a new object of class '<em>Resolve Temp Output Pattern Element Not Found</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -328,6 +346,15 @@ public interface AtlErrorFactory extends EFactory {
 	LazyRuleWithFilter createLazyRuleWithFilter();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Rule Inheritance</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Rule Inheritance</em>'.
+	 * @generated
+	 */
+	InvalidRuleInheritance createInvalidRuleInheritance();
+
+	/**
 	 * Returns a new object of class '<em>Ambiguous Target Model Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -371,6 +398,15 @@ public interface AtlErrorFactory extends EFactory {
 	 * @generated
 	 */
 	MatchedRuleWithoutOutputPattern createMatchedRuleWithoutOutputPattern();
+
+	/**
+	 * Returns a new object of class '<em>Matched Rule Filter Non Boolean</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Matched Rule Filter Non Boolean</em>'.
+	 * @generated
+	 */
+	MatchedRuleFilterNonBoolean createMatchedRuleFilterNonBoolean();
 
 	/**
 	 * Returns a new object of class '<em>Expected Collection In For Each</em>'.

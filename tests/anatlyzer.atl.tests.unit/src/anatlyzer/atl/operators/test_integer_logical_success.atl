@@ -1,0 +1,18 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module testnumberlogicalsuccess;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		1 = 1   and
+		1 = 1.5 and
+		1.5 = 1 and
+		1.5 > 1 and
+		'a' = 1 and
+		false = 1 
+	)
+    to   tgt : WXYZ!Model (
+    	name <- 'something'	
+    )
+}

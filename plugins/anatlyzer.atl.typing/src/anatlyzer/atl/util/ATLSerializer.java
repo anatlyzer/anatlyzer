@@ -283,7 +283,16 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inSimpleInPatternElement(SimpleInPatternElement self) {
-		s(self.getVarName() + " : " + g(self.getType()));
+		String modelConstraint = "";
+		if ( self.getModels().size() > 0 ) {
+			modelConstraint = " in ";
+			List<String> l = sl();
+			for(OclModel e : self.getModels()) {
+				l.add(g(e));
+			}
+			modelConstraint += join(l, ", ");
+		}
+		s(self.getVarName() + " : " + g(self.getType()) + modelConstraint);
 	}
 	
 	@Override
@@ -319,9 +328,30 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 	}
 
+	/*
+	@Override
+	public VisitingActions preBinding(Binding self) {
+		pushIndentation()
+		return super.preBinding(self);
+	}
+	*/
+	
+	// protected int cindent = 0;
+	
+	@Override
+	public VisitingActions preBinding(Binding self) {
+		inctab();
+		return super.preBinding(self);
+	}
+	
+	@Override
+	public void afterBinding(Binding self) {
+		dectab();
+	}
+	
 	@Override
 	public void inBinding(Binding self) {
-		s(self.getPropertyName() + " <- " + g(self.getValue()));
+		s(genTab() + self.getPropertyName() + " <- " + g(self.getValue()));
 	}
 	
 	//
@@ -472,8 +502,8 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inIfExp(IfExp self) {
-		String s = "if ( " + g(self.getCondition()) + " ) then" + cr() + tab(1) + g(self.getThenExpression()) + 
-				 cr() + tab(0) + "else" + cr() + tab(1) + g(self.getElseExpression()) + cr() + tab(0) + "endif";
+		String s = "if ( " + g(self.getCondition()) + " ) then" + inctab() + g(self.getThenExpression()) +  
+				dectab() + "else" + inctab() + g(self.getElseExpression()) + dectab() + "endif";
 		s(s);
 	}
 	
@@ -593,6 +623,11 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		s += join(l) + " }";
 		s(s);			
+	}
+
+	@Override
+	public void inOclModel(OclModel self) {
+		s(self.getName());
 	}
 	
 	@Override
@@ -776,6 +811,16 @@ public class ATLSerializer extends AbstractVisitor {
 		return str.get(obj);
 	}
 	
+	protected String inctab() {
+		indentationStack.add("\t");
+		return cr() + genTab();
+	}
+	
+	protected String dectab() {
+		indentationStack.remove(indentationStack.size() - 1);
+		return cr() + genTab();
+	}
+	
 	protected String tab(int n) {
 		String s = "";
 		for(int i = 0; i < n; i++) {
@@ -783,6 +828,32 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		return s;		
 	}
+	
+	protected String genTab() {
+		String s = "";
+		for (String string : indentationStack) {
+			s += string;
+		}
+		return s;
+	}
+	
+
+	protected ArrayList<String> indentationStack = new ArrayList<String>();
+	
+	/*
+	protected String otab() {
+		if ( indentationStack.isEmpty() ) {
+			indentationStack.add(0);
+		}
+		indentationStack.add(indentationStack.get(indentationStack.size() - 1) + 1);		
+		return tab(indentationStack.get(indentationStack.size() - 1));
+	}
+	
+	protected String ctab() {
+		indentationStack.remove(indentationStack.size() - 1);
+		return "";
+	}
+	*/
 
 
 	private static HashSet<String> reservedWords = new HashSet<String>();

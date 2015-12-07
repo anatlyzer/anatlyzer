@@ -24,6 +24,15 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 */
 	public void setErrorMarker(IMarker marker);
 
+	/**
+	 * @return True when the quick fix will change the meta-model.
+	 */
 	public boolean isMetamodelChanging();
+	
+	/**
+	 * @return The logical name of the meta-model that will be changed, as given in the ATL transformation.
+	 * @throws IllegalStateException if {@link #isMetamodelChanging()} is false.
+	 */
+	public String getChangedMetamodel();
 	
 }

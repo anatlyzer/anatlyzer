@@ -1,0 +1,17 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module testfloatlogicalfail;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		-- Any logical operator with a non-number operator causes a runtime error
+		1.5 >= 'a' and
+		-- This is also a problem
+		1.5 = false
+	)
+    to   tgt : WXYZ!Model (
+    	name <- 'something'	
+    )
+}
+

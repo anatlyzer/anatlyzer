@@ -58,7 +58,7 @@ public class GlobalNamespace {
 	
 	public Pair<EClassifier, MetamodelNamespace> resolve(EClassifier proxy) {
 		if ( rs == null )
-			throw new IllegalStateException();
+			return null;
 		
 		EClassifier c = (EClassifier) EcoreUtil.resolve(proxy, rs);
 		EPackage pkg = c.getEPackage();

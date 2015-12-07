@@ -1,0 +1,23 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module bindingassingment;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'default'
+	), x1 : WXYZ!X (
+		name <- 'anX1'
+	), x2 : WXYZ!X (
+		name <- 'anX2'
+	), other : WXYZ!Other (
+		name <- 'other'
+	)
+	do {
+		tgt.optionalX <- Sequence { x1, x2 };
+		tgt.elements <- x1;
+		tgt.elements <- x2; -- This has the semantics of collection addition
+		tgt.elements <- other; -- This is an error	
+	}
+}

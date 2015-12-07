@@ -50,7 +50,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -157,6 +157,16 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(noBindingForCompulsoryFeature);
 				if (result == null) result = caseProblem(noBindingForCompulsoryFeature);
 				if (result == null) result = caseAnalysisInfo(noBindingForCompulsoryFeature);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.INVALID_ASSIGNMENT_IMPERATIVE_BINDING: {
+				InvalidAssignmentImperativeBinding invalidAssignmentImperativeBinding = (InvalidAssignmentImperativeBinding)theEObject;
+				T result = caseInvalidAssignmentImperativeBinding(invalidAssignmentImperativeBinding);
+				if (result == null) result = caseBindingProblem(invalidAssignmentImperativeBinding);
+				if (result == null) result = caseLocalProblem(invalidAssignmentImperativeBinding);
+				if (result == null) result = caseProblem(invalidAssignmentImperativeBinding);
+				if (result == null) result = caseAnalysisInfo(invalidAssignmentImperativeBinding);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -495,6 +505,17 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.RESOLVE_TEMP_POSSIBLY_UNRESOLVED: {
+				ResolveTempPossiblyUnresolved resolveTempPossiblyUnresolved = (ResolveTempPossiblyUnresolved)theEObject;
+				T result = caseResolveTempPossiblyUnresolved(resolveTempPossiblyUnresolved);
+				if (result == null) result = caseResolveTempProblem(resolveTempPossiblyUnresolved);
+				if (result == null) result = caseBindingResolution(resolveTempPossiblyUnresolved);
+				if (result == null) result = caseLocalProblem(resolveTempPossiblyUnresolved);
+				if (result == null) result = caseProblem(resolveTempPossiblyUnresolved);
+				if (result == null) result = caseAnalysisInfo(resolveTempPossiblyUnresolved);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND: {
 				ResolveTempOutputPatternElementNotFound resolveTempOutputPatternElementNotFound = (ResolveTempOutputPatternElementNotFound)theEObject;
 				T result = caseResolveTempOutputPatternElementNotFound(resolveTempOutputPatternElementNotFound);
@@ -550,6 +571,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.INVALID_RULE_INHERITANCE: {
+				InvalidRuleInheritance invalidRuleInheritance = (InvalidRuleInheritance)theEObject;
+				T result = caseInvalidRuleInheritance(invalidRuleInheritance);
+				if (result == null) result = caseLocalProblem(invalidRuleInheritance);
+				if (result == null) result = caseProblem(invalidRuleInheritance);
+				if (result == null) result = caseAnalysisInfo(invalidRuleInheritance);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.AMBIGUOUS_TARGET_MODEL_REFERENCE: {
 				AmbiguousTargetModelReference ambiguousTargetModelReference = (AmbiguousTargetModelReference)theEObject;
 				T result = caseAmbiguousTargetModelReference(ambiguousTargetModelReference);
@@ -602,6 +632,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(matchedRuleWithoutOutputPattern);
 				if (result == null) result = caseProblem(matchedRuleWithoutOutputPattern);
 				if (result == null) result = caseAnalysisInfo(matchedRuleWithoutOutputPattern);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.MATCHED_RULE_FILTER_NON_BOOLEAN: {
+				MatchedRuleFilterNonBoolean matchedRuleFilterNonBoolean = (MatchedRuleFilterNonBoolean)theEObject;
+				T result = caseMatchedRuleFilterNonBoolean(matchedRuleFilterNonBoolean);
+				if (result == null) result = caseLocalProblem(matchedRuleFilterNonBoolean);
+				if (result == null) result = caseProblem(matchedRuleFilterNonBoolean);
+				if (result == null) result = caseAnalysisInfo(matchedRuleFilterNonBoolean);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1171,6 +1210,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Assignment Imperative Binding</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Assignment Imperative Binding</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidAssignmentImperativeBinding(InvalidAssignmentImperativeBinding object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Binding Expected One Assigned Many</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1321,6 +1375,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Resolve Temp Possibly Unresolved</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseResolveTempPossiblyUnresolved(ResolveTempPossiblyUnresolved object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Resolve Temp Output Pattern Element Not Found</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1411,6 +1480,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Rule Inheritance</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Rule Inheritance</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidRuleInheritance(InvalidRuleInheritance object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Ambiguous Target Model Reference</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1497,6 +1581,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseMatchedRuleWithoutOutputPattern(MatchedRuleWithoutOutputPattern object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Matched Rule Filter Non Boolean</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Matched Rule Filter Non Boolean</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMatchedRuleFilterNonBoolean(MatchedRuleFilterNonBoolean object) {
 		return null;
 	}
 

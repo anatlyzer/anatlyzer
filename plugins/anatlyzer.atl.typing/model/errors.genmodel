@@ -41,6 +41,14 @@
     <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>
     <nestedGenPackages prefix="AtlError" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_error">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/IN_NORMAL_RULE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/NoBindingForCompulsoryFeatureKind/MISSING_SUBRULE"/>
+      </genEnums>
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/InvalidRuleInheritanceKind">
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_NUMBER_OF_IPE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/OTHER"/>
+      </genEnums>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/location"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/LocalProblem/fileLocation"/>
@@ -62,7 +70,12 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/NavigationProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/InvalidArgumentProblem"/>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/TargetModelConformanceProblem"/>
-      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/NoBindingForCompulsoryFeature">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/NoBindingForCompulsoryFeature/subrule"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoBindingForCompulsoryFeature/kind"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidAssignmentImperativeBinding"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingPossiblyUnresolved">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/BindingPossiblyUnresolved/problematicClasses"/>
@@ -83,6 +96,8 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/FoundInSubtype">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/possibleClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/FoundInSubtype/missingClasses"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
@@ -179,6 +194,14 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempWithoutRule/sourceType"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempPossiblyUnresolved">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/problematicClassesImplicit"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempPossiblyUnresolved/resolvedExpression"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ResolveTempOutputPatternElementNotFound/sourceType"/>
@@ -191,6 +214,9 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/LazyRuleWithFilter"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidRuleInheritance">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidRuleInheritance/kind"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/AmbiguousTargetModelReference">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AmbiguousTargetModelReference/modelName"/>
       </genClasses>
@@ -203,6 +229,7 @@
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/WrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorBodyWrongType"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleWithoutOutputPattern"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/MatchedRuleFilterNonBoolean"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ExpectedCollectionInForEach"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/NoClassFoundInMetamodel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/NoClassFoundInMetamodel/className"/>

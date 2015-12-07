@@ -7,6 +7,7 @@ import anatlyzer.atlext.ATL.*;
 import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -368,6 +369,12 @@ public class ATLSwitch<T> extends Switch<T> {
 				T result = caseForStat(forStat);
 				if (result == null) result = caseStatement(forStat);
 				if (result == null) result = caseLocatedElement(forStat);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ATLPackage.STRING_TO_STRING_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<String, String> stringToStringMap = (Map.Entry<String, String>)theEObject;
+				T result = caseStringToStringMap(stringToStringMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -909,6 +916,21 @@ public class ATLSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseForStat(ForStat object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>String To String Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>String To String Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStringToStringMap(Map.Entry<String, String> object) {
 		return null;
 	}
 

@@ -217,7 +217,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	private void checkSelectFirstProblem(IteratorExp node) {
 		EObject container = node.eContainer();
 		if ( container instanceof CollectionOperationCallExp  && ((CollectionOperationCallExp) container).getOperationName().equals("first")) {
-			AnalyserContext.getErrorModel().signalSelectFirstAny(node);
+			AnalyserContext.getErrorModel().signalSelectFirstAny((CollectionOperationCallExp) container);
 		}
 	}
 

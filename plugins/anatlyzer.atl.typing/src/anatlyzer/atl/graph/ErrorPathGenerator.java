@@ -21,6 +21,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -37,6 +38,7 @@ import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 /**
@@ -89,7 +91,9 @@ public class ErrorPathGenerator {
 		} else if ( p instanceof BindingWithResolvedByIncompatibleRule ) {
 			generatePath_BindingWithResolvedByIncompatibleRule((BindingWithResolvedByIncompatibleRule) p);				
 		} else if ( p instanceof BindingPossiblyUnresolved ) {
-			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);				
+			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);	
+		} else if ( p instanceof ResolveTempPossiblyUnresolved ) {			
+			generatePath_ResolveTempPossiblyUnresolved((ResolveTempPossiblyUnresolved) p);	
 		} else if ( p instanceof FeatureFoundInSubtype ) {
 			generatePath_FoundInSubtype((FoundInSubtype) p);
 		} else if ( p instanceof AccessToUndefinedValue ) {
@@ -163,6 +167,15 @@ public class ErrorPathGenerator {
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
 
+	
+	private void generatePath_ResolveTempPossiblyUnresolved(ResolveTempPossiblyUnresolved p) {
+		OclExpression atlExpr = (OclExpression) p.getResolvedExpression();
+		ResolveTempPossiblyUnresolvedNode node = new ResolveTempPossiblyUnresolvedNode(p, (OperationCallExp) p.getElement(), atlExpr);
+		currentPath = new ProblemPath(p, node);
+		
+		pathFromErrorExpression(atlExpr, node);
+	}
+	
 	private void generatePath_BindingPossiblyUnresolved(BindingPossiblyUnresolved p) {
 		Binding atlBinding = (Binding) p.getElement();
 

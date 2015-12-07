@@ -119,6 +119,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createNoBindingForCompulsoryFeatureAdapter();
 			}
 			@Override
+			public Adapter caseInvalidAssignmentImperativeBinding(InvalidAssignmentImperativeBinding object) {
+				return createInvalidAssignmentImperativeBindingAdapter();
+			}
+			@Override
 			public Adapter caseBindingPossiblyUnresolved(BindingPossiblyUnresolved object) {
 				return createBindingPossiblyUnresolvedAdapter();
 			}
@@ -251,6 +255,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createResolveTempWithoutRuleAdapter();
 			}
 			@Override
+			public Adapter caseResolveTempPossiblyUnresolved(ResolveTempPossiblyUnresolved object) {
+				return createResolveTempPossiblyUnresolvedAdapter();
+			}
+			@Override
 			public Adapter caseResolveTempOutputPatternElementNotFound(ResolveTempOutputPatternElementNotFound object) {
 				return createResolveTempOutputPatternElementNotFoundAdapter();
 			}
@@ -275,6 +283,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createLazyRuleWithFilterAdapter();
 			}
 			@Override
+			public Adapter caseInvalidRuleInheritance(InvalidRuleInheritance object) {
+				return createInvalidRuleInheritanceAdapter();
+			}
+			@Override
 			public Adapter caseAmbiguousTargetModelReference(AmbiguousTargetModelReference object) {
 				return createAmbiguousTargetModelReferenceAdapter();
 			}
@@ -297,6 +309,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseMatchedRuleWithoutOutputPattern(MatchedRuleWithoutOutputPattern object) {
 				return createMatchedRuleWithoutOutputPatternAdapter();
+			}
+			@Override
+			public Adapter caseMatchedRuleFilterNonBoolean(MatchedRuleFilterNonBoolean object) {
+				return createMatchedRuleFilterNonBooleanAdapter();
 			}
 			@Override
 			public Adapter caseExpectedCollectionInForEach(ExpectedCollectionInForEach object) {
@@ -801,6 +817,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding <em>Invalid Assignment Imperative Binding</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding
+	 * @generated
+	 */
+	public Adapter createInvalidAssignmentImperativeBindingAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany <em>Binding Expected One Assigned Many</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -941,6 +971,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved <em>Resolve Temp Possibly Unresolved</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved
+	 * @generated
+	 */
+	public Adapter createResolveTempPossiblyUnresolvedAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound <em>Resolve Temp Output Pattern Element Not Found</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1025,6 +1069,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidRuleInheritance <em>Invalid Rule Inheritance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidRuleInheritance
+	 * @generated
+	 */
+	public Adapter createInvalidRuleInheritanceAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference <em>Ambiguous Target Model Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1105,6 +1163,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMatchedRuleWithoutOutputPatternAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean <em>Matched Rule Filter Non Boolean</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean
+	 * @generated
+	 */
+	public Adapter createMatchedRuleFilterNonBooleanAdapter() {
 		return null;
 	}
 

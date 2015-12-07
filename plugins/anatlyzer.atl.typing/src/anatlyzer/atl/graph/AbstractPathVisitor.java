@@ -65,6 +65,11 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	}
 
 	@Override
+	public boolean visitProblem(ResolveTempPossiblyUnresolvedNode node) {
+		return true;
+	}
+	
+	@Override
 	public boolean visitProblem(
 			BindingTargetFeatureNotFound node) {
 		return true;

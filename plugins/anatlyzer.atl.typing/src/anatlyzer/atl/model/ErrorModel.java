@@ -2,9 +2,12 @@ package anatlyzer.atl.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -44,15 +47,21 @@ import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
+import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
+import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
 import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
 import anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType;
 import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.MatchedRuleFilterNonBoolean;
+import anatlyzer.atl.errors.atl_error.MatchedRuleWithoutOutputPattern;
 import anatlyzer.atl.errors.atl_error.ModelElement;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.errors.atl_error.NoContainerForRefImmediateComposite;
 import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
@@ -68,6 +77,7 @@ import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
 import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
+import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
@@ -80,14 +90,19 @@ import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -103,13 +118,23 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  */
 public class ErrorModel {
 	
-	protected Resource r;
+	protected Resource resource;
 	protected AnalysisResult	result;
 	protected List<Problem> discardedProblems = new ArrayList<Problem>();
 		
 	public ErrorModel(Resource resource) {
-		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
-		r = resource;
+		this.resource = resource;
+		for (EObject eObject : resource.getContents()) {
+			if ( eObject instanceof AnalysisResult ) {
+				result = (AnalysisResult) eObject;
+				break;
+			}
+		}
+		
+		if ( result == null ) {
+			result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
+			this.resource.getContents().add(result);
+		}
 	}
 
 	public AnalysisResult getAnalysis() {
@@ -153,6 +178,16 @@ public class ErrorModel {
 		
 		signalError(error, "Lazy rule's filter is ignored at runtime, in rule " + element.getName(), element);
 	}
+	
+	public void signalInvalidRuleInheritance(InPattern inPattern, InvalidRuleInheritanceKind kind, String explanation) {
+		InvalidRuleInheritance error = AtlErrorFactory.eINSTANCE.createInvalidRuleInheritance();
+		initProblem(error, inPattern);
+		
+		error.setKind(kind);
+		
+		signalError(error, "Invalid rule inheritance. " + explanation, inPattern);	
+	}
+
 	
 	public Type signalNoFeature(EClass c, String featureName, LocatedElement element) {
 		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
@@ -261,7 +296,7 @@ public class ErrorModel {
 	}
 
 	
-	public void warningFeatureFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String featureName, LocatedElement node) {
+	public void warningFeatureFoundInSubType(Metaclass type, Collection<EClass> foundClasses, Collection<EClass> missingClasses, String featureName, LocatedElement node) {
 		FeatureFoundInSubtype error = AtlErrorFactory.eINSTANCE.createFeatureFoundInSubtype();
 		initProblem(error, node);
 
@@ -273,10 +308,14 @@ public class ErrorModel {
 			error.getPossibleClasses().add(metaclass);
 		}
 		
-		signalError(error, "Feature " + featureName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
+		for (EClass metaclass : missingClasses) {
+			error.getMissingClasses().add(metaclass);
+		}
+		
+		signalError(error, "Feature " + featureName + " expected in " + type.getName() + ". Missing in " + TypeUtils.classifiersToString(missingClasses) + ", but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 	}
 
-	public void warningOperationFoundInSubType(Metaclass type, Collection<EClass> foundClasses, String operationName, LocatedElement node) {
+	public void warningOperationFoundInSubType(Metaclass type, Collection<EClass> foundClasses, Collection<EClass> missingClasses, String operationName, LocatedElement node) {
 		OperationFoundInSubtype error = AtlErrorFactory.eINSTANCE.createOperationFoundInSubtype();
 		initProblem(error, node);
 
@@ -287,8 +326,12 @@ public class ErrorModel {
 		for (EClass metaclass : foundClasses) {
 			error.getPossibleClasses().add(metaclass);
 		}
-		
-		signalError(error, "Operation " + operationName + " expected in " + type.getName() + " but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
+
+		for (EClass metaclass : missingClasses) {
+			error.getMissingClasses().add(metaclass);
+		}
+
+		signalError(error, "Operation " + operationName + " expected in " + type.getName() + ". Missing in " + TypeUtils.classifiersToString(missingClasses) + ", but found in subtypes " + TypeUtils.classifiersToString(foundClasses), node);
 
 		// System.err.println("WARNING: Feature " + operationName + " expected in " + type.getName() + " but found in subtype " + subtype.getName() + ". " + node.getLocation() );		
 	} 
@@ -337,11 +380,11 @@ public class ErrorModel {
 		IteratorOverNoCollectionType error = AtlErrorFactory.eINSTANCE.createIteratorOverNoCollectionType();
 		initProblem(error, node);
 		
-		if ( isErrorType(receptorType) )
-			return createDependentError(error, receptorType);
+//		if ( isErrorType(receptorType) )
+//			return createDependentError(error, receptorType);
 
-		signalNoRecoverableError("Iterator operation over " + receptorType, node);		
-		return null;
+		signalError(error, "Iterator operation over " + TypeUtils.typeToString(receptorType), node);		
+		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
 	public Type signalNoThisModuleOperation(String operationName, LocatedElement node) {
@@ -437,13 +480,20 @@ public class ErrorModel {
 
 	// Binding problems
 	
-	public void signalNoBindingForCompulsoryFeature(EStructuralFeature unboundCompulsoryFeature, OutPatternElement pe) {
+	public void signalNoBindingForCompulsoryFeature(EStructuralFeature unboundCompulsoryFeature, OutPatternElement pe, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern subrule) {
 		NoBindingForCompulsoryFeature error = AtlErrorFactory.eINSTANCE.createNoBindingForCompulsoryFeature();
 		initProblem(error, pe);
 		error.setFeature(unboundCompulsoryFeature);
 		error.setFeatureName(unboundCompulsoryFeature.getName());
+		error.setKind(kind);
 		
-		signalWarning(error, "In rule " + pe.getOutPattern().getRule().getName() + ", no binding for compulsory " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName(), pe);						
+		String initialText = "In rule " + pe.getOutPattern().getRule().getName();
+		if ( subrule != null ) {
+			error.setSubrule(subrule);
+			initialText = "In subrule " + subrule.getName();
+		}
+		
+		signalWarning(error, initialText + ", no binding for compulsory " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName(), pe);						
 	}
 
 	
@@ -468,7 +518,7 @@ public class ErrorModel {
 	}
 
 
-	public void signalSelectFirstAny(IteratorExp node) {
+	public void signalSelectFirstAny(CollectionOperationCallExp node) {
 		ChangeSelectFirstForAny error = AtlErrorFactory.eINSTANCE.createChangeSelectFirstForAny();
 		initProblem(error, node);
 		
@@ -500,6 +550,29 @@ public class ErrorModel {
 
 		signalError(error, "No rule for resolveTemp", resolveTempOperation);				
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
+	}
+
+	
+	public void signalResolveTempPossiblyUnresolved(OperationCallExp resolveTempOperation, OclExpression resolvedObj, EClass sourceType, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
+		ResolveTempPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createResolveTempPossiblyUnresolved();
+		initProblem(error, resolveTempOperation, ProblemStatus.WITNESS_REQUIRED, true);
+
+		error.setRightType(sourceType);
+		// error.setTargetType(targetType);
+		// error.setFeatureName(b.getPropertyName());
+		
+		error.getProblematicClasses().addAll(problematicClasses);
+		error.getProblematicClassesImplicit().addAll(problematicClassesImplicit);
+		
+		error.setResolvedExpression(resolvedObj);
+		
+		String s = "";
+		for (EClass eClass : problematicClasses) {
+			s += ", " + eClass.getName();
+		}
+		s = s.replaceFirst(",", "");
+		
+		signalWarning(error, "Possibly unresolved resolveTemp (" + sourceType.getName() + "): "  + s, resolveTempOperation);
 	}
 
 
@@ -602,6 +675,14 @@ public class ErrorModel {
 		
 		signalWarning(error, "Possibly unresolved binding (" + rightType.getName() + "): "  + s, b);
 	}
+	
+	public void signalInvalidAssignmentInBindingStatement(Type left, Type right, BindingStat b) {
+		InvalidAssignmentImperativeBinding error = AtlErrorFactory.eINSTANCE.createInvalidAssignmentImperativeBinding();
+		initProblem(error, b);
+		
+		signalError(error, "Invalid assignment in binding statement. Left: " + 
+				TypeUtils.typeToString(left) + ". Right: " + TypeUtils.typeToString(right), b);		
+	}
 	// End-of binding problems
 
 
@@ -628,12 +709,19 @@ public class ErrorModel {
 	}
 
 	public void signalMatchedRuleWithoutOutputPattern(MatchedRule rule) {
-		AmbiguousTargetModelReference error = AtlErrorFactory.eINSTANCE.createAmbiguousTargetModelReference();
+		MatchedRuleWithoutOutputPattern error = AtlErrorFactory.eINSTANCE.createMatchedRuleWithoutOutputPattern();
 		initProblem(error, rule);
 		
 		signalWarning(error, "Matched rule without output pattern: " + rule.getName(), rule);		
 	}
 	
+
+	public void signalMatchedRuleWithNonBooleanFilter(Type t, MatchedRule rule) {
+		MatchedRuleFilterNonBoolean error = AtlErrorFactory.eINSTANCE.createMatchedRuleFilterNonBoolean();
+		initProblem(error, rule);
+		
+		signalWarning(error, "Matched rule " + rule.getName() + " with non-boolean filter: " + TypeUtils.typeToString(t), rule);				
+	}
 	
 	public Type signalNoEnumLiteral(String name, LocatedElement node) {
 		NoEnumLiteral error = AtlErrorFactory.eINSTANCE.createNoEnumLiteral();
@@ -823,7 +911,17 @@ public class ErrorModel {
 
 	public void clear() {
 		EcoreUtil.delete(result);
+		
+		List<EObject> toBeRemoved = resource.getContents().stream().filter(e -> e instanceof Problem).collect(Collectors.toList());
+		for (EObject eObject : toBeRemoved) {
+			EcoreUtil.delete(eObject, true);
+		}
+		
+		// This does not work because the resource is shared
+		// while ( ! r.getContents().isEmpty() ) 
+		// 	EcoreUtil.delete(r.getContents().get(0), true);		
 		result = AnalysisResultFactory.eINSTANCE.createAnalysisResult();
+		resource.getContents().add(result);
 	}
 
 	public List<Problem> getDiscardedProblems() {

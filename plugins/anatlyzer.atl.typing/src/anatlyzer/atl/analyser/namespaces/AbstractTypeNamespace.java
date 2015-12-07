@@ -2,7 +2,9 @@ package anatlyzer.atl.analyser.namespaces;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -109,16 +111,20 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		}
 	}
 	
+	public static final Set<String> logicalOperators = new HashSet<String>();
+	static {
+		logicalOperators.add("=");
+		logicalOperators.add("<>");
+		logicalOperators.add(">");
+		logicalOperators.add(">=");
+		logicalOperators.add("<");
+		logicalOperators.add("<=");
+		
+	}
 	
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		if ( operatorSymbol.equals("=") ||
-			 operatorSymbol.equals("<>") ||
- 			 operatorSymbol.equals(">") ||
-			 operatorSymbol.equals(">=") ||
-			 operatorSymbol.equals("<=") ||
-			 operatorSymbol.equals("<") ) {
-
+		if ( logicalOperators.contains(operatorSymbol) ) {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		}
 		return null;

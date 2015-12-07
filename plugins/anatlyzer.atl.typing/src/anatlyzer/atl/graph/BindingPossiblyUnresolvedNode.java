@@ -12,10 +12,12 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
+import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -65,32 +67,39 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		
 		OclSlice.slice(slice, binding.getValue());
 		
-		// Needed for the error
-		for (EClass c : problem.getProblematicClasses()) {
-			slice.addMetaclassNeededInError(c);
-		}
 
-		/*
-		// New strategy to reduce the number of classes in the slice
-		System.out.println(binding.getLocation());
-		for (EClass c : problem.getProblematicClasses()) {
-			if ( ! problem.getProblematicClassesImplicit().contains(c) ) {
+// This is not enough if the class that will raise the error is "implicit" (i.e., it 
+// does not appear in the path but it is a subclass)
+//		// Needed for the error
+//		for (EClass c : problem.getProblematicClasses()) {
+//			slice.addMetaclassNeededInError(c);
+//		}
+
+
+		
+//		 New strategy to reduce the number of classes in the slice
+		selectProblematicClassesForSlice(slice, 
+				binding.getResolvedBy(), 
+				problem.getProblematicClasses(), 
+				problem.getProblematicClassesImplicit());
+	}
+
+	public static void selectProblematicClassesForSlice(ErrorSlice slice, List<? extends RuleResolutionInfo> resolution, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
+		for (EClass c : problematicClasses) {
+			if ( ! problematicClassesImplicit.contains(c) ) {
 				System.out.println(c.getName());
 				slice.addMetaclassNeededInError(c);
 			}
 		}
 		
-		EClass c = ErrorSlice.pickClass(problem.getProblematicClassesImplicit());
+		EClass c = ErrorSlice.pickClass(problematicClassesImplicit);
 		if ( c != null ) {
 			slice.addMetaclassNeededInError(c);
 		}
-		*/
+
 		
 		// Classes whose type appear
-		
-		
-		List<RuleResolutionInfo> resolved = binding.getResolvedBy();
-		for (RuleResolutionInfo ruleInfo : resolved) {
+		for (RuleResolutionInfo ruleInfo : resolution) {
 			for (MatchedRule mr : ruleInfo.getAllInvolvedRules()) {			
 				if ( mr.getInPattern().getFilter() != null ) {
 					OclSlice.slice(slice, mr.getInPattern().getFilter());
@@ -112,16 +121,21 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	protected OclExpression genProblemSpecificCondition(CSPModel model, String operator) {
-		OclExpression result = null;
 		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
-		assert(rules.size() > 0);
-
 		OclExpression value = genBindingRightPart(model, binding);		
+		
+		return genProblemSpecificCondition(model, operator, rules, binding.getValue(), value);
+	}
+		
+	protected static OclExpression genProblemSpecificCondition(CSPModel model, String operator, List<RuleResolutionInfo> rules, OclExpression originalValue, OclExpression genValue) {
+		OclExpression result = null;
+		assert(rules.size() > 0);
+		Type srcType = originalValue.getInferredType();
 
-		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding)) ) {
-			result = createReferenceConstraint(model, rules, value, operator);
-		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {		
-			IteratorExp exists = model.createExists(value, "_problem_");
+		if ( TypeUtils.isReference(srcType) ) {
+			result = createReferenceConstraint(model, rules, genValue, operator);
+		} else if ( TypeUtils.isCollection(srcType) ) {		
+			IteratorExp exists = model.createExists(genValue, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
 			OclExpression lastExpr = genAndRules(model, rules, varDcl, operator);
@@ -129,10 +143,10 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			exists.setBody(lastExpr);
 			
 			result = exists;
-		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
-			result = createReferenceConstraint(model, rules, value, operator);
-		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
-			CollectionOperationCallExp flattened = model.createCollectionOperationCall(value, "flatten");
+		} else if ( TypeUtils.isUnionWithReferences(srcType)) {
+			result = createReferenceConstraint(model, rules, genValue, operator);
+		} else if ( TypeUtils.isUnionWithCollections(srcType) ) {
+			CollectionOperationCallExp flattened = model.createCollectionOperationCall(genValue, "flatten");
 			
 			// Same as the previous if...
 			IteratorExp exists = model.createExists(flattened, "_problem_");
@@ -144,7 +158,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			result = exists;
 		} else {
 			// TODO: For union types with mixed collections and mono-valued elements, Sequence { value }->flatten()
-			throw new IllegalStateException(this.binding.getLocation() + " " + TypeUtils.typeToString(ATLUtils.getSourceType(binding)));
+			throw new IllegalStateException(originalValue.getLocation() + " " + TypeUtils.typeToString(srcType));
 		}
 		
 		return result;
@@ -156,11 +170,10 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 	
 	
-	private LetExp createReferenceConstraint(CSPModel model,
+	private static LetExp createReferenceConstraint(CSPModel model,
 			List<RuleResolutionInfo> rules, OclExpression value, String operator) {
 		LetExp let = model.createLetScope(value, null, "_problem_");
-		VariableDeclaration varDcl = let.getVariable();
-		
+		VariableDeclaration varDcl = let.getVariable();		
 		OclExpression andRules = genAndRules(model, rules, varDcl, operator);
 		
 		// => not varDcl.oclIsUndefined()
@@ -177,7 +190,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return let;
 	}
 
-	private OclExpression genAndRules(CSPModel model,
+	private static OclExpression genAndRules(CSPModel model,
 			List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
 		
 		OclExpression lastExpr = null;
@@ -197,7 +210,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 				
 				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-				OperationCallExp casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
+				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
 				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 					
 				// Map the iterator var to the rule variable

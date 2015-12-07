@@ -9,11 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -21,7 +19,6 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -37,7 +34,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
@@ -318,7 +314,7 @@ public class Tester {
 		Properties properties = new Properties(); 
 		saveTransMLProperties(properties);
 		
-		// load transformation preconditions (defined as comments annotated by @prec)
+		// load transformation preconditions (defined as comments annotated by @pre)
 		Module       module        = new ATLModel(atlModel.getResource()).getModule();
 		List<String> preconditions = new ArrayList<String>();
 		for (String s : module.getCommentsBefore()) {

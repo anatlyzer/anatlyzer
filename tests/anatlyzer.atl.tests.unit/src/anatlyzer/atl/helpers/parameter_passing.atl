@@ -40,7 +40,7 @@ lazy rule aRule {
 
 lazy rule aRuleTwoParams {
 	from
-		a : ABCD!A, a : ABCD!A
+		a : ABCD!A, b : ABCD!A
 	to 
 		x : WXYZ!X (
 			name <- 'default'

@@ -20,10 +20,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl#getPossibleClasses <em>Possible Classes</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl#getMissingClasses <em>Missing Classes</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -37,6 +38,16 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 	 * @ordered
 	 */
 	protected EList<EClass> possibleClasses;
+
+	/**
+	 * The cached value of the '{@link #getMissingClasses() <em>Missing Classes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMissingClasses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EClass> missingClasses;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,11 +85,25 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EClass> getMissingClasses() {
+		if (missingClasses == null) {
+			missingClasses = new EObjectResolvingEList<EClass>(EClass.class, this, AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES);
+		}
+		return missingClasses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				return getPossibleClasses();
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				return getMissingClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -96,6 +121,10 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 				getPossibleClasses().clear();
 				getPossibleClasses().addAll((Collection<? extends EClass>)newValue);
 				return;
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				getMissingClasses().clear();
+				getMissingClasses().addAll((Collection<? extends EClass>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -111,6 +140,9 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				getPossibleClasses().clear();
 				return;
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				getMissingClasses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -125,6 +157,8 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 		switch (featureID) {
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				return possibleClasses != null && !possibleClasses.isEmpty();
+			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				return missingClasses != null && !missingClasses.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -139,6 +173,7 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 		if (baseClass == FoundInSubtype.class) {
 			switch (derivedFeatureID) {
 				case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES: return AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES;
+				case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES: return AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES;
 				default: return -1;
 			}
 		}
@@ -155,6 +190,7 @@ public class FeatureFoundInSubtypeImpl extends FeatureNotFoundImpl implements Fe
 		if (baseClass == FoundInSubtype.class) {
 			switch (baseFeatureID) {
 				case AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES: return AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__POSSIBLE_CLASSES;
+				case AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES: return AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE__MISSING_CLASSES;
 				default: return -1;
 			}
 		}

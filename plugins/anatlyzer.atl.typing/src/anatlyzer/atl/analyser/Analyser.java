@@ -25,10 +25,10 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.Unit;
 
 public class Analyser implements IAnalyserResult {
-	private GlobalNamespace	mm;
-	private TypingModel	typ;
-	private ATLModel	trafo;
-	private ErrorModel	errors;
+	protected GlobalNamespace	mm;
+	protected TypingModel	typ;
+	protected ATLModel	trafo;
+	protected ErrorModel	errors;
 	
 	private ProblemGraph problemGraph;
 	
@@ -38,7 +38,7 @@ public class Analyser implements IAnalyserResult {
 
 	private ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
-	public Analyser(GlobalNamespace mm, ATLModel atlModel) throws IOException {
+	public Analyser(GlobalNamespace mm, ATLModel atlModel) {
 		this.mm    = mm;
 		this.trafo = atlModel;
 		this.typ   = atlModel.getTyping();

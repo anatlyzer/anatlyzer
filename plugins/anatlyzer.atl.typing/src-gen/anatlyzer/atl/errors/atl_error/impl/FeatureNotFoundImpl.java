@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getClassName <em>Class Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundImpl#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

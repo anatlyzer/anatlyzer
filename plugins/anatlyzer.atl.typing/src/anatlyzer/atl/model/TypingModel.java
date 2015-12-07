@@ -1,11 +1,12 @@
 package anatlyzer.atl.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-
-import javax.lang.model.type.ErrorType;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -28,6 +29,7 @@ import anatlyzer.atl.analyser.namespaces.UnionTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.UnknownNamespace;
 import anatlyzer.atl.analyser.namespaces.UnresolvedTypeErrorNamespace;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.types.BagType;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
@@ -38,6 +40,7 @@ import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OclUndefinedType;
+import anatlyzer.atl.types.OrderedSetType;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ReflectiveClass;
 import anatlyzer.atl.types.SequenceType;
@@ -66,6 +69,14 @@ public class TypingModel {
 	public TypingModel(Resource r) {
 		this.impl = r;
 	}
+
+
+	public void clear() {
+		List<EObject> toBeRemoved = impl.getContents().stream().filter(e -> e instanceof Type).collect(Collectors.toList());
+		for (EObject eObject : toBeRemoved) {
+			EcoreUtil.delete(eObject, true);
+		}
+	}	
 	
 	private Type createPType(PrimitiveType t, String pTypeName) {
 		add(t);
@@ -149,12 +160,28 @@ public class TypingModel {
 		return seq;
 	}
 
+	public BagType newBagType(Type nested) {
+		BagType bag = add(TypesFactory.eINSTANCE.createBagType());
+		bag.setContainedType(nested);
+		bag.setMultivalued(true);
+		bag.setMetamodelRef(primitiveNamespace.getClassifier(PrimitiveGlobalNamespace.BAG_TYPE, bag));
+		return bag;
+	}
+
 	public SetType newSetType(Type nested) {
 		SetType seq = add(TypesFactory.eINSTANCE.createSetType());
 		seq.setContainedType(nested);
 		seq.setMultivalued(true);
 		seq.setMetamodelRef(primitiveNamespace.getClassifier(PrimitiveGlobalNamespace.SET_TYPE, nested));
 		return seq;
+	}
+
+	public OrderedSetType newOrderedSetType(Type nested) {
+		OrderedSetType oset = add(TypesFactory.eINSTANCE.createSetType());
+		oset.setContainedType(nested);
+		oset.setMultivalued(true);
+		oset.setMetamodelRef(primitiveNamespace.getClassifier(PrimitiveGlobalNamespace.ORDERED_SET_TYPE, nested));
+		return oset;
 	}
 
 	public Type newMapType(Type keyType, Type valueType) {
@@ -604,6 +631,13 @@ public class TypingModel {
 		return t1;
 	}
 
+	
+	public static Collection<Type> allPossibleTypes(Type srcType) {
+		if ( srcType instanceof UnionType ) {
+			return Collections.unmodifiableList(((UnionType) srcType).getPossibleTypes());			
+		} 
+		return Collections.singleton(srcType);
+	}
 	
 	public List<Metaclass> getInvolvedMetaclasses(Type srcType) {
 		return TypingModel.getInvolvedMetaclassesOfType(srcType);

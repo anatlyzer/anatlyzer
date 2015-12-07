@@ -123,13 +123,22 @@ public interface ATLPackage extends EPackage {
 	int LOCATED_ELEMENT__PROBLEMS = 5;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCATED_ELEMENT__ANNOTATIONS = 6;
+
+	/**
 	 * The number of structural features of the '<em>Located Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCATED_ELEMENT_FEATURE_COUNT = 6;
+	int LOCATED_ELEMENT_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Located Element</em>' class.
@@ -203,6 +212,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNIT__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -303,6 +321,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LIBRARY__PROBLEMS = UNIT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__ANNOTATIONS = UNIT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -412,6 +439,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int QUERY__PROBLEMS = UNIT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__ANNOTATIONS = UNIT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -530,6 +566,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODULE__PROBLEMS = UNIT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE__ANNOTATIONS = UNIT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Libraries</b></em>' containment reference list.
@@ -668,6 +713,15 @@ public interface ATLPackage extends EPackage {
 	int MODULE_ELEMENT__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_ELEMENT__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The number of structural features of the '<em>Module Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -748,6 +802,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int HELPER__PROBLEMS = MODULE_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HELPER__ANNOTATIONS = MODULE_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
@@ -913,6 +976,15 @@ public interface ATLPackage extends EPackage {
 	int STATIC_HELPER__PROBLEMS = HELPER__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_HELPER__ANNOTATIONS = HELPER__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1074,6 +1146,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTEXT_HELPER__PROBLEMS = HELPER__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTEXT_HELPER__ANNOTATIONS = HELPER__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Called By</b></em>' reference list.
@@ -1255,6 +1336,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE__PROBLEMS = MODULE_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE__ANNOTATIONS = MODULE_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -1485,13 +1575,22 @@ public interface ATLPackage extends EPackage {
 	int STATIC_RULE__PROBLEMS = MODULE_CALLABLE_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATIC_RULE__ANNOTATIONS = MODULE_CALLABLE_FEATURE_COUNT + 6;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__OUT_PATTERN = MODULE_CALLABLE_FEATURE_COUNT + 6;
+	int STATIC_RULE__OUT_PATTERN = MODULE_CALLABLE_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Action Block</b></em>' containment reference.
@@ -1500,7 +1599,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__ACTION_BLOCK = MODULE_CALLABLE_FEATURE_COUNT + 7;
+	int STATIC_RULE__ACTION_BLOCK = MODULE_CALLABLE_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Variables</b></em>' containment reference list.
@@ -1509,7 +1608,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__VARIABLES = MODULE_CALLABLE_FEATURE_COUNT + 8;
+	int STATIC_RULE__VARIABLES = MODULE_CALLABLE_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1518,7 +1617,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE__NAME = MODULE_CALLABLE_FEATURE_COUNT + 9;
+	int STATIC_RULE__NAME = MODULE_CALLABLE_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Static Rule</em>' class.
@@ -1527,7 +1626,7 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STATIC_RULE_FEATURE_COUNT = MODULE_CALLABLE_FEATURE_COUNT + 10;
+	int STATIC_RULE_FEATURE_COUNT = MODULE_CALLABLE_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of operations of the '<em>Static Rule</em>' class.
@@ -1601,6 +1700,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_WITH_PATTERN__PROBLEMS = RULE__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_WITH_PATTERN__ANNOTATIONS = RULE__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -1775,6 +1883,15 @@ public interface ATLPackage extends EPackage {
 	int MATCHED_RULE__PROBLEMS = RULE_WITH_PATTERN__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE__ANNOTATIONS = RULE_WITH_PATTERN__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1945,6 +2062,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int LAZY_RULE__PROBLEMS = RULE_WITH_PATTERN__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE__ANNOTATIONS = RULE_WITH_PATTERN__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
@@ -2164,6 +2290,15 @@ public interface ATLPackage extends EPackage {
 	int CALLED_RULE__PROBLEMS = STATIC_RULE__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALLED_RULE__ANNOTATIONS = STATIC_RULE__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2309,6 +2444,15 @@ public interface ATLPackage extends EPackage {
 	int IN_PATTERN__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2407,6 +2551,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OUT_PATTERN__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' container reference.
@@ -2518,6 +2671,15 @@ public interface ATLPackage extends EPackage {
 	int DROP_PATTERN__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DROP_PATTERN__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Out Pattern</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2607,6 +2769,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int PATTERN_ELEMENT__PROBLEMS = OCLPackage.VARIABLE_DECLARATION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PATTERN_ELEMENT__ANNOTATIONS = OCLPackage.VARIABLE_DECLARATION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2770,6 +2941,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int IN_PATTERN_ELEMENT__PROBLEMS = PATTERN_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IN_PATTERN_ELEMENT__ANNOTATIONS = PATTERN_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -2962,6 +3142,15 @@ public interface ATLPackage extends EPackage {
 	int SIMPLE_IN_PATTERN_ELEMENT__PROBLEMS = IN_PATTERN_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_IN_PATTERN_ELEMENT__ANNOTATIONS = IN_PATTERN_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3150,6 +3339,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OUT_PATTERN_ELEMENT__PROBLEMS = PATTERN_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OUT_PATTERN_ELEMENT__ANNOTATIONS = PATTERN_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3349,6 +3547,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int SIMPLE_OUT_PATTERN_ELEMENT__PROBLEMS = OUT_PATTERN_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIMPLE_OUT_PATTERN_ELEMENT__ANNOTATIONS = OUT_PATTERN_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3557,6 +3764,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int FOR_EACH_OUT_PATTERN_ELEMENT__PROBLEMS = OUT_PATTERN_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_EACH_OUT_PATTERN_ELEMENT__ANNOTATIONS = OUT_PATTERN_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -3776,6 +3992,15 @@ public interface ATLPackage extends EPackage {
 	int BINDING__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3919,6 +4144,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_VARIABLE_DECLARATION__PROBLEMS = OCLPackage.VARIABLE_DECLARATION__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_VARIABLE_DECLARATION__ANNOTATIONS = OCLPackage.VARIABLE_DECLARATION__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Inferred Type</b></em>' reference.
@@ -4093,6 +4327,15 @@ public interface ATLPackage extends EPackage {
 	int LIBRARY_REF__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY_REF__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4191,6 +4434,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACTION_BLOCK__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_BLOCK__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' container reference.
@@ -4293,6 +4545,15 @@ public interface ATLPackage extends EPackage {
 	int STATEMENT__PROBLEMS = LOCATED_ELEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STATEMENT__ANNOTATIONS = LOCATED_ELEMENT__ANNOTATIONS;
+
+	/**
 	 * The number of structural features of the '<em>Statement</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4373,6 +4634,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int EXPRESSION_STAT__PROBLEMS = STATEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPRESSION_STAT__ANNOTATIONS = STATEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -4464,6 +4734,15 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_STAT__PROBLEMS = STATEMENT__PROBLEMS;
+
+	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_STAT__ANNOTATIONS = STATEMENT__ANNOTATIONS;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' containment reference.
@@ -4584,6 +4863,15 @@ public interface ATLPackage extends EPackage {
 	int IF_STAT__PROBLEMS = STATEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IF_STAT__ANNOTATIONS = STATEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4693,6 +4981,15 @@ public interface ATLPackage extends EPackage {
 	int FOR_STAT__PROBLEMS = STATEMENT__PROBLEMS;
 
 	/**
+	 * The feature id for the '<em><b>Annotations</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOR_STAT__ANNOTATIONS = STATEMENT__ANNOTATIONS;
+
+	/**
 	 * The feature id for the '<em><b>Iterator</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4738,6 +5035,52 @@ public interface ATLPackage extends EPackage {
 	int FOR_STAT_OPERATION_COUNT = STATEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.ATL.impl.StringToStringMapImpl <em>String To String Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.ATL.impl.StringToStringMapImpl
+	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getStringToStringMap()
+	 * @generated
+	 */
+	int STRING_TO_STRING_MAP = 35;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_STRING_MAP__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_STRING_MAP__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>String To String Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_STRING_MAP_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>String To String Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_STRING_MAP_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl <em>Callable Parameter</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4745,7 +5088,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getCallableParameter()
 	 * @generated
 	 */
-	int CALLABLE_PARAMETER = 35;
+	int CALLABLE_PARAMETER = 36;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -4800,7 +5143,7 @@ public interface ATLPackage extends EPackage {
 	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getRuleResolutionInfo()
 	 * @generated
 	 */
-	int RULE_RESOLUTION_INFO = 36;
+	int RULE_RESOLUTION_INFO = 37;
 
 	/**
 	 * The feature id for the '<em><b>Rule</b></em>' reference.
@@ -4914,6 +5257,17 @@ public interface ATLPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLocatedElement_Problems();
+
+	/**
+	 * Returns the meta object for the map '{@link anatlyzer.atlext.ATL.LocatedElement#getAnnotations <em>Annotations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Annotations</em>'.
+	 * @see anatlyzer.atlext.ATL.LocatedElement#getAnnotations()
+	 * @see #getLocatedElement()
+	 * @generated
+	 */
+	EReference getLocatedElement_Annotations();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.ATL.Unit <em>Unit</em>}'.
@@ -6059,6 +6413,40 @@ public interface ATLPackage extends EPackage {
 	EReference getForStat_Statements();
 
 	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To String Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>String To String Map</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EString" keyRequired="true"
+	 *        valueDataType="org.eclipse.emf.ecore.EString" valueRequired="true"
+	 * @generated
+	 */
+	EClass getStringToStringMap();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getStringToStringMap()
+	 * @generated
+	 */
+	EAttribute getStringToStringMap_Key();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getStringToStringMap()
+	 * @generated
+	 */
+	EAttribute getStringToStringMap_Value();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atlext.ATL.CallableParameter <em>Callable Parameter</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6213,6 +6601,14 @@ public interface ATLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LOCATED_ELEMENT__PROBLEMS = eINSTANCE.getLocatedElement_Problems();
+
+		/**
+		 * The meta object literal for the '<em><b>Annotations</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LOCATED_ELEMENT__ANNOTATIONS = eINSTANCE.getLocatedElement_Annotations();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.UnitImpl <em>Unit</em>}' class.
@@ -7137,6 +7533,32 @@ public interface ATLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference FOR_STAT__STATEMENTS = eINSTANCE.getForStat_Statements();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.StringToStringMapImpl <em>String To String Map</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.ATL.impl.StringToStringMapImpl
+		 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getStringToStringMap()
+		 * @generated
+		 */
+		EClass STRING_TO_STRING_MAP = eINSTANCE.getStringToStringMap();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_TO_STRING_MAP__KEY = eINSTANCE.getStringToStringMap_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_TO_STRING_MAP__VALUE = eINSTANCE.getStringToStringMap_Value();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl <em>Callable Parameter</em>}' class.

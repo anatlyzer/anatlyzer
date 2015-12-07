@@ -13,6 +13,21 @@ public class SequenceTypeDef extends AtlTypeDef {
 
 	protected void init() {
 		operation("toString").returnType(AtlTypes.string());
+		operation("size").returnType(AtlTypes.string());
+		operation("isEmpty").returnType(AtlTypes.boolean_());
+		
+		operation("includes").
+			param("o", AtlTypes.oclAny()).
+			returnType(AtlTypes.boolean_());
+		operation("excludes").
+			param("o", AtlTypes.oclAny()).
+			returnType(AtlTypes.boolean_());
+
+		operation("first").returnType(containedType);
+		operation("last").returnType(containedType);
+		
+		operation("asSet").returnType(AtlTypes.set(containedType));
+
 	}
 
 	@Override

@@ -8,6 +8,10 @@ public class AtlTypes {
 	private static OclTypeDef ocltype_instance = new OclTypeDef();
 	private static MapTypeDef maptype_instance = new MapTypeDef();
 	private static OclAnyTypeDef oclany_instance = new OclAnyTypeDef();
+
+	private static SequenceTypeDef seq_instance = new SequenceTypeDef(oclany_instance);
+	private static SetTypeDef set_instance = new SetTypeDef(oclany_instance);
+	
 	
 	static {
 		oclany_instance.init();
@@ -17,6 +21,10 @@ public class AtlTypes {
 		boolean_instance.init();
 		ocltype_instance.init();
 		maptype_instance.init();
+		
+		seq_instance.init();
+		set_instance.init();
+		
 	}
 	
 	public static StringTypeDef string() { return string_instance; }
@@ -30,5 +38,17 @@ public class AtlTypes {
 	public static SequenceTypeDef seq(AtlTypeDef t) {
 		return new SequenceTypeDef(t);
 	}
+	public static AtlTypeDef set(AtlTypeDef t) {
+		return new SetTypeDef(t);
+	}
+	
+	public static SequenceTypeDef seq() {
+		return seq_instance;
+	}
+	public static AtlTypeDef set() {
+		return set_instance;
+	}
+	
+	
 	
 }

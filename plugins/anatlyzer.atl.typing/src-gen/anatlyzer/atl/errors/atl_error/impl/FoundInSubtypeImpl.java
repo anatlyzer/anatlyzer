@@ -21,10 +21,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl#getPossibleClasses <em>Possible Classes</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FoundInSubtypeImpl#getMissingClasses <em>Missing Classes</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -38,6 +39,16 @@ public abstract class FoundInSubtypeImpl extends MinimalEObjectImpl.Container im
 	 * @ordered
 	 */
 	protected EList<EClass> possibleClasses;
+
+	/**
+	 * The cached value of the '{@link #getMissingClasses() <em>Missing Classes</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMissingClasses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EClass> missingClasses;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,11 +86,25 @@ public abstract class FoundInSubtypeImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<EClass> getMissingClasses() {
+		if (missingClasses == null) {
+			missingClasses = new EObjectResolvingEList<EClass>(EClass.class, this, AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES);
+		}
+		return missingClasses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				return getPossibleClasses();
+			case AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				return getMissingClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -97,6 +122,10 @@ public abstract class FoundInSubtypeImpl extends MinimalEObjectImpl.Container im
 				getPossibleClasses().clear();
 				getPossibleClasses().addAll((Collection<? extends EClass>)newValue);
 				return;
+			case AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				getMissingClasses().clear();
+				getMissingClasses().addAll((Collection<? extends EClass>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -112,6 +141,9 @@ public abstract class FoundInSubtypeImpl extends MinimalEObjectImpl.Container im
 			case AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				getPossibleClasses().clear();
 				return;
+			case AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				getMissingClasses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -126,6 +158,8 @@ public abstract class FoundInSubtypeImpl extends MinimalEObjectImpl.Container im
 		switch (featureID) {
 			case AtlErrorPackage.FOUND_IN_SUBTYPE__POSSIBLE_CLASSES:
 				return possibleClasses != null && !possibleClasses.isEmpty();
+			case AtlErrorPackage.FOUND_IN_SUBTYPE__MISSING_CLASSES:
+				return missingClasses != null && !missingClasses.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

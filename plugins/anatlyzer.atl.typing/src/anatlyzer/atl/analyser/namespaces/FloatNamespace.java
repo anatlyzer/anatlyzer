@@ -26,9 +26,14 @@ public class FloatNamespace extends PrimitiveTypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
-		if ( t != null )
-			return t;
+		// As in IntegerNamespace
+		if ( logicalOperators.contains(operatorSymbol) ) {
+			if ( ! (optionalArgument instanceof FloatType || optionalArgument instanceof IntegerType)  ) {
+				AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
+			}			
+			return AnalyserContext.getTypingModel().newBooleanType();
+		}
+
 			
 		if ( operatorSymbol.equals("+") || operatorSymbol.equals("*") || operatorSymbol.equals("/") ||
 			(operatorSymbol.equals("-") && optionalArgument != null)) {

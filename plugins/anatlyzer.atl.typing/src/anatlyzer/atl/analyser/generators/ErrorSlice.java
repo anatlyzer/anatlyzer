@@ -284,7 +284,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		throw new UnsupportedOperationException();
 	}
 
-	public static EClass pickClass(EList<EClass> problematicClassesImplicit) {
+	public static EClass pickClass(List<EClass> problematicClassesImplicit) {
 		EClass result = null;
 		long smaller   = Long.MAX_VALUE;
 		for (EClass eClass : problematicClassesImplicit) {

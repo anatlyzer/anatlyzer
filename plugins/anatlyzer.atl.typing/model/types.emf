@@ -129,6 +129,12 @@ abstract class CollectionType extends Type {
 class SequenceType extends CollectionType {
 }
 
+class BagType extends CollectionType {
+}
+
 class SetType extends CollectionType {  
+}
+
+class OrderedSetType extends CollectionType {  
 }
 

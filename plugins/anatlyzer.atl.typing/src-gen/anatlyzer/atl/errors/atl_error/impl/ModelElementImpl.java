@@ -19,11 +19,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ModelElementImpl#getKlass <em>Klass</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ModelElementImpl#getMetamodelName <em>Metamodel Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

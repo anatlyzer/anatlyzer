@@ -36,6 +36,11 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return false;
 	}
 	
+	@Override
+	public String getChangedMetamodel() {
+		throw new IllegalStateException();
+	}
+	
 	/**
 	 * This method implements the AST manipulation logic by using a QuickfixApplication 
 	 * object to keep track of the changes.

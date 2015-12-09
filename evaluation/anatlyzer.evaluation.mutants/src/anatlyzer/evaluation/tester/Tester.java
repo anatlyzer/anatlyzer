@@ -105,7 +105,6 @@ import anatlyzer.evaluation.mutators.modification.type.OutElementModificationMut
 import anatlyzer.evaluation.mutators.modification.type.ParameterModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.VariableModificationMutator;
 import anatlyzer.evaluation.report.Report;
-import anatlyzer.evaluation.report.Report.Result;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.AtlEngineUtils;
 
@@ -166,12 +165,11 @@ public class Tester {
 		
 		// if the original transformation has no errors, perform the evaluation
 		this.evaluateTransformation(atlFile);
-		Result r = report.getResult(atlFile);
 		String error = "";
-		if      (r.getAnatlyserNotifiesError())   error = "The evaluation CANNOT be performed\nbecause the anatlyser detected an error in the transformation:\n\n"+r.getAnatlyserError();
-		else if (r.getAnatlyserDoesNotFinish())   error = "The evaluation CANNOT be performed\nbecause the anatlyser raised an exception when analysing the transformation:\n\n"+r.getAnatlyserError();
-		else if (r.getExecutionRaisesException()) error = "The evaluation CANNOT be performed\nbecause the transformation fails at runtime with model "+r.getExecutionWitness()+":\n\n"+r.getExecutionError();
-		else if (r.getExecutionYieldsIllTarget()) error = "The evaluation CANNOT be performed\nbecause the transformation of model "+r.getExecutionWitness()+"\nyields an incorrect target model:\n\n"+r.getExecutionError();
+		if      (report.getAnatlyserNotifiesError(atlFile))   error = "The evaluation CANNOT be performed\nbecause the anatlyser detected an error in the transformation:\n\n"+report.getAnatlyserError(atlFile);
+		else if (report.getAnatlyserDoesNotFinish(atlFile))   error = "The evaluation CANNOT be performed\nbecause the anatlyser raised an exception when analysing the transformation:\n\n"+report.getAnatlyserError(atlFile);
+		else if (report.getExecutionRaisesException(atlFile)) error = "The evaluation CANNOT be performed\nbecause the transformation fails at runtime:\n\n"+report.getExecutionError(atlFile);
+		else if (report.getExecutionYieldsIllTarget(atlFile)) error = "The evaluation CANNOT be performed\nbecause the transformation yields an incorrect target model:\n\n"+report.getExecutionError(atlFile);
 		
 		if (error.isEmpty()) {
 			report.clear();
@@ -199,6 +197,13 @@ public class Tester {
 	 */
 	public void printReport (String folder) {
 		report.print(folder);
+	}
+	
+	/**
+	 * It returns a report with the result of the evaluation.
+	 */
+	public Report getReport () {
+		return report;
 	}
 	
 	/**
@@ -541,12 +546,16 @@ public class Tester {
 	
 	/**
 	 * It executes a transformation for all input models. Method used by evaluateTransformation.
-	 * @param atlTransformationFile
+	 * @param transformation Name of atl transformation file.
+	 * @param exhaustive (OPTIONAL) If it is true, it will execute the transformation for all
+	 *        input models. If it is false (by default) it will execute the transformation until 
+	 *        it fails for some input model.
 	 * @return true if error, false otherwise
 	 * @throws IOException
 	 * @throws ATLCoreException
 	 */
-	private boolean executeTransformation (String transformation) {		
+	private boolean executeTransformation (String transformation) { return executeTransformation(transformation, false); }		
+	private boolean executeTransformation (String transformation, boolean exhaustive) {
 		boolean error = false;
 
 		// name of input/output metamodels of the transformation
@@ -600,7 +609,7 @@ public class Tester {
 				}
 				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
 				
-				if (error) break;
+				if (error && !exhaustive) break;
 			}
 		}
 		catch (transException e) { System.out.println("******** REVISE: EXECUTION ERROR (" + transformation + ")"); } 

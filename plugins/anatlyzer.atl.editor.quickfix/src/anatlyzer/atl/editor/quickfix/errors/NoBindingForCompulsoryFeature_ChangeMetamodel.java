@@ -23,6 +23,12 @@ public class NoBindingForCompulsoryFeature_ChangeMetamodel extends
 	}
 
 	@Override
+	public String getChangedMetamodel() {
+		OutPatternElement out = (OutPatternElement) getProblematicElement();			
+		return ((Metaclass) out.getInferredType()).getModel().getName();		
+	}
+	
+	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		NoBindingForCompulsoryFeature p = (NoBindingForCompulsoryFeature) getProblem();
 		OutPatternElement out = (OutPatternElement) p.getElement();			

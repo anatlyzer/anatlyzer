@@ -1,0 +1,24 @@
+<project name="rewrite" default="jar">
+
+<target name="jar"> <!-- depends="compile">-->
+    <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask"
+        classpath="jarjar/jarjar-1.4.jar"/>
+	
+    <jarjar jarfile="dist/transml_use_complete.jar">
+        <!--
+    	<fileset dir="build/main"/>
+    	-->
+        <zipfileset src="transml.jar"/>
+    	<zipfileset src="use/antlr-3.4-complete.jar" />
+    	<zipfileset src="use/guava-17.0.jar" />
+    	<zipfileset src="use/ModelValidatorPlugin-4.1-r1.jar" />
+    	<zipfileset src="use/use-runtime.jar" />
+    	<zipfileset src="use/use.jar" />
+    	
+        <rule pattern="antlr.**" result="antlr.foruse.@1"/>
+        <rule pattern="org.antlr.**" result="org.antlr.foruse.@1"/>
+        <rule pattern="org.stringtemplate.**" result="org.stringtemplate.foruse.@1"/>
+    </jarjar>
+</target>
+	
+</project>

@@ -20,6 +20,7 @@ import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analyser.recovery.IRecoveryAction;
 import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -34,6 +35,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atl.types.UnresolvedTypeError;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
@@ -233,17 +235,17 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inSimpleOutPatternElement(SimpleOutPatternElement self) {
-		if ( self.getInferredType() instanceof Metaclass  ) {
-			Rule r = self.getOutPattern().getRule();
-			if ( r instanceof RuleWithPattern && ((RuleWithPattern) r).isIsAbstract() )
-				return;
-			
-			Metaclass m = (Metaclass) self.getInferredType();
-			if ( m.getKlass().isAbstract() ) {
-				errors().signalCannonInstantiateAbstractClass(m, self);
-			}
-			
-		}
+// 		This has to be checked per rule
+//		if ( self.getInferredType() instanceof Metaclass  ) {
+//			Rule r = self.getOutPattern().getRule();
+//			if ( r instanceof RuleWithPattern && ((RuleWithPattern) r).isIsAbstract() )
+//				return;
+//			
+//			Metaclass m = (Metaclass) self.getInferredType();
+//			if ( m.getKlass().isAbstract() ) {
+//				errors().signalCannonInstantiateAbstractClass(m, self);
+//			}
+//		}
 	}
 
 	public VisitingActions preLetExp(anatlyzer.atlext.OCL.LetExp self) { return actions("type" , "variable" , "in_"); } 
@@ -275,7 +277,36 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 						"Different number of input elements in the super rule");
 			}
 			
+			// 2. Invariant to Check Co-Variance of Input Elements
+			//
+			// context TransformationRule inv CoVarianceOfInputElements:
+			// −− select InputElements of context rule
+			// self.inpattern.elems −> forall(ie : InputElement |
+			//   −− query and iterate all effectively inherited input elements
+			//   self.allEffInhIE() −> collect(varName)
+			//   −− if an effectively inherited input element is overridden
+			//   −> includes(ie.varName) implies
+			//   −− then check co−variance condition
+			//   ie.class.allSuperClasses() −> union(ie.class) −> includesAll(
+			//      self.allEffInhIE() −> select(iie : InputElement | iie.varName = ie.varName)
+			//      −> collect(class) −> flatten()
+			//   )
+			// )
+			
+			
 		}
+
+		// Not sure if in the paper
+		// Check that every OPE can be instantiated
+		ATLUtils.getAllOutputPatterns(self, (t -> {
+			Metaclass mc = (Metaclass) t.getType().getInferredType();
+			if ( mc instanceof UnresolvedTypeError ) 
+				return;
+
+			if ( mc.getKlass().isAbstract() ) {
+				errors().signalCannonInstantiateAbstractClass(mc, t);
+			}
+		}));	
 	}
 	
 	

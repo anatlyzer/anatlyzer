@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -36,9 +37,9 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 		//Unit u = ATLUtils.getContainer(r, Unit.class);
 		
 		Metaclass tgt = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
-		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
-		if ( sources.size() == 1 ) {
-			Metaclass src = sources.get(0);
+		Optional<Metaclass> source = ATLUtils.getUnderlyingBindingRightMetaclasses(b).stream().filter(m -> m.getKlass() == p.getRightType()).findAny();
+		if ( source.isPresent() ) {
+			Metaclass src = source.get();
 			
 			return this.createRuleQuickFix(r, src, tgt);
 //			

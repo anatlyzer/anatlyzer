@@ -1,0 +1,1025 @@
+
+ 
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="https://code.google.com/p/jarjar/wiki/GettingStarted" />
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = null;
+ 
+ 
+ var CS_env = {"projectName": "jarjar", "profileUrl": null, "domainName": null, "token": null, "assetVersionPath": "http://www.gstatic.com/codesite/ph/5825124916300507488", "assetHostPath": "http://www.gstatic.com/codesite/ph", "projectHomeUrl": "/p/jarjar", "relativeBaseUrl": "", "loggedInUserEmail": null};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ _gaq.push(
+ ['projectTracker._setAccount', 'UA-2237448-1'],
+ ['projectTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script>
+ 
+ 
+ <title>GettingStarted - 
+ jarjar -
+ 
+ In which we cover what most people care about. - 
+ Embedding Java libraries since 2004 - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/5825124916300507488/css/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/5825124916300507488/css/ph_detail.css" >
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="/feeds/p/jarjar/svnchanges/basic?path=/wiki/GettingStarted.wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/5825124916300507488/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6">
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ 
+ <a href="#" id="projects-dropdown" onclick="return false;"><u>My favorites</u> <small>&#9660;</small></a>
+ | <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fjarjar%2Fwiki%2FGettingStarted&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fjarjar%2Fwiki%2FGettingStarted" onclick="_CS_click('/gb/ph/signin');"><u>Sign in</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="http://www.firefox.com">Firefox</a>,
+<a href="http://www.google.com/chrome">Google Chrome</a>, or
+<a href="http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ 
+ 
+ 
+ <td id="plogo">
+ <link itemprop="url" href="/p/jarjar">
+ <a href="/p/jarjar/">
+ 
+ <img src="http://www.gstatic.com/codesite/ph/images/search-48.gif" alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="/p/jarjar/"><span itemprop="name">jarjar</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link"
+ href="/p/jarjar/"><span itemprop="description">Embedding Java libraries since 2004</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="/p/jarjar/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="/p/jarjar/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/jarjar/w/list" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/jarjar/issues/list"
+ class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/jarjar/source/checkout"
+ class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <a href="https://code.google.com/export-to-github/export?project=jarjar">
+ <button>Export to GitHub</button>
+ 
+ </a>
+ 
+ 
+ <div class=gtbc></div>
+</div>
+
+ 
+ <div style="font-weight: bold; color: #c00; margin-top: 5px; margin-left: 13px;">
+ READ-ONLY: This project has been <a href='https://code.google.com/archive/p/jarjar'>archived</a>. For more information see <a href='https://code.google.com/p/support/wiki/ReadOnlyTransition'>this post</a>.
+ </div>
+ 
+
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="/p/jarjar/w/list" method="GET" style="display:inline">
+ <select id="can" name="can" >
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1" >&nbsp;All wiki pages</option>
+ <option value="3" >&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="4" >&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value=""
+ autocomplete="off" ></span>
+ 
+ 
+ 
+ <input type="submit" value="Search" >
+ </form>
+ </span>
+
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol"
+ 
+>
+
+ 
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <span style="font-size:120%;font-weight:bold">GettingStarted</span>
+ &nbsp;
+ <div> 
+ 
+ <i>In which we cover what most people care about.</i>
+ 
+ 
+ <br/>
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/jarjar/w/list?q=label:Featured"
+ title="Listed on project home page"
+ >Featured</a>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Thu Feb  4 13:15:44 2010">
+ Feb 4, 2010</span>
+ 
+ by 
+
+ <a class="userlink"
+ href="/u/106640494112897458359/">chris.no...@gmail.com</a
+>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <p>In our imaginary project, the Ant &quot;jar&quot; target looks like: </p><pre class="prettyprint">&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
+    &lt;jar jarfile=&quot;dist/example.jar&quot;&gt;
+        &lt;fileset dir=&quot;build/main&quot;/&gt;
+    &lt;/jar&gt;
+&lt;/target&gt;</pre><p>To use Jar Jar Links, we define a new task named &quot;jarjar&quot;, and substitute it wherever we used the jar task. Because the <tt>JarJarTask</tt> class extends the normal Ant Jar task, you can use jarjar without any of its additional features, if you want: </p><pre class="prettyprint">&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
+    &lt;taskdef name=&quot;jarjar&quot; classname=&quot;com.tonicsystems.jarjar.JarJarTask&quot;
+        classpath=&quot;lib/jarjar.jar&quot;/&gt;
+    &lt;jarjar jarfile=&quot;dist/example.jar&quot;&gt;
+        &lt;fileset dir=&quot;build/main&quot;/&gt;
+    &lt;/jarjar&gt;
+&lt;/target&gt;</pre><p>Just like with the &quot;jar&quot; task, we can include the contents of another jar file using the &quot;zipfileset&quot; element. But simply including another projects classes is not good enough to avoid jar hell, since the class names remain unchanged and can still conflict with other versions. </p><p>To rename the classes, <tt>JarJarTask</tt> adds a new &quot;rule&quot; element. The rule takes a &quot;pattern&quot; attribute, which uses wildcards to match against class names, and a &quot;result&quot; attribute, which describes how to transform the matched names. </p><p>In this example we include classes from jaxen.jar and add a rule that changes any class name starting with &quot;org.jaxen&quot; to start with &quot;org.example.jaxen&quot; instead (in our imaginary world we control the example.org domain): </p><pre class="prettyprint">&lt;target name=&quot;jar&quot; depends=&quot;compile&quot;&gt;
+    &lt;taskdef name=&quot;jarjar&quot; classname=&quot;com.tonicsystems.jarjar.JarJarTask&quot;
+        classpath=&quot;lib/jarjar.jar&quot;/&gt;
+    &lt;jarjar jarfile=&quot;dist/example.jar&quot;&gt;
+        &lt;fileset dir=&quot;build/main&quot;/&gt;
+        &lt;zipfileset src=&quot;lib/jaxen.jar&quot;/&gt;
+        &lt;rule pattern=&quot;org.jaxen.**&quot; result=&quot;org.example.@1&quot;/&gt;
+    &lt;/jarjar&gt;
+&lt;/target&gt;</pre><p>The <tt>**</tt> in the pattern means to match against any valid package substring. To match against a single package component (by excluding dots (<tt>.</tt>) from the match), a single <tt>*</tt> may be used instead. </p><p>The <tt>@1</tt> in the result is a reference to the <tt>**</tt> portion of the rule. For every <tt>*</tt> or <tt>**</tt> in the rule, a numbered reference is available for use in the result. References are numbered from left to right, starting with <tt>@1</tt>, then <tt>@2</tt>, and so on. </p><p>The special <tt>@0</tt> reference refers to the entire class name. </p>
+ </div>
+ </div>
+ </td><tr>
+</table>
+ </div>
+
+
+ 
+ <div id="wikicommentcol">
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+<div class="collapse">
+
+
+ 
+
+
+<div id="commentlist">
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/Tushar.Kapila/">Tushar.Kapila</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Aug 19 03:23:21 2008">Aug 19, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>can you write a sample of calling it from the command line without ant? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/106275236488293263850/">leonel.g...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Jan 29 04:14:03 2009">Jan 29, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Suppose I have a directory &#x27;lib&#x27; with all the dependencies of my project, and I want to ship a single jar file with my classes and the dependencies. </p><p>How do I make a jarjar target that includes my class files under build/classes, and the contents of the jar files under lib/ ? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/106721302704615680699/">berlin.b...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Feb 10 00:50:31 2009">Feb 10, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>leonel.gayard, </p><p>Yea, I want what Leonel wants.  In the wiki example, would all we have to do is just NOT include the rule tag. </p><p>I just want to include  multiple jars into one large jar file. </p><p>thanks for the tool, this will fix a lot of problems. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102442087605994723309/">jpsw...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Aug 23 16:44:10 2009">Aug 23, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>No repsonses on here for a while... Just wondering if there&#x27;s any info on being able to do what the last 2 posters requested.  Thanks! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115987829461725209396/">kai.mec...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Aug 25 10:05:08 2009">Aug 25, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>You can replace the zipfileset with: </p><pre class="prettyprint">&lt;zipgroupfileset dir=&quot;lib&quot; includes=&quot;*.jar&quot; /&gt;</pre><p>That seems to do the job... </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/113947004700608222123/">marcos.v...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Dec 17 02:02:14 2009">Dec 17, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>It is not renaming packages within text files. Is there any way to tell jarjar to process resource files? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115117935730111622752/">stph...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Jan 12 14:55:22 2010">Jan 12, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Using zipgroupfileset with dir=&quot;lib&quot; and includes=&quot;<strong>.jar&quot; does not do what listing each of the jars as in the example using the src attribute does.  The difference is, when trying to include multiple jars in this way the jars aren&#x27;t unrolled and you end up with jars at the root of the jar created by jarjar.  Unless I am doing something wrong, it would be really cool if this could be done using regex style includes. </strong></p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/103023298783034554398/">pre...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Jul  9 13:20:13 2010">Jul 9, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Do you know if this is allowed by the Apache license?  Is Apache Software Foundation okay with me jarjar-ing one of their libs to include in my software, as long as I include their original license text? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110581092601966436378/">pat...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Jan 13 14:57:20 2011">Jan 13, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Captain Tarpals: Hey, you-sa! Stop-pa dere!  Jar-Jar Binks: Hey yo, Daddy, Captain Tarpals. Mesa back.  Captain Tarpals: No-ah &#x27;gain, Jar Jar. You-sa goin&#x27; to da Bosses. You-sa in big doo-doo dis time!  Jar gets shocked by a Gungan spear<a href="/p/jarjar/w/edit/Jar">?</a>  Jar-Jar Binks: Yipe! How wude!  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116549842804784895012/">larrrs.j...@googlemail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Mar 24 19:13:04 2011">Mar 24, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>&lt;zipgroupfileset dir=&quot;lib&quot; includes=&quot;*.jar&quot; /&gt; did work for me! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116511288942842175903/">narmer1...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue May 31 13:39:09 2011">May 31, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Hello guys, can this Jar be used to merge two jar files (a.jar and b.jar) into one jar file? What is the syntax please? Thanks </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">geetanja...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Sun Dec 18 23:54:27 2011">Dec 18, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>I am getting this error... taskdef class com.tonicsystems.jarjar.JarJarTask<a href="/p/jarjar/w/edit/JarJarTask">?</a> cannot be found </p><p>my jarjar.jar and other jar files are under referenced libraries.I am using eclipse </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/101181940572626506128/">abhishek...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Mar 26 17:18:31 2012">Mar 26, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>java -jar jarjar-1.2.jar find jar hibernate3.jar . No response after running the command .. Am i doing anything wrong ?? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/101181940572626506128/">abhishek...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Mar 26 17:19:31 2012">Mar 26, 2012</span>
+ <div>
+<div class="commentcontent">
+<blockquote>java -jar jarjar-1.2.jar find jar <strong> 
+</blockquote><p>Error reading org/apache/catalina/connector/OutputBuffer<a href="/p/jarjar/w/edit/OutputBuffer">?</a>.class: ClassReader<a href="/p/jarjar/w/edit/ClassReader">?</a>.accept() should be called with EXPAND_FRAMES flag </strong></p><p>Got the following error ? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/114481596747333380003/">victorwo...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Jul  3 23:24:31 2012">Jul 3, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Please update the usage and change log of jarjar 1.4, thanks a lot. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">EUso...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Wed Aug 15 13:33:44 2012">Aug 15, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>I do something wrong? I get this message: </p><p>$ java -jar jarjar-1.4.jar  Failed to load Main-Class manifest attribute from jarjar-1.4.jar </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/103823314317899557024/">ptyag...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Mar 15 17:30:42 2013">Mar 15, 2013</span>
+ <div>
+<div class="commentcontent">
+<p>I&#x27;ve put together an article about work-around to solve this issue here: <a href="http://priyanka-tyagi.blogspot.com/2013/03/dealing-with-java-hell-using-jarjar.html" rel="nofollow">http://priyanka-tyagi.blogspot.com/2013/03/dealing-with-java-hell-using-jarjar.html</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/phil.hord/">phil.hord</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Jun 21 14:47:38 2013">Jun 21, 2013</span>
+ <div>
+<div class="commentcontent">
+<p>I think Java programmers cannot tell the difference between the commandline and ant files. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115404931940092782970/">amitabh...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue May 12 03:14:50 2015">May 12, 2015</span>
+ <div>
+<div class="commentcontent">
+<p>dude if you went to so much trouble, can you please give steps of how to use it. I get the error com.tonicsystems.jarjar.JarJarTask<a href="/p/jarjar/w/edit/JarJarTask">?</a> cannot be found </p><p>Obviously, I need to add this jar somewhere so Ant can find it. But why not include the steps in your tutorial? I mean this is probably causing 90% of the people to abandon it straightaway.  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+</div>
+</div>
+
+ 
+
+
+ <script type="text/javascript">
+ function delComment(sequence_num, create_time, delete_mode) {
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.create_time.value = create_time;
+ f.mode.value = delete_mode;
+ f.submit();
+ return false;
+ }
+ </script>
+
+
+ </div>
+ 
+ 
+ 
+ <form name="delcom" action="../w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="" >
+ <input type="hidden" name="create_time" value="" >
+ <input type="hidden" name="mode" value="" >
+ <input type="hidden" name="pagename" value="GettingStarted" >
+ <input type="hidden" name="token" value="" >
+ </form>
+
+
+ <script src="http://www.gstatic.com/codesite/ph/5825124916300507488/js/prettify/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="http://www.gstatic.com/codesite/ph/5825124916300507488/js/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/5825124916300507488/js/ph_core.js"></script>
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/5825124916300507488/js/ph_dwiki.js"></script>
+ 
+ 
+ 
+ 
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ </body>
+</html>
+
+

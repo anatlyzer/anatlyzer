@@ -38,7 +38,7 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	
 	@Override
 	public String getChangedMetamodel() {
-		throw new IllegalStateException();
+		throw new IllegalStateException("Inconsistent 'isMetamodelChanging' for class " + this.getClass().getName());
 	}
 	
 	/**

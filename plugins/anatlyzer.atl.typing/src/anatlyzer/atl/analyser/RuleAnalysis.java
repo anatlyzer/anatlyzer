@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
@@ -126,36 +127,15 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		if ( self.getSuperRule() == null )
 			return;
 		
-		Map<String, OutPatternElement> overriden = null;
-		if ( self.getOutPattern() == null ) {
-			overriden = new HashMap<String, OutPatternElement>();
-		} else {
-			overriden = self.getOutPattern().getElements().stream().collect(
-					Collectors.toMap(e -> e.getVarName(), e -> e));
-		}
-		ArrayList<OutPatternElement> toCheck = new ArrayList<OutPatternElement>();
-		
-		for (RuleWithPattern sup : ATLUtils.allSuperRules(self)) {
-			for (OutPatternElement inherited : sup.getOutPattern().getElements()) {
-				if ( ! overriden.containsKey(inherited.getVarName()) ) {
-					toCheck.add(inherited);
-					overriden.put(inherited.getVarName(), inherited);
-				}
-			}
-		}		
-	
-		toCheck.forEach(t -> {
+		ATLUtils.getAllOutputPatterns(self, (t -> {
 			Metaclass mc = (Metaclass) t.getType().getInferredType();
 			if ( mc instanceof UnresolvedTypeError ) 
 				return;
 
-			//setCurrentCompulsoryFeatures(mc);
-			checkCompulsoryFeature(t, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE, self);
-		});
-		
+			checkCompulsoryFeature(t, NoBindingForCompulsoryFeatureKind.MISSING_SUBRULE, self);			
+		}));			
 	}
-	
-	
+		
 
 	@Override
 	public VisitingActions preBinding(Binding self) {

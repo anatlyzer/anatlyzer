@@ -125,14 +125,6 @@
 		</editorContribution>
 
    </extension>
-
-   <extension point="org.eclipse.ui.bindings">
-     <key
-        commandId="anatlyzer.ui.commands.CheckRuleConflicts"
-        contextId="org.eclipse.m2m.atl.adt.editor"
-        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-        sequence="Ctrl+Shift+C"/>
-  	</extension>
 	
 	<extension point="org.eclipse.ui.commands">
     	<command

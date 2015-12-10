@@ -228,4 +228,49 @@
    -->
     <!-- END-OF Constraint solving and slicing -->
    
+   
+	
+	<!-- Extension to add the option of automatic fix -->
+	<extension
+          point="org.eclipse.ui.editorActions">
+       <editorContribution
+             id="anatlyzer.ide.menuExtension"
+             targetID="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+
+             <menu
+                id="AnATLyzerEditorMenu"
+                label="anATLyzer">
+             <groupMarker
+                   name="AnATLyzerGroup">
+             </groupMarker>
+          </menu>
+	
+          <action
+                class="anatlyzer.atl.ui.actions.AutoFix"
+                definitionId="anatlyzer.ui.commands.AutoFix"
+                id="anatlyzer.ui.actions.AutoFix"
+                label="Automatically fix transformation"
+                menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
+          </action>
+      </editorContribution>
+   	</extension>
+   	
+   	<!--
+   	<extension point="org.eclipse.ui.bindings">
+     <key
+        commandId="anatlyzer.ui.commands.CheckRuleConflicts"
+        contextId="org.eclipse.m2m.atl.adt.editor"
+        schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+        sequence="Ctrl+Shift+C"/>
+  	</extension>
+	-->
+	
+	<extension point="org.eclipse.ui.commands">
+    	<command
+             categoryId="anatlyzerCategory"
+             id="anatlyzer.ui.commands.AutoFix"
+             name="anATLyzer - Automatically fix transformation"/>
+	</extension>
+   	
+   
 </plugin>

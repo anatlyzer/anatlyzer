@@ -1,5 +1,8 @@
 package anatlyzer.examples.api;
 
+import java.io.File;
+import java.io.IOException;
+
 import anatlyzer.atl.witness.UseWitnessFinder;
 
 public class TestUSEWitnessFinder extends UseWitnessFinder {
@@ -11,7 +14,7 @@ public class TestUSEWitnessFinder extends UseWitnessFinder {
 
 	@Override
 	protected String getTempDirectory() {
-		return ".";
+		return new File(".").getAbsolutePath().replace("/.", "");
 	}
 
 }

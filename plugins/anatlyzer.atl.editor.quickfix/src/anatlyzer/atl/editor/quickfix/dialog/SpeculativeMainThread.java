@@ -8,6 +8,8 @@ import java.util.Map;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.editor.quickfix.search.BacktrackingSearch;
+import anatlyzer.atl.editor.quickfix.search.SearchPath;
 import anatlyzer.atl.errors.Problem;
 
 public class SpeculativeMainThread extends Thread {
@@ -50,6 +52,7 @@ public class SpeculativeMainThread extends Thread {
 				allThreads.remove(0);
 			}
 		}
+		
 		
 		System.out.println("==> Finished main thread");
 	}

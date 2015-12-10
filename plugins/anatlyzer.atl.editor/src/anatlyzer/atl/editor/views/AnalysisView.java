@@ -1097,6 +1097,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	private void setOpenedResource(IResource resource, AnalysisResult result) {
+		if ( currentResource == resource )
+			return;
 		currentResource = resource;
 		currentAnalysis = result;
 		
@@ -1139,7 +1141,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) {
 		performIfNeeded(r.getLocation().toPortableString(), (resource) -> {
-			setOpenedResource(resource, result);
+			currentResource = resource;
+			currentAnalysis = result;
+			refreshFromNonUI();
+			// setOpenedResource(resource, result);
 		});
 	}
 	

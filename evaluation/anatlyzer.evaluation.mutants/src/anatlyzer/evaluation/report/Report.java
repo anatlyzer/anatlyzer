@@ -6,10 +6,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Report {
-	private Map<String,Result> report =  new HashMap<String,Result>();
+	
+	private Map<String,SortedSet<Record>> report =  new HashMap<String,SortedSet<Record>>();
 
 	/** clear report **/
 	public void clear () {
@@ -17,10 +21,10 @@ public class Report {
 	}
 	
 	/** analysis of a new transformation */
-	public Result getResult (String transformation) {
+	public SortedSet<Record> getResult (String transformation) {
 		String transformation2 = getFileName(transformation);
 		if (!report.containsKey(transformation2)) 
-			report.put(transformation2, new Result());
+			report.put(transformation2, new TreeSet<Record>());
 		return report.get(transformation2);
 	}
 
@@ -30,39 +34,55 @@ public class Report {
 		return false;
 	}
 
-	/** the transformation did not execute correctly */
+	/** when executed with the given input model, the transformation crashes*/
 	public boolean setExecutionError (String transformation, String error, String witness) {
-		Result r = this.getResult(transformation);
-		r.setExecutionRaisesException();
-		r.setExecutionError(error);
-		r.setExecutionWitness(witness);
+		Record record = new Record(witness, error, ERROR_KIND.EXECUTION_RAISES_EXCEPTION); 
+		this.getResult(transformation).add(record);
 		return true;
 	}
 	
-	/** the transformation produces a model not conforming to the output metamodel */
+	/** when executed with the given input model, the transformation produces a malformed target model*/
 	public boolean setOutputError (String transformation, String error, String witness) {
-		Result r = this.getResult(transformation);
-		r.setExecutionYieldsIllTarget();
-		r.setExecutionError("The transformation produces ill-typed target models.");
-		r.setExecutionWitness(witness);
+		Record record = new Record(witness, "The transformation produces ill-typed target models.", ERROR_KIND.EXECUTION_YIELDS_ILL_TARGET); 
+		this.getResult(transformation).add(record);
 		return true;
 	}
 	
-	/** the anatlyzer reported an error in the transformation */
+	/** anatlyser reported an error in the transformation */
 	public boolean setAnatlyserError (String transformation, String error) {
-		Result r = this.getResult(transformation);
-		r.setAnatlyserNotifiesError();
-		r.setAnatlyserError(error);
+		Record record = new Record(null/*for any model*/, error, ERROR_KIND.ANATLYZER_DETECTED_ERROR); 
+		this.getResult(transformation).add(record);
 		return true;
 	}
 	
-	/** the anatlyser finished with an exception */
+	/** anatlyser finished with an exception */
 	public boolean setAnatlyserException (String transformation, String error) {
-		Result r = this.getResult(transformation);
-		r.setAnatlyserDoesNotFinish();
-		r.setAnatlyserError(error);
+		Record record = new Record(null/*for any model*/, error, ERROR_KIND.ANATLYZER_DOES_NOT_FINISH); 
+		this.getResult(transformation).add(record);
 		return true;
 	}	
+	
+	/** results of evaluation */
+	public boolean getExecutionRaisesException (String transformation) { return getResult(transformation).stream().anyMatch( record -> record.executionRaisesException() ); }
+	public boolean getExecutionYieldsIllTarget (String transformation) { return getResult(transformation).stream().anyMatch( record -> record.executionYieldsIllTarget() ); }
+	public boolean getAnatlyserNotifiesError   (String transformation) { return getResult(transformation).stream().anyMatch( record -> record.anatlyserNotifiesError() ); }
+	public boolean getAnatlyserDoesNotFinish   (String transformation) { return getResult(transformation).stream().anyMatch( record -> record.anatlyserDoesNotFinish() ); }
+	public String  getExecutionError (String transformation) {
+		if (getExecutionRaisesException(transformation) || getExecutionYieldsIllTarget(transformation)) {
+			SortedSet<Record> records = getResult(transformation);
+			Stream<Record>   errors   = records.stream().filter( record -> record.executionRaisesException() || record.executionYieldsIllTarget() );
+			return errors.map(Record::getError).collect(Collectors.joining(" -- "));
+		}
+		return "";
+	}
+	public String  getAnatlyserError (String transformation) {
+		if (getAnatlyserDoesNotFinish(transformation) || getAnatlyserNotifiesError(transformation)) {
+			SortedSet<Record> records = getResult(transformation);
+			Stream<Record>   errors   = records.stream().filter( record -> record.anatlyserDoesNotFinish() || record.anatlyserNotifiesError() );
+			return errors.map(Record::getError).collect(Collectors.joining(" -- "));
+		}
+		return "";
+	}
 	
 	/** print report to console */
 	public void print () {
@@ -80,24 +100,29 @@ public class Report {
 		
 		// print result of each transformation
 		for (String transformation : new TreeSet<String>(report.keySet())) {
-			Result  r           = report.get(transformation);
+			boolean executionRaisesException = getExecutionRaisesException(transformation);
+			boolean executionYieldsIllTarget = getExecutionYieldsIllTarget(transformation);
+			boolean anatlyserNotifiesError   = getAnatlyserNotifiesError  (transformation);
+			boolean anatlyserDoesNotFinish   = getAnatlyserDoesNotFinish  (transformation);
+			String  anatlyserError           = getAnatlyserError(transformation);
+			String  executionError           = getExecutionError(transformation);
 			
-			boolean discrepancy = (r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) ^ r.getAnatlyserNotifiesError();			
+			boolean discrepancy = (executionRaisesException||executionYieldsIllTarget) ^ anatlyserNotifiesError;			
 			if (discrepancy) {
-				if (r.getAnatlyserNotifiesError()) 
+				if (anatlyserNotifiesError) 
 					 falsePositives++;
 				else falseNegatives++;
 				console.println( " ** discrepancy in " + transformation + " --" + 
-								 " ANATLYZER: " + (r.getAnatlyserNotifiesError()? "error "+r.getAnatlyserError()+" --":"ok --") +
-	                             " EXECUTION: " + ((r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget())? ("error "+r.getExecutionError()+"; witness "+r.getExecutionWitness()):"ok") );
+								 " Anatlyser: " + (anatlyserNotifiesError? "error "+anatlyserError+" --":"ok --") +
+	                             " EXECUTION: " + ((executionRaisesException||executionYieldsIllTarget)? "error "+executionError:"ok") );
 			}			
-			else console.println( r.getAnatlyserNotifiesError()? 
-						 		  " ok: " +  transformation + " is incorrect [ANATLYSER =>" + r.getAnatlyserError() + "; EXECUTION => " + r.getExecutionError() + "]" :
+			else console.println( anatlyserNotifiesError? 
+						 		  " ok: " +  transformation + " is incorrect [ANATLYSER =>" + anatlyserError + "; EXECUTION => " + executionError + "]" :
 								  " ok: " +  transformation + " is correct" );	
 			
-			if (r.getAnatlyserDoesNotFinish()) {
+			if (anatlyserDoesNotFinish) {
 				anatlyserExceptions++;
-				console.println("    ---> WARNING: anATLyser raised the exception " + r.getAnatlyserError() );
+				console.println("    ---> WARNING: anATLyser raised the exception " + anatlyserError );
 			}
 			
 			total++;
@@ -140,17 +165,16 @@ public class Report {
 		// print result of each transformation
 		for (String transformation : new TreeSet<String>(report.keySet())) {
 			numrecords++;
-			Result r = report.get(transformation);
 			xls.println(transformation + "\t" + 
-		            convert(r.getAnatlyserNotifiesError()) + "\t" + 
-				    convert(r.getExecutionRaisesException()||r.getExecutionYieldsIllTarget()) + "\t" +
+		            convert(getAnatlyserNotifiesError(transformation)) + "\t" + 
+				    convert(getExecutionRaisesException(transformation)||getExecutionYieldsIllTarget(transformation)) + "\t" +
 		            "=SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"error\"); \"true positive\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"correct\"); \"true negative\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"correct\"); \"false positive\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"error\"); \"false negative\"; \"unknown\"))))" + "\t" +
-		            (r.getAnatlyserNotifiesError()? convert(r.getAnatlyserError()) : "") + "\t" +
-		            (r.getExecutionError()  !=null? convert(r.getExecutionError())+"; witness "+r.getExecutionWitness() : "") +
-		            (r.getAnatlyserDoesNotFinish()? "\t ***WARNING*** anATLyser raised the exception " + convert(r.getAnatlyserError()) : ""));
+		            (getAnatlyserNotifiesError(transformation)? convert(getAnatlyserError(transformation)) : "") + "\t" +
+		            (getExecutionError(transformation)  !=null? convert(getExecutionError(transformation)) : "") +
+		            (getAnatlyserDoesNotFinish(transformation)? "\t ***WARNING*** anATLyser raised the exception " + convert(getAnatlyserError(transformation)) : ""));
 		}
 		
 		// print summary
@@ -189,33 +213,47 @@ public class Report {
 		return name!=null? name : path;
 	}
 	
-	/** result for a transformation */
-	public class Result {
-		private boolean anatlyserNotifiesError   = false;
-		private boolean anatlyserDoesNotFinish   = false; // the anatlysis raises an exception
-		// otherwise, it means the anatlysis reports no error
+	// --------------------------------------------------------------------------------------------------
+	// INNER CLASSES AND ENUMERATES
+	// --------------------------------------------------------------------------------------------------
+	
+	enum ERROR_KIND { 
+		// execution errors
+		EXECUTION_RAISES_EXCEPTION, EXECUTION_YIELDS_ILL_TARGET,
+		// anatlyser errors
+		ANATLYZER_DETECTED_ERROR, ANATLYZER_DOES_NOT_FINISH
+	};
+	
+	public class Record implements Comparable<Record> {
 		
-		private boolean executionRaisesException = false;
-		private boolean executionYieldsIllTarget = false;
-		// otherwise, it means the execution always produces correct target models
+		/** attributes */
+		private String     model        = null;
+		private String     errorMessage = "";
+		private ERROR_KIND errorKind    = null;
 		
-		private String executionError, anatlyserError;
-		private String executionWitness;
+		public Record (String model) { 
+			this.model = model; 
+		}
 		
-		void setAnatlyserNotifiesError()       { anatlyserNotifiesError   = true; }
-		void setAnatlyserDoesNotFinish()       { anatlyserDoesNotFinish   = true; }
-		void setExecutionRaisesException()     { executionRaisesException = true; }
-		void setExecutionYieldsIllTarget()     { executionYieldsIllTarget = true; }
-		void setAnatlyserError(String error)   { anatlyserError   = error;        }
-		void setExecutionError(String error)   { executionError   = error;        }
-		void setExecutionWitness(String error) { executionWitness = error;        }
+		public Record (String model, String error, ERROR_KIND kind) { 
+			this(model);
+			this.errorMessage = error;
+			this.errorKind    = kind;
+		}
 		
-		public boolean getAnatlyserNotifiesError()   { return anatlyserNotifiesError;   }
-		public boolean getAnatlyserDoesNotFinish()   { return anatlyserDoesNotFinish;   }
-		public boolean getExecutionRaisesException() { return executionRaisesException; }
-		public boolean getExecutionYieldsIllTarget() { return executionYieldsIllTarget; }		
-		public String  getAnatlyserError()           { return anatlyserError;           }
-		public String  getExecutionError()           { return executionError;           }
-		public String  getExecutionWitness()         { return executionWitness;         }
-	}
+		public String  getModel()                  { return model; }
+		public String  getError()                  { return (model!=null? "[witness model "+model+"]: " : "") + errorMessage; }
+		public boolean executionRaisesException () { return errorKind==ERROR_KIND.EXECUTION_RAISES_EXCEPTION;  }
+		public boolean executionYieldsIllTarget () { return errorKind==ERROR_KIND.EXECUTION_YIELDS_ILL_TARGET; }
+		public boolean anatlyserNotifiesError ()   { return errorKind==ERROR_KIND.ANATLYZER_DETECTED_ERROR;    }
+		public boolean anatlyserDoesNotFinish ()   { return errorKind==ERROR_KIND.ANATLYZER_DOES_NOT_FINISH;   }
+		
+		@Override
+		public int compareTo(Record other) {
+			if (model==null && other.model==null) return 0;
+			if (model==null)       return 1;
+			if (other.model==null) return -1;
+			return model.compareTo(other.model);
+		}
+	}	
 }

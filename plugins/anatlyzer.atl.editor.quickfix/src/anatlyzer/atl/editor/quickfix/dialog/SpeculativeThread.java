@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.MockMarker;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 
@@ -26,6 +27,7 @@ public class SpeculativeThread extends Thread {
 	
 	@Override
 	public void run() {
+		/*
 		IncrementalAnalyser inc = null;
 		if ( qfx.isMetamodelChanging() ) {
 			inc = new IncrementalAnalyser(baseAnalysis, Collections.singletonList(qfx.getChangedMetamodel()));			
@@ -45,11 +47,13 @@ public class SpeculativeThread extends Thread {
 			qfa.apply();
 			// What happen if the qfx is meta-model changing?
 
-			inc.perform();
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+		*/
 		
+		IncrementalAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
+		inc.perform();
 		newAnalysis = new AnalysisResult(inc);
 	}
 	

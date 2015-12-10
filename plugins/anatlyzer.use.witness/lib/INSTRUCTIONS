@@ -1,0 +1,4 @@
+
+* Copy the USE Validator .jar files, including dependencies to "use" directory
+* Create transml.jar using transml.jardesc
+* Pack and rewrite using jarjar with rewrite.xml

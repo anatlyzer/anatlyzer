@@ -7,8 +7,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -360,21 +362,26 @@ public class ATLUtils {
 			map(o -> (SimpleOutPatternElement) o).collect(Collectors.toList());
 	}
 	
-	public static List<OutPatternElement> getAllOutputPatternElement(MatchedRule r) {
+	public static List<OutPatternElement> getAllOutputPatternElement(RuleWithPattern r) {
+		if ( r == null )
+			throw new IllegalArgumentException();
 		ArrayList<OutPatternElement> result = new ArrayList<OutPatternElement>();
-		Stack<MatchedRule> rules = new Stack<MatchedRule>();
+		Stack<RuleWithPattern> rules = new Stack<RuleWithPattern>();
 		rules.add(r);
 
 		while ( ! rules.isEmpty() ) {
 			r = rules.pop();
 			if ( r.getSuperRule() != null )
-				rules.push((MatchedRule) r.getSuperRule());
+				rules.push(r.getSuperRule());
 		
+			if  ( r.getOutPattern() == null )
+				continue;
+			
 			for(OutPatternElement ope : r.getOutPattern().getElements()) {
 				boolean alreadyDeclared = false;
 				for(OutPatternElement existing : result) {
 					if ( ope.getVarName().equals(existing.getVarName()) ) {
-						alreadyDeclared= true;
+						alreadyDeclared = true;
 						break;
 					}
 				}
@@ -388,6 +395,34 @@ public class ATLUtils {
 		return result;
 	}
 
+	public static void getAllOutputPatterns(RuleWithPattern self, Consumer<OutPatternElement> f) {
+		getAllOutputPatternElement(self).forEach(f);
+		
+		// This is wrong... it does not take into account the current rule, when there are no super-rules
+		/*
+		Map<String, OutPatternElement> overriden = null;
+		if ( self.getOutPattern() == null ) {
+			overriden = new HashMap<String, OutPatternElement>();
+		} else {
+			overriden = self.getOutPattern().getElements().stream().collect(
+					Collectors.toMap(e -> e.getVarName(), e -> e));
+		}
+		ArrayList<OutPatternElement> toCheck = new ArrayList<OutPatternElement>();
+		
+		for (RuleWithPattern sup : ATLUtils.allSuperRules(self)) {
+			for (OutPatternElement inherited : sup.getOutPattern().getElements()) {
+				if ( ! overriden.containsKey(inherited.getVarName()) ) {
+					toCheck.add(inherited);
+					overriden.put(inherited.getVarName(), inherited);
+				}
+			}
+		}		
+	
+		toCheck.forEach(f);
+		*/
+	}
+
+	
 	public static String[] getArgumentNames(Helper h) {
 		if ( h.getDefinition().getFeature() instanceof Attribute ) {
 			return new String[] { };

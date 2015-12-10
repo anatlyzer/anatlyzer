@@ -18,6 +18,8 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 public class IncrementalAnalyser extends Analyser {
@@ -74,20 +76,31 @@ public class IncrementalAnalyser extends Analyser {
 			}
 		}
 		
-		trafo.getRoot().eAllContents().forEachRemaining(o -> {
-			if ( o instanceof PropertyCallExp ) {
-				EStructuralFeature f = (EStructuralFeature) ((PropertyCallExp) o).getUsedFeature();
+		trafo.getRoot().eAllContents().forEachRemaining(obj -> {			
+			if ( obj instanceof PropertyCallExp ) {
+				EStructuralFeature f = (EStructuralFeature) ((PropertyCallExp) obj).getUsedFeature();		
 				if ( f != null ) {					
 					EStructuralFeature newF = (EStructuralFeature) copier.get(f);
-					if ( newF == null ) {
-						throw new IllegalStateException("No target EStructuralFeature " + f.getName() + ": " + f);						
+					// Be aware that if newF is null then it is because it belongs to a model not
+					// being updated!
+					if ( newF != null ) {
+						((PropertyCallExp) obj).setUsedFeature(newF);
 					}
-					((PropertyCallExp) o).setUsedFeature(newF);
-				}
+				} 
+			} else if ( obj instanceof Binding ) {
+				EStructuralFeature f = (EStructuralFeature) ((Binding) obj).getWrittenFeature();
+				if ( f != null ) {					
+					EStructuralFeature newF = (EStructuralFeature) copier.get(f);
+					// Be aware that if newF is null then it is because it belongs to a model not
+					// being updated!
+					if ( newF != null ) {
+						((Binding) obj).setWrittenFeature(newF);
+					}
+				} 
 			}
 		});
 	}
-
+	
 	private static ATLModel createNewModel(ATLModel atlModel) {
 		CopiedATLModel newModel = atlModel.copyAll();
 		// newModel.clear();

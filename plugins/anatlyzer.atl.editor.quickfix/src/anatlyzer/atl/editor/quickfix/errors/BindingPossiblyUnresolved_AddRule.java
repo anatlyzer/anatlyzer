@@ -78,6 +78,8 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 				String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();
 				mr.setName(ruleName);
 				ASTUtils.completeRule(mr, src, tgt, null);	
+
+				getATLModel().getTyping().add(tgt);
 				
 				// Get all rules that resolve elements of type "src"
 				OclExpression expr = b.getResolvedBy().stream().
@@ -86,6 +88,9 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 					map(r -> {
 						OclExpression filter = r.getRule().getInPattern().getFilter();
 						VariableExp vexp = ATLUtils.findStartingVarExp(filter);
+						if ( vexp == null ) {
+							System.out.println(filter);
+						}
 						if ( ! ( vexp.getReferredVariable() instanceof InPatternElement ) ) {
 							throw new IllegalStateException();
 						}

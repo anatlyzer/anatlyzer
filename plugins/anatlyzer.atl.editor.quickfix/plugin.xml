@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="anatlyzer.atl.quickfix.impact" name="Show information about quick fix impact" schema="schema/anatlyzer.atl.quickfix.impact.exsd"/>
    <extension
          point="anatlyzer.atl.editor.views.additionalactions">
       <viewaction
@@ -271,6 +272,13 @@
              id="anatlyzer.ui.commands.AutoFix"
              name="anATLyzer - Automatically fix transformation"/>
 	</extension>
+ <extension
+       point="anatlyzer.atl.quickfix.impact">
+    <impact
+          implementation="anatlyzer.atl.editor.quickfix.dialog.ImpactGeneratedText"
+          name="Text">
+    </impact>
+ </extension>
    	
    
 </plugin>

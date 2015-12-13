@@ -4,9 +4,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
@@ -15,6 +18,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
 import anatlyzer.atl.types.Metaclass;
@@ -31,38 +35,86 @@ public class IncrementalAnalyser extends Analyser {
 		this.baseAnalysis = baseAnalysis;
 	}
 	
-	public IncrementalAnalyser(AnalysisResult baseAnalysis, List<String> metamodelsToCopy) {
+	public IncrementalAnalyser(AnalysisResult baseAnalysis, Collection<String> metamodelsToCopy) {
 		super(null, createNewModel(baseAnalysis.getATLModel()));
 		this.mm = adaptNamespace(baseAnalysis.getNamespace(), metamodelsToCopy);
 		this.baseAnalysis = baseAnalysis;
 	}
 
-	private GlobalNamespace adaptNamespace(GlobalNamespace namespace, List<String> metamodelsToCopy) {
+	private GlobalNamespace adaptNamespace(GlobalNamespace namespace, Collection<String> metamodelsToCopy) {
 		HashSet<Resource> resources = new HashSet<Resource>(namespace.getLogicalNamesToMetamodels().values());
 		HashMap<String, Resource> newMap = new HashMap<String, Resource>(namespace.getLogicalNamesToMetamodels());
+		Copier copier = new Copier();
 		for (String mmName : metamodelsToCopy) {
 			Resource r = newMap.get(mmName);
 			resources.remove(r);
 			
 			Resource newResource = new XMIResourceImpl();
-			
-		    Copier copier = new Copier();
+
 		    Collection<EObject> result = copier.copyAll(r.getContents());
 		    copier.copyReferences();
 			
 			newResource.getContents().addAll(result);
 			
-			// Replace references in the transformation model
-			replaceReferences(mmName, copier);
-			
 			newMap.put(mmName, newResource);
 			resources.add(newResource);
 		}
+
+		for (String mmName : metamodelsToCopy) {
+			// Replace references in the transformation model
+			replaceReferences(mmName, copier);			
+		}
+		replaceEClassReferences(copier);
 		
 		return new GlobalNamespace(resources, newMap);
 	}
 
+	private void replaceEClassReferences(Copier copier) {
+		
+		for (EObject obj : trafo.getResource().getContents()) {
+			if (obj instanceof anatlyzer.atl.errors.AnalysisResult) {
+				for (Problem problem : ((anatlyzer.atl.errors.AnalysisResult) obj)
+						.getProblems()) {
+					for (EReference eReference : problem.eClass()
+							.getEAllReferences()) {
+						if (eReference.getEType().getName().equals("EClass")) {
+							Object original = problem.eGet(eReference);
+							if (original instanceof Collection) {
+								EList<EClass> list = (EList<EClass>) original;
+								list.replaceAll(c -> {
+									EClass target = (EClass) copier.get(c);
+									if (target == null) {
+										throw new IllegalStateException(
+												"No target EClass "
+														+ ((EClass) c)
+																.getName()
+														+ ": " + c);
+									}
+									return target;
+								});
+
+							} else {
+								EClass target = (EClass) copier.get(original);
+								if (target == null) {
+									throw new IllegalStateException(
+											"No target EClass "
+													+ ((EClass) original)
+															.getName() + ": "
+													+ original);
+								}
+								problem.eSet(eReference, target);
+							}
+						}
+					}
+				}
+			}
+		}			
+			
+		
+	}
+
 	protected void replaceReferences(String mmName, Copier copier) {
+	
 		for (EObject obj : trafo.getResource().getContents()) {
 			if ( obj instanceof Metaclass && 
 					((Metaclass) obj).getModel() != null && 

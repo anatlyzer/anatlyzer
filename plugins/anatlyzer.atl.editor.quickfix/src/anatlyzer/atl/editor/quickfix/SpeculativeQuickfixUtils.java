@@ -21,11 +21,15 @@ public class SpeculativeQuickfixUtils {
 	 */
 	public static IncrementalAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
 		IncrementalAnalyser inc = null;
+		/*
 		if ( qfx.isMetamodelChanging() ) {
 			inc = new IncrementalAnalyser(baseAnalysis, Collections.singletonList(qfx.getChangedMetamodel()));			
 		} else {
 			inc = new IncrementalAnalyser(baseAnalysis);
 		}
+		*/
+		
+		inc = new IncrementalAnalyser(baseAnalysis, baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet());
 		
 		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
 		if ( tgtProblem == null )

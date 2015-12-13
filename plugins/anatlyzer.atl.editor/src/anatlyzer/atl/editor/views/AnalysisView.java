@@ -1141,10 +1141,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) {
 		performIfNeeded(r.getLocation().toPortableString(), (resource) -> {
-			currentResource = resource;
-			currentAnalysis = result;
-			refreshFromNonUI();
-			// setOpenedResource(resource, result);
+			if ( currentResource != resource ) {
+				// The resource changes, so I use setOpenedResource to decide which style of 
+				// analysis view to use according to the configuration
+				setOpenedResource(r, result);
+			} else {			
+				currentResource = resource;
+				currentAnalysis = result;
+	
+				refreshFromNonUI();
+			}
 		});
 	}
 	

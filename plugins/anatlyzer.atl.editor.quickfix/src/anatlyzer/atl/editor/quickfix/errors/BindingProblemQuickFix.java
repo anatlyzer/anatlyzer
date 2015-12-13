@@ -242,6 +242,15 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 	
 	protected boolean isOptionalFeature(BindingProblem problem) {
 		Binding b = (Binding) problem.getElement();
+
+		if ( problem.getLocation() != null && problem.getLocation().equals("28:4-28:35") ) {
+					boolean result = b.getWrittenFeature() != null &&
+							((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0;
+			if ( result ) {
+				System.out.println("It is optional feature");				
+			} 
+		}
+		
 		return 	b.getWrittenFeature() != null &&
 				((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0;
 	}

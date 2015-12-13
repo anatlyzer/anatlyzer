@@ -720,11 +720,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	private void resolveResolveTemp(OperationCallExp self) {
 		if ( ! (root instanceof Module ) ) {
-			errors().signalNoRecoverableError("resolveTemp only available in transformation modules", self);
+			// errors().signalNoRecoverableError("resolveTemp only available in transformation modules", self);
+			Type t = errors().signalInvalidArgument("resolveTemp", "resolveTemp only available in transformation modules", self);	
+			attr.linkExprType(t);
+			return;
 		}
 		
 		if ( self.getArguments().size() != 2 ) {
-			errors().signalNoRecoverableError("resolveTemp expects two arguments", self);
+			Type t = errors().signalInvalidArgument("resolveTemp", "resolveTemp expects two arguments", self);	
+			attr.linkExprType(t);
+			return;
 		}
 
 		if ( ! (self.getArguments().get(1) instanceof StringExp ) ) {

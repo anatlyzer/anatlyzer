@@ -33,7 +33,11 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 
 	protected List<RuleResolutionInfo> sortRules(List<? extends RuleResolutionInfo> resolvedBy) {
 		return resolvedBy.stream().sorted((o1, o2) -> {
-			return o1.getRule().getLocation().compareTo(o2.getRule().getLocation());
+			String loc1 = o1.getRule().getLocation();
+			String loc2 = o2.getRule().getLocation();			
+			if ( loc1 == null ) loc1 = "";
+			if ( loc2 == null ) loc2 = "";
+			return loc1.compareTo(loc2);
 		}).collect(Collectors.toList());
 	}
 	

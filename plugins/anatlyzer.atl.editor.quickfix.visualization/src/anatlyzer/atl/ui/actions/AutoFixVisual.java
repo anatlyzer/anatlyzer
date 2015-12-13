@@ -12,20 +12,37 @@ import org.eclipse.ui.PlatformUI;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.search.BacktrackingSearch;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
+import anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView;
 import anatlyzer.atl.index.AnalysisIndex;
 
-public class AutoFix implements IEditorActionDelegate {
+public class AutoFixVisual implements IEditorActionDelegate {
 
 	private AtlEditor editor;
+	private boolean showView = true;
 	
 	@Override
 	public void run(IAction action) {
 		IResource resource = editor.getUnderlyingResource();
 		AnalysisResult analysis = AnalysisIndex.getInstance().getAnalysis(resource);
-		if ( analysis != null ) {			
-			System.out.println("Testing search method");
-			new BacktrackingSearch(new SearchPath()).search(analysis);			
-			//	new BacktrackingSearch(new SearchPath()).test(analysis);			
+		if ( analysis != null ) {
+			
+			if ( showView ) {
+				RepairTransformationView view;
+				try {
+					view = (RepairTransformationView) PlatformUI.getWorkbench().
+							getActiveWorkbenchWindow().
+							getActivePage().showView(RepairTransformationView.ID);
+					view.setAnalysis(analysis);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+				
+			} else {
+				System.out.println("Testing search method");
+				new BacktrackingSearch(new SearchPath()).search(analysis);			
+				//	new BacktrackingSearch(new SearchPath()).test(analysis);			
+				
+			}
 		}
 	}
 

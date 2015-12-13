@@ -8,7 +8,8 @@ public class UseReservedWords {
 		reserved.put("operations", "operations_");
 		reserved.put("class", "class_");
 		reserved.put("model", "model_");		
-		reserved.put("null", "null_");		
+		reserved.put("null", "null_");	
+		reserved.put("context", "context_");
 	}
 	
 	public static boolean isReserved(String word) {

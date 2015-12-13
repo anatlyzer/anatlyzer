@@ -37,7 +37,9 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 		//Unit u = ATLUtils.getContainer(r, Unit.class);
 		
 		Metaclass tgt = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
-		Optional<Metaclass> source = ATLUtils.getUnderlyingBindingRightMetaclasses(b).stream().filter(m -> m.getKlass() == p.getRightType()).findAny();
+		Optional<Metaclass> source = ATLUtils.getUnderlyingBindingRightMetaclasses(b).stream().filter(m -> {
+			return m.getKlass() == p.getRightType();
+		}).findAny();
 		if ( source.isPresent() ) {
 			Metaclass src = source.get();
 			

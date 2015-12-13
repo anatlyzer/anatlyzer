@@ -689,7 +689,7 @@ public class TypingModel {
 		return implicitlyCasted.get(expr);
 	}
 
-	private <T extends EObject> T add(EObject t) {
+	public <T extends EObject> T add(EObject t) {
 		impl.getContents().add(t);
 		return (T) t;
 	}

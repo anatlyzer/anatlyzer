@@ -9,6 +9,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -30,6 +31,8 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
 
+import org.eclipse.swt.widgets.TabFolder;
+
 public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeListener {
 	private Table table;
 	private List<AtlProblemQuickfix> quickfixes;
@@ -42,6 +45,8 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private Problem problem;
 	private SpeculativeMainThread speculativeThread;
 	private TableViewer tblViewerProblems;
+	private TabFolder tabFolderImpact;
+	private Table tblFixed;
 
 	/**
 	 * Create the dialog.
@@ -90,7 +95,9 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		
 		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_table.widthHint = 20;
+		table.setLayoutData(gd_table);
 		
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -98,21 +105,38 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		gd_composite.minimumWidth = 200;
 		composite.setLayoutData(gd_composite);
 		
-		tblViewerProblems = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
+		
+		TabItem tbtmFixedProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmFixedProblems.setText("Fixed problems");
+		
+		TableViewer tblViewerFixed = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
+		tblFixed = tblViewerFixed.getTable();
+		tbtmFixedProblems.setControl(tblFixed);
+		
+		TabItem tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmAllProblems.setText("Remaining problems");
+		
+		tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
 		tblProblems = tblViewerProblems.getTable();
+		tbtmAllProblems.setControl(tblProblems);
+		
+		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
 		
 		TextViewer textViewer = new TextViewer(container, SWT.BORDER);
 		StyledText styledText = textViewer.getTextWidget();
-		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		new Label(container, SWT.NONE);
+		GridData gd_styledText = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_styledText.widthHint = 20;
+		styledText.setLayoutData(gd_styledText);
+		
+		tabFolderImpact = new TabFolder(container, SWT.NONE);
+		tabFolderImpact.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
 		tableViewer.setContentProvider(new QuickfixContentProvider());
 		tableViewer.setLabelProvider(new QuickfixLabelProvider());
 		tableViewer.setInput(quickfixes);
 		tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
-		
-		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
-		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
 		
 		
 		initThreads();
@@ -184,6 +208,19 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");	
 		tblViewerProblems.setInput(r);
 		tblViewerProblems.refresh();
+		
+//		while ( tabFolderImpact.getItemCount() > 0 ) 
+//			tabFolderImpact.removecon
+//			
+		
+		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {
+			TabItem item = new TabItem(tabFolderImpact, SWT.NONE);
+			item.setText(information.getName());
+			Composite c = new Composite(tabFolderImpact, SWT.NONE);
+			c.setLayout(new FillLayout(SWT.HORIZONTAL));
+			item.setControl(c);
+			information.initialize(c, r);
+		}
 	}
 	
 	
@@ -232,7 +269,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 			public void run() {
 				AtlProblemQuickfix current = (AtlProblemQuickfix) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
 				if ( current == qfx ) {
-				updateAnalysis(current);
+					updateAnalysis(current);
 				}
 			}
 		});

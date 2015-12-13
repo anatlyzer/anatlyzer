@@ -57,7 +57,8 @@ public class QuickfixApplication {
 	
 	public void remove(EObject o) {
 		EObject parent = o.eContainer();
-		EcoreUtil.delete(o);
+		// EcoreUtil.delete(o);
+		EcoreUtil.delete(o, true);
 		actions.add(new DeleteAction(o, parent));
 	}
 	
@@ -111,6 +112,7 @@ public class QuickfixApplication {
 	
 	public void mmModify(EStructuralFeature feature, String metamodelName, Consumer<EStructuralFeature> modifyer) {
 		modifyer.accept(feature);
+		System.out.println("==========> MODIFY FEATURE: " + feature.getName());
 		mmActions.add(new MMAction(metamodelName));
 	}
 

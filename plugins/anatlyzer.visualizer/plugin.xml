@@ -37,5 +37,12 @@
             file="contexts.xml">
       </contexts>
    </extension>
+   <extension
+         point="anatlyzer.atl.quickfix.impact">
+      <impact
+            implementation="anatlyzer.visualizer.quickfix.QuickfixImpactVisualizer"
+            name="Visualization">
+      </impact>
+   </extension>
 
 </plugin>

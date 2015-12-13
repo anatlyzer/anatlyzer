@@ -83,7 +83,7 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return problem;
 	}
 	
-	protected LocatedElement getProblematicElement() {
+	public LocatedElement getProblematicElement() {
 		return getProblematicElement(this.marker);
 	}
 	

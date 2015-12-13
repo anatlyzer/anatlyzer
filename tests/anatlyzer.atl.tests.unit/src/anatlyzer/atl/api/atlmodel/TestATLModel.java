@@ -146,7 +146,8 @@ public class TestATLModel extends UnitTest {
 		MetamodelNamespace nsSrc = result.getNamespace().getNamespace("ABCD");
 		
 		
-		IncrementalAnalyser inc = new IncrementalAnalyser(result, Collections.singletonList("ABCD"));
+		// IncrementalAnalyser inc = new IncrementalAnalyser(result, Collections.singletonList("ABCD"));
+		IncrementalAnalyser inc = new IncrementalAnalyser(result, result.getNamespace().getLogicalNamesToMetamodels().keySet());
 		MetamodelNamespace nsTgt = inc.getNamespaces().getNamespace("ABCD");
 		
 		assertTrue(nsSrc != nsTgt);	

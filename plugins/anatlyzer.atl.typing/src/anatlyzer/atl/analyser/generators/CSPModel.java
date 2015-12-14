@@ -170,13 +170,22 @@ public class CSPModel {
 		return op;
 	}
 
-	public OclExpression createCastTo(VariableDeclaration varToBeCasted, Metaclass klass) {
+	public OclExpression createCastTo(VariableDeclaration varToBeCasted, Metaclass castTo, Type originalNoCastedType) {
 		VariableExp refToVarDcl = OCLFactory.eINSTANCE.createVariableExp();
 		refToVarDcl.setReferredVariable(varToBeCasted);	
-				
-		if ( varToBeCasted.getInferredType() != null ) {
+		if ( varToBeCasted.getInferredType() != null  ) {
 			Metaclass originalClass = (Metaclass) varToBeCasted.getInferredType();
-			if ( klass.getKlass().isSuperTypeOf(originalClass.getKlass())) {
+			// This is needed to avoid problems such as the following (in workflow2pn)
+			//   binding: input  <- e.input (but in this rule the filter is "e.input.oclIsKindOf(WF!Task)")
+			//   resolving rule: "from t  : WF!Task ( t.isInitial )"
+			// e.input is implicitly casted to Task, and since t:WF!Task is the same type
+			// no cast will be needed
+			// In practice we need the cast because USE does not have implicit casting
+			if ( originalNoCastedType instanceof Metaclass ) {
+				originalClass = (Metaclass) originalNoCastedType;
+			}
+			
+			if ( castTo.getKlass().isSuperTypeOf(originalClass.getKlass())) {
 				// No need to cast, and we are not going to cast because USE complains
 				return refToVarDcl;
 			}
@@ -185,8 +194,8 @@ public class CSPModel {
 		OperationCallExp opCall = createOperationCall(refToVarDcl, "oclAsType");
 		
 		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
-		m.setName(klass.getName());
-		setInferredType(m, klass);
+		m.setName(castTo.getName());
+		setInferredType(m, castTo);
 		
 		opCall.getArguments().add(m);
 		return opCall;

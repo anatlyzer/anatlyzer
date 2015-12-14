@@ -138,7 +138,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			IteratorExp exists = model.createExists(genValue, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genAndRules(model, rules, varDcl, operator);
+			OclExpression lastExpr = genAndRules(model, originalValue, rules, varDcl, operator);
 			
 			exists.setBody(lastExpr);
 			
@@ -152,7 +152,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			IteratorExp exists = model.createExists(flattened, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genAndRules(model, rules, varDcl, operator);
+			OclExpression lastExpr = genAndRules(model, originalValue, rules, varDcl, operator);
 			
 			exists.setBody(lastExpr);
 			result = exists;
@@ -174,7 +174,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			List<RuleResolutionInfo> rules, OclExpression value, String operator) {
 		LetExp let = model.createLetScope(value, null, "_problem_");
 		VariableDeclaration varDcl = let.getVariable();		
-		OclExpression andRules = genAndRules(model, rules, varDcl, operator);
+		OclExpression andRules = genAndRules(model, value, rules, varDcl, operator);
 		
 		// => not varDcl.oclIsUndefined()
 		// It is necessary to check for undefined because otherwise setting a reference
@@ -191,7 +191,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	private static OclExpression genAndRules(CSPModel model,
-			List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
+			OclExpression bindingValue, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
 		
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {
@@ -210,7 +210,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 				
 				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
+				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), bindingValue.getNoCastedType());				
 				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 					
 				// Map the iterator var to the rule variable

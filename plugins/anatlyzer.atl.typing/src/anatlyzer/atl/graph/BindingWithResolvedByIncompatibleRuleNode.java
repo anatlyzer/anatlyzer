@@ -202,7 +202,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 			
 			// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-			OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType());				
+			OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), binding.getValue().getNoCastedType());				
 			LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 				
 			// Map the iterator var to the rule variable

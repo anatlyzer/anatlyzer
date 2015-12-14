@@ -17,6 +17,7 @@ public interface IWitnessFinder {
 	public IWitnessFinder checkDiscardCause(boolean b);
 	public IWitnessFinder checkProblemsInPath(boolean b);
 	public IWitnessFinder checkPreconditions(boolean b);
+	public IWitnessFinder catchInternalErrors(boolean b);
 
 	
 //	public static enum WitnessResult {

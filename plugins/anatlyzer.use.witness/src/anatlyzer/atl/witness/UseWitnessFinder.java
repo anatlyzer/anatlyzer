@@ -42,6 +42,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean checkDiscardCause = true;
 	private boolean checkProblemsInPath;
 	private boolean checkPreconditions = true;
+	private boolean catchInternalErrors = false;
 	private int foundScope;
 
 	@Override
@@ -66,6 +67,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 	
 	@Override
+	public IWitnessFinder catchInternalErrors(boolean b) {
+		this.catchInternalErrors  = b;
+		return this;
+	}
+			
+	@Override
 	public IWitnessFinder checkPreconditions(boolean b) {
 		this.checkPreconditions   = b;
 		return this;
@@ -74,6 +81,19 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	@Override
 	public ProblemStatus find(IDetectedProblem problem, AnalysisResult r) {
+		if ( catchInternalErrors ) {
+			try {
+				return findAux(problem, r);
+			} catch ( Throwable e ) {
+				return ProblemStatus.IMPL_INTERNAL_ERROR;
+			}
+		} else {
+			return findAux(problem, r);
+		}		
+	}
+	
+	protected ProblemStatus findAux(IDetectedProblem problem, AnalysisResult r) {
+	
 		this.analyser = r.getAnalyser();
 
 		List<String> preconditions;

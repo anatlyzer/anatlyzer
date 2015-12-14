@@ -33,7 +33,7 @@ public class WitnessFinderJob extends Job {
 				return Status.CANCEL_STATUS;
 			
 			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
-				ProblemStatus status = wf.find(problem, data);
+				ProblemStatus status = wf.catchInternalErrors(true).find(problem, data);
 				AnalysisIndex.getInstance().changeStatus(resource, problem, status);
 			}			
 		}		

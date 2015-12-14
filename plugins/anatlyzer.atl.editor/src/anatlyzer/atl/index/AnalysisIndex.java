@@ -62,6 +62,13 @@ public class AnalysisIndex {
 		}
 	}
 
+
+	public synchronized void clean(IResource file) {
+		String location = getFileId(file);
+		index.remove(location);
+		confs.remove(location);
+	}
+	
 	private String getFileId(IResource file) {
 		return file.getLocation().toPortableString();
 	}
@@ -112,4 +119,5 @@ public class AnalysisIndex {
 			indexChangeListener.statusChanged(r, problem, old);
 		}
 	}
+
 }

@@ -870,8 +870,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				IEditorPart part = page.getActiveEditor();
 				if ( part instanceof AtlEditorExt ) {
 					try {
+						AtlEditorExt editor = ((AtlEditorExt) part);						
+						// Unload from the index to force reload in continous mode
+						AnalysisIndex.getInstance().clean(editor.getUnderlyingResource());
+								
 						// Not sure if this is the cleanest way of forcing a rebuild
-						((AtlEditorExt) part).getUnderlyingResource().touch(null);
+						editor.getUnderlyingResource().touch(null);
 					} catch (CoreException e) {
 						e.printStackTrace();
 					}
@@ -1064,7 +1068,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	@Override
 	public void partActivated(IWorkbenchPart part) {
-		partOpened(part);
+		// partOpened(part);
 	}
 
 	@Override
@@ -1091,6 +1095,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				AnalysisResult result = AnalysisIndex.getInstance().getAnalysis(editor.getUnderlyingResource());
 				if ( result != null ) {
 					setOpenedResource(editor.getUnderlyingResource(), result);
+				} else {
+					// run the analysis for the resource to ensure that the
+					// view is filled at some point
+					runAnalyserAction.run();
 				}
 			}
 		}
@@ -1146,7 +1154,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				// analysis view to use according to the configuration
 				setOpenedResource(r, result);
 			} else {			
-				currentResource = resource;
 				currentAnalysis = result;
 	
 				refreshFromNonUI();

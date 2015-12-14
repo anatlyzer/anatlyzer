@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,7 +45,7 @@ public class Report {
 	
 	/** when executed with the given input model, the transformation produces a malformed target model*/
 	public boolean setOutputError (String transformation, String error, String witness) {
-		Record record = new Record(witness, "The transformation produces ill-typed target models.", ERROR_KIND.EXECUTION_YIELDS_ILL_TARGET); 
+		Record record = new Record(witness, "Ill-typed target model. "+error, ERROR_KIND.EXECUTION_YIELDS_ILL_TARGET); 
 		this.getResult(transformation).add(record);
 		return true;
 	}
@@ -160,7 +162,8 @@ public class Report {
 			    "RESULT\t" +
 			    "AN. OUTPUT\t" +
 			    "EX. OUTPUT\t" +
-			    "AN. EXCEPTION");
+			    "AN. EXCEPTION\t" +
+			    "TP c/i/u");
 		
 		// print result of each transformation
 		for (String transformation : new TreeSet<String>(report.keySet())) {
@@ -173,8 +176,9 @@ public class Report {
 		            " SI(Y(B" + (numrecords+1) + "=\"error\";C" + (numrecords+1) + "=\"correct\"); \"false positive\";" +
 		            " SI(Y(B" + (numrecords+1) + "=\"correct\";C" + (numrecords+1) + "=\"error\"); \"false negative\"; \"unknown\"))))" + "\t" +
 		            (getAnatlyserNotifiesError(transformation)? convert(getAnatlyserError(transformation)) : "") + "\t" +
-		            (getExecutionError(transformation)  !=null? convert(getExecutionError(transformation)) : "") +
-		            (getAnatlyserDoesNotFinish(transformation)? "\t ***WARNING*** anATLyser raised the exception " + convert(getAnatlyserError(transformation)) : ""));
+		            (getExecutionError(transformation)  !=null? convert(getExecutionError(transformation)) : "") + "\t" +
+		            (getAnatlyserDoesNotFinish(transformation)? "***WARNING*** anATLyser raised the exception " + convert(getAnatlyserError(transformation)) : "") + "\t" +
+		            isTruePositiveCorrect(transformation));
 		}
 		
 		// print summary
@@ -211,6 +215,104 @@ public class Report {
 	private String getFileName(String path) {
 		String name = new File(path).getName();
 		return name!=null? name : path;
+	}
+	
+	/**
+	 * [EXTENSION 09/12/2015] It checks whether anATLyzer is reporting the appropriate kind of error
+	 * for a given transformation. It only makes sense in case of true positives. This method should
+	 * only be called from method evaluateTransformation, which initializes attribute report with the
+	 * result of executing / anatlysing the transformation.
+	 */
+	private enum RESULT {CORRECT, INCORRECT, UNKOWN, UNAPPLICABLE; public String toString() { return this.name().equals("UNAPPLICABLE")? "" : super.toString(); } }
+	private RESULT isTruePositiveCorrect (String transformation) {
+		
+		String executionError = getExecutionError(transformation);
+		String anatlyzerError = getAnatlyserError(transformation);
+		
+		if (getAnatlyserNotifiesError(transformation) && (getExecutionRaisesException(transformation) || getExecutionYieldsIllTarget(transformation))) {
+			
+			// feature f does not exist on C ------------------------------------------------------
+			if (executionError.matches(".*Feature .* does not exist on .*")) {
+				Pattern p = Pattern.compile("Feature (.+?) does not exist on (.+)");//(;.*)?");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("No feature "+m.group(2)+"."+m.group(1)+" found")? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+			// java.lang.T does not have properties -----------------------------------------------
+			else if (executionError.matches(".*java.lang.* does not have properties")) {
+				Pattern p = Pattern.compile("java[.]lang[.](.+?) does not have properties");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("No operation "+m.group(1)+".")? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+			// operation not found: IN!<unnamed>.o() ----------------------------------------------
+			else if (executionError.matches(".*Operation not found: IN!<unnamed>.*\\(\\)")) {
+				Pattern p = Pattern.compile("Operation not found: IN!<unnamed>[.](.+?)\\(\\)");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.matches("(.*?)No operation (.*?)[.]"+m.group(1)+"(.*)")? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+			// operation not found: OclUndefined.o() ----------------------------------------------
+			else if (executionError.matches(".*Operation not found: OclUndefined.*\\(\\)")) {
+				Pattern p = Pattern.compile("Operation not found: OclUndefined[.](.+?)\\(\\)");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("Possible access to undefined value: "+m.group(1))? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+			// operation not found: v.o() ---------------------------------------------------------
+			else if (executionError.matches(".*Operation not found: (true|false)[.].*")) {
+				Pattern p = Pattern.compile("Operation not found: (true|false)[.](.+?)\\(.*?\\)");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("Invalid operand "+m.group(2))? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+    		// rule conflict ----------------------------------------------------------------------
+			else if (executionError.contains("Trying to register several rules as default for element")) {
+				return anatlyzerError.contains("CONFLICT: ERROR_CONFIRMED")? RESULT.CORRECT : RESULT.INCORRECT;
+			}
+			
+			// the class C is not a valid classifier ----------------------------------------------
+			else if (executionError.matches(".*The class '.*' is not a valid classifier")) {
+				Pattern p = Pattern.compile("The class '(.+?)' is not a valid classifier");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("Abstract classes cannot be instantiated: "+m.group(1))? RESULT.CORRECT : RESULT.INCORRECT; 
+			}
+			
+			// the required feature f must be set -------------------------------------------------
+			else if (executionError.matches(".*The required feature '.*' of '.*' must be set")) {
+				Pattern p = Pattern.compile("The required feature '(.+?)' of '(.+?)#(.+?)@(.+?)' must be set");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("no binding for compulsory "+m.group(3)+"."+m.group(1))? RESULT.CORRECT : RESULT.INCORRECT; 
+			}
+			
+			// the value of type t must be of type t' ---------------------------------------------
+			else if (executionError.matches(".*The value of type '.*' must be of type '.*'")) {
+				Pattern p = Pattern.compile("The value of type 'class java[.]lang[.](.+?)' must be of type 'class java[.]lang[.](.+?)'");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains(m.group(2)+", but received "+m.group(1))? RESULT.CORRECT : RESULT.INCORRECT; 
+			}
+			
+			// unable to access f on OclUndefined -------------------------------------------------
+			else if (executionError.matches(".*Unable to access .* on OclUndefined")) {
+				Pattern p = Pattern.compile("Unable to access (.+?) on OclUndefined");
+				Matcher m = p.matcher(executionError);
+				boolean b = m.find();
+				return b && anatlyzerError.contains("Possible access to undefined value: "+m.group(1))? RESULT.CORRECT : RESULT.INCORRECT; 
+			}
+			
+			// we do not know
+			else return RESULT.UNKOWN; 
+    	}
+
+		return RESULT.UNAPPLICABLE;
 	}
 	
 	// --------------------------------------------------------------------------------------------------

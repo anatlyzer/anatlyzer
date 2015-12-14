@@ -39,7 +39,7 @@ import org.eclipse.m2m.atl.engine.parser.AtlParser;
 // import transML.editor.mtUnit.MtUnitRuntimeModule;
 import transML.exceptions.transException;
 import transML.exceptions.transException.ERROR;
-import transML.utils.transMLMessageConsole;
+//import transML.utils.transMLMessageConsole;
 import transML.utils.transMLProperties;
 import transML.utils.modeling.EMFUtils;
 import transML.utils.solver.FactorySolver;

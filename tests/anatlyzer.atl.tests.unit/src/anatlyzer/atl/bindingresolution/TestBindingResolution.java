@@ -57,6 +57,7 @@ public class TestBindingResolution extends UnitTest {
 
 	@Test
 	public void testBindingResolution_PathWithLazyRule() throws Exception {
+		// debugMode = true;
 		String T = trafo("path_with_lazy_rule");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 		

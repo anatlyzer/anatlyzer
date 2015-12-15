@@ -49,11 +49,38 @@ import transML.utils.solver.use.Solver_use;
 public class USESolverMemory extends Solver_use {
 
     protected final Session fSession = new Session();
-    protected int defaultScope = 10;
 	protected String generatedMetamodelName = null;
+	private EPackage metamodel;
+	private String useSpecification;
+	private EClass root;
 	
-	public USESolverMemory() throws transException {
+	public USESolverMemory(EPackage metamodel, List<String> constraints) throws transException {
 		super();
+		this.metamodel = metamodel;
+
+		root = (EClass) metamodel.getEClassifier("AuxiliaryClass4USE");
+		if ( root == null ) {
+			root = EcoreFactory.eINSTANCE.createEClass();
+			root.setName ("AuxiliaryClass4USE");
+			metamodel.getEClassifiers().add(root);
+		}
+
+		try {
+			StringWriter writer1 = new StringWriter();
+			transformEcore2use(metamodel, writer1);
+			writer1.append("\n\n");
+			writeOCLexpression(metamodel, constraints, root, writer1);
+
+			this.useSpecification = writer1.toString();
+			writer1.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}			
+		
+		
+		
+
 	}
 
 	/**
@@ -63,40 +90,24 @@ public class USESolverMemory extends Solver_use {
 	public String find(EPackage metamodel, List<String> constraints) throws transException { 
 		throw new UnsupportedOperationException();
 	}
-	
-	public USEResult findModel(EPackage metamodel, List<String> constraints) throws transException { 	
-		EClass root = EcoreFactory.eINSTANCE.createEClass();
-		root.setName ("AuxiliaryClass4USE");
-		metamodel.getEClassifiers().add(root);
 
-		int objectUpperBound = defaultScope;
+	public void init(EPackage metamodel, List<String> constraints) throws transException { 	
+	}
 		
-		try {
-			StringWriter writer1 = new StringWriter();
-			transformEcore2use(metamodel, writer1);			
-			writer1.append("\n\n");
-			writeOCLexpression(metamodel, constraints, root, writer1);
-			
-			System.out.println(writer1.toString());
-			
-			InputStream useMetamodelAndInvariants0 = new ByteArrayInputStream(writer1.toString().getBytes());
-			BufferedReader r = new BufferedReader(new InputStreamReader(useMetamodelAndInvariants0));
-			r.lines().forEach(l -> {
-				System.out.println("--> " + l);
-			});
-			
-			writer1.close();
+	public USEResult find(int scope) throws transException { 	
 
-			
+		int objectUpperBound = scope;
+		
+		try {		
 			StringWriter writer2 = new StringWriter();
 			genPropertiesFile(metamodel, root.getName(), writer2, objectUpperBound);
 			writer2.close();
 			
-			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(writer1.toString().getBytes());
+			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());
 			
 			Outcome outcome = handleUSECall(useMetamodelAndInvariants, metamodelBounds);
-			if ( outcome != null) {
+			if ( outcome != null && USEResult.isSatisfiable(outcome)) {
 				ResourceSet resourceSet = new ResourceSetImpl();
 				resourceSet.getPackageRegistry().put(metamodel.getNsURI(), metamodel);
 				Resource model  = resourceSet.createResource(URI.createFileURI(getGeneratedMetamodelName()));
@@ -104,6 +115,8 @@ public class USESolverMemory extends Solver_use {
 				parseOutput2EmfIntoResource(metamodel, model);
 				
 				return new USEResult(outcome, model);				
+			} else if ( outcome != null ) {
+				return new USEResult(outcome, null);								
 			} else {
 				return null;
 			}
@@ -130,6 +143,10 @@ public class USESolverMemory extends Solver_use {
 		}
 		
 		public boolean isSatisfiable() {
+			return isSatisfiable(outcome);
+		}
+		
+		public static boolean isSatisfiable(Outcome outcome) {
 			return outcome == Outcome.SATISFIABLE ||
 					outcome == Outcome.TRIVIALLY_SATISFIABLE;
 		}
@@ -147,13 +164,12 @@ public class USESolverMemory extends Solver_use {
 	
 	protected Outcome handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
 		MModel model = null;
-		PrintWriter fLogWriter = new PrintWriter(System.err);
+		PrintWriter fLogWriter = new PrintWriter(System.out);
         model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
-        fLogWriter.println("done.");        
         
         final MSystem system;
         if (model != null) {
-            fLogWriter.println(model.getStats());
+            // fLogWriter.println(model.getStats());
             // create system
             system = new MSystem(model);
         } else {
@@ -187,7 +203,7 @@ public class USESolverMemory extends Solver_use {
 		}
 		// end-of-configure
 		
-		Log.setDebug(true);
+		// Log.setDebug(true);
 		configureInvariantSettingsFromGenerator(kodkodModel, model);
         modelValidator.validate(kodkodModel);
 		
@@ -241,8 +257,4 @@ public class USESolverMemory extends Solver_use {
 		}
 	}
 
-
-	public void setDefaultScope(int scope) {
-		this.defaultScope  = scope;
-	}
 }

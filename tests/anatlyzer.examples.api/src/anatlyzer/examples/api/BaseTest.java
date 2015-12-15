@@ -42,7 +42,8 @@ public class BaseTest {
 	protected Analyser analyser;
 	private List<OverlappingRules> possibleRuleConflicts;
 	private AnalysisResult analysisData;
-
+	protected boolean debugMode = false;
+	
 	protected void clearState() {
 		atlTransformation     = null;
 		atlTransformationFile = null;
@@ -194,7 +195,9 @@ public class BaseTest {
 		ProblemStatus[] results = new ProblemStatus[possibleRuleConflicts.size()];		
 		int i = 0;
 		for (OverlappingRules overlappingRules : possibleRuleConflicts) {
-			results[i] = new TestUSEWitnessFinder().find(overlappingRules, analysisData);
+			results[i] = new TestUSEWitnessFinder().
+					setDebugMode(debugMode).
+					find(overlappingRules, analysisData);
 			i++;
 		}
 		
@@ -204,7 +207,9 @@ public class BaseTest {
 	
 	// This is the good one, remove the rest...
 	protected ProblemStatus confirmOrDiscardProblem(LocalProblem problem) {
-		ProblemStatus result = new TestUSEWitnessFinder().find(problem, analysisData);
+		ProblemStatus result = new TestUSEWitnessFinder().
+				setDebugMode(debugMode).
+				find(problem, analysisData);
 		return result;
 	}
 

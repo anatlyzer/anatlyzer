@@ -224,14 +224,14 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			ocl_constraints.add(string);
 		}
 
+		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
+
 		transException conformanceError = null;
 		USEResult  model = null;
 		int scope = 0;
-		for (scope=minScope; scope<=maxScope && model==null; scope++) {
-			USESolverMemory solver = new USESolverMemory();
-			solver.setDefaultScope(scope);
+		for (scope=minScope; scope<=maxScope && (model==null || !model.isSatisfiable()); scope++) {
 			try {
-				model = solver.findModel(metamodel, ocl_constraints);
+				model = solver.find(scope);
 			} catch (transException e) {
 				// a) execution error
 				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {

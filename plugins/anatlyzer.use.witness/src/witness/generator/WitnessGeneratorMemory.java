@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
+import com.sun.javafx.geom.transform.BaseTransform.Degree;
+
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;
@@ -28,7 +30,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private boolean forceOnceInstancePerClass;
 	private int minScope = 1;
 	private int maxScope = 5;
-	private boolean debugMode = true;
+	private boolean debugMode = false;
 	
 	private static Integer index = 0;
 	
@@ -213,6 +215,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 
 	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
+		// I need to invoke this because otherwise transML will try to use some internal
+		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
+		transMLProperties.loadPropertiesFile(path);
+
 		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
 		for (String string : additionalConstraints) {
 			ocl_constraints.add(string);

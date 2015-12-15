@@ -16,6 +16,7 @@ import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import transML.utils.solver.use.Solver_use;
+import witness.generator.USESolverMemory.USEResult;
 
 // Just for the moment
 public class WitnessGeneratorMemory extends WitnessGenerator {
@@ -27,6 +28,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private boolean forceOnceInstancePerClass;
 	private int minScope = 1;
 	private int maxScope = 5;
+	private boolean debugMode = true;
 	
 	private static Integer index = 0;
 	
@@ -49,14 +51,23 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			throw new AdaptationInternalError(e);
 		}
 		
-		String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
-		return witness != null;
+		if ( debugMode ) {		
+			String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
+			return witness != null;
+		} else {
+			USEResult r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, this.additionalConstraints);			
+			return r != null && r.isSatisfiable();
+		}
 	}
 
 	private ArrayList<String> additionalConstraints = new ArrayList<String>();
 	private int foundScope;
 	public void addAdditionaConstraint(String constraint) {
 		this.additionalConstraints.add(constraint);
+	}
+	
+	public void setDebugModel(boolean b) {
+		this.debugMode = b;
 	}
 	
 	public int getFoundScope() {
@@ -167,7 +178,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	 */
 	@Override
 	protected String generateWitness (String path, EPackage metamodel, String ocl_constraint, int index) throws transException {
-		WitnessGenResult r = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
+		WitnessGenResult r = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);			
 		if ( r == null )
 			return null;
 		this.foundScope = r.scope;
@@ -200,6 +211,43 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			this.scope = scope;
 		}
 	}
+
+	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
+		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
+		for (String string : additionalConstraints) {
+			ocl_constraints.add(string);
+		}
+
+		transException conformanceError = null;
+		USEResult  model = null;
+		int scope = 0;
+		for (scope=minScope; scope<=maxScope && model==null; scope++) {
+			USESolverMemory solver = new USESolverMemory();
+			solver.setDefaultScope(scope);
+			try {
+				model = solver.findModel(metamodel, ocl_constraints);
+			} catch (transException e) {
+				// a) execution error
+				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
+					String error = e.getDetails().length>0? e.getDetails()[0] : e.getMessage();
+					if (error.endsWith("\n")) error = error.substring(0, error.lastIndexOf("\n"));
+					// console.println("[ERROR] " + error);
+					System.out.println("[ERROR] " + error); 
+					throw e;
+				}
+				// b) non-conformance error (USE found a model which violates some invariant)
+				else {
+					model = null;  // we will try a bigger scope
+					conformanceError = e;
+				}
+			}
+		}
+				
+		if (model == null)
+			if   (conformanceError == null) return null;
+			else throw conformanceError;
+		return model;		
+	}
 	
 	public static WitnessGenResult generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
 
@@ -231,13 +279,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		String  model = null;
 		int     scope = 0;
 		transException conformanceError = null;
-		//root = metamodel.getEClassifier("SubAction");
 
 		// use increasing scope (1,2,3...) to obtain smaller models
 		for (scope=minScope; scope<=maxScope && model==null; scope++) {
 			try {				
 				transMLProperties.setProperty("solver.scope", ""+scope);
-				model = solver.find(metamodel, ocl_constraints);
+				model = solver.find(metamodel, ocl_constraints);				
 			}
 			catch (transException e) {
 				// a) execution error

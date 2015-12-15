@@ -11,7 +11,10 @@
         <zipfileset src="transml.jar"/>
     	<zipfileset src="use/antlr-3.4-complete.jar" />
     	<zipfileset src="use/guava-17.0.jar" />
+    	<!--
     	<zipfileset src="use/ModelValidatorPlugin-4.1-r1.jar" />
+    	-->
+      	<zipfileset src="use/ModelValidatorPlugin-NIGHTLY-build5555.jar" />
     	<zipfileset src="use/use-runtime.jar" />
     	<zipfileset src="use/use.jar" />
     	

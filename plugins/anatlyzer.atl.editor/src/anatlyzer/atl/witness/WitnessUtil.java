@@ -1,13 +1,12 @@
 package anatlyzer.atl.witness;
 
-import java.util.ArrayList;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 import anatlyzer.atl.editor.Activator;
+import anatlyzer.ui.configuration.TransformationConfiguration;
 
 public class WitnessUtil {
 	public static IWitnessFinder getFirstWitnessFinder() {
@@ -26,5 +25,11 @@ public class WitnessUtil {
 		}
 		
 		return null;
+	}
+
+	public static IWitnessFinder getFirstWitnessFinder(TransformationConfiguration analysisConfiguration) {
+		IWitnessFinder finder = getFirstWitnessFinder();
+		finder.setDebugMode(analysisConfiguration.isWitnessFinderDebugMode());
+		return finder;
 	}
 }

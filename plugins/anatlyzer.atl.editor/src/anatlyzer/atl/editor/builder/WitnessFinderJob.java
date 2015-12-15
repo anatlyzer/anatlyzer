@@ -26,7 +26,7 @@ public class WitnessFinderJob extends Job {
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));
 		
 		for (Problem problem : data.getNonIgnoredProblems()) {
 			if ( monitor.isCanceled() )

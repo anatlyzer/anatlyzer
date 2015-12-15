@@ -43,6 +43,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean checkProblemsInPath;
 	private boolean checkPreconditions = true;
 	private boolean catchInternalErrors = false;
+	private boolean debugMode = false;
+	
 	private int foundScope;
 
 	@Override
@@ -72,6 +74,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 			
+	@Override
+	public IWitnessFinder setDebugMode(boolean b) {
+		this.debugMode  = b;
+		return this;
+	}
+	
 	@Override
 	public IWitnessFinder checkPreconditions(boolean b) {
 		this.checkPreconditions   = b;
@@ -213,6 +221,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		errorSliceMM.getEAnnotations().add(ann);
 		
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
+		generator.setDebugModel(debugMode);
 		generator.setMinScope(1);
 		generator.setMaxScope(5);
 		for (String pre : preconditions) {

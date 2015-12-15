@@ -17,14 +17,14 @@ public class ConfigurationReader {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 		String line = null;
 		while( (line = reader.readLine()) != null ) {
-			if ( line.startsWith("witness-finder") ) {
+			if ( line.startsWith("debug-witness-finder") ) {
+				checkDebug(line);				
+			} else if ( line.startsWith("witness-finder") ) {
 				checkContinuous(line);
 			} else if ( line.startsWith("show-marker") ) {
 				checkShowMarker(line);
-			}
-			
+			}			
 		}
-		
 	}
 
 	
@@ -59,7 +59,22 @@ public class ConfigurationReader {
 			if ( parts[1].equals("continuous") ) configuration.setContinousWitnessFinder(true);
 		}
 	}
-	
+
+	/**
+	 * <pre>
+	 *   debug-witness-finder on
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkDebug(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if ( parts[1].equals("on") ) configuration.setWitnessFinderDebugMode(true);
+			else if ( parts[1].equals("off") ) configuration.setWitnessFinderDebugMode(false);
+		}
+	}
+
 	public static TransformationConfiguration read(InputStream stream) throws IOException {
 		TransformationConfiguration conf = new TransformationConfiguration();
 		new ConfigurationReader(stream, conf);

@@ -895,7 +895,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				if ( selection != null && ( selection.getFirstElement() instanceof LocalProblemNode )) {
 					LocalProblemNode lpn = (LocalProblemNode) selection.getFirstElement();
 					
-					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);
@@ -907,7 +907,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				else if ( selection != null && ( selection.getFirstElement() instanceof GenericProblemNode )) {
 					GenericProblemNode lpn = (GenericProblemNode) selection.getFirstElement();
 					
-					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);
@@ -1245,6 +1245,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public AnalysisResult getCurrentAnalysis() {
 		return currentAnalysis;
+	}
+	
+	public TransformationConfiguration getAnalysisConfiguration() {
+		return AnalysisIndex.getInstance().getConfiguration(currentResource);
 	}
 	
 	@Override

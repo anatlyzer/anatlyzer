@@ -9,11 +9,20 @@ public class TransformationConfiguration {
 
 	private boolean continousWitnessFinder = false;
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
+	private boolean witnessFinderDebugMode = false;
 	
 	public TransformationConfiguration() {
 		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
+	}
+	
+	public void setWitnessFinderDebugMode(boolean debug) {
+		this.witnessFinderDebugMode  = debug;
+	}
+
+	public boolean isWitnessFinderDebugMode() {
+		return witnessFinderDebugMode;
 	}
 	
 	public void setContinousWitnessFinder(boolean continous) {

@@ -18,7 +18,8 @@ public interface IWitnessFinder {
 	public IWitnessFinder checkProblemsInPath(boolean b);
 	public IWitnessFinder checkPreconditions(boolean b);
 	public IWitnessFinder catchInternalErrors(boolean b);
-
+	public IWitnessFinder setDebugMode(boolean b);
+	
 	
 //	public static enum WitnessResult {
 //		ERROR_CONFIRMED,

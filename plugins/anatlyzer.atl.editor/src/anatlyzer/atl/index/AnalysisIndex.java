@@ -46,8 +46,7 @@ public class AnalysisIndex {
 	}
 
 	public synchronized void register(IResource file, AnalysisResult result) {
-		String location = getFileId(file);
-
+		String location = getFileId(file);		
 		AnalysisResult previous = index.get(location);
 		
 		if ( previous != null && trackProblems(location) ) {
@@ -85,8 +84,12 @@ public class AnalysisIndex {
 		return getAnalysis(getFileId(file));
 	}
 
+	
 	public TransformationConfiguration getConfiguration(IResource resource) {
-		return confs.get(getFileId(resource));
+		TransformationConfiguration r = confs.get(getFileId(resource));		
+//		if ( r == null )
+//			r = TransformationConfiguration.getDefault();
+		return r;
 	}
 
 	private boolean trackProblems(String location) {

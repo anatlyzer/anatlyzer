@@ -28,7 +28,7 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		RuleConflict p = (RuleConflict) marker.getAttribute(AnATLyzerBuilder.PROBLEM);;
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		for (ConflictingRuleSet conflictingRuleSet : p.getConflicts()) {			
 			fixRules(qfa, (List<? extends MatchedRule>)conflictingRuleSet.getRules());
 		}

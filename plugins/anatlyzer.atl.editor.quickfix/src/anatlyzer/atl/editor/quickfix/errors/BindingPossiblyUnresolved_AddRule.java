@@ -47,7 +47,7 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 		Binding b = (Binding) getProblematicElement();
 		Rule bindingRule = ATLUtils.getRule(b);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		Metaclass selectedOutputType = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
 		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
 		

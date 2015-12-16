@@ -8,6 +8,11 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -16,8 +21,13 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.actions.WorkspaceAction;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 /**
@@ -32,7 +42,12 @@ public class QuickfixApplication {
 
 	private ArrayList<Action> actions = new ArrayList<QuickfixApplication.Action>();
 	private ArrayList<MMAction> mmActions = new ArrayList<QuickfixApplication.MMAction>();
+	private AtlProblemQuickfix qfx;
 	
+	public QuickfixApplication(AtlProblemQuickfix qfx) {
+		this.qfx = qfx;
+	}
+
 	public List<Action> getActions() {
 		return actions;
 	}
@@ -282,6 +297,24 @@ public class QuickfixApplication {
 
 	public void apply() {
 		// For the moment nothing... but should be called to ensure everything is in sync
+		// 
+	}
+
+	public void updateWorkbench(IDocument doc) {
+		// Invalidate the current analysis, to avoid problem in continous mode (when tracking
+		// problems that are no longer valid (e.g., they point to an object removed by the quick fix))
+		AnalysisResult result = this.qfx.getAnalysisResult();
+		String loc = result.getATLModel().getMainFileLocation();
+		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(loc));
+		AnalysisIndex.getInstance().clean(f);
+		new AnATLyzerBuilder().checkFromText(f, doc.get());
+		
+		
+//		try {
+//			f.touch(null);
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void saveMetamodels(AnalysisResult r) {

@@ -33,7 +33,7 @@ public class OperationOverCollectionTypeQuickfix extends AbstractAtlQuickfix {
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp call = (OperationCallExp) getProblematicElement();
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(call, (expr, trace) -> {
 			trace.preserve(expr.getSource());

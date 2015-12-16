@@ -33,7 +33,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		if ( true ) {
 			throw new UnsupportedOperationException("Not implemented yet!");
 		}
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
 			
 			

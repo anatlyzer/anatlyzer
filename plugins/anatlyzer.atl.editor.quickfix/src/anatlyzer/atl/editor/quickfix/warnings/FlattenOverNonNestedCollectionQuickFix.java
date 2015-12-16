@@ -24,7 +24,7 @@ public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		CollectionOperationCallExp call = (CollectionOperationCallExp) getProblematicElement();
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(call, (expr, trace) -> {
 			OclExpression source = call.getSource();

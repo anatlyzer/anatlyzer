@@ -38,7 +38,7 @@ public class IncoherentDeclaredTypeQuickfix_AssignInferredType extends AbstractA
 		if ( elem instanceof VariableDeclaration ) {
 			VariableDeclaration vd = (VariableDeclaration) elem;
 			
-			QuickfixApplication qfa = new QuickfixApplication();
+			QuickfixApplication qfa = new QuickfixApplication(this);
 			qfa.replace(vd.getType(), (original, trace) -> {
 				Type t = vd.getInitExpression().getInferredType();
 				return ATLUtils.getOclType(t);

@@ -93,7 +93,7 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp le = (OperationCallExp)getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(le, (expr, trace) -> {
 			trace.preserve(expr.getSource());

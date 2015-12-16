@@ -35,7 +35,7 @@ public class AccessToUndefinedValue_ChangeMetamodel extends AbstractMetamodelCha
 		
 		EStructuralFeature feature = (EStructuralFeature) optionalFeatureAccess.getUsedFeature();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(feature, getChangedMetamodel(), (f) -> {
 			f.setLowerBound(1);
 		});

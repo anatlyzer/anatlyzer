@@ -45,7 +45,7 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		ModuleElement operation        = getOperationToChange(operationCall);
-		QuickfixApplication qfa        = new QuickfixApplication();
+		QuickfixApplication qfa        = new QuickfixApplication(this);
 		
 		// case 1: change definition of parameter types in helper
 		if (operation instanceof LazyRule) {

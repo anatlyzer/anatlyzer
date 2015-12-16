@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.builder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -34,16 +35,22 @@ public class AnalyserExecutor {
 		return exec(resource, true);
 	}
 
+	
 	public AnalyserData exec(IResource resource, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile) resource;
-		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file, false);
+		return exec(resource, file.getContents(), addToIndex);
+	}
+	
+	public AnalyserData exec(IResource resource, InputStream stream, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel  {
+		IFile file = (IFile) resource;
+		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file, stream, false);
 		if ( atlEMFModel == null )
 			return null;
 		
 		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
 		return exec(file, atlModel, addToIndex);
 	}
-	
+
 	public AnalyserData exec(IResource resource, ATLModel atlModel, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel {
 		IFile file = (IFile) resource;
 
@@ -111,6 +118,5 @@ public class AnalyserExecutor {
 		}
 
 	}
-	
 
 }

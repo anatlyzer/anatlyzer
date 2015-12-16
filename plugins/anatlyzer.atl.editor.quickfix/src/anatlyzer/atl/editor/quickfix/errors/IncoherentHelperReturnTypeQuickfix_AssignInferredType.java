@@ -45,7 +45,7 @@ public class IncoherentHelperReturnTypeQuickfix_AssignInferredType extends Abstr
 				               ((Operation)feature).getReturnType() : 
 				               ((Attribute)feature).getType();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(returnType, (type, trace) -> {
 			return ATLUtils.getOclType(helper.getInferredReturnType());
 		});

@@ -134,7 +134,7 @@ public class NoBindingForCompulsoryFeature_FindSimilarExpression extends Abstrac
 		RuleWithPattern rule = ATLUtils.getContainer(out, RuleWithPattern.class);		
 
 
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.putIn(out, ATLPackage.eINSTANCE.getOutPatternElement_Bindings(), () -> {
 			Binding newBinding = ATLFactory.eINSTANCE.createBinding();
 			newBinding.setPropertyName(similarBinding.getPropertyName());

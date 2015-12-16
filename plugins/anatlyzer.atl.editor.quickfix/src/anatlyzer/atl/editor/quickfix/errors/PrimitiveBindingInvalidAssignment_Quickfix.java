@@ -56,7 +56,7 @@ public class PrimitiveBindingInvalidAssignment_Quickfix extends AbstractAtlQuick
 	@Override
 	public QuickfixApplication getQuickfixApplication()  {
 		Binding b = (Binding)this.getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(b, (expr, trace) -> {
 			PrimitiveExp pe = Conversions.createDefaultOCLLiteral(this.getExpectedType());			

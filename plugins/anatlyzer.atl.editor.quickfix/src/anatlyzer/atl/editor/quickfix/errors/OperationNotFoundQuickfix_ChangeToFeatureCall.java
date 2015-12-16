@@ -57,7 +57,7 @@ public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotF
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp le = (OperationCallExp) getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(le, (expr, trace) -> {
 			trace.preserve(expr.getSource());

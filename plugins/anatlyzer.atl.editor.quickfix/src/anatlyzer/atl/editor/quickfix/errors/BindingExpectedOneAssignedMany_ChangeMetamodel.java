@@ -26,7 +26,7 @@ public class BindingExpectedOneAssignedMany_ChangeMetamodel extends AbstractMeta
 		Metaclass m = (Metaclass) binding.getOutPatternElement().getInferredType();		
 		EStructuralFeature f = (EStructuralFeature) binding.getWrittenFeature();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(f, m.getModel().getName(), (feature) -> {
 			feature.setUpperBound(-1);
 		});

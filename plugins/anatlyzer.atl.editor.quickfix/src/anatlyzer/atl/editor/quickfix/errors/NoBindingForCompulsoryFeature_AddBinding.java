@@ -35,7 +35,7 @@ public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfi
 		OutPatternElement out = (OutPatternElement) p.getElement();			
 		EStructuralFeature f = p.getFeature();
 
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.putIn(out, ATLPackage.eINSTANCE.getOutPatternElement_Bindings(), () -> {
 			Binding newBinding = ATLFactory.eINSTANCE.createBinding();
 			newBinding.setPropertyName(f.getName());

@@ -41,7 +41,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(operationCall, (type, trace) -> {
 			operationCall.setOperationName( getElementName(chooseCompatibleOperation(null)) );
 			return operationCall;			

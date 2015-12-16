@@ -61,7 +61,7 @@ public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix
 
 		Supplier<OclExpression> create = ASTUtils.createOclIsUndefinedCheck(pce.getSource());
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		if ( filter != null ) {			
 			qfa.change(filter, OCLFactory.eINSTANCE::createOperatorCallExp, (original, andOp, trace) -> {

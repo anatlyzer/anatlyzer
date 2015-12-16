@@ -40,7 +40,7 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		ErrorSlice slice = path.getErrorSlice(result.getAnalyser());
 		String info = slice.toOneLineString();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.addCommentBefore(getATLModel().getRoot(), () -> {
 			USEConstraint useConstraint = USESerializer.retypeAndGenerate(expr, path);	
 			String pre = useConstraint.asString();

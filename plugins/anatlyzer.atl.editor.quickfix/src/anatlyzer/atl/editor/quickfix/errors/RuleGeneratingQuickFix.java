@@ -17,7 +17,7 @@ public abstract class RuleGeneratingQuickFix extends AbstractAtlQuickfix {
 	}
 	
 	public QuickfixApplication createRuleQuickFix(Rule anchor_rule, Metaclass src, Metaclass tgt, String targetPatternName) throws CoreException {	
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor_rule, () -> {
 			MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
 			String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();

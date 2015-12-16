@@ -25,7 +25,7 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends BindingProblemQuickF
 	public QuickfixApplication getQuickfixApplication() {
 		Binding b = (Binding) getProblematicElement();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.remove(b);
 		return qfa;
 	}

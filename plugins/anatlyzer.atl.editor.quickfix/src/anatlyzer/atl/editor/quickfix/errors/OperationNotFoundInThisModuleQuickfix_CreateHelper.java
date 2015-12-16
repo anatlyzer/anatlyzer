@@ -246,7 +246,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	
 		ModuleElement anchor = ATLUtils.getContainer(res, ModuleElement.class);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> { 
 			ModuleElement newCode = applyHeuristic(res, 
 					this::buildNewLazyRule,

@@ -44,7 +44,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		}
 		
 		// Normal case		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 
 		Supplier<LetExp> genLet = () -> {
 			OclExpression expr = (OclExpression) ATLCopier.copySingleElement(b.getValue());
@@ -92,7 +92,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		OclExpression filter = r.getInPattern().getFilter();
 		Metaclass type = ATLUtils.getInPatternType(resolvedRule);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 
 		
 		if ( filter != null ) {			
@@ -132,7 +132,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
 	protected QuickfixApplication generateBindingFilter(Binding b, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
 
-		QuickfixApplication qa = new QuickfixApplication();
+		QuickfixApplication qa = new QuickfixApplication(this);
 		
 		if ( b.getValue().getInferredType() instanceof CollectionType ) {
 			qa.change(b.getValue(), OCLFactory.eINSTANCE::createIteratorExp, (original, select, trace) -> {
@@ -235,7 +235,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 	}	
 
 	protected QuickfixApplication removeBinding(Binding b) {
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.remove(b);
 		return qfa;
 	}

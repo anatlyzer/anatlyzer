@@ -36,7 +36,7 @@ public class NoBindingForCompulsoryFeature_ChangeMetamodel extends
 		
 		Metaclass m = (Metaclass) out.getInferredType();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(f, m.getModel().getName(), (feature) -> {
 			feature.setLowerBound(0);
 		});

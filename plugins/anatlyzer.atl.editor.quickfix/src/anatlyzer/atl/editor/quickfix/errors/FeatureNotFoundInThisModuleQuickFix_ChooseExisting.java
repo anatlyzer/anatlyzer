@@ -64,7 +64,7 @@ public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends Abstract
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 		
 		String newFeatureName = this.getClosest(this.marker);

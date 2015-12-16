@@ -1,8 +1,12 @@
 package anatlyzer.atl.editor.builder;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -143,7 +147,69 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
-	void checkATL(IResource resource) {
+	public void checkATL(IResource resource) {
+		Supplier<AtlNbCharFile> helperCreator = () -> {
+			try {
+				return new AtlNbCharFile(((IFile) resource).getContents());
+			} catch (CoreException e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
+			}
+			return null;
+		};
+		
+		check(resource, helperCreator, 
+		() -> {
+			IFile file = (IFile) resource;				
+			try {
+				return new AnalyserExecutor().exec(resource);
+			} catch ( CoreException e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);								
+			} catch (IOException e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
+			} catch (CannotLoadMetamodel e) {
+				try {
+					addMarker(file, helperCreator.get(), null, e.getProblem());
+				} catch (CoreException e1) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		});
+	}
+
+	/**
+	 * This is intended to be called using the IDocument text, not the contents of the resource in the filesystem.
+	 * @param f
+	 * @param string
+	 */
+	public void checkFromText(IResource resource, String text) {
+		
+		Supplier<AtlNbCharFile> helperCreator = () -> {
+			return new AtlNbCharFile(new ByteArrayInputStream(text.getBytes()));
+		};
+		
+		check(resource, helperCreator, 
+		() -> {
+			IFile file = (IFile) resource;				
+			try {
+				return new AnalyserExecutor().exec(resource, new ByteArrayInputStream(text.getBytes()), true);
+			} catch ( CoreException e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);								
+			} catch (IOException e) {
+				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
+			} catch (CannotLoadMetamodel e) {
+				try {
+					addMarker(file, helperCreator.get(), null, e.getProblem());
+				} catch (CoreException e1) {
+					e.printStackTrace();
+				}
+			}
+			return null;
+		});
+	}		
+	
+	protected void check(IResource resource,  Supplier<AtlNbCharFile> currentFileHelperCreator, Supplier<AnalyserData> analysisExecutor) {
+
 		if (resource instanceof IFile && resource.getName().endsWith(".atlc")) {
 			readConfiguration((IFile) resource);
 		}
@@ -158,14 +224,16 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 
 			AtlNbCharFile help = null;
 			try {				
-				help = new AtlNbCharFile(file.getContents());
-
+				// help = new AtlNbCharFile(file.getContents());
+				help = currentFileHelperCreator.get();
+				
 				HashMap<String, AtlNbCharFile> helpers = new HashMap<String, AtlNbCharFile>();
 				helpers.put(file.getLocation().toPortableString(), help);
 				
-				AnalyserData data = new AnalyserExecutor().exec(resource);
+				// AnalyserData data = new AnalyserExecutor().exec(resource);
+				AnalyserData data = analysisExecutor.get();
 				if ( data == null ) {
-					System.out.println("Syntax errors");
+					System.out.println("May be syntax errors");
 					return; // if there are syntax errors!
 				}
 				
@@ -200,6 +268,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			} catch (CoreException e) {
 				e.printStackTrace();
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
+			/*
 			} catch (IOException e) {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CannotLoadMetamodel e) {
@@ -208,6 +277,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}
+			*/
 			}
 		}
 	}
@@ -411,4 +481,5 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		// the visitor does the work.
 		delta.accept(new SampleDeltaVisitor());
 	}
+
 }

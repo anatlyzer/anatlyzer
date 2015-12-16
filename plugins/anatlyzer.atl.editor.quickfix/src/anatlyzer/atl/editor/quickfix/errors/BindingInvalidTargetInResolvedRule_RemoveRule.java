@@ -26,7 +26,7 @@ public class BindingInvalidTargetInResolvedRule_RemoveRule extends BindingInvali
 		
 		List<MatchedRule> guiltyRules = detectGuiltyRules(p, analysis);
 
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		for (MatchedRule matchedRule : guiltyRules) {
 			qfa.remove(matchedRule);
 		}

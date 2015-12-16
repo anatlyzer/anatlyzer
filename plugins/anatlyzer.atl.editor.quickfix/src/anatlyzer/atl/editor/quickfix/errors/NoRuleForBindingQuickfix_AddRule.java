@@ -46,7 +46,7 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 			return this.createRuleQuickFix(r, src, tgt);
 //			
 //			// Not sure if in this case it makes sense to use b as an anchor
-//			QuickfixApplication qfa = new QuickfixApplication();
+//			QuickfixApplication qfa = new QuickfixApplication(this);
 //			qfa.insertAfter(r, () -> {
 //				MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
 //				String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();

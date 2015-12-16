@@ -1,5 +1,7 @@
 package anatlyzer.ui.util;
 
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
@@ -14,8 +16,18 @@ public class AtlEngineUtils {
 	public static EMFModel loadATLFile(IFile file) {
 		return loadATLFile(file, true);
 	}
-	
+
 	public static EMFModel loadATLFile(IFile file, boolean withProblems) {
+		try {
+			return loadATLFile(file, file.getContents(), withProblems);
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static EMFModel loadATLFile(IFile file, InputStream stream, boolean withProblems) {
+		
 		// ModelFactory      modelFactory = new EMFModelFactory();
 		EMFModel atlEMFModel = null;
 		EMFModel problems    = null;
@@ -25,7 +37,7 @@ public class AtlEngineUtils {
 			// atlEMFModel = (EMFModel)modelFactory.newModel(atlMetamodel);
 			// atlParser.inject(atlEMFModel, file.getContents(), null);
 			
-			IModel[] result = atlParser.inject(file.getContents(), null);
+			IModel[] result = atlParser.inject(stream, null);
 			atlEMFModel = (EMFModel) result[0];
 			problems    = (EMFModel) result[1];
 	
@@ -44,9 +56,6 @@ public class AtlEngineUtils {
 			}
 		} catch (ATLCoreException e1) {
 			e1.printStackTrace();
-			return null;
-		} catch (CoreException e) {
-			e.printStackTrace();
 			return null;
 		}
 		

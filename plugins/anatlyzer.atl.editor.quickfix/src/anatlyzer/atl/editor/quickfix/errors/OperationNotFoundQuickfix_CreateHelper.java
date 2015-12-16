@@ -34,7 +34,7 @@ public class OperationNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix 
 		
 		ModuleElement anchor = ATLUtils.getContainer(op, ModuleElement.class);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> { 
 			Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
 			ContextHelper helper = ASTUtils.buildNewContextOperation(op.getOperationName(), 

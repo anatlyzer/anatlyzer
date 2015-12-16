@@ -104,7 +104,7 @@ public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ext
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		Binding b = (Binding)getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(b, (expr, trace) -> {
 

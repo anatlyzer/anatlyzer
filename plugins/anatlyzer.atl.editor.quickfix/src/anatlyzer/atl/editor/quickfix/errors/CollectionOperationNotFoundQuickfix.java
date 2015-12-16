@@ -168,7 +168,7 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		CollectionOperationCallExp le = (CollectionOperationCallExp)getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		CollectionOperationCallExp elm = this.getOperation();
 		
 		qfa.replace(le, (expr, trace) -> {

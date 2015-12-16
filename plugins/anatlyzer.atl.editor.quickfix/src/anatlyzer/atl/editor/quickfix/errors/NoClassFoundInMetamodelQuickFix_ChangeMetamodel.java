@@ -31,7 +31,7 @@ public class NoClassFoundInMetamodelQuickFix_ChangeMetamodel extends AbstractMet
 		Metaclass m = (Metaclass) me.getInferredType();
 		String mmName = m.getModel().getName();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		Set<EPackage> packages = getAnalysisResult().getNamespace().getNamespace(mmName).getLoadedPackages();
 		EPackage aPackage = packages.stream().filter(p -> p.getESuperPackage() == null ).findAny().orElse(null);

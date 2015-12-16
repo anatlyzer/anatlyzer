@@ -4,6 +4,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
+import anatlyzer.atl.analyser.AnalysisResult;
+
 public interface AtlProblemQuickfix extends ICompletionProposal {
 
 	/**
@@ -34,5 +36,10 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 * @throws IllegalStateException if {@link #isMetamodelChanging()} is false.
 	 */
 	public String getChangedMetamodel();
+	
+	/**
+	 * Return the analysis over which the quick fix is applied.
+	 */
+	public AnalysisResult getAnalysisResult();
 	
 }

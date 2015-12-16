@@ -43,7 +43,7 @@ public class OperationFoundInSubtypeQuickfix_ChangeOperationContext extends Abst
 	@Override public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(getExistingHelperInSubtype(operationCall), (type, trace) -> {
 			return ATLUtils.getOclType( operationCall.getSource().getInferredType() );
 		});

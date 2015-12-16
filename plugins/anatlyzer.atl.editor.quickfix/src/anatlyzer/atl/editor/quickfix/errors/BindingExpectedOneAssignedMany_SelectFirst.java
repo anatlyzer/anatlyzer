@@ -48,7 +48,7 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 		Binding       binding = (Binding)getProblematicElement();
 		OclExpression value   = binding.getValue();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.change(value, OCLFactory.eINSTANCE::createCollectionOperationCallExp, (original, newexp, trace) -> {
 			
 			newexp.setOperationName("first");

@@ -54,7 +54,7 @@ public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQui
 		Type            returnType     = operationCall.getInferredType(); 
 		ModuleElement   anchor         = ATLUtils.getContainer(operationCall, ModuleElement.class);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		if (receptorType instanceof ThisModuleType) 
 			 qfa.insertAfter(anchor, () -> { return buildNewContextLazyRule (operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });
 		else qfa.insertAfter(anchor, () -> { return buildNewContextOperation(operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });

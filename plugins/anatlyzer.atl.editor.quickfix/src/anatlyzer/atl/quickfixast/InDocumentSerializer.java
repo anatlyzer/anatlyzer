@@ -122,7 +122,8 @@ public class InDocumentSerializer extends ATLSerializer {
 				// System.out.println(s2);
 				
 			}
-			
+			// This a kind of "post-apply"
+			qfa.updateWorkbench(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

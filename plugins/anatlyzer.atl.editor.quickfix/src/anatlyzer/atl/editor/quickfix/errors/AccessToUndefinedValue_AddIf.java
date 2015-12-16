@@ -56,7 +56,7 @@ public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 		
 		final OclExpression fexpRoot = expRoot;
 		final Type type = expRoot.getInferredType();
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.change(expRoot, OCLFactory.eINSTANCE::createIfExp, (original, ifexp, trace) -> {
 			ifexp.setCondition( createCheck.get() );
 			ifexp.setThenExpression(fexpRoot);

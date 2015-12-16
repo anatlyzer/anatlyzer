@@ -37,7 +37,7 @@ public class SelectFirst_ChangeForAnyQuickfix extends AbstractAtlQuickfix {
 		CollectionOperationCallExp call = (CollectionOperationCallExp) getProblematicElement();
 		IteratorExp select = (IteratorExp) call.getSource();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		
 		qfa.replace(call, (expr, trace) -> {			
 			OclExpression source = select.getSource();

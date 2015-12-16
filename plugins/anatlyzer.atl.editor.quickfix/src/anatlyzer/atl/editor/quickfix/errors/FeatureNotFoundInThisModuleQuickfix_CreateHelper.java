@@ -58,7 +58,7 @@ public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAt
 		final Type returnType   = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
 		final ModuleElement anchor = ATLUtils.getContainer(nav, ModuleElement.class);
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> {			
 			return buildThisModuleAttributeHelper(nav.getName(), returnType);
 		});

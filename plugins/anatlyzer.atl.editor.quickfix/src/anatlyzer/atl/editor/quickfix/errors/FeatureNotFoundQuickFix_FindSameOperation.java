@@ -51,7 +51,7 @@ public class FeatureNotFoundQuickFix_FindSameOperation extends AbstractAtlQuickf
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 		qfa.replace(nav, (original, trace) -> {
 			trace.preserve(original.getSource());

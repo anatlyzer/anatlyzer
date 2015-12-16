@@ -131,7 +131,7 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OclModelElement le = (OclModelElement)getProblematicElement();		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 				
 		qfa.replace(le, (expr, trace) -> {
 			OclModel closest = getOclModel(this.getClosest());

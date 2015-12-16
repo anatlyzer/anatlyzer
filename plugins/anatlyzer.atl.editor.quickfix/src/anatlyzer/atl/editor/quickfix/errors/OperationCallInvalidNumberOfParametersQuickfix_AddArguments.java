@@ -42,7 +42,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
 		
-		QuickfixApplication qfa = new QuickfixApplication();
+		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(operationCall, (type, trace) -> {
 			List<Type>          argumentTypes = buildNewListOfArguments(null);
 			List<OclExpression> arguments     = new ArrayList<OclExpression>( operationCall.getArguments() );

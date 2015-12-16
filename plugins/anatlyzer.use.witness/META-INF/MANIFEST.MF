@@ -16,4 +16,8 @@ Bundle-ClassPath: lib/plantuml.jar,
  lib/dist/transml_use_complete.jar,
  .
 Export-Package: anatlyzer.atl.witness,
+ transML.exceptions,
+ transML.utils,
+ transML.utils.modeling,
+ transML.utils.solver,
  witness.generator

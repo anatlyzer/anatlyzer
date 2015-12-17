@@ -248,6 +248,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 							problemFile = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(loc));
 						}
 						
+						loc = problemFile.getLocation().toPortableString(); // I need to use the same location as the first helper creation above
 						if ( ! helpers.containsKey(loc) ) {
 							helpers.put(loc, new AtlNbCharFile(problemFile.getContents()));
 						}

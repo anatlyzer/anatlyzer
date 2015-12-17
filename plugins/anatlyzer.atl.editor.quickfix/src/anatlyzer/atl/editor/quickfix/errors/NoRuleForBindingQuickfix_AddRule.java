@@ -64,7 +64,6 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 
 	@Override
 	public void apply(IDocument document) {
-
 		try {
 			QuickfixApplication qfa = getQuickfixApplication();
 			if ( qfa != null ) {

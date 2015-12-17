@@ -9,6 +9,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IterateExp;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -82,9 +83,9 @@ public class USEValidityChecker extends AbstractVisitor {
 	}
 	
 	@Override
-	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
-		if ( self.getOperationName().equals("sortedBy")) {
-			System.out.println("=> Invalid " + "sortedBy!");
+	public void inIteratorExp(IteratorExp self) {
+		if ( self.getName().equals("sortedBy")) {
+			System.out.println("=> Invalid expression for USE because of " + "sortedBy!");
 			this.isValid = false;
 		}
 	}

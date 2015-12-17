@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.namespaces;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -98,6 +99,10 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	
 	public List<EClass> getAllClasses() {
 		return allClasses;
+	}
+	
+	public List<EEnum> getAllEnums() {
+		return Collections.unmodifiableList(allEnums);
 	}
 	
 	public String getName() {

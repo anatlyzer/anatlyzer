@@ -111,6 +111,14 @@
             apply="anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne">
       </quickfix>
    </extension>
+
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.NoEnumLiteral_FindSimilar">
+      </quickfix>
+   </extension>
+   
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfix

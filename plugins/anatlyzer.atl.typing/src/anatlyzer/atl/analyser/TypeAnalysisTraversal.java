@@ -955,6 +955,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			return;
 		}
 		
+		// if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
+		if ( ! (self.getOperationName().equals("=") && self.getOperationName().equals("<>")) ) {
+			checkAccessToUndefined(self);
+		}
+		
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		attr.linkExprType(tspace.getOperatorType(self.getOperationName(), optional, self));
 	}

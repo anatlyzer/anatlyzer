@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
@@ -15,6 +16,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
@@ -32,7 +34,7 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 	}
 	
 	private boolean hasHelpers() {
-		return !this.populateCandidateOps().isEmpty();		
+		return !this.populateCandidateOps(e -> ATLUtils.isOperationHelper(e)).isEmpty();		
 	}
 
 	private OperationCallExp getElement() {
@@ -53,7 +55,7 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		ops.get(2).add("resolveTemp");
 	}
 		
-	@Override protected Map<Integer, List<String>> populateCandidateOps () {
+	@Override protected Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate) {
 		Map<Integer, List<String>> stHelpers = new TreeMap<Integer, List<String>>();
 		
 		ATLModel model = getAnalyserData(marker).getAnalyser().getATLModel();
@@ -62,6 +64,7 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 			Module m = (Module) model.getRoot();
 			stHelpers = m.getElements().stream().
 							filter(e -> e instanceof StaticHelper).
+							filter(e -> predicate.test((Helper) e)).
 							map(e -> (StaticHelper) e).
 							collect(Collectors.groupingBy(e -> ATLUtils.getArgumentNames(e).length,											// group by number of args 
 									                      Collectors.mapping( e -> ATLUtils.getHelperName(e), Collectors.toList())));		// but get name and fold into list

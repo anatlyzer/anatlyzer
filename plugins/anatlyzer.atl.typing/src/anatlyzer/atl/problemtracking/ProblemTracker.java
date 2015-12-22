@@ -3,6 +3,7 @@ package anatlyzer.atl.problemtracking;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.generators.PathId;
@@ -50,6 +51,58 @@ public class ProblemTracker {
 			}
 		});
 	}
+
+	/**
+	 * Return the list of fixed problems of the first transformation according
+	 * to the problems identified in the second analysis.
+	 * 
+	 * Example:
+	 * <pre>
+	 *  Transformation 1 (T1)
+	 * 	helper A.helper1
+	 *  
+	 *  objA.helper2	=>	P1
+	 *  objA.helper2	=> 	P2
+	 *  objA.helper1
+	 *  anotherProblem	=> 	P3
+	 *  
+	 *      ||  Change helper1 to helper2 at the definition place
+	 *      \/
+	 *      
+	 *      
+	 *  Transformation 2 (T2)
+	 * 	helper A.helper2   
+	 *  
+	 *  objA.helper2	=>	Fixed
+	 *  objA.helper2	=> 	Fixed
+	 *  objA.helper1	=> 	P1
+	 *  anotherProblem	=> 	P2
+	 * </pre>
+	 * 
+	 * Every problem in T1 is checked to have a correspondence in T2.
+	 * If it does not have a correspondence, then it means that the problem
+	 * has been fixed.
+	 * 
+	 */
+	public Set<Problem> fixedProblems() {
+		HashSet<Problem> fixedProblems = new HashSet<Problem>();
+		firstIds.forEach((problem1, id1) -> {			
+			Problem found = null;
+			for (Problem problem2 : secondIds.keySet()) {
+				PathId id2 = secondIds.get(problem2);
+				if ( id1.equals(id2) ) {
+					found = problem1;
+					break;
+				}
+			}
+			
+			if ( found == null ) {
+				fixedProblems.add(problem1);
+			}
+		});	
+		return fixedProblems;
+	}
+
 	
 	public Map<Problem, PathId> computeIds(AnalysisResult r) {
 		HashMap<Problem, PathId> problemToPath = new HashMap<Problem, PathId>();
@@ -71,7 +124,6 @@ public class ProblemTracker {
 		
 		return pathId;
 	}
-
 	
 	
 }

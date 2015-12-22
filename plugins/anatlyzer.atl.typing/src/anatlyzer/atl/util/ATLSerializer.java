@@ -37,6 +37,7 @@ import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BagType;
 import anatlyzer.atlext.OCL.BooleanExp;
@@ -359,37 +360,36 @@ public class ATLSerializer extends AbstractVisitor {
 	//
 	@Override
 	public void inContextHelper(ContextHelper self) {
-		String paramsStr = "";
-
-		if ( self.getDefinition().getFeature() instanceof Operation ) {
-			List<String> params = sl();
-			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
-				params.add( p.getVarName() + " : " + g(p.getType()) );
-			}
-			paramsStr = "(" + join(params) + ")";
-		}
-		
 		String s = "helper context " + g(ATLUtils.getHelperType(self)) + 
-				" def: " + ATLUtils.getHelperName(self) + paramsStr + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
-				g(ATLUtils.getHelperBody(self)) + ";";
+				" def: " + g(self.getDefinition().getFeature()) + ";";
+		s(s);
+	}
+	
+	@Override
+	public void inOperation(Operation self) {
+		String paramsStr = "";
+		List<String> params = sl();
+		for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
+			params.add( p.getVarName() + " : " + g(p.getType()) );
+		}
+		paramsStr = "(" + join(params) + ")";
+
+		String s = self.getName() + paramsStr + " : " + g(self.getReturnType()) + " = " +
+				g(self.getBody());
+		s(s);
+	}
+
+	@Override
+	public void inAttribute(Attribute self) {
+		String s = self.getName() + " : " + g(self.getType()) + " = " +
+				g(self.getInitExpression());
 		s(s);
 	}
 	
 	@Override
 	public void inStaticHelper(StaticHelper self) {
-		String paramsStr = "";
-
-		if ( self.getDefinition().getFeature() instanceof Operation ) {
-			List<String> params = sl();
-			for (Parameter p : ((Operation) self.getDefinition().getFeature()).getParameters() ) {
-				params.add( p.getVarName() + " : " + g(p.getType()) );
-			}
-			paramsStr = "(" + join(params) + ")";
-		}
-		
 		String s = "helper " + 
-				" def: " + ATLUtils.getHelperName(self) + paramsStr + " : " + g(ATLUtils.getHelperReturnType(self)) + " = " +
-				g(ATLUtils.getHelperBody(self)) + ";";
+				" def: " + g(self.getDefinition().getFeature()) + ";";
 		s(s);
 	}
 	

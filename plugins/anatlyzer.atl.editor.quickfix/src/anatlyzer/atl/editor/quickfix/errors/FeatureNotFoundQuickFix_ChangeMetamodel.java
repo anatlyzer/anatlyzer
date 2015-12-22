@@ -45,7 +45,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 
 	@Override
 	public String getDisplayString() {
-		return "Create new feature";
+		return "Create new feature (in the meta-model)";
 	}
 
 }

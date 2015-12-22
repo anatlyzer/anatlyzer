@@ -52,5 +52,8 @@ Export-Package: analyser.atl.problems,
  anatlyzer.atlext.PrimitiveTypes,
  anatlyzer.atlext.PrimitiveTypes.impl,
  anatlyzer.atlext.processing,
- anatlyzer.footprint
+ anatlyzer.footprint,
+ anatlyzer.atl.impact,
+ anatlyzer.atl.impact.impl,
+ anatlyzer.atl.impact.util
 Bundle-ActivationPolicy: lazy

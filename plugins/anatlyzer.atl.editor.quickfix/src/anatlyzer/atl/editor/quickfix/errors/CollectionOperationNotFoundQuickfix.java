@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -20,6 +21,7 @@ import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OperationCallExp;
 
@@ -32,7 +34,7 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 		this.populateCandidateOps();		// we can do this immediately
 	}
 	
-	@Override protected Map<Integer, List<String>> populateCandidateOps() {
+	@Override protected Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate) {
 		this.candidateOps = new TreeMap<>();
 		this.candidateOps.put(0, Arrays.asList("first", "flatten", "last", "asBag", "asOrderedSet", "asSequence", "asSet", "isEmpty", "notEmpty", "size", "sum", "debug", "oclIsUndefined", "oclType", "refImmediateComposite", "toString"));
 		this.candidateOps.put(1, Arrays.asList("append", "at", "indexOf", "prepend", "union", "count", "excludes", "excludesAll", "excluding", "includes", "includesAll", "including", "oclIsKindOf", "oclIsTypeOf", "refGetValue"));

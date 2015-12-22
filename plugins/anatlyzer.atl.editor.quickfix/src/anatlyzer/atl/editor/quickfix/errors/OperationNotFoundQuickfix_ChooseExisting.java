@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
@@ -11,12 +12,11 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -32,7 +32,7 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 	}
 	
 	private boolean hasHelpers() {
-		return !this.populateCandidateOps().isEmpty();		
+		return !this.populateCandidateOps(ATLUtils::isOperationHelper).isEmpty();		
 	}
 	
 	private void addPredefined(Map<Integer, List<String>> ops) {
@@ -40,8 +40,7 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 		ops.get(0).add("oclIsUndefined");
 	}
 	
-			
-	@Override protected Map<Integer, List<String>> populateCandidateOps () {
+	@Override protected Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate) {
 		Map<Integer, List<String>> stHelpers = new TreeMap<Integer, List<String>>();
 		
 		OperationCallExp op = (OperationCallExp) getProblematicElement();
@@ -50,23 +49,23 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 		ATLModel model = getAnalyserData(marker).getAnalyser().getATLModel();
 		
 		if ( model.getRoot() instanceof Module || model.getRoot() instanceof Library) {
-			stHelpers = getCompatibleContextHelpers(srcType, model).stream().
+			stHelpers = getCompatibleContextHelpers(srcType, model, predicate).stream().
 					collect(Collectors.groupingBy(e -> ATLUtils.getArgumentNames(e).length,											// group by number of args 
-		                      Collectors.mapping( e -> ATLUtils.getHelperName(e), Collectors.toList())));		// but get name and fold into list
+							Collectors.mapping( e -> ATLUtils.getHelperName(e), Collectors.toList())));		// but get name and fold into list
 		}
 		// Now add the predefined operations
 		this.addPredefined(stHelpers);
 		
 		return stHelpers;
 	}
-
+	
 	private String getClosest() {
 		if (this.closest!=null) return this.closest;
 		//if (this.candidateOps.isEmpty()) return null;
 		
 		OperationCallExp res = (OperationCallExp) this.getProblematicElement();		
 			
-		this.candidateOps = this.populateCandidateOps();
+		this.candidateOps = this.populateCandidateOps(ATLUtils::isOperationHelper);
 		if (this.candidateOps.isEmpty()) return null;
 		this.closest = this.getClosest(res.getOperationName(), res.getArguments().size());
 		

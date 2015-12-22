@@ -2,6 +2,7 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
@@ -18,7 +19,7 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotFoundAbstractQuickFix {
 	
-	private Helper helper;
+	protected Helper helper;
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -35,7 +36,7 @@ public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotF
 		OperationCallExp op = (OperationCallExp) getProblematicElement();
 		Type srcType = op.getSource().getInferredType();
 
-		this.helper = getCompatibleContextHelpers(srcType, getATLModel()).stream().
+		this.helper = getCompatibleContextHelpers(srcType, getATLModel(), ATLUtils::isAttributeHelper).stream().
 			filter(h -> ATLUtils.getHelperName(h).equals(opcall.getOperationName())).
 			findAny().orElse(null);
 
@@ -72,7 +73,7 @@ public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotF
 	}
 
 	@Override
-	protected Map<Integer, List<String>> populateCandidateOps() {
+	protected Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -69,4 +69,12 @@
             class="anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage"
             genModel="model/generated/merged.genmodel"/>
    </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated impact -->
+      <package
+            uri="http://anatlyzer/atl/impact"
+            class="anatlyzer.atl.impact.ImpactPackage"
+            genModel="model/impact.genmodel"/>
+   </extension>
+
 </plugin>

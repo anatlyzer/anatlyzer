@@ -1,48 +1,46 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.text.BadLocationException;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
-import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ContextHelper;
-import anatlyzer.atlext.ATL.Helper;
-import anatlyzer.atlext.ATL.LazyRule;
-import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.Module;
-import anatlyzer.atlext.ATL.OutPattern;
-import anatlyzer.atlext.ATL.Rule;
-import anatlyzer.atlext.ATL.Unit;
-import anatlyzer.atlext.OCL.IteratorExp;
-import anatlyzer.atlext.OCL.OCLFactory;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OperationCallExp;
-import anatlyzer.atlext.OCL.VariableDeclaration;
-import anatlyzer.atlext.OCL.Iterator;
-import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuickfix {
 	protected static final int threshold = 3;				// threshold distance to try an operation name with +1 or -1 params
 	protected Map<Integer, List<String>> candidateOps;		// to be populated by children classes
 	private StringDistance sd = new StringDistance(new Levenshtein());
 	
-	protected abstract Map<Integer, List<String>> populateCandidateOps();		// force to populate the Map somehow
+	// force to populate the Map somehow
+	protected abstract Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate);
+	protected Map<Integer, List<String>> populateCandidateOps () {
+		return populateCandidateOps(h -> true);
+	}
 	
 	protected static HashMap<String, List<CollType>> primitiveParam = new HashMap<>();		// probably move this to superclass
 	static {
@@ -198,9 +196,10 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 	public String neededType() { return null; }
 
 
-	protected List<ContextHelper> getCompatibleContextHelpers(Type srcType, ATLModel m) {		
+	protected List<ContextHelper> getCompatibleContextHelpers(Type srcType, ATLModel m, Predicate<Helper> predicate) {		
 		return ATLUtils.getAllHelpers(m).stream().
 						filter(e -> e instanceof ContextHelper).
+						filter(predicate).
 						map(e -> (ContextHelper) e).
 						filter(e -> hasCompatibleType(srcType, e.getDefinition().getContext_().getContext_().getInferredType())).collect(Collectors.toList());
 	}

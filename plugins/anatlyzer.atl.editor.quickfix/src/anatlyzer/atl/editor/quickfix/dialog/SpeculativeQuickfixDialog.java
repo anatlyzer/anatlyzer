@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -30,6 +31,7 @@ import org.eclipse.swt.layout.FillLayout;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.problemtracking.ProblemTracker;
 
 import org.eclipse.swt.widgets.TabFolder;
 
@@ -47,6 +49,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private TableViewer tblViewerProblems;
 	private TabFolder tabFolderImpact;
 	private Table tblFixed;
+	private TableViewer tblViewerFixed;
 
 	/**
 	 * Create the dialog.
@@ -110,7 +113,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		TabItem tbtmFixedProblems = new TabItem(tabFolder, SWT.NONE);
 		tbtmFixedProblems.setText("Fixed problems");
 		
-		TableViewer tblViewerFixed = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
+		tblViewerFixed = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
 		tblFixed = tblViewerFixed.getTable();
 		tbtmFixedProblems.setControl(tblFixed);
 		
@@ -120,10 +123,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
 		tblProblems = tblViewerProblems.getTable();
 		tbtmAllProblems.setControl(tblProblems);
-		
-		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
-		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
-		
+				
 		TextViewer textViewer = new TextViewer(container, SWT.BORDER);
 		StyledText styledText = textViewer.getTextWidget();
 		GridData gd_styledText = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -139,6 +139,12 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
 		
 		
+		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
+
+		tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
+
 		initThreads();
 		
 		return container;
@@ -208,6 +214,10 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");	
 		tblViewerProblems.setInput(r);
 		tblViewerProblems.refresh();
+
+		Set<Problem> fixedProblems = new ProblemTracker(this.analysisResult, r).fixedProblems();
+		tblViewerFixed.setInput(fixedProblems);
+		tblViewerFixed.refresh();
 		
 //		while ( tabFolderImpact.getItemCount() > 0 ) 
 //			tabFolderImpact.removecon

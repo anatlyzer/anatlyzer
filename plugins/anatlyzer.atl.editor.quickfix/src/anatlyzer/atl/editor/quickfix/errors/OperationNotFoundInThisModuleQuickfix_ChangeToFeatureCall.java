@@ -16,7 +16,7 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall extends AbstractAtlQuickfix {
 	
-	private Helper helper;
+	protected Helper helper;
 
 	@Override
 	public boolean isApplicable(IMarker marker) {

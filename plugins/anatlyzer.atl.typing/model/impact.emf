@@ -1,0 +1,24 @@
+@namespace(uri="http://anatlyzer/atl/impact", prefix="atl_impact")
+package impact;
+
+import "platform:/resource/anatlyzer.atl.typing/model/generated/merged.ecore";
+
+class ChangeImpact {
+	
+}
+
+abstract class Change {
+	
+}
+
+abstract class CallableChange extends Change {
+	ref atlext.ATL.Callable[1] callable;
+}
+
+class ContextCallableChange extends CallableChange {
+	
+}
+
+class ModuleCallableChange extends CallableChange {
+	
+}

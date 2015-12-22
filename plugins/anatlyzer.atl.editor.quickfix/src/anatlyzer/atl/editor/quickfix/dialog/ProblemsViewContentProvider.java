@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -8,6 +9,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 public class ProblemsViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
@@ -20,10 +22,14 @@ public class ProblemsViewContentProvider implements IStructuredContentProvider, 
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object[] getElements(Object parent) {
-		if ( parent instanceof AnalysisResult ) {
+		if ( parent instanceof AnalysisResult ) {			
 			List<LocalProblem> problems = ((AnalysisResult) parent).getLocalProblems();
 			return problems.toArray();
+		} else if ( parent instanceof Set ) {
+			// This is the case of showing fixed / new problems
+			return ((Set<Problem>) parent).toArray();
 		}
 		return new Object[0];
 	}

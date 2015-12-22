@@ -332,6 +332,14 @@ public class ATLUtils {
 		}
 	}
 
+	public static boolean isAttributeHelper(Helper self) {
+		return self.getDefinition().getFeature() instanceof Attribute;
+	}
+
+	public static boolean isOperationHelper(Helper self) {
+		return self.getDefinition().getFeature() instanceof Operation;
+	}
+	
 	public static OclType getHelperReturnType(Helper self) {
 		if ( self.getDefinition().getFeature() instanceof Attribute ) {
 			return ((Attribute) self.getDefinition().getFeature()).getType();

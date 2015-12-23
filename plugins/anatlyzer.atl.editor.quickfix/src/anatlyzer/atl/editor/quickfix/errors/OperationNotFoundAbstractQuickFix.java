@@ -95,7 +95,7 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 			pars2explore.add(numPar+1);											// Let's check operations with one more parameter (if any)
 			if (numPar > 0) pars2explore.add(numPar-1);							// Let's check operations with one less parameter (if not already 0) 
 			
-			int minD = minDistance+1;											// Threshold set to above the best solution with same number of params
+			int minD = minDistance;												// Threshold set to above the best solution with same number of params
 			int param = -1;
 			
 			for (int p : pars2explore) {
@@ -113,9 +113,20 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		}
 			
 		int closestIndex = distances.get(numPar).indexOf(minDistance);
-		String closestOp = this.candidateOps.get(numPar).get(closestIndex);
+		String closestOp;
+		if (closestIndex >= 0) 
+			closestOp = this.candidateOps.get(numPar).get(closestIndex);
+		else return randomOperation(op);										// We cannot recommend anything.... TODO: What to do?
 		System.out.println("Closest is "+closestOp);
 		return closestOp;					
+	}
+	
+	protected String randomOperation(String defaultValue) {
+		for (int i : this.candidateOps.keySet()) {
+			List<String> ops = this.candidateOps.get(i);
+			if (ops.size()>0) return ops.get(0);
+		}
+		return defaultValue;
 	}
 	
 	/**

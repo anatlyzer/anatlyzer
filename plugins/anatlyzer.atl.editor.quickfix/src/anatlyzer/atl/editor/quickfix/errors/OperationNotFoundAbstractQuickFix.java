@@ -90,23 +90,23 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		
 		int minDistance = this.getClosestDistance(op, numPar, distances.get(numPar));
 		
-		if (minDistance >= OperationNotFoundAbstractQuickFix.threshold) {		
+		if (minDistance >= OperationNotFoundAbstractQuickFix.threshold) {		// Not very close to operations with same number of parameters
 			List<Integer> pars2explore = new ArrayList<Integer>();
-			pars2explore.add(numPar+1);
-			if (numPar > 0) pars2explore.add(numPar-1);			
+			pars2explore.add(numPar+1);											// Let's check operations with one more parameter (if any)
+			if (numPar > 0) pars2explore.add(numPar-1);							// Let's check operations with one less parameter (if not already 0) 
 			
-			int minD = minDistance+1;
+			int minD = minDistance+1;											// Threshold set to above the best solution with same number of params
 			int param = -1;
 			
 			for (int p : pars2explore) {
 				distances.put(p, new ArrayList<Integer>());
-				int currentD = this.getClosestDistance(op, p, distances.get(p)); 
+				int currentD = this.getClosestDistance(op, p, distances.get(p)); // Check if we are closer with different number of parameters
 				if (currentD < minD) {
 					param = p;
 					minD = currentD;
 				}
 			}
-			if (minD < minDistance) {
+			if (minD < minDistance) {											// Found a closer operation with different parameters
 				numPar = param;
 				minDistance = minD;
 			}

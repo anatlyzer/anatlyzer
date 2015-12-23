@@ -95,7 +95,7 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 			pars2explore.add(numPar+1);
 			if (numPar > 0) pars2explore.add(numPar-1);			
 			
-			int minD = 10;
+			int minD = minDistance+1;
 			int param = -1;
 			
 			for (int p : pars2explore) {

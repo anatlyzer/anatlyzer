@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,7 +38,14 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 	
 	private void addPredefined(Map<Integer, List<String>> ops) {
 		ops.putIfAbsent(0, new ArrayList<String>());
-		ops.get(0).add("oclIsUndefined");
+		ops.get(0).addAll(Arrays.asList("oclIsUndefined", "toString", "oclType", "refImmediateComposite", "debug" ));
+		
+		ops.putIfAbsent(1, new ArrayList<String>());
+		ops.get(1).addAll(Arrays.asList("oclIsKindOf", "oclIsTypeOf", "refGetValue"));
+			
+		ops.putIfAbsent(2, new ArrayList<String>());
+		ops.get(2).addAll(Arrays.asList("refSetValue", "refUnsetValue", "refInvokeOperation"));
+		
 	}
 	
 	@Override protected Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate) {

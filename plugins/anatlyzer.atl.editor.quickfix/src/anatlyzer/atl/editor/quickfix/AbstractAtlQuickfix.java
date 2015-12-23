@@ -141,13 +141,14 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return (Binding)container;
 	}
 	
-	protected Metaclass getMetaModelType(Binding b) {		// Can be moved to a library?
+	protected Type getMetaModelType(Binding b) {		// Can be moved to a library?
 		Type expected = b.getLeftType();
 		if (expected instanceof SequenceType) {
 			SequenceType st = (SequenceType)expected;
 			return (Metaclass)st.getContainedType();
 		}
-		return (Metaclass)expected;
+		//return (Metaclass)expected;
+		return expected;
 	}
 	
 	protected EClass getClassContainer(Binding b) {		// Can be moved to a library?

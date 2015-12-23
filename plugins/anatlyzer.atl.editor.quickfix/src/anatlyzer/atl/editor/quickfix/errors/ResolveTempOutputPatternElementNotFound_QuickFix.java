@@ -10,6 +10,9 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
@@ -23,6 +26,7 @@ import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
@@ -39,21 +43,26 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 	
 		// p.getOperationName() is null at this point 		
 		Binding b = this.getBindingFor((OperationCallExp)p.getElement());		
-		Metaclass expected = this.getMetaModelType(b);
-		System.out.println(p+" with expected type "+expected);
-		List<String> ruleNames = p.getRules().stream().map( ri -> ri.getRuleName()).collect(Collectors.toList());
-		List<MatchedRule> rules = ATLUtils.getAllMatchedRules(getATLModel());
-		Map<String, List<Type>> options = new HashMap<String, List<Type>>();
-		for (String rn : ruleNames) {
-			MatchedRule mr = rules.stream().filter( r -> r.getName().equals(rn)).collect(Collectors.toList()).get(0);
-			List<SimpleOutPatternElement> pe = ATLUtils.getAllSimpleOutputPatternElement(mr);
-			options.putAll(pe.stream().
-								filter( pattern -> this.isCompatibleWith(pattern.getInferredType(), expected) ).
-								collect(Collectors.groupingBy(OutPatternElement::getVarName, 
-															  Collectors.mapping((OutPatternElement pel) -> pel.getInferredType(), Collectors.toList()))));
-			System.out.println("Pattern elements for "+rn+"="+options);
+		Type expectedType = this.getMetaModelType(b);
+		if (expectedType instanceof Metaclass) {
+			Metaclass expected = (Metaclass)expectedType;
+			System.out.println(p+" with expected type "+expected);
+			List<String> ruleNames = p.getRules().stream().map( ri -> ri.getRuleName()).collect(Collectors.toList());
+			List<MatchedRule> rules = ATLUtils.getAllMatchedRules(getATLModel());
+			Map<String, List<Type>> options = new HashMap<String, List<Type>>();
+			for (String rn : ruleNames) {
+				MatchedRule mr = rules.stream().filter( r -> r.getName().equals(rn)).collect(Collectors.toList()).get(0);
+				List<SimpleOutPatternElement> pe = ATLUtils.getAllSimpleOutputPatternElement(mr);
+				options.putAll(pe.stream().
+									filter( pattern -> this.isCompatibleWith(pattern.getInferredType(), expected) ).
+									collect(Collectors.groupingBy(OutPatternElement::getVarName, 
+																  Collectors.mapping((OutPatternElement pel) -> pel.getInferredType(), Collectors.toList()))));
+				System.out.println("Pattern elements for "+rn+"="+options);
+			}
+			return new ArrayList<String>(options.keySet());
 		}
-		return new ArrayList<String>(options.keySet());
+		else // the binding expects a primitive type, so this quickfix should not be really applicable
+			return java.util.Collections.emptyList();
 	}
 	
 	public ResolveTempOutputPatternElementNotFound getProblem() {
@@ -67,7 +76,12 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, ResolveTempOutputPatternElementNotFound.class);
+		if (!checkProblemType(marker, ResolveTempOutputPatternElementNotFound.class)) return false;
+		
+		Binding b = this.getBindingFor((OperationCallExp)getProblematicElement(marker));  // Get the binding where the problem is located		
+		Type expectedType = this.getMetaModelType(b);
+		if (!(expectedType instanceof Metaclass)) return false; // the binding expects a primitive type, so this quickfix should not be really applicable
+		return true;
 	}
 
 	private String getProblemLiteral() {  
@@ -78,7 +92,10 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 	
 	private String getClosest() {
 		String literal = this.getProblemLiteral();
-		return this.sd.closest(literal, this.getCandidates());
+		List<String> candidates = this.getCandidates();
+		if (candidates.size()>0)
+			return this.sd.closest(literal, candidates);
+		else return literal;
 	}
 	
 	@Override

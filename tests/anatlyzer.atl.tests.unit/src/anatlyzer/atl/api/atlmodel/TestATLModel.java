@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -147,7 +147,7 @@ public class TestATLModel extends UnitTest {
 		
 		
 		// IncrementalAnalyser inc = new IncrementalAnalyser(result, Collections.singletonList("ABCD"));
-		IncrementalAnalyser inc = new IncrementalAnalyser(result, result.getNamespace().getLogicalNamesToMetamodels().keySet());
+		IncrementalCopyBasedAnalyser inc = new IncrementalCopyBasedAnalyser(result, result.getNamespace().getLogicalNamesToMetamodels().keySet());
 		MetamodelNamespace nsTgt = inc.getNamespaces().getNamespace("ABCD");
 		
 		assertTrue(nsSrc != nsTgt);	

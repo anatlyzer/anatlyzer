@@ -28,9 +28,12 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  */
 public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 
+	
 	@Override public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, AccessToUndefinedValue.class);
 	}
+
+	@Override public void resetCache() {};
 
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();

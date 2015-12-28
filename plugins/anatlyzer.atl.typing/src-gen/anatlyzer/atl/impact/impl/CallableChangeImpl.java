@@ -7,12 +7,16 @@ import anatlyzer.atl.impact.ImpactPackage;
 
 import anatlyzer.atlext.ATL.Callable;
 
+import anatlyzer.atlext.OCL.PropertyCallExp;
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,6 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.impact.impl.CallableChangeImpl#getCallable <em>Callable</em>}</li>
+ *   <li>{@link anatlyzer.atl.impact.impl.CallableChangeImpl#getInvalidated <em>Invalidated</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,6 +42,16 @@ public abstract class CallableChangeImpl extends ChangeImpl implements CallableC
 	 * @ordered
 	 */
 	protected Callable callable;
+
+	/**
+	 * The cached value of the '{@link #getInvalidated() <em>Invalidated</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getInvalidated()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<PropertyCallExp> invalidated;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -100,12 +115,26 @@ public abstract class CallableChangeImpl extends ChangeImpl implements CallableC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<PropertyCallExp> getInvalidated() {
+		if (invalidated == null) {
+			invalidated = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ImpactPackage.CALLABLE_CHANGE__INVALIDATED);
+		}
+		return invalidated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ImpactPackage.CALLABLE_CHANGE__CALLABLE:
 				if (resolve) return getCallable();
 				return basicGetCallable();
+			case ImpactPackage.CALLABLE_CHANGE__INVALIDATED:
+				return getInvalidated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -115,11 +144,16 @@ public abstract class CallableChangeImpl extends ChangeImpl implements CallableC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ImpactPackage.CALLABLE_CHANGE__CALLABLE:
 				setCallable((Callable)newValue);
+				return;
+			case ImpactPackage.CALLABLE_CHANGE__INVALIDATED:
+				getInvalidated().clear();
+				getInvalidated().addAll((Collection<? extends PropertyCallExp>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -136,6 +170,9 @@ public abstract class CallableChangeImpl extends ChangeImpl implements CallableC
 			case ImpactPackage.CALLABLE_CHANGE__CALLABLE:
 				setCallable((Callable)null);
 				return;
+			case ImpactPackage.CALLABLE_CHANGE__INVALIDATED:
+				getInvalidated().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -150,6 +187,8 @@ public abstract class CallableChangeImpl extends ChangeImpl implements CallableC
 		switch (featureID) {
 			case ImpactPackage.CALLABLE_CHANGE__CALLABLE:
 				return callable != null;
+			case ImpactPackage.CALLABLE_CHANGE__INVALIDATED:
+				return invalidated != null && !invalidated.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

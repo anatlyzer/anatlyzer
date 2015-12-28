@@ -5,7 +5,7 @@ import java.util.Collections;
 import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.MockMarker;
@@ -52,7 +52,7 @@ public class SpeculativeThread extends Thread {
 		}
 		*/
 		
-		IncrementalAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
+		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		newAnalysis = new AnalysisResult(inc);
 	}

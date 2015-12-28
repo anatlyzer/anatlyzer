@@ -31,6 +31,8 @@ public class SelectFirst_ChangeForAnyQuickfix extends AbstractAtlQuickfix {
 		return checkProblemType(marker, ChangeSelectFirstForAny.class);	
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		// call is: src->select(...)->first

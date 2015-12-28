@@ -28,6 +28,8 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 		return checkProblemType(marker, BindingWithoutRule.class);
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		BindingWithoutRule p = (BindingWithoutRule) getProblem();

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
 import anatlyzer.atl.editor.quickfix.MockMarker;
@@ -59,7 +59,7 @@ public class BacktrackingSearch extends AbstractSearch {
 		}
 		// System.out.println(baseAnalysis.getProblems().stream().collect(p -> p.getDescription()).collect(Collectors.joining("\n")));
 		System.out.println();
-		IncrementalAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
+		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		AnalysisResult result = new AnalysisResult(inc);
 		
@@ -126,7 +126,7 @@ public class BacktrackingSearch extends AbstractSearch {
 		Problem problem1 = analysis0.getProblems().stream().filter(p -> klassProblem.isInstance(p) && test.apply(klassProblem.cast(p))).findFirst().get();
 		AbstractAtlQuickfix qfx1 = findQfx(problem1, analysis0, klassQfx);
 		
-		IncrementalAnalyser inc1 = SpeculativeQuickfixUtils.createIncrementalAnalyser(analysis0, problem1, qfx1);
+		IncrementalCopyBasedAnalyser inc1 = SpeculativeQuickfixUtils.createIncrementalAnalyser(analysis0, problem1, qfx1);
 		inc1.perform();
 		AnalysisResult analysis1 = new AnalysisResult(inc1);
 		

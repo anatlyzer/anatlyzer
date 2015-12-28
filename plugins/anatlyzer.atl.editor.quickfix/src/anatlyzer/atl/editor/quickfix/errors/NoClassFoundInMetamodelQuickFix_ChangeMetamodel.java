@@ -20,6 +20,8 @@ public class NoClassFoundInMetamodelQuickFix_ChangeMetamodel extends AbstractMet
 		return checkProblemType(marker, NoClassFoundInMetamodel.class);
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public String getDisplayString() {
 		return "Create meta-class in meta-model";

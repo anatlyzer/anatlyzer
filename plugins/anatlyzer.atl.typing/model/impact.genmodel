@@ -12,6 +12,7 @@
     <genClasses image="false" ecoreClass="impact.ecore#//Change"/>
     <genClasses image="false" ecoreClass="impact.ecore#//CallableChange">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference impact.ecore#//CallableChange/callable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference impact.ecore#//CallableChange/invalidated"/>
     </genClasses>
     <genClasses ecoreClass="impact.ecore#//ContextCallableChange"/>
     <genClasses ecoreClass="impact.ecore#//ModuleCallableChange"/>

@@ -38,6 +38,8 @@ public class TransformationSliceQuickFix extends AbstractAtlQuickfix {
 		}
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public String getAdditionalProposalInfo() {
 		return "Slice transformation at error";

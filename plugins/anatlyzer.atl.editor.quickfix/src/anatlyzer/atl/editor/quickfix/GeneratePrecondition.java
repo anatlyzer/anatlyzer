@@ -28,6 +28,8 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		return checkProblemType(marker, applicableClass);
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		LocalProblem p = getProblem();		

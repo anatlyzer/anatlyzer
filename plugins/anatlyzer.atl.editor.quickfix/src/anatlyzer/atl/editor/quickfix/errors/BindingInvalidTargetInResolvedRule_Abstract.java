@@ -26,6 +26,8 @@ public abstract class BindingInvalidTargetInResolvedRule_Abstract extends Bindin
 		return checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class);
 	}
 
+	@Override public void resetCache() {};
+	
 	protected List<MatchedRule> detectGuiltyRules(BindingWithResolvedByIncompatibleRule p, AnalysisResult analysis) {
 		List<BindingWithResolvedByIncompatibleRule> problems = p.getRules().stream().map(rri -> {
 			BindingWithResolvedByIncompatibleRule paux = AtlErrorFactory.eINSTANCE.createBindingWithResolvedByIncompatibleRule();

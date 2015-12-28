@@ -23,7 +23,9 @@ public class OperationNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix 
 		return checkProblemType(marker, OperationNotFound.class);
 	}
 	
-		@Override
+	@Override public void resetCache() { }
+	
+	@Override
 	public String getDisplayString() {
 		return "Operation not found: create helper";
 	}

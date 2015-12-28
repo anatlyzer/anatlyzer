@@ -38,6 +38,8 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 		return checkProblemType(marker, BindingPossiblyUnresolved.class);
 	}
 
+	@Override public void resetCache() {};
+	
 	protected static EClass getResolvedEClassType(MatchedRule mr) {
 		return ATLUtils.getInPatternType(mr).getKlass();
 	}

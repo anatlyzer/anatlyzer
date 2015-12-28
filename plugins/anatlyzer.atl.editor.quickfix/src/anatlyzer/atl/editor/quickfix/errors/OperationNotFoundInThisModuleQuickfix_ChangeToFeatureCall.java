@@ -25,6 +25,10 @@ public class OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall extends A
 			   findAttribute((OperationCallExp) getProblematicElement()) != null;
 	}
 	
+	@Override public void resetCache() { 
+		this.helper = null;
+	}
+	
 	private Helper findAttribute(OperationCallExp opcall) {
 		if ( opcall.getArguments().size() > 0 ) {
 			return null;

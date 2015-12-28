@@ -131,13 +131,22 @@ public interface ImpactPackage extends EPackage {
 	int CALLABLE_CHANGE__CALLABLE = CHANGE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Invalidated</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CALLABLE_CHANGE__INVALIDATED = CHANGE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Callable Change</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CALLABLE_CHANGE_FEATURE_COUNT = CHANGE_FEATURE_COUNT + 1;
+	int CALLABLE_CHANGE_FEATURE_COUNT = CHANGE_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Callable Change</em>' class.
@@ -166,6 +175,15 @@ public interface ImpactPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTEXT_CALLABLE_CHANGE__CALLABLE = CALLABLE_CHANGE__CALLABLE;
+
+	/**
+	 * The feature id for the '<em><b>Invalidated</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTEXT_CALLABLE_CHANGE__INVALIDATED = CALLABLE_CHANGE__INVALIDATED;
 
 	/**
 	 * The number of structural features of the '<em>Context Callable Change</em>' class.
@@ -203,6 +221,15 @@ public interface ImpactPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODULE_CALLABLE_CHANGE__CALLABLE = CALLABLE_CHANGE__CALLABLE;
+
+	/**
+	 * The feature id for the '<em><b>Invalidated</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODULE_CALLABLE_CHANGE__INVALIDATED = CALLABLE_CHANGE__INVALIDATED;
 
 	/**
 	 * The number of structural features of the '<em>Module Callable Change</em>' class.
@@ -263,6 +290,17 @@ public interface ImpactPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCallableChange_Callable();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.impact.CallableChange#getInvalidated <em>Invalidated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Invalidated</em>'.
+	 * @see anatlyzer.atl.impact.CallableChange#getInvalidated()
+	 * @see #getCallableChange()
+	 * @generated
+	 */
+	EReference getCallableChange_Invalidated();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.impact.ContextCallableChange <em>Context Callable Change</em>}'.
@@ -344,6 +382,14 @@ public interface ImpactPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CALLABLE_CHANGE__CALLABLE = eINSTANCE.getCallableChange_Callable();
+
+		/**
+		 * The meta object literal for the '<em><b>Invalidated</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CALLABLE_CHANGE__INVALIDATED = eINSTANCE.getCallableChange_Invalidated();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.impact.impl.ContextCallableChangeImpl <em>Context Callable Change</em>}' class.

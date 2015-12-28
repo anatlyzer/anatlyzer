@@ -13,6 +13,7 @@ abstract class Change {
 
 abstract class CallableChange extends Change {
 	ref atlext.ATL.Callable[1] callable;
+	ref atlext.OCL.PropertyCallExp[*] invalidated;
 }
 
 class ContextCallableChange extends CallableChange {

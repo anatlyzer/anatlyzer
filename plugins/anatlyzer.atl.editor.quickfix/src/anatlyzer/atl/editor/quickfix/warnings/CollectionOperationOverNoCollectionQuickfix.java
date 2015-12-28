@@ -36,6 +36,8 @@ public class CollectionOperationOverNoCollectionQuickfix extends AbstractAtlQuic
 		return checkProblemType(marker, CollectionOperationOverNoCollectionError.class);		
 	}
 
+	@Override public void resetCache() {};
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		CollectionOperationCallExp call = (CollectionOperationCallExp) getProblematicElement();

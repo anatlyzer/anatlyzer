@@ -32,6 +32,10 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 		return checkProblemType(marker, OperationNotFound.class) && this.hasHelpers();			
 	}
 	
+	@Override public void resetCache() { 
+		this.closest = null;
+	}
+	
 	private boolean hasHelpers() {
 		return !this.populateCandidateOps(ATLUtils::isOperationHelper).isEmpty();		
 	}

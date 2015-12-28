@@ -33,7 +33,8 @@ public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {	
 		return checkProblemType(marker, FeatureNotFound.class);
 	}
 		
-
+	@Override public void resetCache() { }
+	
 	private ContextHelper buildNewContextAttributeHelper(String name, Type receptorType, Type returnType) {		
 		ContextHelper h = ATLFactory.eINSTANCE.createContextHelper();
 		

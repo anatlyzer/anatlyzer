@@ -171,6 +171,15 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getCallableChange_Invalidated() {
+		return (EReference)callableChangeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getContextCallableChange() {
 		return contextCallableChangeEClass;
 	}
@@ -218,6 +227,7 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 
 		callableChangeEClass = createEClass(CALLABLE_CHANGE);
 		createEReference(callableChangeEClass, CALLABLE_CHANGE__CALLABLE);
+		createEReference(callableChangeEClass, CALLABLE_CHANGE__INVALIDATED);
 
 		contextCallableChangeEClass = createEClass(CONTEXT_CALLABLE_CHANGE);
 
@@ -249,6 +259,7 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 
 		// Obtain other dependent packages
 		ATLPackage theATLPackage = (ATLPackage)EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
+		OCLPackage theOCLPackage = (OCLPackage)EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -266,6 +277,7 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 
 		initEClass(callableChangeEClass, CallableChange.class, "CallableChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCallableChange_Callable(), theATLPackage.getCallable(), null, "callable", null, 1, 1, CallableChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCallableChange_Invalidated(), theOCLPackage.getPropertyCallExp(), null, "invalidated", null, 0, -1, CallableChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(contextCallableChangeEClass, ContextCallableChange.class, "ContextCallableChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

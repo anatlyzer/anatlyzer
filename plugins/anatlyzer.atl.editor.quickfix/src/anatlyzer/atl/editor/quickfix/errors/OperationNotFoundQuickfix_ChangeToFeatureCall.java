@@ -28,6 +28,10 @@ public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotF
 			   findAttribute((OperationCallExp) getProblematicElement()) != null;
 	}
 	
+	@Override public void resetCache() { 
+		this.helper = null;
+	}
+	
 	private Helper findAttribute(OperationCallExp opcall) {
 		if ( opcall.getArguments().size() > 0 ) {
 			return null;

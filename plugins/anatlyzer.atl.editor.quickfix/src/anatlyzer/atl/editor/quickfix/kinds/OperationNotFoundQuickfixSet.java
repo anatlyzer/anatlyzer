@@ -15,7 +15,7 @@ public class OperationNotFoundQuickfixSet extends AbstractQuickfixSet  {
 				new OperationNotFoundQuickfix_ChooseExisting(),
 				new OperationNotFoundQuickfix_ChangeToFeatureCall(),		
 				new OperationNotFoundQuickfix_ChangeAttributeToOperation(),		
-				new OperationNotFoundQuickfix_CreateHelper(),						
+				new OperationNotFoundQuickfix_CreateHelper()
 		};
 	}
 }

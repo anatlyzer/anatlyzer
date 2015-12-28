@@ -23,6 +23,8 @@ public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuick
 		return checkProblemType(marker, BindingPossiblyUnresolved.class);
 	}
 
+	@Override public void resetCache() {};
+	
 	protected static EClass getResolvedEClassType(MatchedRule mr) {
 		return ATLUtils.getInPatternType(mr).getKlass();
 	}

@@ -26,16 +26,16 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
-public class IncrementalAnalyser extends Analyser {
+public class IncrementalCopyBasedAnalyser extends Analyser {
 	
 	private AnalysisResult baseAnalysis;
 
-	public IncrementalAnalyser(AnalysisResult baseAnalysis) {
+	public IncrementalCopyBasedAnalyser(AnalysisResult baseAnalysis) {
 		super(baseAnalysis.getNamespace(), createNewModel(baseAnalysis.getATLModel()));
 		this.baseAnalysis = baseAnalysis;
 	}
 	
-	public IncrementalAnalyser(AnalysisResult baseAnalysis, Collection<String> metamodelsToCopy) {
+	public IncrementalCopyBasedAnalyser(AnalysisResult baseAnalysis, Collection<String> metamodelsToCopy) {
 		super(null, createNewModel(baseAnalysis.getATLModel()));
 		this.mm = adaptNamespace(baseAnalysis.getNamespace(), metamodelsToCopy);
 		this.baseAnalysis = baseAnalysis;

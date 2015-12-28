@@ -16,6 +16,8 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		return checkProblemType(marker, FeatureNotFound.class) && getSourceType() != null;
 	}
 
+	@Override public void resetCache() {}
+	
 	private Metaclass getSourceType() {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 		Type t = nav.getSource().getInferredType();

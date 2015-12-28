@@ -84,6 +84,10 @@ public class ResolveTempOutputPatternElementNotFound_QuickFix extends AbstractAt
 		return true;
 	}
 
+	@Override public void resetCache() { 
+		this.sd = null;
+	}
+	
 	private String getProblemLiteral() {  
 		OperationCallExp le = (OperationCallExp)getProblematicElement();		
 		StringExp literal = (StringExp)le.getArguments().get(1);

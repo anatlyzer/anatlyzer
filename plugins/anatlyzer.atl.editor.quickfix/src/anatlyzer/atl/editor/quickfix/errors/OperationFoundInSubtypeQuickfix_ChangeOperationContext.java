@@ -26,6 +26,8 @@ public class OperationFoundInSubtypeQuickfix_ChangeOperationContext extends Abst
 		return checkProblemType(marker, OperationFoundInSubtype.class);
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();
 		new InDocumentSerializer(qfa, document).serialize();

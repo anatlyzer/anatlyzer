@@ -21,6 +21,8 @@ public class FlattenOverNonNestedCollectionQuickFix extends AbstractAtlQuickfix 
 		return checkProblemType(marker, FlattenOverNonNestedCollection.class);	
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		CollectionOperationCallExp call = (CollectionOperationCallExp) getProblematicElement();

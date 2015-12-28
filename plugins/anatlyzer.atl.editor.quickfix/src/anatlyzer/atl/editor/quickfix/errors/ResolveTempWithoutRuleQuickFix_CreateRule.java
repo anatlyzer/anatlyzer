@@ -25,6 +25,8 @@ public class ResolveTempWithoutRuleQuickFix_CreateRule extends RuleGeneratingQui
 		return true;
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();
 		new InDocumentSerializer(qfa, document).serialize();

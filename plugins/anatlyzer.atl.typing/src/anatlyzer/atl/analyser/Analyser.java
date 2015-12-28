@@ -1,6 +1,5 @@
 package anatlyzer.atl.analyser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +13,6 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
@@ -33,10 +31,10 @@ public class Analyser implements IAnalyserResult {
 	private ProblemGraph problemGraph;
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
-	private int stage = 0;
-	private boolean doErrorRefinement = true;
+	protected int stage = 0;
+	protected boolean doErrorRefinement = true;
 
-	private ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
+	protected ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
 	public Analyser(GlobalNamespace mm, ATLModel atlModel) {
 		this.mm    = mm;

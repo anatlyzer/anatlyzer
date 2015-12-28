@@ -26,6 +26,8 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, BindingExpectedOneAssignedMany.class);
 	}
+	
+	@Override public void resetCache() {};
 
 	@Override
 	public void apply(IDocument document) {

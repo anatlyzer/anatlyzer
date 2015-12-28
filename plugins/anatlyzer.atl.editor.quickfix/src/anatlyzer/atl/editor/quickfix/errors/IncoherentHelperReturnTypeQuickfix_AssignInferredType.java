@@ -20,6 +20,8 @@ public class IncoherentHelperReturnTypeQuickfix_AssignInferredType extends Abstr
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, IncoherentHelperReturnType.class);
 	}
+	
+	@Override public void resetCache() { }
 
 	@Override
 	public void apply(IDocument document) {

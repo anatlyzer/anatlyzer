@@ -8,10 +8,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -22,11 +20,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.actions.WorkspaceAction;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.impact.CallableImpactCalculator;
+import anatlyzer.atl.impact.IQuickfixSpecificImpactComputation;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atlext.ATL.LocatedElement;
 
@@ -43,6 +42,7 @@ public class QuickfixApplication {
 	private ArrayList<Action> actions = new ArrayList<QuickfixApplication.Action>();
 	private ArrayList<MMAction> mmActions = new ArrayList<QuickfixApplication.MMAction>();
 	private AtlProblemQuickfix qfx;
+	private IQuickfixSpecificImpactComputation impact;
 	
 	public QuickfixApplication(AtlProblemQuickfix qfx) {
 		this.qfx = qfx;
@@ -303,6 +303,10 @@ public class QuickfixApplication {
 	public void updateWorkbench(IDocument doc) {
 		// Invalidate the current analysis, to avoid problem in continous mode (when tracking
 		// problems that are no longer valid (e.g., they point to an object removed by the quick fix))
+
+//
+// 		This is without incremental analysis (safer...)
+//
 		AnalysisResult result = this.qfx.getAnalysisResult();
 		String loc = result.getATLModel().getMainFileLocation();
 		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(loc));
@@ -310,11 +314,12 @@ public class QuickfixApplication {
 		new AnATLyzerBuilder().checkFromText(f, doc.get());
 		
 		
-//		try {
-//			f.touch(null);
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
+//		AnalysisResult result = this.qfx.getAnalysisResult();
+//
+//		impact.perform(result.getATLModel());
+//		IncrementalAnalyser analyser = new IncrementalAnalyser(result.getNamespace(), result.getATLModel(), impact);
+//		analyser.perform();
+
 	}
 	
 	public void saveMetamodels(AnalysisResult r) {
@@ -326,6 +331,10 @@ public class QuickfixApplication {
 				e.printStackTrace();
 			}
 		});
+	}
+
+	public void impactOn(CallableImpactCalculator impact) {
+		this.impact = impact;
 	}
 
 }

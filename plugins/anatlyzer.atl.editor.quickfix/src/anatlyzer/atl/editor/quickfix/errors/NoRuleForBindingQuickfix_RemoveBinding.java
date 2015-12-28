@@ -21,6 +21,8 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends BindingProblemQuickF
 			&& isOptionalFeature((BindingProblem) getProblem(marker));
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		Binding b = (Binding) getProblematicElement();

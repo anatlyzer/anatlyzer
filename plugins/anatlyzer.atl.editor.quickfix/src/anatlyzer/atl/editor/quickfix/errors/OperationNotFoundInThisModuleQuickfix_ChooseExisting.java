@@ -33,6 +33,10 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		return checkProblemType(marker, OperationNotFoundInThisModule.class) && this.hasHelpers();			
 	}
 	
+	@Override public void resetCache() { 
+		closest = null;
+	}
+	
 	private boolean hasHelpers() {
 		return !this.populateCandidateOps(e -> ATLUtils.isOperationHelper(e)).isEmpty();		
 	}

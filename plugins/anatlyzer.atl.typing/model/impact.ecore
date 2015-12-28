@@ -6,6 +6,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="CallableChange" abstract="true" eSuperTypes="#//Change">
     <eStructuralFeatures xsi:type="ecore:EReference" name="callable" lowerBound="1"
         eType="ecore:EClass generated/merged.ecore#//ATL/Callable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="invalidated" upperBound="-1"
+        eType="ecore:EClass generated/merged.ecore#//OCL/PropertyCallExp"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContextCallableChange" eSuperTypes="#//CallableChange"/>
   <eClassifiers xsi:type="ecore:EClass" name="ModuleCallableChange" eSuperTypes="#//CallableChange"/>

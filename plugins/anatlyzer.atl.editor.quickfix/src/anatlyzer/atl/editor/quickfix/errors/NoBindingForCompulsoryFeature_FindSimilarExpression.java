@@ -56,6 +56,10 @@ public class NoBindingForCompulsoryFeature_FindSimilarExpression extends Abstrac
 		}
 	}
 
+	@Override public void resetCache() { 
+		similarBinding = null;
+	}
+	
 	private boolean findSimilar(NoBindingForCompulsoryFeature problem, ATLModel atlModel) {
 		OutPatternElement out = (OutPatternElement) problem.getElement();
 		Rule aRule = ATLUtils.getContainer(out, Rule.class);		

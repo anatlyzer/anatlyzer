@@ -3,6 +3,8 @@
 package anatlyzer.atl.impact;
 
 import anatlyzer.atlext.ATL.Callable;
+import anatlyzer.atlext.OCL.PropertyCallExp;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +16,7 @@ import anatlyzer.atlext.ATL.Callable;
  * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.impact.CallableChange#getCallable <em>Callable</em>}</li>
+ *   <li>{@link anatlyzer.atl.impact.CallableChange#getInvalidated <em>Invalidated</em>}</li>
  * </ul>
  *
  * @see anatlyzer.atl.impact.ImpactPackage#getCallableChange()
@@ -46,5 +49,21 @@ public interface CallableChange extends Change {
 	 * @generated
 	 */
 	void setCallable(Callable value);
+
+	/**
+	 * Returns the value of the '<em><b>Invalidated</b></em>' reference list.
+	 * The list contents are of type {@link anatlyzer.atlext.OCL.PropertyCallExp}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Invalidated</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Invalidated</em>' reference list.
+	 * @see anatlyzer.atl.impact.ImpactPackage#getCallableChange_Invalidated()
+	 * @model
+	 * @generated
+	 */
+	EList<PropertyCallExp> getInvalidated();
 
 } // CallableChange

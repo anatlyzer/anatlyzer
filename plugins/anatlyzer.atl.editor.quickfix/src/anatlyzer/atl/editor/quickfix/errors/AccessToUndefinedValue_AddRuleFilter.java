@@ -44,6 +44,8 @@ public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix
 		}
 		return isApplicable;
 	}
+	
+	@Override public void resetCache() {};
 
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();

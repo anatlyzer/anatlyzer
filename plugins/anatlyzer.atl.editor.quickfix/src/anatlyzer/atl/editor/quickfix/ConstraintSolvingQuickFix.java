@@ -35,7 +35,7 @@ public class ConstraintSolvingQuickFix extends AbstractAtlQuickfix {
 		}
 	}
 
-
+	@Override public void resetCache() {};
 
 	@Override
 	public Point getSelection(IDocument document) {

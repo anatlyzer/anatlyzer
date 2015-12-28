@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
@@ -67,7 +67,7 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	protected void baseBranch(Problem problem, AbstractAtlQuickfix qfx, AnalysisResult baseAnalysis) {
 		SearchPath newPath = path.add(qfx);
 
-		IncrementalAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
+		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		AnalysisResult result = new AnalysisResult(inc);
 		

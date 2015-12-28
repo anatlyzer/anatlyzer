@@ -16,6 +16,8 @@ public class NoBindingForCompulsoryFeature_ChangeMetamodel extends
 	public boolean isApplicable(IMarker marker) throws CoreException {
 		return checkProblemType(marker, NoBindingForCompulsoryFeature.class);
 	}
+	
+	@Override public void resetCache() { }
 
 	@Override
 	public String getDisplayString() {

@@ -32,6 +32,8 @@ public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAt
 		return checkProblemType(marker, AttributeNotFoundInThisModule.class);
 	}
 	
+	@Override public void resetCache() { }
+	
 	private StaticHelper buildThisModuleAttributeHelper(String name, Type returnType) {		
 		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
 		

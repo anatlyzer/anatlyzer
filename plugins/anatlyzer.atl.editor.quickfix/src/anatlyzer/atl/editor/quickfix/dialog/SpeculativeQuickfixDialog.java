@@ -31,6 +31,8 @@ import org.eclipse.swt.layout.FillLayout;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.impact.ImpactComputation;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.problemtracking.ProblemTracker;
 
 import org.eclipse.swt.widgets.TabFolder;
@@ -48,9 +50,17 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private SpeculativeMainThread speculativeThread;
 	private TableViewer tblViewerProblems;
 	private TabFolder tabFolderImpact;
+	
 	private Table tblFixed;
 	private TableViewer tblViewerFixed;
 
+	private Table tblNewProblems;
+	private TableViewer tblViewerNewProblems;
+	private TabItem tbtmNewProblems;
+	private TabItem tbtmAllProblems;
+	private TabItem tbtmFixedProblems;
+
+	
 	/**
 	 * Create the dialog.
 	 * @param parentShell
@@ -110,14 +120,21 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		
 		TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
 		
-		TabItem tbtmFixedProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmFixedProblems = new TabItem(tabFolder, SWT.NONE);
 		tbtmFixedProblems.setText("Fixed problems");
 		
 		tblViewerFixed = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
 		tblFixed = tblViewerFixed.getTable();
 		tbtmFixedProblems.setControl(tblFixed);
+
+		tbtmNewProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmNewProblems.setText("New problems");
 		
-		TabItem tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
+		tblViewerNewProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
+		tblNewProblems = tblViewerNewProblems.getTable();
+		tbtmNewProblems.setControl(tblNewProblems);
+
+		tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
 		tbtmAllProblems.setText("Remaining problems");
 		
 		tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
@@ -144,6 +161,9 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 
 		tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
 		tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
+
+		tblViewerNewProblems.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerNewProblems.setLabelProvider(new ProblemsViewLabelProvider());
 
 		initThreads();
 		
@@ -212,24 +232,38 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private void updateAnalysis(AtlProblemQuickfix current) {
 		AnalysisResult r = speculativeThread.getAnalysis(current);
 		lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");	
+		
+		tbtmAllProblems.setText("Remaining problems (" + r.getProblems().size() + ")");
 		tblViewerProblems.setInput(r);
 		tblViewerProblems.refresh();
 
-		Set<Problem> fixedProblems = new ProblemTracker(this.analysisResult, r).fixedProblems();
-		tblViewerFixed.setInput(fixedProblems);
+		// Set<Problem> fixedProblems = new ProblemTracker(this.analysisResult, r).fixedProblems();
+		ImpactComputation ic = new ImpactComputation(this.analysisResult, r, (ITracedATLModel) r.getATLModel());
+		ic.perform();
+		tbtmFixedProblems.setText("Fixed problems (" + ic.getFixedProblems().size() + ")");
+		tblViewerFixed.setInput(ic.getFixedProblems());
 		tblViewerFixed.refresh();
+
+		tbtmNewProblems.setText("New problems (" + ic.getNewProblems().size() + ")");
+		tblViewerNewProblems.setInput(ic.getNewProblems());
+		tblViewerNewProblems.refresh();
 		
-//		while ( tabFolderImpact.getItemCount() > 0 ) 
-//			tabFolderImpact.removecon
-//			
-		
+		int i = 0;
 		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {
-			TabItem item = new TabItem(tabFolderImpact, SWT.NONE);
+			TabItem item = null;
+			if ( tabFolderImpact.getItemCount() <= i ) {
+				item = new TabItem(tabFolderImpact, SWT.NONE);
+			} else {
+				item = tabFolderImpact.getItem(i);
+			}
+	
 			item.setText(information.getName());
 			Composite c = new Composite(tabFolderImpact, SWT.NONE);
 			c.setLayout(new FillLayout(SWT.HORIZONTAL));
 			item.setControl(c);
 			information.initialize(c, r);
+	
+			i++;
 		}
 	}
 	

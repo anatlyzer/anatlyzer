@@ -30,6 +30,7 @@ import org.eclipse.jface.text.IDocument;
 
 
 
+
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
@@ -70,6 +71,9 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 		return checkProblemType(marker, NoModelFound.class);
 	}
 
+
+	@Override public void resetCache() { }
+	
 	@Override
 	public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();	

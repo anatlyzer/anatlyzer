@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
+import anatlyzer.atl.impact.CallableImpactCalculator;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -29,6 +30,8 @@ public class OperationNotFoundQuickfix_ChangeAttributeToOperation extends Operat
 			
 			return op;
 		});
+
+//		qfa.impactOn(new CallableImpactCalculator(helper));		
 		return qfa;
 	}
 	

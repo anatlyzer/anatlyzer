@@ -47,6 +47,10 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 		}
 	}
 
+	@Override public void resetCache() { 
+		feature = null;
+	}
+	
 	private boolean findSimilar(NoBindingForCompulsoryFeature problem, ATLModel atlModel) {
 		OutPatternElement out = (OutPatternElement) problem.getElement();
 		Rule aRule = ATLUtils.getContainer(out, Rule.class);		

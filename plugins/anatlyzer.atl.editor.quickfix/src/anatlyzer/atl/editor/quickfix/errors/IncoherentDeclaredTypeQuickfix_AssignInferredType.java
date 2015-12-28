@@ -32,6 +32,8 @@ public class IncoherentDeclaredTypeQuickfix_AssignInferredType extends AbstractA
 		return checkProblemType(marker, IncoherentVariableDeclaration.class);		
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		LocatedElement elem = (LocatedElement) getProblematicElement();

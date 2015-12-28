@@ -26,6 +26,8 @@ public class AccessToUndefinedValue_ChangeMetamodel extends AbstractMetamodelCha
 				((PropertyCallExp) ((PropertyCallExp) getProblematicElement()).getSource()).getUsedFeature() != null;		
 	}
 
+	@Override public void resetCache() {};
+	
 	@Override public String getDisplayString() {
 		return "Change feature lower cardinality to 1";
 	}

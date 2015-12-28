@@ -42,6 +42,10 @@ public class FeatureNotFoundInThisModuleQuickFix_FindSameOperation extends Abstr
 		return false;
 	}
 	
+	@Override 
+	public void resetCache() {
+		helper = null;
+	}
 	private Helper findOperation(ATLModel model, AttributeNotFoundInThisModule p) {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) p.getElement();
 		String featureName = nav.getName();

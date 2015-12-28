@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -250,7 +251,7 @@ public class ATLModel {
 	}
 	
 	
-	public static class CopiedATLModel extends ATLModel {
+	public static class CopiedATLModel extends ATLModel implements ITracedATLModel {
 		protected ATLModel original;
 		protected ATLCopier trace;
 
@@ -263,8 +264,24 @@ public class ATLModel {
 			return original;
 		}
 		
+		@Override
 		public EObject getTarget(EObject src) {
 			return trace.get(src);
 		}
+
+		@Override
+		public EObject getSource(EObject tgt) {
+			for (Entry<EObject, EObject> entry : trace.entrySet()) {
+				if ( entry.getValue() == tgt ) {
+					return entry.getKey();
+				}
+			}
+			return null;
+		}
+	}
+	
+	public static interface ITracedATLModel {
+		public EObject getTarget(EObject src);
+		public EObject getSource(EObject tgt);
 	}
 }

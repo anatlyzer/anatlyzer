@@ -42,6 +42,11 @@ public class FeatureNotFoundQuickFix_FindSameOperation extends AbstractAtlQuickf
 		return false;
 	}
 	
+	@Override public void resetCache() { 
+		this.helper = null;
+	}
+
+	
 	private Helper findOperation(ATLModel model, FeatureNotFound p) {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) p.getElement();
 		String featureName = nav.getName();

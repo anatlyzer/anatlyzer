@@ -28,6 +28,8 @@ public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfi
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, NoBindingForCompulsoryFeature.class);
 	}
+	
+	@Override public void resetCache() { }
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {

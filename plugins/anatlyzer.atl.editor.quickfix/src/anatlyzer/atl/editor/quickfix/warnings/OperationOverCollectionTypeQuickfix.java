@@ -30,6 +30,8 @@ public class OperationOverCollectionTypeQuickfix extends AbstractAtlQuickfix {
 		return checkProblemType(marker, OperationOverCollectionType.class);		
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp call = (OperationCallExp) getProblematicElement();

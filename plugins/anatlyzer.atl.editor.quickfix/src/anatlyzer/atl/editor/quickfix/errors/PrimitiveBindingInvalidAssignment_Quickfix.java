@@ -20,6 +20,8 @@ public class PrimitiveBindingInvalidAssignment_Quickfix extends AbstractAtlQuick
 		return checkProblemType(marker, PrimitiveBindingInvalidAssignment.class);
 	}
 
+	@Override public void resetCache() { }
+	
 	public PrimitiveBindingInvalidAssignment getProblem() {
 		try {
 			PrimitiveBindingInvalidAssignment pba = (PrimitiveBindingInvalidAssignment) super.getProblem();

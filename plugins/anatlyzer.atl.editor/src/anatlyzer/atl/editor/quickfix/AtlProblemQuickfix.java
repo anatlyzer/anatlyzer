@@ -9,13 +9,21 @@ import anatlyzer.atl.analyser.AnalysisResult;
 public interface AtlProblemQuickfix extends ICompletionProposal {
 
 	/**
-	 * Checkes whether the quickfix can be applied to the problem described
+	 * Checks whether the quickfix can be applied to the problem described
 	 * in the marker.
 	 * 
 	 * @param marker
 	 * @return
 	 */
 	public boolean isApplicable(IMarker marker) throws CoreException;
+	
+	/**
+	 * This method is needed to implement speculative quick fixes when isApplicable is not side-effect free.
+	 * A speculative quick fix has two calls to isApplicable and setErrorMarker, first with the original 
+	 * problem, and then with a copy which is ultimately the problem over which the quick fix will be appplied. 
+	 * In the middle, resetCache is called.
+	 */
+	public void resetCache();
 	
 	/**
 	 * Provides the the quickfix with the marker. 

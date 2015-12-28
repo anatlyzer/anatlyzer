@@ -49,6 +49,8 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 		return checkProblemType(marker, CollectionOperationNotFound.class);
 	}
 	
+	@Override public void resetCache() {};
+	
 	private void fixParams(int numP, String closest, IDocument document, int startPos, int endPos) {  // a bit redundant that we calculate this again...
 		int paramsClosest = this.getParamsClosest(closest);
 		

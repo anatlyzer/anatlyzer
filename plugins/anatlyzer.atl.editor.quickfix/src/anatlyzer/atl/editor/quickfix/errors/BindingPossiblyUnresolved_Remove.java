@@ -21,6 +21,8 @@ public class BindingPossiblyUnresolved_Remove extends BindingProblemQuickFix {
 				&& isOptionalFeature((BindingProblem) getProblem(marker));
 	}
 
+	@Override public void resetCache() {};
+	
 	protected static EClass getResolvedEClassType(MatchedRule mr) {
 		return ATLUtils.getInPatternType(mr).getKlass();
 	}

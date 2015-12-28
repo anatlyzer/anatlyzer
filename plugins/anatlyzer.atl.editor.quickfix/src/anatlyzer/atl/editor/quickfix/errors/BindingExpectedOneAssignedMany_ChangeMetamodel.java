@@ -14,6 +14,8 @@ public class BindingExpectedOneAssignedMany_ChangeMetamodel extends AbstractMeta
 	public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, BindingExpectedOneAssignedMany.class);
 	}
+	
+	@Override public void resetCache() {};
 
 	@Override
 	public String getDisplayString() {

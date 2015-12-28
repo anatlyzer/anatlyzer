@@ -38,6 +38,11 @@ public class NoEnumLiteral_FindSimilar extends AbstractAtlQuickfix  {
 		return checkProblemType(marker, NoEnumLiteral.class);
 	}
 	
+	@Override public void resetCache() { 
+		closest = null;
+		sd = new StringDistance(new Levenshtein());
+	}
+	
 	private Set<String> getPossibleNames() {		
 		HashSet<String> literals = new HashSet<String>();
 		for (MetamodelNamespace mns : this.getAnalyserData(this.marker).getNamespace().getMetamodels()) {

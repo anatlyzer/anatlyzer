@@ -26,6 +26,8 @@ public class OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinitio
 		return checkProblemType(marker, OperationCallInvalidParameter.class);
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();
 		new InDocumentSerializer(qfa, document).serialize();

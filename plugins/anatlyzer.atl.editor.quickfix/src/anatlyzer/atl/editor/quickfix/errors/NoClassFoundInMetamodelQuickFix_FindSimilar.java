@@ -21,7 +21,6 @@ import anatlyzer.atlext.OCL.OclModelElement;
 
 public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuickfix  {
 
-	private IMarker marker;
 	private String  closest = null;
 	private StringDistance sd = new StringDistance(new Levenshtein());
 	
@@ -31,6 +30,12 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 		return checkProblemType(marker, NoClassFoundInMetamodel.class);
 	}
 
+	@Override public void resetCache() { 
+		closest = null;
+		sd      = new StringDistance(new Levenshtein());
+	}
+
+	
 	private OclModelElement getElement() {
 		try {
 			NoClassFoundInMetamodel p = (NoClassFoundInMetamodel) getProblem();

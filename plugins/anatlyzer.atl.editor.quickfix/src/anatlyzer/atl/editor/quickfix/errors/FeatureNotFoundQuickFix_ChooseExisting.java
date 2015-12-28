@@ -33,6 +33,12 @@ public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix 
 		return checkProblemType(marker, FeatureNotFound.class) && getClosest(marker) != null;
 	}
 
+	@Override public void resetCache() {
+		attrs = new ArrayList<String>();
+		closest = null;
+		sd = new StringDistance(new Levenshtein());
+	}
+	
 	private NavigationOrAttributeCallExp getFeature(IMarker marker) {
 		try {
 			FeatureNotFound p = (FeatureNotFound) getProblem(marker);		

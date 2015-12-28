@@ -5,7 +5,7 @@ import java.util.Collections;
 import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.inc.IncrementalAnalyser;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 
@@ -19,8 +19,8 @@ public class SpeculativeQuickfixUtils {
 	 * @param qfx
 	 * @return
 	 */
-	public static IncrementalAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
-		IncrementalAnalyser inc = null;
+	public static IncrementalCopyBasedAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
+		IncrementalCopyBasedAnalyser inc = null;
 		/*
 		if ( qfx.isMetamodelChanging() ) {
 			inc = new IncrementalAnalyser(baseAnalysis, Collections.singletonList(qfx.getChangedMetamodel()));			
@@ -29,13 +29,25 @@ public class SpeculativeQuickfixUtils {
 		}
 		*/
 		
-		inc = new IncrementalAnalyser(baseAnalysis, baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet());
+		inc = new IncrementalCopyBasedAnalyser(baseAnalysis, baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet());
 		
 		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
 		if ( tgtProblem == null )
 			throw new IllegalStateException();
-				
-		qfx.setErrorMarker(new MockMarker(tgtProblem, new AnalysisResult(inc)));
+		
+		
+		qfx.resetCache();
+		
+		MockMarker mock = new MockMarker(tgtProblem, new AnalysisResult(inc));
+		try {
+			if ( ! qfx.isApplicable(mock) ) {
+				throw new IllegalStateException();
+			}
+		} catch (CoreException e1) {
+			throw new IllegalStateException();
+		}
+		
+		qfx.setErrorMarker(mock);
 
 		QuickfixApplication qfa;
 		try {

@@ -22,6 +22,8 @@ public class OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation
 		return checkProblemType(marker, OperationCallInvalidNumberOfParameters.class) && chooseCompatibleOperation(marker)!=null;
 	}
 
+	@Override public void resetCache() { }
+	
 	@Override public void apply(IDocument document) {
 		QuickfixApplication qfa = getQuickfixApplication();
 		new InDocumentSerializer(qfa, document).serialize();

@@ -65,13 +65,19 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	
 	@Override
 	protected void baseBranch(Problem problem, AbstractAtlQuickfix qfx, AnalysisResult baseAnalysis) {
-		SearchPath newPath = path.add(qfx);
+		SearchPath newPath = path.add(qfx);;
+		SearchEdge edge = null;
+		try {
+			IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
+			inc.perform();
+			AnalysisResult result = new AnalysisResult(inc);
 
-		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
-		inc.perform();
-		AnalysisResult result = new AnalysisResult(inc);
-		
-		SearchEdge edge = new SearchEdge(qfx, this, new InteractiveSearch(newPath, result));
+			edge = new SearchEdge(qfx, this, new InteractiveSearch(newPath, result));
+		} catch ( Throwable e ) {
+			// If there is a problem, then I just create an error node
+			edge = new SearchEdge(qfx, this, new SearchError(newPath, e));
+		}
+			
 		edges.add(edge);
 		
 		if ( listener != null ) {
@@ -88,11 +94,11 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	}
 	
 	public class SearchEdge implements ISearchEdge {
-		private InteractiveSearch src;
-		private InteractiveSearch state;
+		private ISearchState src;
+		private ISearchState state;
 		private AtlProblemQuickfix qfx;
 
-		public SearchEdge(AtlProblemQuickfix qfx, InteractiveSearch src, InteractiveSearch state) {
+		public SearchEdge(AtlProblemQuickfix qfx, ISearchState src, ISearchState state) {
 			this.src   = src;
 			this.state = state;
 			this.qfx   = qfx;

@@ -36,6 +36,7 @@ import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.problemtracking.ProblemTracker;
 
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.custom.SashForm;
 
 public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeListener {
 	private Table table;
@@ -59,6 +60,9 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private TabItem tbtmNewProblems;
 	private TabItem tbtmAllProblems;
 	private TabItem tbtmFixedProblems;
+	private SashForm sashForm;
+	private Composite composite_1;
+	private Composite composite_2;
 
 	
 	/**
@@ -98,27 +102,46 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
-		container.setLayout(new GridLayout(2, false));
+		container.setLayout(new GridLayout(1, false));
 		
-		Label lblFixes = new Label(container, SWT.NONE);
+		sashForm = new SashForm(container, SWT.NONE);
+		sashForm.setSashWidth(5);
+		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		composite_1 = new Composite(sashForm, SWT.NONE);
+		composite_1.setLayout(new GridLayout(1, false));
+		
+		Label lblFixes = new Label(composite_1, SWT.NONE);
+		lblFixes.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		lblFixes.setSize(64, 17);
 		lblFixes.setText("Quick fixes");
 		
-		lblProblems = new Label(container, SWT.NONE);
+		tableViewer = new TableViewer(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
+		table = tableViewer.getTable();
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table.setSize(183, 186);
+		
+		TextViewer textViewer = new TextViewer(composite_1, SWT.BORDER);
+		StyledText styledText = textViewer.getTextWidget();
+		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		styledText.setSize(79, 198);
+		
+				tableViewer.setContentProvider(new QuickfixContentProvider());
+				tableViewer.setLabelProvider(new QuickfixLabelProvider());
+				tableViewer.setInput(quickfixes);
+				tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
+		
+		composite_2 = new Composite(sashForm, SWT.NONE);
+		composite_2.setLayout(new GridLayout(1, false));
+		
+		lblProblems = new Label(composite_2, SWT.NONE);
+		lblProblems.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		lblProblems.setSize(140, 17);
 		lblProblems.setText("Problems after quick fix");
 		
-		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
-		table = tableViewer.getTable();
-		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_table.widthHint = 20;
-		table.setLayoutData(gd_table);
-		
-		Composite composite = new Composite(container, SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite.minimumWidth = 200;
-		composite.setLayoutData(gd_composite);
-		
-		TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
+		TabFolder tabFolder = new TabFolder(composite_2, SWT.NONE);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tabFolder.setSize(330, 119);
 		
 		tbtmFixedProblems = new TabItem(tabFolder, SWT.NONE);
 		tbtmFixedProblems.setText("Fixed problems");
@@ -126,44 +149,38 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tblViewerFixed = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
 		tblFixed = tblViewerFixed.getTable();
 		tbtmFixedProblems.setControl(tblFixed);
-
-		tbtmNewProblems = new TabItem(tabFolder, SWT.NONE);
-		tbtmNewProblems.setText("New problems");
 		
-		tblViewerNewProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
-		tblNewProblems = tblViewerNewProblems.getTable();
-		tbtmNewProblems.setControl(tblNewProblems);
-
-		tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
-		tbtmAllProblems.setText("Remaining problems");
-		
-		tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
-		tblProblems = tblViewerProblems.getTable();
-		tbtmAllProblems.setControl(tblProblems);
+				tbtmNewProblems = new TabItem(tabFolder, SWT.NONE);
+				tbtmNewProblems.setText("New problems");
 				
-		TextViewer textViewer = new TextViewer(container, SWT.BORDER);
-		StyledText styledText = textViewer.getTextWidget();
-		GridData gd_styledText = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_styledText.widthHint = 20;
-		styledText.setLayoutData(gd_styledText);
+				tblViewerNewProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
+				tblNewProblems = tblViewerNewProblems.getTable();
+				tbtmNewProblems.setControl(tblNewProblems);
+				
+						tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
+						tbtmAllProblems.setText("Remaining problems");
+						
+						tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
+						tblProblems = tblViewerProblems.getTable();
+						tbtmAllProblems.setControl(tblProblems);
+						
+						
+						tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
+						tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
+						
+								tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
+								tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
+								
+										tblViewerNewProblems.setContentProvider(new ProblemsViewContentProvider());
+										tblViewerNewProblems.setLabelProvider(new ProblemsViewLabelProvider());
 		
-		tabFolderImpact = new TabFolder(container, SWT.NONE);
-		tabFolderImpact.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-
-		tableViewer.setContentProvider(new QuickfixContentProvider());
-		tableViewer.setLabelProvider(new QuickfixLabelProvider());
-		tableViewer.setInput(quickfixes);
-		tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
-		
-		
-		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
-		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
-
-		tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
-		tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
-
-		tblViewerNewProblems.setContentProvider(new ProblemsViewContentProvider());
-		tblViewerNewProblems.setLabelProvider(new ProblemsViewLabelProvider());
+		Composite composite = new Composite(composite_2, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		composite.setSize(375, 140);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+						
+						tabFolderImpact = new TabFolder(composite, SWT.NONE);
+		sashForm.setWeights(new int[] {1, 2});
 
 		initThreads();
 		
@@ -285,7 +302,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(575, 335);
+		return new Point(695, 436);
 	}
 
 	@Override

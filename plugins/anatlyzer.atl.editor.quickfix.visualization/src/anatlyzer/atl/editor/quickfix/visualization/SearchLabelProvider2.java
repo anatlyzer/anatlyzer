@@ -15,6 +15,7 @@ import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
+import anatlyzer.atl.editor.quickfix.search.SearchError;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.SearchEdge;
 import anatlyzer.atl.editor.quickfix.search.SearchState;
 import anatlyzer.atl.editor.quickfix.visualization.SearchContentProvider.StartNode;
@@ -56,18 +57,10 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 
 	@Override
 	public Color getBackground(Object element) {
-		if ( element instanceof BindingResolution ) {
+		if ( element instanceof SearchError ) {
 			Device device = Display.getCurrent ();
-			return new Color(device, 150, 150, 150);			
+			return new Color(device, 200, 0, 0);			
 		}
-		else if ( element instanceof ResolvedRuleInfo ) {
-			Device device = Display.getCurrent ();
-			return new Color(device, 160, 64, 64);
-		} else if ( element instanceof RuleResolutionInfo ) {
-			Device device = Display.getCurrent ();
-			return new Color(device, 64, 160, 64);
-		}
-		
 		Device device = Display.getCurrent ();
 		return new Color(device, 64, 160, 64);
 	}
@@ -87,6 +80,8 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 			ISearchEdge e = (ISearchEdge) element;
 			String str = e.getQuickfix().getDisplayString();
 			return str.substring(0, Math.min(str.length(), 10));
+		} else if ( element instanceof SearchError ) {
+			return "X";
 		} else if ( element instanceof ISearchState ) {
 			ISearchState s = (ISearchState) element;
 			return "p: " + s.getAnalysisResult().getProblems().size() + " ";
@@ -140,6 +135,8 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 		if ( element instanceof ISearchEdge ) {
 			ISearchEdge e = (ISearchEdge) element;
 			str = e.getQuickfix().getDisplayString();
+		} else if ( element instanceof SearchError ) {
+			str = ((SearchError) element).getError().getMessage();
 		} else if ( element instanceof ISearchState ) {
 			ISearchState s = (ISearchState) element;
 			str = "p: " + s.getAnalysisResult().getProblems().size() + " ";

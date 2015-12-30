@@ -8,6 +8,16 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Binding;
 
+/**
+ * When a binding assigns a collection to a mono-valued feature the quick fix
+ * proposes to change the feature cardinality to multi-valued.
+ * 
+ * @qfxName  Change feature cardinality to multi-valued
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany}
+ * 
+ * @author jesusc
+ *
+ */
 public class BindingExpectedOneAssignedMany_ChangeMetamodel extends AbstractMetamodelChangeQuickfix {
 
 	@Override

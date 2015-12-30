@@ -8,9 +8,12 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -75,32 +78,31 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 			if (obj instanceof anatlyzer.atl.errors.AnalysisResult) {
 				for (Problem problem : ((anatlyzer.atl.errors.AnalysisResult) obj)
 						.getProblems()) {
-					for (EReference eReference : problem.eClass()
-							.getEAllReferences()) {
-						if (eReference.getEType().getName().equals("EClass")) {
+					for (EReference eReference : problem.eClass().getEAllReferences()) {
+						// if ( EcorePackage.Literals.ENAMED_ELEMENT.isInstance(eReference.getEType()) ) {
+						if (eReference.getEType().getName().equals("EClass") || eReference.getEType().getName().equals("EStructuralFeature") ) { 
 							Object original = problem.eGet(eReference);
+							if ( original == null )
+								continue;
+							
 							if (original instanceof Collection) {
-								EList<EClass> list = (EList<EClass>) original;
+								EList<ENamedElement> list = (EList<ENamedElement>) original;
 								list.replaceAll(c -> {
-									EClass target = (EClass) copier.get(c);
+									ENamedElement target = (ENamedElement) copier.get(c);
 									if (target == null) {
 										throw new IllegalStateException(
-												"No target EClass "
-														+ ((EClass) c)
-																.getName()
+												"No target ENamedElement "
+														+ ((ENamedElement) c).getName()
 														+ ": " + c);
 									}
 									return target;
 								});
 
 							} else {
-								EClass target = (EClass) copier.get(original);
+								ENamedElement target = (ENamedElement) copier.get(original);
 								if (target == null) {
 									throw new IllegalStateException(
-											"No target EClass "
-													+ ((EClass) original)
-															.getName() + ": "
-													+ original);
+											"No target ENamedElement "+ ((ENamedElement) original).getName() + ": " + original);
 								}
 								problem.eSet(eReference, target);
 							}

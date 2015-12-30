@@ -14,7 +14,7 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 
 /**
  * In ATL types are not checked in let variable declarations and
- * return types. This quickfix aligns declared types with inferred
+ * return types. This quick fix aligns declared types with inferred
  * types when they do not match.
  * 
  * Example:
@@ -22,7 +22,10 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * 		let a : Integer = 'string'   =>  let a : String => 'string'
  * </pre>
  * 
- * @author jesus
+ * @qfxName  Change declared type for inferred type
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration}
+ * 
+ * @author jesusc
  *
  */
 public class IncoherentDeclaredTypeQuickfix_AssignInferredType extends AbstractAtlQuickfix {

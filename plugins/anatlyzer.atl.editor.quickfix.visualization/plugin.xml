@@ -45,7 +45,7 @@
             class="anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView"
             icon="icons/autofix_16x16.png"
             id="anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView"
-            name="Elements Connections View">
+            name="ATL Repair View">
       </view>
    	</extension>
 </plugin>

@@ -20,10 +20,14 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
 
 /**
- * This quickfix proposes adding a new context helper when a feature is not
- * found.
+ * This quick fix creates a new attribute module helper, with the proper return type
+ * and a default body (e.g., empty string, 0, etc.).
+ * 
+ * @qfxName  Create a new module attribute helper
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule}
  * 
  * @author jesusc
+ *
  */
 public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAtlQuickfix {		// Separate into create helper/create lazy rule
 		
@@ -77,7 +81,7 @@ public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAt
 
 	@Override
 	public String getDisplayString() {
-		return "Create context helper";
+		return "Create module helper";
 	}
 
 

@@ -5,18 +5,26 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
-import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 
+/**
+ * When a binding assigns a collection to a mono-valued feature the quick fix
+ * proposes to select the first element of the collection.
+ * 
+ * @qfxName  Select the first element of a collection
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany}
+ * 
+ * @author jesusc
+ *
+ */
 public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuickfix {
 
 	public BindingExpectedOneAssignedMany_SelectFirst() {

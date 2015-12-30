@@ -20,7 +20,10 @@ import anatlyzer.atlext.OCL.OperationCallExp;
  * Given a "feature not found", this quickfix identifies whether an operation
  * with the same name and no parameters exist.
  * 
- * @author jesus
+ * @qfxName  Replace with existing operation
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule}
+ * 
+ * @author jesusc
  *
  */
 public class FeatureNotFoundInThisModuleQuickFix_FindSameOperation extends AbstractAtlQuickfix  {

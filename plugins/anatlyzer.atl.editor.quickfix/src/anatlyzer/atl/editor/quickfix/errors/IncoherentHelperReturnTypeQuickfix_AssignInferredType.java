@@ -14,6 +14,25 @@ import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 
+/**
+ * In ATL types are not checked in let variable declarations and
+ * return types. This quick fix aligns declared types with inferred
+ * types when they do not match.
+ * 
+ * Example:
+ * <pre>
+ * 		helper def: myHelper : Integer = 'string';   
+ * 						|| 
+ * 						\/
+ *      helper def: myHelper : String = 'string';
+ * </pre>
+ * 
+ * @qfxName  Change declared type for inferred type
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType}
+ * 
+ * @author jesusc
+ *
+ */
 public class IncoherentHelperReturnTypeQuickfix_AssignInferredType extends AbstractAtlQuickfix {
 	
 	@Override

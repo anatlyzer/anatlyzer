@@ -20,6 +20,16 @@ import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 
+/**
+ * This quick fix proposes a feature name close to the 
+ * feature written by the user (which does not exist) using the Levenshtein distance.
+ * 
+ * @qfxName  Propose an existing feature name
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule}
+ * 
+ * @author jesusc
+ *
+ */
 public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends AbstractAtlQuickfix  {
 
 	private List<String> attrs = new ArrayList<String>();

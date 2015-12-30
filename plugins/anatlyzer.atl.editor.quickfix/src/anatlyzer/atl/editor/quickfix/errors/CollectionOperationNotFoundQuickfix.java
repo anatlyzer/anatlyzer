@@ -1,8 +1,6 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,8 +21,17 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
-import anatlyzer.atlext.OCL.OperationCallExp;
 
+/**
+ * This quick fix proposes a collection operation name close to the 
+ * collection operation written by the user (which does not exist).
+ * 
+ * @qfxName  Propose a collection operation
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.CollectionOperationNotFound}
+ * 
+ * @author jesusc
+ *
+ */
 public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstractQuickFix {
 	// number of parameters X operation name
 	private String typeOfCollection;

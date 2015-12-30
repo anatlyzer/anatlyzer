@@ -9,6 +9,16 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.OutPatternElement;
 
+/**
+ * Make a compulsory feature in the meta-model be an optional feature
+ * (setting its lower bound to 0).
+ * 
+ * @qfxName  Set feature lower bound to 0
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature}
+ * 
+ * @author jesusc
+ *
+ */
 public class NoBindingForCompulsoryFeature_ChangeMetamodel extends
 		AbstractMetamodelChangeQuickfix {
 

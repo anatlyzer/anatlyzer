@@ -52,6 +52,8 @@ public class SpeculativeThread extends Thread {
 		}
 		*/
 		
+		System.out.println("Speculative qfx: " + qfx.getClass().getName());
+		
 		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		newAnalysis = new AnalysisResult(inc);

@@ -3,7 +3,6 @@ package anatlyzer.atl.editor.quickfix.visualization;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -21,14 +20,12 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
-
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch;
-import anatlyzer.atl.editor.quickfix.search.SearchPath;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.ISearchListener;
-import anatlyzer.atl.editor.quickfix.search.SearchState;
+import anatlyzer.atl.editor.quickfix.search.SearchPath;
 
 public class RepairTransformationView extends ViewPart implements ISearchListener{
 	public static final String ID = "anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView";
@@ -128,8 +125,11 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 			graph.addSelectionChangedListener(new GraphSelectionListener());
 		}
 		
+		
+		
 		graph.setInput(new SearchContentProvider.StartNode(searcher));
 		graph.refresh(true);
+		
 	}
 	
 	private void nextStepAll() {

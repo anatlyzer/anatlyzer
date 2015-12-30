@@ -19,6 +19,18 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 
+/**
+ * Add a binding to initialize a compulsory feature in the meta-model.
+ * For primitive types a default value literal is used. For references,
+ * an empty sequence or OclUndefined are used (but this only tricks the 
+ * analyser).
+ * 
+ * @qfxName  Add binding with some value in the right part
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature}
+ * 
+ * @author jesusc
+ *
+ */
 public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfix {
 
 	public NoBindingForCompulsoryFeature_AddBinding() {

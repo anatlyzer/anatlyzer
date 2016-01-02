@@ -48,9 +48,10 @@ public class USEValidityChecker extends AbstractVisitor {
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
 		if ( self.getSource().getInferredType() instanceof StringType ) {
-			if ( self.getOperationName().equals("startsWith") )
+			if ( self.getOperationName().equals("startsWith") ) {
 				System.out.println("=> Invalid " + "startsWith " + self );
 				isValid = false;
+			}
 		}
 	}
 	

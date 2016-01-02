@@ -2,6 +2,7 @@ package anatlyzer.atl.graph;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -16,6 +17,9 @@ public class AccessToUndefinedValueNode extends ExpressionProblemNode<AccessToUn
 	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
+		if ( expr instanceof PropertyCallExp ) {
+			OclSlice.slice(slice, ((PropertyCallExp) expr).getSource()); 							
+		}
 		generatedDependencies(slice);
 	}
 	

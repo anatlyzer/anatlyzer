@@ -60,6 +60,12 @@ public class AnalyserExecutor {
 				EMFModel libModel = AtlEngineUtils.loadATLFile(f);
 				return libModel.getResource();
 			}
+			
+			@Override
+			public Resource load(String text) {
+				EMFModel libModel = AtlEngineUtils.loadATLText(text);
+				return libModel.getResource();
+			}
 		});
 		
 		Analyser analyser = new Analyser(mm, atlModel);		

@@ -92,7 +92,7 @@ public class USESerializer {
 		}
 		
 		if ( ! new USEValidityChecker(expr).perform().isValid() ) {
-			state = TranslationState.USE_NOT_SUPPORTED;
+				state = TranslationState.USE_NOT_SUPPORTED;
 		}
 
 		for (IObjectVisitor abstractVisitor : visitors) {

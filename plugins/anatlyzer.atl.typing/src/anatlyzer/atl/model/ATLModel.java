@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -19,9 +20,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 
 public class ATLModel {
@@ -90,6 +94,12 @@ public class ATLModel {
 		typing = new TypingModel(resource);
 	}
 
+	public static final String PRECONDITIONS_LOCATION = "_preconditions_";
+	
+	public void extendWithPreconditions(Resource r) {
+		extendWithLibrary(r, PRECONDITIONS_LOCATION);
+	}
+	
 	public void extendWithLibrary(Resource libResource, String fileLocation) {
 		DynamicToStaticCopier copier = new DynamicToStaticCopier(fileLocation);
 		ResourceSet rs = new ResourceSetImpl();
@@ -112,7 +122,7 @@ public class ATLModel {
 			i++;
 		}
 	}
-
+	
 	/**
 	 * @return the list of file locations involved in the transformation, being the first
 	 * 		element the main transformation file and the others will be files.
@@ -284,4 +294,13 @@ public class ATLModel {
 		public EObject getTarget(EObject src);
 		public EObject getSource(EObject tgt);
 	}
+
+	public List<StaticHelper> getInlinedPreconditions() {
+		return ATLUtils.getAllHelpers(this).stream().
+			filter(h -> ! ATLUtils.isContextHelper(h)).
+			filter(h -> h.getCommentsBefore().stream().filter(s -> s.contains("@precondition")).findAny().isPresent()).
+			map(h -> (StaticHelper) h).
+			collect(Collectors.toList());
+	}
+
 }

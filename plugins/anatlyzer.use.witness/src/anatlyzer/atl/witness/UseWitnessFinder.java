@@ -25,8 +25,11 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -104,12 +107,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 		this.analyser = r.getAnalyser();
 
-		List<String> preconditions;
-		if ( checkPreconditions ) {
-			preconditions = getPreconditions(analyser.getATLModel());
-		} else {
-			preconditions = Collections.emptyList();
-		}
+//		List<String> preconditions;
+//		if ( checkPreconditions ) {
+//			preconditions = ATLUtils.getPreconditions(analyser.getATLModel());
+//		} else {
+//			preconditions = Collections.emptyList();
+//		}
 		
 		
 		OclExpression constraint = problem.getWitnessCondition(); 
@@ -118,7 +121,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.CANNOT_DETERMINE;
 		}
 		
-		ProblemStatus result = applyUSE(problem, constraint, false, preconditions);
+		ProblemStatus result = applyUSE(problem, constraint, false); //, preconditions);
 		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {
 			ProblemStatus result2 = applyUSE(problem, createTrue(), true);
 			if ( result2 == ProblemStatus.ERROR_DISCARDED ) {
@@ -152,40 +155,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return result;
 	}
 	
-	private List<String> getPreconditions(ATLModel atlModel) {
-		String tag = "@pre";
-		Unit root = atlModel.getRoot();
-		
-		List<String> result = new ArrayList<String>();
-		for (int i = 0; i < root.getCommentsBefore().size(); i++) {
-			String line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
-			int index   = line.indexOf(tag);
-			String pre  = null;
-			if ( index != -1 ) {
-				pre = line.substring(index + tag.length());
-				for(i = i + 1; i < root.getCommentsBefore().size(); i++) {
-					line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
-					if ( line.isEmpty() || line.startsWith("@") ) {
-						break;
-					}
-					pre += "\n\t" + line;
-				}
-				
-			}		
-			
-			if ( pre != null ) {
-				result.add(pre);
-			}
-		}
-		
-		return result;
-	}
-
-	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses) {
-		return applyUSE(problem, originalConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
-	}
+//	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses) {
+//		return applyUSE(problem, originalConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
+//	}
 	
-	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, List<String> preconditions) {
+	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses) { 
 		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
 		
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels);
@@ -196,17 +170,38 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		}
 		
+		// The problem is that we cannot call helpers here... (not in the error slice...)
+		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
+		if ( checkPreconditions ) {
+			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions();
+			for (StaticHelper hpre : helpers) {
+				USEConstraint c = USESerializer.retypeAndGenerate(ATLUtils.getBody(hpre), problem, renaming);	
+				if ( c.useNotSupported() ) {
+					return ProblemStatus.NOT_SUPPORTED_BY_USE;
+				}
+				preconditions.add(new Pair<>(hpre, c));
+			}
+		}
+		
+		
 		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
 		ErrorSlice slice = problem.getErrorSlice(analyser);
+		
+		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
+		// other helpers within preconditions
+		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
+			slice.addHelper(pair._1);
+		}
+		
 		if ( slice.hasHelpersNotSupported() )
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		
-		if ( checkPreconditions ) {
-			List<String> footprints = getFootprints(analyser.getATLModel());			
-			footprints.forEach(f -> slice.loadFromString(f, analyser));
-		}
+//		if ( checkPreconditions ) {
+//			List<String> footprints = getFootprints(analyser.getATLModel());			
+//			footprints.forEach(f -> slice.loadFromString(f, analyser));
+//		}
 		
 		EPackage errorSliceMM = generateErrorSliceMetamodel(slice, srcMetamodels, problems);
 		EPackage effective    = generateEffectiveMetamodel(srcMetamodels);
@@ -224,8 +219,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setDebugModel(debugMode);
 		generator.setMinScope(1);
 		generator.setMaxScope(5);
-		for (String pre : preconditions) {
-			generator.addAdditionaConstraint(pre);
+//		for (String pre : preconditions) {
+//			generator.addAdditionaConstraint(pre);
+//		}
+
+		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
+			generator.addAdditionaConstraint(pair._2.asString());
 		}
 		
 		if ( forceOnceInstanceOfConcreteClasses ) {

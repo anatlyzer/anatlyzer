@@ -1,6 +1,7 @@
 package anatlyzer.atl.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.core.resources.IFile;
@@ -12,6 +13,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
@@ -122,6 +124,10 @@ public class AnalyserUtils {
 			extendWithLibrary(atlModel, name, uri, loader);		
 		}
 		
+		List<String> preconditions = ATLUtils.getPreconditions(atlModel);
+		extendWithPreconditions(atlModel, preconditions, loader);
+		
+		
 		ResourceSet nrs = new ResourceSetImpl();
 		new ResourceSetImpl.MappedResourceLocator((ResourceSetImpl) nrs); 
 
@@ -178,6 +184,23 @@ public class AnalyserUtils {
 		return mm;
 	}
 
+	private static void extendWithPreconditions(ATLModel atlModel, List<String> preconditions, IAtlFileLoader loader) {
+		if ( preconditions.size() > 0 ) {
+			String text = "library preconditions;";
+			int idx = 0;
+			for (String pre : preconditions) {
+				text = text + "\n-- @precondition \n" + "helper def: precondition_" + idx + " : Boolean = " + pre + ";"; 
+			}
+			
+			Resource r = loader.load(text);
+			for (Diagnostic diagnostic : r.getErrors()) {
+				System.out.println(diagnostic);
+			}
+			
+			atlModel.extendWithPreconditions(r);
+		}
+	}
+
 	private static void extendWithLibrary(ATLModel atlModel, String name, String location, IAtlFileLoader loader) throws CoreException {
 		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(location));
 		Resource r = loader.load(file);
@@ -194,6 +217,8 @@ public class AnalyserUtils {
 		 * @return
 		 */
 		public Resource load(IFile f);
+	
+		public Resource load(String atlText);
 	}
 	
 	private static void checkLoadedMetamodels(ATLModel atlModel, HashMap<String, Resource> logicalNamesToResources) throws CannotLoadMetamodel {

@@ -34,6 +34,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.ui.configuration.ConfigurationReader;
@@ -241,6 +242,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 					IFile problemFile = file;
 					if ( problem instanceof LocalProblem ) {
 						String loc = ((LocalProblem) problem).getFileLocation();
+						
+						// This ignores errors in preconditions written in @pre comments
+						if ( ATLModel.PRECONDITIONS_LOCATION.equals(loc))
+							continue;
+						
 						if ( loc == null ) {
 							System.err.println("Warning: No location assigned to " + problem);
 							problemFile = file; // Not sure when this might happen

@@ -1,5 +1,6 @@
 package anatlyzer.ui.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
@@ -15,6 +16,10 @@ public class AtlEngineUtils {
 
 	public static EMFModel loadATLFile(IFile file) {
 		return loadATLFile(file, true);
+	}
+
+	public static EMFModel loadATLText(String text) {
+		return loadATLFile(null, new ByteArrayInputStream(text.getBytes()), true);
 	}
 
 	public static EMFModel loadATLFile(IFile file, boolean withProblems) {
@@ -46,7 +51,8 @@ public class AtlEngineUtils {
 					String location = (String) eObject.eGet(eObject.eClass().getEStructuralFeature("location"));
 					String description = (String) eObject.eGet(eObject.eClass().getEStructuralFeature("description"));
 
-					SyntaxError d = new SyntaxError(file.getName(), description + ", " + location, eObject);
+					String fname = file == null ? "<no-file>" : file.getName();
+					SyntaxError d = new SyntaxError(fname, description + ", " + location, eObject);
 					atlEMFModel.getResource().getErrors().add(d);
 				}
 			} else {
@@ -98,6 +104,13 @@ public class AtlEngineUtils {
 		public int getColumn() {
 			return 0;
 		}
+
+		@Override
+		public String toString() {
+			return fileName + " " + message;
+		}
 		
 	}
+
+
 }

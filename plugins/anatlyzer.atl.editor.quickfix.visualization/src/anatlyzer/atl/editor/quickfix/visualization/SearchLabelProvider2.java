@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.visualization;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -16,15 +17,7 @@ import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.SearchError;
-import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.SearchEdge;
-import anatlyzer.atl.editor.quickfix.search.SearchState;
 import anatlyzer.atl.editor.quickfix.visualization.SearchContentProvider.StartNode;
-import anatlyzer.atl.errors.atl_error.BindingResolution;
-import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
-import anatlyzer.atlext.ATL.RuleResolutionInfo;
-
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
 
 public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFontProvider, IEntityStyleProvider, IConnectionStyleProvider {
 
@@ -118,8 +111,7 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 
 	@Override
 	public Color getBackgroundColour(Object entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return getBackground(entity);
 	}
 
 	@Override

@@ -677,6 +677,12 @@ public class Tester {
 					EMFModel libModel = AtlEngineUtils.loadATLFile(f);
 					return libModel.getResource();
 				}
+
+				@Override
+				public Resource load(String text) {
+					EMFModel libModel = AtlEngineUtils.loadATLText(text);
+					return libModel.getResource();
+				}
 			});
 			
 			for (ModelInfo info : ATLUtils.getModelInfo(tmpAtlModel)) {

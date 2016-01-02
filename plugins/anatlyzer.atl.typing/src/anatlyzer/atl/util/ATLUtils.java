@@ -618,6 +618,35 @@ public class ATLUtils {
 		return result;
 	}
 	
+	public static List<String> getPreconditions(ATLModel atlModel) {
+		String tag = "@pre";
+		Unit root = atlModel.getRoot();
+		
+		List<String> result = new ArrayList<String>();
+		for (int i = 0; i < root.getCommentsBefore().size(); i++) {
+			String line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
+			int index   = line.indexOf(tag);
+			String pre  = null;
+			if ( index != -1 ) {
+				pre = line.substring(index + tag.length());
+				for(i = i + 1; i < root.getCommentsBefore().size(); i++) {
+					line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
+					if ( line.isEmpty() || line.startsWith("@") ) {
+						break;
+					}
+					pre += "\n\t" + line;
+				}
+				
+			}		
+			
+			if ( pre != null ) {
+				result.add(pre);
+			}
+		}
+		
+		return result;
+	}
+	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
 		for(ModuleElement r : model.getModule().getElements()) {

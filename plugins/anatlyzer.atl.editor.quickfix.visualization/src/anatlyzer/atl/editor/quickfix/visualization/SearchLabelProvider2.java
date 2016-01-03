@@ -50,11 +50,15 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 
 	@Override
 	public Color getBackground(Object element) {
-		if ( element instanceof SearchError ) {
-			Device device = Display.getCurrent ();
-			return new Color(device, 200, 0, 0);			
-		}
 		Device device = Display.getCurrent ();
+		if ( element instanceof SearchError ) {
+			return new Color(device, 200, 0, 0);			
+		} else if ( element instanceof ISearchState ) {
+			ISearchState s = (ISearchState) element;
+			if ( s.getAnalysisResult().getProblems().size() == 0 ) {
+				return new Color(device, 200, 200, 0);
+			}			
+		}
 		return new Color(device, 64, 160, 64);
 	}
 
@@ -77,6 +81,9 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 			return "X";
 		} else if ( element instanceof ISearchState ) {
 			ISearchState s = (ISearchState) element;
+			if ( s.getAnalysisResult().getProblems().size() == 0 ) {
+				return "Fixed";
+			}			
 			return "p: " + s.getAnalysisResult().getProblems().size() + " ";
 		} else if ( element instanceof StartNode ) {
 			StartNode n = (StartNode) element;

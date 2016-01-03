@@ -34,6 +34,7 @@ import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.ISearchListener;
+import anatlyzer.atl.editor.quickfix.search.SearchError;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
 
 import org.eclipse.swt.widgets.Slider;
@@ -210,8 +211,9 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		} else {
 			allEdges.stream().
 				filter(e -> e.getTarget().getNextStates().size() == 0).
-				map(e -> e.getTarget()).forEach(s -> {
-					((InteractiveSearch) s).expand();
+				map(e -> e.getTarget()).
+				forEach(s -> {
+					s.expand();
 				});
 		}
 		graph.refresh();

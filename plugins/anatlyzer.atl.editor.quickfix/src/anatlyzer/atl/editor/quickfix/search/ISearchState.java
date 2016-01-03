@@ -10,4 +10,6 @@ public interface ISearchState {
 	public List<ISearchEdge> getNextStates();
 	
 	
+	public void expand();
+	
 }

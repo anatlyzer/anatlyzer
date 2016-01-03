@@ -59,6 +59,7 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 		return new SearchState(path, analysis);
 	}
 	
+	@Override
 	public void expand() {
 		baseSearch(analysis);	
 	}

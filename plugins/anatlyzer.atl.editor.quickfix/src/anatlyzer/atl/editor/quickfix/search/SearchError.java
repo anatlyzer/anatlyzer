@@ -33,5 +33,10 @@ public class SearchError implements ISearchState {
 	public List<ISearchEdge> getNextStates() {
 		return Collections.emptyList();
 	}
-
+	
+	@Override
+	public void expand() {
+		// Does nothing
+	}
+	
 }

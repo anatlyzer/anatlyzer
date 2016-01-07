@@ -48,14 +48,39 @@ public class CSPGenerator {
 
 	
 	public static OclExpression generateCSPCondition(ProblemPath path) {		
-		return genCondition(path, (node, model) -> node.genCSP(model));
+		return genCondition(path, true, "or", (node, model) -> node.genCSP(model));
 	}
 
 	public static OclExpression generateWeakestPrecondition(ProblemPath path) {
-		return genCondition(path, (node, model) -> node.genWeakestPrecondition(model));
+		return genCondition(path, false, "and", (node, model) -> node.genWeakestPrecondition(model));		
 	}
 	
-	protected static OclExpression genCondition(ProblemPath path, BiFunction<ExecutionNode, CSPModel, OclExpression> generator) {
+	/*
+	public static OclExpression generateWeakestPrecondition(ProblemPath path) {
+		if ( path.getExecutionNodes().size() == 0 ) {
+			// TODO: Dead code: Signal this otherwise
+			return null;
+		}
+
+		CSPModel model = new CSPModel();
+	
+		OclExpression andOp = null;
+		for (ExecutionNode node : path.getExecutionNodes()) {		
+			model.resetScope();
+			
+			OclExpression exp = node.genWeakestPrecondition(model);
+			if ( andOp == null ) {
+				andOp = exp;
+			} else {
+				andOp = model.createBinaryOperator(andOp, exp, "and");
+			}
+		}
+		
+		return andOp;
+	}
+	*/
+	
+	protected static OclExpression genCondition(ProblemPath path, boolean genThisModuleIteration, String join, BiFunction<ExecutionNode, CSPModel, OclExpression> generator) {
 		if ( path.getExecutionNodes().size() == 0 ) {
 			// TODO: Dead code: Signal this otherwise
 			return null;
@@ -64,29 +89,35 @@ public class CSPGenerator {
 		// Create the thisModule context at the top level
 		CSPModel model = new CSPModel();
 
-		IteratorExp ctx = model.createThisModuleContext();
-		model.setThisModuleVariable(ctx.getIterators().get(0));
-		
-		OclExpression orOp = null;
+		IteratorExp ctx = null;
+		if ( genThisModuleIteration ) {
+			ctx = model.createThisModuleContext();
+			model.setThisModuleVariable(ctx.getIterators().get(0));
+		} else {
+			model.initWithoutThisModuleContext();
+		}
+				
+		OclExpression joinOp = null;
 		for (ExecutionNode node : path.getExecutionNodes()) {		
 			model.resetScope();
 			
 			OclExpression exp = generator.apply(node, model); // node.genCSP(model);
-			if ( orOp == null ) {
-				orOp = exp;
+			if ( joinOp == null ) {
+				joinOp = exp;
 			} else {
-				orOp = model.createBinaryOperator(orOp, exp, "or");
+				joinOp = model.createBinaryOperator(joinOp, exp, join);
 			}
 
 			// return OclGenerator.gen(ctx); // Not passing the analyser because it is not an original expression...
 			// Only one execution node supported so far
 		}
 		
-		ctx.setBody(orOp);
-
-		//new Retyping(ctx).perform();
-		
-		return ctx;
+		if ( genThisModuleIteration ) {
+			ctx.setBody(joinOp);
+			return ctx;
+		} else {
+			return joinOp;
+		}
 	}
 
 

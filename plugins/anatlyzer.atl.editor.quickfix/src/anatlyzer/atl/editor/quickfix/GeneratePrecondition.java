@@ -13,6 +13,7 @@ import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public class GeneratePrecondition extends AbstractAtlQuickfix {
@@ -39,6 +40,15 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		ProblemPath path = pathgen.generatePath(p);
 		OclExpression expr = path.getWeakestPrecondition();
 		
+		QuickfixApplication qfa = new QuickfixApplication(this);
+		qfa.addCommentBefore(getATLModel().getRoot(), () -> {
+			String pre = ATLSerializer.serialize(expr);
+			pre = pre.replace("\n", "\n-- ");			
+			return "-- @pre " + pre + "\n";
+		});
+		
+		// This code was used to generate the pre-condition in USE format
+		/*
 		ErrorSlice slice = path.getErrorSlice(result.getAnalyser());
 		String info = slice.toOneLineString();
 		
@@ -49,7 +59,7 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 			pre = pre.replace("\n", "\n-- ");			
 			return "-- @pre " + pre + "\n" + "-- @footprint " + info;
 		});
-		
+		*/
 		
 		return qfa;
 	}

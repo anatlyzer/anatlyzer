@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
@@ -166,7 +167,36 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		return genProblemSpecificCondition(model, "or");
+		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
+		OclExpression originalValue = binding.getValue();	
+		OclExpression genValue = model.atlCopy(originalValue);	
+		
+		// return genProblemSpecificCondition(model, "or");
+		
+		OclExpression result = null;
+		assert(rules.size() > 0);
+		Type srcType = originalValue.getInferredType();
+
+		if ( TypeUtils.isReference(srcType) ) {
+			throw new UnsupportedOperationException();
+		} else if ( TypeUtils.isCollection(srcType) ) {		
+			IteratorExp exists = model.createIterator(genValue, "forAll", model.genNiceVarName(originalValue));
+			VariableDeclaration varDcl = exists.getIterators().get(0);
+			
+			OclExpression lastExpr = genAndRules_Precondition(model, originalValue, rules, varDcl, "or");
+			
+			exists.setBody(lastExpr);
+			
+			result = exists;
+		} else if ( TypeUtils.isUnionWithReferences(srcType)) {
+			throw new UnsupportedOperationException();
+		} else if ( TypeUtils.isUnionWithCollections(srcType) ) {
+			throw new UnsupportedOperationException();		} else {
+			// TODO: For union types with mixed collections and mono-valued elements, Sequence { value }->flatten()
+			throw new IllegalStateException(originalValue.getLocation() + " " + TypeUtils.typeToString(srcType));
+		}
+		
+		return result;
 	}
 	
 	
@@ -190,6 +220,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return let;
 	}
 
+	/*
+	 * This is the default generator that it is used for witness generation
+	 */
 	private static OclExpression genAndRules(CSPModel model,
 			OclExpression bindingValue, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
 		
@@ -245,6 +278,41 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return lastExpr;
 	}
 
+	private static OclExpression genAndRules_Precondition(CSPModel model,
+			OclExpression bindingValue, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
+
+		OclExpression lastExpr = null;
+		for (RuleResolutionInfo info : rules) {
+			MatchedRule r = info.getRule();
+			
+			// => _problem_.oclIsKindOf(ruleFrom)
+			VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
+			v.setReferredVariable(varDcl);				
+			Metaclass srcType = ATLUtils.getInPatternType(info.getRule());
+			OclExpression kindOfCondition = model.createKindOf(v, srcType.getModel().getName(), srcType.getName(), srcType);			
+
+			// Generate the filter
+			OclExpression fulfilledExpr = kindOfCondition;
+			if ( r.getInPattern().getFilter() != null ) {
+				model.openEmptyScope();
+					// Map the iterator var to the rule variable
+					SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
+					model.addToScope(simpleElement, varDcl);				
+					OclExpression filter = model.atlCopy(r.getInPattern().getFilter());
+				model.closeScope();
+				
+				fulfilledExpr = model.createBinaryOperator(kindOfCondition, filter, "implies");
+			}
+									
+			if ( lastExpr == null ) {
+				lastExpr = fulfilledExpr;
+			} else {
+				lastExpr = model.createBinaryOperator(lastExpr, fulfilledExpr, operator);
+			}
+		}
+		return lastExpr;
+	}
+	
 	@Override
 	public boolean isStraightforward() {
 		return false;

@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.generators;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.EClass;
@@ -47,6 +49,12 @@ public class CSPModel {
 		classRef.setName(metaclass.getName());
 		setInferredType(classRef, metaclass);
 		
+		if ( metaclass.getModel() != null ) {
+			OclModel model = OCLFactory.eINSTANCE.createOclModel();
+			model.setName(metaclass.getModel().getName());
+			classRef.setModel(model);
+		}
+		
 		OperationCallExp allInstancesCall = OCLFactory.eINSTANCE.createOperationCallExp();
 		allInstancesCall.setOperationName("allInstances");
 		allInstancesCall.setSource(classRef);
@@ -65,9 +73,13 @@ public class CSPModel {
 		return exists;
 	}
 
-
+	
 	public IteratorExp createIterator(OclExpression source, String iteratorName) {
 		String iteratorVarName = "i" + genId();
+		return createIterator(source, iteratorVarName, iteratorVarName);
+	}
+	
+	public IteratorExp createIterator(OclExpression source, String iteratorName, String iteratorVarName) {
 		IteratorExp iterator = OCLFactory.eINSTANCE.createIteratorExp();
 		iterator.setName(iteratorName);
 		if ( source != null )
@@ -247,6 +259,17 @@ public class CSPModel {
 		return generator.gen(expr, scope);
 	}
 	
+	/**
+	 * This method just copies the given object without any adaptation
+	 * @return
+	 */
+	public OclExpression atlCopy(OclExpression expr) {
+		return (OclExpression) 
+			new ATLCopier(expr).
+				bindAll(scope).
+				copy();
+	}
+	
 
 	public OclExpression gen(OclExpression expr, OclGeneratorAST.LazyRuleCallTransformationStrategy strategy) {
 		LazyRuleCallTransformationStrategy oldStrategy = generator.getLazyRuleStrategy();
@@ -301,6 +324,20 @@ public class CSPModel {
 			throw new IllegalStateException();
 		scope = new CSPModelScope(thisModule);
 		// scope.setThisModuleVariable(thisModule);
+	}
+	
+	public void initWithoutThisModuleContext() {
+		if ( scope != null )
+			throw new IllegalStateException();
+		
+		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
+		m.setName(Analyser.USE_THIS_MODULE_CLASS);
+		
+		VariableDeclaration vd = OCLFactory.eINSTANCE.createVariableDeclaration();
+		vd.setVarName("thisModule");
+		vd.setType(m);
+		
+		scope = new CSPModelScope(vd);
 	}
 
 	public VariableDeclaration getThisModuleVariable() {
@@ -386,6 +423,22 @@ public class CSPModel {
 		VariableExp varref = OCLFactory.eINSTANCE.createVariableExp();
 		varref.setReferredVariable(vd);
 		return varref;
+	}
+
+
+	public HashMap<String, Integer> vars = new HashMap<String, Integer>();
+	
+	
+	public String genNiceVarName(OclExpression expr) {
+		String var = "v";
+		Integer i = vars.get(var);
+		if ( i == null ) {
+			vars.put(var, 0);
+		} else {
+			vars.put(var, i + 1);
+			var = var + (i + 1);
+		}
+		return var;
 	}
 	
 }

@@ -34,6 +34,18 @@ public class AccessToUndefinedValueNode extends ExpressionProblemNode<AccessToUn
 	}
 	
 	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		// Same as genCSP but with atlCopy
+		OclExpression access = model.atlCopy(((PropertyCallExp) expr).getSource());
+		OperationCallExp checkOclIsUndefined = OCLFactory.eINSTANCE.createOperationCallExp();
+		checkOclIsUndefined.setOperationName("oclIsUndefined");
+		checkOclIsUndefined.setSource(access);
+		
+		return model.negateExpression(checkOclIsUndefined);
+	}
+
+	
+	@Override
 	public boolean isStraightforward() {
 		return false;
 	}

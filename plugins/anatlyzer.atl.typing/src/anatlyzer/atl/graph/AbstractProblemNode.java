@@ -5,6 +5,7 @@ import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.OCL.OclExpression;
 
 public abstract class AbstractProblemNode<P extends Problem> extends AbstractDependencyNode implements ProblemNode {
 
@@ -23,5 +24,5 @@ public abstract class AbstractProblemNode<P extends Problem> extends AbstractDep
 		}
 		return errorSlice;
 	}
-	
+		
 }

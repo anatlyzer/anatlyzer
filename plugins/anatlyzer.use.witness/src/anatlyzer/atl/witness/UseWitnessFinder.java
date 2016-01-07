@@ -17,6 +17,7 @@ import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
@@ -189,9 +190,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		
+		
+		
 		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
 		// other helpers within preconditions
 		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
+			OclSlice.slice(slice, ATLUtils.getBody(pair._1));
 			slice.addHelper(pair._1);
 		}
 		

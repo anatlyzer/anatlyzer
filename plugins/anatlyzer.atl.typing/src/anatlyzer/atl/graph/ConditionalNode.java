@@ -98,7 +98,15 @@ public class ConditionalNode extends AbstractDependencyNode {
 	
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		IfExp exp = null;
+		OclExpression copied = model.atlCopy(ifExpr.getCondition());
+		OclExpression dep    = getDepending().genWeakestPrecondition(model);
+		if ( branch == TRUE_BRANCH ) {
+			exp = model.createIfExpression(copied, dep, model.createBooleanLiteral(true) );
+		} else {
+			exp = model.createIfExpression(copied, model.createBooleanLiteral(true), dep );
+		}
+		return exp;
 	}
 	
 	@Override

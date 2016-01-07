@@ -158,9 +158,9 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			helpersNotSupported.add(helper);
 		}
 
-		if ( ATLUtils.getHelperName(helper).equals("km3TypeExistsIn") ) {
-			System.out.println(helper);
-		}
+//		if ( ATLUtils.getHelperName(helper).equals("km3TypeExistsIn") ) {
+//			System.out.println(helper);
+//		}
 		
 		Helper newHelper = (Helper) ATLCopier.copySingleElement(helper, true);
 		helpers.add(newHelper);

@@ -1,0 +1,15 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module testundefinedfail;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		-- = or <> are ok, but others are not (no possible access to undefined value should be raised)
+		OclUndefined <> 'a'
+	)
+    to   tgt : WXYZ!Model (
+    	name <- 'something'	
+    )
+}
+

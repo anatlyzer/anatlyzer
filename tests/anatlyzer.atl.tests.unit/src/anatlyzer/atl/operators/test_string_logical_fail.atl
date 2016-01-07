@@ -1,0 +1,17 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module teststringlogicalfail;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model (
+		-- This is ok
+		('bb' >= 'a') and
+		-- This is not ok
+		('bb' >= false)
+	)
+    to   tgt : WXYZ!Model (
+    	name <- 'something'	
+    )
+}
+

@@ -2,6 +2,9 @@ package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.libtypes.AtlTypes;
+import anatlyzer.atl.types.FloatType;
+import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 
@@ -35,12 +38,25 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
-		if ( operatorSymbol.equals("=") || operatorSymbol.equals("<>") ) {
+		if ( logicalOperators.contains(operatorSymbol) ) {
+			if ( ! (optionalArgument instanceof StringType ) ) {
+				AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
+			}			
 			return AnalyserContext.getTypingModel().newBooleanType();
-		} if ( operatorSymbol.equals("+") ) {
+		}
+		
+		Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
+		if ( t != null )
+			return t;
+
+		if ( operatorSymbol.equals("+") ) {
 			// Anything concatenated with a string is a string
 			return AnalyserContext.getTypingModel().newStringType();
 		}
+
+		
+		// return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
+		// TODO: Remove exception when all cases are completely clear
 		throw new UnsupportedOperationException(operatorSymbol + " - " + node.getLocation());
 	}
 	

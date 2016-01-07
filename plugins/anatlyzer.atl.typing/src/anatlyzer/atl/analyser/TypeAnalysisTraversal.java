@@ -956,7 +956,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 		// if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
-		if ( ! (self.getOperationName().equals("=") && self.getOperationName().equals("<>")) ) {
+		if ( ! (self.getOperationName().equals("=") || self.getOperationName().equals("<>")) ) {
 			checkAccessToUndefined(self);
 		}
 		

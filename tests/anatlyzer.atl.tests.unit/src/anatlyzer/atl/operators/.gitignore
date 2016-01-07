@@ -8,3 +8,7 @@
 /test_integer_logical_success.asm
 /test_integer_logical_fail.asm
 /test_float_logical_fail.asm
+/test_undefined.asm
+/test_undefined_success.asm
+/test_strint_logical_fail.asm
+/test_string_logical_fail.asm

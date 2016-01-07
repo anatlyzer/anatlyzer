@@ -33,8 +33,9 @@ public class OclUndefinedNamespace extends AbstractTypeNamespace {
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
 		if ( operatorSymbol.equals("=") ) return AnalyserContext.getTypingModel().newBooleanType();
+		if ( operatorSymbol.equals("<>") ) return AnalyserContext.getTypingModel().newBooleanType();
 		
-		throw new UnsupportedOperationException(this.getClass().getSimpleName() + " not support " + operatorSymbol + " in line" + node.getLocation());
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
 	}
 
 	@Override

@@ -105,7 +105,7 @@ public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		return getDepending().genWeakestPrecondition(model);
 	}
 	
 	@Override

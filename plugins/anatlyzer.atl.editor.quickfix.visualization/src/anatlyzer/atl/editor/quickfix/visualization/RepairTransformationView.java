@@ -6,12 +6,11 @@ import java.util.List;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,27 +18,26 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
-import org.eclipse.zest.core.viewers.internal.ZoomManager;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableContentProvider;
+import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableLabelProvider;
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.ISearchListener;
-import anatlyzer.atl.editor.quickfix.search.SearchError;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
-
-import org.eclipse.swt.widgets.Slider;
-import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Text;
 
 public class RepairTransformationView extends ViewPart implements ISearchListener, IZoomableWorkbenchPart{
 	public static final String ID = "anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView";
@@ -111,19 +109,37 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		cmpGraph.setLayout(new FillLayout());
 		cmpGraph.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		cmpGraph.setBounds(0, 0, 64, 64);
-	
+
+		sashForm = new SashForm(cmpGraph, SWT.NONE);
+		
+		leftComposite = new Composite(sashForm, SWT.NONE);
+		leftComposite.setLayout(new GridLayout(1, false));
+		
+		lblAppliedQuickfixes = new Label(leftComposite, SWT.NONE);
+		lblAppliedQuickfixes.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		lblAppliedQuickfixes.setText("Applied quickfixes");
+		
+		tableViewerAppliedQfx = new TableViewer(leftComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		tblAppliedQfx = tableViewerAppliedQfx.getTable();
+		tblAppliedQfx.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+
 		initGraph();
 		initHandlers();
 	    fillToolBar();
 	}
 
-	private void initGraph() {
-		graph = new GraphViewer(cmpGraph, SWT.V_SCROLL | SWT.H_SCROLL);
+	private void initGraph() {		
+		tableViewerAppliedQfx.setContentProvider(new QuickfixTableContentProvider());
+		tableViewerAppliedQfx.setLabelProvider(new QuickfixTableLabelProvider());
+		
+		graph = new GraphViewer(sashForm, SWT.V_SCROLL | SWT.H_SCROLL);
 		graph.setContentProvider(new SearchContentProvider());
 		graph.setLabelProvider(new SearchLabelProvider2());
 		graph.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
-
 		graph.addSelectionChangedListener(new GraphSelectionListener());		
+		
+		sashForm.setWeights(new int[] {1, 4});
 	}
 	
 	private void fillToolBar() {
@@ -250,6 +266,11 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 	private Text txtZoom;
 	private Label lblNewLabel_1;
 	private Scale scaleZoom;
+	private SashForm sashForm;
+	private Composite leftComposite;
+	private Label lblAppliedQuickfixes;
+	private Table tblAppliedQfx;
+	private TableViewer tableViewerAppliedQfx;
 
 	public class GraphSelectionListener implements ISelectionChangedListener {
 
@@ -263,6 +284,12 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 					selected.add((ISearchState) e); 
 				}
 			});
+			
+			if ( s.getFirstElement() instanceof ISearchState ) {
+				ISearchState state = (ISearchState) s.getFirstElement();
+				tableViewerAppliedQfx.setInput(state.getPath().getAppliedQuickfixes());
+				tableViewerAppliedQfx.refresh();
+			}
 		}
 		
 	}

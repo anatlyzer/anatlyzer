@@ -126,8 +126,8 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		styledText.setSize(79, 198);
 		
-				tableViewer.setContentProvider(new QuickfixContentProvider());
-				tableViewer.setLabelProvider(new QuickfixLabelProvider());
+				tableViewer.setContentProvider(new QuickfixTableContentProvider());
+				tableViewer.setLabelProvider(new QuickfixTableLabelProvider());
 				tableViewer.setInput(quickfixes);
 				tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
 		
@@ -187,53 +187,6 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		return container;
 	}
 
-	class QuickfixContentProvider implements IStructuredContentProvider {
-		@Override
-		public void dispose() {
-		}
-
-		@Override
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		}
-
-		@Override
-		public Object[] getElements(Object inputElement) {			
-			return quickfixes.toArray();
-		}
-	}
-	
-	class QuickfixLabelProvider implements ITableLabelProvider {
-
-		@Override
-		public void addListener(ILabelProviderListener listener) {	}
-
-		@Override
-		public void dispose() { }
-
-		@Override
-		public boolean isLabelProperty(Object element, String property) {
-			return false;
-		}
-
-		@Override
-		public void removeListener(ILabelProviderListener listener) { }
-
-		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			AtlProblemQuickfix qf = (AtlProblemQuickfix) element;
-			if ( columnIndex == 0 ) {
-				return qf.getDisplayString();
-			}
-			return null;
-		}
-		
-	}
-	
 	class QuickfixSelectionListener implements ISelectionChangedListener {
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {

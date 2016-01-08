@@ -15,6 +15,7 @@ public class TransformationConfiguration {
 		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED);
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
+		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);
 	}
 	
 	public void setWitnessFinderDebugMode(boolean debug) {

@@ -2,6 +2,9 @@ package anatlyzer.atl.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
@@ -18,6 +21,7 @@ import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -29,6 +33,7 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
+import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -69,7 +74,23 @@ public class CallExprNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genCSP(CSPModel model) {
-		// TODO: Parameter passing simply nesting let expressions
+		return genInlining(model, () -> getDepending().genCSP(model), (e) -> model.gen(e), false);
+	}
+	
+
+	/**
+	 * 
+	 * @param model
+	 * @param genDepending
+	 * @param copier
+	 * @param setLetType The setting of let types is made optional because I am not sure if it impact the USE serialization, 
+	 *                   so for the moment let's be conservative in this part
+	 * @return
+	 */
+	protected OclExpression genInlining(CSPModel model, 
+			Supplier<OclExpression> genDepending, 
+			Function<OclExpression, OclExpression> copier, 
+			boolean setLetType) {
 		if ( call.isIsStaticCall() ) {
 			Callable moduleCallable = call.getStaticResolver();
 			
@@ -82,8 +103,9 @@ public class CallExprNode extends AbstractDependencyNode {
 				VariableDeclaration paramVar  = p.get(i).getParamDeclaration();
 				String varName = p.get(i).getName();
 				
-				LetExp let = model.createLetScope(model.gen(actualParameter), null, varName);
-
+				LetExp let = model.createLetScope(copier.apply(actualParameter), null, varName);
+				if ( setLetType ) let.getVariable().setType(ATLUtils.getOclType(actualParameter.getInferredType()));
+				
 				VariableDeclaration newVar = let.getVariable();
 				model.addToScope(paramVar, newVar);
 				
@@ -95,7 +117,7 @@ public class CallExprNode extends AbstractDependencyNode {
 				innerLet = let;
 			}
 			
-			OclExpression inlineCall   = getDepending().genCSP(model);
+			OclExpression inlineCall   = genDepending.get(); // getDepending().genCSP(model);
 			if ( topLet != null ) {
 				innerLet.setIn_(inlineCall);
 				inlineCall = topLet;
@@ -103,7 +125,7 @@ public class CallExprNode extends AbstractDependencyNode {
 			
 			return inlineCall;
 		} else {
-			OclExpression receptorExpr = model.gen(call.getSource());
+			OclExpression receptorExpr = copier.apply(call.getSource());
 			if ( call.getDynamicResolvers().size() > 1 ) 
 				throw new UnsupportedOperationException();
 			
@@ -115,6 +137,10 @@ public class CallExprNode extends AbstractDependencyNode {
 				model.addToScope(vd, topLet.getVariable());
 			}
 
+			
+			if ( setLetType ) topLet.getVariable().setType(ATLUtils.getOclType(receptorExpr.getInferredType()));
+
+			
 			LetExp innerLet = topLet;
 			for(int i = 0; i < contextHelper.getCallableParameters().size(); i++) {
 				EList<CallableParameter> p = contextHelper.getCallableParameters();
@@ -122,8 +148,9 @@ public class CallExprNode extends AbstractDependencyNode {
 				VariableDeclaration paramVar  = p.get(i).getParamDeclaration();
 				String varName = p.get(i).getName();
 				
-				LetExp let = model.createLetScope(model.gen(actualParameter), null, varName);
-
+				LetExp let = model.createLetScope(copier.apply(actualParameter), null, varName);
+				if ( setLetType ) let.getVariable().setType(ATLUtils.getOclType(actualParameter.getInferredType()));
+				
 				VariableDeclaration newVar = let.getVariable();
 				model.addToScope(paramVar, newVar);
 				
@@ -132,7 +159,7 @@ public class CallExprNode extends AbstractDependencyNode {
 			}
 
 			
-			OclExpression inlineCall   = getDepending().genCSP(model);
+			OclExpression inlineCall   = genDepending.get(); // getDepending().genCSP(model);
 			innerLet.setIn_(inlineCall);
 			return topLet;	
 		}
@@ -140,7 +167,7 @@ public class CallExprNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		return genInlining(model, () -> getDepending().genWeakestPrecondition(model), (expr) -> model.atlCopy(expr), true); 
 	}
 
 	private List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {

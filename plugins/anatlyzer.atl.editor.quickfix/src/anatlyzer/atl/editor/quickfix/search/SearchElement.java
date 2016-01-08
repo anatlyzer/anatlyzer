@@ -15,6 +15,10 @@ public class SearchElement {
 	public SearchElement(AtlProblemQuickfix qfx) {
 		this.qfx = qfx;
 	}
+
+	public AtlProblemQuickfix getQfx() {
+		return qfx;
+	}
 	
 	@Override
 	public String toString() {

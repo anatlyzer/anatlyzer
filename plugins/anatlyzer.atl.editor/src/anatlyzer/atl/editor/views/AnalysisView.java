@@ -1126,7 +1126,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					public void run() {
 						batchModeAction.setEnabled(true);
 						batchModeAction.setChecked(false);
-						AnalysisView.this.batchMode = true; // will be change to false in run
+						AnalysisView.this.batchMode = true; // will be changed to false in run
 						batchModeAction.run();				
 					}
 				});					
@@ -1149,7 +1149,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	@Override
 	public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) {
 		performIfNeeded(r.getLocation().toPortableString(), (resource) -> {
-			if ( currentResource != resource ) {
+			// The objects are always distinct...
+			// if ( currentResource != resource ) {
+			if ( ! resource.equals(currentResource) ) {
 				// The resource changes, so I use setOpenedResource to decide which style of 
 				// analysis view to use according to the configuration
 				setOpenedResource(r, result);

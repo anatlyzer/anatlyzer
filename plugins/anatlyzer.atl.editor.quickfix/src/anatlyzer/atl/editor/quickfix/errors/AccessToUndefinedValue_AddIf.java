@@ -36,6 +36,7 @@ public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 	@Override public void resetCache() {};
 
 	@Override public void apply(IDocument document) {
+	
 		QuickfixApplication qfa = getQuickfixApplication();
 		new InDocumentSerializer(qfa, document).serialize();
 	}

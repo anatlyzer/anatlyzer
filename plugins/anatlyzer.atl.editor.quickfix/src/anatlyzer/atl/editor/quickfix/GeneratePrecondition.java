@@ -2,6 +2,7 @@ package anatlyzer.atl.editor.quickfix;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -39,6 +40,11 @@ public class GeneratePrecondition extends AbstractAtlQuickfix {
 		ErrorPathGenerator pathgen = new ErrorPathGenerator(result.getAnalyser());		
 		ProblemPath path = pathgen.generatePath(p);
 		OclExpression expr = path.getWeakestPrecondition();
+		
+		if ( expr == null ) {
+			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
+			new QuickfixApplication(this); // does nothing
+		}
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.addCommentBefore(getATLModel().getRoot(), () -> {

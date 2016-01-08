@@ -215,7 +215,7 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		computeResolvers(self.getSource().getInferredType(), self, featureOrOperationName);
 	}
 	
-	private void computeResolvers(Type srcType, PropertyCallExp self, String featureOrOperationName) {			
+	private void computeResolvers(Type srcType, PropertyCallExp self, String featureOrOperationName) {		
 		if ( srcType instanceof Metaclass && !(srcType instanceof OclModelElement) ) {
 			self.setIsStaticCall(false);
 			IClassNamespace cn = (IClassNamespace) srcType.getMetamodelRef();

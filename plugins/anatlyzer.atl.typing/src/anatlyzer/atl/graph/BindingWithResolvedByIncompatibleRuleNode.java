@@ -22,6 +22,7 @@ import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
@@ -153,7 +154,41 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		return genProblemSpecificCondition(model);
+		OclExpression result = null;
+		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
+		OclExpression originalValue = binding.getValue();	
+		OclExpression genValue = model.atlCopy(originalValue);	
+		assert(rules.size() > 0);
+		
+		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding) )) {
+			LetExp let = model.createLetScope(genValue, null,  model.genNiceVarName(originalValue));
+			VariableDeclaration varDcl = let.getVariable();		
+			varDcl.setType(ATLUtils.getOclType(originalValue.getInferredType()));
+			OclExpression orRules = BindingPossiblyUnresolvedNode.genAndRules_Precondition(model, rules, varDcl, "or");
+
+			let.setIn_( orRules );
+			result = model.negateExpression(let);	
+		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
+			IteratorExp exists = model.createExists(genValue, model.genNiceVarName(originalValue));
+			VariableDeclaration varDcl = exists.getIterators().get(0);
+			
+			OclExpression orRules = BindingPossiblyUnresolvedNode.genAndRules_Precondition(model, rules, varDcl, "or");
+			
+			exists.setBody(orRules);
+			
+			result = model.negateExpression(exists);
+		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
+			throw new UnsupportedOperationException();
+			// result = createReferenceConstraint(model, rules, genValue);	
+		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
+			throw new UnsupportedOperationException();
+		} else if ( ATLUtils.getSourceType(binding) instanceof UnionType ) {
+			throw new UnsupportedOperationException();
+		} else {
+			throw new IllegalStateException(TypeUtils.typeToString(ATLUtils.getSourceType(binding)));
+		}
+		
+		return result;
 	}
 	
 	private LetExp createReferenceConstraint(CSPModel model,

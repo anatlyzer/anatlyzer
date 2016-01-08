@@ -66,7 +66,17 @@ public class LoopNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		// Same as genCSP but using forAll instead of exists
+
+		OclExpression newReceptor = model.atlCopy(receptor);
+		IteratorExp iteratorExp = model.createIterator(newReceptor, "forAll", iteratorVar.getVarName());
+		model.addToScope(iteratorVar, iteratorExp.getIterators().get(0));
+		
+		OclExpression dep = getDepending().genWeakestPrecondition(model);
+		iteratorExp.setBody(dep);
+		
+		return iteratorExp;
+
 	}
 	
 	@Override

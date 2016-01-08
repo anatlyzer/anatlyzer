@@ -13,14 +13,18 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
+import org.eclipse.zest.core.widgets.ZestStyles;
 
+import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
+import anatlyzer.atl.editor.quickfix.errors.BindingProblemQuickFix;
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.SearchError;
 import anatlyzer.atl.editor.quickfix.visualization.SearchContentProvider.StartNode;
 
-public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFontProvider, IEntityStyleProvider, IConnectionStyleProvider {
-
+public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IEntityStyleProvider, IConnectionStyleProvider {
+	private Device device = Display.getCurrent ();
+	
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}
@@ -38,19 +42,20 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 	public void removeListener(ILabelProviderListener listener) {
 	}
 
-	@Override
-	public Font getFont(Object element) {
-		return null;
-	}
+	
+//	// From IFontProvider
+//	@Override
+//	public Font getFont(Object element) {
+//		return null;
+//	}
 
 	@Override
 	public Color getForeground(Object element) {
-		return null;
+		return new Color(device, 0, 0, 0);
 	}
 
 	@Override
 	public Color getBackground(Object element) {
-		Device device = Display.getCurrent ();
 		if ( element instanceof SearchError ) {
 			return new Color(device, 200, 0, 0);			
 		} else if ( element instanceof ISearchState ) {
@@ -123,8 +128,7 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 
 	@Override
 	public Color getForegroundColour(Object entity) {
-		// TODO Auto-generated method stub
-		return null;
+		return getForeground(entity);
 	}
 
 	@Override
@@ -155,11 +159,17 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 	}
 
 	@Override
-	public int getConnectionStyle(Object rel) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getConnectionStyle(Object element) {
+		if ( element instanceof ISearchEdge ) {
+			AtlProblemQuickfix qfx = ((ISearchEdge) element).getQuickfix();
+			if ( qfx instanceof BindingProblemQuickFix ) {
+				return ZestStyles.CONNECTIONS_DASH;
+			}
+		}
+		return ZestStyles.CONNECTIONS_SOLID;
 	}
 
+	// The color for the connection
 	@Override
 	public Color getColor(Object rel) {
 		// TODO Auto-generated method stub
@@ -173,8 +183,13 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IFo
 	}
 
 	@Override
-	public int getLineWidth(Object rel) {
-		// TODO Auto-generated method stub
+	public int getLineWidth(Object element) {
+		if ( element instanceof ISearchEdge ) {
+			AtlProblemQuickfix qfx = ((ISearchEdge) element).getQuickfix();
+			if ( qfx instanceof BindingProblemQuickFix ) {
+				return 2;
+			}
+		}
 		return 0;
 	}
 

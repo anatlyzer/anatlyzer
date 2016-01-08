@@ -178,12 +178,18 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		Type srcType = originalValue.getInferredType();
 
 		if ( TypeUtils.isReference(srcType) ) {
-			throw new UnsupportedOperationException();
+			LetExp let = model.createLetScope(genValue, null,  model.genNiceVarName(originalValue));
+			VariableDeclaration varDcl = let.getVariable();		
+			varDcl.setType(ATLUtils.getOclType(originalValue.getInferredType()));
+			OclExpression andRules = genAndRules_Precondition(model, rules, varDcl, "or");
+
+			let.setIn_( andRules );
+			result = let;			
 		} else if ( TypeUtils.isCollection(srcType) ) {		
 			IteratorExp exists = model.createIterator(genValue, "forAll", model.genNiceVarName(originalValue));
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genAndRules_Precondition(model, originalValue, rules, varDcl, "or");
+			OclExpression lastExpr = genAndRules_Precondition(model, rules, varDcl, "or");
 			
 			exists.setBody(lastExpr);
 			
@@ -278,9 +284,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		return lastExpr;
 	}
 
-	private static OclExpression genAndRules_Precondition(CSPModel model,
-			OclExpression bindingValue, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
-
+	protected static OclExpression genAndRules_Precondition(CSPModel model, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {
 			MatchedRule r = info.getRule();

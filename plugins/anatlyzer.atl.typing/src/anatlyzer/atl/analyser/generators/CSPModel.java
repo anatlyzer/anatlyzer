@@ -76,7 +76,7 @@ public class CSPModel {
 	
 	public IteratorExp createIterator(OclExpression source, String iteratorName) {
 		String iteratorVarName = "i" + genId();
-		return createIterator(source, iteratorVarName, iteratorVarName);
+		return createIterator(source, iteratorName, iteratorVarName);
 	}
 	
 	public IteratorExp createIterator(OclExpression source, String iteratorName, String iteratorVarName) {

@@ -632,6 +632,7 @@ public class ATLUtils {
 				for(i = i + 1; i < root.getCommentsBefore().size(); i++) {
 					line = root.getCommentsBefore().get(i).replaceAll("--", "").trim();
 					if ( line.isEmpty() || line.startsWith("@") ) {
+						i = i - 1; // go back to allow following @pre to be processed
 						break;
 					}
 					pre += "\n\t" + line;

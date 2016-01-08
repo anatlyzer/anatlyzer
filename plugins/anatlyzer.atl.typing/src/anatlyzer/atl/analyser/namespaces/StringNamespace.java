@@ -54,10 +54,13 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 			return AnalyserContext.getTypingModel().newStringType();
 		}
 
+//		if ( optionalArgument == null && (operatorSymbol.equals("-") || operatorSymbol.equals("not")) ) {
+//			
+//		}
 		
-		// return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, createType(false), node);
 		// TODO: Remove exception when all cases are completely clear
-		throw new UnsupportedOperationException(operatorSymbol + " - " + node.getLocation());
+		// throw new UnsupportedOperationException(operatorSymbol + " - " + node.getLocation());
 	}
 	
 	@Override

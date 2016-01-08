@@ -20,6 +20,10 @@ public class SearchPath {
 		return result;
 	}
 	
+	public List<AtlProblemQuickfix> getAppliedQuickfixes() {
+		return thePath.stream().map(e -> e.getQfx()).collect(Collectors.toList());
+	}
+	
 	public List<SearchEdge> getNext() {
 		return java.util.Collections.unmodifiableList(next);
 	}

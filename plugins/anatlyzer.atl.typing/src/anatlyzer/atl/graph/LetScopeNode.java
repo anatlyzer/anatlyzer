@@ -64,7 +64,15 @@ public class LetScopeNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		// Same as genCSP but different copy and forwarding
+		OclExpression varInit = model.atlCopy(let.getVariable().getInitExpression());
+		LetExp genLet = model.createLetScope(varInit, null, let.getVariable().getVarName());
+
+		model.addToScope(let.getVariable(), genLet.getVariable());
+		OclExpression dep = getDepending().genWeakestPrecondition(model);
+		genLet.setIn_(dep);
+		return genLet;
+		
 	}
 	
 	@Override

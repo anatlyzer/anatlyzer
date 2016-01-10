@@ -26,13 +26,15 @@ import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.witness.IWitnessFinder;
 
 public class BacktrackingSearch extends AbstractSearch {
 
 	private SearchPath path;
 	private static int MAX_LEVEL = 3;
 	
-	public BacktrackingSearch(SearchPath path) {
+	public BacktrackingSearch(SearchPath path, AnalysisResult analysis, IWitnessFinder finder) {
+		super(finder, analysis);
 		this.path = path;
 	}
 
@@ -40,7 +42,7 @@ public class BacktrackingSearch extends AbstractSearch {
 		return path.size();
 	}
 	
-	public void search(AnalysisResult analysis) {
+	public void search() {
 		baseSearch(analysis);
 	}
 
@@ -68,7 +70,7 @@ public class BacktrackingSearch extends AbstractSearch {
 			System.out.println(newPath);
 		} if ( getLevel() < MAX_LEVEL ) {
 			System.out.println("Number of errors: " + result.getProblems().size());
-			new BacktrackingSearch(newPath).search(result);
+			new BacktrackingSearch(newPath, result, finder).search();
 		}
 		
 	}

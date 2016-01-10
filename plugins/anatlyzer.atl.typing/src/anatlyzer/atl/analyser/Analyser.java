@@ -97,7 +97,7 @@ public class Analyser implements IAnalyserResult {
 		for (Problem p : getErrors().getProblems()) {
 			if ( p instanceof AccessToUndefinedValue || p instanceof FeatureFoundInSubtype ) {
 				ProblemPath path = getDependencyGraph().getPath(p);
-				if ( new WitnessRequiredChecker().isWitnessRequired(path) ) {
+				if ( new WitnessRequiredChecker().isWitnessRequired(trafo, path) ) {
 					path.getProblem().setStatus(ProblemStatus.WITNESS_REQUIRED);
 				}	
 			}

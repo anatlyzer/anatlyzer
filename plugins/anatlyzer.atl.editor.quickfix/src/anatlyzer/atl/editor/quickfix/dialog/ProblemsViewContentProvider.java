@@ -1,7 +1,7 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -27,9 +27,9 @@ public class ProblemsViewContentProvider implements IStructuredContentProvider, 
 		if ( parent instanceof AnalysisResult ) {			
 			List<LocalProblem> problems = ((AnalysisResult) parent).getLocalProblems();
 			return problems.toArray();
-		} else if ( parent instanceof Set ) {
+		} else if ( parent instanceof Collection ) {
 			// This is the case of showing fixed / new problems
-			return ((Set<Problem>) parent).toArray();
+			return ((Collection<Problem>) parent).toArray();
 		}
 		return new Object[0];
 	}

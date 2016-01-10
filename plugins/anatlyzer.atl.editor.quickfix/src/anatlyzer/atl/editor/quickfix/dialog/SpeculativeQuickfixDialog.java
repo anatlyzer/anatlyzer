@@ -150,29 +150,31 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tblFixed = tblViewerFixed.getTable();
 		tbtmFixedProblems.setControl(tblFixed);
 		
-				tbtmNewProblems = new TabItem(tabFolder, SWT.NONE);
-				tbtmNewProblems.setText("New problems");
-				
-				tblViewerNewProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
-				tblNewProblems = tblViewerNewProblems.getTable();
-				tbtmNewProblems.setControl(tblNewProblems);
-				
-						tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
-						tbtmAllProblems.setText("Remaining problems");
-						
-						tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER | SWT.FULL_SELECTION);
-						tblProblems = tblViewerProblems.getTable();
-						tbtmAllProblems.setControl(tblProblems);
-						
-						
-						tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
-						tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
-						
-								tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
-								tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
-								
-										tblViewerNewProblems.setContentProvider(new ProblemsViewContentProvider());
-										tblViewerNewProblems.setLabelProvider(new ProblemsViewLabelProvider());
+		tbtmNewProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmNewProblems.setText("New problems");
+
+		tblViewerNewProblems = new TableViewer(tabFolder, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		tblNewProblems = tblViewerNewProblems.getTable();
+		tbtmNewProblems.setControl(tblNewProblems);
+
+		tbtmAllProblems = new TabItem(tabFolder, SWT.NONE);
+		tbtmAllProblems.setText("Remaining problems");
+
+		tblViewerProblems = new TableViewer(tabFolder, SWT.BORDER
+				| SWT.FULL_SELECTION);
+		tblProblems = tblViewerProblems.getTable();
+		tbtmAllProblems.setControl(tblProblems);
+
+		tblViewerProblems.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());
+
+		tblViewerFixed.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerFixed.setLabelProvider(new ProblemsViewLabelProvider());
+
+		tblViewerNewProblems
+				.setContentProvider(new ProblemsViewContentProvider());
+		tblViewerNewProblems.setLabelProvider(new ProblemsViewLabelProvider());
 		
 		Composite composite = new Composite(composite_2, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));

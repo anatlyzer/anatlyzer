@@ -1,18 +1,13 @@
 package anatlyzer.atl.editor.quickfix.visualization;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.zest.core.viewers.IGraphContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityRelationshipContentProvider;
 
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch;
-import anatlyzer.atl.editor.quickfix.search.SearchState;
 
 public class SearchContentProvider implements IGraphContentProvider {
 

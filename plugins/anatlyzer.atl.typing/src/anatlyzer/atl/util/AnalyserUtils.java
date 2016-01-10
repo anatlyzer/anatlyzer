@@ -184,7 +184,7 @@ public class AnalyserUtils {
 		return mm;
 	}
 
-	private static void extendWithPreconditions(ATLModel atlModel, List<String> preconditions, IAtlFileLoader loader) {
+	public static void extendWithPreconditions(ATLModel atlModel, List<String> preconditions, IAtlFileLoader loader) {
 		if ( preconditions.size() > 0 ) {
 			String text = "library preconditions;";
 			int idx = 0;
@@ -201,7 +201,7 @@ public class AnalyserUtils {
 		}
 	}
 
-	private static void extendWithLibrary(ATLModel atlModel, String name, String location, IAtlFileLoader loader) throws CoreException {
+	public static void extendWithLibrary(ATLModel atlModel, String name, String location, IAtlFileLoader loader) throws CoreException {
 		IFile file = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(location));
 		Resource r = loader.load(file);
 		
@@ -349,6 +349,10 @@ public class AnalyserUtils {
 		return p.getStatus() == ProblemStatus.STATICALLY_CONFIRMED ||
 			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED ||
 			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
+	}
+
+	public static boolean isWitnessRequred(Problem p) {
+		return p.getStatus() == ProblemStatus.WITNESS_REQUIRED;
 	}
 
 	public static boolean isInternalError(Problem p) {

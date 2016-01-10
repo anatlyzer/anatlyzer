@@ -11,14 +11,13 @@ import anatlyzer.atl.graph.AbstractPathVisitor;
 import anatlyzer.atl.graph.CallExprNode;
 import anatlyzer.atl.graph.ConditionalNode;
 import anatlyzer.atl.graph.ErrorPathGenerator;
-import anatlyzer.atl.graph.LetScopeNode;
-import anatlyzer.atl.graph.LoopNode;
 import anatlyzer.atl.graph.MatchedRuleAbstract;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypingModel;
-import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Rule;
@@ -41,8 +40,13 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 
 	private boolean invalidated;
 
-	public boolean isWitnessRequired(ProblemPath path) {
+	public boolean isWitnessRequired(ATLModel atlModel, ProblemPath path) {
 		bottomUp(path);
+		if ( ! invalidated ) {
+			invalidated = atlModel.getInlinedPreconditions().stream().
+					filter(h -> isInvalidated(ATLUtils.getBody(h))).
+					findAny().isPresent();			
+		}
 		return invalidated;
 	}
 	
@@ -140,7 +144,7 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 
 		/**
 		 * Return true if an "invalidating" use of oclIsKind/TypeOf is found.
-
+		 * 
 		 * @param type
 		 * @param root
 		 * @return

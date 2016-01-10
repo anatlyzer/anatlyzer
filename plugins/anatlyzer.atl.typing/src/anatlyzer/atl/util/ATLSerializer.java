@@ -400,6 +400,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	private static HashMap<String, Integer> precedences = new HashMap<String, Integer>();
 	static {
+		precedences.put("not", 110);
 		
 		precedences.put("*", 100);
 		precedences.put("/", 100);
@@ -445,7 +446,14 @@ public class ATLSerializer extends AbstractVisitor {
 		int precedence1 = precedences.getOrDefault(self.getOperationName(), -1);
 		
 		if ( self.getArguments().size() == 0 ) {
-			s(self.getOperationName() + " " + g(self.getSource()));
+			String src = g(self.getSource());
+			if ( self.getSource() instanceof OperatorCallExp ) {
+				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getSource()).getOperationName(), -1);
+				if ( precedence1 > precedence2 ) {
+					src = "( " + src + " )";
+				}
+			} 
+			s(self.getOperationName() + " " + src);
 		} else {
 			String src = g(self.getSource());
 			String arg = g(self.getArguments().get(0));

@@ -3,6 +3,7 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -26,6 +27,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.Pair;
@@ -97,6 +99,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			try {
 				return findAux(problem, r);
 			} catch ( Throwable e ) {
+				e.printStackTrace();
 				return ProblemStatus.IMPL_INTERNAL_ERROR;
 			}
 		} else {
@@ -174,7 +177,9 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {
-			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions();
+			// Copy!!
+			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions().
+					stream().map(h -> (StaticHelper) ATLCopier.copySingleElement(h)).collect(Collectors.toList());
 			for (StaticHelper hpre : helpers) {
 				USEConstraint c = USESerializer.retypeAndGenerate(ATLUtils.getBody(hpre), problem, renaming);	
 				if ( c.useNotSupported() ) {

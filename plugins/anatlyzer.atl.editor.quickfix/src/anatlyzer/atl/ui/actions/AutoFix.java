@@ -13,6 +13,9 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.search.BacktrackingSearch;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 
 public class AutoFix implements IEditorActionDelegate {
 
@@ -24,7 +27,8 @@ public class AutoFix implements IEditorActionDelegate {
 		AnalysisResult analysis = AnalysisIndex.getInstance().getAnalysis(resource);
 		if ( analysis != null ) {			
 			System.out.println("Testing search method");
-			new BacktrackingSearch(new SearchPath()).search(analysis);			
+			IWitnessFinder finder = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));			
+			new BacktrackingSearch(new SearchPath(), analysis, finder).search();			
 			//	new BacktrackingSearch(new SearchPath()).test(analysis);			
 		}
 	}

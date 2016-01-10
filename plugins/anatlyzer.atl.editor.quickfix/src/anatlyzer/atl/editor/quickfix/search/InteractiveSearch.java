@@ -2,6 +2,7 @@ package anatlyzer.atl.editor.quickfix.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
@@ -9,18 +10,23 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.witness.IWitnessFinder;
 
 public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	// This is the state
 	private SearchPath path;
-	private AnalysisResult analysis;
 	private List<ISearchEdge> edges = new ArrayList<ISearchEdge>();
 	
 	private ISearchListener listener;
 
-	public InteractiveSearch(SearchPath path, AnalysisResult analysis) {
+	public InteractiveSearch(SearchPath path, AnalysisResult analysis, IWitnessFinder finder) {
+		super(finder, analysis);		
 		this.path = path;
-		this.analysis = analysis;
+	}
+	
+	@Override
+	public List<ISearchState> getAllNextStates() {
+		return getAllEdges().stream().map(e -> e.getTarget()).collect(Collectors.toList());
 	}
 	
 	public List<ISearchEdge> getAllEdges() {
@@ -54,11 +60,7 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	public List<ISearchEdge> getNextStates() {
 		return java.util.Collections.unmodifiableList(edges);
 	}
-	
-	public SearchState getState() {
-		return new SearchState(path, analysis);
-	}
-	
+
 	@Override
 	public void expand() {
 		baseSearch(analysis);	
@@ -72,8 +74,8 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 			IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 			inc.perform();
 			AnalysisResult result = new AnalysisResult(inc);
-
-			edge = new SearchEdge(qfx, this, new InteractiveSearch(newPath, result));
+			
+			edge = new SearchEdge(qfx, this, new InteractiveSearch(newPath, result, finder));
 		} catch ( Throwable e ) {
 			// If there is a problem, then I just create an error node
 			edge = new SearchEdge(qfx, this, new SearchError(newPath, e));

@@ -9,6 +9,8 @@ public interface ISearchState {
 	public AnalysisResult getAnalysisResult();
 	public List<ISearchEdge> getNextStates();
 	
+	public List<ISearchEdge> getAllEdges();
+	public List<ISearchState> getAllNextStates();
 	
 	public void expand();
 	

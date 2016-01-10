@@ -79,20 +79,21 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IEn
 	
 	public static String getElementText(Object element) {
 		if ( element instanceof ISearchEdge ) {
-			ISearchEdge e = (ISearchEdge) element;
-			String str = e.getQuickfix().getDisplayString();
-			return str.substring(0, Math.min(str.length(), 10));
+//			ISearchEdge e = (ISearchEdge) element;
+//			String str = e.getQuickfix().getDisplayString();
+//			return str.substring(0, Math.min(str.length(), 10));
+			return null;
 		} else if ( element instanceof SearchError ) {
 			return "X";
 		} else if ( element instanceof ISearchState ) {
 			ISearchState s = (ISearchState) element;
-			if ( s.getAnalysisResult().getProblems().size() == 0 ) {
+			if ( s.getAnalysisResult().getPossibleProblems().size() == 0 ) {
 				return "Fixed";
 			}			
-			return "p: " + s.getAnalysisResult().getProblems().size() + " ";
+			return "p: " + s.getAnalysisResult().getPossibleProblems().size() + " ";
 		} else if ( element instanceof StartNode ) {
 			StartNode n = (StartNode) element;
-			return "s: " + n.state.getAnalysisResult().getProblems().size() + " ";
+			return "s: " + n.state.getAnalysisResult().getPossibleProblems().size() + " ";
 		}
 		return element.toString();
 	}
@@ -142,10 +143,10 @@ public class SearchLabelProvider2 implements ILabelProvider, IColorProvider, IEn
 			str = ((SearchError) element).getError().getMessage();
 		} else if ( element instanceof ISearchState ) {
 			ISearchState s = (ISearchState) element;
-			str = "p: " + s.getAnalysisResult().getProblems().size() + " ";
+			str = "p: " + s.getAnalysisResult().getPossibleProblems().size() + " ";
 		} else if ( element instanceof StartNode ) {
 			StartNode n = (StartNode) element;
-			str = "s: " + n.state.getAnalysisResult().getProblems().size() + " ";
+			str = "s: " + n.state.getAnalysisResult().getPossibleProblems().size() + " ";
 		}
 
 		IFigure tooltip1 = new Label(str);		

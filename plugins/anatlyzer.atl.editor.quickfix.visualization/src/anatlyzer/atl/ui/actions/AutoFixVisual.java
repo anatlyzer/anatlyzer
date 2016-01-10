@@ -14,6 +14,8 @@ import anatlyzer.atl.editor.quickfix.search.BacktrackingSearch;
 import anatlyzer.atl.editor.quickfix.search.SearchPath;
 import anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 
 public class AutoFixVisual implements IEditorActionDelegate {
 
@@ -32,14 +34,16 @@ public class AutoFixVisual implements IEditorActionDelegate {
 					view = (RepairTransformationView) PlatformUI.getWorkbench().
 							getActiveWorkbenchWindow().
 							getActivePage().showView(RepairTransformationView.ID);
-					view.setAnalysis(analysis);
+					view.setAnalysis(analysis, resource);
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}
 				
 			} else {
 				System.out.println("Testing search method");
-				new BacktrackingSearch(new SearchPath()).search(analysis);			
+
+				IWitnessFinder finder = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));
+				new BacktrackingSearch(new SearchPath(), analysis, finder).search();			
 				//	new BacktrackingSearch(new SearchPath()).test(analysis);			
 				
 			}

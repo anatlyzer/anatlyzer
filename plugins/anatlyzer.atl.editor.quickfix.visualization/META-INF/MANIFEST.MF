@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.core;bundle-version="1.5.100",
  org.eclipse.zest.layouts;bundle-version="1.1.100",
  org.eclipse.jface.text,
- org.eclipse.jface
+ org.eclipse.jface,
+ anatlyzer.use.witness;bundle-version="0.3.3"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

@@ -1,0 +1,69 @@
+-- @path UML=/anatlyzer.example.issre2014/metamodels/UML2_3_0_0.ecore
+-- @path Intalio=/anatlyzer.example.issre2014/metamodels/bpmn.ecore
+
+-- Error: potentially invalid target in binding
+-- Error: missing rule for object flow
+-- Error: Sequence(Sequence) in binding assignment
+
+module UML2Intalio;
+create OUT : Intalio from IN : UML;
+
+helper context UML!Activity def : allPartitions : Sequence(UML!Activity) = 
+	self.partition->collect(p | p.allPartitions)->flatten();
+
+helper context UML!ActivityPartition def : allPartitions :  Sequence(UML!ActivityPartition) = 
+	self.subpartition->collect(p | p.allPartition)->flatten();
+
+rule activity2diagram {
+	from a : UML!Activity
+	to   m : Intalio!BpmnDiagram (
+			name <- a.name,
+			pools <- a.allPartitions
+		)
+}
+
+rule ActivityPartition2Pool {
+   from a : UML!ActivityPartition
+     to p : Intalio!Pool,
+	    l : Intalio!Lane (
+			-- Generate new rule must take into account for which types the binding is not unresolved,
+			-- thus generating n-rules... , the other strategy is to generate a supertype, but filtering...
+	    	activities <- a.node->reject(e | e.oclIsKindOf(UML!ObjectNode))
+	    )
+}
+
+helper context UML!Action def: toIntalioName : Intalio!Activity = 
+	self.name + '_' + self.oclType().name;
+
+rule activity {
+	from n : UML!OpaqueAction 
+	to a : Intalio!Activity (
+		name <- n.toIntalio
+	)
+}
+
+rule initialnode {
+	from initial : UML!InitialNode (
+			initial.incoming->isEmpty()
+		--not initial.incoming->exists(edge | 
+		--	edge.source.oclIsKindOf(UML!AcceptEventAction)
+		--)
+		)
+
+	to	activity : Intalio!Activity (
+		name <- initial.toIntalio,
+		activityType <- #EventStartempty--,
+		-- name <- initial.name.concat('-initial')
+	)
+}
+
+rule edges {
+	from n : UML!ControlFlow 
+	to a : Intalio!SequenceEdge (
+		source <- n.source,
+		target <- n.target
+	)
+}
+
+
+

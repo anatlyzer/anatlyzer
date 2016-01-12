@@ -1,5 +1,7 @@
 
-witness-finder continuous
+debug-witness-finder on
+
+# witness-finder continuous
 
 # show-marker discarded
 show-marker unknown

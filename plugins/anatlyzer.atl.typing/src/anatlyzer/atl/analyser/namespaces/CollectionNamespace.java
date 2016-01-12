@@ -180,8 +180,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		} else if ( name.equals("exists") || name.equals("one") ||  name.equals("forAll") ) {
 			if ( ! (bodyType instanceof BooleanType) ) {
 				AnalyserContext.getErrorModel().signalIteratorBodyWrongType(node, bodyType);
-				// This return is the recovery action
-				return this.newCollectionTypeAux(nested);
+				// The recovery action is to just return the expected boolean type
 			}
 			return typ.newBooleanType();
 		}

@@ -19,7 +19,14 @@ public class Images {
 	public static final ImageDescriptor local_problem_warning_16x16;
 	public static final ImageDescriptor unconnected_16x16;
 
+	public static final ImageDescriptor rule_conflict_confirmed;
+	public static final ImageDescriptor rule_conflict_discarded;
+
+	
 	static {
+		rule_conflict_confirmed = Activator.getImageDescriptor("icons/rule_conflict_confirmed_16x16.png");
+		rule_conflict_discarded = Activator.getImageDescriptor("icons/rule_conflict_discarded_16x16.png");
+		
 		optimization_16x16 = Activator.getImageDescriptor("icons/optimization.png");
 		error_dependencies_16x16 = Activator.getImageDescriptor("icons/error_dependencies.png");
 		batch_mode_16x16 = Activator.getImageDescriptor("icons/finger_16x16.png");

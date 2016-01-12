@@ -26,7 +26,10 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	
 	@Override
 	public List<ISearchState> getAllNextStates() {
-		return getAllEdges().stream().map(e -> e.getTarget()).collect(Collectors.toList());
+		return getAllEdges().stream().
+				map(e -> e.getTarget()).
+				filter(e -> !(e instanceof SearchError)).
+				collect(Collectors.toList());
 	}
 	
 	public List<ISearchEdge> getAllEdges() {
@@ -122,6 +125,5 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 			return src;
 		}
 	}
-
 	
 }

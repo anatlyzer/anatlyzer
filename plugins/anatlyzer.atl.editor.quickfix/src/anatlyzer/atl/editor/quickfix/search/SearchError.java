@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.errors.Problem;
 
 public class SearchError implements ISearchState {
 
@@ -48,5 +49,5 @@ public class SearchError implements ISearchState {
 	public void expand() {
 		// Does nothing
 	}
-	
+		
 }

@@ -3,6 +3,7 @@ package anatlyzer.atl.editor.quickfix.search;
 import java.util.List;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.errors.Problem;
 
 public interface ISearchState {
 	public SearchPath getPath();
@@ -13,5 +14,4 @@ public interface ISearchState {
 	public List<ISearchState> getAllNextStates();
 	
 	public void expand();
-	
 }

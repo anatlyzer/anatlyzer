@@ -556,7 +556,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		checkAccessToUndefined(self);
 		
 		Type t = attr.typeOf( self.getSource() );
-				
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		Type t2 = tspace.getFeatureType(self.getName(), self);
 		
@@ -664,7 +663,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			boolean inConditionPosition = false;
 			OclExpression child = self;
 			EObject parent = self.eContainer();
-			while ( parent instanceof OclExpression ) {
+			
+			// We have to stop at the loop expression because the it sets an scope
+			while ( parent instanceof OclExpression && !(parent instanceof LoopExp) ) {
 //				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
 //					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
 //				}

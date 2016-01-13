@@ -305,7 +305,9 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 					OclExpression filter = model.atlCopy(r.getInPattern().getFilter());
 				model.closeScope();
 				
-				fulfilledExpr = model.createBinaryOperator(kindOfCondition, filter, "implies");
+				fulfilledExpr = model.createIfExpression(kindOfCondition, filter, model.createBooleanLiteral(false)); 
+				// This does not work because if the filter is not fullfilled I get a true, so the whole forAll is true
+				// fulfilledExpr = model.createBinaryOperator(kindOfCondition, filter, "implies");
 			}
 									
 			if ( lastExpr == null ) {

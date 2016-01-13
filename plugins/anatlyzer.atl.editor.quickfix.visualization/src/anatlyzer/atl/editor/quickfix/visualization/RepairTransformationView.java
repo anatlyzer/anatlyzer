@@ -32,6 +32,7 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewContentProvider;
 import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewLabelProvider;
 import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableContentProvider;
@@ -244,22 +245,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 	}
 
 	protected IWitnessFinder createFinder() {
-		UseWitnessFinder finder = new UseWitnessFinder() {			
-			@Override
-			protected void onUSEInternalError(Exception e) {
-				e.printStackTrace();
-			}
-			
-			@Override
-			protected String getTempDirectory() {
-				return atlResource.getProject().getLocation().toOSString();
-			}
-		};
-
-		TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(atlResource);
-		finder.setDebugMode(conf.isWitnessFinderDebugMode());
-
-		return finder;
+		return SpeculativeQuickfixUtils.createFinder(atlResource);
 	}
 
 	private ISearchExpansionStrategy getStrategy() {

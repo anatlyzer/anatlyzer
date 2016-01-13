@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AnalysisQuickfixProcessor;
 import anatlyzer.atl.editor.quickfix.MockMarker;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -41,13 +42,7 @@ public class AbstractSearch {
 	}
 
 	protected void confirmOrDiscardProblems(AnalysisResult analysis) {
-		for (Problem problem : analysis.getProblems()) {
-			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
-				ProblemStatus status = finder.catchInternalErrors(true).find(problem, analysis);
-				problem.setStatus(status);
-			}			
-		
-		}
+		SpeculativeQuickfixUtils.confirmOrDiscardProblems(finder, analysis);
 	}
 	
 	protected void baseBranch(Problem problem, AbstractAtlQuickfix qfx, AnalysisResult baseAnalysis) {

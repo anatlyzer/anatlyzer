@@ -48,7 +48,7 @@ import transML.utils.solver.use.Solver_use;
 
 public class USESolverMemory extends Solver_use {
 
-    protected final Session fSession = new Session();
+    protected Session fSession;
 	protected String generatedMetamodelName = null;
 	private EPackage metamodel;
 	private String useSpecification;
@@ -94,8 +94,12 @@ public class USESolverMemory extends Solver_use {
 	public void init(EPackage metamodel, List<String> constraints) throws transException { 	
 	}
 		
-	public USEResult find(int scope) throws transException { 	
 
+	protected static Object globalLock = new Object();
+	
+	
+	public USEResult find(int scope) throws transException { 	
+		fSession = new Session();
 		int objectUpperBound = scope;
 		
 		try {		
@@ -106,7 +110,15 @@ public class USESolverMemory extends Solver_use {
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());
 			
-			Outcome outcome = handleUSECall(useMetamodelAndInvariants, metamodelBounds);
+			Outcome outcome = null;
+			
+			// It seems that USE is not thread-safe. The finding part has to be blocked to make sure
+			// that there are no interleavings in the call to this code.
+			synchronized (globalLock) {
+				outcome = handleUSECall(useMetamodelAndInvariants, metamodelBounds);				
+			}
+	
+			
 			if ( outcome != null && USEResult.isSatisfiable(outcome)) {
 				ResourceSet resourceSet = new ResourceSetImpl();
 				resourceSet.getPackageRegistry().put(metamodel.getNsURI(), metamodel);
@@ -190,7 +202,6 @@ public class USESolverMemory extends Solver_use {
 		
 		// configure
 		org.apache.commons.configuration.Configuration config = extractConfigFromFile(metamodelBounds);
-		// c.setProperty(arg0, arg1);
 		
 		kodkodModel.reset(); 
 		PropertyConfigurationVisitor newConfigurationVisitor = new PropertyConfigurationVisitor(config, fLogWriter);

@@ -2,12 +2,14 @@ package anatlyzer.atl.editor.quickfix.search;
 
 import java.util.Optional;
 
-public class SearchStrategyLessProblems implements ISearchExpansionStrategy {
+public class SearchStrategyLessProblems implements ISearchProblemSelectionStrategy {
 	
 	private ISearchState initialNode;
+	private ISearchExpansionStrategy expansionStrategy;
 
-	public SearchStrategyLessProblems(ISearchState initial) {
+	public SearchStrategyLessProblems(ISearchState initial, ISearchExpansionStrategy expansionStrategy) {
 		this.initialNode = initial;
+		this.expansionStrategy = expansionStrategy;
 	}	
 	
 	public void step() {
@@ -17,9 +19,9 @@ public class SearchStrategyLessProblems implements ISearchExpansionStrategy {
 		});
 		
 		if ( minNode.isPresent() ) {
-			minNode.get().expand();
+			minNode.get().expand(expansionStrategy);
 		} else {
-			initialNode.expand();			
+			initialNode.expand(expansionStrategy);			
 		}
 	}
 	

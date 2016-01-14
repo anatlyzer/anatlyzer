@@ -36,8 +36,11 @@ import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewContentProvider;
 import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewLabelProvider;
 import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableContentProvider;
 import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableLabelProvider;
+import anatlyzer.atl.editor.quickfix.search.ExpansionStrategyAll;
+import anatlyzer.atl.editor.quickfix.search.ExpansionStrategyMoreFixed;
 import anatlyzer.atl.editor.quickfix.search.ISearchEdge;
 import anatlyzer.atl.editor.quickfix.search.ISearchExpansionStrategy;
+import anatlyzer.atl.editor.quickfix.search.ISearchProblemSelectionStrategy;
 import anatlyzer.atl.editor.quickfix.search.ISearchState;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch;
 import anatlyzer.atl.editor.quickfix.search.InteractiveSearch.ISearchListener;
@@ -54,8 +57,11 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 	private static final String LESS_PROBLEMS_CMB = "Less problems";
 	private static final String ALL_NODES_CMB = "All nodes";
 	private static final String SELECTED_NODES_CMB = "Selected nodes";
-	private static final String PRIORITISE_COMPLETION = "Prioritise completion";
-	
+	private static final String PRIORITISE_COMPLETION = "Prioritise completion tasks";	
+
+	private static final String EXPANSION_ALL_CMB = "All";
+	private static final String EXPANSION_MORE_FIXED_CMB = "More possible fixed problems";	
+
 	public static final String ID = "anatlyzer.atl.editor.quickfix.visualization.RepairTransformationView";
 	private AnalysisResult analysis;
 	private Button btnExecute;
@@ -92,7 +98,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		//composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		Composite composite = new Composite(composite_1, SWT.NONE);
-		composite.setLayout(new GridLayout(6, false));
+		composite.setLayout(new GridLayout(7, false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -100,11 +106,16 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		lblNewLabel.setText("Strategy:");
 		
 		cmbStrategies = new Combo(composite, SWT.NONE);
-		cmbStrategies.setItems(new String[] {LESS_PROBLEMS_CMB, SELECTED_NODES_CMB, ALL_NODES_CMB, PRIORITISE_COMPLETION});
+		cmbStrategies.setItems(new String[] {"Less problems", "Selected nodes", "All nodes", "Prioritise completion tasks"});
 		GridData gd_cmbStrategies = new GridData(SWT.FILL, SWT.CENTER, false, true, 2, 1);
 		gd_cmbStrategies.widthHint = 161;
 		cmbStrategies.setLayoutData(gd_cmbStrategies);
 		cmbStrategies.select(0);
+		
+		cmbExpansion = new Combo(composite, SWT.NONE);
+		cmbExpansion.setItems(new String[] {"All", "More possible fixed problems"});
+		cmbExpansion.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		cmbExpansion.select(0);
 		
 		btnExecute = new Button(composite, SWT.NONE);
 		btnExecute.setText("Execute");
@@ -127,6 +138,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		spinner.setMaximum(1000);
 		spinner.setMinimum(-1);
 		spinner.setSelection(-1);
+		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
@@ -262,10 +274,11 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		return finder;
 	}
 
-	private ISearchExpansionStrategy getStrategy() {
-		ISearchExpansionStrategy strategy = null;
+	private ISearchProblemSelectionStrategy getStrategy() {
+		ISearchProblemSelectionStrategy strategy = null;
+		ISearchExpansionStrategy expansion = getExpansionStrategy();
 		if ( cmbStrategies.getText().equals(LESS_PROBLEMS_CMB) ) {
-			strategy = new SearchStrategyLessProblems(searcher);
+			strategy = new SearchStrategyLessProblems(searcher, expansion);
 		} else if ( cmbStrategies.getText().equals(ALL_NODES_CMB) ) {
 			strategy = new SearchStrategyAll(searcher);
 		} else if ( cmbStrategies.getText().equals(SELECTED_NODES_CMB) ) {
@@ -274,6 +287,18 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		
 		return strategy;
 	}
+	
+	private ISearchExpansionStrategy getExpansionStrategy() {
+		ISearchExpansionStrategy strategy = null;
+		if ( cmbExpansion.getText().equals(EXPANSION_ALL_CMB) ) {
+			strategy = new ExpansionStrategyAll();
+		} else if ( cmbExpansion.getText().equals(EXPANSION_MORE_FIXED_CMB) ) {
+			strategy = new ExpansionStrategyMoreFixed();
+		} else {
+			throw new UnsupportedOperationException();			
+		}
+		return strategy;
+ 	}
 	
 	private void nextStepAll() {
 		getStrategy().step();
@@ -326,6 +351,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 	}
 	
 	private List<ISearchState> selected = new ArrayList<ISearchState>();
+	private Combo cmbExpansion;
 
 	public class GraphSelectionListener implements ISelectionChangedListener {
 

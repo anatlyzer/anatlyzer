@@ -1,5 +1,7 @@
 package anatlyzer.atl.editor.quickfix.search;
 
+import static anatlyzer.atl.editor.quickfix.search.SearchUtil.isActualProblem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +11,7 @@ import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
+import anatlyzer.atl.editor.quickfix.search.ISearchExpansionStrategy.Expansion;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.witness.IWitnessFinder;
 
@@ -65,7 +68,17 @@ public class InteractiveSearch extends AbstractSearch implements ISearchState {
 	public void expand() {
 		baseSearch(analysis);	
 	}
-	
+
+	@Override
+	public void expand(ISearchExpansionStrategy strategy) {
+		for (Expansion expansion : strategy.getExpansion(this)) {
+			if ( ! isActualProblem(expansion.p, analysis) ) 
+				continue;
+			
+			baseBranch(expansion.p, expansion.qfx, analysis);
+		}
+	}
+
 	@Override
 	protected void baseBranch(Problem problem, AbstractAtlQuickfix qfx, AnalysisResult baseAnalysis) {
 		SearchPath newPath = path.add(qfx);;

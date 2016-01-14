@@ -2,7 +2,7 @@ package anatlyzer.atl.editor.quickfix.search;
 
 import java.util.List;
 
-public class SearchStrategyAll implements ISearchExpansionStrategy {
+public class SearchStrategyAll implements ISearchProblemSelectionStrategy {
 	
 	private ISearchState initialNode;
 

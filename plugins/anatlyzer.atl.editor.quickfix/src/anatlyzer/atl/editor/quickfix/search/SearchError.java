@@ -48,5 +48,10 @@ public class SearchError implements ISearchState {
 	public void expand() {
 		// Does nothing
 	}
+
+	@Override
+	public void expand(ISearchExpansionStrategy strategy) {
+		// Does nothing
+	}
 	
 }

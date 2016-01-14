@@ -13,5 +13,5 @@ public interface ISearchState {
 	public List<ISearchState> getAllNextStates();
 	
 	public void expand();
-	
+	public void expand(ISearchExpansionStrategy strategy);
 }

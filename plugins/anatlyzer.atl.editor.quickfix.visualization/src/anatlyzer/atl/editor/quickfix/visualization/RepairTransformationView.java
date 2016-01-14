@@ -280,7 +280,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		if ( cmbStrategies.getText().equals(LESS_PROBLEMS_CMB) ) {
 			strategy = new SearchStrategyLessProblems(searcher, expansion);
 		} else if ( cmbStrategies.getText().equals(ALL_NODES_CMB) ) {
-			strategy = new SearchStrategyAll(searcher);
+			strategy = new SearchStrategyAll(searcher, expansion);
 		} else if ( cmbStrategies.getText().equals(SELECTED_NODES_CMB) ) {
 			throw new UnsupportedOperationException();
 		}

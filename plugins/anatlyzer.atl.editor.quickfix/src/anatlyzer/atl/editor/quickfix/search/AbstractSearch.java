@@ -7,9 +7,8 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.search.ISearchExpansionStrategy.Expansion;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.witness.IWitnessFinder;
 
 public class AbstractSearch {
@@ -39,12 +38,7 @@ public class AbstractSearch {
 	}
 	
 	protected void confirmOrDiscardProblems(AnalysisResult analysis) {
-		for (Problem problem : analysis.getProblems()) {
-			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
-				ProblemStatus status = finder.catchInternalErrors(true).find(problem, analysis);
-				problem.setStatus(status);
-			}			
-		}
+		SpeculativeQuickfixUtils.confirmOrDiscardProblems(finder, analysis);
 	}
 	
 	protected void baseBranch(Problem problem, AbstractAtlQuickfix qfx, AnalysisResult baseAnalysis) {

@@ -1,9 +1,11 @@
 package anatlyzer.ui.util;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
@@ -63,6 +65,15 @@ public class WorkbenchUtil {
 
 	public static IResource getResource(String location) {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(location));		
+	}
+
+	public static IFolder getOrCreateFolder(IPath folderPath) throws CoreException {
+		IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(folderPath);
+		if ( ! folder.exists() ) {
+			folder.create(true, true, null);
+			folder.refreshLocal(1, null);
+		}
+		return folder;
 	}
 
 }

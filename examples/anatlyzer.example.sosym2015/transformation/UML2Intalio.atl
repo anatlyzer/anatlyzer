@@ -1,9 +1,11 @@
--- @path UML=/anatlyzer.example.issre2014/metamodels/UML2_3_0_0.ecore
--- @path Intalio=/anatlyzer.example.issre2014/metamodels/bpmn.ecore
+-- @path UML=/anatlyzer.example.sosym2015/metamodels/UML2_3_0_0.ecore
+-- @path Intalio=/anatlyzer.example.sosym2015/metamodels/bpmn.ecore
 
--- Error: potentially invalid target in binding
--- Error: missing rule for object flow
--- Error: Sequence(Sequence) in binding assignment
+-- TEST-PRE UML!ActivityPartition.allInstances()->forAll(a | 
+--    a.node->reject(e | e.oclIsKindOf(UML!ObjectNode))->
+--        forAll(v | 
+--         v.oclIsKindOf(UML!OpaqueAction) or ( v.oclIsKindOf(UML!InitialNode) and (v.oclIsKindOf(UML!InitialNode) implies v.incoming->isEmpty())  )))
+--
 
 module UML2Intalio;
 create OUT : Intalio from IN : UML;
@@ -64,6 +66,16 @@ rule edges {
 		target <- n.target
 	)
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

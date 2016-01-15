@@ -3,6 +3,8 @@ package anatlyzer.atl.editor.quickfix.visualization;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.compare.CompareConfiguration;
+import org.eclipse.compare.CompareUI;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -32,6 +34,7 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewContentProvider;
 import anatlyzer.atl.editor.quickfix.dialog.ProblemsViewLabelProvider;
 import anatlyzer.atl.editor.quickfix.dialog.QuickfixTableContentProvider;
@@ -98,7 +101,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		//composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		Composite composite = new Composite(composite_1, SWT.NONE);
-		composite.setLayout(new GridLayout(7, false));
+		composite.setLayout(new GridLayout(9, false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
@@ -126,6 +129,12 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		btnStepAll = new Button(composite, SWT.NONE);
 		btnStepAll.setText("Auto repair");
 		
+		label = new Label(composite, SWT.SEPARATOR | SWT.VERTICAL);
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
+		
+		btnConfigure = new Button(composite, SWT.NONE);
+		btnConfigure.setText("Configure...");
+		
 		lblNewLabel_1 = new Label(composite, SWT.NONE);
 		lblNewLabel_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, true, 1, 1));
 		lblNewLabel_1.setText("Filters: ");
@@ -145,6 +154,16 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		
 		btnApplyFilter = new Button(composite, SWT.NONE);
 		btnApplyFilter.setText("Apply filter");
+		
+		btnCompare = new Button(composite, SWT.NONE);
+		btnCompare.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				compareSelectedQuickfixes();
+			}
+		});
+		btnCompare.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		btnCompare.setText("Compare");
 		
 		cmpGraph = new Composite(composite_1, SWT.NONE);
 		cmpGraph.setLayout(new FillLayout());
@@ -256,22 +275,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 	}
 
 	protected IWitnessFinder createFinder() {
-		UseWitnessFinder finder = new UseWitnessFinder() {			
-			@Override
-			protected void onUSEInternalError(Exception e) {
-				e.printStackTrace();
-			}
-			
-			@Override
-			protected String getTempDirectory() {
-				return atlResource.getProject().getLocation().toOSString();
-			}
-		};
-
-		TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(atlResource);
-		finder.setDebugMode(conf.isWitnessFinderDebugMode());
-
-		return finder;
+		return SpeculativeQuickfixUtils.createFinder(atlResource);
 	}
 
 	private ISearchProblemSelectionStrategy getStrategy() {
@@ -350,8 +354,45 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		graph.applyLayout();
 	}
 	
+	private void compareSelectedQuickfixes() {
+		if ( selected.size() < 1 || selected.size() > 2 ) {
+			return;
+		}
+		
+		// About customization
+		// https://eclipse.org/forums/index.php/t/781875/
+		
+		ISearchState left     = null;
+		ISearchState right    = null;
+		ISearchState ancestor = null;
+		
+		
+		CompareConfiguration conf = MyCompareInput.createDefaultConfiguration();
+		conf.setProperty(CompareConfiguration.USE_OUTLINE_VIEW, true);
+		MyCompareInput input = new MyCompareInput(
+				conf,
+				atlResource,
+				searcher.getAnalysisResult(),
+				selected.get(0),
+				selected.get(1));
+		CompareUI.openCompareEditor(input);
+		
+		
+//		IStructuredSelection s = (IStructuredSelection) event.getSelection();
+//		selected.clear();
+//		s.iterator().forEachRemaining(e -> {
+//			if ( e instanceof ISearchState)  {
+//				selected.add((ISearchState) e); 
+//			}
+//		});
+
+	}
+	
 	private List<ISearchState> selected = new ArrayList<ISearchState>();
 	private Combo cmbExpansion;
+	private Label label;
+	private Button btnConfigure;
+	private Button btnCompare;
 
 	public class GraphSelectionListener implements ISelectionChangedListener {
 

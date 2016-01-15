@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -291,7 +292,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	
 	class ConflictingRules extends TreeNode implements IWithCodeLocation {
-		private OverlappingRules element;
+		protected OverlappingRules element;
 
 		public ConflictingRules(TreeNode parent, OverlappingRules element) {
 			super(parent);
@@ -328,6 +329,24 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			return r + " : " + s;
 		}
 
+		@Override
+		public ImageDescriptor getImage() {
+			switch ( element.getAnalysisResult() ) {
+			case ERROR_DISCARDED: 
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: 
+				return Images.rule_conflict_discarded;
+			case ERROR_CONFIRMED: 
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case STATICALLY_CONFIRMED: 
+				return Images.rule_conflict_confirmed;
+			case CANNOT_DETERMINE:
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+			case IMPL_INTERNAL_ERROR:
+			}
+			return null;
+		}
+		
 		@Override
 		public void goToLocation() {
 			List<MatchedRule> r = element.getRules();			
@@ -1230,6 +1249,18 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		} else if ( obj instanceof RuleConflictAnalysisNode ) {
 			RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
 			return n.ruleConflictProblem;
+		} else if ( obj instanceof ConflictingRules ) {
+			ConflictingRules conflictingRules = (ConflictingRules) obj;
+			// Create a problem ad-hoc for this rule pair
+			RuleConflict problem = AtlErrorFactory.eINSTANCE.createRuleConflict();
+			OverlappingRules overlappingRules = conflictingRules.element;
+
+			ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
+			set.getRules().addAll(overlappingRules.getRules());
+			set.setAnalyserInfo(overlappingRules);
+			problem.getConflicts().add(set);
+
+			return problem;
 		} else {
 			throw new UnsupportedOperationException("Node: " + obj.getClass());
 		}

@@ -85,7 +85,7 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 				
 				// Get all rules that resolve elements of type "src"
 				OclExpression expr = b.getResolvedBy().stream().
-					filter(r -> ATLUtils.isCompatible(src, ATLUtils.getInPatternType(r.getRule()))).
+					filter(r -> ATLUtils.isCompatible(ATLUtils.getInPatternType(r.getRule()), src)).
 					filter(r -> r.getRule().getInPattern().getFilter() != null ).
 					map(r -> {
 						OclExpression filter = r.getRule().getInPattern().getFilter();

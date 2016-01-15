@@ -1,9 +1,10 @@
 package anatlyzer.atl.editor.quickfix;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
@@ -11,10 +12,15 @@ import org.eclipse.m2m.atl.core.emf.EMFModel;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class SpeculativeQuickfixUtils {
@@ -87,5 +93,43 @@ public class SpeculativeQuickfixUtils {
 		}
 
 		return inc;
+	}
+
+	public static void confirmOrDiscardProblems(IWitnessFinder finder, AnalysisResult analysis) {
+		ArrayList<Problem> discarded = new ArrayList<>();
+		for (Problem problem : analysis.getProblems()) {
+			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
+				ProblemStatus status = finder.catchInternalErrors(true).find(problem, analysis);
+				problem.setStatus(status);
+				
+				// Should this be done automatically in some confirm/discard library?
+				// Probably not because sometimes I want to report this
+				if ( AnalyserUtils.isDiscarded(problem) ) {
+					discarded.add(problem);
+				}
+			}					
+		}	
+		
+		// Not very clean...
+		analysis.getATLModel().getErrors().getAnalysis().getProblems().removeAll(discarded);
+	}
+
+	public static IWitnessFinder createFinder(final IResource atlResource) {
+		UseWitnessFinder finder = new UseWitnessFinder() {			
+			@Override
+			protected void onUSEInternalError(Exception e) {
+				e.printStackTrace();
+			}
+			
+			@Override
+			protected String getTempDirectory() {
+				return atlResource.getProject().getLocation().toOSString();
+			}
+		};
+
+		TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(atlResource);
+		finder.setDebugMode(conf.isWitnessFinderDebugMode());
+
+		return finder;
 	}
 }

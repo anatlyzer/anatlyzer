@@ -1,1 +1,6 @@
 /UML2Intalio.asm
+/UML2Intalio_impact.asm
+/Intalio2UML.asm
+/UML2Intalio_rule_conflict.asm
+/UML2Intalio_speculative.asm
+/UML2Intalio_fixed.asm

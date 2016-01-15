@@ -48,4 +48,24 @@
             name="ATL Repair View">
       </view>
    	</extension>
+   	
+   	<!--
+     <extension
+           point="org.eclipse.compare.contentViewers">
+        <viewer
+              class="anatlyzer.atl.editor.compare.ATLTextViewerCreator"
+              extensions="atl"
+              id="anatlyzer.atl.editor.compare.ATLTextViewerCreator">
+        </viewer>
+     </extension>
+     <extension
+           point="org.eclipse.compare.contentMergeViewers">
+        <viewer
+              class="anatlyzer.atl.editor.compare.ATLTextViewerCreator"
+              extensions="atl"
+              id="anatlyzer.atl.editor.compare.ATLTextViewerCreatorMerge">
+        </viewer>
+     </extension>
+     -->
+     
 </plugin>

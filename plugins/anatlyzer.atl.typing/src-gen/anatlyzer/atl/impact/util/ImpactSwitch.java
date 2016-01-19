@@ -47,7 +47,7 @@ public class ImpactSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -78,6 +78,12 @@ public class ImpactSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ImpactPackage.CREATE: {
+				Create create = (Create)theEObject;
+				T result = caseCreate(create);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ImpactPackage.CALLABLE_CHANGE: {
 				CallableChange callableChange = (CallableChange)theEObject;
 				T result = caseCallableChange(callableChange);
@@ -98,6 +104,14 @@ public class ImpactSwitch<T> extends Switch<T> {
 				T result = caseModuleCallableChange(moduleCallableChange);
 				if (result == null) result = caseCallableChange(moduleCallableChange);
 				if (result == null) result = caseChange(moduleCallableChange);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ImpactPackage.CREATE_MATCHED_RULE: {
+				CreateMatchedRule createMatchedRule = (CreateMatchedRule)theEObject;
+				T result = caseCreateMatchedRule(createMatchedRule);
+				if (result == null) result = caseChange(createMatchedRule);
+				if (result == null) result = caseCreate(createMatchedRule);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -132,6 +146,21 @@ public class ImpactSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseChange(Change object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Create</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Create</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCreate(Create object) {
 		return null;
 	}
 
@@ -177,6 +206,21 @@ public class ImpactSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseModuleCallableChange(ModuleCallableChange object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Create Matched Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Create Matched Rule</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCreateMatchedRule(CreateMatchedRule object) {
 		return null;
 	}
 

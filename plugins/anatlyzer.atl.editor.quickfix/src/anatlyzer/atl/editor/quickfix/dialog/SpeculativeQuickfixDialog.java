@@ -20,6 +20,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
@@ -63,7 +64,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private SashForm sashForm;
 	private Composite composite_1;
 	private Composite composite_2;
-
+	
 	
 	/**
 	 * Create the dialog.
@@ -125,12 +126,31 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		StyledText styledText = textViewer.getTextWidget();
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		styledText.setSize(79, 198);
+
+		TableViewerColumn columnNumProblems = new TableViewerColumn(tableViewer, SWT.NONE);
+		columnNumProblems.getColumn().setWidth(50);
+		columnNumProblems.getColumn().setText("#");
+		columnNumProblems.getColumn().setMoveable(true);
+		ColumnViewerComparator problemSorter =  QuickfixTableLabelProvider.createFoundProblemsComparator(tableViewer, columnNumProblems);
+				
+		TableViewerColumn columnQfx = new TableViewerColumn(tableViewer, SWT.NONE);
+		columnQfx.getColumn().setWidth(200);
+		columnQfx.getColumn().setText("Quickfix");
+		columnQfx.getColumn().setMoveable(true);
+		QuickfixTableLabelProvider.createDisplayStringComparator(tableViewer, columnQfx);
 		
-				tableViewer.setContentProvider(new QuickfixTableContentProvider());
-				tableViewer.setLabelProvider(new QuickfixTableLabelProvider());
-				tableViewer.setInput(quickfixes);
-				tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
+		tableViewer.getTable().setLinesVisible(true);
+		tableViewer.getTable().setHeaderVisible(true);
 		
+		tableViewer.setContentProvider(new QuickfixTableContentProvider());
+		tableViewer.setLabelProvider(new QuickfixTableLabelProvider(true));
+		
+		tableViewer.setInput(quickfixes);
+		tableViewer.addSelectionChangedListener(new QuickfixSelectionListener());
+		
+		problemSorter.setSorter(problemSorter, ColumnViewerComparator.ASC);
+				
+				
 		composite_2 = new Composite(sashForm, SWT.NONE);
 		composite_2.setLayout(new GridLayout(1, false));
 		
@@ -233,10 +253,18 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 			Composite c = new Composite(tabFolderImpact, SWT.NONE);
 			c.setLayout(new FillLayout(SWT.HORIZONTAL));
 			item.setControl(c);
-			information.initialize(c, r);
-	
+			information.initialize(c, current, ic);
 			i++;
+		
 		}
+		tabFolderImpact.pack();
+		tabFolderImpact.getParent().layout();			
+
+		
+		
+//		getButtonBar().pack(false);
+//		getDialogArea().pack(false);
+//		getContents().pack(true);
 	}
 	
 	
@@ -280,6 +308,9 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	
 	@Override
 	public void finished(Problem p, AtlProblemQuickfix qfx, AnalysisResult r) {
+		// Set data about the found problems inside the quickfix
+		qfx.setData(ISpeculativeConstants.FOUND_PROBLEMS, r.getProblems().size());
+			
 		getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -287,6 +318,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 				if ( current == qfx ) {
 					updateAnalysis(current);
 				}
+				tableViewer.refresh(true);
 			}
 		});
 	}

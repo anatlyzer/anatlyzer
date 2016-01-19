@@ -6,6 +6,8 @@ import anatlyzer.atl.impact.CallableChange;
 import anatlyzer.atl.impact.Change;
 import anatlyzer.atl.impact.ChangeImpact;
 import anatlyzer.atl.impact.ContextCallableChange;
+import anatlyzer.atl.impact.Create;
+import anatlyzer.atl.impact.CreateMatchedRule;
 import anatlyzer.atl.impact.ImpactFactory;
 import anatlyzer.atl.impact.ImpactPackage;
 import anatlyzer.atl.impact.ModuleCallableChange;
@@ -48,6 +50,13 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass createEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass callableChangeEClass = null;
 
 	/**
@@ -63,6 +72,13 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 	 * @generated
 	 */
 	private EClass moduleCallableChangeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass createMatchedRuleEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -144,8 +160,26 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getChangeImpact_Changes() {
+		return (EReference)changeImpactEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getChange() {
 		return changeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getCreate() {
+		return createEClass;
 	}
 
 	/**
@@ -198,6 +232,24 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCreateMatchedRule() {
+		return createMatchedRuleEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCreateMatchedRule_Rule() {
+		return (EReference)createMatchedRuleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ImpactFactory getImpactFactory() {
 		return (ImpactFactory)getEFactoryInstance();
 	}
@@ -222,8 +274,11 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 
 		// Create classes and their features
 		changeImpactEClass = createEClass(CHANGE_IMPACT);
+		createEReference(changeImpactEClass, CHANGE_IMPACT__CHANGES);
 
 		changeEClass = createEClass(CHANGE);
+
+		createEClass = createEClass(CREATE);
 
 		callableChangeEClass = createEClass(CALLABLE_CHANGE);
 		createEReference(callableChangeEClass, CALLABLE_CHANGE__CALLABLE);
@@ -232,6 +287,9 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 		contextCallableChangeEClass = createEClass(CONTEXT_CALLABLE_CHANGE);
 
 		moduleCallableChangeEClass = createEClass(MODULE_CALLABLE_CHANGE);
+
+		createMatchedRuleEClass = createEClass(CREATE_MATCHED_RULE);
+		createEReference(createMatchedRuleEClass, CREATE_MATCHED_RULE__RULE);
 	}
 
 	/**
@@ -269,11 +327,16 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 		callableChangeEClass.getESuperTypes().add(this.getChange());
 		contextCallableChangeEClass.getESuperTypes().add(this.getCallableChange());
 		moduleCallableChangeEClass.getESuperTypes().add(this.getCallableChange());
+		createMatchedRuleEClass.getESuperTypes().add(this.getChange());
+		createMatchedRuleEClass.getESuperTypes().add(this.getCreate());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(changeImpactEClass, ChangeImpact.class, "ChangeImpact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getChangeImpact_Changes(), this.getChange(), null, "changes", null, 0, -1, ChangeImpact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(changeEClass, Change.class, "Change", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(createEClass, Create.class, "Create", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(callableChangeEClass, CallableChange.class, "CallableChange", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCallableChange_Callable(), theATLPackage.getCallable(), null, "callable", null, 1, 1, CallableChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -282,6 +345,9 @@ public class ImpactPackageImpl extends EPackageImpl implements ImpactPackage {
 		initEClass(contextCallableChangeEClass, ContextCallableChange.class, "ContextCallableChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(moduleCallableChangeEClass, ModuleCallableChange.class, "ModuleCallableChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(createMatchedRuleEClass, CreateMatchedRule.class, "CreateMatchedRule", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCreateMatchedRule_Rule(), theATLPackage.getMatchedRule(), null, "rule", null, 1, 1, CreateMatchedRule.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

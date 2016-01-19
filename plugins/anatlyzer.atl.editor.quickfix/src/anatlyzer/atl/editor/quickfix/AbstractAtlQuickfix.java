@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -49,6 +50,16 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	 * @throws CoreException 
 	 */
 	public abstract QuickfixApplication getQuickfixApplication() throws CoreException;
+	
+	
+	private QuickfixApplication qfa = null;
+	private HashMap<Object, Object> data;
+	
+	public QuickfixApplication getCachedQuickfixApplication() throws CoreException {
+		if ( qfa == null )
+			qfa = getQuickfixApplication();
+		return qfa;
+	}
 	
 	public void setErrorMarker(IMarker marker) {		
 		this.marker = marker;
@@ -132,6 +143,21 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return getDisplayString();
 	}
 
+	@Override
+	public void setData(Object key, Object value) {
+		if ( this.data == null ) {
+			this.data = new HashMap<Object, Object>();
+		}
+		this.data.put(key, value);
+	}
+	
+	public Object getData(Object key) {
+		if ( this.data == null ) {
+			this.data = new HashMap<Object, Object>();
+		}
+		return this.data.get(key);		
+	}
+
 	protected Binding getBindingFor(OperationCallExp e) {	// Can be moved to a library?
 		EObject container = e.eContainer();
 		
@@ -163,4 +189,8 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		Metaclass m1 = (Metaclass)t1;
 		return (m2.getKlass().isSuperTypeOf(m1.getKlass()));
 	}
+	
+	
+	
+
 }

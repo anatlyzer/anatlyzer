@@ -59,6 +59,7 @@ public class ImpactFactoryImpl extends EFactoryImpl implements ImpactFactory {
 			case ImpactPackage.CHANGE_IMPACT: return createChangeImpact();
 			case ImpactPackage.CONTEXT_CALLABLE_CHANGE: return createContextCallableChange();
 			case ImpactPackage.MODULE_CALLABLE_CHANGE: return createModuleCallableChange();
+			case ImpactPackage.CREATE_MATCHED_RULE: return createCreateMatchedRule();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -92,6 +93,16 @@ public class ImpactFactoryImpl extends EFactoryImpl implements ImpactFactory {
 	public ModuleCallableChange createModuleCallableChange() {
 		ModuleCallableChangeImpl moduleCallableChange = new ModuleCallableChangeImpl();
 		return moduleCallableChange;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CreateMatchedRule createCreateMatchedRule() {
+		CreateMatchedRuleImpl createMatchedRule = new CreateMatchedRuleImpl();
+		return createMatchedRule;
 	}
 
 	/**

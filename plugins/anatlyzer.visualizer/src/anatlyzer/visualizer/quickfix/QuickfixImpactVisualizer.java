@@ -7,13 +7,13 @@ import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.GridLayoutAlgorithm;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.dialog.ImpactInformation;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
+import anatlyzer.atl.impact.ImpactComputation;
 import anatlyzer.visualizer.views.BindingResolutionInfoContentProvider;
 import anatlyzer.visualizer.views.BindingResolutionInfoLabelProvider;
-import anatlyzer.visualizer.views.ElementConnectionsContentProvider;
-import anatlyzer.visualizer.views.ElementConnectionsLabelProvider;
 
 public class QuickfixImpactVisualizer implements ImpactInformation {
 
@@ -23,7 +23,7 @@ public class QuickfixImpactVisualizer implements ImpactInformation {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void initialize(Composite c, AnalysisResult r) {
+	public void initialize(Composite c, AtlProblemQuickfix current, ImpactComputation impact) {
 		this.composite = c;
 		
 		GraphViewer graph = new GraphViewer(c,  SWT.V_SCROLL | SWT.H_SCROLL);
@@ -32,7 +32,7 @@ public class QuickfixImpactVisualizer implements ImpactInformation {
 		graph.setLayoutAlgorithm(new GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING));
 		
 		Problem p = null;
-		for (Problem problem : r.getProblems()) {
+		for (Problem problem : impact.getOriginal().getProblems()) {
 			if ( problem instanceof BindingProblem ) {
 				graph.setInput(problem);
 				break;

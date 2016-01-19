@@ -37,7 +37,7 @@ public abstract class QuickfixAction extends Action {
 			AtlEditorExt editor = analysisView.getAssociatedEditor();
 			if ( editor != null ) {
 				IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-				qf.apply(doc);											
+				qf.apply(doc);
 			}
 		}
 	}

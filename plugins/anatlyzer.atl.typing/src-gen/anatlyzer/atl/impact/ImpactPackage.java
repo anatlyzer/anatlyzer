@@ -66,13 +66,22 @@ public interface ImpactPackage extends EPackage {
 	int CHANGE_IMPACT = 0;
 
 	/**
+	 * The feature id for the '<em><b>Changes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_IMPACT__CHANGES = 0;
+
+	/**
 	 * The number of structural features of the '<em>Change Impact</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHANGE_IMPACT_FEATURE_COUNT = 0;
+	int CHANGE_IMPACT_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Change Impact</em>' class.
@@ -112,6 +121,34 @@ public interface ImpactPackage extends EPackage {
 	int CHANGE_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.impact.impl.CreateImpl <em>Create</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.impact.impl.CreateImpl
+	 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getCreate()
+	 * @generated
+	 */
+	int CREATE = 2;
+
+	/**
+	 * The number of structural features of the '<em>Create</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Create</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.impact.impl.CallableChangeImpl <em>Callable Change</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -119,7 +156,7 @@ public interface ImpactPackage extends EPackage {
 	 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getCallableChange()
 	 * @generated
 	 */
-	int CALLABLE_CHANGE = 2;
+	int CALLABLE_CHANGE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Callable</b></em>' reference.
@@ -165,7 +202,7 @@ public interface ImpactPackage extends EPackage {
 	 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getContextCallableChange()
 	 * @generated
 	 */
-	int CONTEXT_CALLABLE_CHANGE = 3;
+	int CONTEXT_CALLABLE_CHANGE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Callable</b></em>' reference.
@@ -211,7 +248,7 @@ public interface ImpactPackage extends EPackage {
 	 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getModuleCallableChange()
 	 * @generated
 	 */
-	int MODULE_CALLABLE_CHANGE = 4;
+	int MODULE_CALLABLE_CHANGE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Callable</b></em>' reference.
@@ -251,6 +288,44 @@ public interface ImpactPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.impact.impl.CreateMatchedRuleImpl <em>Create Matched Rule</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.impact.impl.CreateMatchedRuleImpl
+	 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getCreateMatchedRule()
+	 * @generated
+	 */
+	int CREATE_MATCHED_RULE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Rule</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_MATCHED_RULE__RULE = CHANGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Create Matched Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_MATCHED_RULE_FEATURE_COUNT = CHANGE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Create Matched Rule</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CREATE_MATCHED_RULE_OPERATION_COUNT = CHANGE_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.impact.ChangeImpact <em>Change Impact</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -261,6 +336,17 @@ public interface ImpactPackage extends EPackage {
 	EClass getChangeImpact();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link anatlyzer.atl.impact.ChangeImpact#getChanges <em>Changes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Changes</em>'.
+	 * @see anatlyzer.atl.impact.ChangeImpact#getChanges()
+	 * @see #getChangeImpact()
+	 * @generated
+	 */
+	EReference getChangeImpact_Changes();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.impact.Change <em>Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -269,6 +355,16 @@ public interface ImpactPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getChange();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.impact.Create <em>Create</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Create</em>'.
+	 * @see anatlyzer.atl.impact.Create
+	 * @generated
+	 */
+	EClass getCreate();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.impact.CallableChange <em>Callable Change</em>}'.
@@ -323,6 +419,27 @@ public interface ImpactPackage extends EPackage {
 	EClass getModuleCallableChange();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.impact.CreateMatchedRule <em>Create Matched Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Create Matched Rule</em>'.
+	 * @see anatlyzer.atl.impact.CreateMatchedRule
+	 * @generated
+	 */
+	EClass getCreateMatchedRule();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.impact.CreateMatchedRule#getRule <em>Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Rule</em>'.
+	 * @see anatlyzer.atl.impact.CreateMatchedRule#getRule()
+	 * @see #getCreateMatchedRule()
+	 * @generated
+	 */
+	EReference getCreateMatchedRule_Rule();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -356,6 +473,14 @@ public interface ImpactPackage extends EPackage {
 		EClass CHANGE_IMPACT = eINSTANCE.getChangeImpact();
 
 		/**
+		 * The meta object literal for the '<em><b>Changes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CHANGE_IMPACT__CHANGES = eINSTANCE.getChangeImpact_Changes();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.impact.impl.ChangeImpl <em>Change</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -364,6 +489,16 @@ public interface ImpactPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CHANGE = eINSTANCE.getChange();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.impact.impl.CreateImpl <em>Create</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.impact.impl.CreateImpl
+		 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getCreate()
+		 * @generated
+		 */
+		EClass CREATE = eINSTANCE.getCreate();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.impact.impl.CallableChangeImpl <em>Callable Change</em>}' class.
@@ -410,6 +545,24 @@ public interface ImpactPackage extends EPackage {
 		 * @generated
 		 */
 		EClass MODULE_CALLABLE_CHANGE = eINSTANCE.getModuleCallableChange();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.impact.impl.CreateMatchedRuleImpl <em>Create Matched Rule</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.impact.impl.CreateMatchedRuleImpl
+		 * @see anatlyzer.atl.impact.impl.ImpactPackageImpl#getCreateMatchedRule()
+		 * @generated
+		 */
+		EClass CREATE_MATCHED_RULE = eINSTANCE.getCreateMatchedRule();
+
+		/**
+		 * The meta object literal for the '<em><b>Rule</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CREATE_MATCHED_RULE__RULE = eINSTANCE.getCreateMatchedRule_Rule();
 
 	}
 

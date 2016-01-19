@@ -4,10 +4,14 @@ package impact;
 import "platform:/resource/anatlyzer.atl.typing/model/generated/merged.ecore";
 
 class ChangeImpact {
-	
+	val Change[*] changes;
 }
 
 abstract class Change {
+	
+}
+
+abstract class Create {
 	
 }
 
@@ -22,4 +26,8 @@ class ContextCallableChange extends CallableChange {
 
 class ModuleCallableChange extends CallableChange {
 	
+}
+
+class CreateMatchedRule extends Change, Create {
+	ref atlext.ATL.MatchedRule[1] rule;	
 }

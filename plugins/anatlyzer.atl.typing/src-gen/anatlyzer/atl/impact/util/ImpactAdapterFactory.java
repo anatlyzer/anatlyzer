@@ -76,6 +76,10 @@ public class ImpactAdapterFactory extends AdapterFactoryImpl {
 				return createChangeAdapter();
 			}
 			@Override
+			public Adapter caseCreate(Create object) {
+				return createCreateAdapter();
+			}
+			@Override
 			public Adapter caseCallableChange(CallableChange object) {
 				return createCallableChangeAdapter();
 			}
@@ -86,6 +90,10 @@ public class ImpactAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseModuleCallableChange(ModuleCallableChange object) {
 				return createModuleCallableChangeAdapter();
+			}
+			@Override
+			public Adapter caseCreateMatchedRule(CreateMatchedRule object) {
+				return createCreateMatchedRuleAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -136,6 +144,20 @@ public class ImpactAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.impact.Create <em>Create</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.impact.Create
+	 * @generated
+	 */
+	public Adapter createCreateAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.impact.CallableChange <em>Callable Change</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -174,6 +196,20 @@ public class ImpactAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createModuleCallableChangeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.impact.CreateMatchedRule <em>Create Matched Rule</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.impact.CreateMatchedRule
+	 * @generated
+	 */
+	public Adapter createCreateMatchedRuleAdapter() {
 		return null;
 	}
 

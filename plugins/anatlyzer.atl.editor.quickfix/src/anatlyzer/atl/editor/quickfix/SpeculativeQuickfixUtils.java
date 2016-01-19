@@ -65,7 +65,7 @@ public class SpeculativeQuickfixUtils {
 
 		QuickfixApplication qfa;
 		try {
-			qfa = ((AbstractAtlQuickfix) qfx).getQuickfixApplication();
+			qfa = ((AbstractAtlQuickfix) qfx).getCachedQuickfixApplication();
 			if ( qfa == null ) {
 				throw new IllegalStateException("No actual implementation for quick fix: " + qfx);
 			}

@@ -23,6 +23,14 @@ public class ImpactComputation {
 		this.trace    = trace;
 	}
 	
+	public AnalysisResult getOriginal() {
+		return original;
+	}
+	
+	public AnalysisResult getChanged() {
+		return changed;
+	}
+	
 	public void perform() {
 		this.newProblems = new HashSet<Problem>();
 		

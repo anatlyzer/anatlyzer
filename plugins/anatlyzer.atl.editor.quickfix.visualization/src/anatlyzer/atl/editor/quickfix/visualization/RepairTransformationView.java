@@ -198,7 +198,7 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 
 	private void initGraph() {		
 		tableViewerAppliedQfx.setContentProvider(new QuickfixTableContentProvider());
-		tableViewerAppliedQfx.setLabelProvider(new QuickfixTableLabelProvider());
+		tableViewerAppliedQfx.setLabelProvider(new QuickfixTableLabelProvider(false));
 		
 		tableViewerProblems.setContentProvider(new ProblemsViewContentProvider());
 		tableViewerProblems.setLabelProvider(new ProblemsViewLabelProvider());

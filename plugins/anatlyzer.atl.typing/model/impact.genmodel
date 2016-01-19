@@ -8,13 +8,19 @@
   <foreignModel>impact.ecore</foreignModel>
   <genPackages prefix="Impact" basePackage="anatlyzer.atl" disposableProviderFactory="true"
       ecorePackage="impact.ecore#/">
-    <genClasses ecoreClass="impact.ecore#//ChangeImpact"/>
+    <genClasses ecoreClass="impact.ecore#//ChangeImpact">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference impact.ecore#//ChangeImpact/changes"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="impact.ecore#//Change"/>
+    <genClasses image="false" ecoreClass="impact.ecore#//Create"/>
     <genClasses image="false" ecoreClass="impact.ecore#//CallableChange">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference impact.ecore#//CallableChange/callable"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference impact.ecore#//CallableChange/invalidated"/>
     </genClasses>
     <genClasses ecoreClass="impact.ecore#//ContextCallableChange"/>
     <genClasses ecoreClass="impact.ecore#//ModuleCallableChange"/>
+    <genClasses ecoreClass="impact.ecore#//CreateMatchedRule">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference impact.ecore#//CreateMatchedRule/rule"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

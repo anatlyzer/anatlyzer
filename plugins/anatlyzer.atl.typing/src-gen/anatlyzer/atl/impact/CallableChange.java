@@ -13,11 +13,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.impact.CallableChange#getCallable <em>Callable</em>}</li>
  *   <li>{@link anatlyzer.atl.impact.CallableChange#getInvalidated <em>Invalidated</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.impact.ImpactPackage#getCallableChange()
  * @model abstract="true"

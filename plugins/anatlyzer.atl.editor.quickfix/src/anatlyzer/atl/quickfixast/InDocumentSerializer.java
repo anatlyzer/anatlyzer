@@ -14,6 +14,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.m2m.atl.adt.ui.text.atl.AtlModelAnalyser;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 
+import anatlyzer.atl.impact.ChangeImpact;
 import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
 import anatlyzer.atl.quickfixast.QuickfixApplication.AddCommentBefore;
 import anatlyzer.atl.quickfixast.QuickfixApplication.DeleteAction;
@@ -124,6 +125,10 @@ public class InDocumentSerializer extends ATLSerializer {
 			}
 			// This a kind of "post-apply"
 			qfa.updateWorkbench(document);
+			
+			// TODO: Remove this from here, this is here just for testing
+			ChangeImpact i = qfa.getImpact();
+			System.out.println(i);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {

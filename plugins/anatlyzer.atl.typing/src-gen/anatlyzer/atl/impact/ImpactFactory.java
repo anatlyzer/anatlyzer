@@ -49,6 +49,15 @@ public interface ImpactFactory extends EFactory {
 	ModuleCallableChange createModuleCallableChange();
 
 	/**
+	 * Returns a new object of class '<em>Create Matched Rule</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Create Matched Rule</em>'.
+	 * @generated
+	 */
+	CreateMatchedRule createCreateMatchedRule();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

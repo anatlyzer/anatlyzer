@@ -25,9 +25,17 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.impact.CallableImpactCalculator;
+import anatlyzer.atl.impact.Change;
+import anatlyzer.atl.impact.ChangeImpact;
+import anatlyzer.atl.impact.ContextCallableChange;
+import anatlyzer.atl.impact.GenericImpactCreator;
 import anatlyzer.atl.impact.IQuickfixSpecificImpactComputation;
+import anatlyzer.atl.impact.ImpactFactory;
+import anatlyzer.atl.impact.ModuleCallableChange;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.util.ATLSwitch;
 
 /**
  * This class represents a modification in the AST, allowing
@@ -57,8 +65,8 @@ public class QuickfixApplication {
 	}
 	
 	public <T1 extends EObject, T2 extends EObject> void replace(T1 root, BiFunction<T1, Trace, T2> replacer) {
-		//@SuppressWarnings("unchecked")
-		//T root = (T) ATLCopier.copySingleElement(originalRoot);
+		// Compute the change impact before anything actually happens
+		new GenericImpactCreator().perform(root, theChangeImpact);
 		
 		Trace trace = new Trace();
 		T2 r = replacer.apply(root, trace);
@@ -127,7 +135,6 @@ public class QuickfixApplication {
 	
 	public void mmModify(EStructuralFeature feature, String metamodelName, Consumer<EStructuralFeature> modifyer) {
 		modifyer.accept(feature);
-		System.out.println("==========> MODIFY FEATURE: " + feature.getName());
 		mmActions.add(new MMAction(metamodelName));
 	}
 
@@ -170,7 +177,7 @@ public class QuickfixApplication {
 		}
 	}
 	
-	public static class Action {
+	public static abstract class Action {
 		protected EObject tgt;
 		protected Trace trace;
 
@@ -186,6 +193,10 @@ public class QuickfixApplication {
 		public Trace getTrace() {
 			return trace;
 		}
+		
+		public abstract String getText();
+
+		public abstract void fillImpact(ChangeImpact impact) throws UnknownImpact;
 	}
 
 	public static class AddCommentBefore extends Action {
@@ -205,6 +216,16 @@ public class QuickfixApplication {
 		public String getComment() {
 			return comment;
 		}
+		
+		public String getText() {
+			return comment;
+		}
+		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// TODO: Need a way to indicate that this is pre-condition
+			throw new UnknownImpact();
+		}
 	}
 	
 	public static class ReplacementAction extends Action {
@@ -218,6 +239,15 @@ public class QuickfixApplication {
 		
 		public EObject getSrc() {
 			return src;
+		}
+
+		public String getText() {
+			return ATLSerializer.serialize(tgt);
+		}
+		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// new GenericImpactCreator().perform(src, impact);
 		}		
 	}
 	
@@ -232,6 +262,16 @@ public class QuickfixApplication {
 		public EObject getAnchor() {
 			return anchor;
 		}		
+
+		public String getText() {
+			return ATLSerializer.serialize(tgt);
+		}
+		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// TODO: Need a way to indicate that this is pre-condition
+			throw new UnknownImpact();
+		}
 	}
 
 	public static class DeleteAction extends Action {
@@ -251,6 +291,16 @@ public class QuickfixApplication {
 			}
 			return new ReplacementAction(container, container, mockTrace);			
 		}
+
+		public String getText() {
+			return "-- Removed: \n" + ATLSerializer.serialize(tgt);
+		}
+		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// TODO: Need a way to indicate that this is pre-condition
+			throw new UnknownImpact();
+		}
 	}
 	
 	public static class PutInAction extends Action {
@@ -268,6 +318,10 @@ public class QuickfixApplication {
 			return receptor;
 		}
 
+		public String getText() {
+			return ATLSerializer.serialize(tgt);
+		}
+		
 		@SuppressWarnings("unchecked")
 		public Action toMockReplacement() {
 			Trace mockTrace = new Trace();
@@ -287,7 +341,11 @@ public class QuickfixApplication {
 			return new ReplacementAction(receptor, receptor, mockTrace);
 		}
 		
-		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// TODO: Need a way to indicate that this is pre-condition
+			throw new UnknownImpact();
+		}		
 	}
 	
 	public void move(Consumer<EObject> setter, Supplier<EObject> getter) {
@@ -335,6 +393,30 @@ public class QuickfixApplication {
 
 	public void impactOn(CallableImpactCalculator impact) {
 		this.impact = impact;
+	}
+	
+	public static class UnknownImpact extends Exception {
+		private static final long serialVersionUID = 1556874133001996117L;
+	}
+	
+	
+	private ChangeImpact theChangeImpact = ImpactFactory.eINSTANCE.createChangeImpact();
+	public ChangeImpact getImpact() {
+		return theChangeImpact;
+		/*
+		ChangeImpact i = ImpactFactory.eINSTANCE.createChangeImpact();
+		
+		for (Action action : actions) {
+			try {
+				action.fillImpact(i);
+			} catch (UnknownImpact e) {
+				// Impact cannot be computed
+				return null;
+			}
+		}
+		
+		return i;
+		*/
 	}
 
 }

@@ -49,5 +49,11 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 * Return the analysis over which the quick fix is applied.
 	 */
 	public AnalysisResult getAnalysisResult();
+
+	/**
+	 * This is used to set external data inside the quick fix.
+	 */
+	public void setData(Object key, Object value);
 	
+	public Object getData(Object key);
 }

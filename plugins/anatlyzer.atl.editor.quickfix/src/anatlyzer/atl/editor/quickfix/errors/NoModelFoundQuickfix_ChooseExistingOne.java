@@ -21,22 +21,11 @@ import org.eclipse.jface.text.IDocument;
 
 
 
-
-
-
-
-
-
-
-
-
-
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 //import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
-import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
-import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.*;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -89,7 +78,7 @@ public class NoModelFoundQuickfix_ChooseExistingOne extends AbstractAtlQuickfix 
 	
 	private String getClosest() {
 		String old = this.getModelName();
-		StringDistance sd = new StringDistance(new Levenshtein());
+		StringDistance sd = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
 		List<String> allContaining = this.getAllMetamodelNamesContaining(((OclModelElement)this.getProblem().getElement()).getName());
 		
 		if (allContaining.size()>0)

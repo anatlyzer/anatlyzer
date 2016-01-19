@@ -13,6 +13,7 @@ import org.eclipse.jface.text.IDocument;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -22,7 +23,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuickfix  {
 
 	private String  closest = null;
-	private StringDistance sd = new StringDistance(new Levenshtein());
+	private StringDistance sd = new StringDistance(new Levenshtein(3), new LongestCommonSubstring());
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -32,7 +33,7 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 
 	@Override public void resetCache() { 
 		closest = null;
-		sd      = new StringDistance(new Levenshtein());
+		sd      = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
 	}
 
 	

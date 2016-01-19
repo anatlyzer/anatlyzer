@@ -14,6 +14,7 @@ import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.ATLUtils2;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypingModel;
@@ -34,7 +35,7 @@ import anatlyzer.atlext.OCL.VariableExp;
 public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuickfix {
 	protected static final int threshold = 3;				// threshold distance to try an operation name with +1 or -1 params
 	protected Map<Integer, List<String>> candidateOps;		// to be populated by children classes
-	private StringDistance sd = new StringDistance(new Levenshtein());
+	private StringDistance sd = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
 	
 	// force to populate the Map somehow
 	protected abstract Map<Integer, List<String>> populateCandidateOps(Predicate<Helper> predicate);
@@ -77,6 +78,11 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		return Collections.min(distance);
 	}
 	
+	protected String getClosestOperation(String op, int numPar) {
+		if (!(this.candidateOps.containsKey(numPar))) return op;
+		return this.sd.closest(op, this.candidateOps.get(numPar));
+	}
+	
 	/**
 	 * Heuristic method to obtain closest operation name, given an operation op. The algorithm takes
 	 * into account the number of parameters and uses {@link Levenshtein} distance
@@ -84,7 +90,7 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 	 * @param numPar number of parameters of operation op
 	 * @return
 	 */
-	protected String getClosest(String op, int numPar) {
+/*	protected String getClosest(String op, int numPar) {
 		HashMap<Integer, List<Integer>> distances = new HashMap<>();
 		distances.put(numPar, new ArrayList<Integer>());
 		
@@ -119,6 +125,29 @@ public abstract class OperationNotFoundAbstractQuickFix extends AbstractAtlQuick
 		else return randomOperation(op);										// We cannot recommend anything.... TODO: What to do?
 		System.out.println("Closest is "+closestOp);
 		return closestOp;					
+	}*/
+	
+	protected String getClosest(String op, int numPar) {
+		HashMap<Integer, List<Integer>> distances = new HashMap<>();
+		distances.put(numPar, new ArrayList<Integer>());
+		
+		String bestOp = this.getClosestOperation(op, numPar);
+		
+		if (bestOp.equals(op)) {		// Not very close to operations with same number of parameters
+			List<Integer> pars2explore = new ArrayList<Integer>();
+			pars2explore.add(numPar+1);											// Let's check operations with one more parameter (if any)
+			if (numPar > 0) pars2explore.add(numPar-1);							// Let's check operations with one less parameter (if not already 0) 
+			
+			for (int p : pars2explore) {
+				bestOp = this.getClosestOperation(op, p);
+				if (!bestOp.equals(op)) break;
+			}
+		}
+			
+		if (bestOp.equals(op))
+			return randomOperation(op);										// We cannot recommend anything.... TODO: What to do?
+		System.out.println("Closest is "+bestOp);
+		return bestOp;					
 	}
 	
 	protected String randomOperation(String defaultValue) {

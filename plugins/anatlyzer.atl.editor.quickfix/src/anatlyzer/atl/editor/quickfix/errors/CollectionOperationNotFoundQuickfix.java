@@ -21,6 +21,7 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 /**
  * This quick fix proposes a collection operation name close to the 
@@ -91,12 +92,12 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 		else System.out.println("number of params match.");
 	}
 	
-	private CollectionOperationCallExp getOperation() {
+	private OperationCallExp getOperation() {
 		try {
 			CollectionOperationNotFound p = (CollectionOperationNotFound) getProblem();
 		
 			// p.getOperationName() is null at this point 
-			return (CollectionOperationCallExp)p.getElement();
+			return (OperationCallExp)p.getElement();
 		} catch (CoreException e) {
 			
 		}
@@ -106,7 +107,7 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 	@Override
 	public void apply(IDocument document) {
 
-		CollectionOperationCallExp elm = this.getOperation();
+		OperationCallExp elm = this.getOperation();
 
 		System.out.println("Collection operation "+elm.getOperationName()+"not found");
 		System.out.println("Type of collection "+elm.getSource().getInferredType());//+"\n of: "+elm.getSource().getInferredType());
@@ -153,7 +154,7 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 
 	@Override
 	public String getDisplayString() {
-		CollectionOperationCallExp ce = this.getOperation();
+		OperationCallExp ce = this.getOperation();
 		String closest = this.getClosest(ce.getOperationName(), ce.getArguments().size());
 		int numP = ce.getArguments().size();
 		int closestPar = this.getParamsClosest(closest);
@@ -180,7 +181,7 @@ public class CollectionOperationNotFoundQuickfix extends OperationNotFoundAbstra
 	public QuickfixApplication getQuickfixApplication() {
 		CollectionOperationCallExp le = (CollectionOperationCallExp)getProblematicElement();		
 		QuickfixApplication qfa = new QuickfixApplication(this);
-		CollectionOperationCallExp elm = this.getOperation();
+		OperationCallExp elm = this.getOperation();
 		
 		qfa.replace(le, (expr, trace) -> {
 			trace.preserve(expr.getSource());

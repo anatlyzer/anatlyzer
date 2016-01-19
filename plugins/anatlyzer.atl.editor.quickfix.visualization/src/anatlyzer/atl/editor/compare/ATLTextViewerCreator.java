@@ -13,7 +13,7 @@ public class ATLTextViewerCreator implements IViewerCreator {
 
 	@Override
 	public Viewer createViewer(Composite parent, CompareConfiguration config) {
-		return new ATLTextViewer(parent);
+		return new ATLTextViewer(parent, config);
 	}
 
 }

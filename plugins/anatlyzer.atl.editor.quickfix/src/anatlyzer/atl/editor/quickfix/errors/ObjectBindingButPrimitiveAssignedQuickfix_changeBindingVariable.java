@@ -15,6 +15,7 @@ import anatlyzer.atl.analyser.EcoreTypeConverter;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
@@ -66,7 +67,7 @@ public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ext
 								map ( a -> a.getName()).
 								collect(Collectors.toList());
 		if (compat.size() == 0) return old;								// We should check that some is available in isApplicable;
-		StringDistance sd = new StringDistance(new Levenshtein());
+		StringDistance sd = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
 		return sd.closest(old, compat);
 	}
 	

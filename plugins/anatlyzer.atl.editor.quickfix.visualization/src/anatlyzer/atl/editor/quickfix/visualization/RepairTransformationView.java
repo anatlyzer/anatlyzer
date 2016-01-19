@@ -362,19 +362,20 @@ public class RepairTransformationView extends ViewPart implements ISearchListene
 		// About customization
 		// https://eclipse.org/forums/index.php/t/781875/
 		
-		ISearchState left     = null;
-		ISearchState right    = null;
+		ISearchState left     = searcher;
+		ISearchState right    = selected.get(0);
 		ISearchState ancestor = null;
+		
+		if ( selected.size() == 2 ) {
+			left = selected.get(1);
+			ancestor = searcher;
+		}		
 		
 		
 		CompareConfiguration conf = MyCompareInput.createDefaultConfiguration();
 		conf.setProperty(CompareConfiguration.USE_OUTLINE_VIEW, true);
 		MyCompareInput input = new MyCompareInput(
-				conf,
-				atlResource,
-				searcher.getAnalysisResult(),
-				selected.get(0),
-				selected.get(1));
+				conf,atlResource, ancestor, left, right);
 		CompareUI.openCompareEditor(input);
 		
 		

@@ -44,12 +44,12 @@ public class MyCompareInput extends CompareEditorInput {
 	private ISearchState stateLeft;
 	private ISearchState stateRight;
 	private IResource originalResource;
-	private AnalysisResult originalAnalysis;
+	private ISearchState stateAncestor;
 
-	public MyCompareInput(CompareConfiguration configuration, IResource originalResource, AnalysisResult originalAnalysis, ISearchState stateLeft, ISearchState stateRight) {
+	public MyCompareInput(CompareConfiguration configuration, IResource originalResource, ISearchState ancestor, ISearchState stateLeft, ISearchState stateRight) {
 		super(configuration);
 		this.originalResource = originalResource;
-		this.originalAnalysis = originalAnalysis;
+		this.stateAncestor   = ancestor;
 		this.stateLeft = stateLeft;
 		this.stateRight = stateRight;
 	}
@@ -94,11 +94,19 @@ public class MyCompareInput extends CompareEditorInput {
 			
 			IFile fLeftResource  = ResourcesPlugin.getWorkspace().getRoot().getFile(leftPath);
 			IFile fRightResource = ResourcesPlugin.getWorkspace().getRoot().getFile(rightPath);
-			IFile fAncestorResource = ResourcesPlugin.getWorkspace().getRoot().getFile(ancestorPath);
-
+			IFile fAncestorResource = null;
+			
 			ATLSerializer.serialize(stateLeft.getAnalysisResult().getATLModel(), fLeftResource.getLocation().toOSString());
 			ATLSerializer.serialize(stateRight.getAnalysisResult().getATLModel(), fRightResource.getLocation().toOSString());
-			ATLSerializer.serialize(originalAnalysis.getATLModel(), fAncestorResource.getLocation().toOSString());
+			
+			if ( stateAncestor != null ) {
+				fThreeWay = true;				
+				fAncestorResource = ResourcesPlugin.getWorkspace().getRoot().getFile(ancestorPath);
+				ATLSerializer.serialize(stateAncestor.getAnalysisResult().getATLModel(), fAncestorResource.getLocation().toOSString());
+			} else {
+				fThreeWay = false;								
+			}
+			
 			
 //			IFile fAncestorResource = null;
 ////			IFile fLeftResource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("/ddd/src/ddd/BB.java"));
@@ -106,7 +114,6 @@ public class MyCompareInput extends CompareEditorInput {
 //			IFile fLeftResource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("/ddd/src/ddd/aa.atl"));
 //			IFile fRightResource = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("/ddd/src/ddd/bb.atl"));
 			
-			fThreeWay = false;
 			
 //			fLeftResource.refreshLocal(1, pm);
 //			fRightResource.refreshLocal(1, pm);

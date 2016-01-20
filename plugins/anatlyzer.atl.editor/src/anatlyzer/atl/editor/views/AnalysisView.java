@@ -1,5 +1,6 @@
 package anatlyzer.atl.editor.views;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
@@ -246,8 +247,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 							}
 							
 							ruleConflictProblem = problem;							
-						}
-						
+						}											
 						
 						Display.getDefault().asyncExec(new Runnable() {	
 							@Override
@@ -1248,6 +1248,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			return ((GenericProblemNode) obj).p;
 		} else if ( obj instanceof RuleConflictAnalysisNode ) {
 			RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
+			
+			// Just for testing...
+			currentAnalysis.extendProblems(Collections.singleton(n.ruleConflictProblem));
+
+			
 			return n.ruleConflictProblem;
 		} else if ( obj instanceof ConflictingRules ) {
 			ConflictingRules conflictingRules = (ConflictingRules) obj;
@@ -1259,6 +1264,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			set.getRules().addAll(overlappingRules.getRules());
 			set.setAnalyserInfo(overlappingRules);
 			problem.getConflicts().add(set);
+
+			// Just for testing...
+			currentAnalysis.extendProblems(Collections.singleton(problem));
 
 			return problem;
 		} else {

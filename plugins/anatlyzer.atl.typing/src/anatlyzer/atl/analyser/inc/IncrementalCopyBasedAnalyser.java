@@ -76,12 +76,14 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 		
 		for (EObject obj : trafo.getResource().getContents()) {
 			if (obj instanceof anatlyzer.atl.errors.AnalysisResult) {
-				for (Problem problem : ((anatlyzer.atl.errors.AnalysisResult) obj)
-						.getProblems()) {
-					for (EReference eReference : problem.eClass().getEAllReferences()) {
+				obj.eAllContents().forEachRemaining( problemElement -> {
+//				for (Problem problemElement : ((anatlyzer.atl.errors.AnalysisResult) obj)
+//						.getProblems()) {
+//					for (EReference eReference : problemElement.eClass().getEAllReferences()) {
+					for (EReference eReference : problemElement.eClass().getEAllReferences()) {
 						// if ( EcorePackage.Literals.ENAMED_ELEMENT.isInstance(eReference.getEType()) ) {
 						if (eReference.getEType().getName().equals("EClass") || eReference.getEType().getName().equals("EStructuralFeature") ) { 
-							Object original = problem.eGet(eReference);
+							Object original = problemElement.eGet(eReference);
 							if ( original == null )
 								continue;
 							
@@ -104,11 +106,11 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 									throw new IllegalStateException(
 											"No target ENamedElement "+ ((ENamedElement) original).getName() + ": " + original);
 								}
-								problem.eSet(eReference, target);
+								problemElement.eSet(eReference, target);
 							}
 						}
 					}
-				}
+				});
 			}
 		}			
 			

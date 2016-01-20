@@ -166,8 +166,8 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			varDcl.setType(ATLUtils.getOclType(originalValue.getInferredType()));
 			OclExpression orRules = BindingPossiblyUnresolvedNode.genAndRules_Precondition(model, rules, varDcl, "or");
 
-			let.setIn_( orRules );
-			result = model.negateExpression(let);	
+			let.setIn_( model.negateExpression(orRules) );
+			result = let;
 		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
 			IteratorExp exists = model.createExists(genValue, model.genNiceVarName(originalValue));
 			VariableDeclaration varDcl = exists.getIterators().get(0);

@@ -13,6 +13,7 @@ import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
 
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
@@ -44,7 +45,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 	}
 
 
-	public List<OverlappingRules> performAction(AnalyserData data, IProgressMonitor monitor) {
+	public List<OverlappingRules> performAction(AnalysisResult data, IProgressMonitor monitor) {
 		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
 		List<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
 		int i = 0;
@@ -89,7 +90,7 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 	 * @param data
 	 * @return
 	 */
-	private boolean processOverlap(OverlappingRules overlap, AnalyserData data) {
+	private boolean processOverlap(OverlappingRules overlap, AnalysisResult data) {
 		if ( ! overlap.requireConstraintSolving() ) {
 			overlap.setAnalysisResult(ProblemStatus.STATICALLY_CONFIRMED);
 			return true;

@@ -47,7 +47,7 @@ public class SpeculativeQuickfixUtils {
 		
 		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
 		if ( tgtProblem == null )
-			throw new IllegalStateException();
+			throw new IllegalStateException("No target problem found for: " + problem);
 		
 		
 		qfx.resetCache();

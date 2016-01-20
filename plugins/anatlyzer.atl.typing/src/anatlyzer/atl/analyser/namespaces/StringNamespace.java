@@ -39,6 +39,11 @@ public class StringNamespace extends PrimitiveTypeNamespace {
 	@Override
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
 		if ( logicalOperators.contains(operatorSymbol) ) {
+			// These are special cases
+			if ( operatorSymbol.equals("=") || operatorSymbol.equals("<>") ) {
+				return AnalyserContext.getTypingModel().newBooleanType();
+			}
+			
 			if ( ! (optionalArgument instanceof StringType ) ) {
 				AnalyserContext.getErrorModel().signalInvalidOperand(operatorSymbol, node, null);
 			}			

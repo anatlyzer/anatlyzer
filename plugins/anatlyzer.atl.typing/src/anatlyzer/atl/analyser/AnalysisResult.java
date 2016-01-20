@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,7 +8,6 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 
 /**
@@ -35,6 +35,16 @@ public class AnalysisResult {
 	
 	public List<Problem> getProblems() {
 		return analyser.getErrors().getProblems();
+	}
+	
+	/**
+	 * This method is intended to extend the analysis result with additional problems
+	 * computed outside the analyser main procedure.
+	 * 
+	 * @param problems
+	 */
+	public void extendProblems(Collection<Problem> problems) {
+		analyser.getErrors().getProblems().addAll(problems);
 	}
 	
 	public List<Problem> getConfirmedProblems() {

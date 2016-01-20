@@ -42,8 +42,10 @@ public class VariableScope {
 	}
 
 	public void putNotKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
-		currentKindOf.addOclKindOf(vd, source, typeOfType);
-		currentKindOf.negate();
+		currentKindOf.addNegatedOclKindOf(vd, source, typeOfType);
+		// This was wrong because it negates all the elements in the scope
+		// currentKindOf.addOclKindOf(vd, source, typeOfType);
+		// currentKindOf.negate();
 	}
 
 	public void putIsUndefined(VariableDeclaration vd, OclExpression source) {
@@ -179,8 +181,9 @@ public class VariableScope {
 		 * @param vd
 		 * @param expr
 		 * @param kindOfType
+		 * @return 
 		 */
-		public void addOclKindOf(VariableDeclaration vd, OclExpression expr, Type kindOfType) {
+		public OclKindOfApplication addOclKindOf(VariableDeclaration vd, OclExpression expr, Type kindOfType) {
 			OclKindOfApplication app = findOclKindOfDefinition(expr, true);
 			if ( app == null ) {
 				app = new OclKindOfApplication(vd, expr, kindOfType);
@@ -191,6 +194,13 @@ public class VariableScope {
 				// added here to current so that it can be negated if necessary
 				addOclKindOf(expr, app);
 			}
+			return app;
+		}
+		
+		public OclKindOfApplication addNegatedOclKindOf(VariableDeclaration vd, OclExpression expr, Type kindOfType) {
+			OclKindOfApplication app = addOclKindOf(vd, expr, kindOfType);
+			app.exprType = app.exprType.negate();
+			return app;
 		}
 		
 		public void addIsUndefined(VariableDeclaration vd, OclExpression expr) {

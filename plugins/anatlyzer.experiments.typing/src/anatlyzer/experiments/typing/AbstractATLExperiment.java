@@ -122,11 +122,11 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	}
 
 	
-	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalyserData data) {
+	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
 		return doRuleAnalysis(monitor, data, false);
 	}
 	
-	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalyserData data, boolean createIfEmpty) {
+	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean createIfEmpty) {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();

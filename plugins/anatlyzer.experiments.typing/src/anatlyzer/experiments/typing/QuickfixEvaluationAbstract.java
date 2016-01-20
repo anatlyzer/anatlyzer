@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -15,8 +16,6 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -24,21 +23,18 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 
 import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfixSet;
 import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
 import anatlyzer.atl.editor.quickfix.GeneratePrecondition;
 import anatlyzer.atl.editor.quickfix.MockMarker;
+import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
@@ -99,14 +95,12 @@ import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
-import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
-import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
@@ -127,16 +121,12 @@ import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
-import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.util.ATLSerializer;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.experiments.export.CountingModel;
 import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
-import anatlyzer.ui.actions.CheckRuleConflicts;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
@@ -542,17 +532,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 			if ( performRuleAnalysis ) {
 				RuleConflict rc = doRuleAnalysis(monitor, data);
-				if ( rc != null )
-					allProblems.add(rc);
-				/*
 				if ( rc != null ) {
-					QuickfixSummary qs = summary.get(getErrorCode(rc));
-					if ( qs == null ) {
-						qs = new QuickfixSummary(AnalyserUtils.getProblemId(rc), "Rule conflict", getErrorCode(rc));
-						summary.put(getErrorCode(rc), qs);										
-					}
+					allProblems.add(rc);
+					data.extendProblems(Collections.singleton(rc));
 				}
-				*/
 			}
 
 			
@@ -730,9 +713,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					e.printStackTrace();
 				}
 				
-				ProblemStatus result = new EclipseUseWitnessFinder().			
-						checkProblemsInPath(checkProblemsInPath ).
-						checkDiscardCause(false).find(p, r);
+				ProblemStatus result = getFinder().find(p, r);
 
 				
 				switch (result) {
@@ -762,6 +743,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return allProblems;
 	}
 
+	protected IWitnessFinder getFinder() {
+		return new EclipseUseWitnessFinder().			
+				checkProblemsInPath(checkProblemsInPath ).
+				checkDiscardCause(false);
+	}
+
 	private boolean requireCSP(Problem p) {
 		return 	p instanceof BindingPossiblyUnresolved ||
 				p instanceof BindingWithResolvedByIncompatibleRule
@@ -769,113 +756,21 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
-		// Re-execute the analyser to have a fresh copy to apply the quickfix, and then retype
-		AnalyserData newResult = executeAnalyser(resource);
-		if ( newResult.getProblems().size() != original.getProblems().size() ) {
-			throw new IllegalStateException();
-		}
 		
-		Problem newProblem = null;
-		if ( p instanceof RuleConflict ) {
-			newProblem = doRuleAnalysis(null, newResult);
-			if ( newProblem == null ) {
-				throw new IllegalStateException();
-			}
-		} else {
-			int idx = original.getProblems().indexOf(p);					
-			newProblem = (LocalProblem) newResult.getProblems().get(idx);
-			if ( ! ((LocalProblem) newProblem).getLocation().equals(((LocalProblem) p).getLocation()) ) {
-				throw new IllegalStateException("This should not happen");
-			}
-		}
+		// Run the incremental analyser
+		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(original, p, quickfix);
+		inc.perform();
+		AnalysisResult newResult = new AnalysisResult(inc);
+		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newResult);
 		
-		quickfix.setErrorMarker(new MockMarker(newProblem, newResult));
-
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
-		
-		
-//		if ( getErrorCode(p).equals("E05") ) {
-//			System.out.println("\n" + qi.getCode() + " " + getErrorCode(p) + "--" + ((LocalProblem) p).getLocation() + ((LocalProblem) p).getFileLocation());
-//			System.out.println("-");
-//		} else {
-//			System.out.println("\n" + getErrorCode(p) + "--" + ((LocalProblem) p).getLocation() + ((LocalProblem) p).getFileLocation());
-//			return qi;
-//		}
-
-		
-		try { 
-			// getDisplayString() may have implementation errors, so it needs to be called
-			//                    within the try-catch
-			String displayString = quickfix.getDisplayString();
-			printMessage("Applying quickfix: " + displayString);
 			
-			// Set-up for serialization
-			id++; 
-			IFolder temp = experimentFile.getProject().getFolder("temp");
-			if ( ! temp.exists() ) {
-				temp.create(true, true, null);
-			}
-			
-			qi.setDescription(displayString);
-			QuickfixApplication qfa = ((AbstractAtlQuickfix) quickfix).getQuickfixApplication();
-			qfa.apply();
-			// This is modifying the meta-model in place...
-			
-			if ( quickfix.isMetamodelChanging() ) {
-				ATLModel model = newResult.getAnalyser().getATLModel();
-				newResult.getNamespace().getLogicalNamesToMetamodels().forEach( (name, mmResource) -> {
-				// ATLUtils.getModelInfo(model).stream().map(mi -> mi.getMetamodelName()).distinct().forEach(name -> {					
-					IFile newMM = temp.getFile(name + "_" + id + ".ecore");
-					String newPath = newMM.getFullPath().toPortableString();					
-					
-					ATLUtils.replacePathTag(model, name, name, newPath);
-					
-					try {
-						XMIResourceImpl res = new XMIResourceImpl();
-						res.getContents().addAll(EcoreUtil.copyAll(mmResource.getContents()));
-						res.getContents().forEach(obj -> {
-							EPackage pkg = ((EPackage) obj);
-							String uri = pkg.getNsURI() == null ? name : pkg.getNsURI();
-							pkg.setNsURI(uri + "/" + id);
-						});
-						
-						res.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
-						
-						// mmResource.save(new FileOutputStream(newMM.getLocation().toPortableString()), null);
-					} catch (Exception e) {
-						qi.setImplError();
-						return;
-					}
-				});	
-			}
-			
-
-			IFile f = temp.getFile(resource.getName().replace(".atl", "") + id + ".atl");
-			
-			ATLSerializer.serialize(newResult.getAnalyser().getATLModel(), f.getLocation().toPortableString());
-			printMessage("Generated quickfixed file" + f.getName());
-			f.refreshLocal(1, null);
-			
-			// Retype
-			newResult = executeAnalyser(f);
-
-			/*
-			newResult.getAnalyser().getATLModel().clear();
-			newResult.getProblems().size();
-			newResult = executeAnalyser(resource, newResult.getAnalyser().getATLModel());
-			if ( newResult == null ) {
-				throw new IllegalStateException();
-			}
-			*/
-			
-			
+		try {	
 			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
 			try { 
 				if ( performRuleAnalysis ) {
 					RuleConflict rc = doRuleAnalysis(null, newResult);
 					if ( rc != null ) {
-						System.out.println(resource.getName());
-						System.out.println(f.getName());
 						newProblems.add(rc);
 						qi.withRuleConflict();
 					}
@@ -899,6 +794,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 		qs.appliedQuickfix(qi);
 		return qi;
+	}
+
+	private IWitnessFinder createFinder() {
+		return new EclipseUseWitnessFinder().			
+				checkProblemsInPath(checkProblemsInPath ).
+				checkDiscardCause(false);
 	}
 
 	private void printMessage(String msg) {

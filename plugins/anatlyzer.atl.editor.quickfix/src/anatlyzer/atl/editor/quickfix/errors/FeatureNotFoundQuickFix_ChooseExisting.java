@@ -11,6 +11,7 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -26,7 +27,8 @@ public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix 
 
 	private List<String> attrs = new ArrayList<String>();
 	private String closest = null;
-	private StringDistance sd = new StringDistance(new Levenshtein());	// use Levenshtein distance by default
+	//private StringDistance sd = new StringDistance(new Levenshtein());	// use Levenshtein distance by default
+	private StringDistance sd = new StringDistance(new Levenshtein(3), new LongestCommonSubstring());	// use Levenshtein distance by default
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -36,7 +38,8 @@ public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix 
 	@Override public void resetCache() {
 		attrs = new ArrayList<String>();
 		closest = null;
-		sd = new StringDistance(new Levenshtein());
+		//sd = new StringDistance(new Levenshtein());
+		sd = new StringDistance(new LongestCommonSubstring());
 	}
 	
 	private NavigationOrAttributeCallExp getFeature(IMarker marker) {

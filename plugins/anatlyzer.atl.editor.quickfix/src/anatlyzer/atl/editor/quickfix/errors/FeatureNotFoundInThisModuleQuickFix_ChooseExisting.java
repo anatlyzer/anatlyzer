@@ -9,8 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
-import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
-import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.*;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -34,7 +33,7 @@ public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends Abstract
 
 	private List<String> attrs = new ArrayList<String>();
 	private String closest = null;
-	private StringDistance sd = new StringDistance(new Levenshtein());	// use Levenshtein distance by default
+	private StringDistance sd = new StringDistance(new Levenshtein(), new LongestCommonSubstring());	// use Levenshtein distance by default
 	
 	@Override
 	public boolean isApplicable(IMarker marker) {
@@ -44,7 +43,7 @@ public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends Abstract
 	@Override public void resetCache() {
 		attrs = new ArrayList<String>();
 		closest = null;
-		sd = new StringDistance(new Levenshtein());
+		sd = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
 	}
 	
 	private NavigationOrAttributeCallExp getFeature(IMarker marker) {

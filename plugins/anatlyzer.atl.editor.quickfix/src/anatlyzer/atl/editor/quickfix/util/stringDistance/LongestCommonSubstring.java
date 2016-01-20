@@ -1,6 +1,17 @@
 package anatlyzer.atl.editor.quickfix.util.stringDistance;
 
-public class LongestCommonSubstring implements DistanceCalculator{
+public class LongestCommonSubstring extends StringDistanceMetric implements DistanceCalculator{
+	
+	public static int MINSUBSTR = 4;
+	
+	public LongestCommonSubstring() {
+		super(LongestCommonSubstring.MINSUBSTR);
+	}
+	
+	public LongestCommonSubstring(int threshold) {
+		super(threshold);
+	}
+	
 	@Override public boolean isContravariant() {
 		return false;
 	} 

@@ -1,6 +1,17 @@
 package anatlyzer.atl.editor.quickfix.util.stringDistance;
 
-public class Levenshtein implements DistanceCalculator{ // Levenshtein distance
+public class Levenshtein extends StringDistanceMetric implements DistanceCalculator{ // Levenshtein distance
+	
+	public static int MAXCHANGES = 4;
+	
+	public Levenshtein() {
+		super(Levenshtein.MAXCHANGES);
+	}
+	
+	public Levenshtein(int threshold) {
+		super(threshold);
+	}
+	
 	/**
 	 * Returns the Levenshtein distance between a and b
 	 * @param a

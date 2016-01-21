@@ -35,7 +35,7 @@ public class OclUndefinedNamespace extends AbstractTypeNamespace {
 		if ( operatorSymbol.equals("=") ) return AnalyserContext.getTypingModel().newBooleanType();
 		if ( operatorSymbol.equals("<>") ) return AnalyserContext.getTypingModel().newBooleanType();
 		
-		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, this.selfType, node);
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class ImpactComputation {
 		this.trace    = trace;
 	}
 	
-	public void perform() {
+	public ImpactComputation perform() {
 		this.newProblems = new HashSet<Problem>();
 		
 		// Those for which a corresponding problem in the new version of the transformation cannot be found
@@ -72,6 +72,8 @@ public class ImpactComputation {
 //		this.changed.getProblems().forEach(pChanged -> {
 //			eChanged = pChanged.get
 //		});
+		
+		return this;
 	}
 	
 	public Collection<Problem> getNewProblems() {

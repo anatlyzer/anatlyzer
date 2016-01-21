@@ -1,6 +1,5 @@
 package anatlyzer.experiments.typing;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,7 +22,6 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
-import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.Activator;
@@ -121,6 +118,8 @@ import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.impact.ImpactComputation;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.experiments.export.CountingModel;
@@ -188,9 +187,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				List<AppliedQuickfixInfo> list = quickfixesByType.get(k);
 				
 				int totalQuickfix = list.size();
-				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
-				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
-				
+//				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
+//				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
+
+				int generated = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
+				int fixed     = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
+
 				String line = "~~~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
 				lines.add(line);
 			});
@@ -243,6 +245,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		private boolean notSupported;
 		private boolean implError;
 		public String description = "no-description";
+		private ImpactComputation impact;
 
 		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original, List<Problem> originalProblems) {
 			// TODO Auto-generated constructor stub
@@ -364,6 +367,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		public void setRetyped(AnalysisResult newResult, List<Problem> retypedProblems) {
 			this.newResult = newResult;
 			this.retypedProblems = new ArrayList<Problem>(retypedProblems);
+		
+			
+			ITracedATLModel trace = (ITracedATLModel) newResult.getATLModel();
+			this.impact = new ImpactComputation(this.original, this.newResult, trace).perform();			
 		}
 		
 		public AnalysisResult getRetyped() {
@@ -410,12 +417,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			return originalProblems;
 		}
 
-		public int getNumOfFixes() {
+		public int getNumFixedProblems() {
+			// TODO: This may actually happen?
 			if ( retypedProblems == null )
 				return 0;
-			return originalProblems.size() - retypedProblems.size();
+			return this.impact.getFixedProblems().size();
 		}
 
+		public int getNumNewProblems() {
+			// TODO: This may actually happen?
+			if ( retypedProblems == null )
+				return 0;
+			return this.impact.getNewProblems().size();			
+		}
+		
 		public void withRuleConflict() {
 			withRuleConflict++;
 		}
@@ -597,13 +612,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						trafo.appliedQuickfix(qi);
 						
 						if ( qi.getRetypedProblems() != null ) {
-							// int newProblems = qi.getOriginalProblems().size() - qi.getRetypedProblems().size();
-							int newProblems = qi.getNumOfFixes();
-							if ( newProblems < 0 ) {
-								errorsGenerated += -1 * newProblems;
-							} else {
-								errorsFixed += newProblems;
-							}
+							errorsFixed += qi.getNumFixedProblems();
+							errorsGenerated += qi.getNumNewProblems();
 						}
 						
 						appliedQuickfixesCount++;

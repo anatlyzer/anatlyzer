@@ -1,6 +1,9 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
+import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
@@ -11,9 +14,13 @@ import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atlext.OCL.VariableExp;
 
 /**
  * This quickfix proposes enclosing the problem in an "if" expression checking the
@@ -50,12 +57,20 @@ public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 
 		Supplier<OclExpression> createCheck = ASTUtils.createOclIsUndefinedCheck(pce.getSource());
 	
+		Set<VariableDeclaration> usedVarSet = ATLUtils.findAllVarExp(pce.getSource()).stream().map(v -> v.getReferredVariable()).collect(Collectors.toSet());		
+
 		// Find the root of the expression
 		OclExpression expRoot = null;
 		EObject current = pce;
 		do {
 			expRoot = (OclExpression) current;
 			current = current.eContainer();
+			
+			if ( current instanceof LoopExp ) {
+				LoopExp loop = (LoopExp) current;
+				if ( usedVarSet.contains( loop.getIterators().get(0)) )
+					break;				
+			}			
 		} while ( current instanceof OclExpression );
 		
 		final OclExpression fexpRoot = expRoot;

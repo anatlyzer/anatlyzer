@@ -479,7 +479,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	// Just for test purposes
 	protected List<String> messages = new ArrayList<String>();
 	protected HashMap<String, Project> projects = new HashMap<String, QuickfixEvaluationAbstract.Project>();
-	protected boolean checkProblemsInPath = false;
+	protected boolean checkProblemsInPath = true;
 	
 	public QuickfixEvaluationAbstract() {
 		counting.setRepetitions(true);
@@ -528,7 +528,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
-			List<Problem> allProblems = selectProblems(data.getProblems(), data);
+			List<Problem> allProblems = selectProblems(data);
 
 			if ( performRuleAnalysis ) {
 				RuleConflict rc = doRuleAnalysis(monitor, data);
@@ -624,7 +624,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			printMessage("Error " + resource.getName() + e.getMessage());
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			// throw new RuntimeException(e);
 		}
 	}
 
@@ -697,25 +697,23 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return "X-" + AnalyserUtils.getProblemId(p);
 	}
 
-	private List<Problem> selectProblems(List<Problem> problems, AnalysisResult r) {
+	private List<Problem> selectProblems(AnalysisResult r) {
+		List<Problem> originalProblems = r.getProblems();
 		ArrayList<Problem> allProblems = new ArrayList<Problem>();
+				
+		
+		// If the flag is active then we only take into account top-level problems
+		List<Problem> problems;
+		if ( checkProblemsInPath ) {
+			problems = r.getAnalyser().getDependencyGraph().getProblemTree().
+					getNodes().stream().map(n -> n.getProblem()).collect(Collectors.toList());		
+		} else {
+			problems = originalProblems;
+		}
+		
 		for (Problem p : problems) {
-			if ( useCSP && requireCSP(p) ) {
-//				WitnessResult result = new StandaloneWitnessFinder().
-//						checkProblemsInPath(checkProblemsInPath ).
-//						checkDiscardCause(false).
-//						find(p, r);
-				
-				try {
-					transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
-					File dir = new File(transMLProperties.getProperty("temp"));
-					FileUtils.deleteDirectory(dir);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
+			if ( useCSP && requireCSP(p) ) {				
 				ProblemStatus result = getFinder().find(p, r);
-
 				
 				switch (result) {
 				case ERROR_CONFIRMED:
@@ -767,7 +765,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
 			
 		try {	
-			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
+			List<Problem> newProblems = selectProblems(newResult);
 			try { 
 				if ( performRuleAnalysis ) {
 					RuleConflict rc = doRuleAnalysis(null, newResult);

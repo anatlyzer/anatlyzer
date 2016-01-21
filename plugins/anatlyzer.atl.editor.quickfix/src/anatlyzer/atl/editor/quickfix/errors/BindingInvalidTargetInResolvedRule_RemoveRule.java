@@ -35,7 +35,7 @@ public class BindingInvalidTargetInResolvedRule_RemoveRule extends BindingInvali
 	
 	@Override
 	public String getDisplayString() {
-		return "Remove binding";
+		return "Remove rule";
 	}
 	
 

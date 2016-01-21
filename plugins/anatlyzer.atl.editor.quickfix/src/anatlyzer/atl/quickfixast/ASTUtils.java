@@ -15,6 +15,7 @@ import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
@@ -91,6 +92,12 @@ public class ASTUtils {
 //			}
 //			return exp;
 //		}
+		
+		// This is included as a fallback when quick fixing code that has errores in
+		// other parts of the path, at least we are generating something syntactically correct
+		if ( t instanceof TypeError ) return OCLFactory.eINSTANCE.createOclUndefinedExp();
+		
+		
 		throw new UnsupportedOperationException("Type " + t + " not supported yet");
 	}
 	

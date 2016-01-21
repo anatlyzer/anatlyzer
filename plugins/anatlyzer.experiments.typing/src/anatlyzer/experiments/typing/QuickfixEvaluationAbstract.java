@@ -624,6 +624,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			printMessage("Error " + resource.getName() + e.getMessage());
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -936,7 +937,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			try {
 				if ( ce.getName().equals("quickfix") ) {
 					AtlProblemQuickfix qf = (AtlProblemQuickfix) ce.createExecutableExtension("apply");
-					if ( qf.isApplicable(iMarker) && ! discardQuickfix(qf) ) {
+					if ( qf.isApplicable(iMarker) && ! discardQuickfix(qf) && ! qf.requiresUserIntervention()) {
 						qf.setErrorMarker(iMarker);
 						quickfixes.add(qf);
 					}
@@ -949,7 +950,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 								throw new IllegalStateException();
 							}
 							
-							if ( discardQuickfix(q) )
+							if ( discardQuickfix(q) || q.requiresUserIntervention())
 								continue;
 							
 							q.setErrorMarker(iMarker);

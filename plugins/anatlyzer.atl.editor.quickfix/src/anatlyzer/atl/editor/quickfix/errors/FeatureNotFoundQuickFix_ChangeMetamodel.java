@@ -28,6 +28,11 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	}
 
 	@Override
+	public boolean requiresUserIntervention() {
+		return true;
+	}
+	
+	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 

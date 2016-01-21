@@ -16,7 +16,11 @@ import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
+import anatlyzer.atl.quickfixast.ASTUtils;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 
@@ -28,25 +32,13 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		setErrorMarker(marker);
-		return checkProblemType(marker, NoClassFoundInMetamodel.class);
+		return checkProblemType(marker, NoClassFoundInMetamodel.class) && 
+				getClosest((OclModelElement) getProblematicElement(marker)) != null;
 	}
 
 	@Override public void resetCache() { 
 		closest = null;
 		sd      = new StringDistance(new Levenshtein(), new LongestCommonSubstring());
-	}
-
-	
-	private OclModelElement getElement() {
-		try {
-			NoClassFoundInMetamodel p = (NoClassFoundInMetamodel) getProblem();
-		
-			// p.getOperationName() is null at this point 
-			return (OclModelElement)p.getElement();
-		} catch (CoreException e) {
-			
-		}
-		return null;
 	}
 	
 	private List<String> getPossibleNames (OclModel model) {
@@ -72,36 +64,31 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 	
 	@Override
 	public void apply(IDocument document) {
-		OclModelElement me = this.getElement();
-		
-		System.out.println("Class not found: "+me.getName()+", replace by "+this.getClosest(me));
-		
-		int[] sourceOffset = getElementOffset(me, document);
-
-		try {
-			int offsetEnd = getProblemEndOffset();
-		
-			String rest = document.get(sourceOffset[0], offsetEnd - sourceOffset[0]);
-			
-			document.replace(sourceOffset[0], rest.length(), me.getModel().getName()+"!"+this.getClosest(me));
-		} catch (CoreException | BadLocationException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public String getAdditionalProposalInfo() {
-		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
+		QuickfixApplication qfa = getQuickfixApplication();
+		new InDocumentSerializer(qfa, document).serialize();		
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
+		OclModelElement element = (OclModelElement) this.getProblematicElement();
+		return "Class "+ element.getName()+ " not found, replace by "+this.getClosest(element);
 	}
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		throw new UnsupportedOperationException("To be implemented");
+		OclModelElement me = (OclModelElement) this.getProblematicElement();
+		String closest = this.getClosest(me);
+		
+		QuickfixApplication qfa = new QuickfixApplication(this);
+		qfa.replace(me, (expr, trace) -> {
+			OclModelElement newOme = OCLFactory.eINSTANCE.createOclModelElement();
+			newOme.setName(closest);
+			newOme.setModel( (OclModel) ATLCopier.copySingleElement(me.getModel()) );
+			
+			return newOme;
+		});
+		
+		return qfa;
 	}
 
 }

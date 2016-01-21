@@ -14,11 +14,12 @@ public class BindingInvalidTargetInResolvedRuleQuickfixSet extends AbstractQuick
 	@Override
 	public AtlProblemQuickfix[] getPossibleQuickfixes() {
 		return new AtlProblemQuickfix[] {
-				new BindingInvalidTargetInResolvedRule_FilterBinding(),
-				new BindingInvalidTargetInResolvedRule_ModifiyRuleFilter(),
-				new BindingInvalidTargetInResolvedRule_Remove(),
-				new BindingInvalidTargetInResolvedRule_RemoveRule(),
-				new GeneratePrecondition(BindingWithResolvedByIncompatibleRule.class)
+				//new BindingInvalidTargetInResolvedRule_FilterBinding(),
+				//new BindingInvalidTargetInResolvedRule_ModifiyRuleFilter(),
+				//new BindingInvalidTargetInResolvedRule_Remove(),
+				new BindingInvalidTargetInResolvedRule_RemoveRule()
+				//,
+				//new GeneratePrecondition(BindingWithResolvedByIncompatibleRule.class)
 		};
 	}
 }

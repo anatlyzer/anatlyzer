@@ -12,6 +12,7 @@ import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.ReflectiveClass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -20,7 +21,9 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends AbstractAtlQuickfix {
 
 	@Override public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, OperationCallInvalidNumberOfParameters.class) && buildNewListOfArguments(marker)!=null;
+		return checkProblemType(marker, OperationCallInvalidNumberOfParameters.class) && 
+				buildNewListOfArguments(marker)!=null &&
+				buildNewListOfArguments(marker).stream().noneMatch(a -> a instanceof ReflectiveClass);
 	}
 	
 	@Override public void resetCache() { }
@@ -74,7 +77,7 @@ public class OperationCallInvalidNumberOfParametersQuickfix_AddArguments extends
 			actualParameters = new ArrayList<Type> ( problem.getActualParameters() );
 		} 
 		catch (CoreException e) { return null; }
-
+		
 		// get list of actual parameters that is compatible with formal parameters
 		List <Type> newActualParameters = new ArrayList<Type>();
 		while (!formalParameters.isEmpty()) {

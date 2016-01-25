@@ -197,7 +197,17 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			if ( rule.getInPattern().getFilter() != null && rule.getInPattern().getElements().size() == 1 && rule.getVariables().size() == 0 ) { 
 				OclExpression allInstancesPart = forallInner.getSource();
 				IteratorExp select = model.createIterator(allInstancesPart, "select", forallInner.getIterators().get(0).getVarName());
+				
+				model.openEmptyScope();
+				model.addToScope(rule.getInPattern().getElements().get(0), select.getIterators().get(0));
+				OclExpression condition = this.getConstraint().genCSP(model);
+				model.closeScope();
+				select.setBody(condition);
+
 				forallInner.setSource(select);
+				
+				OclExpression whenFilterExpr = generator.apply(model); 				
+				forallInner.setBody(whenFilterExpr);
 			}
 			else if ( rule.getInPattern().getFilter() != null ) {
 				
@@ -205,7 +215,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				OclExpression condition = this.getConstraint().genCSP(model);
 				IfExp ifExp = model.createIfExpression(condition, null, model.createBooleanLiteral(false) );
 				
-				// set <? : allInstancesBody>
+				// set <? : forAllBody>
 				if ( letUsingDeclarations == null )
 					forallInner.setBody(ifExp);
 				else 
@@ -220,7 +230,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
 				OclExpression whenFilterExpr = generator.apply(model); // getDepending().genCSP(model);
 	
-				// set <? : allInstancesBody>
+				// set <? : forAllBody>
 				if ( letUsingDeclarations  == null )
 					forallInner.setBody(whenFilterExpr);
 				else 

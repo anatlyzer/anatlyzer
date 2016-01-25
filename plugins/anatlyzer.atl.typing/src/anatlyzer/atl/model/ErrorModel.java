@@ -193,6 +193,8 @@ public class ErrorModel {
 		FeatureNotFound error = AtlErrorFactory.eINSTANCE.createFeatureNotFound();
 		initProblem(error, element);
 		
+		error.setFeatureName(featureName);
+		
 		signalError(error, "No feature " + c.getName() + "." + featureName + " found", element);
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}

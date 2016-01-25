@@ -21,6 +21,8 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ATLPackage;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
@@ -207,7 +209,11 @@ public class ATLModel {
 	public void clear() {
 		errors.clear();
 		typing.clear();
-		// typing.impl.getContents().clear();
+		
+		// Clear all annotations initialized by the analyser
+		allObjectsOf(Binding.class).forEach(b -> {
+			b.getResolvedBy().clear();
+		});
 	}
 
 	
@@ -229,7 +235,7 @@ public class ATLModel {
 			// Remove from the original resource the elements that has been
 			// created in the initialisation of CopiedATLModel (via ATLModel)
 			// This is needed because I want an exact copy of the original resource,
-			// not being polluted with elements that will be duplicated that will be
+			// not being polluted with elements that will be duplicated because they will be
 			// created by the copy.
 			while ( copyResource.getContents().size() > 0 ) 
 				EcoreUtil.delete(copyResource.getContents().get(0));
@@ -247,7 +253,7 @@ public class ATLModel {
 			
 			return atlModel;
 		}
-		
+				
 		@Override
 		protected void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
 			// Code removed because I do not want to copy non-containment references in this case

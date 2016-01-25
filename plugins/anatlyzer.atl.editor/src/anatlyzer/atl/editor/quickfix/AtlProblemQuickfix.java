@@ -18,6 +18,12 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	public boolean isApplicable(IMarker marker) throws CoreException;
 	
 	/**
+	 * @return true when the quick fix cannot be automatically applied 
+	 * without asking the user some additional information (i.e., with a dialog).
+	 */
+	public boolean requiresUserIntervention();
+	
+	/**
 	 * This method is needed to implement speculative quick fixes when isApplicable is not side-effect free.
 	 * A speculative quick fix has two calls to isApplicable and setErrorMarker, first with the original 
 	 * problem, and then with a copy which is ultimately the problem over which the quick fix will be appplied. 

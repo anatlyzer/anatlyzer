@@ -6,6 +6,7 @@ import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 
 public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelChangeQuickfix  {
@@ -19,14 +20,31 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	@Override public void resetCache() {}
 	
 	private Metaclass getSourceType() {
-		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
-		Type t = nav.getSource().getInferredType();
+		Type t = null;
+		if ( getProblematicElement() instanceof NavigationOrAttributeCallExp ) {		
+			NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
+			t = nav.getSource().getInferredType();
+		} else {
+			Binding b = (Binding) getProblematicElement();
+			t = b.getOutPatternElement().getInferredType();
+		}
+		
 		if ( t instanceof Metaclass && ((Metaclass) t).getModel() != null ) {
 			return (Metaclass) t;
 		}
 		return null;
 	}
 
+	@Override
+	public boolean requiresUserIntervention() {
+		return true;
+	}
+	
+	@Override
+	public String getChangedMetamodel() {
+		return null;
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();

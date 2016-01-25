@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.EcoreTypeConverter;
@@ -17,17 +15,13 @@ import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
-import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
-import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.NumericExp;
-import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PrimitiveExp;
 import anatlyzer.atlext.OCL.StringExp;
 
@@ -38,18 +32,11 @@ import anatlyzer.atlext.OCL.StringExp;
  */
 public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable extends AbstractAtlQuickfix {
 
-	public ObjectBindingButPrimitiveAssigned getProblem() {
-		try {
-			return (ObjectBindingButPrimitiveAssigned) super.getProblem();
-		} catch (CoreException ce) {
-			
-		}
-		return null;
-	}
-	
+
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, ObjectBindingButPrimitiveAssigned.class);
+		return checkProblemType(marker, ObjectBindingButPrimitiveAssigned.class)
+				&& getClosestVariable((Binding) getProblematicElement(marker)) != null;
 	}
 
 	@Override public void resetCache() { }
@@ -93,8 +80,7 @@ public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ext
 		return this.getClosestVariableName(this.getClassContainer(ob), ob.getPropertyName(), ob.getValue());
 	}
 	
-	private EAttribute getClosestVariable() {
-		Binding ob = (Binding)this.getProblematicElement();
+	private EAttribute getClosestVariable(Binding ob) {
 		EAttribute ea = this.getClosestVariable(this.getClassContainer(ob), ob.getPropertyName(), ob.getValue());
 		return ea;
 	}
@@ -113,7 +99,7 @@ public class ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ext
 
 			trace.preserve(expr.getOutPatternElement());
 			
-			EAttribute closest = this.getClosestVariable();
+			EAttribute closest = this.getClosestVariable(b);
 			expr.setWrittenFeature(closest);
 			expr.setLeftType(Conversions.convert(closest.getEAttributeType()));
 			expr.setPropertyName(closest.getName());

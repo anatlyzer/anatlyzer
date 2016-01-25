@@ -56,4 +56,14 @@
       </experiment>
    </extension>
 
+   <extension
+         id="typing.experiment.old.quickfixEvaluationByMutation"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.typing.old.OldQuickfixEvaluationByMutation"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
+
+
 </plugin>

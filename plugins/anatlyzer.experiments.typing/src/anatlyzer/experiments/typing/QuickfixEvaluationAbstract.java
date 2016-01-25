@@ -1,6 +1,5 @@
 package anatlyzer.experiments.typing;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -24,7 +22,6 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
-import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.editor.Activator;
@@ -121,6 +118,8 @@ import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
 import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.impact.ImpactComputation;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.experiments.export.CountingModel;
@@ -130,7 +129,7 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
-	protected List<AnalyserData> allData = new ArrayList<AnalyserData>();
+ List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
 	protected boolean recordAll = false;
@@ -188,9 +187,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				List<AppliedQuickfixInfo> list = quickfixesByType.get(k);
 				
 				int totalQuickfix = list.size();
-				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
-				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
-				
+//				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
+//				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
+
+				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
+				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
+
 				String line = "~~~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
 				lines.add(line);
 			});
@@ -243,6 +245,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		private boolean notSupported;
 		private boolean implError;
 		public String description = "no-description";
+		private ImpactComputation impact;
 
 		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original, List<Problem> originalProblems) {
 			// TODO Auto-generated constructor stub
@@ -364,6 +367,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		public void setRetyped(AnalysisResult newResult, List<Problem> retypedProblems) {
 			this.newResult = newResult;
 			this.retypedProblems = new ArrayList<Problem>(retypedProblems);
+		
+			
+			ITracedATLModel trace = (ITracedATLModel) newResult.getATLModel();
+			this.impact = new ImpactComputation(this.original, this.newResult, trace).perform();			
 		}
 		
 		public AnalysisResult getRetyped() {
@@ -410,12 +417,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			return originalProblems;
 		}
 
-		public int getNumOfFixes() {
+		public int getNumFixedProblems() {
+			// TODO: This may actually happen?
 			if ( retypedProblems == null )
 				return 0;
-			return originalProblems.size() - retypedProblems.size();
+			return this.impact.getFixedProblems().size();
 		}
 
+		public int getNumNewProblems() {
+			// TODO: This may actually happen?
+			if ( retypedProblems == null )
+				return 0;
+			return this.impact.getNewProblems().size();			
+		}
+		
 		public void withRuleConflict() {
 			withRuleConflict++;
 		}
@@ -479,7 +494,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	// Just for test purposes
 	protected List<String> messages = new ArrayList<String>();
 	protected HashMap<String, Project> projects = new HashMap<String, QuickfixEvaluationAbstract.Project>();
-	protected boolean checkProblemsInPath = false;
+	protected boolean checkProblemsInPath = true;
 	
 	public QuickfixEvaluationAbstract() {
 		counting.setRepetitions(true);
@@ -528,13 +543,14 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			String fileName = resource.getName();
 			counting.processingArtefact(fileName);
 			
-			List<Problem> allProblems = selectProblems(data.getProblems(), data);
+			List<Problem> allProblems = selectProblems(data);
 
 			if ( performRuleAnalysis ) {
 				RuleConflict rc = doRuleAnalysis(monitor, data);
 				if ( rc != null ) {
 					allProblems.add(rc);
 					data.extendProblems(Collections.singleton(rc));
+					System.out.println(fileName);
 				}
 			}
 
@@ -594,16 +610,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 							return;
 						
 						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data, allProblems, qs);
-						trafo.appliedQuickfix(qi);
-						
+						trafo.appliedQuickfix(qi);							
 						if ( qi.getRetypedProblems() != null ) {
-							// int newProblems = qi.getOriginalProblems().size() - qi.getRetypedProblems().size();
-							int newProblems = qi.getNumOfFixes();
-							if ( newProblems < 0 ) {
-								errorsGenerated += -1 * newProblems;
-							} else {
-								errorsFixed += newProblems;
-							}
+							errorsFixed += qi.getNumFixedProblems();
+							errorsGenerated += qi.getNumNewProblems();
+							
+//							if ( qi.getCode().equals("Q4.1") && qi.getNumNewProblems() > 0 ) {
+//								System.out.println(resource);
+//							}
+
 						}
 						
 						appliedQuickfixesCount++;
@@ -624,6 +639,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			printMessage("Error " + resource.getName() + e.getMessage());
 			counting.addError(resource.getName(), e);
 			e.printStackTrace();
+			// throw new RuntimeException(e);
 		}
 	}
 
@@ -696,25 +712,24 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return "X-" + AnalyserUtils.getProblemId(p);
 	}
 
-	private List<Problem> selectProblems(List<Problem> problems, AnalysisResult r) {
+	private List<Problem> selectProblems(AnalysisResult r) {
+		List<Problem> originalProblems = r.getProblems();
 		ArrayList<Problem> allProblems = new ArrayList<Problem>();
+				
+		
+		// If the flag is active then we only take into account top-level problems
+		List<Problem> problems;
+		if ( checkProblemsInPath ) {
+			problems = r.getAnalyser().getDependencyGraph().getProblemTree().
+					getNodes().stream().map(n -> n.getProblem()).collect(Collectors.toList());		
+		} else {
+			problems = originalProblems;
+		}
+		
 		for (Problem p : problems) {
-			if ( useCSP && requireCSP(p) ) {
-//				WitnessResult result = new StandaloneWitnessFinder().
-//						checkProblemsInPath(checkProblemsInPath ).
-//						checkDiscardCause(false).
-//						find(p, r);
-				
-				try {
-					transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
-					File dir = new File(transMLProperties.getProperty("temp"));
-					FileUtils.deleteDirectory(dir);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
+			if ( useCSP && requireCSP(p) ) {				
 				ProblemStatus result = getFinder().find(p, r);
-
+				p.setStatus(result);
 				
 				switch (result) {
 				case ERROR_CONFIRMED:
@@ -766,7 +781,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
 			
 		try {	
-			List<Problem> newProblems = selectProblems(newResult.getProblems(), newResult);
+			List<Problem> newProblems = selectProblems(newResult);
 			try { 
 				if ( performRuleAnalysis ) {
 					RuleConflict rc = doRuleAnalysis(null, newResult);
@@ -936,7 +951,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			try {
 				if ( ce.getName().equals("quickfix") ) {
 					AtlProblemQuickfix qf = (AtlProblemQuickfix) ce.createExecutableExtension("apply");
-					if ( qf.isApplicable(iMarker) && ! discardQuickfix(qf) ) {
+					if ( qf.isApplicable(iMarker) && ! discardQuickfix(qf) && ! qf.requiresUserIntervention()) {
 						qf.setErrorMarker(iMarker);
 						quickfixes.add(qf);
 					}
@@ -949,7 +964,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 								throw new IllegalStateException();
 							}
 							
-							if ( discardQuickfix(q) )
+							if ( discardQuickfix(q) || q.requiresUserIntervention())
 								continue;
 							
 							q.setErrorMarker(iMarker);

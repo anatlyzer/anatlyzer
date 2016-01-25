@@ -30,7 +30,8 @@ public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {	
 		
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, FeatureNotFound.class);
+		return checkProblemType(marker, FeatureNotFound.class) && 
+				getProblematicElement(marker) instanceof NavigationOrAttributeCallExp;
 	}
 		
 	@Override public void resetCache() { }

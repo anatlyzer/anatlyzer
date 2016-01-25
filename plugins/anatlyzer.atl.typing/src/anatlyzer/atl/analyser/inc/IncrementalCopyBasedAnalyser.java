@@ -3,17 +3,13 @@ package anatlyzer.atl.analyser.inc;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
@@ -21,12 +17,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
-import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 public class IncrementalCopyBasedAnalyser extends Analyser {
@@ -35,16 +29,23 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 
 	public IncrementalCopyBasedAnalyser(AnalysisResult baseAnalysis) {
 		super(baseAnalysis.getNamespace(), createNewModel(baseAnalysis.getATLModel()));
+		// Metamodels are not copied by a fresh namespace is needed
+		GlobalNamespace ns = baseAnalysis.getNamespace();		
+		this.mm = new GlobalNamespace(ns.getLogicalNamesToMetamodels().values(), ns.getLogicalNamesToMetamodels());
 		this.baseAnalysis = baseAnalysis;
 	}
 	
 	public IncrementalCopyBasedAnalyser(AnalysisResult baseAnalysis, Collection<String> metamodelsToCopy) {
+		this(baseAnalysis, metamodelsToCopy, true);
+	}
+
+	public IncrementalCopyBasedAnalyser(AnalysisResult baseAnalysis, Collection<String> metamodelsToCopy, boolean checkExists) {
 		super(null, createNewModel(baseAnalysis.getATLModel()));
-		this.mm = adaptNamespace(baseAnalysis.getNamespace(), metamodelsToCopy);
+		this.mm = adaptNamespace(baseAnalysis.getNamespace(), metamodelsToCopy, checkExists);
 		this.baseAnalysis = baseAnalysis;
 	}
 
-	private GlobalNamespace adaptNamespace(GlobalNamespace namespace, Collection<String> metamodelsToCopy) {
+	private GlobalNamespace adaptNamespace(GlobalNamespace namespace, Collection<String> metamodelsToCopy, boolean checkExists) {
 		HashSet<Resource> resources = new HashSet<Resource>(namespace.getLogicalNamesToMetamodels().values());
 		HashMap<String, Resource> newMap = new HashMap<String, Resource>(namespace.getLogicalNamesToMetamodels());
 		Copier copier = new Copier();
@@ -65,14 +66,14 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 
 		for (String mmName : metamodelsToCopy) {
 			// Replace references in the transformation model
-			replaceReferences(mmName, copier);			
+			replaceReferences(mmName, copier, checkExists);			
 		}
-		replaceEClassReferences(copier);
+		replaceEClassReferences(copier, checkExists);
 		
 		return new GlobalNamespace(resources, newMap);
 	}
 
-	private void replaceEClassReferences(Copier copier) {
+	private void replaceEClassReferences(Copier copier, boolean checkExists) {
 		
 		for (EObject obj : trafo.getResource().getContents()) {
 			if (obj instanceof anatlyzer.atl.errors.AnalysisResult) {
@@ -92,10 +93,15 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 								list.replaceAll(c -> {
 									ENamedElement target = (ENamedElement) copier.get(c);
 									if (target == null) {
-										throw new IllegalStateException(
-												"No target ENamedElement "
-														+ ((ENamedElement) c).getName()
-														+ ": " + c);
+										if ( checkExists ) {
+											throw new IllegalStateException(
+													"No target ENamedElement "
+															+ ((ENamedElement) c).getName()
+															+ ": " + c);
+										} else {
+											// Basically this changes nothing
+											return c;
+										}
 									}
 									return target;
 								});
@@ -103,8 +109,12 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 							} else {
 								ENamedElement target = (ENamedElement) copier.get(original);
 								if (target == null) {
-									throw new IllegalStateException(
+									if ( checkExists ) {
+										throw new IllegalStateException(
 											"No target ENamedElement "+ ((ENamedElement) original).getName() + ": " + original);
+									} else {
+										continue;
+									}
 								}
 								problemElement.eSet(eReference, target);
 							}
@@ -117,7 +127,7 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 		
 	}
 
-	protected void replaceReferences(String mmName, Copier copier) {
+	protected void replaceReferences(String mmName, Copier copier, boolean checkExists) {
 	
 		for (EObject obj : trafo.getResource().getContents()) {
 			if ( obj instanceof Metaclass && 
@@ -126,7 +136,10 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 				EClass original = ((Metaclass) obj).getKlass();
 				EClass target   = (EClass) copier.get(original);
 				if ( target == null ) {
-					throw new IllegalStateException("No target EClass " + ((Metaclass) obj).getName() + ": " + original);
+					if ( checkExists )
+						throw new IllegalStateException("No target EClass " + ((Metaclass) obj).getName() + ": " + original);
+					else 
+						continue;
 				}					
 				((Metaclass) obj).setKlass(target);
 			}

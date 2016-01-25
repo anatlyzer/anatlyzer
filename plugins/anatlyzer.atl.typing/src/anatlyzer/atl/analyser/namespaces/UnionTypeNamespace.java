@@ -1,6 +1,10 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.lang.model.type.ErrorType;
 
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
@@ -100,7 +104,12 @@ public class UnionTypeNamespace extends AbstractTypeNamespace implements ITypeNa
 	public Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node) {
 		Type t = super.getOperatorType(operatorSymbol, optionalArgument, node);
 		if ( t == null ) {
-			throw new UnsupportedOperationException(operatorSymbol);
+			// This may generate more than one error, but it is the easiest way by now
+			List<Type> types = type.getPossibleTypes().stream().map(possibleType -> {
+				ITypeNamespace ns = (ITypeNamespace) possibleType.getMetamodelRef();
+				return ns.getOperatorType(operatorSymbol, optionalArgument, node);				
+			}).filter(opType -> !(opType instanceof ErrorType)).collect(Collectors.toList());
+			return AnalyserContext.getTypingModel().getCommonType(types);
 		}
 		return t;
 	}

@@ -127,7 +127,6 @@ public class QuickfixApplication {
 	
 	public void mmModify(EStructuralFeature feature, String metamodelName, Consumer<EStructuralFeature> modifyer) {
 		modifyer.accept(feature);
-		System.out.println("==========> MODIFY FEATURE: " + feature.getName());
 		mmActions.add(new MMAction(metamodelName));
 	}
 

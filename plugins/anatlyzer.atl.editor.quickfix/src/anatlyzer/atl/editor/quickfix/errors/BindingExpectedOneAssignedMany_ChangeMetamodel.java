@@ -33,6 +33,13 @@ public class BindingExpectedOneAssignedMany_ChangeMetamodel extends AbstractMeta
 	}
 
 	@Override
+	public String getChangedMetamodel() {
+		Binding  binding = (Binding)getProblematicElement();
+		Metaclass m = (Metaclass) binding.getOutPatternElement().getInferredType();		
+		return m.getModel().getName();
+	}
+	
+	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		Binding  binding = (Binding)getProblematicElement();
 		Metaclass m = (Metaclass) binding.getOutPatternElement().getInferredType();		

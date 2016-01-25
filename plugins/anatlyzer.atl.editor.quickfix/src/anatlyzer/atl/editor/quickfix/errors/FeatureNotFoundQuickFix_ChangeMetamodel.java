@@ -41,6 +41,11 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	}
 	
 	@Override
+	public String getChangedMetamodel() {
+		return null;
+	}
+	
+	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 

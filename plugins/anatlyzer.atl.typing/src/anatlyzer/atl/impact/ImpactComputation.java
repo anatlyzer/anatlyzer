@@ -2,6 +2,8 @@ package anatlyzer.atl.impact;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -9,6 +11,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
+import anatlyzer.atl.util.AnalyserUtils;
 
 public class ImpactComputation {
 	private AnalysisResult original;
@@ -33,10 +36,13 @@ public class ImpactComputation {
 		// Detect new problems (for local problems...)
 		// and fixed problems
 		
-		this.changed.getLocalProblems().forEach(pChanged -> {
+		
+		// TODO: Treat rule conflicts differently
+		
+		confirmedLocalProblems(this.changed).forEach(pChanged -> {
 			EObject eChanged = pChanged.getElement();
 			boolean found = false;
-			for (LocalProblem pOriginal : this.original.getLocalProblems()) {
+			for (LocalProblem pOriginal : confirmedLocalProblems(this.original)) {
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
 				if ( eChanged == tgt && pOriginal.eClass() == pChanged.eClass() ) {
@@ -51,9 +57,9 @@ public class ImpactComputation {
 			}
 		});
 		
-		for (LocalProblem pOriginal : this.original.getLocalProblems()) {
+		for (LocalProblem pOriginal : confirmedLocalProblems(this.original)) {
 			boolean found = false;
-			for (LocalProblem pChanged : this.changed.getLocalProblems()) {
+			for (LocalProblem pChanged : confirmedLocalProblems(this.changed)) {
 				EObject eChanged = pChanged.getElement();
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
@@ -75,6 +81,16 @@ public class ImpactComputation {
 		
 		return this;
 	}
+
+	protected List<LocalProblem> confirmedLocalProblems(AnalysisResult r) {
+//		return r.getLocalProblems().stream().filter(p -> AnalyserUtils.isConfirmed(p)).collect(Collectors.toList());
+		return r.getPossibleProblems().stream().
+				filter(p -> p instanceof LocalProblem).
+				map(p -> (LocalProblem) p).
+				collect(Collectors.toList());
+	}
+	
+	
 	
 	public Collection<Problem> getNewProblems() {
 		return newProblems;

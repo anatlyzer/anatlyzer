@@ -129,7 +129,7 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
-	protected List<AnalyserData> allData = new ArrayList<AnalyserData>();
+ List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
 	protected boolean recordAll = false;
@@ -190,8 +190,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 //				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
 //				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
 
-				int generated = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
-				int fixed     = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
+				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
+				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
 
 				String line = "~~~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
 				lines.add(line);
@@ -550,6 +550,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				if ( rc != null ) {
 					allProblems.add(rc);
 					data.extendProblems(Collections.singleton(rc));
+					System.out.println(fileName);
 				}
 			}
 
@@ -609,11 +610,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 							return;
 						
 						AppliedQuickfixInfo qi = applyQuickfix(quickfix, resource, p, data, allProblems, qs);
-						trafo.appliedQuickfix(qi);
-						
+						trafo.appliedQuickfix(qi);							
 						if ( qi.getRetypedProblems() != null ) {
 							errorsFixed += qi.getNumFixedProblems();
 							errorsGenerated += qi.getNumNewProblems();
+							
+//							if ( qi.getCode().equals("Q4.1") && qi.getNumNewProblems() > 0 ) {
+//								System.out.println(resource);
+//							}
+
 						}
 						
 						appliedQuickfixesCount++;
@@ -724,6 +729,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		for (Problem p : problems) {
 			if ( useCSP && requireCSP(p) ) {				
 				ProblemStatus result = getFinder().find(p, r);
+				p.setStatus(result);
 				
 				switch (result) {
 				case ERROR_CONFIRMED:

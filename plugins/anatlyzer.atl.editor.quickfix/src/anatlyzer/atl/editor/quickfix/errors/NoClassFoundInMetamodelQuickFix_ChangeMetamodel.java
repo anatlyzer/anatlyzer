@@ -26,7 +26,13 @@ public class NoClassFoundInMetamodelQuickFix_ChangeMetamodel extends AbstractMet
 	public String getDisplayString() {
 		return "Create meta-class in meta-model";
 	}
-
+	
+	public String getChangedMetamodel() {
+		OclModelElement me = (OclModelElement) getProblematicElement();
+		String mmName = me.getModel().getName();
+		return mmName;
+	};
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		OclModelElement me = (OclModelElement) getProblematicElement();

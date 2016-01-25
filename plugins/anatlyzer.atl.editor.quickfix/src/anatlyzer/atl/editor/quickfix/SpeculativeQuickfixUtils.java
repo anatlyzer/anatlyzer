@@ -1,6 +1,8 @@
 package anatlyzer.atl.editor.quickfix;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -24,6 +26,7 @@ import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class SpeculativeQuickfixUtils {
+
 	
 	/**
 	 * It modifies the given quickfix... 
@@ -35,16 +38,28 @@ public class SpeculativeQuickfixUtils {
 	 */
 	public static IncrementalCopyBasedAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
 		IncrementalCopyBasedAnalyser inc = null;
-		/*
-		if ( qfx.isMetamodelChanging() ) {
-			inc = new IncrementalAnalyser(baseAnalysis, Collections.singletonList(qfx.getChangedMetamodel()));			
+
+		boolean copyMetamodelsOnDemand = true;
+
+		
+		if ( copyMetamodelsOnDemand ) {
+			if ( qfx.isMetamodelChanging() ) {
+				Collection<String> changedMetamodels;
+				boolean checkExists = true;
+				if ( qfx.getChangedMetamodel() == null ) {
+					changedMetamodels = baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet();
+				} else {				
+					changedMetamodels = Collections.singletonList(qfx.getChangedMetamodel());
+					checkExists = false;
+				}
+				
+				inc = new IncrementalCopyBasedAnalyser(baseAnalysis, changedMetamodels, checkExists);			
+			} else {
+				inc = new IncrementalCopyBasedAnalyser(baseAnalysis);
+			}
 		} else {
-			inc = new IncrementalAnalyser(baseAnalysis);
+			inc = new IncrementalCopyBasedAnalyser(baseAnalysis, baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet());
 		}
-		*/
-		
-		inc = new IncrementalCopyBasedAnalyser(baseAnalysis, baseAnalysis.getNamespace().getLogicalNamesToMetamodels().keySet());
-		
 		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
 		if ( tgtProblem == null )
 			throw new IllegalStateException("No target problem found for: " + problem);

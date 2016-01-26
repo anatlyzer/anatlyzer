@@ -941,7 +941,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			// for (Problem p : t.problemToQuickfix.keySet()) {
 			for (Problem p : t.getOriginalProblems()) {			
 				st.createCell(s, row, startCol + 1, (long) AnalyserUtils.getProblemId(p));
-				st.createCell(s, row, startCol + 2, p.getDescription() + " at " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "-"));
+				st.createCell(s, row, startCol + 2, getErrorCode(p) + " - " + p.getDescription() + " at " + (isLocal(p) ? ((LocalProblem) p).getLocation() : "-"));
 				
 				List<AppliedQuickfixInfo> quickfixes = t.getQuickfixes(p);
 				if ( quickfixes.isEmpty() ) {
@@ -971,14 +971,14 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						
 						for(int i = 0; i < max; i++) {
 							row++;
-							if ( fixed.size() < i ) {
+							if ( i < fixed.size() ) {
 								st.createCell(s, row, startCol + 4, fixed.get(i).getDescription());							
 							}
-							if ( gen.size() < i ) {
+							if ( i < gen.size() ) {
 								st.createCell(s, row, startCol + 5, gen.get(i).getDescription());											
 								
 							}
-							if ( remaining.size() < i ) {
+							if ( i < remaining.size() ) {
 								st.createCell(s, row, startCol + 6, remaining.get(i).getDescription());								
 							}							
 						}

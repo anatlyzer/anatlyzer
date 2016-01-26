@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 
@@ -44,9 +45,7 @@ public class ImpactComputation {
 		// Detect new problems (for local problems...)
 		// and fixed problems
 		
-		
-		// TODO: Treat rule conflicts differently
-		
+			
 		confirmedLocalProblems(this.changed).forEach(pChanged -> {
 			EObject eChanged = pChanged.getElement();
 			boolean found = false;
@@ -83,11 +82,30 @@ public class ImpactComputation {
 		}
 		
 		
+		// Treat rule conflicts differently
+		// This is a bit weird, because in principle there is only 
+		// a maximum of one RuleConflict instance per analysed transformation 
+		List<RuleConflict> originalConflicts = getRuleConflicts(original);
+		List<RuleConflict> changedConflicts = getRuleConflicts(changed);
+		if ( originalConflicts.isEmpty() && ! changedConflicts.isEmpty() ) {
+			this.newProblems.addAll(changedConflicts);
+		} else if ( ! originalConflicts.isEmpty() && changedConflicts.isEmpty() ) {
+			this.fixedProblems.addAll(originalConflicts);
+		}
+				
+		
+		
 //		this.changed.getProblems().forEach(pChanged -> {
 //			eChanged = pChanged.get
 //		});
 		
 		return this;
+	}
+
+	private List<RuleConflict> getRuleConflicts(AnalysisResult r) {
+		return r.getProblems().stream().
+			filter(p -> p instanceof RuleConflict ).
+			map(p -> (RuleConflict) p).collect(Collectors.toList());
 	}
 
 	protected List<LocalProblem> confirmedLocalProblems(AnalysisResult r) {

@@ -129,7 +129,10 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
- List<AnalyserData> allData = new ArrayList<AnalyserData>();
+	private static final Object MIN_QUICKFIX = "minqfx";
+	private static final Object MAX_QUICKFIX = "minqfx";
+	
+ 	List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
 
 	protected boolean recordAll = false;
@@ -255,114 +258,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 
 		public String getCode() {
-			if ( quickfix instanceof RuleConflictQuickfix_ModifyRuleFilter ) return "Q0.0";
-
-			if ( quickfix instanceof BindingPossiblyUnresolved_ModifiyRuleFilter ||
-			     quickfix instanceof BindingInvalidTargetInResolvedRule_ModifiyRuleFilter ) return "Q1.1";
-			
-			if ( quickfix instanceof BindingPossiblyUnresolved_Remove ||
-				 quickfix instanceof BindingInvalidTargetInResolvedRule_Remove ||
-				 quickfix instanceof NoRuleForBindingQuickfix_RemoveBinding ) return "Q1.2";
-
-			if ( quickfix instanceof BindingPossiblyUnresolved_FilterBinding ||
-				 quickfix instanceof BindingInvalidTargetInResolvedRule_FilterBinding ) return "Q1.3";
-				
-			if ( quickfix instanceof GeneratePrecondition ) 
-				return "Q1.4";
-			
-			if ( quickfix instanceof BindingPossiblyUnresolved_AddRule ) return "Q2.1";
-			if ( quickfix instanceof NoRuleForBindingQuickfix_AddRule ) return "Q2.1";
-			
-			if ( quickfix instanceof BindingInvalidTargetInResolvedRule_RemoveRule ) return "Q3.1";
-			
-			if ( quickfix instanceof NoBindingForCompulsoryFeature_ChangeMetamodel ) return "Q4.1";
-			if ( quickfix instanceof BindingExpectedOneAssignedMany_ChangeMetamodel ) return "Q4.1";
-			// Also for PrimitiveBindingInvalidAssignment, etc.
-			
-			if ( quickfix instanceof PrimitiveBindingInvalidAssignment_Quickfix ) return "Q4.2";
-			
-			if ( quickfix instanceof NoBindingForCompulsoryFeature_AddBinding )  return "Q5.1"; // TODO: Is this 4.2?
-			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarExpression ) return "Q5.2";
-			if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarFeature ) return "Q5.3";
-			
-			// TODO: 5.3, suggest a similar feature in the meta-model
-			
-			// This is not completelely accurate
-			if ( quickfix instanceof ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ) return "Q5.3"; 
-			
-			
-			if ( quickfix instanceof BindingExpectedOneAssignedMany_SelectFirst ) return "Q6.1";
-			
-			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_FindSimilar ) return "Q7.1";
-			if ( quickfix instanceof NoModelFoundQuickfix_ChooseExistingOne ) return "Q7.1"; // in some way it is similar to 7.1
-			if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_ChangeMetamodel ) return "Q7.2"; 
-
-			if ( quickfix instanceof IncoherentHelperReturnTypeQuickfix_AssignInferredType ) return "Q8.1";
-			if ( quickfix instanceof IncoherentDeclaredTypeQuickfix_AssignInferredType ) return "Q8.1";
-			
-			
-			if ( quickfix instanceof AccessToUndefinedValue_AddIf ) return "Q9.1";
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression ) return "Q9.1";
-			// TODO: Consider features in subtype, 9.1
-			
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock ) return "Q9.1 (b)";
-			// TODO: Consider features in subtype, 9.2, consider outer for access to undefined, 9.2
-
-			if ( quickfix instanceof AccessToUndefinedValue_AddRuleFilter ) return "Q9.2";
-			// TODO: Consider features in subtype, 9.3, consider rule filter for subyptes 9.3
-
-			if ( quickfix instanceof AccessToUndefinedValue_ChangeMetamodel ) return "Q10.1";
-			
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_CreateHelper) return "Q11.1";
-			if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.2";
-			
-			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
-			if ( quickfix instanceof OperationNotFoundQuickfix_ChooseExisting) return "Q12.1";
-			if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
-			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_ChooseExisting ) return "Q12.1";			
-			if ( quickfix instanceof CollectionOperationNotFoundQuickfix ) return "Q12.1";
-			// TODO: 12.1 context operations 
-						
-			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
-			if ( quickfix instanceof OperationNotFoundQuickfix_CreateHelper ) return "Q12.2";
-			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
-			if ( quickfix instanceof FeatureNotFoundQuickfix_CreateHelper ) return "Q12.2";
-			
-			// TODO: 12.2 context operations 
-			
-			if ( quickfix instanceof FeatureNotFoundQuickFix_ChangeMetamodel ) return "Q12.3";
-			
-			if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall ) return "Q12.4";
-			if ( quickfix instanceof OperationNotFoundQuickfix_ChangeToFeatureCall ) return "Q12.4";
-			if ( quickfix instanceof FeatureNotFoundQuickFix_FindSameOperation ) return "Q12.4";
-			if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_FindSameOperation ) return "Q12.4";
-
-			// TODO: 12.4 context operations 		
-			
-			
-			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddArguments ) return "Q15.1";
-			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments ) return "Q15.1";
-			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters ) return "Q15.2";
-			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveFormalParameters ) return "Q15.2";
-			if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation ) return "Q15.3";
-			if ( quickfix instanceof OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition ) return "Q16.1";
-			if ( quickfix instanceof OperationCallInvalidParameterQuickfix_CreateHelper ) return "Q16.2";
-			
-			if ( quickfix instanceof FlattenOverNonNestedCollectionQuickFix ) return "Q18.1";
-			if ( quickfix instanceof OperationOverCollectionTypeQuickfix ) return "Q18.1";
-			if ( quickfix instanceof CollectionOperationOverNoCollectionQuickfix ) return "Q18.1";
-			
-			String cname = quickfix.getClass().getSimpleName();
-			/*
-			int idx = cname.indexOf("_");
-			if ( idx >= 0 ) {
-				cname = cname.substring(idx + 1);
-			}
-			
-			return cname.replace("_", "").substring(0, 10);
-			*/
-			return cname;
-		}
+			return QuickfixEvaluationAbstract.getCode(this.quickfix);
+		}		
 
 		public void setRetyped(AnalysisResult newResult, List<Problem> retypedProblems) {
 			this.newResult = newResult;
@@ -587,7 +484,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				
 				trafo.currentProblem(p);
 			
-				List<AtlProblemQuickfix> quickfixes = getQuickfixes(p, data);
+				List<AtlProblemQuickfix> quickfixes = filter(getQuickfixes(p, data));
 				
 				if ( quickfixes.size() > 0 ) { 
 					// Printing
@@ -641,6 +538,26 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			e.printStackTrace();
 			// throw new RuntimeException(e);
 		}
+	}
+
+	private List<AtlProblemQuickfix> filter(List<AtlProblemQuickfix> quickfixes) {
+		String minQuickfix = (String) options.getOrDefault(MIN_QUICKFIX, "Q0.0");
+		String maxQuickfix = (String) options.getOrDefault(MAX_QUICKFIX, "Q9999.9999");
+		
+		ArrayList<AtlProblemQuickfix> result = new ArrayList<AtlProblemQuickfix>();
+		for (AtlProblemQuickfix qfx : quickfixes) {
+			String code = getCode(qfx);
+			if ( code.startsWith("Q")) {
+				if ( minQuickfix.compareToIgnoreCase(code) >= 0 && maxQuickfix.compareTo(code) <= 0 ) {
+					// Consider the quickfix
+					result.add(qfx);
+				}
+			} else {
+				result.add(qfx);
+			}
+		}
+		
+		return result;
 	}
 
 	private boolean isLocal(Problem p) {
@@ -710,6 +627,116 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 		
 		return "X-" + AnalyserUtils.getProblemId(p);
+	}
+
+	public static String getCode(AtlProblemQuickfix quickfix) {
+		if ( quickfix instanceof RuleConflictQuickfix_ModifyRuleFilter ) return "Q0.0";
+
+		if ( quickfix instanceof BindingPossiblyUnresolved_ModifiyRuleFilter ||
+		     quickfix instanceof BindingInvalidTargetInResolvedRule_ModifiyRuleFilter ) return "Q1.1";
+		
+		if ( quickfix instanceof BindingPossiblyUnresolved_Remove ||
+			 quickfix instanceof BindingInvalidTargetInResolvedRule_Remove ||
+			 quickfix instanceof NoRuleForBindingQuickfix_RemoveBinding ) return "Q1.2";
+
+		if ( quickfix instanceof BindingPossiblyUnresolved_FilterBinding ||
+			 quickfix instanceof BindingInvalidTargetInResolvedRule_FilterBinding ) return "Q1.3";
+			
+		if ( quickfix instanceof GeneratePrecondition ) 
+			return "Q1.4";
+		
+		if ( quickfix instanceof BindingPossiblyUnresolved_AddRule ) return "Q2.1";
+		if ( quickfix instanceof NoRuleForBindingQuickfix_AddRule ) return "Q2.1";
+		
+		if ( quickfix instanceof BindingInvalidTargetInResolvedRule_RemoveRule ) return "Q3.1";
+		
+		if ( quickfix instanceof NoBindingForCompulsoryFeature_ChangeMetamodel ) return "Q4.1";
+		if ( quickfix instanceof BindingExpectedOneAssignedMany_ChangeMetamodel ) return "Q4.1";
+		// Also for PrimitiveBindingInvalidAssignment, etc.
+		
+		if ( quickfix instanceof PrimitiveBindingInvalidAssignment_Quickfix ) return "Q4.2";
+		
+		if ( quickfix instanceof NoBindingForCompulsoryFeature_AddBinding )  return "Q5.1"; // TODO: Is this 4.2?
+		if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarExpression ) return "Q5.2";
+		if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarFeature ) return "Q5.3";
+		
+		// TODO: 5.3, suggest a similar feature in the meta-model
+		
+		// This is not completelely accurate
+		if ( quickfix instanceof ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable ) return "Q5.3"; 
+		
+		
+		if ( quickfix instanceof BindingExpectedOneAssignedMany_SelectFirst ) return "Q6.1";
+		
+		if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_FindSimilar ) return "Q7.1";
+		if ( quickfix instanceof NoModelFoundQuickfix_ChooseExistingOne ) return "Q7.1"; // in some way it is similar to 7.1
+		if ( quickfix instanceof NoClassFoundInMetamodelQuickFix_ChangeMetamodel ) return "Q7.2"; 
+
+		if ( quickfix instanceof IncoherentHelperReturnTypeQuickfix_AssignInferredType ) return "Q8.1";
+		if ( quickfix instanceof IncoherentDeclaredTypeQuickfix_AssignInferredType ) return "Q8.1";
+		
+		
+		if ( quickfix instanceof AccessToUndefinedValue_AddIf ) return "Q9.1";
+		if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression ) return "Q9.1";
+		// TODO: Consider features in subtype, 9.1
+		
+		if ( quickfix instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock ) return "Q9.1 (b)";
+		// TODO: Consider features in subtype, 9.2, consider outer for access to undefined, 9.2
+
+		if ( quickfix instanceof AccessToUndefinedValue_AddRuleFilter ) return "Q9.2";
+		// TODO: Consider features in subtype, 9.3, consider rule filter for subyptes 9.3
+
+		if ( quickfix instanceof AccessToUndefinedValue_ChangeMetamodel ) return "Q10.1";
+		
+		if ( quickfix instanceof OperationFoundInSubtypeQuickfix_CreateHelper) return "Q11.1";
+		if ( quickfix instanceof OperationFoundInSubtypeQuickfix_ChangeOperationContext) return "Q11.2";
+		
+		if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChooseExisting) return "Q12.1";
+		if ( quickfix instanceof OperationNotFoundQuickfix_ChooseExisting) return "Q12.1";
+		if ( quickfix instanceof FeatureNotFoundQuickFix_ChooseExisting ) return "Q12.1";
+		if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_ChooseExisting ) return "Q12.1";			
+		if ( quickfix instanceof CollectionOperationNotFoundQuickfix ) return "Q12.1";
+		// TODO: 12.1 context operations 
+					
+		if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
+		if ( quickfix instanceof OperationNotFoundQuickfix_CreateHelper ) return "Q12.2";
+		if ( quickfix instanceof FeatureNotFoundInThisModuleQuickfix_CreateHelper ) return "Q12.2";
+		if ( quickfix instanceof FeatureNotFoundQuickfix_CreateHelper ) return "Q12.2";
+		
+		// TODO: 12.2 context operations 
+		
+		if ( quickfix instanceof FeatureNotFoundQuickFix_ChangeMetamodel ) return "Q12.3";
+		
+		if ( quickfix instanceof OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall ) return "Q12.4";
+		if ( quickfix instanceof OperationNotFoundQuickfix_ChangeToFeatureCall ) return "Q12.4";
+		if ( quickfix instanceof FeatureNotFoundQuickFix_FindSameOperation ) return "Q12.4";
+		if ( quickfix instanceof FeatureNotFoundInThisModuleQuickFix_FindSameOperation ) return "Q12.4";
+
+		// TODO: 12.4 context operations 		
+		
+		
+		if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddArguments ) return "Q15.1";
+		if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments ) return "Q15.1";
+		if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters ) return "Q15.2";
+		if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_RemoveFormalParameters ) return "Q15.2";
+		if ( quickfix instanceof OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation ) return "Q15.3";
+		if ( quickfix instanceof OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition ) return "Q16.1";
+		if ( quickfix instanceof OperationCallInvalidParameterQuickfix_CreateHelper ) return "Q16.2";
+		
+		if ( quickfix instanceof FlattenOverNonNestedCollectionQuickFix ) return "Q18.1";
+		if ( quickfix instanceof OperationOverCollectionTypeQuickfix ) return "Q18.1";
+		if ( quickfix instanceof CollectionOperationOverNoCollectionQuickfix ) return "Q18.1";
+		
+		String cname = quickfix.getClass().getSimpleName();
+		/*
+		int idx = cname.indexOf("_");
+		if ( idx >= 0 ) {
+			cname = cname.substring(idx + 1);
+		}
+		
+		return cname.replace("_", "").substring(0, 10);
+		*/
+		return cname;
 	}
 
 	private List<Problem> selectProblems(AnalysisResult r) {
@@ -976,7 +1003,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				e.printStackTrace();
 			}
 		}
-
+		
 		return quickfixes;
 	}
 

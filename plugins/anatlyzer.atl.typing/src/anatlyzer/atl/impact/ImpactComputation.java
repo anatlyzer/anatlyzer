@@ -26,7 +26,6 @@ public class ImpactComputation {
 		this.trace    = trace;
 	}
 	
-<<<<<<< HEAD
 	public AnalysisResult getOriginal() {
 		return original;
 	}
@@ -35,10 +34,7 @@ public class ImpactComputation {
 		return changed;
 	}
 	
-	public void perform() {
-=======
 	public ImpactComputation perform() {
->>>>>>> 8ff922e0081c9ee42c46f6ec289cc4bde2c7a41f
 		this.newProblems = new HashSet<Problem>();
 		
 		// Those for which a corresponding problem in the new version of the transformation cannot be found

@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -130,7 +131,7 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
 	private static final Object MIN_QUICKFIX = "minqfx";
-	private static final Object MAX_QUICKFIX = "minqfx";
+	private static final Object MAX_QUICKFIX = "maxqfx";
 	
  	List<AnalyserData> allData = new ArrayList<AnalyserData>();
 	protected CountingModel<DetectedError> counting = new CountingModel<DetectedError>();
@@ -251,10 +252,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		private ImpactComputation impact;
 
 		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original, List<Problem> originalProblems) {
-			// TODO Auto-generated constructor stub
 			this.quickfix = quickfix;
 			this.original = original;
-			this.originalProblems = new ArrayList<Problem>(originalProblems);
+			this.originalProblems = new ArrayList<Problem>(originalProblems);	
+			setDescription(getCode() + " - " + quickfix.getDisplayString());
 		}
 
 		public String getCode() {
@@ -330,6 +331,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 		public void withRuleConflict() {
 			withRuleConflict++;
+		}
+
+		public long getNumRemainingProblems() {
+			return this.impact.getChanged().getPossibleProblems().size();
 		}
 		
 	}
@@ -548,7 +553,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		for (AtlProblemQuickfix qfx : quickfixes) {
 			String code = getCode(qfx);
 			if ( code.startsWith("Q")) {
-				if ( minQuickfix.compareToIgnoreCase(code) >= 0 && maxQuickfix.compareTo(code) <= 0 ) {
+				if ( code.compareToIgnoreCase(minQuickfix) >= 0 && code.compareToIgnoreCase(maxQuickfix) <= 0 ) {
 					// Consider the quickfix
 					result.add(qfx);
 				}
@@ -927,7 +932,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			st.cell(s, row, startCol + 2, "Description.").centeringBold().charsWidth(50);
 			st.cell(s, row, startCol + 3, "Quickfixes").centeringBold();
 			st.cell(s, row, startCol + 4, "Fixed").centeringBold();
-			st.cell(s, row, startCol + 5, "Total").centeringBold();
+			st.cell(s, row, startCol + 5, "New").centeringBold();
+			st.cell(s, row, startCol + 6, "Remaining").centeringBold();
 			
 			row++;
 			
@@ -952,11 +958,30 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					} else if ( qi.isImplError() ) {
 						st.cell(s, row, startCol + 4, (long) 0).background(HSSFColor.RED.index);	
 						st.cell(s, row, startCol + 6, "Impl. Error");							
-					} else {
-						long newProblems = qi.getRetypedProblems().size();
-						long oldProblems = qi.getOriginalProblems().size(); 
-						st.createCell(s, row, startCol + 4, (long) oldProblems - newProblems);											
-						st.createCell(s, row, startCol + 5, (long) newProblems);											
+					} else {										
+						st.createCell(s, row, startCol + 4, (long) qi.getNumFixedProblems());											
+						st.createCell(s, row, startCol + 5, (long) qi.getNumNewProblems());											
+						st.createCell(s, row, startCol + 6, (long) qi.getNumRemainingProblems());
+						
+						
+						List<Problem> fixed = new ArrayList<>(qi.impact.getFixedProblems());
+						List<Problem> gen   = new ArrayList<>(qi.impact.getNewProblems());
+						List<Problem> remaining = new ArrayList<>(qi.retypedProblems);
+						int max = Math.max(remaining.size(), Math.max(fixed.size(), gen.size()));
+						
+						for(int i = 0; i < max; i++) {
+							row++;
+							if ( fixed.size() < i ) {
+								st.createCell(s, row, startCol + 4, fixed.get(i).getDescription());							
+							}
+							if ( gen.size() < i ) {
+								st.createCell(s, row, startCol + 5, gen.get(i).getDescription());											
+								
+							}
+							if ( remaining.size() < i ) {
+								st.createCell(s, row, startCol + 6, remaining.get(i).getDescription());								
+							}							
+						}
 					}
 					row++;
 				}				

@@ -3,6 +3,8 @@ package anatlyzer.experiments.typing;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -93,26 +95,55 @@ public class QuickfixEvaluationByMutation extends QuickfixEvaluationAbstract {
 		projects.put("CollectionOperationCallModification", new Project("CollectionOperationCallModification"));
 		projects.put("CollectionTypeModification", new Project("CollectionTypeModification"));
 		projects.put("CreationofBinding", new Project("CreationofBinding"));
+		projects.put("DeletionofBinding", new Project("DeletionofBinding"));            // New with respect MoDELS'15 (?)
 		projects.put("DeletionofArgument", new Project("DeletionofArgument"));
 		projects.put("DeletionofFilter", new Project("DeletionofFilter"));
+		projects.put("DeletionofRule", new Project("DeletionofRule"));  	  	        // New with respect MoDELS'15 (?)
 		projects.put("InPatternElementModification", new Project("InPatternElementModification"));
+		projects.put("IteratorModification", new Project("IteratorModification")); 		// New with respect MoDELS'15 (?)
 		projects.put("NavigationModification", new Project("NavigationModification"));
 		projects.put("OperatorModification", new Project("OperatorModification"));
 		projects.put("OperationCallModification", new Project("OperationCallModification"));
 		projects.put("OutPatternElementModification", new Project("OutPatternElementModification"));
 
-		
+		// New(!) with respect MoDELS'15 
+		projects.put("PrimitiveValueModification", new Project("PrimitiveValueModification"));
+		projects.put("ModificationofParentRule", new Project("ModificationofParentRule"));
+		projects.put("ModificationofParentRule", new Project("ModificationofParentRule"));
+		projects.put("HelperReturnTypeModification", new Project("HelperReturnTypeModification"));
+		projects.put("HelperContextTypeModification", new Project("HelperContextTypeModification"));
+		projects.put("HelperCallModification", new Project("HelperCallModification"));
+		projects.put("DeletionofOutPatternElement", new Project("DeletionofOutPatternElement"));
+		projects.put("DeletionofHelper", new Project("DeletionofHelper"));
+		projects.put("DeletionofContext", new Project("DeletionofContext"));
+		projects.put("CreationofOutPatternElement", new Project("CreationofOutPatternElement"));
+		projects.put("CreationofInPatternElement", new Project("CreationofInPatternElement"));
+
 		for (IFile aFile : allFiles) {
 			if ( monitor.isCanceled() )
 				return;
 			
-			String rawName = aFile.getFullPath().lastSegment();
-			rawName = rawName.replaceAll("_mutant.*atl$", "");
-			
-			Project p = projects.get(rawName);
+			String fname = aFile.getFullPath().lastSegment();
+			String mutationTypeName = fname.replaceAll("_mutant.*atl$", "");
+			Pattern pattern = Pattern.compile(mutationTypeName + "_mutant(.*).atl");
+			Matcher matcher = pattern.matcher(fname);
+			if ( ! matcher.matches() ) {
+				System.out.println("No match for " + fname);
+				continue;
+			}
+			int numMutation = Integer.parseInt(matcher.group(1));
+						
+			Project p = projects.get(mutationTypeName);
 			if ( p == null ) {
 				p = projects.get("default");
-			}
+				mutationTypeName = "default";
+			} 
+			
+			
+			int maxMutations = Integer.parseInt((String) options.getOrDefault(mutationTypeName, Integer.MAX_VALUE + ""));
+			
+			if ( numMutation > maxMutations ) 
+				continue;			
 			
 			evaluateQuickfixesOfFile(aFile, p, monitor);
 		}

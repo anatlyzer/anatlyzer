@@ -176,8 +176,13 @@ public class NavigationModificationMutator extends AbstractFeatureModificationMu
 		while (c!=null && next!=null && next!=container) {
 			if (c instanceof EClass) {
 				EStructuralFeature name      = next.eClass().getEStructuralFeature("name");
-				String             nameValue = next.eGet(name).toString();
-				EStructuralFeature feature   = ((EClass)c).getEStructuralFeature(nameValue);
+				EStructuralFeature feature   = null;
+				if ( name != null ) {
+					String             nameValue = next.eGet(name).toString();
+					feature = ((EClass)c).getEStructuralFeature(nameValue);
+				} else {
+					System.out.println("Warning: " + next.eClass().getName() + " " + "with null name feature ");
+				}
 				if (feature!=null) {
 					c    = feature.getEType();
 					next = next.eContainer();

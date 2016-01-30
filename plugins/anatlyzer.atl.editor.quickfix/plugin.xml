@@ -214,6 +214,13 @@
       </quickfixset>
    </extension>
    
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.FeatureAccessInCollection_SelectFirst">
+      </quickfix>
+   </extension>
+   
    <!-- Constraint solving and slicing -->
    <!--
    <extension

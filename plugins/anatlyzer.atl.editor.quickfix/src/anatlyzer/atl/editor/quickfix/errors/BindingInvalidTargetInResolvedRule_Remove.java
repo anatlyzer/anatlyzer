@@ -8,6 +8,16 @@ import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
 
+/**
+ * This quick fix simply removes a binding to avoid a binding-related problem.
+ * It is only applicable when the assigned feature is optional to avoid generating
+ * an incorrect target model.
+ *   
+ * @qfxName  Remove binding
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule}
+ * 
+ * @author jesusc
+ */
 public class BindingInvalidTargetInResolvedRule_Remove extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override

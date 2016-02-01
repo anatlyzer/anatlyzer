@@ -6,9 +6,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
@@ -17,6 +14,15 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.OCL.OclExpression;
 
+/**
+ * This quick fix generates a pre-condition. It is applicable to any
+ * kind of error that requires the constraint solver.
+ *   
+ * @qfxName  Generate pre-condition
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.LocalProblem}
+ * 
+ * @author jesusc
+ */
 public class GeneratePrecondition extends AbstractAtlQuickfix {
 
 	private Class<?> applicableClass;

@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.CoreException;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
-import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
@@ -16,6 +15,23 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
+/**
+ * This quick fix modifies the rule filter with an expression that ensures
+ * that the right part of the problematic binding of the rule will always be
+ * resolved by the existing rules.
+ *  
+ * In other words, the quick fix avoids the rule to be executed if the problematic
+ * quick fix cannot be fully resolved.
+ * 
+ * The quick fix is only applicable if the binding is mono-valued.
+ * 
+ * It may cause other bindings that depends on this rule to become unresolved.
+ *   
+ * @qfxName  Add filter to current rule
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
+ * 
+ * @author jesusc
+ */
 public class BindingPossiblyUnresolved_ModifiyRuleFilter extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override

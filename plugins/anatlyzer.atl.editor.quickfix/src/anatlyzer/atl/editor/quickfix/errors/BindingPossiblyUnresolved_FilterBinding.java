@@ -16,6 +16,17 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
+/**
+ * This quick fix modifies the problematic binding to add an expression that ensures
+ * that its right part of will always be resolved by the existing rules. This typically
+ * means selecting elements will certainly resolved by existing rules or adding an if expression
+ * if the binding is mono-valued.
+ *    
+ * @qfxName Add filter expression to binding
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
+ * 
+ * @author jesusc
+ */
 public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuickFix {
 
 	@Override

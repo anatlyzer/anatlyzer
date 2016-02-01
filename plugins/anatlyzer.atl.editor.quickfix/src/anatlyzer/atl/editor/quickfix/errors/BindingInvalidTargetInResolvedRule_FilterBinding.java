@@ -11,6 +11,18 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 
+/**
+ * This quick fix modifies the problematic binding to add an expression that ensures
+ * that its right part of will not be resolved by rules whose output pattern element is not
+ * compatible with the binding's feature. 
+ * This typically means selecting elements are resolved by existing rules with proper output pattern
+ * elements or adding an if expression if the binding is mono-valued.
+ *    
+ * @qfxName Add filter expression to binding
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRulet}
+ * 
+ * @author jesusc
+ */
 public class BindingInvalidTargetInResolvedRule_FilterBinding extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override

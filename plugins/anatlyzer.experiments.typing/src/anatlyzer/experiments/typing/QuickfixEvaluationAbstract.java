@@ -634,6 +634,37 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return "X-" + AnalyserUtils.getProblemId(p);
 	}
 
+	public static class QfxCode {
+		public final String code;
+		private Class<?> clazz;
+		public QfxCode(Class<?> clazz, String code) { this.clazz = clazz; this.code = code; }
+		public static QfxCode c(Class<?> clazz, String code) {
+			return new QfxCode(clazz, code); 
+		}
+	}
+	
+	public static List<QfxCode> getQfxCodes() {
+		List<QfxCode> codes = new ArrayList<QuickfixEvaluationAbstract.QfxCode>();
+		
+		// Q1.1
+		codes.add( QfxCode.c(BindingPossiblyUnresolved_ModifiyRuleFilter.class, 		"Q1.1")  );
+		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_ModifiyRuleFilter.class,"Q1.1")  );
+
+		// Q1.2
+		codes.add( QfxCode.c(BindingPossiblyUnresolved_Remove.class, 					"Q1.2")  );
+		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_Remove.class, 			"Q1.2")  );
+		codes.add( QfxCode.c(NoRuleForBindingQuickfix_RemoveBinding.class, 				"Q1.2")  );
+
+		// Q1.3
+		codes.add( QfxCode.c(BindingPossiblyUnresolved_FilterBinding.class, 			"Q1.3")  );
+		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_FilterBinding.class, 	"Q1.3")  );
+
+		// Q1.4
+		codes.add( QfxCode.c(GeneratePrecondition.class, 	"Q1.4")  );
+
+		return codes;
+	}
+	
 	public static String getCode(AtlProblemQuickfix quickfix) {
 		if ( quickfix instanceof RuleConflictQuickfix_ModifyRuleFilter ) return "Q0.0";
 

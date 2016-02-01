@@ -13,6 +13,16 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 
+/**
+ * This quick fix simply removes a binding to avoid a binding-related problem.
+ * It is only applicable when the assigned feature is optional to avoid generating
+ * an incorrect target model.
+ *   
+ * @qfxName  Remove binding
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
+ * 
+ * @author jesusc
+ */
 public class BindingPossiblyUnresolved_Remove extends BindingProblemQuickFix {
 
 	@Override

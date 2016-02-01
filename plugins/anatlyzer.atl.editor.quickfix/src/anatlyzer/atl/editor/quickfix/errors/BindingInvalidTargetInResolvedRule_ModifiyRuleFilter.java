@@ -13,6 +13,23 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 
+/**
+ * This quick fix modifies the rule filter with an expression that ensures
+ * that the right part of the problematic binding does not contain an element
+ * that could be resolved by an invalid rule.
+ *  
+ * In other words, the quick fix avoids the rule to be executed if the problematic
+ * quick fix will be resolved by an invalid rule.
+ * 
+ * The quick fix is only applicable if the binding is mono-valued.
+ *  
+ * It may cause other bindings that depends on this rule to become unresolved.
+ *   
+ * @qfxName  Add filter to current rule
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule}
+ * 
+ * @author jesusc
+ */
 public class BindingInvalidTargetInResolvedRule_ModifiyRuleFilter extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override

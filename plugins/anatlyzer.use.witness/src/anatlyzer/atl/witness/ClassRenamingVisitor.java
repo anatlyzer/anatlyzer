@@ -16,11 +16,17 @@ import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
+/**
+ * Rename classes and also variables.
+ * @author jesus
+ *
+ */
 public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisitor {
 
 	private SourceMetamodelsData srcMetamodels;
@@ -115,8 +121,7 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 			}
 		}
 	}
-	
-	
+		
 	
 //	@Override
 //	public void inOclModelElement(OclModelElement self) {
@@ -209,6 +214,12 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 			self.setVarName(UseReservedWords.getReplacement(self.getVarName()));
 		}
 	}
+	
+	@Override
+	public void inIterator(Iterator self) {
+		inVariableDeclaration(self);
+	}
+
 	
 	@Override
 	public void inEnumLiteralExp(EnumLiteralExp self) {

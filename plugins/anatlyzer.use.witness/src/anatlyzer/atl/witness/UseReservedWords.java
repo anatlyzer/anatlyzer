@@ -10,6 +10,7 @@ public class UseReservedWords {
 		reserved.put("model", "model_");		
 		reserved.put("null", "null_");	
 		reserved.put("context", "context_");
+		reserved.put("if", "if_");
 	}
 	
 	public static boolean isReserved(String word) {

@@ -41,11 +41,13 @@ import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_Chang
 import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifiyRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Precondition;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Remove;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_RemoveRule;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_FilterBinding;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_ModifiyRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Precondition;
 import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Remove;
 import anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix;
 import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickFix_ChooseExisting;
@@ -124,6 +126,8 @@ import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.experiments.export.CountingModel;
+import anatlyzer.experiments.export.IClassifiedArtefact;
+import anatlyzer.experiments.export.IHint;
 import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
@@ -139,7 +143,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected boolean recordAll = false;
 	protected boolean useCSP    = true;
 	protected Workbook workbook = new XSSFWorkbook();
-	protected boolean compactNotClassified;
+	protected boolean compactNotClassified = false;
 	protected boolean performRuleAnalysis = false;
 	protected boolean deleteUSETempFolder = true;
 	
@@ -151,9 +155,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		int totalProblems;
 		int totalErrorsFixed;
 		int totalErrorsGenerated;
-		private String description;
-		private String errorCode;
-		private HashMap<String, List<AppliedQuickfixInfo>> quickfixesByType = new HashMap<String, List<AppliedQuickfixInfo>>();
+		String description;
+		String errorCode;
+		HashMap<String, List<AppliedQuickfixInfo>> quickfixesByType = new HashMap<String, List<AppliedQuickfixInfo>>();
 		
 		public QuickfixSummary(int problemId, String description, String errorCode) {
 			this.id = problemId;
@@ -238,10 +242,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 
 	}
 	
-	private HashMap<String, QuickfixSummary> summary = new HashMap<String, QuickfixEvaluationAbstract.QuickfixSummary>();
+	protected HashMap<String, QuickfixSummary> summary = new HashMap<String, QuickfixEvaluationAbstract.QuickfixSummary>();
 	
 	
-	class AppliedQuickfixInfo {
+	class AppliedQuickfixInfo implements IClassifiedArtefact {
 
 		private AtlProblemQuickfix quickfix;
 		private AnalysisResult original;
@@ -336,15 +340,38 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		public long getNumRemainingProblems() {
 			return this.impact.getChanged().getPossibleProblems().size();
 		}
+
+		public ImpactComputation getImpact() {
+			return impact;
+		}
+		
+		// IClassified artifacts
+		
+		@Override
+		public String getId() {
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public List<IHint> getHints() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	}
 	
 	class AnalysedTransformation {
-		private IResource r;
-		private HashMap<Problem, List<AppliedQuickfixInfo>> problemToQuickfix = new HashMap<>();
-		private Problem currentProblem;
-		private AnalysisResult original;
-		private List<Problem> originalProblems;
+		protected IResource r;
+		protected HashMap<Problem, List<AppliedQuickfixInfo>> problemToQuickfix = new HashMap<>();
+		protected Problem currentProblem;
+		protected AnalysisResult original;
+		protected List<Problem> originalProblems;
 
 		public AnalysedTransformation(IResource resource, AnalysisResult original, List<Problem> originalProblems) {
 			this.r = resource;
@@ -398,9 +425,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected HashMap<String, Project> projects = new HashMap<String, QuickfixEvaluationAbstract.Project>();
 	protected boolean checkProblemsInPath = true;
 	
+	protected CountingModel<AppliedQuickfixInfo> qfxCounting = new  CountingModel<AppliedQuickfixInfo>();
+	
 	public QuickfixEvaluationAbstract() {
 		counting.setRepetitions(true);
-		counting.showRepetitionDetails(false);
+		counting.showRepetitionDetails(false);		
 	}
 
 	private int id = 0;
@@ -468,10 +497,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				if ( monitor.isCanceled() ) {
 					return;
 				}
-				
-//				if ( ! (getErrorCode(p).startsWith("E14") || getErrorCode(p).startsWith("E12")) ) {
-//					continue;
-//				}
 				
 				// Get summary and initialize if needed
 				QuickfixSummary qs = summary.get(getErrorCode(p));
@@ -576,7 +601,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	 * @param p
 	 * @return
 	 */
-	private String getErrorCode(Problem p) {
+	protected String getErrorCode(Problem p) {
 		if ( p instanceof RuleConflict ) return "E00";
 		if ( p instanceof BindingPossiblyUnresolved || p instanceof BindingWithoutRule ) return "E02";
 		if ( p instanceof BindingWithResolvedByIncompatibleRule) return "E03";
@@ -662,6 +687,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		// Q1.4
 		codes.add( QfxCode.c(GeneratePrecondition.class, 	"Q1.4")  );
 
+		// Q1.5
+		codes.add( QfxCode.c(BindingPossiblyUnresolved_Precondition.class, 				"Q1.5")  );
+		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_Precondition.class, 	"Q1.5")  );
+		
+		
 		return codes;
 	}
 	

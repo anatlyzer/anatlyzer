@@ -53,6 +53,10 @@
       <experiment
             delegate="anatlyzer.experiments.typing.QuickfixEvaluationByMutation"
             resourceType="file:atl">
+         <actions
+               implementation="anatlyzer.experiments.typing.ExportQuickfixesDetail"
+               name="Export detail">
+         </actions>
       </experiment>
    </extension>
 

@@ -28,7 +28,7 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * It is intended to generate a pre-condition that expresses which elements are not
  * handled by rules in the transformation.
  * 
- * @qfxName  Generate unsupported elements pre-condition
+ * @qfxName  Generate most general pre-condition
  * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
  * 
  * @author jesusc
@@ -90,7 +90,7 @@ public class BindingPossiblyUnresolved_Precondition extends AbstractAtlQuickfix 
 
 	@Override
 	public String getDisplayString() {
-		return "Generate unsupported elements pre-condition";
+		return "Generate most general pre-condition";
 	}
 	
 }

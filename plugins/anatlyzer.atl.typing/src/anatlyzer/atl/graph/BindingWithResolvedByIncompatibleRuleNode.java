@@ -1,17 +1,25 @@
 package anatlyzer.atl.graph;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
@@ -30,6 +38,7 @@ import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -38,9 +47,11 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAssignmentNode<BindingWithResolvedByIncompatibleRule> implements ProblemNode {
 
 	private Binding	binding;
+	private Analyser analyser;
 
-	public BindingWithResolvedByIncompatibleRuleNode(BindingWithResolvedByIncompatibleRule p, Binding binding, ATLModel model) {
+	public BindingWithResolvedByIncompatibleRuleNode(BindingWithResolvedByIncompatibleRule p, Binding binding, Analyser analyser) {
 		super(p);
+		this.analyser = analyser;
 		this.binding = binding;
 	}
 	
@@ -66,6 +77,62 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			}
 		}
 		
+		/**
+		 * We need to select at least one class that make provoke the error. We have to select
+		 * OpaqueAction to be able to feed the solver, but we need to select something that is not
+		 * "OpaqueAction" to enable the "not" in practice 
+		 * 
+		 * rule ActivityPartition2Pool {
+   			from a : UML!ActivityPartition
+     		to  l : Intalio!Lane (
+	    		activities <- a.node
+	    	)
+	       }
+	    
+	    	rule ActivityNode2Vertex {
+   				from a : UML!ActivityNode( not a.oclIsKindOf(UML!OpaqueAction)  )
+     			to v : Intalio!Vertex
+			}
+	    */
+		
+		// Find class uses in the filters. If found, go to the superclass and pick a sibling.
+		// TODO: Extend this idea to possibly invoked helpers
+		HashSet<Metaclass> usages = new HashSet<Metaclass>();
+		for(ResolvedRuleInfo rinfo : problem.getRules()) {
+			for(EObject rule : rinfo.getAllInvolvedRules()) {
+				MatchedRule mr = (MatchedRule) rule;
+				if ( mr.getInPattern().getFilter() != null ) {
+					mr.getInPattern().getFilter().eAllContents().forEachRemaining(e -> {
+						if ( e instanceof OclModelElement && ((OclModelElement) e).getInferredType() instanceof Metaclass ) {
+							usages.add((Metaclass) ((OclModelElement) e).getInferredType()); 
+						}
+					});				
+				}
+			}
+		}
+		
+		Set<EClass> usageEclasses = usages.stream().map(m -> m.getKlass()).collect(Collectors.toSet());
+		GlobalNamespace global = analyser.getNamespaces();
+		for (Metaclass metaclass : usages) {
+			IClassNamespace ns = (IClassNamespace) metaclass.getMetamodelRef();
+			boolean picked = false;
+			
+			for (ClassNamespace sup : ns.getAllSuperClasses()) {
+				Collection<ClassNamespace> subs = sup.getDirectSubclasses(global);
+				for (ClassNamespace sub : subs) {
+					if ( ! usageEclasses.contains( sub.getKlass() ) ) {
+						System.out.println("picked! " + sub.getKlass());
+						slice.addMetaclassNeededInError(sub.getKlass());
+						picked = true;
+						break;
+					}
+				}
+				
+				if ( picked ) 
+					break;
+			}			
+		}		
+
 	}
 	
 	@Override

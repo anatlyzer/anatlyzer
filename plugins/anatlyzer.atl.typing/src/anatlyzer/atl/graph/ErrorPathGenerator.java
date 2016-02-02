@@ -89,7 +89,7 @@ public class ErrorPathGenerator {
 		} else if ( p instanceof BindingWithoutRule ) {
 			generatePath_BindingWithoutRule((BindingWithoutRule) p);
 		} else if ( p instanceof BindingWithResolvedByIncompatibleRule ) {
-			generatePath_BindingWithResolvedByIncompatibleRule((BindingWithResolvedByIncompatibleRule) p);				
+			generatePath_BindingWithResolvedByIncompatibleRule((BindingWithResolvedByIncompatibleRule) p, analyser);				
 		} else if ( p instanceof BindingPossiblyUnresolved ) {
 			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);	
 		} else if ( p instanceof ResolveTempPossiblyUnresolved ) {			
@@ -188,10 +188,10 @@ public class ErrorPathGenerator {
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
 
-	private void generatePath_BindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule p) {
+	private void generatePath_BindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule p, Analyser a) {
 		Binding atlBinding = (Binding) p.getElement();
 
-		ProblemNode node = new BindingWithResolvedByIncompatibleRuleNode(p, atlBinding, atlModel);
+		ProblemNode node = new BindingWithResolvedByIncompatibleRuleNode(p, atlBinding, a);
 		currentPath = new ProblemPath(p, node);
 		
 		Rule rule = atlBinding.getOutPatternElement().getOutPattern().getRule();

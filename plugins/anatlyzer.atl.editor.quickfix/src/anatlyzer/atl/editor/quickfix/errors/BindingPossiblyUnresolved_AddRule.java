@@ -26,11 +26,24 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
+/**
+ * This quick fix adds a new rule that make the binding resolvable. 
+ * It uses the type of the right-hand side of the binding to determine the input
+ * pattern element. It also generates a filter to avoid rule conflicts with other
+ * rules that were resolving the binding before.  
+ *    
+ * @qfxName Add new rule
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
+ * 
+ * @author jesusc
+ */
 public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 
 	@Override
@@ -83,33 +96,46 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 
 				getATLModel().getTyping().add(tgt);
 				
+				
+				
 				// Get all rules that resolve elements of type "src"
 				OclExpression expr = b.getResolvedBy().stream().
 					filter(r -> ATLUtils.isCompatible(ATLUtils.getInPatternType(r.getRule()), src)).
-					filter(r -> r.getRule().getInPattern().getFilter() != null ).
+					// filter(r -> r.getRule().getInPattern().getFilter() != null ).
 					map(r -> {
+						VariableExp ref = OCLFactory.eINSTANCE.createVariableExp();
+						ref.setReferredVariable(mr.getInPattern().getElements().get(0));							
+						Metaclass resolvedRuleType = (Metaclass) r.getRule().getInPattern().getElements().get(0).getInferredType();
+						OperationCallExp checkOclIsKindOf = ASTUtils.createOclIsKindOf(resolvedRuleType, ref);
+						
 						OclExpression filter = r.getRule().getInPattern().getFilter();
-						VariableExp vexp = ATLUtils.findStartingVarExp(filter);
-						if ( vexp == null ) {
-							System.out.println(filter);
-						}
-						if ( ! ( vexp.getReferredVariable() instanceof InPatternElement ) ) {
-							throw new IllegalStateException();
-						}
-						OclExpression value = (OclExpression) new ATLCopier(filter).
-								bind(vexp.getReferredVariable(), mr.getInPattern().getElements().get(0)).
-								copy();	
-					
-						return value;
+						if ( filter == null ) {
+							return ASTUtils.negate(checkOclIsKindOf);
+						} else {						
+							VariableExp vexp = ATLUtils.findStartingVarExp(filter);
+							if ( ! ( vexp.getReferredVariable() instanceof InPatternElement ) ) {
+								throw new IllegalStateException();
+							}
+							OclExpression value = (OclExpression) new ATLCopier(filter).
+									bind(vexp.getReferredVariable(), mr.getInPattern().getElements().get(0)).
+									copy();	
+							
+							IfExp ifexp = OCLFactory.eINSTANCE.createIfExp();
+							ifexp.setCondition(checkOclIsKindOf);
+							ifexp.setThenExpression(value);
+							ifexp.setElseExpression(ASTUtils.createBooleanLiteral(false));
+							
+							return ASTUtils.negate( ifexp );
+						}						
 					}).
 					collect(ExpressionJoiner.joining(() -> {
 						OperatorCallExp or = OCLFactory.eINSTANCE.createOperatorCallExp();
-						or.setOperationName("or");
+						or.setOperationName("and");
 						return or;							
 					}));
 				
 				if ( expr != null ) {
-					expr = ASTUtils.negate(expr);					
+					// expr = ASTUtils.negate(expr);					
 					mr.getInPattern().setFilter(expr);
 				}
 

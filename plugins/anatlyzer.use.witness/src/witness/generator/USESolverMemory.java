@@ -42,6 +42,7 @@ import org.tzi.use.uml.sys.MSystem;
 import org.tzi.use.uml.sys.MSystemState;
 import org.tzi.use.util.Log;
 
+import anatlyzer.atl.util.Pair;
 import transML.exceptions.transException;
 import transML.exceptions.transException.ERROR;
 import transML.utils.solver.use.Solver_use;
@@ -110,25 +111,26 @@ public class USESolverMemory extends Solver_use {
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());
 			
-			Outcome outcome = null;
+			// Registers the solver outcome and if the solution satisfies all the invariants
+			Pair<Outcome, Boolean> outcomePair = null;
 			
 			// It seems that USE is not thread-safe. The finding part has to be blocked to make sure
 			// that there are no interleavings in the call to this code.
 			synchronized (globalLock) {
-				outcome = handleUSECall(useMetamodelAndInvariants, metamodelBounds);				
+				outcomePair = handleUSECall(useMetamodelAndInvariants, metamodelBounds);				
 			}
 	
 			
-			if ( outcome != null && USEResult.isSatisfiable(outcome)) {
+			if ( outcomePair != null && USEResult.isSatisfiable(outcomePair._1, outcomePair._2)) {
 				ResourceSet resourceSet = new ResourceSetImpl();
 				resourceSet.getPackageRegistry().put(metamodel.getNsURI(), metamodel);
 				Resource model  = resourceSet.createResource(URI.createFileURI(getGeneratedMetamodelName()));
 				
 				parseOutput2EmfIntoResource(metamodel, model);
 				
-				return new USEResult(outcome, model);				
-			} else if ( outcome != null ) {
-				return new USEResult(outcome, null);								
+				return new USEResult(outcomePair._1, outcomePair._2, model);				
+			} else if ( outcomePair != null ) {
+				return new USEResult(outcomePair._1, outcomePair._2, null);								
 			} else {
 				return null;
 			}
@@ -144,9 +146,11 @@ public class USESolverMemory extends Solver_use {
 	public static class USEResult {
 		private Outcome outcome;
 		private Resource model;
+		private boolean satisfyAllInvariants;
 
-		public USEResult(Outcome outcome, Resource model) {
+		public USEResult(Outcome outcome, boolean satisfyAllInvariants, Resource model) {
 			this.outcome   = outcome;
+			this.satisfyAllInvariants = satisfyAllInvariants;
 			this.model = model;
 		}
 		
@@ -155,11 +159,12 @@ public class USESolverMemory extends Solver_use {
 		}
 		
 		public boolean isSatisfiable() {
-			return isSatisfiable(outcome);
+			return isSatisfiable(outcome, satisfyAllInvariants);
 		}
 		
-		public static boolean isSatisfiable(Outcome outcome) {
-			return outcome == Outcome.SATISFIABLE ||
+		public static boolean isSatisfiable(Outcome outcome, boolean satisfyAllInvariants) {
+			return satisfyAllInvariants && 
+					outcome == Outcome.SATISFIABLE ||
 					outcome == Outcome.TRIVIALLY_SATISFIABLE;
 		}
 	}
@@ -174,7 +179,7 @@ public class USESolverMemory extends Solver_use {
 		} 
 	}
 	
-	protected Outcome handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
+	protected Pair<Outcome, Boolean> handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
 		MModel model = null;
 		PrintWriter fLogWriter = new PrintWriter(System.out);
         model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
@@ -224,7 +229,10 @@ public class USESolverMemory extends Solver_use {
 		// check whether the result satisfies all invariants
 		boolean     ok = result.check(fLogWriter, true, true, true, Collections.<String>emptyList()); 
 		this.result = result;
-		return modelValidator.getSolution().outcome();	
+		Outcome outcome = modelValidator.getSolution().outcome();
+		if ( outcome == null )
+			return null;
+		return new Pair<Outcome, Boolean>(modelValidator.getSolution().outcome(), ok);	
 	}
 
 	private void configureInvariantSettingsFromGenerator(IModel model, MModel mModel) {

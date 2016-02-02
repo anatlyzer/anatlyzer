@@ -691,6 +691,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		codes.add( QfxCode.c(BindingPossiblyUnresolved_Precondition.class, 				"Q1.5")  );
 		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_Precondition.class, 	"Q1.5")  );
 		
+		// Q2.1
+		codes.add( QfxCode.c(BindingPossiblyUnresolved_AddRule.class, 				"Q2.1")  );
+		codes.add( QfxCode.c(NoRuleForBindingQuickfix_AddRule.class, 	"Q2.1")  );
 		
 		return codes;
 	}

@@ -45,7 +45,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private Analyser analyser;
 	private EPackage effective;
 	private EPackage errorSliceMM;
-	private boolean checkDiscardCause = true;
+	private boolean checkDiscardCause = false;
 	private boolean checkProblemsInPath;
 	private boolean checkPreconditions = true;
 	private boolean catchInternalErrors = false;

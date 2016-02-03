@@ -194,6 +194,10 @@ public class RuleConflictAnalysis {
 			this.rules.addAll(overlap2.rules);			
 		}
 		
+		public Metaclass getType() {
+			return type;
+		}		
+		
 		@Override
 		public boolean isExpressionInPath(OclExpression expr) {
 			for (MatchedRule rule : rules) {

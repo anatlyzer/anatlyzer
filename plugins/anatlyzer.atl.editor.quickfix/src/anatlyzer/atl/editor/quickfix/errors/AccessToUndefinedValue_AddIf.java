@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -20,7 +19,6 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
-import anatlyzer.atlext.OCL.VariableExp;
 
 /**
  * This quickfix proposes enclosing the problem in an "if" expression checking the

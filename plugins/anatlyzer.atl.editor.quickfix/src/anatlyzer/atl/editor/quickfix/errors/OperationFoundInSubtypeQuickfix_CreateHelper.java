@@ -28,6 +28,16 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 
+/**
+ * This quick fix creates an operation a supertype, so that it will implicitly be
+ * overriden by the existing operations in the subtypes. This is intended to make
+ * sure that the call is always properly resolved.
+ * 
+ * @qfxName  Create operation in the supertype
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.OperationFoundInSubtype}
+ * 
+ * @author jesusc
+ */
 public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQuickfix {
 
 	@Override public boolean isApplicable(IMarker marker) {

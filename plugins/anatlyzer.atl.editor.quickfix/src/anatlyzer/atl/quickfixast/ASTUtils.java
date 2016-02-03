@@ -29,6 +29,7 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
@@ -157,6 +158,23 @@ public class ASTUtils {
 		return helper;
 	}
 	
+	public static ContextHelper buildNewContextAttribute(String name, Type receptorType, Type returnType) {		
+		Attribute operation = OCLFactory.eINSTANCE.createAttribute();
+		operation.setName(name);
+		operation.setType( ATLUtils.getOclType   (returnType) );
+		operation.setInitExpression( ASTUtils.defaultValue (returnType) );
+		
+		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
+		ctx.setContext_( ATLUtils.getOclType(receptorType) );
+		
+		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		def.setContext_(ctx);
+		def.setFeature (operation);
+				
+		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
+		helper.setDefinition(def);
+		return helper;
+	}
 
 	public static StaticHelper buildNewThisModuleOperation(String name, Type returnType, EList<OclExpression> arguments) {
 		Operation operation = OCLFactory.eINSTANCE.createOperation();

@@ -33,6 +33,17 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
+/**
+ * This quick fix modifies the filters of the rules involved in a rule conflict so that
+ * the conflict is removed. Given a rule, it adds the negated filters of the other rules to it.
+ * To be more precise the quick fix checks subsumption to avoid adding the negated filter
+ * if that makes the rule non-applicable.
+ *    
+ * @qfxName Add filters to involved rules
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.RuleConflict}
+ * 
+ * @author jesusc
+ */
 public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetInResolvedRule_Abstract {
 
 	@Override
@@ -162,7 +173,7 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 			return true;
 		case ERROR_CONFIRMED: 
 		case ERROR_CONFIRMED_SPECULATIVE:
-			System.out.println("Confirmed there is subsumption: " + r1.getName() + " /> " + r2.getName());
+			System.out.println("Confirmed there is NO subsumption: " + r1.getName() + " /> " + r2.getName());
 			return false;
 		default:
 			return false;

@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -26,6 +27,17 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
+/**
+ * This quickfix proposes enclosing the problem in an "if" expression checking the
+ * expression "obj.oclIsKindOf(PossibleSubtype)". It uses the most outer code block.
+ * 
+ * The quickfix tries to generate a reasonable default for the false branch.
+ * 
+ * @qfxName  Surround with 'if' expression (Add surrounding if to code block)
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.OperationFoundInSubtype}
+ * 
+ * @author jesusc
+ */
 public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQuickfix {
 
 	@Override public boolean isApplicable(IMarker marker) {
@@ -98,7 +110,7 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 			// subtypes that define the operation
 			EList<EClass> subtypes = null;
 			try {
-				subtypes = ((OperationFoundInSubtype)this.getProblem()).getPossibleClasses();
+				subtypes = ((FoundInSubtype)this.getProblem()).getPossibleClasses();
 			} 
 			catch (CoreException e) { return receptor.getSource(); } 
 			

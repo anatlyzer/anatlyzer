@@ -6,6 +6,17 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
+/**
+ * This quickfix proposes enclosing the problem in an "if" expression checking the
+ * expression "obj.oclIsKindOf(PossibleSubtype)". It uses the most inner code block.
+ * 
+ * The quickfix tries to generate a reasonable default for the false branch.
+ * 
+ * @qfxName  Surround with 'if' expression (Add surrounding if to expression)
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.OperationFoundInSubtype}
+ * 
+ * @author jesusc
+ */
 public class OperationFoundInSubtypeQuickfix_AddIfToExpression extends OperationFoundInSubtypeQuickfix_AddIfToBlock {
 
 	@Override

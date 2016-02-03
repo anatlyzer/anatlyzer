@@ -68,6 +68,7 @@ import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_Find
 import anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
+import anatlyzer.atl.editor.quickfix.errors.NoRuleForBinding_FilterBinding;
 import anatlyzer.atl.editor.quickfix.errors.ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable;
 import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddArguments;
 import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters;
@@ -670,7 +671,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	
 	public static List<QfxCode> getQfxCodes() {
 		List<QfxCode> codes = new ArrayList<QuickfixEvaluationAbstract.QfxCode>();
-		
+
+		// Q0.1
+		codes.add( QfxCode.c(RuleConflictQuickfix_ModifyRuleFilter.class, 				"Q0.1")  );
+
 		// Q1.1
 		codes.add( QfxCode.c(BindingPossiblyUnresolved_ModifiyRuleFilter.class, 		"Q1.1")  );
 		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_ModifiyRuleFilter.class,"Q1.1")  );
@@ -683,7 +687,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		// Q1.3
 		codes.add( QfxCode.c(BindingPossiblyUnresolved_FilterBinding.class, 			"Q1.3")  );
 		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_FilterBinding.class, 	"Q1.3")  );
-
+		codes.add( QfxCode.c(NoRuleForBinding_FilterBinding.class, 						"Q1.3")  );
+		
+		
 		// Q1.4
 		codes.add( QfxCode.c(GeneratePrecondition.class, 	"Q1.4")  );
 
@@ -698,6 +704,15 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		// Q3.1
 		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_RemoveRule.class, 		"Q3.1")  );
 
+		// Q9.1
+		codes.add( QfxCode.c(AccessToUndefinedValue_AddIf.class, 							"Q9.1")  );
+		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_AddIfToExpression.class, 		"Q9.1")  );
+		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_AddIfToBlock.class, 			"Q9.1")  ); // marked as (b) in the original code
+		// TODO: Consider features in subtype, 9.1
+		// TODO: Consider features in subtype, 9.2, consider outer for access to undefined, 9.2
+
+		
+		
 		
 		return codes;
 	}

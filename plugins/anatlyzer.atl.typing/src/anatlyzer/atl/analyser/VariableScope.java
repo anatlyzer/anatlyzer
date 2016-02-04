@@ -18,6 +18,7 @@ public class VariableScope {
 
 	private Scope currentKindOf    = new Scope();
 	private Scope currentUndefined = new Scope();
+	private Scope currentEmptyCollection  = new Scope();
 	
 	/**
 	 * @see ATLUtils#findStartingVarExp(OclExpression)
@@ -35,6 +36,7 @@ public class VariableScope {
 	public void putVariable(String name, Type type) {
 		currentKindOf.addVariable(name, type);
 		currentUndefined.addVariable(name, type);
+		currentEmptyCollection.addVariable(name, type);
 	}
 
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
@@ -54,6 +56,14 @@ public class VariableScope {
 	
 	public void putIsNotUndefined(VariableDeclaration vd, OclExpression source) {
 		currentUndefined.addIsNotUndefined(vd, source);	
+	}
+
+	public void putIsEmptyCollection(VariableDeclaration vd, OclExpression source) {
+		currentEmptyCollection.addIsEmptyCollection(vd, source);
+	}
+	
+	public void putIsNotEmptyCollection(VariableDeclaration vd, OclExpression source) {
+		currentEmptyCollection.addIsNotEmptyCollection(vd, source);	
 	}
 
 	public boolean isCasted(OclExpression expr) {
@@ -90,20 +100,35 @@ public class VariableScope {
 		return UndefinedStatus.NOT_CHECKED;
 	}
 	
+	public UndefinedStatus getEmptyCollectionStatus(OclExpression expr) {
+		OclKindOfApplication r = currentEmptyCollection.findOclKindOfDefinition(expr, false);
+		if ( r != null ) {
+			if ( ((UndefinedTypeConstraint) r.exprType).isNotUndefinedEnsured() ) {
+				return UndefinedStatus.CANNOT_BE_UNDEFINED;
+			} else {
+				return UndefinedStatus.MAY_BE_UNDEFINED;
+			}
+		}
+		return UndefinedStatus.NOT_CHECKED;
+	}
+	
 	public void openScope() {
 		currentKindOf = new Scope(currentKindOf); 
 		currentUndefined = new Scope(currentUndefined); 		
+		currentEmptyCollection = new Scope(currentEmptyCollection);
 	}
 	
 	public void negateCurrentScope() {
 		currentKindOf.negate();
 		currentUndefined.negate();				
+		currentEmptyCollection.negate();
 	}
 	
 	public void closeScope() {
 		currentKindOf    = currentKindOf.parent;
-		currentUndefined = currentUndefined.parent;		
-		if ( currentKindOf == null || currentUndefined == null )
+		currentUndefined = currentUndefined.parent;
+		currentEmptyCollection = currentEmptyCollection.parent;
+		if ( currentKindOf == null || currentUndefined == null || currentEmptyCollection == null )
 			new IllegalStateException();
 	}
 	
@@ -158,7 +183,8 @@ public class VariableScope {
 				// getReferredVariable is that it does not work with "self" because there are many
 				// different objects, the current.variables approach is not completely implemented...
 				if ( hasVariable(starting.getReferredVariable().getVarName()) || 
-					 starting.getReferredVariable() == r.vd ) {
+					 (starting == null && r.vd == null)	 ||  // This is to handle the case of A.allInstances()->first().mayBeNull
+					 starting.getReferredVariable() == r.vd  ) {
 					/*
 					if ( findStartingVarExp(expr) != r.vd) {
 						System.out.println("Additional! " + expr.getLocation() + OclGenerator.gen(expr)+ " : " + r.exprType);
@@ -223,6 +249,15 @@ public class VariableScope {
 				// This is may be an inconsistency if first isUndefined is tried
 				// and then "not isUndefined".
 			}
+		}
+
+		public void addIsEmptyCollection(VariableDeclaration vd, OclExpression expr) {
+			// Just using undefined as the marking that something may be empty
+			addIsUndefined(vd, expr);
+		}
+
+		public void addIsNotEmptyCollection(VariableDeclaration vd, OclExpression expr) {
+			addIsNotUndefined(vd, expr);
 		}
 
 		private void addOclKindOf(OclExpression expr, OclKindOfApplication app) {

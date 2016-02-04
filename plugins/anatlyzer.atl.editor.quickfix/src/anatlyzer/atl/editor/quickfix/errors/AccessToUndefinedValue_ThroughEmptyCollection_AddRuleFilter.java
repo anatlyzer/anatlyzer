@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -19,7 +20,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**
- * This quickfix proposes adding "not obj.optionalProperty.oclIsUndefined()" to
+ * This quickfix proposes adding "aPossiblyEmptyCollection->notEmpty()" to
  * a rule filter.
  * 
  * It is applicable only if the guilty property access is in a binding within a matched rule, 
@@ -33,14 +34,14 @@ import anatlyzer.atlext.OCL.PropertyCallExp;
  * would be to allow the developer to apply two quickfixes in cascade.
  * 
  * @qfxName  Add rule filter
- * @qfxError {@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue}
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection}
  * 
  * @author jesusc
  */
-public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix {
+public class AccessToUndefinedValue_ThroughEmptyCollection_AddRuleFilter extends RuleGeneratingQuickFix {
 
 	@Override public boolean isApplicable(IMarker marker) {
-		boolean isApplicable = checkProblemType(marker, AccessToUndefinedValue.class);
+		boolean isApplicable = checkProblemType(marker, AccessToUndefinedValue_ThroughEmptyCollection.class);
 		if ( isApplicable ) {
 			PropertyCallExp pce = (PropertyCallExp) this.getProblematicElement(marker);
 			return 	ATLUtils.getContainer(pce, Binding.class) != null &&
@@ -66,7 +67,7 @@ public class AccessToUndefinedValue_AddRuleFilter extends RuleGeneratingQuickFix
 		MatchedRule r = ATLUtils.getContainer(pce, MatchedRule.class);
 		OclExpression filter = r.getInPattern().getFilter();
 
-		Supplier<OclExpression> create = ASTUtils.createOclIsUndefinedCheck(pce.getSource());
+		Supplier<OclExpression> create = ASTUtils.createNotEmptyCheck(((PropertyCallExp) pce.getSource()).getSource());
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		

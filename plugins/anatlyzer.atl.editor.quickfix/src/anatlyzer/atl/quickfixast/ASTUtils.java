@@ -143,6 +143,19 @@ public class ASTUtils {
 		return create;
 	}
 
+	public static Supplier<OclExpression> createNotEmptyCheck(OclExpression receptor) {
+		Supplier<OclExpression> create = () -> { 
+			OclExpression newReceptor = (OclExpression) ATLCopier.copySingleElement(receptor);
+			
+			OperationCallExp notEmpty = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			notEmpty.setOperationName("notEmpty");
+			notEmpty.setSource(newReceptor);
+
+			return notEmpty;
+		};		
+		return create;
+
+	}
 
 	/**
 	 * It creates the ocl expression expression.oclIsKindOf(type) or expression.oclIsKindOf(type2) or ...

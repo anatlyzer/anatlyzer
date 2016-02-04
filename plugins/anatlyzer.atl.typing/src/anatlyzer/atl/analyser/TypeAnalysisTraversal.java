@@ -548,12 +548,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 	}
-	
-	Set<OclExpression> mayBeUndefined = new HashSet<OclExpression>();
-	
+		
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
 		checkAccessToUndefined(self);
+		checkAccessToEmptyCollection(self);
 		
 		Type t = attr.typeOf( self.getSource() );
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
@@ -575,7 +574,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			AnalyserContext.getErrorModel().signalAccessToUndefinedValue(self);
 		}
 	}
-
+	
+	private void checkAccessToEmptyCollection(PropertyCallExp self) {
+		if ( self.getSource() instanceof PropertyCallExp && 
+				mayBeEmptyCollection.contains(((PropertyCallExp) self.getSource()).getSource()) ) {
+			AnalyserContext.getErrorModel().signalAccessToUndefinedValue_ThroughEmptyCollection(self);
+		}
+	}
+	
+	protected Set<OclExpression> mayBeUndefined = new HashSet<OclExpression>();
 
 	private void computeUndefinedAttribute(NavigationOrAttributeCallExp self,
 			ITypeNamespace tspace) {
@@ -601,7 +608,47 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			}
 		}
 	}
-	
+
+	protected Set<OclExpression> mayBeEmptyCollection = new HashSet<OclExpression>();
+
+	private void computeEmptyCollection(CollectionOperationCallExp self) {
+		if ( self.getOperationName().equals("first") ) {
+			boolean hasEmptyCollectionHint = false;
+			if ( self.getSource() instanceof LoopExp ) {
+				// Need to be checked by the solver...
+				hasEmptyCollectionHint = true;
+			} else if ( self.getSource() instanceof NavigationOrAttributeCallExp ) {
+				NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) self.getSource();
+				Type t = attr.typeOf( nav.getSource() );
+				ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
+				if ( tspace instanceof ClassNamespace ) {
+					FeatureInfo info = ((ClassNamespace) tspace).getFeatureInfo(nav.getName());
+					hasEmptyCollectionHint = info.mayBeEmptyCollection();
+				}
+			} else if ( self.getSource() instanceof OperationCallExp ) {
+				hasEmptyCollectionHint = ((OperationCallExp) self.getSource()).getOperationName().equals("allInstances");
+			}
+			
+			if ( ! hasEmptyCollectionHint )
+				return;
+			
+			switch ( attr.getVarScope().getEmptyCollectionStatus(self.getSource()) ) {
+			case MAY_BE_UNDEFINED: 
+				mayBeEmptyCollection.add(self.getSource());
+				// System.out.println("May be undefined! " + self.getLocation());
+				break;
+			case NOT_CHECKED:
+				mayBeEmptyCollection.add(self.getSource());
+				// System.out.println("Undefined not checked! " + self.getLocation());
+				break;
+			case CANNOT_BE_UNDEFINED:
+				// TODO: Do I need to do this?
+				// errors().discardedAccessToUndefinedValue(self);
+				break;
+			}			
+		}
+	}
+
 	@Override
 	public void inOperationCallExp(OperationCallExp self) {
 		// This is a way to include unchecked exceptions
@@ -657,36 +704,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			
 			// Discard those with a negation
-			// boolean hasNegation = false;
-			int numberOfNegations = 0;
-			boolean inConditionPosition = false;
-			OclExpression child = self;
-			EObject parent = self.eContainer();
+			int numberOfNegations = computeConditionPosition(self);
 			
-			// We have to stop at the loop expression because the it sets an scope
-			while ( parent instanceof OclExpression && !(parent instanceof LoopExp) ) {
-//				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
-//					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
-//				}
-
-				if ( parent instanceof OperatorCallExp && ((OperatorCallExp) parent).getOperationName().equals("not") ) {
-					numberOfNegations++;
-				}
-				else if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
-					inConditionPosition = true;
-					break;
-				}
-				
-				child  = (OclExpression) parent;
-				parent = parent.eContainer();				
-			}
 			
-			if ( parent instanceof InPattern && ((InPattern) parent).getFilter() == child ) {
-				inConditionPosition = true;
-			}
-
-			
-			if ( inConditionPosition ) {
+			if ( numberOfNegations != -1 ) {
 				VariableExp ve = VariableScope.findStartingVarExp(self);
 				boolean hasNegation = numberOfNegations % 2 == 1;
 				if ( ! hasNegation ) {
@@ -716,6 +737,50 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			self.getSource().setInferredType(t);
 			typ().markImplicitlyCasted(self.getSource(), t, attr.noCastedTypeOf(self.getSource()));
 		}
+	}
+
+
+	/**
+	 * Checks if a given expression is an condition position and the estimated number
+	 * of negations. An odd number of negations means "one" negation, while 0 or even number
+	 * basically means no negation.
+	 * 
+	 * @param self
+	 * @return -1 if it is not in condition composition
+	 */
+	protected int computeConditionPosition(OclExpression self) {
+		// boolean hasNegation = false;
+		int numberOfNegations = 0;
+		boolean inConditionPosition = false;
+		OclExpression child = self;
+		EObject parent = self.eContainer();
+		
+		// We have to stop at the loop expression because the it sets an scope
+		while ( parent instanceof OclExpression && !(parent instanceof LoopExp) ) {
+//				if ( hasNegation == false && parent instanceof OperatorCallExp ) {
+//					hasNegation = ((OperatorCallExp) parent).getOperationName().equals("not");
+//				}
+
+			if ( parent instanceof OperatorCallExp && ((OperatorCallExp) parent).getOperationName().equals("not") ) {
+				numberOfNegations++;
+			}
+			else if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
+				inConditionPosition = true;
+				break;
+			}
+			
+			child  = (OclExpression) parent;
+			parent = parent.eContainer();				
+		}
+		
+		if ( parent instanceof InPattern && ((InPattern) parent).getFilter() == child ) {
+			inConditionPosition = true;
+		}
+
+		if ( ! inConditionPosition ) {
+			numberOfNegations = -1;
+		}
+		return numberOfNegations;
 	}
 	
 	private void resolveResolveTemp(OperationCallExp self) {
@@ -939,6 +1004,34 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			
 			Type t = namespace.getOperationType(operationName, arguments, self);
 			attr.linkExprType(t);
+		}
+		
+		computeEmptyCollection(self);
+		
+		// Check the condition that discard access to empty collections
+		if ( self.getOperationName().equals("notEmpty") || self.getOperationName().equals("isEmpty") ) {
+			int numberOfNegations = computeConditionPosition(self);
+
+			if ( numberOfNegations != -1 ) {
+				VariableExp ve = VariableScope.findStartingVarExp(self);
+				// The A.allInstances()->notEmpty() is indicated with vd = null
+				VariableDeclaration vd = ve == null ? null : ve.getReferredVariable();
+				boolean hasNegation = numberOfNegations % 2 == 1;
+				if ( ! hasNegation ) {
+					if ( self.getOperationName().equals("isEmpty") ) {
+						attr.getVarScope().putIsEmptyCollection(vd, self.getSource());
+					} else if ( self.getOperationName().equals("notEmpty") ) {
+						attr.getVarScope().putIsNotEmptyCollection(vd, self.getSource());
+					}
+				} else {
+					if ( self.getOperationName().equals("notEmpty") ) {
+						attr.getVarScope().putIsNotEmptyCollection(vd, self.getSource());
+					} else if ( self.getOperationName().equals("isEmpty") ) {
+						attr.getVarScope().putIsEmptyCollection(vd, self.getSource());
+					}
+				}
+			}
+
 		}
 	}
 

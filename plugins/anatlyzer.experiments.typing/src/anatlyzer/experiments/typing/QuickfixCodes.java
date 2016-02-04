@@ -9,6 +9,9 @@ import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_SpecificPrecondition;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ThroughEmptyCollection_AddIf;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ThroughEmptyCollection_AddRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ThroughEmptyCollection_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_ChangeMetamodel;
 import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
@@ -78,6 +81,7 @@ import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuic
 import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -195,6 +199,7 @@ public class QuickfixCodes {
 
 		// Q9.1
 		codes.add( QfxCode.c(AccessToUndefinedValue_AddIf.class, 							"Q9.1")  );
+		codes.add( QfxCode.c(AccessToUndefinedValue_ThroughEmptyCollection_AddIf.class,		"Q9.1")  );		
 		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_AddIfToExpression.class, 		"Q9.1")  );
 		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_AddIfToBlock.class, 			"Q9.1")  ); // marked as (b) in the original code
 		codes.add( QfxCode.c(FeatureFoundInSubtypeQuickfix_AddIfToExpression.class, 		"Q9.1")  );
@@ -204,6 +209,7 @@ public class QuickfixCodes {
 
 		// Q9.2
 		codes.add( QfxCode.c(AccessToUndefinedValue_AddRuleFilter.class, 				"Q9.2")  ); 
+		codes.add( QfxCode.c(AccessToUndefinedValue_ThroughEmptyCollection_AddRuleFilter.class, "Q9.2")  ); 
 		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_AddRuleFilter.class,		"Q9.2")  ); 
 		codes.add( QfxCode.c(FeatureFoundInSubtypeQuickfix_AddRuleFilter.class,			"Q9.2")  ); 
 		
@@ -214,6 +220,7 @@ public class QuickfixCodes {
 		
 		// Q10.1
 		codes.add( QfxCode.c(AccessToUndefinedValue_ChangeMetamodel.class,					"Q9.3")  ); 
+		codes.add( QfxCode.c(AccessToUndefinedValue_ThroughEmptyCollection_ChangeMetamodel.class, "Q9.3")  ); 
 		
 		// Q11.1
 		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_CreateHelper.class, 			"Q11.1")  ); 

@@ -25,6 +25,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.Recovery;
 import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
@@ -87,6 +88,7 @@ import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
@@ -828,6 +830,14 @@ public class ErrorModel {
 		signalError(error._1, error._2, node);	
 	}
 	
+	public void signalAccessToUndefinedValue_ThroughEmptyCollection(PropertyCallExp node) {
+		AccessToUndefinedValue_ThroughEmptyCollection error = AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue_ThroughEmptyCollection();
+		initProblem(error, node);
+		
+		signalError(error, "Access to undefined value due to empty collection: " + ATLSerializer.serialize(node.getSource()), node);
+	}
+
+	
 	public void discardedAccessToUndefinedValue(PropertyCallExp node) {
 		Pair<AccessToUndefinedValue, String> error = createAccessToUndefinedValue(node, ProblemStatus.INITIALLY_DISCARDED, false);
 		discardedProblems.add(error._1);
@@ -938,6 +948,7 @@ public class ErrorModel {
 		// element.getProblems().add(p);
 		
 	}
+
 
 	
 }

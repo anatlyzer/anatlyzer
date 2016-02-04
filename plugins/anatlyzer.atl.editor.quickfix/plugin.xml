@@ -133,6 +133,16 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.AccessToUndefinedValueQuickfixSet">
       </quickfixset>
    </extension>
+   
+   <extension
+         id="anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ThroughEmptyCollectionQuickSet"
+         name="Quickfixes for &quot;Access to undefined value through empty collection&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.AccessToUndefinedValue_ThroughEmptyCollectionQuickfixSet">
+      </quickfixset>
+   </extension>
+   
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfix

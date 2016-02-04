@@ -33,8 +33,12 @@ public class FeatureInfo {
 	
 	public boolean mayBeUndefined() {
 		return feature != null && feature.getLowerBound() == 0 && 
-				// For the moment not considering empty collections as potentially undefined
+				// Empty collections are not undefined, but special cases are handled with maybeemptycollection
 				! feature.isMany();
+	}
+	
+	public boolean mayBeEmptyCollection() {
+		return feature != null && feature.getLowerBound() == 0 && feature.isMany();
 	}
 	
 	public Type getType() {

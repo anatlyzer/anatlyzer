@@ -490,6 +490,15 @@ public interface AtlErrorFactory extends EFactory {
 	AccessToUndefinedValue createAccessToUndefinedValue();
 
 	/**
+	 * Returns a new object of class '<em>Access To Undefined Value Through Empty Collection</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Access To Undefined Value Through Empty Collection</em>'.
+	 * @generated
+	 */
+	AccessToUndefinedValue_ThroughEmptyCollection createAccessToUndefinedValue_ThroughEmptyCollection();
+
+	/**
 	 * Returns a new object of class '<em>Binding Inplace Invalid</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl#getOperationName <em>Operation Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl#getType <em>Type</em>}</li>
@@ -34,7 +35,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl#getFormalParameters <em>Formal Parameters</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.OperationCallInvalidImpl#getActualParameters <em>Actual Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

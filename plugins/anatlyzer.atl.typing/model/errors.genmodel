@@ -101,6 +101,7 @@
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureFoundInSubtype"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AccessToUndefinedValue_ThroughEmptyCollection"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/RuleConflict">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/RuleConflict/conflicts"/>
       </genClasses>

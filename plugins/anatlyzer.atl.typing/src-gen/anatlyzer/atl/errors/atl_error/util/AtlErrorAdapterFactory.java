@@ -159,6 +159,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createAccessToUndefinedValueAdapter();
 			}
 			@Override
+			public Adapter caseAccessToUndefinedValue_ThroughEmptyCollection(AccessToUndefinedValue_ThroughEmptyCollection object) {
+				return createAccessToUndefinedValue_ThroughEmptyCollectionAdapter();
+			}
+			@Override
 			public Adapter caseRuleConflict(RuleConflict object) {
 				return createRuleConflictAdapter();
 			}
@@ -1345,6 +1349,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAccessToUndefinedValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection <em>Access To Undefined Value Through Empty Collection</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection
+	 * @generated
+	 */
+	public Adapter createAccessToUndefinedValue_ThroughEmptyCollectionAdapter() {
 		return null;
 	}
 

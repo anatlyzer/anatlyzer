@@ -147,6 +147,12 @@ package atl_error {
 	class AccessToUndefinedValue extends LocalProblem {
 		
 	}	
+
+    @description(name="Possible access to undefined feature via empty collection", text="Source cardinality check", example="")	 
+	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="navigation", phase="typing", source="OCL spec, tests")	
+	class AccessToUndefinedValue_ThroughEmptyCollection extends LocalProblem {
+		
+	}	
 	
 	@description(name="Rule conflict", example="")	 
 	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="analysis (separate)", source="")

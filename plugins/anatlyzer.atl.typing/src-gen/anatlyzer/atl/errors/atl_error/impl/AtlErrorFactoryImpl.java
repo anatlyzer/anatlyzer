@@ -68,6 +68,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.OPERATION_FOUND_IN_SUBTYPE: return createOperationFoundInSubtype();
 			case AtlErrorPackage.FEATURE_FOUND_IN_SUBTYPE: return createFeatureFoundInSubtype();
 			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE: return createAccessToUndefinedValue();
+			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION: return createAccessToUndefinedValue_ThroughEmptyCollection();
 			case AtlErrorPackage.RULE_CONFLICT: return createRuleConflict();
 			case AtlErrorPackage.CONFLICTING_RULE_SET: return createConflictingRuleSet();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
@@ -668,6 +669,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public AccessToUndefinedValue createAccessToUndefinedValue() {
 		AccessToUndefinedValueImpl accessToUndefinedValue = new AccessToUndefinedValueImpl();
 		return accessToUndefinedValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AccessToUndefinedValue_ThroughEmptyCollection createAccessToUndefinedValue_ThroughEmptyCollection() {
+		AccessToUndefinedValue_ThroughEmptyCollectionImpl accessToUndefinedValue_ThroughEmptyCollection = new AccessToUndefinedValue_ThroughEmptyCollectionImpl();
+		return accessToUndefinedValue_ThroughEmptyCollection;
 	}
 
 	/**

@@ -5,6 +5,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 import anatlyzer.atl.errors.AnalysisResultPackage;
 import anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
@@ -580,6 +581,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass accessToUndefinedValueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass accessToUndefinedValue_ThroughEmptyCollectionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1922,6 +1930,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAccessToUndefinedValue_ThroughEmptyCollection() {
+		return accessToUndefinedValue_ThroughEmptyCollectionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBindingInplaceInvalid() {
 		return bindingInplaceInvalidEClass;
 	}
@@ -2058,6 +2075,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		featureFoundInSubtypeEClass = createEClass(FEATURE_FOUND_IN_SUBTYPE);
 
 		accessToUndefinedValueEClass = createEClass(ACCESS_TO_UNDEFINED_VALUE);
+
+		accessToUndefinedValue_ThroughEmptyCollectionEClass = createEClass(ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION);
 
 		ruleConflictEClass = createEClass(RULE_CONFLICT);
 		createEReference(ruleConflictEClass, RULE_CONFLICT__CONFLICTS);
@@ -2273,6 +2292,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		featureFoundInSubtypeEClass.getESuperTypes().add(this.getFoundInSubtype());
 		featureFoundInSubtypeEClass.getESuperTypes().add(this.getRuntimeError());
 		accessToUndefinedValueEClass.getESuperTypes().add(this.getLocalProblem());
+		accessToUndefinedValue_ThroughEmptyCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		ruleConflictEClass.getESuperTypes().add(theAnalysisResultPackage.getProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getNavigationProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getRuntimeError());
@@ -2393,6 +2413,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(featureFoundInSubtypeEClass, FeatureFoundInSubtype.class, "FeatureFoundInSubtype", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(accessToUndefinedValueEClass, AccessToUndefinedValue.class, "AccessToUndefinedValue", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(accessToUndefinedValue_ThroughEmptyCollectionEClass, AccessToUndefinedValue_ThroughEmptyCollection.class, "AccessToUndefinedValue_ThroughEmptyCollection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ruleConflictEClass, RuleConflict.class, "RuleConflict", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRuleConflict_Conflicts(), this.getConflictingRuleSet(), null, "conflicts", null, 0, -1, RuleConflict.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2640,6 +2662,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   source, 
 		   new String[] {
 			 "name", "Possible access to undefined feature",
+			 "text", "Source cardinality check",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (accessToUndefinedValue_ThroughEmptyCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Possible access to undefined feature via empty collection",
 			 "text", "Source cardinality check",
 			 "example", ""
 		   });	
@@ -3058,6 +3088,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (accessToUndefinedValueEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "sometimes-solver",
+			 "path", "yes",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "OCL spec, tests"
+		   });	
+		addAnnotation
+		  (accessToUndefinedValue_ThroughEmptyCollectionEClass, 
 		   source, 
 		   new String[] {
 			 "prec", "sometimes-solver",

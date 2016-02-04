@@ -22,13 +22,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl#getFeatureName <em>Feature Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl#getSubrule <em>Subrule</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.NoBindingForCompulsoryFeatureImpl#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

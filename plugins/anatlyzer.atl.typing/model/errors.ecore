@@ -246,6 +246,23 @@
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AccessToUndefinedValue_ThroughEmptyCollection"
+        eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Possible access to undefined feature via empty collection"/>
+        <details key="text" value="Source cardinality check"/>
+        <details key="example" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="sometimes-solver"/>
+        <details key="path" value="yes"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="OCL spec, tests"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RuleConflict" eSuperTypes="#//Problem">
       <eAnnotations source="description">
         <details key="name" value="Rule conflict"/>

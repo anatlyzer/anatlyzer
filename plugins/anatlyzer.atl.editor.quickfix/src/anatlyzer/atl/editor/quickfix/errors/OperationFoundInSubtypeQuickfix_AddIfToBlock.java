@@ -47,8 +47,12 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 	@Override public void resetCache() { }
 	
 	@Override public void apply(IDocument document) {
-		QuickfixApplication qfa = getQuickfixApplication();
-		new InDocumentSerializer(qfa, document).serialize();
+		try {
+			QuickfixApplication qfa = getQuickfixApplication();
+			new InDocumentSerializer(qfa, document).serialize();
+		} catch (CoreException e) { 
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -60,7 +64,7 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 		return "Add surrounding if to code block";
 	}
 
-	@Override public QuickfixApplication getQuickfixApplication() {
+	@Override public QuickfixApplication getQuickfixApplication() throws CoreException {
 		PropertyCallExp property = (PropertyCallExp) this.getProblematicElement();
 		
 		// Quickfix => if exp.source.oclIsKindOf(...) or exp.source.oclIsKindOf(...) or ... then exp else default_value endif
@@ -68,7 +72,10 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 		OclExpression root     = getRootExpression(property);
 		OclExpression fexpRoot = root;
 		Type          type     = property.getInferredType();
-		Supplier<OclExpression> check = createOclIsKindOfCheck(property);
+
+		EList<EClass> subtypes = ((FoundInSubtype)this.getProblem()).getPossibleClasses();
+
+		Supplier<OclExpression> check = ASTUtils.createOclIsKindOfCheck(property, subtypes);
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.change(root, OCLFactory.eINSTANCE::createIfExp, (original, ifexp, trace) -> {
@@ -105,50 +112,6 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 	 * @param receptor
 	 * @return
 	 */
-	private Supplier<OclExpression> createOclIsKindOfCheck(PropertyCallExp receptor) {
-		Supplier<OclExpression> create = () -> {
-			// subtypes that define the operation
-			EList<EClass> subtypes = null;
-			try {
-				subtypes = ((FoundInSubtype)this.getProblem()).getPossibleClasses();
-			} 
-			catch (CoreException e) { return receptor.getSource(); } 
-			
-			// build expression
-			OclExpression expression = createOclIsKindOfCheck(receptor.getSource(), subtypes.get(0).getName()).get();
-			
-			for (int i=1; i<subtypes.size(); i++) {
-				OperatorCallExp orOperator = OCLFactory.eINSTANCE.createOperatorCallExp();
-				orOperator.setOperationName("or");
-				orOperator.setSource(expression);
-				orOperator.getArguments().add( createOclIsKindOfCheck(receptor.getSource(), subtypes.get(i).getName()).get() );
-				expression = orOperator;
-			}
-
-			return expression;
-		};		
-		return create;
-	}
 	
 
-	/**
-	 * It creates the ocl expression expression.oclIsKindOf(type)
-	 * @param receptor
-	 * @param kind
-	 * @return
-	 */
-	private Supplier<OclExpression> createOclIsKindOfCheck(OclExpression expression, String kind) {
-		Supplier<OclExpression> create = () -> { 
-			OclModelElement oclType = (OclModelElement) ATLUtils.getOclType(expression.getInferredType());
-        	oclType.setName(kind);
-        	
-			OperationCallExp oclIsKindOf = OCLFactory.eINSTANCE.createOperationCallExp();
-			oclIsKindOf.setOperationName("oclIsKindOf");
-			oclIsKindOf.setSource       ((OclExpression) ATLCopier.copySingleElement(expression));
-			oclIsKindOf.getArguments().add( oclType );
-
-			return oclIsKindOf;
-		};		
-		return create;
-	}
 }

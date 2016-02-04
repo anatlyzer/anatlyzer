@@ -13,8 +13,6 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
-import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OperationCallExp;
 
 /**
  * This quick fix creates an operation a supertype, so that it will implicitly be
@@ -41,11 +39,11 @@ public class FeatureFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQuick
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Create attribute helper " + getNewOperationName((OperationCallExp)getProblematicElement());
+		return "Create attribute helper " + getNewOperationName((NavigationOrAttributeCallExp)getProblematicElement());
 	}	
 	
 	@Override public String getDisplayString() {
-		return "Create attribtue helper " + getNewOperationName((OperationCallExp)getProblematicElement());
+		return "Create attribtue helper " + getNewOperationName((NavigationOrAttributeCallExp)getProblematicElement());
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {
@@ -62,11 +60,10 @@ public class FeatureFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQuick
 		return qfa;
 	}
 	
-	private String getNewOperationName(OperationCallExp operation) {
-		String context   = operation.getSource().getInferredType()!=null? ATLUtils.getTypeName(operation.getSource().getInferredType()) + "." : "";
+	private String getNewOperationName(NavigationOrAttributeCallExp nav) {
+		String context   = nav.getSource().getInferredType()!=null? ATLUtils.getTypeName(nav.getSource().getInferredType()) + "." : "";
 		String arguments = "";
-		for (OclExpression argument : operation.getArguments()) arguments += ", " + ATLUtils.getTypeName(argument.getInferredType()); 
-		return context + operation.getOperationName() + "(" + arguments.replaceFirst(",", "")         + " )";
+		return context + nav.getName() + "(" + arguments.replaceFirst(",", "")         + " )";
 	}
 	
 	private ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType) {		

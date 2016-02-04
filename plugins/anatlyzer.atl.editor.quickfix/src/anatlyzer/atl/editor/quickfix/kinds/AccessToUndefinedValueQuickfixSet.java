@@ -6,6 +6,7 @@ import anatlyzer.atl.editor.quickfix.GeneratePrecondition;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
+import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_SpecificPrecondition;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 
 public class AccessToUndefinedValueQuickfixSet extends AbstractQuickfixSet  {
@@ -16,7 +17,7 @@ public class AccessToUndefinedValueQuickfixSet extends AbstractQuickfixSet  {
 				new AccessToUndefinedValue_AddRuleFilter(),
 				new AccessToUndefinedValue_AddIf(),
 				new AccessToUndefinedValue_ChangeMetamodel(),
-				new GeneratePrecondition(AccessToUndefinedValue.class)
+				new AccessToUndefinedValue_SpecificPrecondition()
 		};
 	}
 }

@@ -7,6 +7,7 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
@@ -48,6 +49,19 @@ public class FeatureOrOperationFoundInSubtypeNode<P extends LocalProblem> extend
 		EClass oneSubClass = p.getPossibleClasses().get(0);
 		
 		return model.negateExpression(model.createKindOf_AllInstancesStyle(model.gen(pc.getSource()), null, oneSubClass));
+	}
+	
+	@Override
+	public OclExpression genWeakestPrecondition(CSPModel model) {
+		FoundInSubtype p = (FoundInSubtype) this.problem;
+		PropertyCallExp pc = (PropertyCallExp) expr;
+		EClass oneSubClass = p.getPossibleClasses().get(0);
+		
+		// TODO: Generate an or with all the classes!
+		
+		OclExpression receptor = model.gen(pc.getSource());
+		String modelName = ((Metaclass) receptor.getInferredType()).getModel().getName();
+		return model.createKindOf(receptor, modelName, oneSubClass.getName(), null);
 	}
 	
 	@Override

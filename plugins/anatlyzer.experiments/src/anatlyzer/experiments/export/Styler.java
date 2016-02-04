@@ -27,6 +27,7 @@ public class Styler extends ExcelUtil {
 	private CellStyle justDateStyle;
 	private CellStyle percentage;
 	private CellStyle numeric;
+	private CellStyle bold;
 
 
 	public CellStyle getPercentage() { return percentage; }
@@ -43,6 +44,11 @@ public class Styler extends ExcelUtil {
 		centeringBold.setFont(boldFont);
 		centeringBold.setAlignment(CellStyle.ALIGN_CENTER);
 
+		bold = wb.createCellStyle();
+		bold.setFont(boldFont);
+		bold.setAlignment(CellStyle.ALIGN_CENTER);
+
+		
 		numeric = wb.createCellStyle();
 		
 		centering = wb.createCellStyle();
@@ -146,6 +152,11 @@ public class Styler extends ExcelUtil {
 		public CellStyler charsWidth(int length) {
 			cell.getSheet().setColumnWidth(cell.getColumnIndex(), length * 256);
 			return this;		
+		}
+		
+		public CellStyler bold() {
+			cell.setCellStyle(bold);		
+			return this;
 		}
 		
 		public CellStyler centeringBold() {

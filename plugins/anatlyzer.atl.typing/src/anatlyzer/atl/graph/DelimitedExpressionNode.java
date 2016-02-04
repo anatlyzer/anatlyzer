@@ -83,7 +83,9 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
-		throw new UnsupportedOperationException();
+		// System.out.println(getDepending());
+		//return model.gen(start);
+		return  getDepending().genWeakestPrecondition(model);
 	}
 	
 	@Override

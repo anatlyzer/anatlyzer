@@ -1,16 +1,22 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -29,7 +35,12 @@ import anatlyzer.atlext.OCL.VariableExp;
  * This quickfix is applicable when a similar feature is assigned 
  * in other rules, so that binding is copied.
  * 
- * @author jesus
+ * Similarity is checked with the longest common substring algorithm.
+ *  
+ * @qfxName Add binding from similar feature
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature}
+ * 
+ * @author jesusc
  *
  */
 public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAtlQuickfix {
@@ -59,15 +70,35 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 		}
 		
 		RuleWithPattern containingRule = (RuleWithPattern) aRule;
-		
+
+		LongestCommonSubstring calculator = new LongestCommonSubstring();
+				
 		EStructuralFeature fTarget = problem.getFeature();
 		Metaclass mSource = (Metaclass) containingRule.getInPattern().getElements().get(0).getInferredType();
-		if ( fTarget instanceof EAttribute ) {
-			Optional<EAttribute> r = mSource.getKlass().getEAllAttributes().stream().filter(a -> {
-				System.out.println(a.getName() + "-" + fTarget.getName());
+		if ( fTarget instanceof EAttribute ) {					
+			Map<EAttribute, Integer> distances = mSource.getKlass().getEAllAttributes().stream().
+				collect(Collectors.toMap(a -> a, a -> 
+					Math.abs(fTarget.getName().length() - calculator.distance(fTarget.getName(), a.getName()))) );
+
+			List<EAttribute> attrs = mSource.getKlass().getEAllAttributes().stream().
+					filter(a -> isEqualTypes(a, (EAttribute) fTarget) )
+					//.filter(a -> distances.get(a) < calculator.threshold())
+					.collect(Collectors.toList());
+			
+			
+			Optional<EAttribute> r = mSource.getKlass().getEAllAttributes().stream().
+				filter(a -> isEqualTypes(a, (EAttribute) fTarget) ).
+				filter(a -> distances.get(a) < calculator.threshold()).
+				sorted((a1, a2) -> 
+					distances.get(a1).compareTo(distances.get(a2)) )
+				.findAny();
+//			
+			Optional<EAttribute> r2 = mSource.getKlass().getEAllAttributes().stream().filter(a -> {
 				return a.getName().equals(fTarget.getName()) &&
-				       a.getEType() == fTarget.getEType();
+						isEqualTypes(a, (EAttribute) fTarget);
 			}).findAny();
+			
+			System.out.println(r2.isPresent());
 			
 			if ( r.isPresent() ) {
 				feature = r.get();
@@ -76,6 +107,19 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 		}
 		
 		return false;
+	}
+
+	private boolean isEqualTypes(EAttribute a1, EAttribute a2) {
+		if ( a1.getEAttributeType() == a2.getEAttributeType() )
+			return true;
+		
+		if ( a1.getEAttributeType().getInstanceTypeName() != null &&
+			 a2.getEAttributeType().getInstanceTypeName() != null &&
+			 a1.getEAttributeType().getInstanceTypeName().equals(a2.getEAttributeType().getInstanceTypeName()) ) {
+			return true;
+		}
+		
+		return a1.getName().equals(a2.getName());
 	}
 
 	@Override
@@ -115,7 +159,7 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 
 	@Override
 	public String getDisplayString() {
-		return "Add name mapping: " + feature.getName() ;
+		return "Add binding from similar feature: " + feature.getName() ;
 	}
 
 }

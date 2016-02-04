@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.errors.atl_error.FoundInSubtype;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
@@ -21,7 +25,9 @@ import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -34,7 +40,10 @@ import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LoopExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
@@ -45,10 +54,12 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class ASTUtils {
 
@@ -132,6 +143,53 @@ public class ASTUtils {
 		return create;
 	}
 
+
+	/**
+	 * It creates the ocl expression expression.oclIsKindOf(type) or expression.oclIsKindOf(type2) or ...
+	 * @param receptor
+	 * @return
+	 */
+	public static Supplier<OclExpression> createOclIsKindOfCheck(PropertyCallExp receptor, List<EClass> subtypes) {
+		Supplier<OclExpression> create = () -> {			
+				// build expression
+				OclExpression expression = createOclIsKindOfCheck(receptor.getSource(), subtypes.get(0).getName()).get();
+				
+				for (int i=1; i<subtypes.size(); i++) {
+					OperatorCallExp orOperator = OCLFactory.eINSTANCE.createOperatorCallExp();
+					orOperator.setOperationName("or");
+					orOperator.setSource(expression);
+					orOperator.getArguments().add( createOclIsKindOfCheck(receptor.getSource(), subtypes.get(i).getName()).get() );
+					expression = orOperator;
+				}
+
+				return expression;
+			};		
+			return create;
+	}
+
+
+	/**
+	 * It creates the ocl expression expression.oclIsKindOf(type)
+	 * @param receptor
+	 * @param kind
+	 * @return
+	 */
+	private static Supplier<OclExpression> createOclIsKindOfCheck(OclExpression expression, String kind) {
+		Supplier<OclExpression> create = () -> { 
+			OclModelElement oclType = (OclModelElement) ATLUtils.getOclType(expression.getInferredType());
+        	oclType.setName(kind);
+        	
+			OperationCallExp oclIsKindOf = OCLFactory.eINSTANCE.createOperationCallExp();
+			oclIsKindOf.setOperationName("oclIsKindOf");
+			oclIsKindOf.setSource       ((OclExpression) ATLCopier.copySingleElement(expression));
+			oclIsKindOf.getArguments().add( oclType );
+
+			return oclIsKindOf;
+		};		
+		return create;
+	}
+
+	
 	public static ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
 		Operation operation = OCLFactory.eINSTANCE.createOperation();
 		operation.setName(name);
@@ -277,6 +335,59 @@ public class ASTUtils {
 		return neg;
 	}
 
+	/**
+	 * Try to find the type that an expression should yield to make the
+	 * expression correct.
+	 * @param exp
+	 * @return null if it cannot be determined
+	 */
+	public static Type findExpectedTypeInExpressionPosition(OclExpression exp, boolean considerTargetTypes) {
+		// obj.call( *exp* )
+		if ( exp.eContainingFeature() == OCLPackage.Literals.OPERATION_CALL_EXP__ARGUMENTS ) {
+			OperationCallExp opcall = (OperationCallExp) exp.eContainer();
+			int argIdx = opcall.getArguments().indexOf(exp);
+			if ( opcall.getStaticResolver() != null && opcall.getStaticResolver().getCallableParameters().size() > argIdx ) {
+				CallableParameter param = opcall.getStaticResolver().getCallableParameters().get(argIdx);	
+				return param.getStaticType();
+			}
+		}
+		
+		// collection.select(a | a.xxx)
+		// -> must be boolean (same reject, any, forAll...)
+		if ( exp.eContainingFeature() == OCLPackage.Literals.LOOP_EXP__BODY && 
+			 (LoopExp) exp.eContainer() instanceof IteratorExp ) {
+			String name = ((IteratorExp) exp.eContainer()).getName();
+			if ( "select".equals(name) || "reject".equals(name) || "forAll".equals(name) || "any".equals(name) )
+				return TypesFactory.eINSTANCE.createBooleanType();				
+		}
+		
+		// rule filter ( *exp* ) => Must be boolean
+		if ( exp.eContainingFeature() == ATLPackage.Literals.IN_PATTERN__FILTER ) {
+			return TypesFactory.eINSTANCE.createBooleanType();
+		}
+
+		// helper ... : Type = *exp*  => must be Type
+		if ( exp.eContainer() instanceof Operation ) {
+			return ((Operation) exp.eContainer()).getReturnType().getInferredType();
+		} else if ( exp.eContainer() instanceof Attribute ) {
+			return ((Attribute) exp.eContainer()).getType().getInferredType();
+		}
+		
+		// Variable declarations
+		if ( exp.eContainingFeature() == OCLPackage.Literals.VARIABLE_DECLARATION__INIT_EXPRESSION ) {
+			VariableDeclaration vd = (VariableDeclaration) exp.eContainer();
+			if ( vd.getType() != null ) 
+				return vd.getType().getInferredType();
+		}
+		
+		
+		if ( considerTargetTypes ) {
+			// More rules here
+		}
+		
+			
+		return null;
+	}
 
 	
 }

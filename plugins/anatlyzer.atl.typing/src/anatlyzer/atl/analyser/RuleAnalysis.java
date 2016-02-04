@@ -371,7 +371,14 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			
 			Set<MatchedRule> rules = ns.getResolvingRules();
 			boolean isAssignable    = TypeUtils.isClassAssignableTo(rightMetaclass.getKlass(), f.getEReferenceType());
-			if ( rules.size() == 0 && ! isAssignable ) {
+			
+			if ( rules.size() == 0 && ! isAssignable && self.getValue() instanceof NavigationOrAttributeCallExp ) {
+				// We check that there is no possible filtering in the right-hand side of the binding, otherwise is only potential...
+				// This is to be on the safe side, for example in CPL2SPL:
+				//		selectCases <- s.addresses->including(s.notPresent)
+				// If we change the expression to:
+				// 		selectCases <- s.addresses->including(s.notPresent)->select(o | not o.oclIsKindOf(CPL!NotPresent))
+				// This will be a false positive
 				String mmName = ((OclModelElement) self.getOutPatternElement().getType()).getModel().getName();
 				
 				errors().signalBindingWithoutRule(self, 

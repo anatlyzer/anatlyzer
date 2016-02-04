@@ -17,6 +17,7 @@ import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
@@ -64,6 +65,9 @@ import anatlyzer.atlext.OCL.Parameter;
  * <h2>Limitations</h2>
  * The current implementation is not smart enough to recursively quickfix the new rules to avoid
  * "no binding for compulsory feature".
+ * 
+ * @qfxName  Operation not found in thisModule: create helper or lazy rule
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule}
  * 
  * @author jdelara, jesusc
  */
@@ -128,6 +132,8 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 				p.setType(Conversions.convertPType((PrimitiveType) arg.getInferredType()));
 			} else if ( arg.getInferredType() instanceof Metaclass ){
 				p.setType(ASTUtils.createOclModelElement((Metaclass) arg.getInferredType()));
+			} else if ( arg.getInferredType() instanceof CollectionType ) {
+				p.setType( ATLUtils.getOclType(arg.getInferredType()) );
 			} else {
 				// Several cases to consider here:
 				//		- Union type => ??
@@ -222,13 +228,32 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		if ( op.getArguments().size() > 0 && it != null && it.getName().equals("collect") ) {
 			EObject c = it.eContainer();
 			if ( c instanceof Binding && ATLUtils.isReferenceBinding((Binding) c) ) {
-				if ( op.getArguments().size() > 1 || op.getArguments().get(0).getInferredType() instanceof PrimitiveType ) {
+				if ( op.getArguments().size() > 1 || 
+						op.getArguments().get(0).getInferredType() instanceof PrimitiveType ||
+						op.getArguments().get(0).getInferredType() instanceof CollectionType ) {
 					return onNewCalledRule.apply(op, (Binding) c);
 				} else {
 					return onNewLazyRule.apply(op, (Binding) c);
 				}
 			}
 		}
+		
+		// If the call is located just in the binding, then we need a rule call to
+		// to avoid hepers with target types!
+		if ( op.eContainer() instanceof Binding ) {
+			// Same code as above
+			EObject c = op.eContainer();
+			if ( c instanceof Binding && ATLUtils.isReferenceBinding((Binding) c) ) {
+				if ( op.getArguments().size() > 1 || 
+						op.getArguments().get(0).getInferredType() instanceof PrimitiveType ||
+						op.getArguments().get(0).getInferredType() instanceof CollectionType ) {
+					return onNewCalledRule.apply(op, (Binding) c);
+				} else {
+					return onNewLazyRule.apply(op, (Binding) c);
+				}
+			}
+		}
+		
 		return onNewHelper.apply(op);
 	}
 

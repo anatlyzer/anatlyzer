@@ -598,7 +598,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					errors().discardedAccessToUndefinedValue(self);
 					break;
 				}
-				
 			}
 		}
 	}

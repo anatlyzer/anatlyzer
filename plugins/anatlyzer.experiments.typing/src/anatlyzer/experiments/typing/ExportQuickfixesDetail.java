@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,13 +49,17 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				return;
 			}
 		}
-		
+
 		try {
 			Workbook wb = new HSSFWorkbook();
 
-			exportQuickfixImpact(wb, ev, folder, "Generated problems", true);
-			exportQuickfixImpact(wb, ev, folder, "Fixed problems", false);
+			exportQuickfixImpact(wb, ev, folder, "Generated problems (all)", true, true);
+			exportQuickfixImpact(wb, ev, folder, "Fixed problems (all)", false, true);
 
+			exportQuickfixImpact(wb, ev, folder, "Generated problems (unique)", true, false);
+			exportQuickfixImpact(wb, ev, folder, "Fixed problems (unique)", false, false);
+
+			
 			String name = "qfx_details" + ".xls";		
 			File f = folder.getFile(name).getLocation().toFile();		
 			wb.write(new FileOutputStream(f));
@@ -63,10 +68,76 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			e.printStackTrace();
 		}
 
+		// The summary table
+		try {
+			Workbook wb = new HSSFWorkbook();
+
+			exportSummaryTable(wb, ev);
+
+			String name = "qfx_summary" + ".xls";		
+			File f = folder.getFile(name).getLocation().toFile();		
+			wb.write(new FileOutputStream(f));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void exportSummaryTable(Workbook wb, QuickfixEvaluationAbstract ev) {
+		Sheet sheet = wb.createSheet("Summary");
+		Styler   st = new Styler(wb);
+
+		int startRow = 2;
+		int startCol = 1;
+
+		st.cell(sheet, startRow, startCol + 0, "Problem");
+		st.cell(sheet, startRow, startCol + 1, "# Occ.");
+		st.cell(sheet, startRow, startCol + 2, "# Qfx.");
+		st.cell(sheet, startRow, startCol + 3, "Avg.");
+		st.cell(sheet, startRow, startCol + 4, "Min");
+		st.cell(sheet, startRow, startCol + 5, "Max");
+		st.cell(sheet, startRow, startCol + 6, "Fix.");
+		st.cell(sheet, startRow, startCol + 7, "Gen.");
+
+		int row = startRow++;
+		List<QuickfixSummary> l = ev.summary.values().stream().sorted((q1, q2) -> q1.getLatexDesc().compareTo(q2.getLatexDesc())).collect(Collectors.toList());
+		for (QuickfixSummary qs : l) {
+			st.cell(sheet, row, startCol + 0, qs.getLatexDesc()).bold();
+			st.cell(sheet, row, startCol + 1, (long) qs.totalProblems);
+			st.cell(sheet, row, startCol + 2, (long) qs.totalQuickfixes);
+			st.cell(sheet, row, startCol + 3, (long) qs.getAvg());
+			st.cell(sheet, row, startCol + 4, (long) qs.minQuickfixes);
+			st.cell(sheet, row, startCol + 5, (long) qs.maxQuickfixes);
+			st.cell(sheet, row, startCol + 6, (long) qs.totalErrorsFixed);
+			st.cell(sheet, row, startCol + 7, (long) qs.totalErrorsGenerated );
+
+			row++;
+			List<String> applied = qs.quickfixesByType.keySet().stream().sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
+			for (String k : applied) {
+				List<AppliedQuickfixInfo> list = qs.quickfixesByType.get(k);				
+				int totalQuickfix = list.size();
+				
+				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
+				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
+
+				st.cell(sheet, row, startCol + 0, converToSortable(k)).alignRight();
+				st.cell(sheet, row, startCol + 1, "-");
+				st.cell(sheet, row, startCol + 2, totalQuickfix);
+				st.cell(sheet, row, startCol + 3, "-");
+				st.cell(sheet, row, startCol + 4, "-");
+				st.cell(sheet, row, startCol + 5, "-");
+				st.cell(sheet, row, startCol + 6, fixed);
+				st.cell(sheet, row, startCol + 7, generated);
+				row++;
+			}
+			
+		}
+		
 		
 	}
 
-	private void exportQuickfixImpact(Workbook wb, QuickfixEvaluationAbstract ev, IFolder folder, String name, boolean exportGenerated) {
+	private void exportQuickfixImpact(Workbook wb, QuickfixEvaluationAbstract ev, IFolder folder, String name, boolean exportGenerated, boolean countAll) {
 		Sheet sheet = wb.createSheet(name);
 		Styler   st = new Styler(wb);
 		
@@ -77,29 +148,39 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		int startRow = 2;
 		int startCol = 1;
 		
-		List<String> codes = QuickfixEvaluationAbstract.getQfxCodes().stream().map(c -> c.code).
+		List<String> codes = QuickfixCodes.getQfxCodes().stream().map(c -> c.code).
 				distinct().
 				sorted((k1, k2) -> k1.compareTo(k2)).
 				collect(Collectors.toList());
 
 		List<AppliedQuickfixInfo> allAppliedQuickfixes = new ArrayList<QuickfixEvaluationAbstract.AppliedQuickfixInfo>();
-		Set<String> errCodes = new HashSet<String>();
+		Set<String> errCodesSet = new HashSet<String>();
 		List<AnalysedTransformation> trafos = ev.projects.values().stream().flatMap(p -> p.getTrafos().stream()).collect(Collectors.toList());
 		trafos.stream().flatMap(t -> t.problemToQuickfix.values().stream()).forEach(qilist -> {
 			allAppliedQuickfixes.addAll(qilist);
 			qilist.forEach(qi -> {
-				if ( exportGenerated )
-					errCodes.addAll( qi.getImpact().getNewProblems().stream().map(p -> ev.getErrorCode(p)).collect(Collectors.toList()) );
-				else
-					errCodes.addAll( qi.getImpact().getFixedProblems().stream().map(p -> ev.getErrorCode(p)).collect(Collectors.toList()) );					
+				if ( exportGenerated ) {
+					errCodesSet.addAll( qi.getImpact().getNewProblems().stream().map(p -> QuickfixCodes.getErrorCode(p)).collect(Collectors.toList()) );
+				} else {
+					errCodesSet.addAll( qi.getImpact().getFixedProblems().stream().map(p -> QuickfixCodes.getErrorCode(p)).collect(Collectors.toList()) );					
+				}	
 			});
 		});
 				
+		
+		
 		// flatMap(qilist -> qilist.stream().flatMap(qi -> qi.getImpact().getNewProblems().stream().map(p -> ev.getErrorCode(p))))).collect(Collectors.toList());
 		
 		int col = 1;
-				
-		for (String errorCode : errCodes) {
+		
+		List<String> errCodeOrdered = QuickfixCodes.getQfxCodes().stream().map(c -> c.code).
+				distinct().
+				sorted((k1, k2) -> k1.compareTo(k2)).
+				collect(Collectors.toList());
+		
+		
+		// List<String> errCodeOrdered = errCodesSet.stream().sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
+		for (String errorCode : errCodeOrdered) {
 //			String errorCode = entry.getKey();
 //			QuickfixSummary qs = entry.getValue();
 			
@@ -108,7 +189,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			int row = 1;
 			for (String code : codes) {
 				// This will write the row header many times, but does not matter
-				st.cell(sheet, startRow + row, startCol + 0, code);
+				st.cell(sheet, startRow + row, startCol + 0, converToSortable(code));
 								
 				for (AppliedQuickfixInfo qi : allAppliedQuickfixes) {
 					if ( ! qi.getCode().equals(code) ) 
@@ -121,9 +202,17 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 						list = qi.getImpact().getFixedProblems();
 					}
 				
-					long total = list.stream().filter(p -> { 
-						return ev.getErrorCode(p).equals(errorCode);						
-					}).count();
+					long total = 0;
+					
+					if ( countAll ) {					
+						total = list.stream().filter(p -> { 
+							return QuickfixCodes.getErrorCode(p).equals(errorCode);						
+						}).count();
+					} else {
+						total = list.stream().anyMatch(p -> { 
+							return QuickfixCodes.getErrorCode(p).equals(errorCode);						
+						}) ? 1 : 0;
+					}
 
 					Cell c = st.getRow(sheet, startRow + row).getCell(startCol + col);
 					long value = total;
@@ -143,6 +232,13 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			col++;
 		}
 		
+	}
+
+	private String converToSortable(String quickfixCode) {
+		String[] text = quickfixCode.substring(1).split(".");
+		if ( text[0].length() == 1 ) 
+			text[0] = "0" + text[0];
+		return "Q" + text[0] + "." + text[1];
 	}
 
 }

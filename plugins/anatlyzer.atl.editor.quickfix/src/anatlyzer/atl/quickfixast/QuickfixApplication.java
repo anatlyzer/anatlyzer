@@ -33,6 +33,7 @@ import anatlyzer.atl.impact.IQuickfixSpecificImpactComputation;
 import anatlyzer.atl.impact.ImpactFactory;
 import anatlyzer.atl.impact.ModuleCallableChange;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.util.ATLSwitch;
@@ -81,8 +82,9 @@ public class QuickfixApplication {
 	public void remove(EObject o) {
 		EObject parent = o.eContainer();
 		// EcoreUtil.delete(o);
+		EObject copy = ATLCopier.copySingleElement(o);
 		EcoreUtil.delete(o, true);
-		actions.add(new DeleteAction(o, parent));
+		actions.add(new DeleteAction(o, parent, copy));
 	}
 	
 	public <T1 extends EObject, T2 extends EObject> void change(T1 root, 
@@ -276,10 +278,12 @@ public class QuickfixApplication {
 
 	public static class DeleteAction extends Action {
 		private EObject container;
+		private EObject copyOfDeleted;
 
-		public DeleteAction(EObject deleted, EObject container) {
+		public DeleteAction(EObject deleted, EObject container, EObject copyOfDeleted) {
 			super(deleted, new Trace());
 			this.container = container;
+			this.copyOfDeleted = copyOfDeleted;
 		}
 
 		@SuppressWarnings("unchecked")
@@ -293,7 +297,7 @@ public class QuickfixApplication {
 		}
 
 		public String getText() {
-			return "-- Removed: \n" + ATLSerializer.serialize(tgt);
+			return "-- Removed: \n" + ATLSerializer.serialize(copyOfDeleted);
 		}
 		
 		@Override

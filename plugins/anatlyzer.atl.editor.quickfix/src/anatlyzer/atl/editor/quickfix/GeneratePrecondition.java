@@ -31,7 +31,7 @@ public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
-		LocalProblem p = getProblem();		
+		LocalProblem p = (LocalProblem) getProblem();		
 		AnalysisResult result = getAnalysisResult();
 		
 		ErrorPathGenerator pathgen = new ErrorPathGenerator(result.getAnalyser());		

@@ -5,6 +5,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 public interface AtlProblemQuickfix extends ICompletionProposal {
 
@@ -56,6 +58,13 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 */
 	public AnalysisResult getAnalysisResult();
 
+	/** 
+	 * @return The problem associated to the quick fix.
+	 * @throws CoreException if 
+	 */
+	public Problem getProblem() throws CoreException;
+
+	
 	/**
 	 * This is used to set external data inside the quick fix.
 	 */

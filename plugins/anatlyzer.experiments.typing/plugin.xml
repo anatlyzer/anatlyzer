@@ -69,5 +69,11 @@
       </experiment>
    </extension>
 
-
+   <extension
+         point="anatlyzer.atl.quickfix.impact">
+      <impact
+            implementation="anatlyzer.experiments.quickfix.ShowErrorCodes"
+            name="Error Codes">
+      </impact>
+   </extension>
 </plugin>

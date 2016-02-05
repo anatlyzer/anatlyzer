@@ -148,7 +148,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		int startRow = 2;
 		int startCol = 1;
 		
-		List<String> codes = QuickfixCodes.getQfxCodes().stream().map(c -> c.code).
+		List<String> qfxCodes = QuickfixCodes.getQfxCodes().stream().map(c -> c.code).
 				distinct().
 				sorted((k1, k2) -> k1.compareTo(k2)).
 				collect(Collectors.toList());
@@ -171,9 +171,10 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		
 		// flatMap(qilist -> qilist.stream().flatMap(qi -> qi.getImpact().getNewProblems().stream().map(p -> ev.getErrorCode(p))))).collect(Collectors.toList());
 		
-		int col = 1;
 		
-		List<String> errCodeOrdered = QuickfixCodes.getQfxCodes().stream().map(c -> c.code).
+		int col = 2; // One hole for the quickfix name and the other for the number of applications
+		
+		List<String> errCodeOrdered = QuickfixCodes.getErrorCodes().stream().map(c -> c.code).
 				distinct().
 				sorted((k1, k2) -> k1.compareTo(k2)).
 				collect(Collectors.toList());
@@ -187,12 +188,12 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, startRow + 0, startCol + col, errorCode);
 			
 			int row = 1;
-			for (String code : codes) {
+			for (String qfxCode : qfxCodes) {
 				// This will write the row header many times, but does not matter
-				st.cell(sheet, startRow + row, startCol + 0, converToSortable(code));
+				st.cell(sheet, startRow + row, startCol + 0, converToSortable(qfxCode));
 								
 				for (AppliedQuickfixInfo qi : allAppliedQuickfixes) {
-					if ( ! qi.getCode().equals(code) ) 
+					if ( ! qi.getCode().equals(qfxCode) ) 
 						continue;
 					
 					Collection<Problem> list = null;
@@ -231,11 +232,30 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			
 			col++;
 		}
+
+		// Fill the number of applications of each quickfix
+		int row = 1;
+		for (String qfxCode : qfxCodes) {					
+			for (AppliedQuickfixInfo qi : allAppliedQuickfixes) {
+				if ( ! qi.getCode().equals(qfxCode) ) 
+					continue;
+		
+				Cell numberOfApplicationsCell = st.getRow(sheet, startRow + row).getCell(startCol + 1);
+				long numberOfApplicationsValue = 1;
+				if ( numberOfApplicationsCell != null ) {
+					numberOfApplicationsValue = numberOfApplicationsValue + (long) numberOfApplicationsCell.getNumericCellValue();
+				}
+				st.cell(sheet, startRow + row, startCol + 1, numberOfApplicationsValue);					
+			}		
+			row++;
+		}		
 		
 	}
 
 	private String converToSortable(String quickfixCode) {
 		String[] text = quickfixCode.substring(1).split(".");
+		if ( text.length != 2 ) 
+			return quickfixCode;
 		if ( text[0].length() == 1 ) 
 			text[0] = "0" + text[0];
 		return "Q" + text[0] + "." + text[1];

@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Point;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -90,11 +91,11 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		return (Integer) marker.getAttribute(IMarker.CHAR_END);
 	}
 	
-	protected LocalProblem getProblem() throws CoreException {
+	public Problem getProblem() throws CoreException {
 		return getProblem(this.marker);
 	}
 	
-	protected LocalProblem getProblem(IMarker marker) throws CoreException {
+	protected Problem getProblem(IMarker marker) throws CoreException {
 		LocalProblem problem = (LocalProblem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 		return problem;
 	}
@@ -105,7 +106,7 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	
 	protected LocatedElement getProblematicElement(IMarker marker) {
 		try {
-			return (LocatedElement) getProblem(marker).getElement();
+			return (LocatedElement) ((LocalProblem) getProblem(marker)).getElement();
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

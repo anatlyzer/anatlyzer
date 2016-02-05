@@ -87,6 +87,13 @@ public class QuickfixApplication {
 		actions.add(new DeleteAction(o, parent, copy));
 	}
 	
+	/**
+	 * This is used when the replaced element is part of the replacement.
+	 * 
+	 * @param root
+	 * @param rootCreator
+	 * @param replacer
+	 */
 	public <T1 extends EObject, T2 extends EObject> void change(T1 root, 
 			Supplier<T2> rootCreator,
 			TriConsumer<T1, T2, Trace> replacer) {	

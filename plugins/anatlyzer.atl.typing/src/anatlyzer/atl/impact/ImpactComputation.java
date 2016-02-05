@@ -116,7 +116,9 @@ public class ImpactComputation {
 				collect(Collectors.toList());
 	}
 	
-	
+	public boolean isFixed(Problem p) {
+		return fixedProblems.contains(p);
+	}
 	
 	public Collection<Problem> getNewProblems() {
 		return newProblems;

@@ -3,6 +3,7 @@ package anatlyzer.atl.editor.quickfix.dialog;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.graphics.Image;
@@ -223,7 +224,6 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	
 	private void updateAnalysis(AtlProblemQuickfix current) {
 		AnalysisResult r = speculativeThread.getAnalysis(current);
-		lblProblems.setText("New analysis: " + r.getProblems().size() + " problems");	
 		
 		tbtmAllProblems.setText("Remaining problems (" + r.getProblems().size() + ")");
 		tblViewerProblems.setInput(r);
@@ -239,6 +239,8 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tbtmNewProblems.setText("New problems (" + ic.getNewProblems().size() + ")");
 		tblViewerNewProblems.setInput(ic.getNewProblems());
 		tblViewerNewProblems.refresh();
+		
+		lblProblems.setText(ic.isFixed(this.problem)? "Original problem fixed" : "Original problem not fixed");
 		
 		int i = 0;
 		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {

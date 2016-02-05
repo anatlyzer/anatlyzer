@@ -15,8 +15,9 @@ public class BindingInvalidTargetInResolvedRule_RemoveRule extends BindingInvali
 
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
-		return checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class)
-				&& isOptionalFeature((BindingProblem) getProblem(marker));
+		return checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class);
+				// Why we had this before?
+				// && isOptionalFeature((BindingProblem) getProblem(marker));
 	}
 	
 	@Override

@@ -311,8 +311,12 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	@Override
 	public void finished(Problem p, AtlProblemQuickfix qfx, AnalysisResult r) {
 		// Set data about the found problems inside the quickfix
-		qfx.setData(ISpeculativeConstants.FOUND_PROBLEMS, r.getProblems().size());
-			
+		if ( r != null ) {
+			qfx.setData(ISpeculativeConstants.FOUND_PROBLEMS, r.getProblems().size());
+		} else {
+			qfx.setData(ISpeculativeConstants.FOUND_PROBLEMS, null);			
+		}
+		
 		getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {

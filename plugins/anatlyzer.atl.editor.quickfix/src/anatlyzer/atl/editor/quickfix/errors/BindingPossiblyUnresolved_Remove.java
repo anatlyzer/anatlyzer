@@ -28,7 +28,7 @@ public class BindingPossiblyUnresolved_Remove extends BindingProblemQuickFix {
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
 		return checkProblemType(marker, BindingPossiblyUnresolved.class)
-				&& isOptionalFeature((BindingProblem) getProblem(marker));
+				&& isOptionalBinding((BindingProblem) getProblem(marker));
 	}
 
 	@Override public void resetCache() {};

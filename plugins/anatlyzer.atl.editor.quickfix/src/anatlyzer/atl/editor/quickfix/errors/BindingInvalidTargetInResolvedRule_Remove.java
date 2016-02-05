@@ -23,7 +23,7 @@ public class BindingInvalidTargetInResolvedRule_Remove extends BindingInvalidTar
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
 		return checkProblemType(marker, BindingWithResolvedByIncompatibleRule.class)
-				&& isOptionalFeature((BindingProblem) getProblem(marker));
+				&& isOptionalBinding((BindingProblem) getProblem(marker));
 	}
 	
 	@Override

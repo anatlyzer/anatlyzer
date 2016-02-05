@@ -240,19 +240,18 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		return qfa;
 	}
 	
-	protected boolean isOptionalFeature(BindingProblem problem) {
+	protected boolean isOptionalBinding(BindingProblem problem) {
 		Binding b = (Binding) problem.getElement();
 
-		if ( problem.getLocation() != null && problem.getLocation().equals("28:4-28:35") ) {
-					boolean result = b.getWrittenFeature() != null &&
-							((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0;
-			if ( result ) {
-				System.out.println("It is optional feature");				
-			} 
-		}
+		// A small issue is that we can write twice a binding, so if it already written
+		// we can safely remove this one
+		boolean existsSimilar = b.getOutPatternElement().getBindings().stream().
+			filter(existing -> existing != b).
+			anyMatch(existing -> b.getWrittenFeature() == existing.getWrittenFeature());
 		
 		return 	b.getWrittenFeature() != null &&
-				((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0;
+				( existsSimilar ||
+				  ((EStructuralFeature) b.getWrittenFeature()).getLowerBound() == 0);
 	}
 	
 	protected OclExpression copyFilter(VariableDeclaration var, MatchedRule r) {

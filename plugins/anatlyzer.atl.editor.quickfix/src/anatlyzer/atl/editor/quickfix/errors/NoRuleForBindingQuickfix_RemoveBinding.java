@@ -28,7 +28,7 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends BindingProblemQuickF
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
 		return checkProblemType(marker, BindingWithoutRule.class) 
-			&& isOptionalFeature((BindingProblem) getProblem(marker));
+			&& isOptionalBinding((BindingProblem) getProblem(marker));
 	}
 
 	@Override public void resetCache() { }

@@ -63,7 +63,8 @@ public class BindingInvalidTargetInResolvedRule_ModifyBindingFeature extends Bin
 			}
 		}
 
-		result.sort((p1, p2) -> Integer.compare(p1._2.size(), p2._2.size()));
+		// Inverse sort!
+		result.sort((p1, p2) -> Integer.compare(p2._2.size(), p1._2.size()));
 		return result;
 	}
 

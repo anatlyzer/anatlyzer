@@ -16,6 +16,7 @@ import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_Chang
 import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifiyRuleFilter;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifyBindingFeature;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Precondition;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Remove;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_RemoveRule;
@@ -164,10 +165,13 @@ public class QuickfixCodes {
 		
 		// Q3.1
 		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_RemoveRule.class, 		"Q3.1")  );
+		
+		// 3.2
+		codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_ModifyBindingFeature.class, "Q3.2")  );
 
-		// Q3.2 --> No esta todavia...
+		// Q3.3 --> No esta todavia...
 		// codes.add( QfxCode.c(BindingInvalidTargetInResolvedRule_ChangeTargetType.class,	"Q3.2")  );
-
+		
 		// Q4.1
 		codes.add( QfxCode.c(NoBindingForCompulsoryFeature_ChangeMetamodel.class, 		"Q4.1")  );
 		codes.add( QfxCode.c(BindingExpectedOneAssignedMany_ChangeMetamodel.class, 		"Q4.1")  );

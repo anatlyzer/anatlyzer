@@ -97,8 +97,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		st.cell(sheet, startRow, startCol + 3, "Avg.");
 		st.cell(sheet, startRow, startCol + 4, "Min");
 		st.cell(sheet, startRow, startCol + 5, "Max");
-		st.cell(sheet, startRow, startCol + 6, "Fix.");
-		st.cell(sheet, startRow, startCol + 7, "Gen.");
+		st.cell(sheet, startRow, startCol + 6, "Valid");
+		st.cell(sheet, startRow, startCol + 7, "Fix.");
+		st.cell(sheet, startRow, startCol + 8, "Gen.");
 
 		int row = startRow++;
 		List<QuickfixSummary> l = ev.summary.values().stream().sorted((q1, q2) -> q1.getLatexDesc().compareTo(q2.getLatexDesc())).collect(Collectors.toList());
@@ -109,8 +110,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, row, startCol + 3, (long) qs.getAvg());
 			st.cell(sheet, row, startCol + 4, (long) qs.minQuickfixes);
 			st.cell(sheet, row, startCol + 5, (long) qs.maxQuickfixes);
-			st.cell(sheet, row, startCol + 6, (long) qs.totalErrorsFixed);
-			st.cell(sheet, row, startCol + 7, (long) qs.totalErrorsGenerated );
+			st.cell(sheet, row, startCol + 6, (long) qs.totalValidQuickfixes);
+			st.cell(sheet, row, startCol + 7, (long) qs.totalErrorsFixed);
+			st.cell(sheet, row, startCol + 8, (long) qs.totalErrorsGenerated );
 
 			row++;
 			List<String> applied = qs.quickfixesByType.keySet().stream().sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
@@ -118,6 +120,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				List<AppliedQuickfixInfo> list = qs.quickfixesByType.get(k);				
 				int totalQuickfix = list.size();
 				
+				int valid     = list.stream().mapToInt(qi -> qi.isValid() ? 1 : 0).sum();
 				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
 				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
 
@@ -127,8 +130,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				st.cell(sheet, row, startCol + 3, "-");
 				st.cell(sheet, row, startCol + 4, "-");
 				st.cell(sheet, row, startCol + 5, "-");
-				st.cell(sheet, row, startCol + 6, fixed);
-				st.cell(sheet, row, startCol + 7, generated);
+				st.cell(sheet, row, startCol + 6, valid);
+				st.cell(sheet, row, startCol + 7, fixed);
+				st.cell(sheet, row, startCol + 8, generated);
 				row++;
 			}
 			

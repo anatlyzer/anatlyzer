@@ -166,6 +166,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		int maxQuickfixes = 0;
 		int minQuickfixes = Integer.MAX_VALUE;
 		int totalQuickfixes;
+		int totalValidQuickfixes;
 		int totalProblems;
 		int totalErrorsFixed;
 		int totalErrorsGenerated;
@@ -179,13 +180,14 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			this.errorCode = errorCode;
 		}
 		
-		public void appliedQuickfixes(int count, int errorsFixed, int errorsGenerated) {
+		public void appliedQuickfixes(int count, int validQuickfixes, int errorsFixed, int errorsGenerated) {
 			if ( count < minQuickfixes )  {
 				minQuickfixes = count;
 			}
 			if ( count > maxQuickfixes ) {
 				maxQuickfixes = count;
 			}
+			totalValidQuickfixes += validQuickfixes;
 			totalErrorsFixed += errorsFixed;
 			totalErrorsGenerated += errorsGenerated;
 			totalQuickfixes += count;
@@ -198,11 +200,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 
 		public static String toLatexHeader() {
-			return "{\\bf Problem}        & {\\bf \\#Occ.} & {\\bf \\#Qfx} & {\\bf Avg} & {\\bf Min} & {\\bf Max} & {\\bf Fix.} & {\\bf Gen.} \\\\ \\hline";	
+			return "{\\bf Prob.}        & {\\bf \\#Occ.} & {\\bf \\#Qfx} & {\\bf Avg} & {\\bf Min} & {\\bf Max} & {\\bf Valid} & {\\bf Fix.} & {\\bf Gen.} \\\\ \\hline";	
 		}
 
 		public String toLatexRow() {
-			String first = "{\\bf " + getLatexDesc() + "} & " + totalProblems + " & " + totalQuickfixes + " & " + formatDouble(getAvg()) + " & " + minQuickfixes + " & " + maxQuickfixes + " & " + totalErrorsFixed + " & " + totalErrorsGenerated+ "\\\\ \\hline" ;
+			String first = "{\\bf " + getLatexDesc() + "} & " + totalProblems + " & " + totalQuickfixes + " & " + formatDouble(getAvg()) + " & " + minQuickfixes + " & " + maxQuickfixes + " & " + totalValidQuickfixes + " & " + totalErrorsFixed + " & " + totalErrorsGenerated+ "\\\\ \\hline" ;
 			List<String> lines = new ArrayList<String>();
 			lines.add(first);
 			quickfixesByType.keySet().stream().sorted((k1, k2) -> k1.compareTo(k2)).forEach(k -> {
@@ -212,10 +214,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 //				int generated = list.stream().filter(qi -> qi.getNumOfFixes() < 0 ).mapToInt(qi -> -1 * qi.getNumOfFixes()).sum();
 //				int fixed     = list.stream().filter(qi -> qi.getNumOfFixes() >= 0 ).mapToInt(qi -> qi.getNumOfFixes()).sum();
 
+				int valid     = list.stream().mapToInt(qi -> qi.isValid() ? 1 : 0).sum();
 				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
 				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
 
-				String line = "~~~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
+				String line = "~ {\\bf " + k + "} & " + "-" + " & " + totalQuickfix + " & " + "-" + " & " + "-" + " & " + "-" + " & " + valid + " & " + fixed + " & " + generated + "\\\\ \\hline" ;
 				lines.add(line);
 			});
 			
@@ -268,12 +271,18 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		protected boolean implError;
 		public String description = "no-description";
 		protected ImpactComputation impact;
+		private Problem originalProblem;
 
-		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, AnalysisResult original, List<Problem> originalProblems) {
+		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, Problem originalProblem, AnalysisResult original, List<Problem> originalProblems) {
 			this.quickfix = quickfix;
 			this.original = original;
 			this.originalProblems = new ArrayList<Problem>(originalProblems);	
+			this.originalProblem  = originalProblem;
 			setDescription(getCode() + " - " + quickfix.getDisplayString());
+		}
+
+		public boolean isValid() {
+			return impact != null ? impact.isFixed(originalProblem) : false;
 		}
 
 		public String getCode() {
@@ -486,6 +495,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			allData.add(data);
 			
 			String fileName = resource.getName();
+			System.out.println("*************************************");
+			System.out.println("****** Analysing mutant... " + fileName);
+			System.out.println("*************************************");
 			counting.processingArtefact(fileName);
 			
 			List<Problem> allProblems = selectProblems(data);
@@ -495,7 +507,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				if ( rc != null ) {
 					allProblems.add(rc);
 					data.extendProblems(Collections.singleton(rc));
-					System.out.println(fileName);
 				}
 			}
 
@@ -546,6 +557,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					int appliedQuickfixesCount = 0;
 					int errorsFixed     = 0;
 					int errorsGenerated = 0;
+					int validQuickfixes = 0;
 					for (AtlProblemQuickfix quickfix : quickfixes) {
 						if ( monitor != null && monitor.isCanceled() )
 							return;
@@ -567,7 +579,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						if ( qi.getRetypedProblems() != null ) {
 							errorsFixed += qi.getNumFixedProblems();
 							errorsGenerated += qi.getNumNewProblems();
-							
+							validQuickfixes += qi.isValid() ? 1 : 0;
 //							if ( qi.getCode().equals("Q4.1") && qi.getNumNewProblems() > 0 ) {
 //								System.out.println(resource);
 //							}
@@ -578,9 +590,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					}
 										
 					// Add to summary
-					qs.appliedQuickfixes(appliedQuickfixesCount, errorsFixed, errorsGenerated);					
+					qs.appliedQuickfixes(appliedQuickfixesCount, validQuickfixes, errorsFixed, errorsGenerated);					
 				} else {
-					qs.appliedQuickfixes(0, 0, 0);					
+					qs.appliedQuickfixes(0, 0, 0, 0);					
 					printMessage(" - No quickfixes available");
 				}
 				
@@ -687,7 +699,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		AnalysisResult newResult = new AnalysisResult(inc);
 		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newResult);
 		
-		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, original, originalProblems);
+		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, p, original, originalProblems);
 			
 		try {	
 			List<Problem> newProblems = selectProblems(newResult);

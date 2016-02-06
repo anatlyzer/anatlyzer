@@ -160,6 +160,7 @@ public class QuickfixEvaluationByMutation extends QuickfixEvaluationAbstract {
 		out.println("Total mutants: " + trafos.size());
 		out.println(" Analyser error: " + counting.getErrors().size());
 		out.println(" Without errors:" + trafos.stream().filter(t -> t.getOriginalProblems().isEmpty()).count() );	
+		out.println(" Mutants analysed and with at least one error: " + trafos.stream().filter(t -> ! t.getOriginalProblems().isEmpty()).count() );
 		
 		super.printResult(out);
 	}

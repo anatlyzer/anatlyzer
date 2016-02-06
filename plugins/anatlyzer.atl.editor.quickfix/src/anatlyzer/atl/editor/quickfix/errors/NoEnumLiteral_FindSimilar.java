@@ -35,7 +35,7 @@ public class NoEnumLiteral_FindSimilar extends AbstractAtlQuickfix  {
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		setErrorMarker(marker);
-		return checkProblemType(marker, NoEnumLiteral.class);
+		return checkProblemType(marker, NoEnumLiteral.class) && getPossibleNames().size() > 0;
 	}
 	
 	@Override public void resetCache() { 
@@ -93,7 +93,7 @@ public class NoEnumLiteral_FindSimilar extends AbstractAtlQuickfix  {
 
 	@Override
 	public String getDisplayString() {
-		return "Class "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
+		return "Enum literal "+this.getElement().getName()+" not found, replace by "+this.getClosest(this.getElement());
 	}
 
 }

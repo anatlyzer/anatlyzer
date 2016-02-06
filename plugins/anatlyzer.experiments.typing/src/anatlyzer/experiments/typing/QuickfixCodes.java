@@ -73,8 +73,9 @@ import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfi
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_CreateHelper;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFeatureCall;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
+import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ConvertReceptorToCollection;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix;
+import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_ModifyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_RemoveRule;
 import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;
@@ -255,6 +256,10 @@ public class QuickfixCodes {
 		codes.add( QfxCode.c(FeatureNotFoundQuickFix_FindSameOperation.class,	"Q12.4")  ); 
 		codes.add( QfxCode.c(FeatureNotFoundInThisModuleQuickFix_FindSameOperation.class,	"Q12.4")  ); 
 		
+		// Q12.5
+		codes.add( QfxCode.c(OperationNotFoundQuickfix_ConvertReceptorToCollection.class,	"Q12.5")  ); 
+		
+		
 		// Q15.x
 		codes.add( QfxCode.c(OperationCallInvalidParameterQuickfix_CreateHelper.class,	"Q15.1")  ); 
 		codes.add( QfxCode.c(OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition.class, "Q15.2")  ); 
@@ -268,7 +273,7 @@ public class QuickfixCodes {
 
 		// Q17.1
 		codes.add( QfxCode.c(ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable.class,  "Q17.1")  ); 
-		codes.add( QfxCode.c(PrimitiveBindingInvalidAssignment_Quickfix.class, 						 "Q17.1")  ); 
+		codes.add( QfxCode.c(PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue.class, 						 "Q17.1")  ); 
 		
 		// Q18.x -> style
 		codes.add( QfxCode.c(FlattenOverNonNestedCollectionQuickFix.class,		 "Q18.1")  ); 
@@ -464,7 +469,7 @@ public class QuickfixCodes {
 		if ( quickfix instanceof BindingExpectedOneAssignedMany_ChangeMetamodel ) return "Q4.1";
 		// Also for PrimitiveBindingInvalidAssignment, etc.
 		
-		if ( quickfix instanceof PrimitiveBindingInvalidAssignment_Quickfix ) return "Q4.2";
+		if ( quickfix instanceof PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue ) return "Q4.2";
 		
 		if ( quickfix instanceof NoBindingForCompulsoryFeature_AddBinding )  return "Q5.1"; // TODO: Is this 4.2?
 		if ( quickfix instanceof NoBindingForCompulsoryFeature_FindSimilarExpression ) return "Q5.2";

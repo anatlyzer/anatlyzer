@@ -102,9 +102,16 @@
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
-            apply="anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix">
+            apply="anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue">
       </quickfix>
    </extension>
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_Conversion">
+      </quickfix>
+   </extension>
+   
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfix

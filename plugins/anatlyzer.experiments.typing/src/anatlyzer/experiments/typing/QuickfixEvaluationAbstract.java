@@ -99,7 +99,7 @@ import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfi
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFeatureCall;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignment_Quickfix;
+import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_ModifyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_RemoveRule;
 import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;

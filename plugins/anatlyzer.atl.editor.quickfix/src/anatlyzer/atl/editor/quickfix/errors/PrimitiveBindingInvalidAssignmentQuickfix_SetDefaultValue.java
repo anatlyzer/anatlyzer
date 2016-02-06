@@ -13,7 +13,7 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.PrimitiveExp;
 
-public class PrimitiveBindingInvalidAssignment_Quickfix extends AbstractAtlQuickfix {
+public class PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue extends AbstractAtlQuickfix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) {		

@@ -915,6 +915,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					LocalProblemNode lpn = (LocalProblemNode) selection.getFirstElement();
 					
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
+					wf.checkDiscardCause(true);
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);

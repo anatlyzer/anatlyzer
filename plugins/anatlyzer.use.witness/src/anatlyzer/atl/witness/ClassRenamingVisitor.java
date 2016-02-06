@@ -12,13 +12,17 @@ import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -52,6 +56,15 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 	}
 	
 	public void renameHelper(Helper self) {
+		if ( UseReservedWords.isReserved( ATLUtils.getHelperName(self)) ) {
+			if ( self.getDefinition().getFeature() instanceof Attribute ) {
+				((Attribute) self.getDefinition().getFeature()).setName( UseReservedWords.getReplacement(ATLUtils.getHelperName(self))  );
+			} else {
+				((Operation) self.getDefinition().getFeature()).setName( UseReservedWords.getReplacement(ATLUtils.getHelperName(self))  );				
+			}
+		}
+		
+		
 		Type t = self.getInferredReturnType();		
 		if ( t instanceof CollectionType ) {
 			while ( t instanceof CollectionType ) {
@@ -104,9 +117,9 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		if ( self.getInferredType() instanceof Metaclass ) {
 			Metaclass m = (Metaclass) self.getInferredType();
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
-//			if ( newClass == null ) {
-//				System.out.println(m.getName());
-//			}
+			if ( newClass == null ) {
+				System.out.println("No class " + m.getName());
+			}
 				
 			self.setName(newClass.getName());
 			m.setName(newClass.getName());
@@ -199,12 +212,15 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 	
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
-		if ( self.getUsedFeature() != null ) {
-			if ( UseReservedWords.isReserved(self.getName()) ) {
-				self.setName(UseReservedWords.getReplacement(self.getName()));
-			}
-		} else {
-			// Is a helper
+		if ( UseReservedWords.isReserved(self.getName()) ) {
+			self.setName(UseReservedWords.getReplacement(self.getName()));
+		}
+	}
+
+	@Override
+	public void inOperationCallExp(OperationCallExp self) {
+		if ( UseReservedWords.isReserved(self.getOperationName()) ) {
+			self.setOperationName(UseReservedWords.getReplacement(self.getOperationName()));
 		}
 	}
 	

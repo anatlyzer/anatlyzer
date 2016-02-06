@@ -75,6 +75,7 @@ import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFe
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ConvertReceptorToCollection;
 import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
+import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_Conversion;
 import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_ModifyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_RemoveRule;
@@ -274,6 +275,8 @@ public class QuickfixCodes {
 		// Q17.1
 		codes.add( QfxCode.c(ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable.class,  "Q17.1")  ); 
 		codes.add( QfxCode.c(PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue.class, 						 "Q17.1")  ); 
+		codes.add( QfxCode.c(PrimitiveBindingInvalidAssignmentQuickfix_Conversion.class, 						 "Q17.1")  ); 
+		
 		
 		// Q18.x -> style
 		codes.add( QfxCode.c(FlattenOverNonNestedCollectionQuickFix.class,		 "Q18.1")  ); 

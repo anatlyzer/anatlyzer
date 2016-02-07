@@ -140,6 +140,15 @@ public interface IdeErrorPackage extends EPackage {
 	int COULD_NOT_LOAD_METAMODEL__ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COULD_NOT_LOAD_METAMODEL__MISSING = AtlErrorPackage.LOCAL_PROBLEM__MISSING;
+
+	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

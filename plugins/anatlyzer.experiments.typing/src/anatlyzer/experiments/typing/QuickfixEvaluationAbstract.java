@@ -519,6 +519,12 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			int i = 0;
 			for (Problem p : allProblems) {
+//				if ( QuickfixCodes.getErrorCode(p).equals("E15")) {
+//					System.out.println("here" + p.getClass());
+//				} else {
+//					continue;
+//				}
+				
 				if ( monitor.isCanceled() ) {
 					return;
 				}
@@ -580,9 +586,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 							errorsFixed += qi.getNumFixedProblems();
 							errorsGenerated += qi.getNumNewProblems();
 							validQuickfixes += qi.isValid() ? 1 : 0;
-//							if ( qi.getCode().equals("Q4.1") && qi.getNumNewProblems() > 0 ) {
-//								System.out.println(resource);
-//							}
+							if ( ! qi.isValid() ) {
+								System.out.println(resource.getName());
+							}
 
 						}
 						

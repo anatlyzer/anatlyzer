@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -14,6 +15,7 @@ import anatlyzer.atlext.OCL.OclModel;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 @SuppressWarnings("serial")
 public class ATLCopier extends EcoreUtil.Copier {
@@ -68,7 +70,8 @@ public class ATLCopier extends EcoreUtil.Copier {
 	}
 	
 	protected void copyReference(EReference eReference, EObject eObject, EObject copyEObject) {
-		super.copyReference(eReference, eObject, copyEObject);
+		// super.copyReference(eReference, eObject, copyEObject);
+		copyReference_orginal_modified(eReference, eObject, copyEObject);
 
 		if (eObject.eIsSet(eReference)) {
 			if (eReference.isMany()) {
@@ -95,9 +98,97 @@ public class ATLCopier extends EcoreUtil.Copier {
 					}
 				}
 			}
-		}
+		}	
 	}
 
+	// A modification is needed...
+    protected void copyReference_orginal_modified(EReference eReference, EObject eObject, EObject copyEObject)
+    {
+      if (eObject.eIsSet(eReference))
+      {
+        EStructuralFeature.Setting setting = getTarget(eReference, eObject, copyEObject);
+        if (setting != null)
+        {
+          Object value = eObject.eGet(eReference, resolveProxies);
+          if (eReference.isMany())
+          {
+            @SuppressWarnings("unchecked") InternalEList<EObject> source = (InternalEList<EObject>)value;
+            @SuppressWarnings("unchecked") InternalEList<EObject> target = (InternalEList<EObject>)setting;
+            
+            
+            // This is the modification
+            if ( source == target ) 
+            	return;
+            
+            if (source.isEmpty())
+            {
+              target.clear();
+            }
+            else
+            {
+              boolean isBidirectional = eReference.getEOpposite() != null;
+              int index = 0;
+              for (Iterator<EObject> k = resolveProxies ? source.iterator() : source.basicIterator(); k.hasNext();)
+              {
+                EObject referencedEObject = k.next();
+                EObject copyReferencedEObject = get(referencedEObject);
+                if (copyReferencedEObject == null)
+                {
+                  if (useOriginalReferences && !isBidirectional)
+                  {
+                    target.addUnique(index, referencedEObject);
+                    ++index;
+                  }
+                }
+                else
+                {
+                  if (isBidirectional)
+                  {
+                    int position = target.indexOf(copyReferencedEObject);
+                    if (position == -1)
+                    {
+                      target.addUnique(index, copyReferencedEObject);
+                    }
+                    else if (index != position)
+                    {
+                      target.move(index, copyReferencedEObject);
+                    }
+                  }
+                  else
+                  {
+                    target.addUnique(index, copyReferencedEObject);
+                  }
+                  ++index;
+                }
+              }
+            }
+          }
+          else
+          {
+            if (value == null)
+            {
+              setting.set(null);
+            }
+            else
+            {
+              Object copyReferencedEObject = get(value);
+              if (copyReferencedEObject == null)
+              {
+                if (useOriginalReferences && eReference.getEOpposite() == null)
+                {
+                  setting.set(value);
+                }
+              }
+              else
+              {
+                setting.set(copyReferencedEObject);
+              }
+            }
+          }
+        }
+      }
+    }
+	
 	/**
 	 * Modification of the original copy
 	 */

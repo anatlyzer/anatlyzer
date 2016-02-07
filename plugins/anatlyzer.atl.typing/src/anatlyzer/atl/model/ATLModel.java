@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -294,11 +295,17 @@ public class ATLModel {
 			}
 			return null;
 		}
+		
+		@Override
+		public void extendWith(Map<EObject, EObject> anotherTrace) {
+			trace.putAll(anotherTrace);
+		}
 	}
 	
 	public static interface ITracedATLModel {
 		public EObject getTarget(EObject src);
 		public EObject getSource(EObject tgt);
+		public void extendWith(Map<EObject, EObject> anotherTrace);
 	}
 
 	public List<StaticHelper> getInlinedPreconditions() {

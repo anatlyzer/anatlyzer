@@ -14,13 +14,14 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getElement <em>Element</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getMissing <em>Missing</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getRecovery <em>Recovery</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getLocalProblem()
  * @model abstract="true"
@@ -104,6 +105,32 @@ public interface LocalProblem extends Problem {
 	 * @generated
 	 */
 	void setElement(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Missing</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Missing</em>' attribute.
+	 * @see #setMissing(Object)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getLocalProblem_Missing()
+	 * @model
+	 * @generated
+	 */
+	Object getMissing();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getMissing <em>Missing</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Missing</em>' attribute.
+	 * @see #getMissing()
+	 * @generated
+	 */
+	void setMissing(Object value);
 
 	/**
 	 * Returns the value of the '<em><b>Recovery</b></em>' containment reference.

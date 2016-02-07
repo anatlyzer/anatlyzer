@@ -35,7 +35,7 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * 
  * 
  * @qfxName  Generate most general pre-condition
- * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule}
  * 
  * @author jesusc
  */

@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.inc;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -19,6 +20,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.PropertyCallExp;
@@ -69,6 +71,10 @@ public class IncrementalCopyBasedAnalyser extends Analyser {
 			replaceReferences(mmName, copier, checkExists);			
 		}
 		replaceEClassReferences(copier, checkExists);
+		
+		// extends the copied meta-model trace with this trace!
+		ITracedATLModel copy = (CopiedATLModel) trafo;
+		copy.extendWith(copier);
 		
 		return new GlobalNamespace(resources, newMap);
 	}

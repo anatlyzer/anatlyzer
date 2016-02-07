@@ -181,7 +181,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		return genRuleIteration(model, "forAll", (forallOuter, forallInner, mappedVars) -> {
 
 			// Sames as in genPathCondition
-			Pair<LetExp, LetExp> letPair = genLocalVarsLet(model);
+			Pair<LetExp, LetExp> letPair = genLocalVarsLet(model, true);
 			
 			LetExp letUsingDeclarations = letPair._1;
 			LetExp letUsingDeclarationInnerLet = letPair._2;

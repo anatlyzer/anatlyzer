@@ -53,6 +53,9 @@ package atl_error {
 	   attr String[1] location;
 	   attr String[0..1] fileLocation;
 	   ref  EObject[1] element;
+	   // This is intended to record generically the element that is
+	   // missing to disambiguate two problems over the same element 
+	   attr Object[0..1] missing;
 	   
 	   val Recovery[0..1] recovery;
 	}

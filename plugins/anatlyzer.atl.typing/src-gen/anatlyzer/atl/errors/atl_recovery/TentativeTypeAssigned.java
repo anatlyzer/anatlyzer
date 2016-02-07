@@ -13,10 +13,10 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned#getType <em>Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage#getTentativeTypeAssigned()
  * @model

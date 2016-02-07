@@ -53,12 +53,16 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 					expressionInExpression(exp, rule.getInPattern().getFilter()) : false) ||
 				checkDependenciesAndConstraints(exp);
 	}
-	
+
 	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model) {
-		return genLocalVarsLet(model, true);
+		return genLocalVarsLet(model, true, false);
 	}
 
-	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model, boolean considerOutputPattern) {
+	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model, boolean setLetType) {
+		return genLocalVarsLet(model, true, setLetType);
+	}
+	
+	protected Pair<LetExp, LetExp> genLocalVarsLet(CSPModel model, boolean considerOutputPattern, boolean setLetType) {
 		LetExp letUsingDeclarations  = null;
 		LetExp letUsingDeclarationInnerLet  = null;
 		if ( rule.getVariables().size() > 0 ) {
@@ -85,6 +89,9 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 			
 			for(VariableDeclaration v : requiredVars) {
 				LetExp let = model.createLetScope(model.gen(v.getInitExpression()), null, v.getVarName());
+				if ( setLetType )
+					let.getVariable().setType(ATLUtils.getOclType(v.getInitExpression().getInferredType()));
+				
 				model.addToScope(v, let.getVariable());
 				if ( letUsingDeclarations  != null ) {
 					letUsingDeclarationInnerLet.setIn_(let);
@@ -130,7 +137,9 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 					undefined.setReferredVariable(model.getTargetDummyVariable());
 					
 					LetExp let = model.createLetScope(undefined, null, v.getVarName());
-	
+					if ( setLetType ) 
+						let.setType(OCLFactory.eINSTANCE.createOclAnyType());
+					
 					model.addToScope(v, let.getVariable());
 	
 					if ( letUsingDeclarations  != null ) {

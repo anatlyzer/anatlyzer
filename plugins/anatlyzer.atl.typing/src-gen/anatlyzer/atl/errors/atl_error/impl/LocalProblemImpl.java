@@ -24,13 +24,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getElement <em>Element</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getMissing <em>Missing</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getRecovery <em>Recovery</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -84,6 +85,26 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 	 * @ordered
 	 */
 	protected EObject element;
+
+	/**
+	 * The default value of the '{@link #getMissing() <em>Missing</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMissing()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Object MISSING_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getMissing() <em>Missing</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMissing()
+	 * @generated
+	 * @ordered
+	 */
+	protected Object missing = MISSING_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getRecovery() <em>Recovery</em>}' containment reference.
@@ -199,6 +220,27 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Object getMissing() {
+		return missing;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMissing(Object newMissing) {
+		Object oldMissing = missing;
+		missing = newMissing;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.LOCAL_PROBLEM__MISSING, oldMissing, missing));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Recovery getRecovery() {
 		return recovery;
 	}
@@ -266,6 +308,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				if (resolve) return getElement();
 				return basicGetElement();
+			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
+				return getMissing();
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
 				return getRecovery();
 		}
@@ -288,6 +332,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)newValue);
+				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
+				setMissing(newValue);
 				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
 				setRecovery((Recovery)newValue);
@@ -313,6 +360,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)null);
 				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
+				setMissing(MISSING_EDEFAULT);
+				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
 				setRecovery((Recovery)null);
 				return;
@@ -334,6 +384,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 				return FILE_LOCATION_EDEFAULT == null ? fileLocation != null : !FILE_LOCATION_EDEFAULT.equals(fileLocation);
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				return element != null;
+			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
+				return MISSING_EDEFAULT == null ? missing != null : !MISSING_EDEFAULT.equals(missing);
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
 				return recovery != null;
 		}
@@ -354,6 +406,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 		result.append(location);
 		result.append(", fileLocation: ");
 		result.append(fileLocation);
+		result.append(", missing: ");
+		result.append(missing);
 		result.append(')');
 		return result.toString();
 	}

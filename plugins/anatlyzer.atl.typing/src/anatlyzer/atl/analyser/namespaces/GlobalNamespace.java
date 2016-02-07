@@ -27,18 +27,28 @@ public class GlobalNamespace {
 	private ResourceSet rs;
 	
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels) {
-		
 		for (Resource resource : r) {
 			resources.add(resource);
 		}
-		
-		
+				
 		for (String key : logicalNamesToMetamodels.keySet()) {
 			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key)));
 		}
 		
 		this.logicalNamesToMetamodels = Collections.unmodifiableMap(logicalNamesToMetamodels);
 	}
+
+	/** 
+	 * Forces a reload of all cached information.
+	 * TODO: Do this more fine-grained
+	 */
+	public void invalidate() {
+		for (String key : logicalNamesToMetamodels.keySet()) {
+			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key)));
+		}
+		this.subtypes = new HashMap<EClass, ArrayList<ClassNamespace>>();
+	}
+
 	
 	public GlobalNamespace(ResourceSet nrs, HashMap<String, Resource> logicalNamesToResources) {
 		this(nrs.getResources(), logicalNamesToResources);
@@ -121,6 +131,7 @@ public class GlobalNamespace {
 		subtypes.put(eClass, result);
 		return result;
 	}
+
 
 	
 }

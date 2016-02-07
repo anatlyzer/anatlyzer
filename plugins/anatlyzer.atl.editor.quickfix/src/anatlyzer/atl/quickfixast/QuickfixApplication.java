@@ -155,6 +155,9 @@ public class QuickfixApplication {
 	
 	public void mmModify(EPackage pkg, String metamodelName, Consumer<EPackage> modifyer) {
 		modifyer.accept(pkg);
+		AnalysisResult result = this.qfx.getAnalysisResult();
+		result.getNamespace().invalidate();
+		
 		mmActions.add(new MMAction(metamodelName));
 	}
 	

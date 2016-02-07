@@ -490,6 +490,7 @@ public class ErrorModel {
 		error.setFeature(unboundCompulsoryFeature);
 		error.setFeatureName(unboundCompulsoryFeature.getName());
 		error.setKind(kind);
+		error.setMissing(unboundCompulsoryFeature);
 		
 		String initialText = "In rule " + pe.getOutPattern().getRule().getName();
 		if ( subrule != null ) {

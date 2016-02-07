@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.DifferentBranchTypesImpl#getThenType <em>Then Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.DifferentBranchTypesImpl#getElseType <em>Else Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

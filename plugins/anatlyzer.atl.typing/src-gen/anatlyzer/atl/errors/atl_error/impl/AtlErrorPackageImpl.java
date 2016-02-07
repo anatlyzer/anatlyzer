@@ -733,8 +733,17 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLocalProblem_Missing() {
+		return (EAttribute)localProblemEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getLocalProblem_Recovery() {
-		return (EReference)localProblemEClass.getEStructuralFeatures().get(3);
+		return (EReference)localProblemEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -2020,6 +2029,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEAttribute(localProblemEClass, LOCAL_PROBLEM__LOCATION);
 		createEAttribute(localProblemEClass, LOCAL_PROBLEM__FILE_LOCATION);
 		createEReference(localProblemEClass, LOCAL_PROBLEM__ELEMENT);
+		createEAttribute(localProblemEClass, LOCAL_PROBLEM__MISSING);
 		createEReference(localProblemEClass, LOCAL_PROBLEM__RECOVERY);
 
 		modelElementEClass = createEClass(MODEL_ELEMENT);
@@ -2358,6 +2368,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEAttribute(getLocalProblem_Location(), ecorePackage.getEString(), "location", null, 1, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocalProblem_FileLocation(), ecorePackage.getEString(), "fileLocation", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocalProblem_Element(), ecorePackage.getEObject(), null, "element", null, 1, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLocalProblem_Missing(), ecorePackage.getEJavaObject(), "missing", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLocalProblem_Recovery(), theAnalysisResultPackage.getRecovery(), null, "recovery", null, 0, 1, LocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(modelElementEClass, ModelElement.class, "ModelElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

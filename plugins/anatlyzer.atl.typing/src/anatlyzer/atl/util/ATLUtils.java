@@ -165,7 +165,8 @@ public class ATLUtils {
 			return getOclType(commonType);
 		}
         
-		throw new UnsupportedOperationException(t.getClass().getName());
+		return OCLFactory.eINSTANCE.createOclAnyType();
+		// throw new UnsupportedOperationException(t.getClass().getName());
 	}
 
 	/**

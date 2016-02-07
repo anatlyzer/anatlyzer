@@ -16,6 +16,8 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 
@@ -24,7 +26,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		setErrorMarker(marker);
-		return checkProblemType(marker, FeatureNotFound.class) && getSourceType() != null;
+		return checkProblemType(marker, FeatureNotFound.class) && findExpectedType() != null;
 	}
 
 	@Override public void resetCache() {}
@@ -47,8 +49,30 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 
 	@Override
 	public boolean requiresUserIntervention() {
+		return findExpectedType() != null;
+	}
+	
+	/**
+	 * Returns the type that will be used as the new feature type and
+	 * the best upper bound.
+	 * @return
+	 */
+	protected Pair<Type, Integer> findExpectedType() {
+		// The binding case
+		if ( getProblematicElement() instanceof Binding ) {
+			Binding b = (Binding) getProblematicElement();
+			int upperBound = TypeUtils.isCollection(b.getValue().getInferredType()) ? -1 : 1;
+			if ( b.getLeftType() instanceof PrimitiveType ) {
+				return new Pair<Type, Integer>(b.getLeftType(), upperBound);
+			}
+			// This could be smarter and look for compatible rules...
+			return null;			
+		}
+		
+		// The navigation case
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();		
-		return ASTUtils.findExpectedTypeInExpressionPosition(nav, false) == null;
+		Type t = ASTUtils.findExpectedTypeInExpressionPosition(nav, false);
+		return new Pair<Type, Integer>(t, TypeUtils.isCollection(t) ? -1 : 1);		
 	}
 	
 	@Override
@@ -60,7 +84,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	public QuickfixApplication getQuickfixApplication() {
 		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 
-		Type t = ASTUtils.findExpectedTypeInExpressionPosition(nav, false);
+		Pair<Type, Integer> pair = findExpectedType();
 		
 		// This should be asked to the user!!
 		if ( requiresUserIntervention() ) {
@@ -69,7 +93,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
-			Type featureType = TypeUtils.getUnderlyingType(t);
+			Type featureType = TypeUtils.getUnderlyingType(pair._1);
 			
 			EStructuralFeature feat = null;
 			if ( featureType instanceof PrimitiveType ) {
@@ -94,7 +118,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 			
 			feat.setName(nav.getName());
 			feat.setLowerBound(1);
-			feat.setUpperBound(TypeUtils.isCollection(t) ? -1 : 1);
+			feat.setUpperBound(pair._2);
 			
 			klass.getEStructuralFeatures().add(feat);
 		});

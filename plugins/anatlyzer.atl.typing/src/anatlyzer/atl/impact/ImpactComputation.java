@@ -52,7 +52,7 @@ public class ImpactComputation {
 			for (LocalProblem pOriginal : confirmedLocalProblems(this.original)) {
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
-				if ( eChanged == tgt && pOriginal.eClass() == pChanged.eClass() ) {
+				if ( eChanged == tgt && isMissingEqual(trace, pOriginal.getMissing(), pChanged.getMissing()) && pOriginal.eClass() == pChanged.eClass() ) {
 					// The problem is mapped, then it is not a new problem
 					found = true;
 					break;
@@ -70,7 +70,7 @@ public class ImpactComputation {
 				EObject eChanged = pChanged.getElement();
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
-				if ( eChanged == tgt && pOriginal.eClass() == pChanged.eClass() ) {
+				if ( eChanged == tgt && isMissingEqual(trace, pOriginal.getMissing(), pChanged.getMissing()) && pOriginal.eClass() == pChanged.eClass() ) {
 					found = true;
 					break;
 				}
@@ -100,6 +100,28 @@ public class ImpactComputation {
 //		});
 		
 		return this;
+	}
+
+	private boolean isMissingEqual(ITracedATLModel trace, Object missingOriginal, Object missingChanged) {
+		if ( missingOriginal == null && missingChanged == null ) 
+			return true;
+		if ( missingOriginal == null && missingChanged != null )
+			return false;
+		if ( missingOriginal != null && missingChanged == null )
+			return false;
+		
+		if ( missingOriginal instanceof EObject) {
+			// This happens typically (for no binding for compulsory feature) when meta-models are not copied
+			if ( missingOriginal == missingChanged )
+				return true;
+			
+			// This is the situation when meta-models are copied, we need to look into the trace
+			EObject tgt = trace.getTarget((EObject) missingOriginal);
+			return tgt == missingChanged;
+		}
+		
+		// If they are primitive types or any other object
+		return missingOriginal.equals(missingChanged);
 	}
 
 	private List<RuleConflict> getRuleConflicts(AnalysisResult r) {

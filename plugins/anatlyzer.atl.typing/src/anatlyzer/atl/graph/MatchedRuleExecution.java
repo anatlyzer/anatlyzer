@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.equinox.internal.app.EclipseScheduledApplication.TriggerGuard;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
@@ -28,8 +30,15 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNode {
 
-	public MatchedRuleExecution(MatchedRule atlRule) {
+	private EObject problematicElement;
+
+	public MatchedRuleExecution(MatchedRule atlRule, EObject problematicElement) {
 		super(atlRule);
+		this.problematicElement = problematicElement;
+	}
+	
+	public MatchedRuleExecution(MatchedRule atlRule) {
+		this(atlRule, null);
 	}
 	
 	@Override
@@ -106,8 +115,9 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				exists.setBody(letUsingDeclarations);			
 			}
 	
+			boolean isProblemWithinFilter = isProblemWithFilter();
 			
-			if ( rule.getInPattern().getFilter() != null ) {
+			if ( !isProblemWithinFilter && rule.getInPattern().getFilter() != null ) {
 				// => if ( filterCondition ) then <? : whenFilter> else false endif
 				OclExpression condition = this.getConstraint().genCSP(model);
 				IfExp ifExp = model.createIfExpression(condition, null, model.createBooleanLiteral(false) );
@@ -190,11 +200,27 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				forallInner.setBody(letUsingDeclarations);			
 			}
 
-			// There are three cases:
-			//	- No filter => just fill the body
+			boolean isProblemWithinFilter = isProblemWithFilter();
+			
+			// There are four cases:
+			//  - The problem is within the filter, then we just pass to the following node
 			//  - Filter but with one input pattern element => Then optimize readability the forAll generating a previous select
 			//  - Filter and more than one input pattern    => We need an "if" 			
-			if ( rule.getInPattern().getFilter() != null && rule.getInPattern().getElements().size() == 1 && rule.getVariables().size() == 0 ) { 
+			//	- No filter => just fill the body
+			if ( isProblemWithinFilter ) {
+				// Same as when there is no filter 
+				
+				// set <? : allInstancesBody>
+				mapSuperRuleVariables(mappedVars, (MatchedRule) rule.getSuperRule(), model);
+				OclExpression whenFilterExpr = generator.apply(model); // getDepending().genCSP(model);
+	
+				// set <? : forAllBody>
+				if ( letUsingDeclarations  == null )
+					forallInner.setBody(whenFilterExpr);
+				else 
+					letUsingDeclarationInnerLet.setIn_(whenFilterExpr);
+				
+			} else if ( rule.getInPattern().getFilter() != null && rule.getInPattern().getElements().size() == 1 && rule.getVariables().size() == 0 ) { 
 				OclExpression allInstancesPart = forallInner.getSource();
 				IteratorExp select = model.createIterator(allInstancesPart, "select", forallInner.getIterators().get(0).getVarName());
 				
@@ -239,6 +265,13 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			
 			return forallOuter;
 		});
+	}
+
+	private boolean isProblemWithFilter() {
+		boolean isProblemWithinFilter = problematicElement != null && rule.getInPattern().getFilter() == null ? 
+				false :
+				EcoreUtil.isAncestor(rule.getInPattern().getFilter(), problematicElement);
+		return isProblemWithinFilter;
 	}
 
 		

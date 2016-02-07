@@ -393,7 +393,7 @@ public class ErrorPathGenerator {
 	 * @param rule
 	 * @param dependent
 	 * @param isConstraint true means that the execution is required to satisfy an execution constraint of 
-	 *                     another false, while false means that the matched rule node to be computed is
+	 *                     another rule, while false means that the matched rule node to be computed is
 	 *                     part of the execution path of the error.
 	 * @return
 	 */
@@ -409,8 +409,8 @@ public class ErrorPathGenerator {
 				// constraints in the sense that we use the abstract rule as "launcher"
 				// of the children rules.
 			}
-		} else {
-			newNode = new MatchedRuleExecution(r);
+		} else {			
+			newNode = new MatchedRuleExecution(r, currentPath.getProblem().getElement());
 			if ( ! isConstraint )
 				currentPath.addRule((ExecutionNode) newNode);
 			

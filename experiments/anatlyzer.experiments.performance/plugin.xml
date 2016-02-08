@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="typing.experiment.measurePerformance"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.performance.MeasurePerformance"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
+
+</plugin>

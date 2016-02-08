@@ -17,7 +17,7 @@ public class OperationFoundInSubtypeQuickfixSet extends AbstractQuickfixSet  {
 		return new AtlProblemQuickfix[] {
 				new OperationFoundInSubtypeQuickfix_AddRuleFilter(),
 				new OperationFoundInSubtypeQuickfix_AddIfToExpression(),
-				new OperationFoundInSubtypeQuickfix_AddIfToBlock(),
+				// new OperationFoundInSubtypeQuickfix_AddIfToBlock(),
 				new OperationFoundInSubtypeQuickfix_CreateHelper(),
 				new OperationFoundInSubtypeQuickfix_ChangeOperationContext(),
 				new OperationFoundInSubtypeQuickfix_SpecificPrecondition()

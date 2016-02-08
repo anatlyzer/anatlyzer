@@ -231,7 +231,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	 */
 	private static OclExpression genAndRules(CSPModel model,
 			OclExpression bindingValue, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {
-		
+				
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {
 			MatchedRule r = info.getRule();

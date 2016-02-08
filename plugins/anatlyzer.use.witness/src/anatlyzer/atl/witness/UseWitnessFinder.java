@@ -17,6 +17,7 @@ import witness.generator.WitnessGeneratorMemory;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
@@ -35,6 +36,7 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
@@ -174,6 +176,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		}
 		
+		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
+		// other helpers within preconditions
+		ErrorSlice slice = problem.getErrorSlice(analyser);
+
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {
@@ -181,7 +187,18 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions().
 					stream().map(h -> (StaticHelper) ATLCopier.copySingleElement(h)).collect(Collectors.toList());
 			for (StaticHelper hpre : helpers) {
-				USEConstraint c = USESerializer.retypeAndGenerate(ATLUtils.getBody(hpre), problem, renaming);	
+				// Enclose into a thisModule to allow calls to existing helpers
+				CSPModel model = new CSPModel();
+				IteratorExp ctx = model.createThisModuleContext();
+				model.setThisModuleVariable(ctx.getIterators().get(0));
+				
+				OclExpression originalPrecondition = ATLUtils.getBody(hpre);
+				
+				OclSlice.slice(slice, originalPrecondition);
+				
+				ctx.setBody(originalPrecondition);
+				
+				USEConstraint c = USESerializer.retypeAndGenerate(ctx, problem, renaming);	
 				if ( c.useNotSupported() ) {
 					return ProblemStatus.NOT_SUPPORTED_BY_USE;
 				}
@@ -193,16 +210,13 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
-		ErrorSlice slice = problem.getErrorSlice(analyser);
 		
-		
-		
-		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
-		// other helpers within preconditions
-		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
-			OclSlice.slice(slice, ATLUtils.getBody(pair._1));
-			slice.addHelper(pair._1);
-		}
+//		=> Need to do this before because all has to be put in the ThisModule context		
+//		ErrorSlice slice = problem.getErrorSlice(analyser);
+//		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
+//			OclSlice.slice(slice, ATLUtils.getBody(pair._1));
+//			slice.addHelper(pair._1);
+//		}
 		
 		if ( slice.hasHelpersNotSupported() )
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;

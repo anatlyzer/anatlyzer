@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
@@ -97,6 +98,16 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 		do {
 			root    = (OclExpression)current;
 			current = current.eContainer();
+			
+			// if (root instanceof LoopExp && EcoreUtil.isAncestor(((LoopExp)root).getBody(), property) && property.getSource() instanceof VariableExp) {
+
+			// ==> For this piece of code the current check is not working well becaise it puts the if within the loop. The commented check above neither,
+			//     because it cannot return a proper type...
+			// helper context UML!ActivityNode def: transformed : Boolean =
+			// self.oclIsKindOf(UML!ExecutableNode) or self.oclIsKindOf(UML!InitialNode) and self.incoming->isEmpty() or self.oclIsKindOf(UML!InitialNode) and self.edge->exists(edge |
+			//		  edge.source.oclIsKindOf(UML!AcceptEventAction)
+			//		 );
+	
 			if (root instanceof LoopExp && property.getSource() instanceof VariableExp) {
 				root = ((LoopExp)root).getBody();
 				break;

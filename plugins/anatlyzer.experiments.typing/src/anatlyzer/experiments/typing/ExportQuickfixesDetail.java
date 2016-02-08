@@ -107,7 +107,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, row, startCol + 0, qs.getLatexDesc()).bold();
 			st.cell(sheet, row, startCol + 1, (long) qs.totalProblems);
 			st.cell(sheet, row, startCol + 2, (long) qs.totalQuickfixes);
-			st.cell(sheet, row, startCol + 3, (long) qs.getAvg());
+			st.cell(sheet, row, startCol + 3, (double) qs.getAvg());
 			st.cell(sheet, row, startCol + 4, (long) qs.minQuickfixes);
 			st.cell(sheet, row, startCol + 5, (long) qs.maxQuickfixes);
 			st.cell(sheet, row, startCol + 6, (long) qs.totalValidQuickfixes);

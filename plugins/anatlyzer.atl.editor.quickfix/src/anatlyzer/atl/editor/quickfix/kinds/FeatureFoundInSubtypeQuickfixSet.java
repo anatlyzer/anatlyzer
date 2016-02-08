@@ -15,7 +15,7 @@ public class FeatureFoundInSubtypeQuickfixSet extends AbstractQuickfixSet  {
 		return new AtlProblemQuickfix[] {
 				new FeatureFoundInSubtypeQuickfix_AddRuleFilter(),
 				new FeatureFoundInSubtypeQuickfix_AddIfToExpression(),
-				new FeatureFoundInSubtypeQuickfix_AddIfToBlock(),
+				// new FeatureFoundInSubtypeQuickfix_AddIfToBlock(),
 				new FeatureFoundInSubtypeQuickfix_CreateHelper(),
 				new FeatureFoundInSubtypeQuickfix_SpecificPrecondition()
 				// This is not very applicable...

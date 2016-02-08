@@ -160,6 +160,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected boolean compactNotClassified = false;
 	protected boolean performRuleAnalysis = false;
 	protected boolean deleteUSETempFolder = true;
+
+	protected ArrayList<String> resourcesWithInvalidQuickfixes = new ArrayList<String>();
 	
 	public static class QuickfixSummary {
 		int id;
@@ -588,6 +590,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 							validQuickfixes += qi.isValid() ? 1 : 0;
 							if ( ! qi.isValid() ) {
 								System.out.println(resource.getName());
+								resourcesWithInvalidQuickfixes.add("Invalid: " + resource.getName() + " - " + qi.getCode() + " - " + p.getDescription());
 							}
 
 						}
@@ -772,11 +775,20 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	public void printResult(PrintStream out) {
 		printLatexTable(out);
 		
+		out.println("Invalid quickfixes");
+		out.println("******************");
+		resourcesWithInvalidQuickfixes.forEach(m -> out.println(m));
+		
+		out.println();
+		out.println("Statistics");
+		out.println("********");
 		summary.values().forEach(qs -> {
 			out.println(qs);
 		});
 		
-		
+		out.println();
+		out.println("Messages");
+		out.println("********");
 		for (String str : messages) {
 			out.println(str);
 		}
@@ -803,7 +815,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		FileOutputStream fileOut = new FileOutputStream(fileName);
 		wb.write(fileOut);
 		wb.close();
-		fileOut.close();          
+		fileOut.close();     
 	}
 
 	

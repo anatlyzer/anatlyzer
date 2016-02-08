@@ -66,9 +66,12 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		if ( t != null )
 			return t;
 		
+		// TODO: Replace this for libtypes
 		if ( operationName.equals("oclIsUndefined") ) {
+			checkArguments("oclIsUndefined", new Type[] {}, new String[] { }, arguments, node);
 			return AnalyserContext.getTypingModel().newBooleanType();
 		} else if ( operationName.equals("toString") ) {
+			checkArguments("toString", new Type[] {}, new String[] { }, arguments, node);
 			return AnalyserContext.getTypingModel().newStringType();
 		} else if ( operationName.equals("oclIsKindOf") || operationName.equals("oclIsTypeOf")) {
 			if ( arguments.length != 1 ) {

@@ -197,8 +197,44 @@ public class CSPModel {
 				originalClass = (Metaclass) originalNoCastedType;
 			}
 			
-			if ( castTo.getKlass().isSuperTypeOf(originalClass.getKlass())) {
+			if ( castTo.getKlass() != originalClass.getKlass() && castTo.getKlass().isSuperTypeOf(originalClass.getKlass())) {
 				// No need to cast, and we are not going to cast because USE complains
+				// But we cast if they are the same type just in case originalNoCastedType is null (remember that originalClass has an implicitly casted type
+				// and we do not have no-casted-type propagation in the analyser. 
+				// 
+				// This is an example in which the " castTo.getKlass() != originalClass.getKlass() " is needed.
+				//
+//				rule DataTypeAttribute2Column {
+//					 from
+//					  a : Class!Attribute
+//					  (
+//							a.type.oclIsKindOf(Class!Class) and not a.multiValued
+//					  )
+//					 to
+//					  out : Relational!Column (
+//					   name <- a.name,
+//					   type <- let _v : Class!Class = a.type
+//					 in if ( if ( a.type.oclIsKindOf(Class!Class) ) then
+//					   		not a.type.isAbstract
+//					   	else
+//					   		false
+//					   	endif ) then
+//					   		_v
+//					   	else
+//					   		OclUndefined
+//					   	endif
+//					  )
+//					}				
+//
+//				rule Class2Table {
+//				 from
+//				  c : Class!Class
+//				  (
+//				   not c.isAbstract
+//				  )
+//				 to
+//				  out : Relational!Table ( )
+						  
 				return refToVarDcl;
 			}
 		}

@@ -693,7 +693,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					return;
 				}  else {
 					// This is to avoid false positives in expressions such as: e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join)
-					Type noCasted = attr.noCastedTypeOf( self.getSource() );
+					Type noCasted = computeNoCastedType(self);
 					if ( ! TypingModel.isCompatibleOclKindOfParam(noCasted, arguments[0]) ) {
 						errors().signalInvalidArgument("oclIsKindOf", 
 								"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(noCasted), self);
@@ -735,8 +735,13 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		// marking already casted elements...
 		if ( attr.wasCasted(self.getSource()) ){
 			self.getSource().setInferredType(t);
-			typ().markImplicitlyCasted(self.getSource(), t, attr.noCastedTypeOf(self.getSource()));
+			typ().markImplicitlyCasted(self.getSource(), t, computeNoCastedType(self));
 		}
+	}
+
+
+	private Type computeNoCastedType(OperationCallExp self) {
+		return attr.noCastedTypeOf(self.getSource());
 	}
 
 

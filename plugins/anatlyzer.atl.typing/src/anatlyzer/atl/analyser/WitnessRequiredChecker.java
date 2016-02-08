@@ -161,8 +161,9 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 				return;
 			
 			if ( self.getOperationName().equals("oclIsKindOf") || self.getOperationName().equals("oclIsTypeOf") ) {
-				// Should I check for supertypes??
-				if ( TypingModel.equalTypes(type, self.getSource().getInferredType()) ) {
+				// Should I check for supertypes?? => yes
+				// if ( TypingModel.equalTypes(type, self.getSource().getInferredType()) ) {
+				if ( TypingModel.isCompatible(self.getSource().getInferredType(), type) ) {
 					invalidate  = true;
 				}				
 				return;

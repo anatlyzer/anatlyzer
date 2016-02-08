@@ -21,6 +21,12 @@ public aspect MeasurePathComputationTime {
 	public static final String EFFECTIVE_METAMODEL = "EFFECTIVE_METAMODEL_TIME";
 	public static final String EXTEND_METAMODELS = "EXTEND_METAMODELS_TIME";
 	
+	public boolean activated = true;
+	
+	public void activate() {
+		this.activated = true;
+	}
+	
 	
 	pointcut findWitness() :
 		execution(String witness.generator.WitnessGeneratorMemory.generateWitness(..));
@@ -98,6 +104,10 @@ public aspect MeasurePathComputationTime {
     String around(String path, EPackage metamodel, String ocl_constraint, int index) :
     	execution(protected String generateWitness (String, EPackage, String, int) throws transException) &&
     	args(path, metamodel, ocl_constraint, index) {
+    	
+    	if ( ! activated ) {
+    		return proceed(path, metamodel, ocl_constraint, index);
+    	}
     	
     	System.out.println("--- SOLVER");
     	solverTime.start(SOLVER_TIME);

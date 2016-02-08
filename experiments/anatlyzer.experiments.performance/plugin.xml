@@ -11,4 +11,13 @@
       </experiment>
    </extension>
 
+   <extension
+         id="typing.experiment.measureQuickfixPerformance"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.performance.MeasureQuickfixPerformance"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
+
 </plugin>

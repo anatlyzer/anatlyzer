@@ -264,7 +264,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected HashMap<String, QuickfixSummary> summary = new HashMap<String, QuickfixEvaluationAbstract.QuickfixSummary>();
 	
 	
-	class AppliedQuickfixInfo implements IClassifiedArtefact {
+	public class AppliedQuickfixInfo implements IClassifiedArtefact {
 
 		protected AtlProblemQuickfix quickfix;
 		protected AnalysisResult original;
@@ -426,7 +426,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 	}
 	
-	class Project {
+	public class Project {
 		private List<AnalysedTransformation> trafos = new ArrayList<QuickfixEvaluationAbstract.AnalysedTransformation>();
 		private String name;
 
@@ -700,7 +700,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		;
 	}
 
-	private AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
+	protected AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
 		
 		// Run the incremental analyser
 		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(original, p, quickfix);
@@ -717,6 +717,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					RuleConflict rc = doRuleAnalysis(null, newResult);
 					if ( rc != null ) {
 						newProblems.add(rc);
+						newResult.extendProblems(Collections.singleton(rc));
 						qi.withRuleConflict();
 					}
 				}
@@ -901,7 +902,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	// Similar to the method in the editor...
-	public static List<AtlProblemQuickfix> getQuickfixes(Problem p, AnalysisResult r) {
+	public List<AtlProblemQuickfix> getQuickfixes(Problem p, AnalysisResult r) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_QUICKFIX_EXTENSION_POINT);
 		ArrayList<AtlProblemQuickfix> quickfixes = new ArrayList<AtlProblemQuickfix>();
@@ -912,7 +913,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			try {
 				if ( ce.getName().equals("quickfix") ) {
 					AtlProblemQuickfix qf = (AtlProblemQuickfix) ce.createExecutableExtension("apply");
-					if ( qf.isApplicable(iMarker) && ! discardQuickfix(qf) && ! qf.requiresUserIntervention()) {
+					if ( checkIsApplicable(qf, iMarker) && ! discardQuickfix(qf) && ! qf.requiresUserIntervention()) {
 						qf.setErrorMarker(iMarker);
 						quickfixes.add(qf);
 					}
@@ -921,7 +922,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					AtlProblemQuickfixSet detector = (AtlProblemQuickfixSet) ce.createExecutableExtension("detector");
 					if ( detector.isApplicable(iMarker) ) {
 						for(AtlProblemQuickfix q : detector.getQuickfixes(iMarker) ) {
-							if ( ! q.isApplicable(iMarker) ) {
+							if ( ! checkIsApplicable(q, iMarker) ) {
 								throw new IllegalStateException();
 							}
 							
@@ -939,6 +940,10 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		}
 		
 		return quickfixes;
+	}
+
+	protected boolean checkIsApplicable(AtlProblemQuickfix qf, MockMarker iMarker) throws CoreException {
+		return qf.isApplicable(iMarker);
 	}
 
 	private static boolean discardQuickfix(AtlProblemQuickfix q) {

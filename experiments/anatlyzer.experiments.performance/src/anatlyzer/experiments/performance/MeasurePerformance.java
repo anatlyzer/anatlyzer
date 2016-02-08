@@ -24,6 +24,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 
 	private static final List<MeasureResult> results = new ArrayList<MeasureResult>();
 	
+	public MeasurePerformance() {
+		MeasurePathComputationTime.aspectOf().activate();
+	}
+	
 	@Override
 	public void printResult(PrintStream out) {
 		//TimeRecorder x = getAnalyserTimeRecorder();

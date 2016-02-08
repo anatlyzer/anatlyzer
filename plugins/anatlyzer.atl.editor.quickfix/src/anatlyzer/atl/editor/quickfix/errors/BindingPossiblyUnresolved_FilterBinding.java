@@ -31,7 +31,7 @@ public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuick
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, BindingPossiblyUnresolved.class);
+		return checkProblemType(marker, BindingPossiblyUnresolved.class) && isSourceType(marker);
 	}
 
 	@Override public void resetCache() {};

@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
 
-import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -32,7 +31,8 @@ public class NoRuleForBinding_FilterBinding extends BindingProblemQuickFix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, BindingWithoutRule.class);
+		setErrorMarker(marker);
+		return checkProblemType(marker, BindingWithoutRule.class) && isSourceType(marker);
 	}
 
 	@Override public void resetCache() {};

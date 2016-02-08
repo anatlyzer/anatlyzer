@@ -33,11 +33,11 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * 
  * @author jesusc
  */
-public class BindingPossiblyUnresolved_Precondition extends AbstractAtlQuickfix {
+public class BindingPossiblyUnresolved_Precondition extends BindingProblemQuickFix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
-		if ( checkProblemType(marker, BindingPossiblyUnresolved.class) ) {
+		if ( checkProblemType(marker, BindingPossiblyUnresolved.class) && isSourceType(marker) ) {
 			Binding b = (Binding) getProblematicElement(marker);
 			// Make sure the right part is only one metaclass, not an union type
 			// It is just a limitation to facilitate the implementation and perhaps because

@@ -48,7 +48,7 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
-		return checkProblemType(marker, BindingPossiblyUnresolved.class);
+		return checkProblemType(marker, BindingPossiblyUnresolved.class) && isSourceType(marker);
 	}
 
 	@Override public void resetCache() {};

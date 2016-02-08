@@ -36,7 +36,7 @@ public class BindingPossiblyUnresolved_ModifiyRuleFilter extends BindingInvalidT
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		if ( checkProblemType(marker, BindingPossiblyUnresolved.class) ) {
+		if ( checkProblemType(marker, BindingPossiblyUnresolved.class) && isSourceType(marker) ) {
 			Binding b = (Binding) getProblematicElement(marker);
 			return 	ATLUtils.getRule(b) instanceof MatchedRule && 
 					b.getValue().getInferredType() instanceof Metaclass;

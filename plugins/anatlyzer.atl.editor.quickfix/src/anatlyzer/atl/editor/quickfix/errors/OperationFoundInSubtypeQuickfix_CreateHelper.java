@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.text.IDocument;
 
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -38,75 +37,10 @@ import anatlyzer.atlext.OCL.Parameter;
  * 
  * @author jesusc
  */
-public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQuickfix {
+public class OperationFoundInSubtypeQuickfix_CreateHelper extends AbstractOperationQuickfix_CreateHelper {
 
 	@Override public boolean isApplicable(IMarker marker) {
 		return checkProblemType(marker, OperationFoundInSubtype.class);
 	}
 
-	@Override public void resetCache() { }
-	
-	@Override public void apply(IDocument document) {
-		QuickfixApplication qfa = getQuickfixApplication();
-		new InDocumentSerializer(qfa, document).serialize();
-	}
-
-	@Override
-	public String getAdditionalProposalInfo() {
-		return "Create operation " + getNewOperationName((OperationCallExp)getProblematicElement());
-	}	
-	
-	@Override public String getDisplayString() {
-		return "Create operation " + getNewOperationName((OperationCallExp)getProblematicElement());
-	}
-	
-	@Override public QuickfixApplication getQuickfixApplication() {
-		OperationCallExp operationCall = (OperationCallExp)getProblematicElement();
-		Type            receptorType   = operationCall.getSource().getInferredType();
-		Type            returnType     = operationCall.getInferredType(); 
-		ModuleElement   anchor         = ATLUtils.getContainer(operationCall, ModuleElement.class);
-		
-		QuickfixApplication qfa = new QuickfixApplication(this);
-		if (receptorType instanceof ThisModuleType) 
-			 qfa.insertAfter(anchor, () -> { return buildNewContextLazyRule (operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });
-		else qfa.insertAfter(anchor, () -> { return buildNewContextOperation(operationCall.getOperationName(), receptorType, returnType, operationCall.getArguments()); });
-		
-		return qfa;
-	}
-	
-	private String getNewOperationName(OperationCallExp operation) {
-		String context   = operation.getSource().getInferredType()!=null? ATLUtils.getTypeName(operation.getSource().getInferredType()) + "." : "";
-		String arguments = "";
-		for (OclExpression argument : operation.getArguments()) arguments += ", " + ATLUtils.getTypeName(argument.getInferredType()); 
-		return context + operation.getOperationName() + "(" + arguments.replaceFirst(",", "")         + " )";
-	}
-	
-	private ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
-		return ASTUtils.buildNewContextOperation(name, receptorType, returnType, arguments);		
-	}
-
-	private LazyRule buildNewContextLazyRule (String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
-		InPattern  ipattern = ATLFactory.eINSTANCE.createInPattern();
-		OutPattern opattern = ATLFactory.eINSTANCE.createOutPattern();
-
-		int i=0;
-		for (OclExpression argument : arguments) {
-			InPatternElement element = ATLFactory.eINSTANCE.createSimpleInPatternElement();
-			element.setVarName( "param" + (i++));
-			element.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
-			ipattern.getElements().add(element);
-		}
-		
-		OutPatternElement element = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
-		element.setVarName( "param" + (i++));
-		element.setType   ( ATLUtils.getOclType(returnType) );
-		opattern.getElements().add(element);
-
-		LazyRule rule = ATLFactory.eINSTANCE.createLazyRule();
-		rule.setName(name);
-		rule.setInPattern (ipattern);
-		rule.setOutPattern(opattern);
-		
-		return rule;
-	}
 }

@@ -106,6 +106,7 @@ import anatlyzer.atl.errors.atl_error.NoModelFound;
 import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
 import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
+import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
@@ -183,7 +184,7 @@ public class QuickfixCodes {
 		// codes.add( QfxCode.c(PrimitiveBindingInvalidAssignment_Quickfix.class, 		"Q4.2")  );
 
 		// Q5.x
-		codes.add( QfxCode.c(NoBindingForCompulsoryFeature_AddBinding.class, 			"Q5.2")  );
+		codes.add( QfxCode.c(NoBindingForCompulsoryFeature_AddBinding.class, 			"Q5.1")  );
 		codes.add( QfxCode.c(NoBindingForCompulsoryFeature_FindSimilarExpression.class, "Q5.2")  );
 		codes.add( QfxCode.c(NoBindingForCompulsoryFeature_FindSimilarFeature.class, 	"Q5.3")  );
 		
@@ -225,8 +226,8 @@ public class QuickfixCodes {
 		codes.add( QfxCode.c(FeatureFoundInSubtypeQuickfix_SpecificPrecondition.class,		"Q9.3")  ); 
 		
 		// Q10.1
-		codes.add( QfxCode.c(AccessToUndefinedValue_ChangeMetamodel.class,					"Q9.3")  ); 
-		codes.add( QfxCode.c(AccessToUndefinedValue_ThroughEmptyCollection_ChangeMetamodel.class, "Q9.3")  ); 
+		codes.add( QfxCode.c(AccessToUndefinedValue_ChangeMetamodel.class,					"Q10.1")  ); 
+		codes.add( QfxCode.c(AccessToUndefinedValue_ThroughEmptyCollection_ChangeMetamodel.class, "Q10.1")  ); 
 		
 		// Q11.1
 		codes.add( QfxCode.c(OperationFoundInSubtypeQuickfix_CreateHelper.class, 			"Q11.1")  ); 
@@ -340,7 +341,8 @@ public class QuickfixCodes {
 
 		// E11
 		codes.add( QfxCode.c(FeatureFoundInSubtype.class, "E11")  );
-
+		codes.add( QfxCode.c(OperationFoundInSubtype.class, "E11")  );
+		
 		// E12
 		codes.add( QfxCode.c(FeatureNotFound.class, "E12")  );
 
@@ -368,6 +370,8 @@ public class QuickfixCodes {
 		codes.add( QfxCode.c(OperationOverCollectionType.class, "E18")  );
 		codes.add( QfxCode.c(CollectionOperationOverNoCollectionError.class, "E18")  );
 				
+		// Fallback - "Other"
+		
 		errorCodes = codes;
 		return errorCodes;
 		

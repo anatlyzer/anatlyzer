@@ -101,7 +101,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		st.cell(sheet, startRow, startCol + 7, "Fix.");
 		st.cell(sheet, startRow, startCol + 8, "Gen.");
 
-		int row = startRow++;
+		int row = startRow + 1;
 		List<QuickfixSummary> l = ev.summary.values().stream().sorted((q1, q2) -> q1.getLatexDesc().compareTo(q2.getLatexDesc())).collect(Collectors.toList());
 		for (QuickfixSummary qs : l) {
 			st.cell(sheet, row, startCol + 0, qs.getLatexDesc()).bold();
@@ -115,7 +115,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, row, startCol + 8, (long) qs.totalErrorsGenerated );
 
 			row++;
-			List<String> applied = qs.quickfixesByType.keySet().stream().sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
+			List<String> applied = qs.quickfixesByType.keySet().stream().
+					map(k -> converToSortable(k)).
+					sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
 			for (String k : applied) {
 				List<AppliedQuickfixInfo> list = qs.quickfixesByType.get(k);				
 				int totalQuickfix = list.size();
@@ -133,6 +135,8 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				st.cell(sheet, row, startCol + 6, valid);
 				st.cell(sheet, row, startCol + 7, fixed);
 				st.cell(sheet, row, startCol + 8, generated);
+				st.cell(sheet, row, startCol + 9, qs.errorCode + "_" + converToSortable(k));
+				
 				row++;
 			}
 			

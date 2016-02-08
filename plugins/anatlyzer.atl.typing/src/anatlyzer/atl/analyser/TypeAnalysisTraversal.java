@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+import org.xml.sax.ext.LexicalHandler;
 
 import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
 import anatlyzer.atl.analyser.libtypes.AtlTypes;
@@ -366,9 +367,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				Type t = typ().determineVariableType(declared, exprType,  AnalyserContext.isVarDclInferencePreferred());				
 				attr.linkExprType(t);
 				// attr.linkExprType(exprType);
-			}
-			
-		}
+			}			
+		}	
 	}
 	
 	private Type determineBestInIncoherentType(Type declared, Type exprType) {
@@ -562,10 +562,21 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		attr.linkExprType(t2);
 		
-		if ( attr.wasCasted(self.getSource()) ){
+		if ( attr.wasCasted(getActualCastedElement(self.getSource())) ){
 			self.getSource().setInferredType(t); 
-			typ().markImplicitlyCasted(self.getSource(), t, attr.noCastedTypeOf(self.getSource()));
+			typ().markImplicitlyCasted(getActualCastedElement(self.getSource()), t, attr.noCastedTypeOf(getActualCastedElement(self.getSource())));
 		}
+	}
+
+
+	private OclExpression getActualCastedElement(OclExpression expr) {
+		if ( expr instanceof VariableExp && ((VariableExp) expr).getReferredVariable().eContainer() instanceof LetExp ) {
+			OclExpression initExpression = ((VariableDeclaration) ((VariableExp) expr).getReferredVariable()).getInitExpression();
+			if ( attr.wasCasted(initExpression) ) {			
+				return initExpression;
+			}
+		}
+		return expr;
 	}
 
 
@@ -975,7 +986,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		} else if ( self.getReferredVariable().getVarName().equals("thisModule") ) {
 			attr.linkExprType( getThisModuleType() );
 		} else {
-			attr.linkExprType( attr.typeOf(self.getReferredVariable()) );
+			Type t = attr.typeOf(self.getReferredVariable());
+			attr.linkExprType( t );
+			
+			
+			if ( self.getReferredVariable().getInitExpression() != null && attr.wasCasted(self.getReferredVariable().getInitExpression()) ){
+				// self.getSource().setInferredType(t); 
+				typ().markImplicitlyCasted(self, t, attr.noCastedTypeOf(self.getReferredVariable().getInitExpression()));
+			}
+
+			
 		}
 	}
 	

@@ -5,11 +5,13 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
+import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
@@ -32,6 +34,19 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
+	protected boolean isSourceType(IMarker marker) {
+		BindingWithoutRule problem;
+		try {
+			problem = (BindingWithoutRule) getProblem(marker);
+			return ATLUtils.getSourceMetamodelNames(getAnalysisResult().getATLModel()).contains(problem.getRight().getMetamodelName());
+		//} catch (CoreException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Normally we can apply the binding safely. If we cannot check just be dare...
+			return true;
+		}
+	}
+	
 	protected QuickfixApplication generateRuleFilter(Binding b, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
 		// boolean selectResolvedElements = false;
 		
@@ -52,7 +67,16 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			LetExp let = OCLFactory.eINSTANCE.createLetExp();
 			VariableDeclaration varDcl = OCLFactory.eINSTANCE.createVariableDeclaration();
 			varDcl.setVarName("_v");
-			varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
+			
+			// It is better to be conservative and use the no casted type if possible because
+			// we don't know the types of the resolving rules
+			// varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
+			if ( b.getValue().getNoCastedType() != null ) {
+				varDcl.setType(ATLUtils.getOclType(b.getValue().getNoCastedType()));
+			} else {
+				varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
+			}
+			
 			varDcl.setInitExpression(expr);
 			let.setVariable(varDcl);
 			return let;

@@ -6,7 +6,6 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 public interface AtlProblemQuickfix extends ICompletionProposal {
 

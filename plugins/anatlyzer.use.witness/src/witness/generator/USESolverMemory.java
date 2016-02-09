@@ -181,6 +181,7 @@ public class USESolverMemory extends Solver_use {
 	
 	protected Pair<Outcome, Boolean> handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
 		MModel model = null;
+		// PrintWriter fLogWriter = new PrintWriter(System.out);
 		PrintWriter fLogWriter = new PrintWriter(System.out);
         model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
         
@@ -191,7 +192,7 @@ public class USESolverMemory extends Solver_use {
             system = new MSystem(model);
         } else {
             system = null;
-            throw new transException(ERROR.EXECUTION_ERROR, "USE file contains errors: "+fLogWriter.toString());
+            throw new transException(ERROR.EXECUTION_ERROR, "USE file contains errors...");
         }
         
         fSession.setSystem(system);

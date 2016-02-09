@@ -55,6 +55,7 @@ import anatlyzer.experiments.typing.CountTypeErrors.DetectedError;
 
 public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements IExperiment {
 
+	protected static final String ORIGINAL_RESOURCE = "ORIGINAL_RESOURCE";
 	private static final Object MIN_QUICKFIX = "minqfx";
 	private static final Object MAX_QUICKFIX = "maxqfx";
 	
@@ -608,11 +609,13 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	protected AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
+		quickfix.setData(ORIGINAL_RESOURCE, resource);
+		
 		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, p, original, originalProblems);
 		
 		// Run the incremental analyser
 		AnalysisResult newResult = runSpeculativeAnalysis_noSolver(quickfix, p, original);		
-		optimizeWithProblemTracking(quickfix, original, newResult);	
+		//optimizeWithProblemTracking(quickfix, original, newResult);	
 		List<Problem> problemsInCopy = completeSpeculativeAnalysis_withSolver(quickfix, original, newResult, qi);
 		
 			
@@ -884,6 +887,19 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				// Removed because they will "collide" with AddIfToBlock
 				q instanceof FeatureFoundInSubtypeQuickfix_AddIfToExpression ||
 				q instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression;
+	}
+
+	public static String convertToSortable(String quickfixCode) {
+		if ( ! quickfixCode.startsWith("Q") ) {
+			return quickfixCode;
+		}
+		
+		String[] text = quickfixCode.substring(1).split("\\.");
+		if ( text.length != 2 ) 
+			return quickfixCode;
+		if ( text[0].length() == 1 ) 
+			text[0] = "0" + text[0];
+		return "Q" + text[0] + "." + text[1];
 	}
 
 }

@@ -113,13 +113,12 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, row, startCol + 6, (long) qs.totalValidQuickfixes);
 			st.cell(sheet, row, startCol + 7, (long) qs.totalErrorsFixed);
 			st.cell(sheet, row, startCol + 8, (long) qs.totalErrorsGenerated );
-
+			st.cell(sheet, row, startCol + 9, qs.errorCode);
 			row++;
 			List<String> applied = qs.quickfixesByType.keySet().stream().
-					map(k -> converToSortable(k)).
-					sorted((k1, k2) -> k1.compareTo(k2)).collect(Collectors.toList());
+					sorted((k1, k2) -> converToSortable(k1).compareTo(converToSortable(k2))).collect(Collectors.toList());
 			for (String k : applied) {
-				List<AppliedQuickfixInfo> list = qs.quickfixesByType.get(k);				
+				List<AppliedQuickfixInfo> list = qs.quickfixesByType.get(k);	
 				int totalQuickfix = list.size();
 				
 				int valid     = list.stream().mapToInt(qi -> qi.isValid() ? 1 : 0).sum();
@@ -261,12 +260,7 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 	}
 
 	private String converToSortable(String quickfixCode) {
-		String[] text = quickfixCode.substring(1).split(".");
-		if ( text.length != 2 ) 
-			return quickfixCode;
-		if ( text[0].length() == 1 ) 
-			text[0] = "0" + text[0];
-		return "Q" + text[0] + "." + text[1];
+		return QuickfixEvaluationAbstract.convertToSortable(quickfixCode);
 	}
 
 }

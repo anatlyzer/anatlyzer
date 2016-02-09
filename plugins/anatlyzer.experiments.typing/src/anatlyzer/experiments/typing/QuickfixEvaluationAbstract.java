@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -30,113 +29,21 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfixSet;
 import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
-import anatlyzer.atl.editor.quickfix.GeneratePrecondition;
 import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddIf;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_AddRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.AccessToUndefinedValue_SpecificPrecondition;
-import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.BindingExpectedOneAssignedMany_SelectFirst;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifiyRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Precondition;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Remove;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_RemoveRule;
-import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_SpecificPrecondition;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_AddRule;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_FilterBinding;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_ModifiyRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Precondition;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_Remove;
-import anatlyzer.atl.editor.quickfix.errors.BindingPossiblyUnresolved_SpecificPrecondition;
-import anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddIfToBlock;
 import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddIfToExpression;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_SpecificPrecondition;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickFix_ChooseExisting;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickFix_FindSameOperation;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundInThisModuleQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_ChooseExisting;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFix_FindSameOperation;
-import anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.IncoherentDeclaredTypeQuickfix_AssignInferredType;
-import anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_AddBinding;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarExpression;
-import anatlyzer.atl.editor.quickfix.errors.NoBindingForCompulsoryFeature_FindSimilarFeature;
-import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_ChangeMetamodel;
-import anatlyzer.atl.editor.quickfix.errors.NoClassFoundInMetamodelQuickFix_FindSimilar;
-import anatlyzer.atl.editor.quickfix.errors.NoEnumLiteral_FindSimilar;
-import anatlyzer.atl.editor.quickfix.errors.NoModelFoundQuickfix_ChooseExistingOne;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBinding_FilterBinding;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBinding_Precondition;
-import anatlyzer.atl.editor.quickfix.errors.ObjectBindingButPrimitiveAssignedQuickfix_changeBindingVariable;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddArguments;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_AddFormalParameters;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_ChooseOtherOperation;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_RemoveArguments;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidNumberOfParametersQuickfix_RemoveFormalParameters;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidParameterQuickfix_ChangeParameterTypesDefinition;
-import anatlyzer.atl.editor.quickfix.errors.OperationCallInvalidParameterQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToBlock;
 import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToExpression;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_ChangeOperationContext;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_SpecificPrecondition;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_ChooseExisting;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundInThisModuleQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChangeToFeatureCall;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_ChooseExisting;
-import anatlyzer.atl.editor.quickfix.errors.OperationNotFoundQuickfix_CreateHelper;
-import anatlyzer.atl.editor.quickfix.errors.PrimitiveBindingInvalidAssignmentQuickfix_SetDefaultValue;
-import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_ModifyRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.RuleConflictQuickfix_RemoveRule;
-import anatlyzer.atl.editor.quickfix.warnings.CollectionOperationOverNoCollectionQuickfix;
-import anatlyzer.atl.editor.quickfix.warnings.FlattenOverNonNestedCollectionQuickFix;
-import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfix;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
-import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
-import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
-import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
-import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
-import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.FeatureNotFound;
-import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
-import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
-import anatlyzer.atl.errors.atl_error.InvalidArgument;
-import anatlyzer.atl.errors.atl_error.InvalidOperand;
-import anatlyzer.atl.errors.atl_error.InvalidOperator;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
-import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
-import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
-import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
-import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
-import anatlyzer.atl.errors.atl_error.OperationNotFound;
-import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
-import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
-import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
-import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.impact.ImpactComputation;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
+import anatlyzer.atl.problemtracking.ProblemTracker;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.experiments.export.CountingModel;
@@ -160,7 +67,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	protected boolean compactNotClassified = false;
 	protected boolean performRuleAnalysis = false;
 	protected boolean deleteUSETempFolder = true;
+	protected boolean optimizeWithProblemTracking = false;
 
+	
 	protected ArrayList<String> resourcesWithInvalidQuickfixes = new ArrayList<String>();
 	
 	public static class QuickfixSummary {
@@ -457,8 +366,6 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		counting.showRepetitionDetails(false);		
 	}
 
-	private int id = 0;
-
 	@Override
 	public void projectDone(IProject project) {
 		// Detect that we are in a new project, so dump the previous
@@ -701,29 +608,17 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	protected AppliedQuickfixInfo applyQuickfix(AtlProblemQuickfix quickfix, IResource resource, Problem p, AnalyserData original, List<Problem> originalProblems, QuickfixSummary qs) throws IOException, CoreException, Exception {
+		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, p, original, originalProblems);
 		
 		// Run the incremental analyser
-		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(original, p, quickfix);
-		inc.perform();
-		AnalysisResult newResult = new AnalysisResult(inc);
-		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newResult);
+		AnalysisResult newResult = runSpeculativeAnalysis_noSolver(quickfix, p, original);		
+		optimizeWithProblemTracking(quickfix, original, newResult);	
+		List<Problem> problemsInCopy = completeSpeculativeAnalysis_withSolver(quickfix, original, newResult, qi);
 		
-		AppliedQuickfixInfo qi = new AppliedQuickfixInfo(quickfix, p, original, originalProblems);
 			
 		try {	
-			List<Problem> newProblems = selectProblems(newResult);
-			try { 
-				if ( performRuleAnalysis ) {
-					RuleConflict rc = doRuleAnalysis(null, newResult);
-					if ( rc != null ) {
-						newProblems.add(rc);
-						newResult.extendProblems(Collections.singleton(rc));
-						qi.withRuleConflict();
-					}
-				}
-			} catch (Exception e) { }
-
-			qi.setRetyped(newResult, newProblems);
+			// This problemsInCopy is not actually needed...
+			qi.setRetyped(newResult, problemsInCopy);
 
 //			if ( qi.getCode().equals("Q4.1") ) {
 //				printMessage("DEBUG: " +  qi.getNumOfFixes() + " - " + p.getDescription() + " - " + ((LocalProblem) p).getLocation() + " - " + ((LocalProblem) p).getFileLocation() );
@@ -742,6 +637,42 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		
 		qs.appliedQuickfix(qi);
 		return qi;
+	}
+
+	protected void optimizeWithProblemTracking(AtlProblemQuickfix qfx, AnalyserData original,
+			AnalysisResult newResult) {
+		if ( optimizeWithProblemTracking  ) {
+			ProblemTracker tracker  = new ProblemTracker(original, newResult);
+			tracker.copyStatus();
+		}
+	}
+
+	protected List<Problem> completeSpeculativeAnalysis_withSolver(
+			AtlProblemQuickfix quickfix, AnalysisResult original, AnalysisResult newResult,  AppliedQuickfixInfo qi) {
+			
+		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newResult);
+		
+		List<Problem> newProblems = selectProblems(newResult);
+		try { 
+			if ( performRuleAnalysis ) {
+				RuleConflict rc = doRuleAnalysis(null, newResult);
+				if ( rc != null ) {
+					newProblems.add(rc);
+					newResult.extendProblems(Collections.singleton(rc));
+					qi.withRuleConflict();
+				}
+			}
+		} catch (Exception e) { }
+		
+		return newProblems;
+	}
+
+	protected AnalysisResult runSpeculativeAnalysis_noSolver(
+			AtlProblemQuickfix quickfix, Problem p, AnalyserData original) {
+		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(original, p, quickfix);
+		inc.perform();
+		AnalysisResult newResult = new AnalysisResult(inc);
+		return newResult;
 	}
 
 	private IWitnessFinder createFinder() {

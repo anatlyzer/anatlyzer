@@ -12,6 +12,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 
 public class ImpactComputation {
@@ -20,6 +21,8 @@ public class ImpactComputation {
 	private ITracedATLModel trace;
 	private Collection<Problem> newProblems;
 	private Collection<Problem> fixedProblems;
+	private HashSet<Problem> mayBeFixedProblems;
+	private HashSet<Problem> mayBeNewProblems;
 
 	public ImpactComputation(AnalysisResult original, AnalysisResult changed, ITracedATLModel trace) {
 		this.original = original;
@@ -41,15 +44,18 @@ public class ImpactComputation {
 		// Those for which a corresponding problem in the new version of the transformation cannot be found
 		// this.fixedProblems = new HashSet<Problem>(this.original.getLocalProblems());
 		this.fixedProblems = new HashSet<Problem>();
+
+		this.mayBeNewProblems = new HashSet<Problem>();
+
+		this.mayBeFixedProblems = new HashSet<Problem>();
 		
 		// Detect new problems (for local problems...)
 		// and fixed problems
 		
-			
-		confirmedLocalProblems(this.changed).forEach(pChanged -> {
+		for (LocalProblem pChanged : possibleLocalProblems(this.changed)) {	
 			EObject eChanged = pChanged.getElement();
 			boolean found = false;
-			for (LocalProblem pOriginal : confirmedLocalProblems(this.original)) {
+			for (LocalProblem pOriginal : possibleLocalProblems(this.original)) {
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
 				if ( eChanged == tgt && isMissingEqual(trace, pOriginal.getMissing(), pChanged.getMissing()) && pOriginal.eClass() == pChanged.eClass() ) {
@@ -59,14 +65,17 @@ public class ImpactComputation {
 				}
 			}
 			
-			if ( ! found ) {
+			if ( ! found && ! AnalyserUtils.isInternalError(pChanged) && ! AnalyserUtils.isWitnessRequred(pChanged)) {
 				this.newProblems.add(pChanged);
+			} else if ( ! found ) {
+				// This is unlikely
+				this.mayBeNewProblems.add(pChanged);
 			}
-		});
+		}
 		
-		for (LocalProblem pOriginal : confirmedLocalProblems(this.original)) {
+		for (LocalProblem pOriginal : possibleLocalProblems(this.original)) {
 			boolean found = false;
-			for (LocalProblem pChanged : confirmedLocalProblems(this.changed)) {
+			for (LocalProblem pChanged : possibleLocalProblems(this.changed)) {
 				EObject eChanged = pChanged.getElement();
 				EObject tgt = trace.getTarget(pOriginal.getElement());
 				
@@ -76,9 +85,11 @@ public class ImpactComputation {
 				}
 			}
 			
-			if ( ! found ) {
+			if ( ! found && ! AnalyserUtils.isInternalError(pOriginal) && ! AnalyserUtils.isWitnessRequred(pOriginal)) {
 				this.fixedProblems.add(pOriginal);
-			}			
+			} else if ( ! found ) {
+				this.mayBeFixedProblems.add(pOriginal);
+			}
 		}
 		
 		
@@ -130,13 +141,23 @@ public class ImpactComputation {
 			map(p -> (RuleConflict) p).collect(Collectors.toList());
 	}
 
-	protected List<LocalProblem> confirmedLocalProblems(AnalysisResult r) {
+	protected List<LocalProblem> possibleLocalProblems(AnalysisResult r) {
 //		return r.getLocalProblems().stream().filter(p -> AnalyserUtils.isConfirmed(p)).collect(Collectors.toList());
 		return r.getPossibleProblems().stream().
 				filter(p -> p instanceof LocalProblem).
 				map(p -> (LocalProblem) p).
 				collect(Collectors.toList());
 	}
+
+	protected List<LocalProblem> confirmedLocalProblems(AnalysisResult r) {
+//		return r.getLocalProblems().stream().filter(p -> AnalyserUtils.isConfirmed(p)).collect(Collectors.toList());
+		return r.getProblems().stream().
+				filter(p -> AnalyserUtils.isConfirmed(p)).
+				filter(p -> p instanceof LocalProblem).
+				map(p -> (LocalProblem) p).
+				collect(Collectors.toList());
+	}
+
 	
 	public boolean isFixed(Problem p) {
 		return fixedProblems.contains(p);
@@ -144,6 +165,14 @@ public class ImpactComputation {
 	
 	public Collection<Problem> getNewProblems() {
 		return newProblems;
+	}
+	
+	public Collection<Problem> getMayBeFixedProblems() {
+		return mayBeFixedProblems;
+	}
+	
+	public Collection<Problem> getMayBeNewProblems() {
+		return mayBeNewProblems;
 	}
 	
 	public Collection<Problem> getFixedProblems() {

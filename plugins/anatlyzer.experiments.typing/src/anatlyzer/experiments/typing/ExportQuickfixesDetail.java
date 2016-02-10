@@ -4,15 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -100,6 +97,8 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		st.cell(sheet, startRow, startCol + 6, "Valid");
 		st.cell(sheet, startRow, startCol + 7, "Fix.");
 		st.cell(sheet, startRow, startCol + 8, "Gen.");
+		st.cell(sheet, startRow, startCol + 9, "Fix?.");
+		st.cell(sheet, startRow, startCol + 10, "Gen?.");
 
 		int row = startRow + 1;
 		List<QuickfixSummary> l = ev.summary.values().stream().sorted((q1, q2) -> q1.getLatexDesc().compareTo(q2.getLatexDesc())).collect(Collectors.toList());
@@ -113,7 +112,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 			st.cell(sheet, row, startCol + 6, (long) qs.totalValidQuickfixes);
 			st.cell(sheet, row, startCol + 7, (long) qs.totalErrorsFixed);
 			st.cell(sheet, row, startCol + 8, (long) qs.totalErrorsGenerated );
-			st.cell(sheet, row, startCol + 9, qs.errorCode);
+			st.cell(sheet, row, startCol + 9, (long) qs.totalErrorsMayBeFixed);
+			st.cell(sheet, row, startCol + 10, (long) qs.totalErrorsMayBeGenerated );
+			st.cell(sheet, row, startCol + 11, qs.errorCode);
 			row++;
 			List<String> applied = qs.quickfixesByType.keySet().stream().
 					sorted((k1, k2) -> converToSortable(k1).compareTo(converToSortable(k2))).collect(Collectors.toList());
@@ -124,6 +125,8 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				int valid     = list.stream().mapToInt(qi -> qi.isValid() ? 1 : 0).sum();
 				int fixed     = list.stream().mapToInt(qi -> qi.getNumFixedProblems()).sum();
 				int generated = list.stream().mapToInt(qi -> qi.getNumNewProblems()).sum();
+				int mayBeFixed     = list.stream().mapToInt(qi -> qi.getNumMayBeFixedProblems()).sum();
+				int mayBeGenerated = list.stream().mapToInt(qi -> qi.getNumMayBeNewProblems()).sum();
 
 				st.cell(sheet, row, startCol + 0, converToSortable(k)).alignRight();
 				st.cell(sheet, row, startCol + 1, "-");
@@ -134,7 +137,10 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 				st.cell(sheet, row, startCol + 6, valid);
 				st.cell(sheet, row, startCol + 7, fixed);
 				st.cell(sheet, row, startCol + 8, generated);
-				st.cell(sheet, row, startCol + 9, qs.errorCode + "_" + converToSortable(k));
+				st.cell(sheet, row, startCol + 9, mayBeFixed);
+				st.cell(sheet, row, startCol + 10, mayBeGenerated);
+				
+				st.cell(sheet, row, startCol + 11, qs.errorCode + "_" + converToSortable(k));
 				
 				row++;
 			}

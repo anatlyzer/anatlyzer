@@ -82,6 +82,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		int totalProblems;
 		int totalErrorsFixed;
 		int totalErrorsGenerated;
+		int totalErrorsMayBeFixed;
+		int totalErrorsMayBeGenerated;
+		
 		String description;
 		String errorCode;
 		HashMap<String, List<AppliedQuickfixInfo>> quickfixesByType = new HashMap<String, List<AppliedQuickfixInfo>>();
@@ -92,7 +95,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			this.errorCode = errorCode;
 		}
 		
-		public void appliedQuickfixes(int count, int validQuickfixes, int errorsFixed, int errorsGenerated) {
+		public void appliedQuickfixes(int count, int validQuickfixes, int errorsFixed, int errorsGenerated, int errorsMayBeFixed, int errorsMayBeGenerated) {
 			if ( count < minQuickfixes )  {
 				minQuickfixes = count;
 			}
@@ -102,6 +105,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			totalValidQuickfixes += validQuickfixes;
 			totalErrorsFixed += errorsFixed;
 			totalErrorsGenerated += errorsGenerated;
+			totalErrorsMayBeFixed += errorsMayBeFixed;
+			totalErrorsMayBeGenerated += errorsMayBeGenerated;
+			
 			totalQuickfixes += count;
 			totalProblems++;
 		}
@@ -267,7 +273,21 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				return 0;
 			return this.impact.getNewProblems().size();			
 		}
-		
+
+		public int getNumMayBeFixedProblems() {
+			// TODO: This may actually happen?
+			if ( retypedProblems == null )
+				return 0;
+			return this.impact.getMayBeFixedProblems().size();
+		}
+
+		public int getNumMayBeNewProblems() {
+			// TODO: This may actually happen?
+			if ( retypedProblems == null )
+				return 0;
+			return this.impact.getMayBeNewProblems().size();
+		}
+
 		public void withRuleConflict() {
 			withRuleConflict++;
 		}
@@ -473,6 +493,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					int appliedQuickfixesCount = 0;
 					int errorsFixed     = 0;
 					int errorsGenerated = 0;
+					int errorsMayBeFixed     = 0;
+					int errorsMayBeGenerated = 0;
+					
 					int validQuickfixes = 0;
 					for (AtlProblemQuickfix quickfix : quickfixes) {
 						if ( monitor != null && monitor.isCanceled() )
@@ -495,6 +518,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 						if ( qi.getRetypedProblems() != null ) {
 							errorsFixed += qi.getNumFixedProblems();
 							errorsGenerated += qi.getNumNewProblems();
+							errorsMayBeFixed += qi.getNumMayBeFixedProblems();
+							errorsMayBeGenerated += qi.getNumMayBeNewProblems();
+
 							validQuickfixes += qi.isValid() ? 1 : 0;
 							if ( ! qi.isValid() ) {
 								System.out.println(resource.getName());
@@ -507,9 +533,9 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 					}
 										
 					// Add to summary
-					qs.appliedQuickfixes(appliedQuickfixesCount, validQuickfixes, errorsFixed, errorsGenerated);					
+					qs.appliedQuickfixes(appliedQuickfixesCount, validQuickfixes, errorsFixed, errorsGenerated, errorsMayBeFixed, errorsMayBeGenerated);					
 				} else {
-					qs.appliedQuickfixes(0, 0, 0, 0);					
+					qs.appliedQuickfixes(0, 0, 0, 0, 0, 0);					
 					printMessage(" - No quickfixes available");
 				}
 				

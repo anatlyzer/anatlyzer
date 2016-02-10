@@ -16,6 +16,7 @@ import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -85,6 +86,10 @@ public class SpeculativeQuickfixUtils {
 				throw new IllegalStateException("No actual implementation for quick fix: " + qfx);
 			}
 			qfa.apply();
+			
+			ITracedATLModel trace = (ITracedATLModel) inc.getATLModel();
+			qfa.updateSpeculativeTrace(trace);
+
 			// What happen if the qfx is meta-model changing?
 			// For the moment I always copy the meta-model
 			

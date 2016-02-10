@@ -33,6 +33,7 @@ import anatlyzer.atl.impact.IQuickfixSpecificImpactComputation;
 import anatlyzer.atl.impact.ImpactFactory;
 import anatlyzer.atl.impact.ModuleCallableChange;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -209,6 +210,8 @@ public class QuickfixApplication {
 		public abstract String getText();
 
 		public abstract void fillImpact(ChangeImpact impact) throws UnknownImpact;
+
+		public abstract void updateSpeculativeTrace(ITracedATLModel trace2);
 	}
 
 	public static class AddCommentBefore extends Action {
@@ -238,6 +241,8 @@ public class QuickfixApplication {
 			// TODO: Need a way to indicate that this is pre-condition
 			throw new UnknownImpact();
 		}
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { }
 	}
 	
 	public static class ReplacementAction extends Action {
@@ -261,6 +266,10 @@ public class QuickfixApplication {
 		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
 			// new GenericImpactCreator().perform(src, impact);
 		}		
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			speculativeTrace.updateTarget(src, tgt);			
+		}
 	}
 	
 	public static class InsertAfterAction extends Action {
@@ -283,6 +292,10 @@ public class QuickfixApplication {
 		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
 			// TODO: Need a way to indicate that this is pre-condition
 			throw new UnknownImpact();
+		}
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			// nothing, it is an insertion			
 		}
 	}
 
@@ -315,6 +328,11 @@ public class QuickfixApplication {
 			// TODO: Need a way to indicate that this is pre-condition
 			throw new UnknownImpact();
 		}
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			// could mark as deleted... but this requires changes in the impact computation??	
+		}
+
 	}
 	
 	public static class PutInAction extends Action {
@@ -360,6 +378,10 @@ public class QuickfixApplication {
 			// TODO: Need a way to indicate that this is pre-condition
 			throw new UnknownImpact();
 		}		
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			// Nothing
+		}
 	}
 	
 	public void move(Consumer<EObject> setter, Supplier<EObject> getter) {
@@ -372,6 +394,13 @@ public class QuickfixApplication {
 		// 
 	}
 
+
+	public void updateSpeculativeTrace(ITracedATLModel trace) {
+		this.actions.forEach(a -> {
+			a.updateSpeculativeTrace(trace);
+		});		
+	}
+	
 	public void updateWorkbench(IDocument doc) {
 		// Invalidate the current analysis, to avoid problem in continous mode (when tracking
 		// problems that are no longer valid (e.g., they point to an object removed by the quick fix))
@@ -432,5 +461,6 @@ public class QuickfixApplication {
 		return i;
 		*/
 	}
+
 
 }

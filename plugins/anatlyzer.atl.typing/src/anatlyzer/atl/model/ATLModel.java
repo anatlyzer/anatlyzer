@@ -2,6 +2,7 @@ package anatlyzer.atl.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -271,6 +272,7 @@ public class ATLModel {
 	public static class CopiedATLModel extends ATLModel implements ITracedATLModel {
 		protected ATLModel original;
 		protected ATLCopier trace;
+		protected HashMap<EObject, EObject> inverseTrace = null;
 
 		public CopiedATLModel(ATLModel original, ATLCopier trace) {
 			this.original = original;
@@ -296,9 +298,26 @@ public class ATLModel {
 			return null;
 		}
 		
+		public void updateTarget(EObject oldTgt, EObject newTgt) {
+			if ( inverseTrace == null ) {
+				inverseTrace = new HashMap<EObject, EObject>();
+				trace.forEach((key, value) -> {
+					inverseTrace.put(value, key);
+				});
+			}
+
+			EObject src = inverseTrace.get(oldTgt);
+			if ( src != null ) {
+				trace.put(src, newTgt);
+				inverseTrace.remove(oldTgt);
+				inverseTrace.put(newTgt, src);
+			}
+		}
+		
 		@Override
 		public void extendWith(Map<EObject, EObject> anotherTrace) {
 			trace.putAll(anotherTrace);
+			inverseTrace = null; // invalidate
 		}
 	}
 	
@@ -306,6 +325,7 @@ public class ATLModel {
 		public EObject getTarget(EObject src);
 		public EObject getSource(EObject tgt);
 		public void extendWith(Map<EObject, EObject> anotherTrace);
+		public void updateTarget(EObject src, EObject tgt);
 	}
 
 	public List<StaticHelper> getInlinedPreconditions() {

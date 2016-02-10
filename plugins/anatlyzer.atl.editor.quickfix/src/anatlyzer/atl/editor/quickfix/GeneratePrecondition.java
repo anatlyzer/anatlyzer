@@ -17,6 +17,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 
 	private Class<?> applicableClass;
+	private ProblemPath path;
 
 	public GeneratePrecondition(Class<?> applicableClass) {
 		this.applicableClass = applicableClass;
@@ -24,19 +25,35 @@ public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
-		return checkProblemType(marker, applicableClass);
+		boolean typeOk = checkProblemType(marker, applicableClass);
+		if ( typeOk ) {
+			setErrorMarker(marker);
+			this.path = getProblemPath();
+			return ! this.path.getExecutionNodes().isEmpty();
+		}
+		return false;
 	}
 
-	@Override public void resetCache() { }
-	
-	@Override
-	public QuickfixApplication getQuickfixApplication() throws CoreException {
+	public ProblemPath getProblemPath() throws CoreException {
+		if ( path != null )
+			return path;
+		
 		LocalProblem p = (LocalProblem) getProblem();		
 		AnalysisResult result = getAnalysisResult();
 		
 		ErrorPathGenerator pathgen = new ErrorPathGenerator(result.getAnalyser());		
 		ProblemPath path = pathgen.generatePath(p);
-		OclExpression expr = path.getWeakestPrecondition();
+		
+		return path;
+	}
+	
+	@Override public void resetCache() { 
+		this.path = null;		
+	}
+	
+	@Override
+	public QuickfixApplication getQuickfixApplication() throws CoreException {
+		OclExpression expr = getProblemPath().getWeakestPrecondition();
 		
 		if ( expr == null ) {
 			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");

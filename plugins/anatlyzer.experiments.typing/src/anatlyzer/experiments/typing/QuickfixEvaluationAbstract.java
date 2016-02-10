@@ -32,8 +32,8 @@ import anatlyzer.atl.editor.quickfix.ConstraintSolvingQuickFix;
 import anatlyzer.atl.editor.quickfix.MockMarker;
 import anatlyzer.atl.editor.quickfix.SpeculativeQuickfixUtils;
 import anatlyzer.atl.editor.quickfix.TransformationSliceQuickFix;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddIfToExpression;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToExpression;
+import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddIfToBlock;
+import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToBlock;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -449,7 +449,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			int i = 0;
 			for (Problem p : allProblems) {
-//				if ( QuickfixCodes.getErrorCode(p).equals("E15")) {
+//				if ( QuickfixCodes.getErrorCode(p).equals("E11")) {
 //					System.out.println("here" + p.getClass());
 //				} else {
 //					continue;
@@ -903,7 +903,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	protected boolean checkIsApplicable(AtlProblemQuickfix qf, MockMarker iMarker) throws CoreException {
-		return qf.isApplicable(iMarker);
+		try {
+			return qf.isApplicable(iMarker);
+		} catch ( Exception e ) {
+			return false;
+		}
 	}
 
 	private static boolean discardQuickfix(AtlProblemQuickfix q) {
@@ -911,8 +915,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				q instanceof TransformationSliceQuickFix ||
 				
 				// Removed because they will "collide" with AddIfToBlock
-				q instanceof FeatureFoundInSubtypeQuickfix_AddIfToExpression ||
-				q instanceof OperationFoundInSubtypeQuickfix_AddIfToExpression;
+				q instanceof FeatureFoundInSubtypeQuickfix_AddIfToBlock ||
+				q instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock;
 	}
 
 	public static String convertToSortable(String quickfixCode) {

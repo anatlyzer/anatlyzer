@@ -85,6 +85,7 @@ import anatlyzer.atl.editor.quickfix.warnings.OperationOverCollectionTypeQuickfi
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
+import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -348,6 +349,7 @@ public class QuickfixCodes {
 
 		// E14
 		codes.add( QfxCode.c(OperationNotFound.class, "E14")  );
+		codes.add( QfxCode.c(AttributeNotFoundInThisModule.class, "E14")  );
 		codes.add( QfxCode.c(OperationNotFoundInThisModule.class, "E14")  );
 		codes.add( QfxCode.c(CollectionOperationNotFound.class, "E14")  );
 		codes.add( QfxCode.c(InvalidOperator.class, "E14")  );

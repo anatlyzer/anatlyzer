@@ -915,8 +915,8 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 				q instanceof TransformationSliceQuickFix ||
 				
 				// Removed because they will "collide" with AddIfToBlock
-				q instanceof FeatureFoundInSubtypeQuickfix_AddIfToBlock ||
-				q instanceof OperationFoundInSubtypeQuickfix_AddIfToBlock;
+				q.getClass() == FeatureFoundInSubtypeQuickfix_AddIfToBlock.class ||
+				q.getClass() == OperationFoundInSubtypeQuickfix_AddIfToBlock.class;
 	}
 
 	public static String convertToSortable(String quickfixCode) {

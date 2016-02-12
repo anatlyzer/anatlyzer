@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -36,6 +37,7 @@ import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.util.ATLSwitch;
 
@@ -268,6 +270,19 @@ public class QuickfixApplication {
 		}		
 		
 		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			// This could probably be controlled by a systematic usage
+			// of change and replace, where change happens when src is within tgt.
+			// As a sanity check, here it is checked that if src is within tgt, no
+			// need to update the trace
+			TreeIterator<EObject> it = tgt.eAllContents();
+			while ( it.hasNext() ) {
+				if ( it.next() == src ) {
+					return;
+				}
+			}
+			
+			// If we are here, src no longer exists...
+			// Not sure if another restriction is that src cannot be moved (i.e., two QFA actions at the same time).
 			speculativeTrace.updateTarget(src, tgt);			
 		}
 	}

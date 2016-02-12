@@ -5,11 +5,15 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.EmptyCollectionType;
+import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -32,9 +36,23 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, BindingExpectedOneAssignedMany.class);
+		setErrorMarker(marker);
+		return checkProblemType(marker, BindingExpectedOneAssignedMany.class) && checkIsNotSet() && checkIsTrueCollection();
 	}
 	
+	private boolean checkIsTrueCollection() {
+		Binding       binding = (Binding)getProblematicElement();
+		OclExpression value   = binding.getValue();
+		return ! (value.getInferredType() instanceof EmptyCollectionType);
+	}
+
+	private boolean checkIsNotSet() {
+		Binding       binding = (Binding)getProblematicElement();
+		OclExpression value   = binding.getValue();
+		return value.getInferredType() instanceof CollectionType &&
+				! (value.getInferredType() instanceof SetType);
+	}
+
 	@Override public void resetCache() {};
 
 	@Override

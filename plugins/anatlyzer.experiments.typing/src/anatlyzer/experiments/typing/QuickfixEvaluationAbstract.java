@@ -189,7 +189,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		protected boolean implError;
 		public String description = "no-description";
 		protected ImpactComputation impact;
-		private Problem originalProblem;
+		protected Problem originalProblem;
 
 		public AppliedQuickfixInfo(AtlProblemQuickfix quickfix, Problem originalProblem, AnalysisResult original, List<Problem> originalProblems) {
 			this.quickfix = quickfix;
@@ -416,6 +416,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	protected void evaluateQuickfixesOfFile(IResource resource, Project project, IProgressMonitor monitor) {
+//		if (! resource.getName().equals("OperatorModification_mutant14.atl") ) {
+//			return;
+//		}
+		
+		
 		AnalyserData data;
 		try {
 			data = executeAnalyser(resource);

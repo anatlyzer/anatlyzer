@@ -3457,13 +3457,22 @@ public interface AtlErrorPackage extends EPackage {
 	int RULE_CONFLICT_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET__TYPE = 0;
+
+	/**
 	 * The feature id for the '<em><b>Rules</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__RULES = 0;
+	int CONFLICTING_RULE_SET__RULES = 1;
 
 	/**
 	 * The feature id for the '<em><b>Analyser Info</b></em>' attribute.
@@ -3472,7 +3481,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__ANALYSER_INFO = 1;
+	int CONFLICTING_RULE_SET__ANALYSER_INFO = 2;
 
 	/**
 	 * The number of structural features of the '<em>Conflicting Rule Set</em>' class.
@@ -3481,7 +3490,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET_FEATURE_COUNT = 2;
+	int CONFLICTING_RULE_SET_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Conflicting Rule Set</em>' class.
@@ -9112,6 +9121,17 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getConflictingRuleSet();
 
 	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Type</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType()
+	 * @see #getConflictingRuleSet()
+	 * @generated
+	 */
+	EReference getConflictingRuleSet_Type();
+
+	/**
 	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getRules <em>Rules</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10630,6 +10650,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CONFLICTING_RULE_SET = eINSTANCE.getConflictingRuleSet();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONFLICTING_RULE_SET__TYPE = eINSTANCE.getConflictingRuleSet_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

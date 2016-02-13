@@ -2,6 +2,7 @@
  */
 package anatlyzer.atl.errors.atl_error;
 
+import anatlyzer.atl.types.Metaclass;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -13,17 +14,44 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getAnalyserInfo <em>Analyser Info</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getConflictingRuleSet()
  * @model
  * @generated
  */
 public interface ConflictingRuleSet extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' reference.
+	 * @see #setType(Metaclass)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getConflictingRuleSet_Type()
+	 * @model required="true"
+	 * @generated
+	 */
+	Metaclass getType();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' reference.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(Metaclass value);
+
 	/**
 	 * Returns the value of the '<em><b>Rules</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.

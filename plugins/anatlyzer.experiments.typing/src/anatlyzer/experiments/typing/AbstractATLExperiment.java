@@ -147,9 +147,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
 			rc.setDescription("Rule conflict");
 			for (OverlappingRules overlappingRules : guiltyRules) {
-				ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
-				set.setAnalyserInfo(overlappingRules);
-				set.getRules().addAll(overlappingRules.getRules());
+				ConflictingRuleSet set = overlappingRules.createRuleSet();
 				rc.getConflicts().add(set);
 			}
 			return rc;

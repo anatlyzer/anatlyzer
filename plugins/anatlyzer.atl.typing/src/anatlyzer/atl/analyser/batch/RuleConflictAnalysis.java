@@ -14,6 +14,8 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -173,6 +175,11 @@ public class RuleConflictAnalysis {
 			this.type = type;
 			this.rules.add(r);
 		}
+
+		public OverlappingRules(ConflictingRuleSet rs) {
+			this.type = rs.getType();
+			rs.getRules().forEach(r -> this.rules.add((MatchedRule) r));
+		}
 		
 		public void setAnalysisResult(ProblemStatus analysisResult) {
 			this.analysisResult = analysisResult;
@@ -252,6 +259,14 @@ public class RuleConflictAnalysis {
 		@Override
 		public OclExpression getWitnessCondition() {
 			return condition;
+		}
+
+		public ConflictingRuleSet createRuleSet() {
+			ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
+			set.setType(type);
+			set.getRules().addAll(this.getRules());
+			set.setAnalyserInfo(this);
+			return set;
 		}
 	}
 	

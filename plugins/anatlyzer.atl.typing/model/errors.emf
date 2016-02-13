@@ -164,10 +164,10 @@ package atl_error {
 	}
 	
 	class ConflictingRuleSet {
+	    ref types.Metaclass[1] type;
 		ref EObject[*] rules;
 		attr Object[0..1] analyserInfo;
 	}
-
 
 	// when: if the error will happen as soon as the transformation is loaded (always) or if the control flow needs to reach the error (model-dep)
 	//       note that this is different from precision.

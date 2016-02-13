@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.util.ATLCopier;
@@ -222,6 +224,7 @@ public class ATLModel {
 	public static class MyATLModelCopier extends ATLCopier {
 
 		private Resource copyResource;
+		private HashMap<EObject, EObject> toBeRefined;
 
 		public MyATLModelCopier() {
 			// There is no root element, we are going to copy everything
@@ -233,7 +236,8 @@ public class ATLModel {
 		public CopiedATLModel copy(ATLModel src) {
 			CopiedATLModel atlModel = new CopiedATLModel(src, this);
 			this.copyResource = atlModel.getResource();
-
+			this.toBeRefined = new HashMap<EObject, EObject>();
+			
 			// Remove from the original resource the elements that has been
 			// created in the initialisation of CopiedATLModel (via ATLModel)
 			// This is needed because I want an exact copy of the original resource,
@@ -253,9 +257,26 @@ public class ATLModel {
 			
 			this.copyResource = null;
 			
+			treatConflictingRuleSets();
+			
 			return atlModel;
 		}
 				
+		private void treatConflictingRuleSets() {
+
+//			toBeRefined.forEach((src, tgt) -> {
+//				if ( tgt instanceof ConflictingRuleSet ) {
+//					ConflictingRuleSet srcRS = (ConflictingRuleSet) src;
+//					ConflictingRuleSet tgtRS = (ConflictingRuleSet) tgt;
+//					
+//					info = new Overlapping();
+//					
+//					tgtRS.setAnalyserInfo(info);
+//				}
+//			});
+			
+		}
+
 		@Override
 		protected void copyNonContainment(EReference eReference, EObject eObject, EObject copyEObject) {
 			// Code removed because I do not want to copy non-containment references in this case
@@ -265,6 +286,11 @@ public class ATLModel {
 		@Override
 		protected void copyPerformed(EObject src, EObject copy) {
 			this.copyResource.getContents().add(copy);
+			
+			if ( src instanceof ConflictingRuleSet ) {
+				toBeRefined .put(src, copy);
+			}
+			
 		}
 	}
 	

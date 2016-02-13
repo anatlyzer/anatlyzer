@@ -28,7 +28,7 @@ public class SpeculativeThread extends Thread {
 		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		newAnalysis = new AnalysisResult(inc);
-		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newAnalysis);
+		SpeculativeQuickfixUtils.confirmOrDiscardProblems(createFinder(), newAnalysis, true);
 	}
 	
 	protected IWitnessFinder createFinder() {

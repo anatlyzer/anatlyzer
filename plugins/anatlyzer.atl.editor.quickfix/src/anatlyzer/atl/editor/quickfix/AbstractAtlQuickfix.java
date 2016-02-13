@@ -96,8 +96,7 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	}
 	
 	protected Problem getProblem(IMarker marker) throws CoreException {
-		LocalProblem problem = (LocalProblem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
-		return problem;
+		return (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 	}
 	
 	public LocatedElement getProblematicElement() {

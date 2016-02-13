@@ -8,13 +8,18 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.inc.IncrementalCopyBasedAnalyser;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
+import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -23,6 +28,7 @@ import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.AtlEngineUtils;
 
@@ -116,6 +122,10 @@ public class SpeculativeQuickfixUtils {
 	}
 
 	public static void confirmOrDiscardProblems(IWitnessFinder finder, AnalysisResult analysis) {
+		confirmOrDiscardProblems(finder, analysis, false);
+	}
+	
+	public static void confirmOrDiscardProblems(IWitnessFinder finder, AnalysisResult analysis, boolean doRuleAnalysis) {
 		ArrayList<Problem> discarded = new ArrayList<>();
 		for (Problem problem : analysis.getProblems()) {
 			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
@@ -132,6 +142,13 @@ public class SpeculativeQuickfixUtils {
 		
 		// Not very clean...
 		analysis.getATLModel().getErrors().getAnalysis().getProblems().removeAll(discarded);
+		
+		if ( doRuleAnalysis ) {
+			RuleConflict rc = doRuleAnalysis(null, analysis);
+			if ( rc != null ) {
+				analysis.extendProblems(Collections.singleton(rc));
+			}
+		}
 	}
 
 	public static IWitnessFinder createFinder(final IResource atlResource) {
@@ -152,4 +169,34 @@ public class SpeculativeQuickfixUtils {
 
 		return finder;
 	}
+
+
+	public static RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
+		// Same as AbstractATLExperiment
+		final CheckRuleConflicts action = new CheckRuleConflicts();
+		List<OverlappingRules> result = action.performAction(data, monitor);	
+		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
+
+		for (OverlappingRules overlappingRules : result) {
+			if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+				guiltyRules.add(overlappingRules);
+			}
+		}
+		
+	
+		if ( guiltyRules.size() > 0 ) {
+			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
+			rc.setDescription("Rule conflict");
+			for (OverlappingRules overlappingRules : guiltyRules) {
+				ConflictingRuleSet set = overlappingRules.createRuleSet();
+				rc.getConflicts().add(set);
+			}
+			return rc;
+		}
+		
+		return null;
+	}
+
 }

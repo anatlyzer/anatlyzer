@@ -108,6 +108,8 @@
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/ConflictingRuleSet">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/type"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/rules"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ConflictingRuleSet/analyserInfo"/>
       </genClasses>

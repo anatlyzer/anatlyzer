@@ -240,9 +240,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 							if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
 								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
 								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-								ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
-								set.getRules().addAll(overlappingRules.getRules());
-								set.setAnalyserInfo(overlappingRules);
+								ConflictingRuleSet set = overlappingRules.createRuleSet();
 								problem.getConflicts().add(set);
 							}
 							
@@ -1261,9 +1259,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			RuleConflict problem = AtlErrorFactory.eINSTANCE.createRuleConflict();
 			OverlappingRules overlappingRules = conflictingRules.element;
 
-			ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
-			set.getRules().addAll(overlappingRules.getRules());
-			set.setAnalyserInfo(overlappingRules);
+			ConflictingRuleSet set = overlappingRules.createRuleSet();
 			problem.getConflicts().add(set);
 
 			// Just for testing...

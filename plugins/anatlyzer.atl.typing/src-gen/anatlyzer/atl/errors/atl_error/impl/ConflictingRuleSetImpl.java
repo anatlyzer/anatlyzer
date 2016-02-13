@@ -5,6 +5,7 @@ package anatlyzer.atl.errors.atl_error.impl;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 
+import anatlyzer.atl.types.Metaclass;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -14,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
@@ -25,15 +27,26 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getAnalyserInfo <em>Analyser Info</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container implements ConflictingRuleSet {
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected Metaclass type;
+
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -88,6 +101,44 @@ public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Metaclass getType() {
+		if (type != null && type.eIsProxy()) {
+			InternalEObject oldType = (InternalEObject)type;
+			type = (Metaclass)eResolveProxy(oldType);
+			if (type != oldType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.CONFLICTING_RULE_SET__TYPE, oldType, type));
+			}
+		}
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Metaclass basicGetType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(Metaclass newType) {
+		Metaclass oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.CONFLICTING_RULE_SET__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<EObject> getRules() {
 		if (rules == null) {
 			rules = new EObjectResolvingEList<EObject>(EObject.class, this, AtlErrorPackage.CONFLICTING_RULE_SET__RULES);
@@ -124,6 +175,9 @@ public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
+				if (resolve) return getType();
+				return basicGetType();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				return getRules();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__ANALYSER_INFO:
@@ -141,6 +195,9 @@ public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
+				setType((Metaclass)newValue);
+				return;
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				getRules().clear();
 				getRules().addAll((Collection<? extends EObject>)newValue);
@@ -160,6 +217,9 @@ public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
+				setType((Metaclass)null);
+				return;
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				getRules().clear();
 				return;
@@ -178,6 +238,8 @@ public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
+				return type != null;
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				return rules != null && !rules.isEmpty();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__ANALYSER_INFO:

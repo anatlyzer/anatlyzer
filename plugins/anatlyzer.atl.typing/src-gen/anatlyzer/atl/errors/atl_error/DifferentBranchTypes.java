@@ -11,11 +11,11 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.DifferentBranchTypes#getThenType <em>Then Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.DifferentBranchTypes#getElseType <em>Else Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getDifferentBranchTypes()
  * @model annotation="description name='Different branch types' text='[Disabled] The types of both if branches should be compatible. Perhaps this should be part of ocl compliance checkings...'"

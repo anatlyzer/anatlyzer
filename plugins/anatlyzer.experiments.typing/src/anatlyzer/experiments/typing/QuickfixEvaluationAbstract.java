@@ -454,11 +454,11 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 			
 			int i = 0;
 			for (Problem p : allProblems) {
-//				if ( QuickfixCodes.getErrorCode(p).equals("E11")) {
-//					System.out.println("here" + p.getClass());
-//				} else {
-//					continue;
-//				}
+				if ( QuickfixCodes.getErrorCode(p).equals("E00")) {
+					System.out.println("here" + p.getClass());
+				} else {
+					continue;
+				}
 				
 				if ( monitor.isCanceled() ) {
 					return;

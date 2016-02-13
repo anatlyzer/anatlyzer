@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDescription <em>Description</em>}</li>
@@ -18,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atl.errors.Problem#isNeedsCSP <em>Needs CSP</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem()
  * @model abstract="true"

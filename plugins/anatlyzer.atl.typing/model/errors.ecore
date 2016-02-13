@@ -282,6 +282,8 @@
           eType="#//atl_error/ConflictingRuleSet" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConflictingRuleSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
+          eType="ecore:EClass types.ecore#//Metaclass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="analyserInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>

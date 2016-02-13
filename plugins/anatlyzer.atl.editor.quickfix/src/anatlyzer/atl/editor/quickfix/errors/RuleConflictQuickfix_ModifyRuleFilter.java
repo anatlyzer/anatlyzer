@@ -62,21 +62,21 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 		return qfa;
 	}
 	
-	private void fixRules(QuickfixApplication qfa, ConflictingRuleSet conflictingRuleSet, List<? extends MatchedRule> rules) throws CoreException {
-		OverlappingRules overlap = (OverlappingRules) conflictingRuleSet.getAnalyserInfo();
+	private void fixRules(QuickfixApplication qfa, ConflictingRuleSet rs, List<? extends MatchedRule> rules) throws CoreException {
+		// OverlappingRules overlap = (OverlappingRules) conflictingRuleSet.getAnalyserInfo();
 		
 		if ( rules.size() == 2 ) {
-			MatchedRule r1 = overlap.getRules().get(0);
-			MatchedRule r2 = overlap.getRules().get(1);
+			MatchedRule r1 = rules.get(0); // overlap.getRules().get(0);
+			MatchedRule r2 = rules.get(1); // overlap.getRules().get(1);
 			// check at least one of them have a filter?
 			
 			// r1 subsumes r2, then we add r2 to r1 only
-			if ( r2.getInPattern().getFilter() != null && checkSubsumption(overlap, r1, r2) ) {
+			if ( r2.getInPattern().getFilter() != null && checkSubsumption(rs, r1, r2) ) {
 				subsumptionReplacement(qfa, r1, r2);
 				System.out.println("Subsumption! " + r1.getName() + " > " + r2.getName());
 				return;
 			}
-			else if ( r1.getInPattern().getFilter() != null && checkSubsumption(overlap, r2, r1) ) {
+			else if ( r1.getInPattern().getFilter() != null && checkSubsumption(rs, r2, r1) ) {
 				subsumptionReplacement(qfa, r2, r1);
 				System.out.println("Subsumption! " + r2.getName() + " > " + r1.getName());
 				return;
@@ -141,8 +141,9 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 	 * @param r2
 	 * @return
 	 */
-	private boolean checkSubsumption(OverlappingRules overlap, MatchedRule r1, MatchedRule r2) {
-
+	private boolean checkSubsumption(ConflictingRuleSet rs, MatchedRule r1, MatchedRule r2) {
+		OverlappingRules overlap = new OverlappingRules(rs);
+		
 		Analyser analyser = getAnalysisResult().getAnalyser();
 		ATLModel atlModel = analyser.getATLModel();
 		

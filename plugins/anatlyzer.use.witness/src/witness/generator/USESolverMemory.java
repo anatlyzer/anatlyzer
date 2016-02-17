@@ -1,14 +1,15 @@
 package witness.generator;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +20,11 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -40,12 +44,15 @@ import org.tzi.use.uml.mm.MModel;
 import org.tzi.use.uml.mm.ModelFactory;
 import org.tzi.use.uml.sys.MSystem;
 import org.tzi.use.uml.sys.MSystemState;
-import org.tzi.use.util.Log;
 
-import anatlyzer.atl.util.Pair;
 import transML.exceptions.transException;
 import transML.exceptions.transException.ERROR;
+import transML.utils.transMLProperties;
+import transML.utils.modeling.EMFUtils;
 import transML.utils.solver.use.Solver_use;
+import anatlyzer.atl.util.Pair;
+import anatlyzer.atl.witness.IScopeCalculator;
+import anatlyzer.atl.witness.IScopeCalculator.Interval;
 
 public class USESolverMemory extends Solver_use {
 
@@ -54,6 +61,7 @@ public class USESolverMemory extends Solver_use {
 	private EPackage metamodel;
 	private String useSpecification;
 	private EClass root;
+	private IScopeCalculator scopeCalculator;
 	
 	public USESolverMemory(EPackage metamodel, List<String> constraints) throws transException {
 		super();
@@ -78,10 +86,10 @@ public class USESolverMemory extends Solver_use {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}			
-		
-		
-		
-
+	}
+	
+	public void setScopeGenerator(IScopeCalculator scopeCalculator) {
+		this.scopeCalculator = scopeCalculator;
 	}
 
 	/**
@@ -105,7 +113,13 @@ public class USESolverMemory extends Solver_use {
 		
 		try {		
 			StringWriter writer2 = new StringWriter();
-			genPropertiesFile(metamodel, root.getName(), writer2, objectUpperBound);
+			
+			if ( scopeCalculator == null ) {
+				genPropertiesFile(metamodel, root.getName(), writer2, objectUpperBound);
+			} else {
+				customGenPropertiesFiles(scopeCalculator, metamodel, root.getName(), writer2, objectUpperBound);
+			}
+			
 			writer2.close();
 			
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
@@ -128,9 +142,9 @@ public class USESolverMemory extends Solver_use {
 				
 				parseOutput2EmfIntoResource(metamodel, model);
 				
-				return new USEResult(outcomePair._1, outcomePair._2, model);				
+				return new USEResult(outcomePair._1, outcomePair._2, model, scope);				
 			} else if ( outcomePair != null ) {
-				return new USEResult(outcomePair._1, outcomePair._2, null);								
+				return new USEResult(outcomePair._1, outcomePair._2, null, scope);								
 			} else {
 				return null;
 			}
@@ -141,21 +155,27 @@ public class USESolverMemory extends Solver_use {
 		}
 		
 		return null;
-	}
-	
+	}	
+
 	public static class USEResult {
+		private int scope;
 		private Outcome outcome;
 		private Resource model;
 		private boolean satisfyAllInvariants;
 
-		public USEResult(Outcome outcome, boolean satisfyAllInvariants, Resource model) {
+		public USEResult(Outcome outcome, boolean satisfyAllInvariants, Resource model, int defaultScope) {
 			this.outcome   = outcome;
 			this.satisfyAllInvariants = satisfyAllInvariants;
 			this.model = model;
+			this.scope = defaultScope;
 		}
 		
 		public Resource getModel() {
 			return model;
+		}
+		
+		public int getDefaultScope() {
+			return scope;
 		}
 		
 		public boolean isSatisfiable() {
@@ -275,6 +295,79 @@ public class USESolverMemory extends Solver_use {
 		public Solution getSolution() {
 			return solution;
 		}
+	}
+
+	
+	protected void customGenPropertiesFiles(IScopeCalculator calc, EPackage metamodel, String rootClassName, StringWriter writer, int objectUpperBound) {		
+		try {
+			List<EReference> references = new ArrayList<EReference>();
+			int index      = 0;
+			int lowerBound = 0;
+			int upperBound = 0;
+			
+			for (EClassifier classifier : metamodel.getEClassifiers()) {
+				if ( classifier instanceof EClass && ! ((EClass) classifier).isAbstract() ) {
+					Interval interval = calc.getScope((EClass) classifier);
+					if ( interval == null ) {
+						lowerBound = classifier.getName().equals(rootClassName)? 1 : 0; 
+						upperBound = objectUpperBound; 
+					} else {
+						lowerBound = interval.getMin();
+						upperBound = interval.getMax();
+					}
+					
+					writer.write(classifier.getName() + "_min = " + lowerBound + "\n"); 
+					writer.write(classifier.getName() + "_max = " + upperBound + "\n");                                					
+
+				
+
+					// Bound of attributes 
+					if (classifier instanceof EClass) {
+						for (EAttribute feature : ((EClass)classifier).getEAttributes()) {
+							writer.write(classifier.getName() + "_" + feature.getName() + "_min = 0\n");   // 0 (value changed 03-01-2016, before it was -1)
+							writer.write(classifier.getName() + "_" + feature.getName() + "_max = -1\n");  // unbound
+						}
+						for (EReference ref : ((EClass)classifier).getEReferences()) 
+							if (!references.contains(ref.getEOpposite()))
+								references.add(ref);				
+					}			
+
+				}
+				
+			}
+			
+			// Bound of references ----------------------------------------------------------	
+			for (EReference ref : references) {
+				Interval interval = calc.getScope(ref);
+				if ( interval == null ) {
+					lowerBound = 0;
+					upperBound = objectUpperBound;					
+				} else {
+					lowerBound = interval.getMin();
+					upperBound = interval.getMax();
+				}
+				// This is too loose coupled: the naming algorithm for roles is imitating the one done by Solver_user...
+				String src_role = ref.getEOpposite()==null? "xxx"+(++index) : ref.getEOpposite().getName();
+				String assoc    = src_role + "_" + ref.getName();
+				writer.write(assoc + "_min = " + lowerBound + "\n");
+				writer.write(assoc + "_max = " + upperBound + "\n");
+			}
+			
+			
+		// Bound of datatypes -----------------------------------------------------------
+			writer.write(
+					"Real_min = -2\n" +
+					"Real_max = 2\n" +
+					"Real_step = 0.5\n" +
+					"String_min = 1\n" +
+					"String_max = " + (15 + (adapter==null? 0 : adapter.getNumberAdaptations())) + "\n" + // heuristic: 15 + number of adapted strings
+					"Integer_min = -10\n" +
+					"Integer_max = 10\n"
+					);
+			
+			writer.close();
+		} 
+		catch (IOException e1) { throw new RuntimeException(e1); }
 	}
 
 }

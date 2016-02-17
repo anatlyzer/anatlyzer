@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="typing.experiment.generateScopeData"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.scope.GenerateScopeData"
+            resourceType="file:atl">
+         <actions
+               implementation="anatlyzer.experiments.scope.ExportGenScopeRawData"
+               name="Export raw data">
+         </actions>
+      </experiment>
+   </extension>
+</plugin>

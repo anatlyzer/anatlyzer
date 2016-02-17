@@ -43,7 +43,7 @@ public class BindingExpectedOneAssignedMany_SelectFirst extends AbstractAtlQuick
 	private boolean checkIsTrueCollection() {
 		Binding       binding = (Binding)getProblematicElement();
 		OclExpression value   = binding.getValue();
-		return ! (value.getInferredType() instanceof EmptyCollectionType);
+		return ! ( ((CollectionType) value.getInferredType()).getContainedType() instanceof EmptyCollectionType);
 	}
 
 	private boolean checkIsNotSet() {

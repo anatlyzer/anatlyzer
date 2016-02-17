@@ -1,7 +1,6 @@
 package anatlyzer.atl.witness;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +53,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean debugMode = false;
 	
 	private int foundScope;
+	private IScopeCalculator scopeCalculator;
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -94,6 +94,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 	
+	@Override
+	public IWitnessFinder setScopeCalculator(IScopeCalculator calculator) {
+		this.scopeCalculator = calculator;
+		return this;
+	}
 	
 	@Override
 	public ProblemStatus find(IDetectedProblem problem, AnalysisResult r) {
@@ -242,6 +247,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setDebugModel(debugMode);
 		generator.setMinScope(1);
 		generator.setMaxScope(5);
+		generator.setScopeCalculator(this.scopeCalculator);
+		
 //		for (String pre : preconditions) {
 //			generator.addAdditionaConstraint(pre);
 //		}

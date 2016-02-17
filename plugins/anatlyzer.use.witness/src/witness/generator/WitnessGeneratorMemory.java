@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
+import anatlyzer.atl.witness.IScopeCalculator;
+
 import com.sun.javafx.geom.transform.BaseTransform.Degree;
 
 import transML.exceptions.transException;
@@ -31,6 +33,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private int minScope = 1;
 	private int maxScope = 5;
 	private boolean debugMode = false;
+	private IScopeCalculator scopeCalculator;
 	
 	private static Integer index = 0;
 	
@@ -41,7 +44,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.languageMM = new MetaModel(languageMetamodel);
 		this.oclConstraint = oclConstraint;
 	}
-	
+
+	public void setScopeCalculator(IScopeCalculator scopeCalculator) {
+		this.scopeCalculator = scopeCalculator;
+	}
+
 	public boolean generate() throws transException {		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
@@ -57,7 +64,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
 			return witness != null;
 		} else {
-			USEResult r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, this.additionalConstraints);			
+			USEResult r = null;
+			if ( scopeCalculator == null )
+				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, this.additionalConstraints);
+			else 
+				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, this.additionalConstraints); 
 			return r != null && r.isSatisfiable();
 		}
 	}
@@ -214,6 +225,48 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		}
 	}
 
+
+	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, IScopeCalculator calculator, List<String> additionalConstraints) throws transException {
+		// I need to invoke this because otherwise transML will try to use some internal
+		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
+		transMLProperties.loadPropertiesFile(path);
+
+		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
+		for (String string : additionalConstraints) {
+			ocl_constraints.add(string);
+		}
+
+		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
+		
+		USEResult  model = null;
+		transException conformanceError = null;
+		
+		
+		// Just one try with the scope calculator
+		try {
+			model = solver.find(calculator.getDefaultMaxScope());
+		} catch (transException e) {
+			// a) execution error
+			if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
+				String error = e.getDetails().length>0? e.getDetails()[0] : e.getMessage();
+				if (error.endsWith("\n")) error = error.substring(0, error.lastIndexOf("\n"));
+				// console.println("[ERROR] " + error);
+				System.out.println("[ERROR] " + error); 
+				throw e;
+			}
+			// b) non-conformance error (USE found a model which violates some invariant)
+			else {
+				model = null;  // nothing found
+				// conformanceError = e;
+			}
+		}
+		
+		if (model == null)
+			if   (conformanceError == null) return null;
+			else throw conformanceError;
+		return model;				
+	}
+	
 	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
 		// I need to invoke this because otherwise transML will try to use some internal
 		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
@@ -225,9 +278,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		}
 
 		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
-
-		transException conformanceError = null;
+		
 		USEResult  model = null;
+		transException conformanceError = null;		
+			
 		int scope = 0;
 		for (scope=minScope; scope<=maxScope && (model==null || !model.isSatisfiable()); scope++) {
 			try {
@@ -248,7 +302,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				}
 			}
 		}
-				
+			
 		if (model == null)
 			if   (conformanceError == null) return null;
 			else throw conformanceError;
@@ -330,4 +384,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			super(e);
 		}
 	}
+
+
 }

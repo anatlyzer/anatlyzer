@@ -19,6 +19,7 @@ public interface IWitnessFinder {
 	public IWitnessFinder checkPreconditions(boolean b);
 	public IWitnessFinder catchInternalErrors(boolean b);
 	public IWitnessFinder setDebugMode(boolean b);
+	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
 	
 	
 //	public static enum WitnessResult {

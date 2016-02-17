@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AnATLyzer Scope Prediction
+Bundle-SymbolicName: anatlyzer.experiments.scope;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.experiments.scope.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ anatlyzer.experiments;bundle-version="0.3.3",
+ anatlyzer.experiments.typing;bundle-version="0.3.3",
+ org.eclipse.core.resources,
+ anatlyzer.atl.editor,
+ anatlyzer.atl.typing,
+ anatlyzer.use.witness
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

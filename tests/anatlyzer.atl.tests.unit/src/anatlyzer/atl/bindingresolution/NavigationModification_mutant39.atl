@@ -17,18 +17,15 @@ rule PetriNet {
  {
   elementsSet : Sequence(PNML!NetContentElement) = PNML!NetContentElement.allInstances();
   arcsSet : Sequence(PNML!Arc) = PNML!Arc.allInstances()->select(a |
-   a.source.oclIsKindOf(PNML!Place) and a.target.oclIsKindOf(PNML!Transition) or a.source.oclIsKindOf(PNML!Transition) and a.target.oclIsKindOf(PNML!Place)
+   (a.source.oclIsKindOf(PNML!Place) and a.target.oclIsKindOf(PNML!Transition)) or 
+   (a.source.oclIsKindOf(PNML!Transition) and a.target.oclIsKindOf(PNML!Place))
   ); -- This encodes a pre-condition
   
  }
  to
   p : PetriNet!PetriNet (
    location <- n.location,
-   name <- if not n.nets->first().name.oclIsUndefined() then
-    n.nets->first().name.labels->first().text
-   else
-    'aPetriNet'
-   endif,
+   name <- 'aPetriNet',
    elements <- elementsSet,
    arcs <- arcsSet
   )
@@ -42,11 +39,7 @@ rule Place {
  to
   p : PetriNet!Place (
    location <- n.location,
-   name <- if not n.name.oclIsUndefined() then
-    n.name.labels->first().text
-   else
-    'default'
-   endif,
+   name <- 'default',
    net <- n.net.document
   )
 } -- The Transition rule generates a Transition which corresponds to the input Transition . 
@@ -59,12 +52,11 @@ rule Transition {
  to
   p : PetriNet!Transition (
    location <- n.location,
-   name <- if not n.name.oclIsUndefined() then
-    n.name.labels->first().text
-   else
-    'default'
-   endif,
-   net <- n.net.contents->first()
+   name <- 'default',
+   -- Here is the mutant change: originially n.net.document
+   net <- n.net.contents->first(),
+   -- Manual modification to test what happens with/out first()
+   net <- n.net.contents
   )
 } -- The PlaceToTransition rule generates a PlaceToTransition which corresponds to the input Arc which has a Place for source and a Transition for Target. 
 -- Name of the generated PlaceToTransition is copied from the one of the input Arc, by recovering the value of the PNML Label included in the PNML Name of the PNML Arc.
@@ -85,11 +77,7 @@ rule PlaceToTransition {
  to
   p : PetriNet!PlaceToTransition (
    location <- n.location,
-   name <- if not n.name.oclIsUndefined() then
-    n.name.labels->first().text
-   else
-    'default'
-   endif,
+   name <- 'default',
    net <- n.net.document,
    from <- n.source,
    to <- n.target
@@ -113,11 +101,7 @@ rule TransitionToPlace {
  to
   p : PetriNet!TransitionToPlace (
    location <- n.location,
-   name <- if not n.name.oclIsUndefined() then
-    n.name.labels->first().text
-   else
-    'default'
-   endif,
+   name <- 'default',
    net <- n.net.document,
    from <- n.source,
    to <- n.target

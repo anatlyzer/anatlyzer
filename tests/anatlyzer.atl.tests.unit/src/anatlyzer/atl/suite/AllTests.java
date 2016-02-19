@@ -14,6 +14,7 @@ import anatlyzer.atl.operators.TestOperators;
 import anatlyzer.atl.resolvetemp.TestResolveTemp;
 import anatlyzer.atl.retyping.TestRetyping;
 import anatlyzer.atl.ruleconflicts.TestRuleConflicts;
+import anatlyzer.atl.twovaluedlogic.TestUndefinedBoolean;
 import anatlyzer.atl.typing.TestTyping;
 import anatlyzer.atl.unions.TestUnions;
 
@@ -34,6 +35,7 @@ import anatlyzer.atl.unions.TestUnions;
 	TestResolveTemp.class,
 	TestRuleConflicts.class,
 	TestRetyping.class,
+	TestUndefinedBoolean.class,
 
 	TestConstraintGeneration.class,
 	TestHelpers.class})

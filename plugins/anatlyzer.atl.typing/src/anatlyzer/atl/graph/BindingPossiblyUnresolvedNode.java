@@ -123,11 +123,17 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 	protected OclExpression genProblemSpecificCondition(CSPModel model, String operator) {
 		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
-		OclExpression value = genBindingRightPart(model, binding);		
+
+		OclExpression bindingValue = binding.getValue();
 		
-		return genProblemSpecificCondition(model, operator, rules, binding.getValue(), value);
+		if ( isFirstSpecialCase(bindingValue) ) {
+			bindingValue = ((OperationCallExp)bindingValue).getSource();
+		}
+		
+		OclExpression value = genValueRightPart(model, bindingValue);		
+		return genProblemSpecificCondition(model, operator, rules, bindingValue, value);		
 	}
-		
+
 	protected static OclExpression genProblemSpecificCondition(CSPModel model, String operator, List<RuleResolutionInfo> rules, OclExpression originalValue, OclExpression genValue) {
 		OclExpression result = null;
 		assert(rules.size() > 0);

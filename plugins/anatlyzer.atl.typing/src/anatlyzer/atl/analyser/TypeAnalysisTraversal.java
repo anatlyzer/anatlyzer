@@ -30,6 +30,8 @@ import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
+import anatlyzer.atl.types.FloatType;
+import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.Type;
@@ -1074,7 +1076,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 		// if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
-		if ( ! (self.getOperationName().equals("=") || self.getOperationName().equals("<>")) ) {
+		
+		// Optional attributes of type integer, float and boolean will never provide a null
+		if ( !(t instanceof IntegerType) && !(t instanceof FloatType) && !(t instanceof BooleanType) &&
+			  ! (self.getOperationName().equals("=") || self.getOperationName().equals("<>")) ) {
 			checkAccessToUndefined(self);
 		}
 		

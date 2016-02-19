@@ -208,7 +208,7 @@ public class BaseTest {
 	// This is the good one, remove the rest...
 	protected ProblemStatus confirmOrDiscardProblem(LocalProblem problem) {
 		ProblemStatus result = new TestUSEWitnessFinder().
-				setDebugMode(debugMode).
+				//setDebugMode(debugMode).
 				find(problem, analysisData);
 		return result;
 	}

@@ -18,6 +18,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.StaticRule;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -41,9 +42,12 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 		}).collect(Collectors.toList());
 	}
 	
-	protected OclExpression genBindingRightPart(CSPModel model, Binding binding) {
-		return genValueRightPart(model, binding.getValue());
+	
+	protected boolean isFirstSpecialCase(OclExpression bindingValue) {
+		return (bindingValue instanceof CollectionOperationCallExp) && 
+				((CollectionOperationCallExp) bindingValue).getOperationName().equals("first");
 	}
+
 	
 	protected static OclExpression genValueRightPart(CSPModel model, OclExpression originalValue) {
 		OclExpression value = model.gen(originalValue, new OclGeneratorAST.LazyRuleToDummyValue(model.getTargetDummyVariable()));

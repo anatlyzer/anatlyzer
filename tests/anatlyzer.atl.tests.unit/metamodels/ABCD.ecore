@@ -20,6 +20,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="A" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//A" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aBooleanAttr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="anIntegerAttr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="B" eSuperTypes="#//A">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

@@ -71,7 +71,7 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 	public OclExpression genCSP(CSPModel model) {
 		OclExpression result = null;
 		
-		OclExpression value = genBindingRightPart(model, binding);
+		OclExpression value = genValueRightPart(model, binding.getValue());
 		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding) )) {
 			result = createReferenceConstraint(model, value);
 		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {

@@ -23,9 +23,9 @@ import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -162,22 +162,34 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 	
 	@Override
 	public OclExpression genCSP(CSPModel model) {
-		return genProblemSpecificCondition(model);
+		// List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
+		EList<ResolvedRuleInfo> rules = problem.getRules();
+
+		OclExpression bindingValue = binding.getValue();
+		
+		if ( isFirstSpecialCase(bindingValue) ) {
+			bindingValue = ((OperationCallExp)bindingValue).getSource();
+		}
+		
+		OclExpression value = genValueRightPart(model, bindingValue);		
+		return genProblemSpecificCondition(model, rules, bindingValue, value);		
 	}
 
-	protected OclExpression genProblemSpecificCondition(CSPModel model) {
+	protected static OclExpression genProblemSpecificCondition(CSPModel model, List<ResolvedRuleInfo> rules, OclExpression originalValue, OclExpression genValue) {
+
+	// protected static OclExpression genProblemSpecificCondition(CSPModel model) {
 		OclExpression result = null;
-		EList<ResolvedRuleInfo> rules = problem.getRules();
 		assert(rules.size() > 0);
-		
-		OclExpression value = genBindingRightPart(model, binding);		
-		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding) )) {
-			result = createReferenceConstraint(model, rules, value);
-		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
+
+		OclExpression value = genValue;	
+		Type srcType = originalValue.getInferredType();
+		if ( TypeUtils.isReference(srcType)) {
+			result = createReferenceConstraint(model, rules, value, originalValue);
+		} else if ( TypeUtils.isCollection(srcType) ) {
 			IteratorExp exists = model.createExists(value, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genOrRules(model, rules, varDcl);
+			OclExpression lastExpr = genOrRules(model, rules, varDcl, originalValue);
 			
 			// lastIf.setElseExpression(model.createBooleanLiteral(false));
 			// exists.setBody(lastIf);
@@ -185,20 +197,20 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			exists.setBody(lastExpr);
 			
 			result = exists;
-		} else if ( TypeUtils.isUnionWithReferences(ATLUtils.getSourceType(binding))) {
-			result = createReferenceConstraint(model, rules, value);	
-		} else if ( TypeUtils.isUnionWithCollections(ATLUtils.getSourceType(binding)) ) {
+		} else if ( TypeUtils.isUnionWithReferences(srcType)) {
+			result = createReferenceConstraint(model, rules, value, originalValue);	
+		} else if ( TypeUtils.isUnionWithCollections(srcType) ) {
 			CollectionOperationCallExp flattened = model.createCollectionOperationCall(value, "flatten");
 			
 			// Same as the previous if...
 			IteratorExp exists = model.createExists(flattened, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genOrRules(model, rules, varDcl);
+			OclExpression lastExpr = genOrRules(model, rules, varDcl, originalValue);
 			
 			exists.setBody(lastExpr);
 			result = exists;
-		} else if ( ATLUtils.getSourceType(binding) instanceof UnionType ) {
+		} else if ( srcType instanceof UnionType ) {
 			// This is purely speculatively... just to try... should be signaled somehow
 			SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
 			seq.getElements().add(value);
@@ -208,12 +220,12 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			IteratorExp exists = model.createExists(flattened, "_problem_");
 			VariableDeclaration varDcl = exists.getIterators().get(0);
 			
-			OclExpression lastExpr = genOrRules(model, rules, varDcl);
+			OclExpression lastExpr = genOrRules(model, rules, varDcl, originalValue);
 			
 			exists.setBody(lastExpr);
 			result = exists;
 		} else {
-			throw new IllegalStateException(TypeUtils.typeToString(ATLUtils.getSourceType(binding)));
+			throw new IllegalStateException(TypeUtils.typeToString(srcType));
 		}
 		
 		return result;
@@ -258,19 +270,19 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		return result;
 	}
 	
-	private LetExp createReferenceConstraint(CSPModel model,
-			EList<ResolvedRuleInfo> rules, OclExpression value) {
-		LetExp let = model.createLetScope(value, null, "_problem_");
+	private static LetExp createReferenceConstraint(CSPModel model,
+			List<ResolvedRuleInfo> rules, OclExpression genBindingValue, OclExpression srcBindingValue) {
+		LetExp let = model.createLetScope(genBindingValue, null, "_problem_");
 		VariableDeclaration varDcl = let.getVariable();
-		let.setIn_( genOrRules(model, rules, varDcl));
+		let.setIn_( genOrRules(model, rules, varDcl, srcBindingValue));
 		return let;
 	}
 
-	private OclExpression genOrRules(CSPModel model, EList<ResolvedRuleInfo> rules, VariableDeclaration varDcl) {
+	private static OclExpression genOrRules(CSPModel model, List<ResolvedRuleInfo> rules, VariableDeclaration varDcl, OclExpression srcBindingValue) {
 		OclExpression lastExpr = null;
 		for (ResolvedRuleInfo rule : rules) {
 			MatchedRule r = (MatchedRule) rule.getElement();				
-			IfExp ifexpr = genCondition(model, varDcl, rule, r);
+			IfExp ifexpr = genCondition(model, varDcl, rule, r, srcBindingValue);
 			if ( lastExpr == null ) {
 				lastExpr = ifexpr;
 			} else {
@@ -289,8 +301,8 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		return lastExpr;
 	}
 
-	private IfExp genCondition(CSPModel model, VariableDeclaration varDcl,
-			ResolvedRuleInfo rule, MatchedRule r) {
+	private static IfExp genCondition(CSPModel model, VariableDeclaration varDcl,
+			ResolvedRuleInfo rule, MatchedRule r, OclExpression srcBindingValue) {
 		// => _problem_.oclIsKindOf(ruleFrom)
 		VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
 		v.setReferredVariable(varDcl);				
@@ -304,7 +316,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 			
 			// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
-			OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), binding.getValue().getNoCastedType());				
+			OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), srcBindingValue.getNoCastedType());				
 			LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 				
 			// Map the iterator var to the rule variable

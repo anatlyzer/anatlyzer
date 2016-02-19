@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -27,6 +28,8 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -249,6 +252,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setMaxScope(5);
 		generator.setScopeCalculator(this.scopeCalculator);
 		
+		for(String s : genTwoValuedLogicConstraints(errorSliceMM)) {
+			generator.addAdditionaConstraint(s);			
+		}
+		
 //		for (String pre : preconditions) {
 //			generator.addAdditionaConstraint(pre);
 //		}
@@ -279,6 +286,26 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 	}
 	
+	private List<String> genTwoValuedLogicConstraints(EPackage errorSlice) {
+		ArrayList<String> list = new ArrayList<>();
+		errorSlice.eAllContents().forEachRemaining(o -> {
+			if ( o instanceof EAttribute ) {
+				EAttribute attr = (EAttribute) o;
+				if ( attr.getUpperBound() == 1 && ! attr.getEAttributeType().getName().contains("String") ) {
+					// For anything else, it cannot be null...
+					
+					String className = attr.getEContainingClass().getName();
+					String s = className + ".allInstances()->forAll(c | not c." + attr.getName() + ".isUndefined())";
+				
+					list.add(s);
+				}
+			}
+			
+		});
+	
+		return list;
+	}
+
 	public int getFoundScope() {
 		return foundScope;
 	}

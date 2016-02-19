@@ -1,0 +1,30 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module twovaluedlogic;
+create OUT : WXYZ from IN : ABCD;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'default',
+    	elements <- src.elements	
+	)
+}
+
+rule a2a {
+	from
+		a : ABCD!A ( a.aBooleanAttr = true )
+	to 
+		x : WXYZ!X (
+			name <- a.name
+		)
+}
+
+rule a2a2 {
+	from
+		a : ABCD!A ( not a.aBooleanAttr )
+	to 
+		x : WXYZ!X (
+			name <- a.name
+		)
+}

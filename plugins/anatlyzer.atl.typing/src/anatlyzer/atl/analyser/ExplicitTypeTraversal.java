@@ -1,5 +1,11 @@
 package anatlyzer.atl.analyser;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
@@ -7,6 +13,8 @@ import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -114,30 +122,50 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		
 	}	
 
+	protected Set<String> outputMetamodelNames;
+	protected Set<String> inputMetamodelNames;
+	protected Set<String> sameInputOutputMetamodelNames;
+	
+	protected Set<String> getOutMetamodelNames() {
+		if ( outputMetamodelNames == null ) {
+			outputMetamodelNames = ATLUtils.getModelInfo(model).stream().filter(m -> m.isOutput()).map(m -> m.getMetamodelName()).collect(Collectors.toSet());
+		}
+		return outputMetamodelNames;
+	}
+
+	protected Set<String> getInMetamodelNames() {
+		if ( inputMetamodelNames == null ) {
+			inputMetamodelNames = ATLUtils.getModelInfo(model).stream().filter(m -> m.isInput()).map(m -> m.getMetamodelName()).collect(Collectors.toSet());
+		}
+		return inputMetamodelNames;
+	}
+
+	protected Set<String> getSameInputOutputMetamodelNames() {
+		if ( sameInputOutputMetamodelNames == null ) {
+			sameInputOutputMetamodelNames = new HashSet<String>(getInMetamodelNames());
+			sameInputOutputMetamodelNames.retainAll(getOutMetamodelNames());
+		}
+		return sameInputOutputMetamodelNames;		
+	}
+	
 	/**
 	 * This is likely to be moved to a separate pass, because it seems to be more complex than this
 	 * @param self 
 	 */
 	protected void checkReadingTargetModel(OclModelElement self) {
-		if ( true ) {
-			return; // TODO: This is check is not accurate, so it is not performed for the moment
-		}
+//		if ( true ) {
+//			return; // TODO: This is check is not accurate, so it is not performed for the moment
+//		}
 		
 		
 		OclModel metamodel = self.getModel();
 		
 		// TODO: Reading target model: Not sure if this may catch false cases
-		if ( root instanceof Module ) {
-			Module m = (Module) root;
-			int numTargets = 0;
-			for(OclModel outModel : m.getOutModels()) {
-				if ( outModel.getMetamodel().getName().equals(metamodel.getName()) ) {
-					numTargets++;
-				}
-			}
-		
-			boolean isTarget = numTargets > 0;
-			if ( isTarget && self.eContainer() instanceof OclExpression ) {
+		if ( root instanceof Module && getSameInputOutputMetamodelNames().isEmpty() ) {
+
+			if ( getOutMetamodelNames().contains(metamodel.getName()) && 
+				 self.eContainer() instanceof OclExpression ) {
+				
 				// Check it is not in a do block, typically invoking a newInstance
 				//  	&& ! (self.container_() instanceof CalledRule)
 				EObject parent = self.eContainer();
@@ -157,9 +185,9 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 				errors().signalReadingTargetModel(self);
 			}
 			
-			if ( numTargets > 1 && metamodel.getModel().size() == 0 ) {
-				errors().signalAmbiguousTargetModelReference(self);
-			}
+//			if ( numTargets > 1 && metamodel.getModel().size() == 0 ) {
+//				errors().signalAmbiguousTargetModelReference(self);
+//			}
 		}
 		
 		// I think there are ambiguous cases if the same meta-model

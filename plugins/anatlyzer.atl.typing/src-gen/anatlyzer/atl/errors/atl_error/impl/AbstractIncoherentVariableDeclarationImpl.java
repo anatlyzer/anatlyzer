@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl#getInferred <em>Inferred</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl#getDeclared <em>Declared</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

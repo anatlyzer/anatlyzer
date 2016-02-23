@@ -13,6 +13,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
@@ -171,5 +172,6 @@ public class Analyser implements IAnalyserResult {
 	public void addExtension(AnalyserExtension e) {
 		this.additional.add(e);
 	}
+
 
 }

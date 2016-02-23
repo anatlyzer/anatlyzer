@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getTargetType <em>Target Type</em>}</li>
@@ -37,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingResolutionImpl#getRules <em>Rules</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

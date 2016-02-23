@@ -20,7 +20,6 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.graph.AbstractDependencyNode;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -40,7 +39,7 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * if that makes the rule non-applicable.
  *    
  * @qfxName Add filters to involved rules
- * @qfxError {@link anatlyzer.atl.errors.atl_error.RuleConflict}
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet}
  * 
  * @author jesusc
  */
@@ -48,17 +47,16 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, RuleConflict.class);
+		return checkProblemType(marker, ConflictingRuleSet.class);
 	}
 	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
-		RuleConflict p = (RuleConflict) marker.getAttribute(AnATLyzerBuilder.PROBLEM);;
+		ConflictingRuleSet conflictingRuleSet = (ConflictingRuleSet) marker.getAttribute(AnATLyzerBuilder.PROBLEM);;
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
-		for (ConflictingRuleSet conflictingRuleSet : p.getConflicts()) {			
-			fixRules(qfa, conflictingRuleSet, (List<? extends MatchedRule>)conflictingRuleSet.getRules());
-		}
+		fixRules(qfa, conflictingRuleSet, (List<? extends MatchedRule>)conflictingRuleSet.getRules());
+
 		return qfa;
 	}
 	

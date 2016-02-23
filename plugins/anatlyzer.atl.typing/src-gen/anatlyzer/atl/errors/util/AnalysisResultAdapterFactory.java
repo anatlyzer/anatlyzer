@@ -80,6 +80,10 @@ public class AnalysisResultAdapterFactory extends AdapterFactoryImpl {
 				return createProblemAdapter();
 			}
 			@Override
+			public Adapter caseBatchAnalysis(BatchAnalysis object) {
+				return createBatchAnalysisAdapter();
+			}
+			@Override
 			public Adapter caseRecovery(Recovery object) {
 				return createRecoveryAdapter();
 			}
@@ -142,6 +146,20 @@ public class AnalysisResultAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.BatchAnalysis <em>Batch Analysis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.BatchAnalysis
+	 * @generated
+	 */
+	public Adapter createBatchAnalysisAdapter() {
 		return null;
 	}
 

@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter#getBlamedParameterNames <em>Blamed Parameter Names</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationCallInvalidParameter()
  * @model annotation="description name='Invalid actual parameter type' text='The types of the actual parameters does not match the formal parameters'"

@@ -24,11 +24,10 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.witness.IWitnessFinder;
-import anatlyzer.atl.witness.UseWitnessFinder;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.ui.actions.CheckRuleConflicts;
@@ -122,11 +121,11 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	}
 
 	
-	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
+	protected RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
 		return doRuleAnalysis(monitor, data, false);
 	}
 	
-	protected RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean createIfEmpty) {
+	protected RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean createIfEmpty) {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
@@ -144,8 +143,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		}
 	
 		if ( guiltyRules.size() > 0 || createIfEmpty ) {
-			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
-			rc.setDescription("Rule conflict");
+			RuleConflicts rc = AtlErrorFactory.eINSTANCE.createRuleConflicts();
 			for (OverlappingRules overlappingRules : guiltyRules) {
 				ConflictingRuleSet set = overlappingRules.createRuleSet();
 				rc.getConflicts().add(set);

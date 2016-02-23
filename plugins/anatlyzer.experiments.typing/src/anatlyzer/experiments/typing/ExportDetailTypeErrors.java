@@ -121,13 +121,13 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 		int startCol  = 4 + baseCol;
 		int ruleConflictsRow  = 3;
 		
-		int overlappings = info.conflict.getConflicts().size();
+		int overlappings = info.conflicts.getConflicts().size();
 		int staticallyConfirmed = 0;
 		int solverConfirmed     = 0;
 		int solverDiscarded     = 0;
 		int e1                  = 0;
 		
-		for (ConflictingRuleSet cs : info.conflict.getConflicts()) {
+		for (ConflictingRuleSet cs : info.conflicts.getConflicts()) {
 			OverlappingRules ov = (OverlappingRules) cs.getAnalyserInfo();
 			switch ( ov.getAnalysisResult() ) {
 			case STATICALLY_CONFIRMED:

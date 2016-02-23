@@ -2,6 +2,7 @@
  */
 package anatlyzer.atl.errors.atl_error;
 
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.types.Metaclass;
 import org.eclipse.emf.common.util.EList;
 
@@ -14,18 +15,19 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getAnalyserInfo <em>Analyser Info</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getConflictingRuleSet()
- * @model
+ * @model annotation="description name='Rule conflict' example=''"
+ *        annotation="info prec='sometimes-solver' path='yes' severity='runtime-error' when='model-dep' kind='trafo-rules' phase='analysis (separate)' source=''"
  * @generated
  */
-public interface ConflictingRuleSet extends EObject {
+public interface ConflictingRuleSet extends Problem {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

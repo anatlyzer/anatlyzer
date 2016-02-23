@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Path;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -72,7 +72,7 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 				return;
 			
 			if ( performRuleConflictAnalysis() ) {
-				RuleConflict rc = doRuleAnalysis(monitor, original, true);
+				RuleConflicts rc = doRuleAnalysis(monitor, original, true);
 				project.conflicts.add(new RuleConflictResult((IFile) resource, rc));
 			}
 					
@@ -328,11 +328,11 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	
 	class RuleConflictResult {
 		public final IFile transformation;
-		public final RuleConflict conflict;
+		public final RuleConflicts conflicts;
 		 
-		public RuleConflictResult(IFile transformation, RuleConflict conflict) {
+		public RuleConflictResult(IFile transformation, RuleConflicts conflicts) {
 			this.transformation = transformation;
-			this.conflict       = conflict;
+			this.conflicts      = conflicts;
 		}
 	}
 	

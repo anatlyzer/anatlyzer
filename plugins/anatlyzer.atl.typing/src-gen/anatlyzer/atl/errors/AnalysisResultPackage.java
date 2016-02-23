@@ -77,13 +77,22 @@ public interface AnalysisResultPackage extends EPackage {
 	int ANALYSIS_RESULT__PROBLEMS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Batch Analysis</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANALYSIS_RESULT__BATCH_ANALYSIS = 1;
+
+	/**
 	 * The number of structural features of the '<em>Analysis Result</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANALYSIS_RESULT_FEATURE_COUNT = 1;
+	int ANALYSIS_RESULT_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Analysis Result</em>' class.
@@ -196,6 +205,34 @@ public interface AnalysisResultPackage extends EPackage {
 	int PROBLEM_OPERATION_COUNT = ANALYSIS_INFO_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.impl.BatchAnalysisImpl <em>Batch Analysis</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.impl.BatchAnalysisImpl
+	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getBatchAnalysis()
+	 * @generated
+	 */
+	int BATCH_ANALYSIS = 3;
+
+	/**
+	 * The number of structural features of the '<em>Batch Analysis</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BATCH_ANALYSIS_FEATURE_COUNT = 0;
+
+	/**
+	 * The number of operations of the '<em>Batch Analysis</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BATCH_ANALYSIS_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.impl.RecoveryImpl <em>Recovery</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -203,7 +240,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getRecovery()
 	 * @generated
 	 */
-	int RECOVERY = 3;
+	int RECOVERY = 4;
 
 	/**
 	 * The number of structural features of the '<em>Recovery</em>' class.
@@ -231,7 +268,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getProblemStatus()
 	 * @generated
 	 */
-	int PROBLEM_STATUS = 4;
+	int PROBLEM_STATUS = 5;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.SeverityKind <em>Severity Kind</em>}' enum.
@@ -241,7 +278,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getSeverityKind()
 	 * @generated
 	 */
-	int SEVERITY_KIND = 5;
+	int SEVERITY_KIND = 6;
 
 
 	/**
@@ -264,6 +301,17 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAnalysisResult_Problems();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link anatlyzer.atl.errors.AnalysisResult#getBatchAnalysis <em>Batch Analysis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Batch Analysis</em>'.
+	 * @see anatlyzer.atl.errors.AnalysisResult#getBatchAnalysis()
+	 * @see #getAnalysisResult()
+	 * @generated
+	 */
+	EReference getAnalysisResult_BatchAnalysis();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.AnalysisInfo <em>Analysis Info</em>}'.
@@ -341,6 +389,16 @@ public interface AnalysisResultPackage extends EPackage {
 	EAttribute getProblem_Status();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.BatchAnalysis <em>Batch Analysis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Batch Analysis</em>'.
+	 * @see anatlyzer.atl.errors.BatchAnalysis
+	 * @generated
+	 */
+	EClass getBatchAnalysis();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.Recovery <em>Recovery</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -412,6 +470,14 @@ public interface AnalysisResultPackage extends EPackage {
 		EReference ANALYSIS_RESULT__PROBLEMS = eINSTANCE.getAnalysisResult_Problems();
 
 		/**
+		 * The meta object literal for the '<em><b>Batch Analysis</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ANALYSIS_RESULT__BATCH_ANALYSIS = eINSTANCE.getAnalysisResult_BatchAnalysis();
+
+		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.AnalysisInfoImpl <em>Analysis Info</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -470,6 +536,16 @@ public interface AnalysisResultPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROBLEM__STATUS = eINSTANCE.getProblem_Status();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.BatchAnalysisImpl <em>Batch Analysis</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.impl.BatchAnalysisImpl
+		 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getBatchAnalysis()
+		 * @generated
+		 */
+		EClass BATCH_ANALYSIS = eINSTANCE.getBatchAnalysis();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.RecoveryImpl <em>Recovery</em>}' class.

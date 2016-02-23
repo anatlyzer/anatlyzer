@@ -136,7 +136,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 		
 		ProblemStatus result = applyUSE(problem, constraint, false); //, preconditions);
-		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {
+		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {			
 			ProblemStatus result2 = applyUSE(problem, createTrue(), true);
 			if ( result2 == ProblemStatus.ERROR_DISCARDED ) {
 				return ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;

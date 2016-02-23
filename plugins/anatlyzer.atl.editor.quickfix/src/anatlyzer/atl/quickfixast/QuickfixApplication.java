@@ -26,20 +26,14 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.impact.CallableImpactCalculator;
-import anatlyzer.atl.impact.Change;
 import anatlyzer.atl.impact.ChangeImpact;
-import anatlyzer.atl.impact.ContextCallableChange;
-import anatlyzer.atl.impact.GenericImpactCreator;
 import anatlyzer.atl.impact.IQuickfixSpecificImpactComputation;
 import anatlyzer.atl.impact.ImpactFactory;
-import anatlyzer.atl.impact.ModuleCallableChange;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.atlext.ATL.util.ATLSwitch;
 
 /**
  * This class represents a modification in the AST, allowing
@@ -70,7 +64,7 @@ public class QuickfixApplication {
 	
 	public <T1 extends EObject, T2 extends EObject> void replace(T1 root, BiFunction<T1, Trace, T2> replacer) {
 		// Compute the change impact before anything actually happens
-		new GenericImpactCreator().perform(root, theChangeImpact);
+		// new GenericImpactCreator().perform(root, theChangeImpact);
 		
 		Trace trace = new Trace();
 		T2 r = replacer.apply(root, trace);

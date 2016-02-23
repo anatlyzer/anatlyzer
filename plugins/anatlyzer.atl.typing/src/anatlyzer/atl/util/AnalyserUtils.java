@@ -21,47 +21,8 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
-import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
-import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
-import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
-import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
-import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
-import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
-import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
-import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.FeatureNotFound;
-import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
-import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
-import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
-import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
-import anatlyzer.atl.errors.atl_error.InvalidArgument;
-import anatlyzer.atl.errors.atl_error.InvalidOperand;
-import anatlyzer.atl.errors.atl_error.InvalidOperator;
-import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
-import anatlyzer.atl.errors.atl_error.IteratorOverEmptySequence;
-import anatlyzer.atl.errors.atl_error.LazyRuleWithFilter;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
-import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
-import anatlyzer.atl.errors.atl_error.NoEnumLiteral;
-import anatlyzer.atl.errors.atl_error.NoModelFound;
-import anatlyzer.atl.errors.atl_error.ObjectBindingButPrimitiveAssigned;
-import anatlyzer.atl.errors.atl_error.OperationCallInvalidNumberOfParameters;
-import anatlyzer.atl.errors.atl_error.OperationCallInvalidParameter;
-import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.OperationNotFound;
-import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
-import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
-import anatlyzer.atl.errors.atl_error.PrimitiveBindingButObjectAssigned;
-import anatlyzer.atl.errors.atl_error.PrimitiveBindingInvalidAssignment;
-import anatlyzer.atl.errors.atl_error.ReadingTargetModel;
-import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
-import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.graph.ErrorPathGenerator;
@@ -288,63 +249,6 @@ public class AnalyserUtils {
 		return idx;
 	}
 	
-	public static int getProblemId_old(Problem p) {
-		if ( p instanceof NoBindingForCompulsoryFeature ) return 1;
-		if ( p instanceof BindingPossiblyUnresolved     ) return 2;
-		if ( p instanceof BindingWithResolvedByIncompatibleRule ) return 3;
-		if ( p instanceof BindingExpectedOneAssignedMany ) return 4;
-		if ( p instanceof FeatureFoundInSubtype ) return 6;
-		if ( p instanceof FeatureNotFound ) return 5; // to respect the original id assignments
-		
-		// 7
-		if ( p instanceof IncoherentVariableDeclaration ) return 7;
-		if ( p instanceof FlattenOverNonNestedCollection ) return 8;
-		if ( p instanceof BindingWithoutRule ) return 10;
-		if ( p instanceof OperationFoundInSubtype ) return 11; 			
-		if ( p instanceof OperationNotFound ) return 12;
-		
-		// 13
-		if ( p instanceof NoModelFound ) return 13;
-		if ( p instanceof ReadingTargetModel ) return 14;
-		if ( p instanceof IteratorOverEmptySequence ) return 15;
-		if ( p instanceof IncoherentHelperReturnType ) return 16;
-		if ( p instanceof AccessToUndefinedValue ) return 17;
-		
-		if ( p instanceof PrimitiveBindingButObjectAssigned ) return 18;
-		if ( p instanceof ObjectBindingButPrimitiveAssigned ) return 19;
-		if ( p instanceof PrimitiveBindingInvalidAssignment ) return 20;
-		if ( p instanceof FeatureNotFoundInUnionType ) return 21;
-		if ( p instanceof NoClassFoundInMetamodel ) return 22;
-		if ( p instanceof OperationCallInvalidParameter ) return 23;
-		if ( p instanceof OperationCallInvalidNumberOfParameters ) return 24;
-		if ( p instanceof CannotInstantiateAbstractClass ) return 25;
-		if ( p instanceof CollectionOperationNotFound ) return 26;
-		if ( p instanceof LazyRuleWithFilter ) return 27;
-		if ( p instanceof FeatureAccessInCollection ) return 28;
-		if ( p instanceof ResolveTempWithoutRule) return 29;
-		if ( p instanceof ResolveTempOutputPatternElementNotFound ) return 30;
-		if ( p instanceof OperationNotFoundInThisModule ) return 31;
-		if ( p instanceof ExpectedCollectionInForEach ) return 32;
-		if ( p instanceof IteratorBodyWrongType ) return 33;
-		
-		if ( p instanceof InvalidOperand ) return 34;
-		if ( p instanceof InvalidOperator ) return 35; 
-
-		if ( p instanceof NoEnumLiteral ) return 40; 
-
-				// Ocl compliance
-		if ( p instanceof OperationOverCollectionType ) return 101;
-		if ( p instanceof CollectionOperationOverNoCollectionError ) return 102;
-		
-		// TODO: Change this class
-		if ( p instanceof InvalidArgument ) return 201;
-		
-		if ( p instanceof RuleConflict ) return 501;
-		
-		return -1;
-		// throw new UnsupportedOperationException(p.getClass().getName());
-	}
-
 	public static boolean isConfirmed(Problem p) {
 		return p.getStatus() == ProblemStatus.STATICALLY_CONFIRMED ||
 			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED ||

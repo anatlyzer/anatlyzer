@@ -6,6 +6,7 @@ import anatlyzer.atl.errors.AnalysisInfo;
 import anatlyzer.atl.errors.AnalysisResult;
 import anatlyzer.atl.errors.AnalysisResultFactory;
 import anatlyzer.atl.errors.AnalysisResultPackage;
+import anatlyzer.atl.errors.BatchAnalysis;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.Recovery;
@@ -58,6 +59,13 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * @generated
 	 */
 	private EClass problemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass batchAnalysisEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -178,6 +186,15 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAnalysisResult_BatchAnalysis() {
+		return (EReference)analysisResultEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAnalysisInfo() {
 		return analysisInfoEClass;
 	}
@@ -241,6 +258,15 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getBatchAnalysis() {
+		return batchAnalysisEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getRecovery() {
 		return recoveryEClass;
 	}
@@ -293,6 +319,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		// Create classes and their features
 		analysisResultEClass = createEClass(ANALYSIS_RESULT);
 		createEReference(analysisResultEClass, ANALYSIS_RESULT__PROBLEMS);
+		createEReference(analysisResultEClass, ANALYSIS_RESULT__BATCH_ANALYSIS);
 
 		analysisInfoEClass = createEClass(ANALYSIS_INFO);
 
@@ -302,6 +329,8 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		createEAttribute(problemEClass, PROBLEM__SEVERITY);
 		createEAttribute(problemEClass, PROBLEM__NEEDS_CSP);
 		createEAttribute(problemEClass, PROBLEM__STATUS);
+
+		batchAnalysisEClass = createEClass(BATCH_ANALYSIS);
 
 		recoveryEClass = createEClass(RECOVERY);
 
@@ -353,6 +382,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		// Initialize classes, features, and operations; add parameters
 		initEClass(analysisResultEClass, AnalysisResult.class, "AnalysisResult", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAnalysisResult_Problems(), this.getProblem(), null, "problems", null, 0, -1, AnalysisResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAnalysisResult_BatchAnalysis(), this.getBatchAnalysis(), null, "batchAnalysis", null, 0, -1, AnalysisResult.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(analysisInfoEClass, AnalysisInfo.class, "AnalysisInfo", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -362,6 +392,8 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		initEAttribute(getProblem_Severity(), this.getSeverityKind(), "severity", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_NeedsCSP(), ecorePackage.getEBoolean(), "needsCSP", "false", 0, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_Status(), this.getProblemStatus(), "status", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(batchAnalysisEClass, BatchAnalysis.class, "BatchAnalysis", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(recoveryEClass, Recovery.class, "Recovery", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

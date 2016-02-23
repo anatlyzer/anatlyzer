@@ -38,6 +38,7 @@ import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 import anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny;
 import anatlyzer.atl.errors.atl_error.CollectionOperationNotFound;
 import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.DifferentBranchTypes;
 import anatlyzer.atl.errors.atl_error.ExpectedCollectionInForEach;
 import anatlyzer.atl.errors.atl_error.FeatureAccessInCollection;
@@ -81,6 +82,7 @@ import anatlyzer.atl.errors.atl_error.ResolveTempOutputPatternElementNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
 import anatlyzer.atl.types.Metaclass;
@@ -146,6 +148,17 @@ public class ErrorModel {
 	public List<Problem> getProblems() {
 		return result.getProblems();
 	}
+
+	public void removeRuleConflicts() {
+		this.result.getBatchAnalysis().removeIf(b -> b instanceof RuleConflicts);
+		this.result.getProblems().removeIf(p -> p instanceof ConflictingRuleSet);
+	}
+
+	public void addRuleConflicts(RuleConflicts rc) {
+		this.result.getBatchAnalysis().add(rc);
+		this.result.getProblems().addAll(rc.getConflicts());
+	}
+
 	
 	public List<LocalProblem> getLocalProblems() {
 		ArrayList<LocalProblem> locals = new ArrayList<LocalProblem>();
@@ -661,11 +674,15 @@ public class ErrorModel {
 	}
 
 	
-	public void signalBindingPossiblyUnresolved(Binding b, EClass rightType, EClass targetType, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
+	public void signalBindingPossiblyUnresolved(Binding b, Metaclass rightMetaclass, EClass targetType, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
 		BindingPossiblyUnresolved error = AtlErrorFactory.eINSTANCE.createBindingPossiblyUnresolved();
 		initProblem(error, b, ProblemStatus.WITNESS_REQUIRED, true);
 
-		error.setRightType(rightType);
+		error.setRight(this.newElement(rightMetaclass)); 
+		String mmName = ((OclModelElement) b.getOutPatternElement().getType()).getModel().getName();
+		error.setLeft(this.newElement(mmName, targetType));	
+		
+		error.setRightType(rightMetaclass.getKlass());
 		error.setTargetType(targetType);
 		error.setFeatureName(b.getPropertyName());
 		
@@ -678,7 +695,7 @@ public class ErrorModel {
 		}
 		s = s.replaceFirst(",", "");
 		
-		signalWarning(error, "Possibly unresolved binding (" + rightType.getName() + "): "  + s, b);
+		signalWarning(error, "Possibly unresolved binding (" + rightMetaclass.getName() + "): "  + s, b);
 	}
 	
 	public void signalInvalidAssignmentInBindingStatement(Type left, Type right, BindingStat b) {
@@ -949,7 +966,6 @@ public class ErrorModel {
 		// element.getProblems().add(p);
 		
 	}
-
 
 	
 }

@@ -2,8 +2,8 @@
  */
 package anatlyzer.atl.errors.impl;
 
-import anatlyzer.atl.errors.AnalysisInfo;
 import anatlyzer.atl.errors.AnalysisResultPackage;
+import anatlyzer.atl.errors.BatchAnalysis;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -11,20 +11,20 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Analysis Info</b></em>'.
+ * An implementation of the model object '<em><b>Batch Analysis</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public abstract class AnalysisInfoImpl extends MinimalEObjectImpl.Container implements AnalysisInfo {
+public abstract class BatchAnalysisImpl extends MinimalEObjectImpl.Container implements BatchAnalysis {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AnalysisInfoImpl() {
+	protected BatchAnalysisImpl() {
 		super();
 	}
 
@@ -35,7 +35,7 @@ public abstract class AnalysisInfoImpl extends MinimalEObjectImpl.Container impl
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AnalysisResultPackage.Literals.ANALYSIS_INFO;
+		return AnalysisResultPackage.Literals.BATCH_ANALYSIS;
 	}
 
-} //AnalysisInfoImpl
+} //BatchAnalysisImpl

@@ -3,6 +3,7 @@
 package anatlyzer.atl.errors.atl_error.util;
 
 import anatlyzer.atl.errors.AnalysisInfo;
+import anatlyzer.atl.errors.BatchAnalysis;
 import anatlyzer.atl.errors.Problem;
 
 import anatlyzer.atl.errors.atl_error.*;
@@ -50,7 +51,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -277,17 +278,18 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case AtlErrorPackage.RULE_CONFLICT: {
-				RuleConflict ruleConflict = (RuleConflict)theEObject;
-				T result = caseRuleConflict(ruleConflict);
-				if (result == null) result = caseProblem(ruleConflict);
-				if (result == null) result = caseAnalysisInfo(ruleConflict);
+			case AtlErrorPackage.RULE_CONFLICTS: {
+				RuleConflicts ruleConflicts = (RuleConflicts)theEObject;
+				T result = caseRuleConflicts(ruleConflicts);
+				if (result == null) result = caseBatchAnalysis(ruleConflicts);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case AtlErrorPackage.CONFLICTING_RULE_SET: {
 				ConflictingRuleSet conflictingRuleSet = (ConflictingRuleSet)theEObject;
 				T result = caseConflictingRuleSet(conflictingRuleSet);
+				if (result == null) result = caseProblem(conflictingRuleSet);
+				if (result == null) result = caseAnalysisInfo(conflictingRuleSet);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -885,21 +887,6 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTargetModelConformanceProblem(TargetModelConformanceProblem object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Rule Conflict</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Rule Conflict</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseRuleConflict(RuleConflict object) {
 		return null;
 	}
 
@@ -1804,6 +1791,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Rule Conflicts</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Rule Conflicts</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseRuleConflicts(RuleConflicts object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Binding Inplace Invalid</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -1860,6 +1862,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseProblem(Problem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Batch Analysis</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Batch Analysis</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBatchAnalysis(BatchAnalysis object) {
 		return null;
 	}
 

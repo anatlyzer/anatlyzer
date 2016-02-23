@@ -3,7 +3,7 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 
-import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 
 /**
@@ -11,7 +11,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
  * select the rule to be deleted.
  *    
  * @qfxName Remove conflicting rule
- * @qfxError {@link anatlyzer.atl.errors.atl_error.RuleConflict}
+ * @qfxError {@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet}
  * 
  * @author jesusc
  */
@@ -19,7 +19,7 @@ public class RuleConflictQuickfix_RemoveRule extends RuleConflictQuickfix_Modify
 
 	@Override
 	public boolean isApplicable(IMarker marker) {
-		return checkProblemType(marker, RuleConflict.class);
+		return checkProblemType(marker, ConflictingRuleSet.class);
 	}
 	
 	@Override

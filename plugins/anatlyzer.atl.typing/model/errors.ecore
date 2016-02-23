@@ -4,6 +4,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisResult">
     <eStructuralFeatures xsi:type="ecore:EReference" name="problems" upperBound="-1"
         eType="#//Problem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="batchAnalysis" upperBound="-1"
+        eType="#//BatchAnalysis" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AnalysisInfo" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Problem" abstract="true" eSuperTypes="#//AnalysisInfo">
@@ -18,6 +20,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
         eType="#//ProblemStatus"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BatchAnalysis" abstract="true"/>
   <eClassifiers xsi:type="ecore:EEnum" name="ProblemStatus">
     <eLiterals name="STATICALLY_CONFIRMED"/>
     <eLiterals name="INITIALLY_DISCARDED" value="1"/>
@@ -264,7 +267,11 @@
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="RuleConflict" eSuperTypes="#//Problem">
+    <eClassifiers xsi:type="ecore:EClass" name="RuleConflicts" eSuperTypes="#//BatchAnalysis">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" upperBound="-1"
+          eType="#//atl_error/ConflictingRuleSet"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConflictingRuleSet" eSuperTypes="#//Problem">
       <eAnnotations source="description">
         <details key="name" value="Rule conflict"/>
         <details key="example" value=""/>
@@ -278,10 +285,6 @@
         <details key="phase" value="analysis (separate)"/>
         <details key="source" value=""/>
       </eAnnotations>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="conflicts" upperBound="-1"
-          eType="#//atl_error/ConflictingRuleSet" containment="true"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ConflictingRuleSet">
       <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1"
           eType="ecore:EClass types.ecore#//Metaclass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="rules" upperBound="-1"

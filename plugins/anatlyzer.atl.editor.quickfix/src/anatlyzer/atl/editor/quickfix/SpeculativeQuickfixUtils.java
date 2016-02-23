@@ -19,7 +19,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -129,7 +129,9 @@ public class SpeculativeQuickfixUtils {
 		ArrayList<Problem> discarded = new ArrayList<>();
 		for (Problem problem : analysis.getProblems()) {
 			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
-				ProblemStatus status = finder.catchInternalErrors(true).find(problem, analysis);
+				ProblemStatus status = finder.
+						catchInternalErrors(true).
+						find(problem, analysis);
 				problem.setStatus(status);
 				
 				// Should this be done automatically in some confirm/discard library?
@@ -144,9 +146,9 @@ public class SpeculativeQuickfixUtils {
 		analysis.getATLModel().getErrors().getAnalysis().getProblems().removeAll(discarded);
 		
 		if ( doRuleAnalysis ) {
-			RuleConflict rc = doRuleAnalysis(null, analysis);
+			RuleConflicts rc = doRuleAnalysis(null, analysis);
 			if ( rc != null ) {
-				analysis.extendProblems(Collections.singleton(rc));
+				analysis.extendWithRuleConflicts(rc, true);
 			}
 		}
 	}
@@ -171,7 +173,7 @@ public class SpeculativeQuickfixUtils {
 	}
 
 
-	public static RuleConflict doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
+	public static RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data) {
 		// Same as AbstractATLExperiment
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
@@ -187,8 +189,7 @@ public class SpeculativeQuickfixUtils {
 		
 	
 		if ( guiltyRules.size() > 0 ) {
-			RuleConflict rc = AtlErrorFactory.eINSTANCE.createRuleConflict();
-			rc.setDescription("Rule conflict");
+			RuleConflicts rc = AtlErrorFactory.eINSTANCE.createRuleConflicts();
 			for (OverlappingRules overlappingRules : guiltyRules) {
 				ConflictingRuleSet set = overlappingRules.createRuleSet();
 				rc.getConflicts().add(set);

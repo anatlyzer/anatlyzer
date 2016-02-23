@@ -5,7 +5,7 @@ import "platform:/resource/anatlyzer.atl.typing/model/types.ecore";
 
 class AnalysisResult {
    val Problem[*] problems;
-   
+   val BatchAnalysis[*] batchAnalysis;    
 }
 
 abstract class AnalysisInfo {
@@ -20,6 +20,10 @@ abstract class Problem extends AnalysisInfo {
 	attr boolean needsCSP = false;
 	
 	attr ProblemStatus[1] status;
+}
+
+abstract class BatchAnalysis {
+		
 }
 
 enum ProblemStatus {	
@@ -157,13 +161,14 @@ package atl_error {
 		
 	}	
 	
+	class RuleConflicts extends BatchAnalysis {
+		/* The actual problem should be aggregated into the global problem list, this is only a reference */
+		ref ConflictingRuleSet[*] conflicts;
+	}
+
 	@description(name="Rule conflict", example="")	 
 	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="analysis (separate)", source="")
-	class RuleConflict extends Problem {
-		val ConflictingRuleSet[*] conflicts;
-	}
-	
-	class ConflictingRuleSet {
+	class ConflictingRuleSet extends Problem {
 	    ref types.Metaclass[1] type;
 		ref EObject[*] rules;
 		attr Object[0..1] analyserInfo;

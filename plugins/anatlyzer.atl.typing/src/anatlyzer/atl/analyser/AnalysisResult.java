@@ -1,12 +1,14 @@
 package anatlyzer.atl.analyser;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 
@@ -64,5 +66,15 @@ public class AnalysisResult {
 	
 	public ATLModel getATLModel() {
 		return analyser.getATLModel();
+	}
+
+	public void extendWithRuleConflicts(RuleConflicts rc, boolean removeExisting) {
+		if ( removeExisting ) {
+			analyser.getErrors().removeRuleConflicts();
+		}
+		
+		if ( rc != null ) {
+			analyser.getErrors().addRuleConflicts(rc);
+		}				
 	}
 }

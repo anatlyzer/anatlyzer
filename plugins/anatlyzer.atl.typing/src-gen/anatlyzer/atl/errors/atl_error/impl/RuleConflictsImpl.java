@@ -4,38 +4,29 @@ package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
-
-import anatlyzer.atl.errors.impl.ProblemImpl;
-
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
+import anatlyzer.atl.errors.impl.BatchAnalysisImpl;
 import java.util.Collection;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Rule Conflict</b></em>'.
+ * An implementation of the model object '<em><b>Rule Conflicts</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
- *   <li>{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl#getConflicts <em>Conflicts</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictsImpl#getConflicts <em>Conflicts</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
-public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
+public class RuleConflictsImpl extends BatchAnalysisImpl implements RuleConflicts {
 	/**
-	 * The cached value of the '{@link #getConflicts() <em>Conflicts</em>}' containment reference list.
+	 * The cached value of the '{@link #getConflicts() <em>Conflicts</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getConflicts()
@@ -49,7 +40,7 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected RuleConflictImpl() {
+	protected RuleConflictsImpl() {
 		super();
 	}
 
@@ -60,7 +51,7 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AtlErrorPackage.Literals.RULE_CONFLICT;
+		return AtlErrorPackage.Literals.RULE_CONFLICTS;
 	}
 
 	/**
@@ -70,7 +61,7 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	 */
 	public EList<ConflictingRuleSet> getConflicts() {
 		if (conflicts == null) {
-			conflicts = new EObjectContainmentEList<ConflictingRuleSet>(ConflictingRuleSet.class, this, AtlErrorPackage.RULE_CONFLICT__CONFLICTS);
+			conflicts = new EObjectResolvingEList<ConflictingRuleSet>(ConflictingRuleSet.class, this, AtlErrorPackage.RULE_CONFLICTS__CONFLICTS);
 		}
 		return conflicts;
 	}
@@ -81,23 +72,9 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case AtlErrorPackage.RULE_CONFLICT__CONFLICTS:
-				return ((InternalEList<?>)getConflicts()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AtlErrorPackage.RULE_CONFLICT__CONFLICTS:
+			case AtlErrorPackage.RULE_CONFLICTS__CONFLICTS:
 				return getConflicts();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -112,7 +89,7 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AtlErrorPackage.RULE_CONFLICT__CONFLICTS:
+			case AtlErrorPackage.RULE_CONFLICTS__CONFLICTS:
 				getConflicts().clear();
 				getConflicts().addAll((Collection<? extends ConflictingRuleSet>)newValue);
 				return;
@@ -128,7 +105,7 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.RULE_CONFLICT__CONFLICTS:
+			case AtlErrorPackage.RULE_CONFLICTS__CONFLICTS:
 				getConflicts().clear();
 				return;
 		}
@@ -143,10 +120,10 @@ public class RuleConflictImpl extends ProblemImpl implements RuleConflict {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.RULE_CONFLICT__CONFLICTS:
+			case AtlErrorPackage.RULE_CONFLICTS__CONFLICTS:
 				return conflicts != null && !conflicts.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //RuleConflictImpl
+} //RuleConflictsImpl

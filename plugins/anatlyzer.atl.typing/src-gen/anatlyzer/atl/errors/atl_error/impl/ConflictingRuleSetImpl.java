@@ -4,21 +4,15 @@ package anatlyzer.atl.errors.atl_error.impl;
 
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-
+import anatlyzer.atl.errors.impl.ProblemImpl;
 import anatlyzer.atl.types.Metaclass;
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -27,16 +21,16 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getAnalyserInfo <em>Analyser Info</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
-public class ConflictingRuleSetImpl extends MinimalEObjectImpl.Container implements ConflictingRuleSet {
+public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRuleSet {
 	/**
 	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
 	 * <!-- begin-user-doc -->

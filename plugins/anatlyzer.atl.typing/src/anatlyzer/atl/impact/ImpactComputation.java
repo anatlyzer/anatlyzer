@@ -3,17 +3,18 @@ package anatlyzer.atl.impact;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.MatchedRule;
 
 public class ImpactComputation {
 	private AnalysisResult original;
@@ -93,24 +94,54 @@ public class ImpactComputation {
 		}
 		
 		
-		// Treat rule conflicts differently
-		// This is a bit weird, because in principle there is only 
-		// a maximum of one RuleConflict instance per analysed transformation 
-		List<RuleConflict> originalConflicts = getRuleConflicts(original);
-		List<RuleConflict> changedConflicts = getRuleConflicts(changed);
-		if ( originalConflicts.isEmpty() && ! changedConflicts.isEmpty() ) {
-			this.newProblems.addAll(changedConflicts);
-		} else if ( ! originalConflicts.isEmpty() && changedConflicts.isEmpty() ) {
-			this.fixedProblems.addAll(originalConflicts);
+		// Treat rule conflicts a bit differently, using rule names for comparison
+		List<ConflictingRuleSet> originalConflicts = getRuleConflicts(original);
+		List<ConflictingRuleSet> changedConflicts = getRuleConflicts(changed);
+		
+		for (ConflictingRuleSet originalConflict : originalConflicts) {
+			boolean found = false;
+			for (ConflictingRuleSet changedConflict : changedConflicts) {				
+				if ( isSameConflict(originalConflict, changedConflict) ) {
+					found = true;
+					break;
+				}				
+			}
+			
+			if ( ! found ) {
+				this.fixedProblems.add(originalConflict);
+			}
 		}
-				
 		
 		
-//		this.changed.getProblems().forEach(pChanged -> {
-//			eChanged = pChanged.get
-//		});
+
 		
+		for (ConflictingRuleSet changedConflict : changedConflicts) {
+			boolean found = false;
+			for (ConflictingRuleSet originalConflict : originalConflicts) {				
+				if ( isSameConflict(originalConflict, changedConflict) ) {
+					found = true;
+					break;
+				}				
+			}
+			
+			if ( ! found ) {
+				this.newProblems.add(changedConflict);
+			}
+		}
+
+//		if ( originalConflicts.isEmpty() && ! changedConflicts.isEmpty() ) {
+//			this.newProblems.addAll(changedConflicts);
+//		} else if ( ! originalConflicts.isEmpty() && changedConflicts.isEmpty() ) {
+//			this.fixedProblems.addAll(originalConflicts);
+//		}
+						
 		return this;
+	}
+
+	private boolean isSameConflict(ConflictingRuleSet c1, ConflictingRuleSet c2) {
+		Set<String> set1 = c1.getRules().stream().map(r -> ((MatchedRule) r).getName()).collect(Collectors.toSet());
+		Set<String> set2 = c2.getRules().stream().map(r -> ((MatchedRule) r).getName()).collect(Collectors.toSet());
+		return set1.equals(set2);
 	}
 
 	private boolean isMissingEqual(ITracedATLModel trace, Object missingOriginal, Object missingChanged) {
@@ -135,10 +166,10 @@ public class ImpactComputation {
 		return missingOriginal.equals(missingChanged);
 	}
 
-	private List<RuleConflict> getRuleConflicts(AnalysisResult r) {
+	private List<ConflictingRuleSet> getRuleConflicts(AnalysisResult r) {
 		return r.getProblems().stream().
-			filter(p -> p instanceof RuleConflict ).
-			map(p -> (RuleConflict) p).collect(Collectors.toList());
+			filter(p -> p instanceof ConflictingRuleSet ).
+			map(p -> (ConflictingRuleSet) p).collect(Collectors.toList());
 	}
 
 	protected List<LocalProblem> possibleLocalProblems(AnalysisResult r) {

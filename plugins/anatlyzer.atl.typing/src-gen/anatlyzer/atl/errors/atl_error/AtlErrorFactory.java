@@ -31,15 +31,6 @@ public interface AtlErrorFactory extends EFactory {
 	ModelElement createModelElement();
 
 	/**
-	 * Returns a new object of class '<em>Rule Conflict</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Rule Conflict</em>'.
-	 * @generated
-	 */
-	RuleConflict createRuleConflict();
-
-	/**
 	 * Returns a new object of class '<em>Conflicting Rule Set</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -497,6 +488,15 @@ public interface AtlErrorFactory extends EFactory {
 	 * @generated
 	 */
 	AccessToUndefinedValue_ThroughEmptyCollection createAccessToUndefinedValue_ThroughEmptyCollection();
+
+	/**
+	 * Returns a new object of class '<em>Rule Conflicts</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Rule Conflicts</em>'.
+	 * @generated
+	 */
+	RuleConflicts createRuleConflicts();
 
 	/**
 	 * Returns a new object of class '<em>Binding Inplace Invalid</em>'.

@@ -431,7 +431,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	private void findPossibleUnresolvedClasses(Binding b, Metaclass rightMetaclass, EClass targetType) { //, List<MatchedRule> rules) {
 		RuleAnalysis.findPossibleUnresolvedClasses(rightMetaclass, 
 				(problematicClasses, problematicClassesImplicit) -> {					
-					errors().signalBindingPossiblyUnresolved(b, rightMetaclass.getKlass(), targetType, problematicClasses, problematicClassesImplicit);				
+					errors().signalBindingPossiblyUnresolved(b, rightMetaclass, targetType, problematicClasses, problematicClassesImplicit);				
 					return true;
 				});
 	}

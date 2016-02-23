@@ -3,6 +3,7 @@
 package anatlyzer.atl.errors.atl_error.util;
 
 import anatlyzer.atl.errors.AnalysisInfo;
+import anatlyzer.atl.errors.BatchAnalysis;
 import anatlyzer.atl.errors.Problem;
 
 import anatlyzer.atl.errors.atl_error.*;
@@ -163,8 +164,8 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createAccessToUndefinedValue_ThroughEmptyCollectionAdapter();
 			}
 			@Override
-			public Adapter caseRuleConflict(RuleConflict object) {
-				return createRuleConflictAdapter();
+			public Adapter caseRuleConflicts(RuleConflicts object) {
+				return createRuleConflictsAdapter();
 			}
 			@Override
 			public Adapter caseConflictingRuleSet(ConflictingRuleSet object) {
@@ -367,6 +368,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createProblemAdapter();
 			}
 			@Override
+			public Adapter caseBatchAnalysis(BatchAnalysis object) {
+				return createBatchAnalysisAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -509,20 +514,6 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTargetModelConformanceProblemAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.RuleConflict <em>Rule Conflict</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see anatlyzer.atl.errors.atl_error.RuleConflict
-	 * @generated
-	 */
-	public Adapter createRuleConflictAdapter() {
 		return null;
 	}
 
@@ -1367,6 +1358,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.RuleConflicts <em>Rule Conflicts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.RuleConflicts
+	 * @generated
+	 */
+	public Adapter createRuleConflictsAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid <em>Binding Inplace Invalid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -1419,6 +1424,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.BatchAnalysis <em>Batch Analysis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.BatchAnalysis
+	 * @generated
+	 */
+	public Adapter createBatchAnalysisAdapter() {
 		return null;
 	}
 

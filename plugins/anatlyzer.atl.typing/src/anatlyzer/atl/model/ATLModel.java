@@ -20,14 +20,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
-import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;

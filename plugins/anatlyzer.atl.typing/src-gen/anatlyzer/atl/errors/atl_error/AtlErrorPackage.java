@@ -1176,16 +1176,6 @@ public interface AtlErrorPackage extends EPackage {
 	int TARGET_MODEL_CONFORMANCE_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl <em>Rule Conflict</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl
-	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuleConflict()
-	 * @generated
-	 */
-	int RULE_CONFLICT = 23;
-
-	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl <em>Conflicting Rule Set</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3385,13 +3375,50 @@ public interface AtlErrorPackage extends EPackage {
 	int ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictsImpl <em>Rule Conflicts</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.RuleConflictsImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuleConflicts()
+	 * @generated
+	 */
+	int RULE_CONFLICTS = 23;
+
+	/**
+	 * The feature id for the '<em><b>Conflicts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICTS__CONFLICTS = AnalysisResultPackage.BATCH_ANALYSIS_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Rule Conflicts</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICTS_FEATURE_COUNT = AnalysisResultPackage.BATCH_ANALYSIS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Rule Conflicts</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_CONFLICTS_OPERATION_COUNT = AnalysisResultPackage.BATCH_ANALYSIS_OPERATION_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONFLICT__DEPENDENTS = AnalysisResultPackage.PROBLEM__DEPENDENTS;
+	int CONFLICTING_RULE_SET__DEPENDENTS = AnalysisResultPackage.PROBLEM__DEPENDENTS;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -3400,7 +3427,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONFLICT__DESCRIPTION = AnalysisResultPackage.PROBLEM__DESCRIPTION;
+	int CONFLICTING_RULE_SET__DESCRIPTION = AnalysisResultPackage.PROBLEM__DESCRIPTION;
 
 	/**
 	 * The feature id for the '<em><b>Severity</b></em>' attribute.
@@ -3409,7 +3436,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONFLICT__SEVERITY = AnalysisResultPackage.PROBLEM__SEVERITY;
+	int CONFLICTING_RULE_SET__SEVERITY = AnalysisResultPackage.PROBLEM__SEVERITY;
 
 	/**
 	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
@@ -3418,7 +3445,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONFLICT__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
+	int CONFLICTING_RULE_SET__NEEDS_CSP = AnalysisResultPackage.PROBLEM__NEEDS_CSP;
 
 	/**
 	 * The feature id for the '<em><b>Status</b></em>' attribute.
@@ -3427,34 +3454,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_CONFLICT__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Conflicts</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT__CONFLICTS = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Rule Conflict</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of operations of the '<em>Rule Conflict</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RULE_CONFLICT_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
+	int CONFLICTING_RULE_SET__STATUS = AnalysisResultPackage.PROBLEM__STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -3463,7 +3463,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__TYPE = 0;
+	int CONFLICTING_RULE_SET__TYPE = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' reference list.
@@ -3472,7 +3472,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__RULES = 1;
+	int CONFLICTING_RULE_SET__RULES = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Analyser Info</b></em>' attribute.
@@ -3481,7 +3481,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__ANALYSER_INFO = 2;
+	int CONFLICTING_RULE_SET__ANALYSER_INFO = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Conflicting Rule Set</em>' class.
@@ -3490,7 +3490,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET_FEATURE_COUNT = 3;
+	int CONFLICTING_RULE_SET_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Conflicting Rule Set</em>' class.
@@ -3499,7 +3499,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET_OPERATION_COUNT = 0;
+	int CONFLICTING_RULE_SET_OPERATION_COUNT = AnalysisResultPackage.PROBLEM_OPERATION_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -9090,27 +9090,6 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getTargetModelConformanceProblem();
 
 	/**
-	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.RuleConflict <em>Rule Conflict</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Rule Conflict</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.RuleConflict
-	 * @generated
-	 */
-	EClass getRuleConflict();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link anatlyzer.atl.errors.atl_error.RuleConflict#getConflicts <em>Conflicts</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Conflicts</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.RuleConflict#getConflicts()
-	 * @see #getRuleConflict()
-	 * @generated
-	 */
-	EReference getRuleConflict_Conflicts();
-
-	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet <em>Conflicting Rule Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10393,6 +10372,27 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getAccessToUndefinedValue_ThroughEmptyCollection();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.RuleConflicts <em>Rule Conflicts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Rule Conflicts</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.RuleConflicts
+	 * @generated
+	 */
+	EClass getRuleConflicts();
+
+	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.RuleConflicts#getConflicts <em>Conflicts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Conflicts</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.RuleConflicts#getConflicts()
+	 * @see #getRuleConflicts()
+	 * @generated
+	 */
+	EReference getRuleConflicts_Conflicts();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.BindingInplaceInvalid <em>Binding Inplace Invalid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -10622,24 +10622,6 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TARGET_MODEL_CONFORMANCE_PROBLEM = eINSTANCE.getTargetModelConformanceProblem();
-
-		/**
-		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl <em>Rule Conflict</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see anatlyzer.atl.errors.atl_error.impl.RuleConflictImpl
-		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuleConflict()
-		 * @generated
-		 */
-		EClass RULE_CONFLICT = eINSTANCE.getRuleConflict();
-
-		/**
-		 * The meta object literal for the '<em><b>Conflicts</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference RULE_CONFLICT__CONFLICTS = eINSTANCE.getRuleConflict_Conflicts();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl <em>Conflicting Rule Set</em>}' class.
@@ -11736,6 +11718,24 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION = eINSTANCE.getAccessToUndefinedValue_ThroughEmptyCollection();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.RuleConflictsImpl <em>Rule Conflicts</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.RuleConflictsImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getRuleConflicts()
+		 * @generated
+		 */
+		EClass RULE_CONFLICTS = eINSTANCE.getRuleConflicts();
+
+		/**
+		 * The meta object literal for the '<em><b>Conflicts</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RULE_CONFLICTS__CONFLICTS = eINSTANCE.getRuleConflicts_Conflicts();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.BindingInplaceInvalidImpl <em>Binding Inplace Invalid</em>}' class.

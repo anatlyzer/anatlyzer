@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
@@ -64,7 +65,7 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		Metaclass selectedOutputType = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
-		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
+		List<Metaclass> sources = getSourceTypes(b);
 		
 		GlobalNamespace mm = getAnalysisResult().getNamespace();
 		
@@ -160,14 +161,21 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 	@Override
 	public String getDisplayString() {
 		Binding b = (Binding) getProblematicElement();
-		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
-		if ( sources.size() == 1 ) {
-			return "Add rule";
-		} else {
-			return "Add rules: " + sources.stream().map(m -> m.getName()).collect(Collectors.joining(", "));			
-		}
-		
+		List<Metaclass> sources = getSourceTypes(b);
+		String prefix = "Add rule" + (sources.size() == 1 ? "" : "s") + ": ";
+		return prefix + sources.stream().map(m -> m.getName()).collect(Collectors.joining(", "));
 	}
-
-
+	
+	/** 
+	 * Return the list of source types for which rules will be created.
+	 * 
+	 * This may be actually unnecessary since anATLyzer generates a BindingPossiblyUnresolved problem
+	 * for each different source type... 
+	 */
+	protected List<Metaclass> getSourceTypes(Binding b) {
+		List<Metaclass> sources = ATLUtils.getUnderlyingBindingRightMetaclasses(b);
+		Set<String> srcModels = ATLUtils.getSourceMetamodelNames(getAnalysisResult().getATLModel());		
+		return sources.stream().filter(m -> srcModels.contains( m.getModel().getName()) ).collect(Collectors.toList());
+	}
+	
 }

@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
-import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
@@ -35,9 +35,10 @@ import anatlyzer.atlext.OCL.VariableExp;
 public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 
 	protected boolean isSourceType(IMarker marker) {
-		BindingWithoutRule problem;
+		setErrorMarker(marker);
+		BindingResolution problem;
 		try {
-			problem = (BindingWithoutRule) getProblem(marker);
+			problem = (BindingResolution) getProblem();
 			return ATLUtils.getSourceMetamodelNames(getAnalysisResult().getATLModel()).contains(problem.getRight().getMetamodelName());
 		//} catch (CoreException e) {
 		} catch (Exception e) {

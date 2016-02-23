@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -78,7 +77,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.errors.atl_error.RuleConflict;
+import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
@@ -188,7 +187,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
 		private ConflictingRules[] elements;
 		int numberOfConflicts = 0;
-		private Problem ruleConflictProblem;
+		private RuleConflicts fRuleConflicts;
 		
 		public RuleConflictAnalysisNode(TreeNode parent) {
 			super(parent);
@@ -223,14 +222,14 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 						List<OverlappingRules> result = job.result;	
 						
 						// Create the problem
-						RuleConflict problem = AtlErrorFactory.eINSTANCE.createRuleConflict();
-						
+						RuleConflicts ruleConflictResult = AtlErrorFactory.eINSTANCE.createRuleConflicts();
+						fRuleConflicts = null;
 						
 						numberOfConflicts = 0;
 						int i = 0;
 						elements = new ConflictingRules[result.size()];
 						for (OverlappingRules overlappingRules : result) {
-							elements[i++] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
+							elements[i] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
 							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
 								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
 								// It has not been discarded
@@ -241,11 +240,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
 								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
 								ConflictingRuleSet set = overlappingRules.createRuleSet();
-								problem.getConflicts().add(set);
+								ruleConflictResult.getConflicts().add(set);
+								elements[i].setConflictingRuleSet(set);
 							}
 							
-							ruleConflictProblem = problem;							
+							i++;
+							fRuleConflicts = ruleConflictResult;							
 						}											
+
+												
+						currentAnalysis.extendWithRuleConflicts(fRuleConflicts, true);
 						
 						Display.getDefault().asyncExec(new Runnable() {	
 							@Override
@@ -291,12 +295,17 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	
 	class ConflictingRules extends TreeNode implements IWithCodeLocation {
 		protected OverlappingRules element;
+		private ConflictingRuleSet problem;
 
 		public ConflictingRules(TreeNode parent, OverlappingRules element) {
 			super(parent);
 			this.element = element;
 		}		
 		
+		public void setConflictingRuleSet(ConflictingRuleSet problem) {
+			this.problem = problem;
+		}
+
 		@Override
 		public Object[] getChildren() { return null; }
 		@Override
@@ -913,7 +922,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					LocalProblemNode lpn = (LocalProblemNode) selection.getFirstElement();
 					
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
-					wf.checkDiscardCause(true);
+					wf.checkDiscardCause(false);
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
 						lpn.setStatus(status);
@@ -1245,27 +1254,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		} else if ( obj instanceof GenericProblemNode ) {
 			// This is needed for the continous analysis view (in AnalysisViewNodes)
 			return ((GenericProblemNode) obj).p;
-		} else if ( obj instanceof RuleConflictAnalysisNode ) {
-			RuleConflictAnalysisNode n = (RuleConflictAnalysisNode) obj;
-			
-			// Just for testing...
-			currentAnalysis.extendProblems(Collections.singleton(n.ruleConflictProblem));
-
-			
-			return n.ruleConflictProblem;
 		} else if ( obj instanceof ConflictingRules ) {
+			// May return null if the conflict is discarded or cannot be verified
 			ConflictingRules conflictingRules = (ConflictingRules) obj;
-			// Create a problem ad-hoc for this rule pair
-			RuleConflict problem = AtlErrorFactory.eINSTANCE.createRuleConflict();
-			OverlappingRules overlappingRules = conflictingRules.element;
-
-			ConflictingRuleSet set = overlappingRules.createRuleSet();
-			problem.getConflicts().add(set);
-
-			// Just for testing...
-			currentAnalysis.extendProblems(Collections.singleton(problem));
-
-			return problem;
+			return conflictingRules.problem;
 		} else {
 			throw new UnsupportedOperationException("Node: " + obj.getClass());
 		}

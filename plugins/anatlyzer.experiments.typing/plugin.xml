@@ -31,6 +31,19 @@
          
       </experiment>
    </extension>
+
+
+
+   <extension
+         id="typing.experiment.analyseTypeErrors"
+         point="anatlyzer.experiments.newExperiment">
+      <experiment
+            delegate="anatlyzer.experiments.typing.AnalyseTypeErrors"
+            resourceType="file:atl">
+      </experiment>
+   </extension>
+
+
    <extension
          id="typing.experiment.countOptimizations"
          point="anatlyzer.experiments.newExperiment">

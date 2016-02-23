@@ -146,6 +146,18 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			}
 		});
 
+		Button saveData = new Button(composite, SWT.NONE);
+		GridData gdsaveData = new GridData(GridData.BEGINNING);
+		gdsaveData.horizontalSpan = 1;
+		saveData.setLayoutData(gdsaveData);
+		saveData.setText("Save data");
+		
+		saveData.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				saveData();
+			}
+		});
+
 		Button exportToExcel = new Button(composite, SWT.NONE);
 		GridData gdExcel = new GridData(GridData.BEGINNING);
 		gdExcel.horizontalSpan = 1;
@@ -381,5 +393,16 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		}
 	}
 	
-	
+	protected void saveData() {
+		if ( experiment != null ) {
+			FileEditorInput input = (FileEditorInput) getEditorInput();
+			try {
+				IFile f = input.getFile();
+				experiment.saveData(input.getFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

@@ -19,4 +19,5 @@ public interface IExperiment {
 	void setExperimentConfiguration(IFile file);
 	void projectDone(IProject p);
 	void setOptions(HashMap<String, Object> options);
+	void saveData(IFile expFile) throws IOException;
 }

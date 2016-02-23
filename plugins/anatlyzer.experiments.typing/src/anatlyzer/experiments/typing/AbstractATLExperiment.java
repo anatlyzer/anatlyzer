@@ -86,12 +86,9 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected void confirmProblems(List<Problem> problems, AnalysisResult r) {
 		for (Problem p : problems) {
 			if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
-				System.out.println("--------------------------");
-				
+				System.out.println("--------------------------");				
 				System.out.println("Confirming: " + new ExpProblem(p).getLocation());
 				System.out.println("--------------------------");
-				
-				removeTempFile();
 				
 				ProblemStatus result = null;
 				try {
@@ -108,16 +105,6 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected IWitnessFinder createWitnessFinder() {
 		return new EclipseUseWitnessFinder().			
 				checkDiscardCause(false);
-	}
-	
-	protected void removeTempFile() {
-		try {
-			transMLProperties.loadPropertiesFile(new EclipseUseWitnessFinder().getTempDirectory());					
-			File dir = new File(transMLProperties.getProperty("temp"));
-			FileUtils.deleteDirectory(dir);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
 	}
 
 	
@@ -152,5 +139,10 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public void saveData(IFile expFile) {
+		throw new UnsupportedOperationException();
 	}
 }

@@ -33,7 +33,7 @@
 	
       <h2>Quick fixes</h2>
       
-      Support for quick fixes has been added to An<span class="atlyzer">atl</span>yzer. This page provides information about this and the detailed and updated results of
+      Support for quick fixes has been added to An<span class="atlyzer">atl</span>yzer. This page provides information about this and the detailed results of
 our experiments.
       </section>
       <section>
@@ -48,10 +48,9 @@ our experiments.
 	</p>
 
 <ul>
-<li>From the editor, press CTRL+1. This shows all quick fixes for the problems of the current line (may be more than one)</li>
+<li>From the editor, press CTRL+1 (altough there are some known bugs with this)</li>
 <li>From the Problem view, select the problem and press CTRL+1. A dialog with the proposals will be shown.</li>
 <li>From the Analysis view, select the problem, right-click and select Quickfix. A dialog with the proposals will be shown.</li>
-<li>From the Analysis view, select the problem, right-click and select Quickfix (speculative). This launches our speculative analysis and show information about the quick fixes.</li>
 </ul>
 
 
@@ -67,32 +66,28 @@ To be done.
         <h3>
 <a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Experiment results</h3>
 	<p>
-	  We have evaluated our quick fixes by 
-          generating mutants of four transformations in order to create a
-          wide range of problems.  Then, we use our speculative analysis
-	  to check whether each quick fix actually solves its targeted
-	  problem and its impact (i.e., which new problems produces or
-	  fixes as a side-effect).
+	  The completeness of our quickfixes has been evaluated by
+          generating mutants of a transformation in order to create a
+          wide range of problems.  The usefulness has been evaluated
+          by manually quick fixing a transformation written by a
+          third-party.  In both cases the amount of
+          applicable quick fixes and their impact after their
+          application, using the following automation script:
 	  <p>
 <pre>
-Input: Mutated transformation T
-Step 0: Run the static analyser on T, obtaining its list of problems Lp
-Step 1: Confirm or discard potential problems by finding a model witness
+Input: transformation T, list of problems Lp
+
+Step 1: Confirm or discard problems using the model finder
         If discarded, remove problem from Lp
 Step 2: Foreach P in Lp
            Retrieve the set of available quick fixes for P
-           Foreach applicable quick fix Q
-              Discard quick fix if it requires user intervention
-              Count Q as applicable for the problem type of P
-              Apply Q on T speculatively
-                 Copy T into Tq
-                 Apply Q on Tq
-                 Run the static analyser on Tq
-                 Confirm or discard problems for Tq, as in step 1
-              Compute the impact obtaining fixedProblems 
-                 and newProblems
-              If P belongs to newProblems
-                 Mark the application of Q as valid
+           Foreach quick fix, Q
+              Copy T into Tq
+              Apply Q on Tq
+              Run the static analyser on Tq, obtaining
+                   the problems, Lpq, remaining after Q
+              Confirm or discard problems from Lpq, as in step 1
+              Compare Lp and Lpq
 </pre>
 	<p>
 	This script has been carried out using a custom-made
@@ -103,8 +98,9 @@ Step 2: Foreach P in Lp
 	</p>
 
 <ul>
-<li><a href="data/sosym2015/quickfixes_experiment.zip">Complete project (anatlyzer.evaluation.quickfixes)</a></li></li>
-<li><a href="data/sosym2015/quickfixes_results.zip">Excel files with the detailed results (zip compressed)</a></li>
+<li><a href="data/models2015/quickfixes_experiment.zip">Complete project (anatlyzer.evaluation.quickfixes)</a></li></li>
+<li><a href="data/models2015/quickfixes_mutants.xlsx">Results for mutants</a></li>
+<li><a href="data/models2015/quickfixes_cpl2spl.xlsx">Results for CPL2SPL</a></li>
 </ul>
 
 <p>

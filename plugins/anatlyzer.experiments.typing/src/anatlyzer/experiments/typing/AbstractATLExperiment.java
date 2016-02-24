@@ -13,6 +13,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.widgets.Display;
 
 import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -37,16 +39,35 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	
 	protected IFile experimentFile;
 	protected HashMap<String, Object> options;
+	private StyledText messageWindow;
 
 	@Override
 	public void setOptions(HashMap<String, Object> options) {
 		this.options = options;
 	}
 	
+	@Override
+	public void finished() {
+		
+	}
 	
 	@Override
 	public void setExperimentConfiguration(IFile file) {
 		this.experimentFile = file;
+	}
+	
+	@Override
+	public void setMessageWindow(StyledText text) {
+		this.messageWindow = text;
+	}
+	
+	public void showMessage(String txt) {
+		Display.getDefault().asyncExec(new Runnable() {			
+			@Override
+			public void run() {
+				messageWindow.append(txt);
+			}
+		});
 	}
 	
 	@Override
@@ -143,6 +164,11 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	
 	@Override
 	public void saveData(IFile expFile) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void openData(IFile expFile) {
 		throw new UnsupportedOperationException();
 	}
 }

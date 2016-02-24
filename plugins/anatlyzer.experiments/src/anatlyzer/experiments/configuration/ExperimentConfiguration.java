@@ -87,6 +87,8 @@ public class ExperimentConfiguration {
 			}			
 			monitor.worked(1);
 		}
+		
+		experiment.finished();
 	
 	}
 

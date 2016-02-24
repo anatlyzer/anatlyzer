@@ -6,12 +6,14 @@ import java.util.List;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 /**
  * Represents a transformation analysed in the typing experiment.
  * 
  * @author jesus
  */
+@Root(name="transformation")
 public class TETransformation {
 	
 	@Attribute
@@ -23,21 +25,37 @@ public class TETransformation {
 	@ElementList(name="problems")
 	protected List<TEProblem> problems;
 	
-	// @Element
-	protected Exception exception;
+	@Element(required=false)
+	protected TEException exception;
 	
-	public TETransformation(String name, String path) {
-		this.name = name;
-		this.path = path;
+	public TETransformation() {
 		this.problems = new ArrayList<TEProblem>();
 	}
+	
+	public TETransformation(String name, String path) {
+		this();
+		this.name = name;
+		this.path = path;
+	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public String getPath() {
+		return path;
+	}
+	
 	public void addProblem(TEProblem p) {
 		this.problems.add(p);
 	}
 
+	public List<TEProblem> getProblems() {
+		return problems;
+	}
+	
 	public void analysisError(Exception e) {
-		this.exception = e;
+		this.exception = new TEException(e, false);
 	}
 	
 }

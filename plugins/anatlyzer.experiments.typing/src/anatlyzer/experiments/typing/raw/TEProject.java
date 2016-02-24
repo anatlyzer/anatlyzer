@@ -6,12 +6,14 @@ import java.util.List;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 /**
  * Represents a project with analysed transformations.
  * 
  * @author jesus
  */
+@Root(name="project")
 public class TEProject {
 
 	@Attribute
@@ -20,8 +22,12 @@ public class TEProject {
 	@ElementList(name="transformations")
 	protected List<TETransformation> transformations;
 	
+	public TEProject() {
+		this.transformations = new ArrayList<TETransformation>();		
+	}
+	
 	public TEProject(String name) {
-		this.transformations = new ArrayList<TETransformation>();
+		this();
 		this.name = name;
 	}
 

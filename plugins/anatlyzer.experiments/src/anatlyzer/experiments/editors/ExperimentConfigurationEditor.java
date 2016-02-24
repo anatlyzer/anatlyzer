@@ -4,12 +4,9 @@ package anatlyzer.experiments.editors;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.StringWriter;
-import java.text.Collator;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.function.BiFunction;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -24,7 +21,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -33,7 +29,6 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -69,7 +64,7 @@ import anatlyzer.experiments.extensions.NewExperimentExtension.DeclaredAction;
  */
 public class ExperimentConfigurationEditor extends MultiPageEditorPart implements IResourceChangeListener{
 
-	protected static IExperiment experiment;
+	protected IExperiment experiment;
 
 	/** The text editor used in page 0. */
 	private TextEditor editor;
@@ -130,7 +125,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		}
 		
 		
-		layout.numColumns = 3 + actions.size();
+		layout.numColumns = 5 + actions.size();
 		composite.setLayout(layout);
 		
 		// Execute
@@ -158,6 +153,20 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			}
 		});
 
+		
+		Button openData = new Button(composite, SWT.NONE);
+		GridData gdopenData = new GridData(GridData.BEGINNING);
+		gdopenData.horizontalSpan = 1;
+		openData.setLayoutData(gdopenData);
+		openData.setText("Open data");
+		
+		openData.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				openData();
+			}
+		});
+
+		
 		Button exportToExcel = new Button(composite, SWT.NONE);
 		GridData gdExcel = new GridData(GridData.BEGINNING);
 		gdExcel.horizontalSpan = 1;
@@ -295,10 +304,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		}
 	}
 
-	
-	void executeExperiment() {
-		final ExperimentConfiguration conf = readConfigurationFile();		
-
+	void loadExperiment(ExperimentConfiguration conf, BiFunction<IExperiment, String, Boolean> callback) {
 		IExperiment experiment = null;
 		String extension = null;
 		
@@ -318,6 +324,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 				experiment = (IExperiment) c.createExecutableExtension("delegate");
 				IFileEditorInput input = (IFileEditorInput) getEditorInput();
 				experiment.setExperimentConfiguration(input.getFile());
+				experiment.setMessageWindow(text);
 			} catch (CoreException e) {
 				text.setText(e.getMessage());
 				e.printStackTrace();
@@ -326,18 +333,27 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 			break;
 		}
 
-		if ( experiment != null ) {		
+		if ( experiment != null ) {
+			callback.apply(experiment, extension);
+		} else {
+			text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
+		}
+	}
+	
+	void executeExperiment() {
+		final ExperimentConfiguration conf = readConfigurationFile();
+
+		loadExperiment(conf, (experiment, extension) -> {
 			Job job = new ExperimentJob(conf, experiment, extension);
 			job.schedule();
 			job.addJobChangeListener(new JobChangeAdapter() {
 				@Override
 				public void done(IJobChangeEvent event) { 
-					ExperimentConfigurationEditor.experiment = ((ExperimentJob) event.getJob()).experiment;
+					ExperimentConfigurationEditor.this.experiment = ((ExperimentJob) event.getJob()).experiment;
 				}				
 			});
-		} else {
-			text.setText("No experiment has been run. No extension point named '" + conf.extensionID + "' can be found");
-		}
+			return true;
+		});		
 	}
 	
 	protected ExperimentConfiguration readConfigurationFile() {
@@ -368,7 +384,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 
 			Display.getDefault().asyncExec(new Runnable() {
 			    public void run() {
-			    	text.setText(bos.toString());
+			    	text.append(bos.toString());
 			    }
 			  });
 
@@ -397,7 +413,6 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		if ( experiment != null ) {
 			FileEditorInput input = (FileEditorInput) getEditorInput();
 			try {
-				IFile f = input.getFile();
 				experiment.saveData(input.getFile());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -405,4 +420,23 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 		}
 	}
 
+	protected void openData() {
+		FileEditorInput input = (FileEditorInput) getEditorInput();
+		if ( experiment != null ) {
+			try {
+				experiment.openData(input.getFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			loadExperiment(readConfigurationFile(), (exp, extension) -> {
+				// Not very clean, this makes the usage different when open data is used
+				this.experiment = exp;
+				openData();
+				return true;
+			});
+		}
+	}
+
+	
 }

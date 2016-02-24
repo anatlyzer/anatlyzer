@@ -224,37 +224,58 @@ public class AnalyserUtils {
 	}
 	
 	public static String getProblemSeverity(Problem p) {
-		EAnnotation ann = p.eClass().getEAnnotation("info");
+		return getProblemSeverity(p.eClass());
+	}
+	
+	public static String getProblemSeverity(EClass problemClass) {
+		EAnnotation ann = problemClass.getEAnnotation("info");
 		return ann == null ? "no-severity" : ann.getDetails().get("severity");
 	}
 
 	public static String getProblemKind(Problem p) {
-		EAnnotation ann = p.eClass().getEAnnotation("info");
+		return getProblemKind(p.eClass());
+	}
+
+	public static String getProblemKind(EClass problemClass) {
+		EAnnotation ann = problemClass.getEAnnotation("info");
 		return ann == null ? "no-kind" : ann.getDetails().get("kind");
 	}
 
-	
 	public static boolean isStaticPrecision(Problem p) {
-		EAnnotation ann = p.eClass().getEAnnotation("info");
+		return isStaticPrecision(p.eClass());
+	}
+
+	public static boolean isStaticPrecision(EClass problemClass) {
+		EAnnotation ann = problemClass.getEAnnotation("info");
 		if ( ann == null ) 
 			return false;
 		return "static".equals( ann.getDetails().get("prec") );
 	}
 
+	
 	public static int getProblemId(Problem p) {
-		int idx = AtlErrorPackage.eINSTANCE.getEClassifiers().indexOf(p.eClass());
+		return getProblemId(p.eClass());
+	}
+	
+	public static int getProblemId(EClass problemClass) {
+		int idx = AtlErrorPackage.eINSTANCE.getEClassifiers().indexOf(problemClass);
 		if ( idx == -1 ) {
-			System.err.println("No problem class " + p.eClass());
+			System.err.println("No problem class " + problemClass);
 		}
 		return idx;
 	}
+
 	
 	public static boolean isConfirmed(Problem p) {
-		return p.getStatus() == ProblemStatus.STATICALLY_CONFIRMED ||
-			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED ||
-			   p.getStatus() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
+		return isConfirmed(p.getStatus());
 	}
 
+	public static boolean isConfirmed(ProblemStatus status) {
+		return 	status == ProblemStatus.STATICALLY_CONFIRMED ||
+				status == ProblemStatus.ERROR_CONFIRMED ||
+				status == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
+	}
+	
 	public static boolean isDiscarded(Problem p) {
 		return p.getStatus() == ProblemStatus.ERROR_DISCARDED ||
 			   p.getStatus() == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
@@ -273,6 +294,5 @@ public class AnalyserUtils {
 				   s == ProblemStatus.IMPL_INTERNAL_ERROR ||
 				   s == ProblemStatus.NOT_SUPPORTED_BY_USE;			
 	}
-
 	
 }

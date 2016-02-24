@@ -1,44 +1,28 @@
 package anatlyzer.experiments.typing;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
-import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atl.util.ErrorReport;
-import anatlyzer.experiments.export.Category;
-import anatlyzer.experiments.export.CountingModel;
-import anatlyzer.experiments.export.IClassifiedArtefact;
-import anatlyzer.experiments.export.IHint;
-import anatlyzer.experiments.export.SimpleHint;
 import anatlyzer.experiments.extensions.IExperiment;
+import anatlyzer.experiments.typing.export.ExportToExcel;
 import anatlyzer.experiments.typing.raw.TEData;
 import anatlyzer.experiments.typing.raw.TEProblem;
 import anatlyzer.experiments.typing.raw.TEProject;
@@ -53,16 +37,34 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 	}
 	
 	@Override
+	public void projectDone(IProject p) {
+		showMessage("Project " + p.getName() + " finished.\n");
+	}
+	
+	@Override
+	public void finished() {
+		showMessage("Finished!\n");
+	}
+
+	
+	@Override
 	public void perform(IResource resource) {
 		perform(resource, null);
 	}
 
 	@Override
 	public void perform(IResource resource, IProgressMonitor monitor) {
+		if ( ! shouldIncludeProject(resource.getProject())) {
+			// showMessage("Ignored project: " + resource.getProject().getName() + "\n");
+			return;
+		}
+		
 		String projectName = resource.getProject().getName();
 		
 		TEProject project      = expData.getOrCreate(projectName);
 		TETransformation trafo = project.addTransformation(resource.getName(), resource.getFullPath().toPortableString()); 
+		
+		showMessage("  Processing file: " + resource.getFullPath().toOSString() + "\n");
 		
 		AnalyserData original;
 		try {
@@ -136,15 +138,28 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 				(Boolean.parseBoolean((String) this.options.get("conflict_analysis")));
 	}
 
+	private String getMinProject() {
+		return (String) this.options.getOrDefault("min_project", "_A");
+	}
+	
+	private String getMaxProject() {
+		return (String) this.options.getOrDefault("max_project", "Z_");
+	}
+	
+	private boolean shouldIncludeProject(IProject p) {
+		String name = p.getName();
+		String min  = getMinProject();
+		String max  = getMaxProject();
+		
+		return name.compareToIgnoreCase(min) >= 0 && name.compareToIgnoreCase(max) <= 0;		
+	}
 	
 	// ----------- //
 	// UI handlers //
 	// ----------- //
 	
 	public void saveData(IFile expFile) {	
-		IProject project = expFile.getProject();
-		IFolder folder = project.getFolder("data");
-		String fname = folder.getFile(expFile.getFullPath().removeFileExtension().addFileExtension("data").lastSegment()).getLocation().toOSString();
+        String fname = createDataFileName(expFile);
         
 		// http://www.ibm.com/developerworks/library/x-simplexobjs/
 		// http://simple.sourceforge.net/download/stream/doc/examples/examples.php
@@ -155,21 +170,39 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		//		try {
-//			JAXBContext context = JAXBContext.newInstance(TEData.class);
-//			Marshaller m = context.createMarshaller();
-//			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//			
-//			m.marshal(expData, new File(fname));			
-//		} catch (PropertyException e) {
-//			e.printStackTrace();
-//		} catch (JAXBException e) {
-//			e.printStackTrace();
-//		}
-		
 	};
 	
+
+	@Override
+	public void openData(IFile expFile) {
+		String fname = createDataFileName(expFile);
+		
+		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell());
+		fname = dialog.open();
+		if ( fname != null ) {
+			// Read the data
+			Serializer serializer = new Persister();
+			try {
+				TEData expDataLocal = serializer.read(TEData.class, new File(fname));
+				if ( expData != null && MessageDialog.openQuestion(null, "Data already loaded", "Do you want to merge data?") ) {
+					expData.merge(expDataLocal);
+				} else {
+					expData = expDataLocal;
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	public String createDataFileName(IFile expFile) {
+		IProject project = expFile.getProject();
+		IFolder folder = project.getFolder("data");
+		return folder.getFile(expFile.getFullPath().removeFileExtension().addFileExtension("data").lastSegment()).getLocation().toOSString();		
+	}
 	
 	@Override
 	public void printResult(PrintStream out) {
@@ -179,14 +212,12 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 
 	@Override
 	public boolean canExportToExcel() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void exportToExcel(String fileName) throws IOException {
-		// TODO Auto-generated method stub
-		
+		new ExportToExcel(expData).exportToExcel(fileName);
 	}
 
 

@@ -1,44 +1,35 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
 import java.util.List;
-import java.util.Set;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.jface.text.TextViewer;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.impact.ImpactComputation;
 import anatlyzer.atl.model.ATLModel.ITracedATLModel;
-import anatlyzer.atl.problemtracking.ProblemTracker;
-
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.custom.SashForm;
 
 public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeListener {
 	private Table table;
@@ -65,6 +56,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private SashForm sashForm;
 	private Composite composite_1;
 	private Composite composite_2;
+	private TextViewer quickfixInformationText;
 	
 	
 	/**
@@ -123,8 +115,9 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		table.setSize(183, 186);
 		
-		TextViewer textViewer = new TextViewer(composite_1, SWT.BORDER);
-		StyledText styledText = textViewer.getTextWidget();
+		quickfixInformationText = new TextViewer(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		StyledText styledText = quickfixInformationText.getTextWidget();
+		styledText.setWordWrap(true);
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		styledText.setSize(79, 198);
 
@@ -228,7 +221,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tbtmAllProblems.setText("Remaining problems (" + r.getProblems().size() + ")");
 		tblViewerProblems.setInput(r);
 		tblViewerProblems.refresh();
-
+		
 		// Set<Problem> fixedProblems = new ProblemTracker(this.analysisResult, r).fixedProblems();
 		ImpactComputation ic = new ImpactComputation(this.analysisResult, r, (ITracedATLModel) r.getATLModel());
 		ic.perform();
@@ -241,6 +234,30 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		tblViewerNewProblems.refresh();
 		
 		lblProblems.setText(ic.isFixed(this.problem)? "Original problem fixed" : "Original problem not fixed");
+
+
+		String info = current.getAdditionalProposalInfo() + "\n\n";
+		
+		if ( ic.isFixed(this.problem) ) {
+			info += "The fix will solve the problem, ";
+		} else {
+			info += "The fix will NOT solve the problem, ";			
+		}
+
+		if ( ic.getNewProblems().size() > 0 ) {
+			info += "produces " + ic.getNewProblems().size() + " new problems, " ;
+		} else {
+			info += "produces no new problems, " ;			
+		}
+		
+		if ( ic.getFixedProblems().size() > 1 ) {
+			info += "and fixes " + (ic.getFixedProblems().size() - 1) + " additional problems.";
+		} else {		
+			info += "and it does not fix any additional problem.";
+		}
+		
+		this.quickfixInformationText.getTextWidget().setText(info);
+		
 		
 		int i = 0;
 		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {

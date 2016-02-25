@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.function.Consumer;
+
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.libtypes.AtlTypes;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
@@ -25,6 +27,11 @@ public class MapTypeNamespace implements ITypeNamespace {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+		
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		TypingModel model = AnalyserContext.getTypingModel();
@@ -108,4 +115,5 @@ public class MapTypeNamespace implements ITypeNamespace {
 	public ITypeConstraint newTypeConstraint() {
 		throw new UnsupportedOperationException();
 	}
+
 }

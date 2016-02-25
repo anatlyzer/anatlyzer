@@ -26,6 +26,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.UseWitnessFinder;
 import anatlyzer.ui.actions.CheckRuleConflicts;
@@ -100,16 +101,20 @@ public class SpeculativeQuickfixUtils {
 			// For the moment I always copy the meta-model
 			
 			List<String> preconditions = ATLUtils.getPreconditions(inc.getNewModel());
-			AnalyserUtils.extendWithPreconditions(inc.getNewModel(), preconditions, new IAtlFileLoader() {			
-				@Override
-				public Resource load(IFile f) {	throw new IllegalStateException(); }
-				
-				@Override
-				public Resource load(String text) {
-					EMFModel libModel = AtlEngineUtils.loadATLText(text);
-					return libModel.getResource();
-				}
-			});
+			try {
+				AnalyserUtils.extendWithPreconditions(inc.getNewModel(), preconditions, new IAtlFileLoader() {			
+					@Override
+					public Resource load(IFile f) {	throw new IllegalStateException(); }
+					
+					@Override
+					public Resource load(String text) {
+						EMFModel libModel = AtlEngineUtils.loadATLText(text);
+						return libModel.getResource();
+					}
+				});
+			} catch (PreconditionParseError e) {
+				e.printStackTrace();
+			}
 
 			
 			// The analysis is not executed, delegated to the client

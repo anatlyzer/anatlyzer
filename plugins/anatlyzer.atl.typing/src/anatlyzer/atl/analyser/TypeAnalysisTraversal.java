@@ -558,7 +558,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		Type t = attr.typeOf( self.getSource() );
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
-		Type t2 = tspace.getFeatureType(self.getName(), self);
+		Type t2 = tspace.getFeatureType(self.getName(), self, (casted) -> {
+			// Beware this may collide with the other was casted...
+			typ().markImplicitlyCasted(self.getSource(), casted, t);
+			attr.linkExprType(self.getSource(), casted);
+		});
 		
 		computeUndefinedAttribute(self, tspace);
 		

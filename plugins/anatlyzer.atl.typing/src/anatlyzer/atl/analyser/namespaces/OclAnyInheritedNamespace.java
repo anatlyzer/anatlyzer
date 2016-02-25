@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
@@ -29,6 +30,12 @@ public class OclAnyInheritedNamespace implements ITypeNamespace {
 			return null;
 		return r.returnType;
 	}
+	
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+
 
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {

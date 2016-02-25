@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.namespaces;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.errors.Problem;
@@ -35,6 +36,11 @@ public class TypeErrorNamespace implements ITypeNamespace {
 		return typeError;
 	}
 
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+	
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		actions.add(new GetOperationAction(operationName, arguments, node));

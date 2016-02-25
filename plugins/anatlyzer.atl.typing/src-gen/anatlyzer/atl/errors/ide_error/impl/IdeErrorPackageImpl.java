@@ -16,6 +16,7 @@ import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
 import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
 
+import anatlyzer.atl.errors.ide_error.PreconditionParseError;
 import anatlyzer.atl.errors.impl.AnalysisResultPackageImpl;
 
 import anatlyzer.atl.types.TypesPackage;
@@ -39,6 +40,13 @@ public class IdeErrorPackageImpl extends EPackageImpl implements IdeErrorPackage
 	 * @generated
 	 */
 	private EClass couldNotLoadMetamodelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass preconditionParseErrorEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -138,6 +146,24 @@ public class IdeErrorPackageImpl extends EPackageImpl implements IdeErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getPreconditionParseError() {
+		return preconditionParseErrorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPreconditionParseError_Messages() {
+		return (EAttribute)preconditionParseErrorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IdeErrorFactory getIdeErrorFactory() {
 		return (IdeErrorFactory)getEFactoryInstance();
 	}
@@ -163,6 +189,9 @@ public class IdeErrorPackageImpl extends EPackageImpl implements IdeErrorPackage
 		// Create classes and their features
 		couldNotLoadMetamodelEClass = createEClass(COULD_NOT_LOAD_METAMODEL);
 		createEAttribute(couldNotLoadMetamodelEClass, COULD_NOT_LOAD_METAMODEL__URI);
+
+		preconditionParseErrorEClass = createEClass(PRECONDITION_PARSE_ERROR);
+		createEAttribute(preconditionParseErrorEClass, PRECONDITION_PARSE_ERROR__MESSAGES);
 	}
 
 	/**
@@ -197,10 +226,14 @@ public class IdeErrorPackageImpl extends EPackageImpl implements IdeErrorPackage
 
 		// Add supertypes to classes
 		couldNotLoadMetamodelEClass.getESuperTypes().add(theAtlErrorPackage.getLocalProblem());
+		preconditionParseErrorEClass.getESuperTypes().add(theAtlErrorPackage.getLocalProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(couldNotLoadMetamodelEClass, CouldNotLoadMetamodel.class, "CouldNotLoadMetamodel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCouldNotLoadMetamodel_Uri(), ecorePackage.getEString(), "uri", null, 1, 1, CouldNotLoadMetamodel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(preconditionParseErrorEClass, PreconditionParseError.class, "PreconditionParseError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getPreconditionParseError_Messages(), ecorePackage.getEString(), "messages", null, 0, -1, PreconditionParseError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //IdeErrorPackageImpl

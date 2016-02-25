@@ -11,8 +11,9 @@ class Model extends NamedElt {
   attr StyleKind style;
   
   val A[0..1] optionalA;
-  val A[0..1] optionalB;
-  val A[0..1] optionalC; 
+  val B[0..1] optionalB;
+  val C[0..1] optionalC;
+  val D[0..1] optionalD;  
 }
 
 class A extends NamedElt {
@@ -28,9 +29,11 @@ class C extends A {
 }
 
 class C1 extends C {
+  attr String propOfC1;
 }
 
 class C2 extends C {
+  attr String propOfC2;
 }
 
 class D extends A {
@@ -38,12 +41,15 @@ class D extends A {
 }
 
 class D1 extends D {
+  attr String commonOfD;
 }
 
 class D2 extends D {
+  attr String commonOfD;
 }
 
 class D3 extends D {
+  attr String commonOfD;
 }
 
 class D3_B extends D3, B {

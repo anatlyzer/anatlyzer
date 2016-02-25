@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.function.Consumer;
+
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.OCL.Attribute;
@@ -33,6 +35,11 @@ public class OclTypeNamespace implements ITypeNamespace {
 		throw new UnsupportedOperationException(featureName);
 	}
 
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+	
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = AtlTypes.oclType().getOperationReturnType(operationName);

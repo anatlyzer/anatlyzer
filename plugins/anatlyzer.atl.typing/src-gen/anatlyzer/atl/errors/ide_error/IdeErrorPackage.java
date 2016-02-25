@@ -186,6 +186,134 @@ public interface IdeErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.ide_error.impl.PreconditionParseErrorImpl <em>Precondition Parse Error</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.ide_error.impl.PreconditionParseErrorImpl
+	 * @see anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl#getPreconditionParseError()
+	 * @generated
+	 */
+	int PRECONDITION_PARSE_ERROR = 1;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__DEPENDENTS = AtlErrorPackage.LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__DESCRIPTION = AtlErrorPackage.LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__SEVERITY = AtlErrorPackage.LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__NEEDS_CSP = AtlErrorPackage.LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__STATUS = AtlErrorPackage.LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__LOCATION = AtlErrorPackage.LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__FILE_LOCATION = AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__MISSING = AtlErrorPackage.LOCAL_PROBLEM__MISSING;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__RECOVERY = AtlErrorPackage.LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Messages</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__MESSAGES = AtlErrorPackage.LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Precondition Parse Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR_FEATURE_COUNT = AtlErrorPackage.LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Precondition Parse Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR_OPERATION_COUNT = AtlErrorPackage.LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel <em>Could Not Load Metamodel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -205,6 +333,27 @@ public interface IdeErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getCouldNotLoadMetamodel_Uri();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.ide_error.PreconditionParseError <em>Precondition Parse Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Precondition Parse Error</em>'.
+	 * @see anatlyzer.atl.errors.ide_error.PreconditionParseError
+	 * @generated
+	 */
+	EClass getPreconditionParseError();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link anatlyzer.atl.errors.ide_error.PreconditionParseError#getMessages <em>Messages</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Messages</em>'.
+	 * @see anatlyzer.atl.errors.ide_error.PreconditionParseError#getMessages()
+	 * @see #getPreconditionParseError()
+	 * @generated
+	 */
+	EAttribute getPreconditionParseError_Messages();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -246,6 +395,24 @@ public interface IdeErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute COULD_NOT_LOAD_METAMODEL__URI = eINSTANCE.getCouldNotLoadMetamodel_Uri();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.ide_error.impl.PreconditionParseErrorImpl <em>Precondition Parse Error</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.ide_error.impl.PreconditionParseErrorImpl
+		 * @see anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl#getPreconditionParseError()
+		 * @generated
+		 */
+		EClass PRECONDITION_PARSE_ERROR = eINSTANCE.getPreconditionParseError();
+
+		/**
+		 * The meta object literal for the '<em><b>Messages</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PRECONDITION_PARSE_ERROR__MESSAGES = eINSTANCE.getPreconditionParseError_Messages();
 
 	}
 

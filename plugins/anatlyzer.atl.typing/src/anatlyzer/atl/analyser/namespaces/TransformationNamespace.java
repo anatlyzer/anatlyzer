@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -41,7 +42,11 @@ public class TransformationNamespace implements ITypeNamespace {
 		return op.returnType;
 	}
 
-
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+	
 	@Override
 	public boolean hasFeature(String featureName) {
 		return features.containsKey(featureName);

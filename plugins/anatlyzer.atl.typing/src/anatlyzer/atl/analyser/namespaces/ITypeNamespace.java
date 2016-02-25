@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.function.Consumer;
+
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -10,7 +12,20 @@ import anatlyzer.atlext.OCL.Operation;
 
 public interface ITypeNamespace {
 
+	/**
+	 * Returns the type of a feature. As a recovery it may do a kind of implicit casting
+	 * (i.e., looking into subclasses for compatible features). This is notified in the
+	 * call back.
+	 * @param featureName
+	 * @param node
+	 * @param onImplicitCasting
+	 * @return
+	 */
+	Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting);
+	
 	Type getFeatureType(String featureName, LocatedElement node);
+	
+	
 	Type getOperationType(String operationName, Type[] arguments, LocatedElement node);
 	Type getOperatorType(String operatorSymbol, Type optionalArgument, LocatedElement node);
 	

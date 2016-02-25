@@ -37,6 +37,7 @@ import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.ui.configuration.ConfigurationReader;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.WorkspaceLogger;
@@ -173,6 +174,12 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}
+			} catch (PreconditionParseError e) {
+				try {
+					addMarker(file, helperCreator.get(), null, e.getProblem());
+				} catch (CoreException e1) {
+					e.printStackTrace();
+				}
 			}
 			return null;
 		});
@@ -199,6 +206,12 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			} catch (IOException e) {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CannotLoadMetamodel e) {
+				try {
+					addMarker(file, helperCreator.get(), null, e.getProblem());
+				} catch (CoreException e1) {
+					e.printStackTrace();
+				}
+			} catch (PreconditionParseError e) {
 				try {
 					addMarker(file, helperCreator.get(), null, e.getProblem());
 				} catch (CoreException e1) {

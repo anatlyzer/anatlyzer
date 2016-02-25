@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
+import java.util.function.Consumer;
+
 import anatlyzer.atl.analyser.AnalyserContext;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.TupleAttribute;
@@ -28,6 +30,11 @@ public class TupleTypeNamespace implements ITypeNamespace {
 		return AnalyserContext.getErrorModel().signalNoTupleFeature(tuple, featureName, node);
 	}
 
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
+	}
+	
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		return AnalyserContext.getErrorModel().signalNoOperationFound(tuple, operationName, node, null);

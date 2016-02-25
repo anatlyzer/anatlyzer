@@ -29,6 +29,7 @@ import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.experiments.extensions.IExperiment;
@@ -83,7 +84,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected abstract void perform(IResource resource);
 
 	protected AnalyserData executeAnalyser(IResource resource)
-			throws IOException, CoreException, CannotLoadMetamodel {
+			throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 		IFile file = (IFile) resource;
 		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file);
 		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
@@ -99,7 +100,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	}
 	
 	protected AnalyserData executeAnalyser(IResource resource, ATLModel atlModel)
-			throws IOException, CoreException, CannotLoadMetamodel {
+			throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 
 		return new AnalyserExecutor().exec(resource, atlModel, false);
 	}

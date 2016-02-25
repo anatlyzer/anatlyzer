@@ -1,8 +1,10 @@
 package anatlyzer.atl.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -74,7 +76,7 @@ public class AnalyserUtils {
 		return null;
 	}	
 	
-	public static GlobalNamespace prepare(ATLModel atlModel, IAtlFileLoader loader) throws CoreException, CannotLoadMetamodel {
+	public static GlobalNamespace prepare(ATLModel atlModel, IAtlFileLoader loader) throws CoreException, CannotLoadMetamodel, PreconditionParseError {
 		for(String tag : ATLUtils.findCommaTags(atlModel.getRoot(), "lib")) {
 			String[] two = tag.split("=");
 			if ( two.length != 2 ) 
@@ -145,18 +147,25 @@ public class AnalyserUtils {
 		return mm;
 	}
 
-	public static void extendWithPreconditions(ATLModel atlModel, List<String> preconditions, IAtlFileLoader loader) {
+	public static void extendWithPreconditions(ATLModel atlModel, List<String> preconditions, IAtlFileLoader loader) throws PreconditionParseError {
 		if ( preconditions.size() > 0 ) {
 			String text = "library preconditions;";
 			int idx = 0;
 			for (String pre : preconditions) {
 				text = text + "\n-- @precondition \n" + "helper def: precondition_" + idx + " : Boolean = " + pre + ";"; 
+				idx++;
 			}
 			
 			Resource r = loader.load(text);
+			String[] messages = new String[r.getErrors().size()];
+			int i = 0;
 			for (Diagnostic diagnostic : r.getErrors()) {
-				System.out.println(diagnostic);
+				messages[i] = diagnostic.toString();
+				i++;
 			}
+			
+			if ( r.getErrors().size() > 0 )
+				throw new PreconditionParseError(messages);
 			
 			atlModel.extendWithPreconditions(r);
 		}
@@ -206,8 +215,29 @@ public class AnalyserUtils {
 			p.setUri(uri);
 			p.setLocation("1:1-1:1");
 			return p;
+		}		
+	}
+
+	public static class PreconditionParseError extends Exception {
+		private static final long serialVersionUID = 1L;
+		private String[] messages;
+		
+		
+		public PreconditionParseError(String[] messages) {
+			super("Pre-condition parse error: " + Arrays.stream(messages).collect(Collectors.joining("\n")));
+			this.messages = messages;
 		}
 		
+		public Problem getProblem() {
+			anatlyzer.atl.errors.ide_error.PreconditionParseError p = IdeErrorFactory.eINSTANCE.createPreconditionParseError();
+			p.setDescription(this.getMessage());
+			p.setNeedsCSP(false);
+			for (String string : messages) {
+				p.getMessages().add(string);				
+			}
+			p.setLocation("1:1-1:1");
+			return p;
+		}		
 	}
 	
 	public static String getProblemDescription(Problem p) {

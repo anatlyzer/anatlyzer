@@ -11,7 +11,13 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.unit.UnitTest;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OclExpression;
 
 public class TestImplicitCasting extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -118,6 +124,28 @@ public class TestImplicitCasting extends UnitTest {
 		assertEquals(1, problems().size());		
 		assertTrue(problems().get(0) instanceof AccessToUndefinedValue);
 		assertEquals(ProblemStatus.WITNESS_REQUIRED, problems().get(0).getStatus());
+	}
+	
+	@Test
+	public void testFeatureFoundInSubtype_yields_implicit_casting() throws Exception {
+		String T = trafo("feature_found_in_subtype");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(0, problems().size());
+		
+		// src.optionalD.propOfD  => The type of src.optionalC was originally D, but has been casted to the union of all subtypes to 
+		//                           correctly reflect the fact that it can resolve all calls
+		MatchedRule r = (MatchedRule) getModel().getModule().getElements().get(0);
+		Binding b     = r.getOutPattern().getElements().get(0).getBindings().get(0);
+		
+		OclExpression src_optionalD = ((NavigationOrAttributeCallExp) b.getValue()).getSource();
+		
+		assertTrue(src_optionalD.getInferredType() instanceof UnionType);
+		
+		UnionType ut = (UnionType) src_optionalD.getInferredType();		
+		assertTrue(ut.getPossibleTypes().stream().anyMatch(p -> ((Metaclass) p).getName().equals("D1")));
+		assertTrue(ut.getPossibleTypes().stream().anyMatch(p -> ((Metaclass) p).getName().equals("D2")));
+		assertTrue(ut.getPossibleTypes().stream().anyMatch(p -> ((Metaclass) p).getName().equals("D3")));		
 	}
 
 }

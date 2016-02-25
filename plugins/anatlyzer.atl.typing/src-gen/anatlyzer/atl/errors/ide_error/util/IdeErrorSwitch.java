@@ -80,6 +80,15 @@ public class IdeErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case IdeErrorPackage.PRECONDITION_PARSE_ERROR: {
+				PreconditionParseError preconditionParseError = (PreconditionParseError)theEObject;
+				T result = casePreconditionParseError(preconditionParseError);
+				if (result == null) result = caseLocalProblem(preconditionParseError);
+				if (result == null) result = caseProblem(preconditionParseError);
+				if (result == null) result = caseAnalysisInfo(preconditionParseError);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -96,6 +105,21 @@ public class IdeErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseCouldNotLoadMetamodel(CouldNotLoadMetamodel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Precondition Parse Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Precondition Parse Error</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T casePreconditionParseError(PreconditionParseError object) {
 		return null;
 	}
 

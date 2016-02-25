@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -80,36 +82,24 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public EStructuralFeature getStructuralFeatureInfo(String featureName) {
 		return eClass.getEStructuralFeature(featureName);
 	}
+
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node) {
+		return getFeatureType(featureName, node, null);
+	}
 	
 	/* (non-Javadoc)
 	 * @see genericity.compiler.atl.analyser.namespaces.IClassNamespace#getFeatureType(java.lang.String, anatlyzer.atlext.ATL.LocatedElement)
 	 */
 	@Override
-	public Type getFeatureType(String featureName, LocatedElement node) {
-		/*
-		Type t = getExtendedFeature(featureName);
-		if ( t != null) 
-			return t;
-		
-		t = super.getFeatureType(featureName, node);
-		if ( t != null ) {
-			return t;
-		}
-		
-		EStructuralFeature f = eClass.getEStructuralFeature(featureName);
-		if ( f == null ) {
-			return tryRecovery(featureName, node);
-		}
-		
-		return AnalyserContext.getConverter().convert(f, metamodel);
-		*/
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
 		FeatureInfo info = getFeatureInfo(featureName);
 		// This check is needed because getFeatureType has the side effect of signalling
 		// an error is the feature is finally not found. Thus, if in a previous execution
 		// of getFeatureInfo that was the case, then subsequent errors (in other nodes) must
 		// be signalled as well.
 		if ( info == null ) {
-			return tryRecovery(featureName, node);
+			return tryRecovery(featureName, node, onImplicitCasting);
 		}		
 		return info.getType();
 	}
@@ -168,8 +158,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		return null;
 	}
 	
-	private Type tryRecovery(String featureName, LocatedElement node) {			
-		HashSet<EClass> foundClasses = new HashSet<EClass>();
+	private Type tryRecovery(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {			
+		HashSet<Metaclass> foundClasses = new HashSet<Metaclass>();
 		Type returnedType = null;
 		
 		LinkedList<ClassNamespace> pending = new LinkedList<ClassNamespace>();
@@ -183,14 +173,14 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 			
 			EStructuralFeature f = subtype.getEStructuralFeature(featureName);
 			if (f != null) {
-				foundClasses.add(subtype);
+				foundClasses.add(ns.getType());
 				if ( returnedType == null ) {
 					returnedType = AnalyserContext.getConverter().convert(f, metamodel);					
 				}				
 				operationExistsForType = true;
 			} else {			
 				if ( ns.hasFeature(featureName)) {
-					foundClasses.add(ns.eClass);
+					foundClasses.add(ns.getType());
 					if ( returnedType == null ) {
 						returnedType = ns.getFeatureType(featureName, node);
 					}
@@ -209,8 +199,14 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		}
 		
 		if ( foundClasses.size() > 0 && withoutOperation.size() > 0 ) {			
-			AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), foundClasses, withoutOperation, featureName, node);
-			return returnedType;		
+			AnalyserContext.getErrorModel().warningFeatureFoundInSubType(getType(), foundClasses.stream().map(m -> m.getKlass()).collect(Collectors.toSet()), withoutOperation, featureName, node);
+			return returnedType;
+		} else if ( foundClasses.size() > 0 && returnedType != null ) {
+			// This is basically a duck typed operation, so that the receptor type is basically casted
+			// to all compatible subtypes
+			Type castedType = AnalyserContext.getTypingModel().getCommonType(new ArrayList<Metaclass>(foundClasses));
+			onImplicitCasting.accept(castedType);
+			return returnedType;
 		} else {
 			// TODO: Check that the return type of all operations is compatible, actually the 
 			// same type

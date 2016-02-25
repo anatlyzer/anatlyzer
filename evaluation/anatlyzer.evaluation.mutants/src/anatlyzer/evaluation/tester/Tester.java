@@ -67,6 +67,7 @@ import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.evaluation.instrumentation.PossiblyUnresolvedBindingInstrumenter;
 import anatlyzer.evaluation.models.FullModelGenerationStrategy;
@@ -436,7 +437,7 @@ public class Tester {
 				Files.delete(transformation_back_path);
 				if (compileTransformation(transformation, true)==false) return;
 			} 
-			catch (IOException | CoreException | CannotLoadMetamodel e) { e.printStackTrace(); }
+			catch (IOException | CoreException | CannotLoadMetamodel | PreconditionParseError e) { e.printStackTrace(); }
 		}
 	}
 
@@ -707,7 +708,7 @@ public class Tester {
 		        }
 			}
 		} 
-		catch (CoreException | CannotLoadMetamodel e) {
+		catch (CoreException | CannotLoadMetamodel | PreconditionParseError e ) {
 			throw new transException(transException.ERROR.GENERIC_ERROR, e.getMessage());
 		}
 	}

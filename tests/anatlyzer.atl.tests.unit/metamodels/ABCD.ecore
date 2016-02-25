@@ -12,16 +12,16 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="style" eType="#//StyleKind"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="optionalA" eType="#//A"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalB" eType="#//A"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalB" eType="#//B"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalC" eType="#//A"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalC" eType="#//C"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="optionalD" eType="#//D"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="A" eSuperTypes="#//NamedElt">
     <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
         eType="#//A" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aBooleanAttr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="anIntegerAttr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="B" eSuperTypes="#//A">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -29,14 +29,24 @@
   <eClassifiers xsi:type="ecore:EClass" name="C" eSuperTypes="#//A">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfC" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="C1" eSuperTypes="#//C"/>
-  <eClassifiers xsi:type="ecore:EClass" name="C2" eSuperTypes="#//C"/>
+  <eClassifiers xsi:type="ecore:EClass" name="C1" eSuperTypes="#//C">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfC1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="C2" eSuperTypes="#//C">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfC2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="D" eSuperTypes="#//A">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="propOfD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="D1" eSuperTypes="#//D"/>
-  <eClassifiers xsi:type="ecore:EClass" name="D2" eSuperTypes="#//D"/>
-  <eClassifiers xsi:type="ecore:EClass" name="D3" eSuperTypes="#//D"/>
+  <eClassifiers xsi:type="ecore:EClass" name="D1" eSuperTypes="#//D">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commonOfD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="D2" eSuperTypes="#//D">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commonOfD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="D3" eSuperTypes="#//D">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commonOfD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="D3_B" eSuperTypes="#//D3 #//B"/>
   <eClassifiers xsi:type="ecore:EClass" name="D3_B_C" eSuperTypes="#//D3_B #//C"/>
   <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//NamedElt"/>

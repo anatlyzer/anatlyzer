@@ -31,6 +31,15 @@ public interface IdeErrorFactory extends EFactory {
 	CouldNotLoadMetamodel createCouldNotLoadMetamodel();
 
 	/**
+	 * Returns a new object of class '<em>Precondition Parse Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Precondition Parse Error</em>'.
+	 * @generated
+	 */
+	PreconditionParseError createPreconditionParseError();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

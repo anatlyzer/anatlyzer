@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -49,6 +50,11 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
 		return AnalyserContext.getOclAnyInheritedNamespace().getFeatureType(featureName, node);
+	}
+	
+	@Override
+	public Type getFeatureType(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {
+		return getFeatureType(featureName, node);
 	}
 	
 	@Override

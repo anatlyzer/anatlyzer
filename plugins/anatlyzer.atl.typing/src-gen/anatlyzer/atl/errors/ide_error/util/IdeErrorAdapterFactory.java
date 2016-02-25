@@ -77,6 +77,10 @@ public class IdeErrorAdapterFactory extends AdapterFactoryImpl {
 				return createCouldNotLoadMetamodelAdapter();
 			}
 			@Override
+			public Adapter casePreconditionParseError(PreconditionParseError object) {
+				return createPreconditionParseErrorAdapter();
+			}
+			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
 				return createAnalysisInfoAdapter();
 			}
@@ -119,6 +123,20 @@ public class IdeErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCouldNotLoadMetamodelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.ide_error.PreconditionParseError <em>Precondition Parse Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.ide_error.PreconditionParseError
+	 * @generated
+	 */
+	public Adapter createPreconditionParseErrorAdapter() {
 		return null;
 	}
 

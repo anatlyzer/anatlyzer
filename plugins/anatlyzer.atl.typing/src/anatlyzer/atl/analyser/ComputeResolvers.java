@@ -175,9 +175,8 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
-		// Type srcType = attr.typeOf(self.getSource());
 		Type srcType = self.getSource().getInferredType();
-		
+
 		self.setReceptorType( srcType );
 		if ( srcType instanceof Metaclass ) {
 			setMetaclassResolvers(self, (Metaclass) srcType);

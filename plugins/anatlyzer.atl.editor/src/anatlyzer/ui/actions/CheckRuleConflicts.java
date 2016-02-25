@@ -20,6 +20,7 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
 
@@ -40,6 +41,8 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (CannotLoadMetamodel e) {
+			e.printStackTrace();
+		} catch (PreconditionParseError e) {
 			e.printStackTrace();
 		}
 	}

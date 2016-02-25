@@ -1,0 +1,13 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module ffoundinsubtype;
+create OUT : WXYZ from IN : ABCD;
+
+
+rule model {
+	from src : ABCD!Model ( not src.optionalD.oclIsUndefined() )
+    to   tgt : WXYZ!Model (
+    	name <- src.optionalD.commonOfD
+	)
+}
+

@@ -40,6 +40,12 @@
       <experiment
             delegate="anatlyzer.experiments.typing.AnalyseTypeErrors"
             resourceType="file:atl">
+
+         <actions
+               implementation="anatlyzer.experiments.typing.export.ExportToElm"
+               name="Export to Elm format">
+         </actions>
+
       </experiment>
    </extension>
 

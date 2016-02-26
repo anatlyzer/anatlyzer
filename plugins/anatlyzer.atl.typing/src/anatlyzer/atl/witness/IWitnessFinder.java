@@ -20,6 +20,15 @@ public interface IWitnessFinder {
 	public IWitnessFinder catchInternalErrors(boolean b);
 	public IWitnessFinder setDebugMode(boolean b);
 	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
+	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
+	
+	
+	public static enum WitnessGenerationMode {
+		ERROR_PATH,
+		MANDATORY_EFFECTIVE_METAMODEL,
+		MANDATORY_FULL_METAMODEL,
+		FULL_METAMODEL
+	}
 	
 	
 //	public static enum WitnessResult {

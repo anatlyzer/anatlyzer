@@ -47,5 +47,9 @@ public class TEData {
 	public void merge(TEData other) {
 		this.projects.addAll(other.projects);
 	}
+
+	public List<TEProject> getProjects() {
+		return projects;
+	}
 	
 }

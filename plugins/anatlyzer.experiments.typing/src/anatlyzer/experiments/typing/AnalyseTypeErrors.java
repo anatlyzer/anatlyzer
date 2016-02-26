@@ -36,6 +36,10 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 		expData = new TEData();
 	}
 	
+	public TEData getExpData() {
+		return expData;
+	}
+	
 	@Override
 	public void projectDone(IProject p) {
 		showMessage("Project " + p.getName() + " finished.\n");

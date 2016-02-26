@@ -14,6 +14,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import witness.generator.WitnessGeneratorMemory;
+import witness.generator.mmext.ErrorPathMetamodelStrategy;
+import witness.generator.mmext.IMetamodelExtensionStrategy;
+import witness.generator.mmext.MandatoryEffectiveMetamodelStrategy;
+import witness.generator.mmext.MandatoryFullMetamodelStrategy;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -57,6 +61,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	private int foundScope;
 	private IScopeCalculator scopeCalculator;
+	private WitnessGenerationMode mode = WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL;
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -65,6 +70,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.PROBLEMS_IN_PATH;
 		}
 		return find(path, r);
+	}
+	
+	@Override
+	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode) {
+		this.mode  = mode;
+		return this;
 	}
 
 	@Override
@@ -135,15 +146,27 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return ProblemStatus.CANNOT_DETERMINE;
 		}
 		
-		ProblemStatus result = applyUSE(problem, constraint, false); //, preconditions);
+		ProblemStatus result = applyUSE(problem, constraint, false, getMetamodelStrategy()); 
 		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {			
-			ProblemStatus result2 = applyUSE(problem, createTrue(), true);
+			// If 
+			ProblemStatus result2 = applyUSE(problem, createTrue(), true, new MandatoryFullMetamodelStrategy());
 			if ( result2 == ProblemStatus.ERROR_DISCARDED ) {
 				return ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
 			}
 		} 
 		
 		return result;
+	}
+
+	private IMetamodelExtensionStrategy getMetamodelStrategy() {
+		switch (this.mode) {
+		case ERROR_PATH: return new ErrorPathMetamodelStrategy();
+		case MANDATORY_FULL_METAMODEL: return new MandatoryFullMetamodelStrategy();
+		case MANDATORY_EFFECTIVE_METAMODEL: return new MandatoryEffectiveMetamodelStrategy();
+		case FULL_METAMODEL:
+			throw new UnsupportedOperationException();
+		}
+		return null;
 	}
 
 	private OclExpression createTrue() {
@@ -173,7 +196,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		return applyUSE(problem, originalConstraint, forceOnceInstanceOfConcreteClasses, new ArrayList<String>());
 //	}
 	
-	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses) { 
+	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, IMetamodelExtensionStrategy strategy) { 
 		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
 		
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels);
@@ -267,6 +290,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}
+		
+		generator.setMetamodelExtensionStrategy(strategy);
 		generator.setTempDirectoryPath(projectPath);
 		try {
 			if ( ! generator.generate() ) {

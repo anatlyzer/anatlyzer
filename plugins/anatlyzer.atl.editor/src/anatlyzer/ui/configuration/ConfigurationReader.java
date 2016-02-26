@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
 public class ConfigurationReader {
 
@@ -17,13 +18,24 @@ public class ConfigurationReader {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 		String line = null;
 		while( (line = reader.readLine()) != null ) {
+			line = line.trim();
+			
+			if ( line.startsWith("#"))
+				continue;
+			
 			if ( line.startsWith("debug-witness-finder") ) {
 				checkDebug(line);				
 			} else if ( line.startsWith("witness-finder") ) {
 				checkContinuous(line);
 			} else if ( line.startsWith("show-marker") ) {
 				checkShowMarker(line);
-			}			
+			} else if ( line.startsWith("check-discard-cause") ) {
+				checkDiscardCause(line);
+			} else if ( line.startsWith("witness-generation-mode") ) {
+				checkWitnessGenerationMode(line);
+			} else if ( line.startsWith("witness-generation-graphics") ) {
+				checkWitnessGenerationGraphics(line);				
+			}
 		}
 	}
 
@@ -75,6 +87,53 @@ public class ConfigurationReader {
 		}
 	}
 
+	/**
+	 * <pre>
+	 *   check-discard-cause on
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkDiscardCause(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if ( parts[1].equals("on") ) configuration.setCheckDiscardCause(true);
+			else if ( parts[1].equals("off") ) configuration.setCheckDiscardCause(false);
+		}
+	}
+
+	/**
+	 * <pre>
+	 *   witness-generation-mode error-path | mandatory-effective | mandatory-full | full
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkWitnessGenerationMode(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if      ( parts[1].equals("error-path") )			configuration.setWitnessMode(WitnessGenerationMode.ERROR_PATH);
+			else if ( parts[1].equals("mandatory-effective") ) 	configuration.setWitnessMode(WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL);
+			else if ( parts[1].equals("mandatory-full") ) 		configuration.setWitnessMode(WitnessGenerationMode.MANDATORY_FULL_METAMODEL);
+			else if ( parts[1].equals("full") ) 				configuration.setWitnessMode(WitnessGenerationMode.FULL_METAMODEL);			
+		}
+	}
+
+	/**
+	 * <pre>
+	 *   witness-generation-graphics plantuml
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkWitnessGenerationGraphics(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if ( parts[1].equals("plantuml") ) configuration.setWitnessGenerationGraphics("plantuml");
+			else if ( parts[1].equals("off") ) configuration.setWitnessGenerationGraphics(null);
+		}
+	}
+	
 	public static TransformationConfiguration read(InputStream stream) throws IOException {
 		TransformationConfiguration conf = new TransformationConfiguration();
 		new ConfigurationReader(stream, conf);

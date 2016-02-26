@@ -4,12 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
 public class TransformationConfiguration {
 
 	private boolean continousWitnessFinder = false;
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
 	private boolean witnessFinderDebugMode = false;
+	private boolean checkDiscardCause      = false;
+	private WitnessGenerationMode witnessMode = WitnessGenerationMode.MANDATORY_FULL_METAMODEL;
+	private String graphicsType;
 	
 	public TransformationConfiguration() {
 		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
@@ -17,6 +21,23 @@ public class TransformationConfiguration {
 		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
 		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);
 	}
+	
+	public void setWitnessMode(WitnessGenerationMode mode) {
+		this.witnessMode = mode;
+	}
+	
+	public WitnessGenerationMode getWitnessMode() {
+		return witnessMode;
+	}
+	
+	public void setCheckDiscardCause(boolean check) {
+		this.checkDiscardCause = check;
+	}
+	
+	public boolean getCheckDiscardCause() {
+		return checkDiscardCause;
+	}
+	
 	
 	public void setWitnessFinderDebugMode(boolean debug) {
 		this.witnessFinderDebugMode  = debug;
@@ -52,5 +73,13 @@ public class TransformationConfiguration {
 		}
 		return c;
 	}
+
+	public void setWitnessGenerationGraphics(String string) {
+		this.graphicsType = string;
+	}
+	
+	public String getWitnessGenerationGraphics() {
+		return this.graphicsType;
+	}	
 	
 }

@@ -31,6 +31,14 @@ public class TEProject {
 		this.name = name;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public List<TETransformation> getTransformations() {
+		return transformations;
+	}
+	
 	/**
 	 */
 	public TETransformation addTransformation(String name, String path) {

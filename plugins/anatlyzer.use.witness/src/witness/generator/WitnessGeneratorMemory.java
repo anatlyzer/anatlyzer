@@ -1,5 +1,6 @@
 package witness.generator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +22,9 @@ import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import transML.utils.solver.use.Solver_use;
 import witness.generator.USESolverMemory.USEResult;
+import witness.generator.mmext.IMetamodelExtensionStrategy;
+import witness.generator.mmext.MandatoryFullMetamodelStrategy;
+import witness.visualizer.EMFModelPlantUMLSerializer;
 
 // Just for the moment
 public class WitnessGeneratorMemory extends WitnessGenerator {
@@ -35,7 +39,11 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private boolean debugMode = false;
 	private IScopeCalculator scopeCalculator;
 	
+	private IMetamodelExtensionStrategy metamodelExtension = new MandatoryFullMetamodelStrategy();
+	
 	private static Integer index = 0;
+	
+	
 	
 	public WitnessGeneratorMemory(EPackage errorSliceMetamodel,  EPackage effectiveMetamodel, EPackage languageMetamodel, String oclConstraint) {
 		this.effectiveMM = new MetaModel(effectiveMetamodel);
@@ -49,6 +57,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.scopeCalculator = scopeCalculator;
 	}
 
+	public void setMetamodelExtensionStrategy(IMetamodelExtensionStrategy strategy) {
+		if ( strategy == null )
+			throw new IllegalArgumentException();
+		this.metamodelExtension = strategy;
+	}
+	
 	public boolean generate() throws transException {		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
@@ -62,6 +76,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		if ( debugMode ) {		
 			String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
+			
+			if ( witness != null )
+				generateGraphics(witness);
+			
 			return witness != null;
 		} else {
 			USEResult r = null;
@@ -70,6 +88,15 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			else 
 				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, this.additionalConstraints); 
 			return r != null && r.isSatisfiable();
+		}
+	}
+
+	private void generateGraphics(String witness) {
+		try {
+			new EMFModelPlantUMLSerializer(errorMM,witness).generatePNG(witness.substring(0, witness.lastIndexOf("."))+".png");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -88,16 +115,22 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	protected void adaptMetamodels(int idx) {
-		// extend error meta-model with mandatory classes in language meta-model 
-		extendMetamodelWithMandatory(errorMM, languageMM);
-	
-		// extend error meta-model with concrete children classes of abstract leaf classes
-		extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);
-		extendMetamodelWithConcreteLeaves(errorMM, languageMM);
-	
-		// [KM3 meta-models] add instance type name to user-defined data types
-		extendMetamodelWithInstanceTypeNames4DataTypes(errorMM);
-	
+		// This is now delegated to an strategy
+		this.metamodelExtension.extend(errorMM, effectiveMM, languageMM);
+		this.metamodelExtension.adaptDataTypes(errorMM);
+		
+//		// extend error meta-model with mandatory classes in language meta-model 
+//		extendMetamodelWithMandatory(errorMM, languageMM);
+//	
+//		// extend error meta-model with concrete children classes of abstract leaf classes
+//		extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);
+//		extendMetamodelWithConcreteLeaves(errorMM, languageMM);
+//	
+//		// [KM3 meta-models] add instance type name to user-defined data types
+//		extendMetamodelWithInstanceTypeNames4DataTypes(errorMM);
+
+		
+		
 		// copy uri/name/prefix from the language meta-model to the extended error meta-model
 		errorMM.setName    (languageMM.getName() + idx);
 		errorMM.setNsPrefix(languageMM.getNsPrefix() + idx);

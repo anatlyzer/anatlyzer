@@ -30,6 +30,8 @@ public class WitnessUtil {
 	public static IWitnessFinder getFirstWitnessFinder(TransformationConfiguration analysisConfiguration) {
 		IWitnessFinder finder = getFirstWitnessFinder();
 		finder.setDebugMode(analysisConfiguration.isWitnessFinderDebugMode());
+		finder.checkDiscardCause(analysisConfiguration.getCheckDiscardCause());
+		finder.setWitnessGenerationModel(analysisConfiguration.getWitnessMode());
 		return finder;
 	}
 }

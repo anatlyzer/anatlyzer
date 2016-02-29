@@ -22,6 +22,9 @@ public class LetScopeNode extends AbstractDependencyNode {
 		this.let = let;
 	}
 
+	public LetExp getLet() {
+		return let;
+	}
 
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {

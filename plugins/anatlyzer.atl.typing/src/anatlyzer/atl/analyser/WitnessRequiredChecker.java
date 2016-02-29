@@ -11,6 +11,7 @@ import anatlyzer.atl.graph.AbstractPathVisitor;
 import anatlyzer.atl.graph.CallExprNode;
 import anatlyzer.atl.graph.ConditionalNode;
 import anatlyzer.atl.graph.ErrorPathGenerator;
+import anatlyzer.atl.graph.LetScopeNode;
 import anatlyzer.atl.graph.MatchedRuleAbstract;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.ProblemPath;
@@ -41,6 +42,7 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 	private boolean invalidated;
 
 	public boolean isWitnessRequired(ATLModel atlModel, ProblemPath path) {
+		System.out.println(path.getProblem().getLocation());
 		bottomUp(path);
 		if ( ! invalidated ) {
 			invalidated = atlModel.getInlinedPreconditions().stream().
@@ -75,6 +77,15 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 		if ( isExternal(node.getRule()) && node.getRule().getInPattern().getFilter() != null ) {
 			return ! isInvalidated(node.getRule().getInPattern().getFilter());
 		}
+		return true;
+	}
+	
+	@Override
+	public boolean visit(LetScopeNode node) {
+		OclExpression initExpr = node.getLet().getVariable().getInitExpression();
+		if ( isExternal(initExpr) ) {
+			return ! isInvalidated(initExpr);
+		}		
 		return true;
 	}
 	

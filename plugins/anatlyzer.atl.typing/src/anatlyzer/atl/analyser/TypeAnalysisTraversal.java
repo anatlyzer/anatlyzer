@@ -640,7 +640,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 				if ( tspace instanceof ClassNamespace ) {
 					FeatureInfo info = ((ClassNamespace) tspace).getFeatureInfo(nav.getName());
-					hasEmptyCollectionHint = info.mayBeEmptyCollection();
+					if ( info != null ) 
+						hasEmptyCollectionHint = info.mayBeEmptyCollection();
 				}
 			} else if ( self.getSource() instanceof OperationCallExp ) {
 				hasEmptyCollectionHint = ((OperationCallExp) self.getSource()).getOperationName().equals("allInstances");

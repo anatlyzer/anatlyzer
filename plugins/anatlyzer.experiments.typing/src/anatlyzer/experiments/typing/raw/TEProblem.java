@@ -11,7 +11,7 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.AnalyserUtils;
 
 /**
- * A problem detected by teh analyser.
+ * A problem detected by the analyser.
  */
 @Root(name="problem")
 public class TEProblem  {
@@ -36,9 +36,7 @@ public class TEProblem  {
 
 	private EClass problemClass;
 	
-	public TEProblem() {
-		
-	}
+	public TEProblem() { }
 	
 	public TEProblem(Problem problem) {
 		this.problemClass = problem.eClass();
@@ -121,5 +119,13 @@ public class TEProblem  {
 	
 	public String getKind() {
 		return AnalyserUtils.getProblemKind(problemClass);
+	}
+	
+	/**
+	 * TODO: Make a special case for rule conflicts
+	 * @return The unique id of the problem instance made of the location and the problem class
+	 */
+	public String getUniqueId() {
+		return description + " at " + this.location + "[" + getProblemClassName() + "]";
 	}
 }

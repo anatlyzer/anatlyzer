@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -31,6 +32,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.ui.actions.CheckRuleConflicts;
@@ -45,6 +47,17 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	@Override
 	public void setOptions(HashMap<String, Object> options) {
 		this.options = options;
+	}
+	
+	public WitnessGenerationMode getWitnessGenerationMode() {
+		String option = (String) this.options.getOrDefault("witnessmode", "mandatory-effective");
+		
+		if      ( option.equals("error-path") )			 return WitnessGenerationMode.ERROR_PATH;
+		else if ( option.equals("mandatory-effective") ) return WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL;
+		else if ( option.equals("mandatory-full") ) 	 return WitnessGenerationMode.MANDATORY_FULL_METAMODEL;
+		else if ( option.equals("full") ) 				 return WitnessGenerationMode.FULL_METAMODEL;
+		
+		throw new IllegalArgumentException();
 	}
 	
 	@Override
@@ -112,20 +125,25 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 				System.out.println("Confirming: " + new ExpProblem(p).getLocation());
 				System.out.println("--------------------------");
 				
-				ProblemStatus result = null;
-				try {
-					result = createWitnessFinder().find(p, r);
-				} catch ( Exception e ) {
-					result = ProblemStatus.IMPL_INTERNAL_ERROR;
-				}
-				
+				ProblemStatus result = execFinder(p, r);
 				p.setStatus(result);
 			}
 		}
 	}
 
+	protected ProblemStatus execFinder(Problem p, AnalysisResult r) {
+		ProblemStatus result = null;
+		try {
+			result = createWitnessFinder().find(p, r);
+		} catch ( Exception e ) {
+			result = ProblemStatus.IMPL_INTERNAL_ERROR;
+		}
+		return result;
+	}
+	
 	protected IWitnessFinder createWitnessFinder() {
-		return new EclipseUseWitnessFinder().			
+		return new EclipseUseWitnessFinder().	
+				setWitnessGenerationModel(getWitnessGenerationMode()).
 				checkDiscardCause(false);
 	}
 
@@ -172,4 +190,13 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	public void openData(IFile expFile) {
 		throw new UnsupportedOperationException();
 	}
+
+
+	protected String createDataFileName(IFile expFile, String folderName, String extension) {
+		IProject project = expFile.getProject();
+		IFolder folder = project.getFolder(folderName);
+		return folder.getFile(expFile.getFullPath().removeFileExtension().addFileExtension(extension).lastSegment()).getLocation().toOSString();		
+	}
+	
 }
+

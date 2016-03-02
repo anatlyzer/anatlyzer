@@ -1,31 +1,51 @@
 package anatlyzer.experiments.performance;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
+import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
-import anatlyzer.atl.witness.IWitnessFinder;
-import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.experiments.performance.TimeRecorder.SingleExecution;
+import anatlyzer.experiments.performance.export.PerformanceToExcel;
+import anatlyzer.experiments.performance.raw.MeasureResult;
+import anatlyzer.experiments.performance.raw.PEData;
+import anatlyzer.experiments.performance.raw.PEProblemExecution;
+import anatlyzer.experiments.performance.raw.PETime;
+import anatlyzer.experiments.performance.raw.PETransformation;
+import anatlyzer.experiments.performance.raw.PETransformationExecution;
 import anatlyzer.experiments.typing.AbstractATLExperiment;
-import anatlyzer.ui.util.WorkbenchUtil;
+import anatlyzer.experiments.typing.raw.TEData;
 
 public class MeasurePerformance extends AbstractATLExperiment {
 
-	//private static final int NUM_DISCARDED = 5;
-	//private static final int REPETITIONS   = 20 + NUM_DISCARDED;
-	private static final int NUM_DISCARDED = 2;
-	private static final int REPETITIONS   = 5;
+	public static final int NUM_DISCARDED = 0;
+	public static final int REPETITIONS   = 1;
 
 	private static final List<MeasureResult> results = new ArrayList<MeasureResult>();
+	private PEData expData;
 	
 	public MeasurePerformance() {
 		MeasurePathComputationTime.aspectOf().activate();
+		
+		this.expData = new PEData();	
 	}
 	
 	@Override
@@ -37,6 +57,47 @@ public class MeasurePerformance extends AbstractATLExperiment {
 	
 	}
 
+	@Override
+	public void openData(IFile expFile) {
+		String fname = createDataFileName(expFile, "performance", "perf");
+		
+		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell());
+		dialog.setFileName(fname);
+		fname = dialog.open();
+		if ( fname != null ) {
+			// Read the data
+			Serializer serializer = new Persister();
+			try {
+				PEData expDataLocal = serializer.read(PEData.class, new File(fname));
+				if ( expData != null && MessageDialog.openQuestion(null, "Data already loaded", "Do you want to replace?") ) {
+					expData = expDataLocal;
+				} else {
+					expData = expDataLocal;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	
+	
+	}
+	
+	@Override
+	public void saveData(IFile expFile) {
+        String fname = createDataFileName(expFile, "performance", "perf");
+        
+		// http://www.ibm.com/developerworks/library/x-simplexobjs/
+		// http://simple.sourceforge.net/download/stream/doc/examples/examples.php
+		Serializer serializer = new Persister();
+        File result = new File(fname);
+        try {
+			serializer.write(expData, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void printLatexTable(PrintStream out) {
 		out.println("\\begin{table}[h]");
 		out.println("\\caption{Average execution times}");
@@ -60,13 +121,13 @@ public class MeasurePerformance extends AbstractATLExperiment {
 
 	@Override
 	public void exportToExcel(String fileName) throws IOException {
-		// TODO Auto-generated method stub
-		TimeRecorder x = getAnalyserTimeRecorder();
-		System.out.println(x.avgTime() + " millis");
-	
-		printLatexTable(System.out);
+		new PerformanceToExcel(expData).exportToExcel(fileName);
 	}
 
+	/**
+	 * This represents the execution time of the analyser without constraint solving.
+	 * @return
+	 */
 	protected TimeRecorder getAnalyserTimeRecorder() {
 		return MeasurePathComputationTime.aspectOf().analyserTime;
 	}
@@ -98,104 +159,141 @@ public class MeasurePerformance extends AbstractATLExperiment {
 	@Override
 	protected void perform(IResource resource) {
 		try {
-			getAnalyserTimeRecorder().reset();
-			getCreatePathTimeRecorder().reset();
-			getConditionGenTimeRecorder().reset();
-			getSolverTimeRecorder().reset();
-			getEffectiveMetamodelRecorder().reset();
-			getErrorMetamodelRecorder().reset();
-			getExtendMetamodelRecorder().reset();
+			resetAll();
 			
+			/*
 			for(int i = 0; i < NUM_DISCARDED; i++) {			
 				AnalyserData data = executeAnalyser(resource);
 				confirmProblems(data.getProblems(), data);
 			}
+			*/
+			
+			System.out.println("Measuring " + resource.getName());
+		
+			PETransformation trafo = new PETransformation(resource.getName(), resource.getFullPath().toPortableString());
+			
+			for(int i = 0; i < REPETITIONS + NUM_DISCARDED; i++) {			
+				startAll();
+				
+				PETransformationExecution currentExecution = new PETransformationExecution();
+				
+				TimeRecorder totalAnalysis = new TimeRecorder();
+				totalAnalysis.enable();
+				totalAnalysis.start("total");
 
-			getAnalyserTimeRecorder().enable();
-			getCreatePathTimeRecorder().enable();
-			getConditionGenTimeRecorder().enable();
-			getSolverTimeRecorder().enable();
-			getEffectiveMetamodelRecorder().enable();
-			getErrorMetamodelRecorder().enable();
-			getExtendMetamodelRecorder().enable();
-			
-			for(int i = 0; i < REPETITIONS; i++) {			
+				
 				AnalyserData data = executeAnalyser(resource);
-				confirmProblems(data.getProblems(), data);
+				if ( data == null ) {
+					if ( trafo.getExecutions().isEmpty() ) {
+						// Discard the transformation, it is probably a library
+						return;
+					} else {
+						throw new IllegalStateException("Failing now but not before...");
+					}
+				}
+				
+				currentExecution.setAnalysisTime( getSingleTime(getAnalyserTimeRecorder()) );
+				// Record getAnalyserTimeRecorder() -> There should be only one SingleExecution
+				
+				
+				List<Problem> problems = data.getProblems();
+				AnalysisResult r = data;
+				
+				for (Problem p : problems) {
+					if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
+						resetSolver();
+						startSolver();
+						
+						PEProblemExecution exec = new PEProblemExecution(p);
+
+						ProblemStatus result = execFinder(p, r);
+						p.setStatus(result);
+					
+						exec.setFinalStatus(result);
+						currentExecution.addProblemExecution(exec);
+						
+						PETime pathTime = getSingleTime(getCreatePathTimeRecorder());
+						PETime condGenTime = getSingleTime(getConditionGenTimeRecorder());				
+						List<PETime> solverTimes  = mapTimes(getSolverTimeRecorder());
+						PETime effTime = getSingleTime(getEffectiveMetamodelRecorder());
+						// PETime effTime = getSingleTime(getEffectiveMetamodelRecorder());
+						PETime errTime = getSingleTime(getErrorMetamodelRecorder());
+
+						if ( solverTimes.size() == 0 && (AnalyserUtils.isConfirmed(result) || AnalyserUtils.isDiscarded(result)) ) 
+							throw new IllegalStateException("No solver time for " + p.getDescription());
+						
+						exec.setCreatePathTime(pathTime);
+						exec.setConditionGenerationTime(condGenTime);
+						exec.addSolverTimes(solverTimes);
+						exec.setEffectiveMetamodelTime(effTime);
+						exec.setErrorMetamodelTime(errTime);
+						// TODO: Compute the meta-model extension? Error-path strategy does nothing so... no need.						
+						
+					}
+				}
+				
+				
+				totalAnalysis.stop();
+				currentExecution.setTotalTime(getSingleTime(totalAnalysis));
+
+				// The execution is added at then, if there are exceptions no execution is added
+				trafo.addExecution(currentExecution);
+
+				
+				resetAll();
 			}
-			
-			MeasureResult r = new MeasureResult(resource.getFullPath().removeFileExtension().lastSegment());
-			results.add(r);
-			r.analysis = getAnalyserTimeRecorder().avgTime();
-			r.pathGen  = ((double) getCreatePathTimeRecorder().totalTime()) / (REPETITIONS);
-			r.condGen   = ((double) getConditionGenTimeRecorder().totalTime()) / (REPETITIONS);
-			r.numPaths  = getConditionGenTimeRecorder().numRecorded() / REPETITIONS;
-			r.solver    = ((double) getSolverTimeRecorder().totalTime()) / (REPETITIONS);
-			r.numSolver = getSolverTimeRecorder().numRecorded() / REPETITIONS;
-			r.errorMetamodel = ((double) (getEffectiveMetamodelRecorder().totalTime() + getErrorMetamodelRecorder().totalTime() + getExtendMetamodelRecorder().totalTime())) / REPETITIONS;
-			
-//			r.pathGen  = getCreatePathTimeRecorder().avgTime();
-//			r.condGen  = getConditionGenTimeRecorder().avgTime();
+
+			// The transformation data is added when we have been able to
+			// execute everything, without exceptions
+			expData.addTransformation(trafo);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	protected IWitnessFinder createWitnessFinder() {
-		return new UseWitnessFinder() {
-			
-			@Override
-			protected void onUSEInternalError(Exception e) {
-				e.printStackTrace();
-			}
-			
-			private String tempDirectory = null;
-			
-			@Override
-			public String getTempDirectory() {
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						tempDirectory = WorkbenchUtil.getProjectPath();
-					}
-				});
-				return tempDirectory;
-			}
 
-		}.checkDiscardCause(false);
+	private List<PETime> mapTimes(TimeRecorder tr) {
+		return tr.getExecutions().stream().map(e -> new PETime(e.getMillis())).collect(Collectors.toList());		
 	}
-	
-	public static class MeasureResult {
-		public double errorMetamodel;
 
-		public String name;
+	private PETime getSingleTime(TimeRecorder tr) {
+		List<SingleExecution> execs = tr.getExecutions();
+		if ( execs.size() > 1 ) 
+			throw new IllegalStateException();
+		if ( execs.size() == 0 ) 
+			return new PETime(-1);
 		
-		public double analysis;
-		public double pathGen;
-		public double condGen;
-		public double solver;
-
-		public int numPaths;
-		public int numSolver;
-
-		public MeasureResult(String name) {
-			this.name = name;
-		}
-
-		public static String toLatexHeader() {
-			return "{\\bf Trafo.}  & {\\bf Analysis} & {\\bf Path} & {\\bf MM} & {\\bf \\#Paths} & {\\bf Solver} & {\\bf \\#Invok.}  \\\\ \\hline";	
-		}
-		
-		public String toLatexRow() {
-			return String.format(Locale.US, "%s & %.1f & %.1f & %.1f & %d & %.1f & %d  \\\\ \\hline" , 
-					name, analysis, (pathGen + condGen) / numPaths, errorMetamodel / numPaths, numPaths, solver / numSolver, numSolver);
-		}
-		
-		private String formatDouble(double d) {
-			return String.format(Locale.US, "%.1f", d);
-		}
+		SingleExecution e = execs.get(0);
+		return new PETime(e.getMillis());
 	}
-	
+
+	protected void startAll() {
+		getAnalyserTimeRecorder().enable();
+		startSolver();
+	}
+
+	protected void startSolver() {
+		getCreatePathTimeRecorder().enable();
+		getConditionGenTimeRecorder().enable();
+		getSolverTimeRecorder().enable();
+		getEffectiveMetamodelRecorder().enable();
+		getErrorMetamodelRecorder().enable();
+		getExtendMetamodelRecorder().enable();
+	}
+
+	protected void resetAll() {
+		getAnalyserTimeRecorder().reset();
+		resetSolver();
+	}
+
+	protected void resetSolver() {
+		getCreatePathTimeRecorder().reset();
+		getConditionGenTimeRecorder().reset();
+		getSolverTimeRecorder().reset();
+		getEffectiveMetamodelRecorder().reset();
+		getErrorMetamodelRecorder().reset();
+		getExtendMetamodelRecorder().reset();
+	}
+
 }

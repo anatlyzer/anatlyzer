@@ -19,7 +19,30 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.use.witness;bundle-version="0.2.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: anatlyzer.experiments.typing
+Export-Package: anatlyzer.experiments.typing;
+  uses:="anatlyzer.atl.graph,
+   anatlyzer.atl.util,
+   anatlyzer.atl.editor.quickfix,
+   org.apache.poi.ss.usermodel,
+   anatlyzer.atl.errors,
+   anatlyzer.experiments.typing.raw,
+   anatlyzer.atl.errors.atl_error,
+   org.eclipse.swt.custom,
+   anatlyzer.atl.analyser,
+   anatlyzer.experiments,
+   anatlyzer.atl.editor.builder,
+   anatlyzer.experiments.extensions,
+   org.eclipse.ui.plugin,
+   anatlyzer.atl.optimizer,
+   anatlyzer.experiments.export,
+   org.osgi.framework,
+   org.eclipse.core.runtime,
+   anatlyzer.atl.model,
+   anatlyzer.atl.witness,
+   org.eclipse.core.resources,
+   anatlyzer.atl.impact",
+ anatlyzer.experiments.typing.raw;uses:="anatlyzer.atl.errors",
+ org.simpleframework.xml;uses:="org.simpleframework.xml.stream"
 Bundle-ClassPath: lib/commons-io-2.4.jar,
  lib/simple-xml-2.7.1/simple-xml-2.7.1.jar,
  lib/simple-xml-2.7.1/stax-1.2.0.jar,

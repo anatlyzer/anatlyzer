@@ -42,7 +42,6 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 	private boolean invalidated;
 
 	public boolean isWitnessRequired(ATLModel atlModel, ProblemPath path) {
-		System.out.println(path.getProblem().getLocation());
 		bottomUp(path);
 		if ( ! invalidated ) {
 			invalidated = atlModel.getInlinedPreconditions().stream().

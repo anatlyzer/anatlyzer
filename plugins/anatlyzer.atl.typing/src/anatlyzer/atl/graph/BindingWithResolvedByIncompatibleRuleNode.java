@@ -234,7 +234,11 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
 		OclExpression result = null;
-		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
+		Set<MatchedRule> guiltyRules = problem.getRules().stream().map(rri -> (MatchedRule) rri.getElement()).collect(Collectors.toSet());
+
+		List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy()).stream().
+				filter(r -> guiltyRules.contains(r.getRule()) ).collect(Collectors.toList());
+		
 		OclExpression originalValue = binding.getValue();	
 		OclExpression genValue = model.atlCopy(originalValue);	
 		assert(rules.size() > 0);

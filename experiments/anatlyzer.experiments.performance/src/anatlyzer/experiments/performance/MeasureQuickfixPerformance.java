@@ -161,17 +161,17 @@ public class MeasureQuickfixPerformance extends QuickfixEvaluationAbstract {
 	}
 	
 	@Override
-	protected List<Problem> completeSpeculativeAnalysis_withSolver(
+	protected void completeSpeculativeAnalysis_withSolver(
 			AtlProblemQuickfix qfx, AnalysisResult original,
 			AnalysisResult newResult, AppliedQuickfixInfo qi) {
-		return recordTime("completeSpeculativeAnalysis_withSolver", 
+		recordTime("completeSpeculativeAnalysis_withSolver", 
 				() -> { 
 					try {
-						return super.completeSpeculativeAnalysis_withSolver(qfx, original, newResult, qi);
+						super.completeSpeculativeAnalysis_withSolver(qfx, original, newResult, qi);
 					} catch (Exception e) {
 						e.printStackTrace();
-						return null;
 					}
+					return null;
 				},
 				(r, v) -> { 
 					MeasureResult mr = getMeasure(qfx);

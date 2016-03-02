@@ -58,11 +58,11 @@ public aspect MeasurePathComputationTime {
     	analyserTime.stop();
     }
     
-    before() : execution(void anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
+    before() : execution(anatlyzer.atl.graph.ProblemPath anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
     	pathCreation.start(PATH_CREATION_TIME);
     }
     
-    after() : execution(void anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
+    after() : execution(anatlyzer.atl.graph.ProblemPath anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
     	pathCreation.stop();
     }
     
@@ -98,9 +98,20 @@ public aspect MeasurePathComputationTime {
     after() returning: extendMetamodels() {
     	extendMetamodels.stop();
     }
-        
+
+    
+    // Witness finder. This records all invocations from n = 0 to n < scope at once
+    before() : execution(boolean witness.generator.WitnessGeneratorMemory.generate()){
+    	solverTime.start(SOLVER_TIME);
+    }
+    
+    after() :execution(boolean witness.generator.WitnessGeneratorMemory.generate()){
+    	solverTime.stop();
+    }
+
     
     // Find witness
+    /*
     String around(String path, EPackage metamodel, String ocl_constraint, int index) :
     	execution(protected String generateWitness (String, EPackage, String, int) throws transException) &&
     	args(path, metamodel, ocl_constraint, index) {
@@ -123,7 +134,7 @@ public aspect MeasurePathComputationTime {
     		return "";
     	}
     }
-    	
+    */	
     	
     
     /*

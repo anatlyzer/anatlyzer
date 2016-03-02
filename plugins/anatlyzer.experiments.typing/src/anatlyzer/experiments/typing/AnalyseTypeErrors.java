@@ -163,7 +163,7 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 	// ----------- //
 	
 	public void saveData(IFile expFile) {	
-        String fname = createDataFileName(expFile);
+        String fname = createDataFileName(expFile, "data", "data");
         
 		// http://www.ibm.com/developerworks/library/x-simplexobjs/
 		// http://simple.sourceforge.net/download/stream/doc/examples/examples.php
@@ -179,7 +179,7 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 
 	@Override
 	public void openData(IFile expFile) {
-		String fname = createDataFileName(expFile);
+		String fname = createDataFileName(expFile, "data", "data");
 		
 		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell());
 		fname = dialog.open();
@@ -198,14 +198,8 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
-	}
-	
-	public String createDataFileName(IFile expFile) {
-		IProject project = expFile.getProject();
-		IFolder folder = project.getFolder("data");
-		return folder.getFile(expFile.getFullPath().removeFileExtension().addFileExtension("data").lastSegment()).getLocation().toOSString();		
+		
 	}
 	
 	@Override

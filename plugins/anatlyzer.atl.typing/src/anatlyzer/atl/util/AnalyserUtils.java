@@ -305,10 +305,14 @@ public class AnalyserUtils {
 				status == ProblemStatus.ERROR_CONFIRMED ||
 				status == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 	}
+
+	public static boolean isDiscarded(ProblemStatus status) {
+		return status == ProblemStatus.ERROR_DISCARDED ||
+			   status == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
+	}
 	
 	public static boolean isDiscarded(Problem p) {
-		return p.getStatus() == ProblemStatus.ERROR_DISCARDED ||
-			   p.getStatus() == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL;
+		return isDiscarded(p.getStatus());
 	}
 
 	public static boolean isWitnessRequred(Problem p) {

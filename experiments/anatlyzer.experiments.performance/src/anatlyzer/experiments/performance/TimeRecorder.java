@@ -33,6 +33,9 @@ public class TimeRecorder {
 		this.current = System.currentTimeMillis();
 	}
 	
+	public List<SingleExecution> getExecutions() {
+		return executions;
+	}
 
 	public void discard() {
 		if ( ! enabled ) {

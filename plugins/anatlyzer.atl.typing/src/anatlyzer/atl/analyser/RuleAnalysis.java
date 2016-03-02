@@ -2,17 +2,12 @@ package anatlyzer.atl.analyser;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -64,7 +59,6 @@ import anatlyzer.atlext.OCL.VariableExp;
  *
  */
 public class RuleAnalysis extends AbstractAnalyserVisitor {
-	
 	
 	public RuleAnalysis(ATLModel model, GlobalNamespace mm, Unit root) {
 		super(model, mm, root);

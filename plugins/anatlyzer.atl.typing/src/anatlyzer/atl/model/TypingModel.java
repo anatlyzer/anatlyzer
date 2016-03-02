@@ -215,6 +215,14 @@ public class TypingModel {
 		return rc;
 	}
 	
+	public Type newOclType(Type innerType) {
+		ReflectiveClass rc = add(TypesFactory.eINSTANCE.createReflectiveClass());
+		OclTypeNamespace ns = new OclTypeNamespace(this, innerType);
+		rc.setMetamodelRef(ns);
+		return rc;
+	}
+	
+	
 	public ThisModuleType createThisModuleType() {
 		ThisModuleType tm = add(TypesFactory.eINSTANCE.createThisModuleType());
 		return tm;
@@ -695,6 +703,5 @@ public class TypingModel {
 		impl.getContents().add(t);
 		return (T) t;
 	}
-
 
 }

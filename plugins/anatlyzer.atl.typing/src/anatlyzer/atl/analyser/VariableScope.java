@@ -182,9 +182,10 @@ public class VariableScope {
 				// so there are two implementations of (roughly) the same thing. The problem of
 				// getReferredVariable is that it does not work with "self" because there are many
 				// different objects, the current.variables approach is not completely implemented...
-				if ( hasVariable(starting.getReferredVariable().getVarName()) || 
-					 (starting == null && r.vd == null)	 ||  // This is to handle the case of A.allInstances()->first().mayBeNull
-					 starting.getReferredVariable() == r.vd  ) {
+								
+				if ( (	starting == null && r.vd == null)	 ||  // This is to handle the case of A.allInstances()->first().mayBeNull
+						hasVariable(starting.getReferredVariable().getVarName()) || 					
+						starting.getReferredVariable() == r.vd  ) {
 					/*
 					if ( findStartingVarExp(expr) != r.vd) {
 						System.out.println("Additional! " + expr.getLocation() + OclGenerator.gen(expr)+ " : " + r.exprType);

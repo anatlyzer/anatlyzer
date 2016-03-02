@@ -363,7 +363,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		} else if ( operationName.equals("oclIsUndefined") ) {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		} else if ( operationName.equals("oclType") ) {
-			return AnalyserContext.getTypingModel().newOclType();
+			return AnalyserContext.getTypingModel().newOclType(createType(true));
 		} else if ( operationName.equals("refImmediateComposite") ) {
 			return findTypeOfContainer(node);
 		} else if ( operationName.equals("refSetValue") ) {

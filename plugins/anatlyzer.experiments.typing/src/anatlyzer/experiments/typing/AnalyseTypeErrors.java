@@ -73,8 +73,11 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 		AnalyserData original;
 		try {
 			original = executeAnalyser(resource);
-			if ( original == null )
+			if ( original == null ) {
+				// For the moment assuming that a null means that it is a library, since it its typically the case 
+				trafo.setIsLibrary(true);
 				return;
+			}
 						
 			// Compute the problem graph in order to check problem dependences
 			ProblemGraph pGraph = AnalyserUtils.computeProblemGraph(original);

@@ -27,6 +27,9 @@ public class TETransformation {
 	
 	@Element(required=false)
 	protected TEException exception;
+
+	@Attribute(name="isLibrary", required=false)
+	private boolean isLibrary = false;
 	
 	public TETransformation() {
 		this.problems = new ArrayList<TEProblem>();
@@ -44,6 +47,14 @@ public class TETransformation {
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public void setIsLibrary(boolean lib) {
+		this.isLibrary = lib;
+	}
+	
+	public boolean isLibrary() {
+		return isLibrary;
 	}
 	
 	public void addProblem(TEProblem p) {

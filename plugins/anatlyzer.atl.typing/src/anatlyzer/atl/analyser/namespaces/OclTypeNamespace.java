@@ -17,11 +17,21 @@ public class OclTypeNamespace implements ITypeNamespace {
 
 	private TypingModel	typ;
 	private Type theType;
+	private Type innerType;
 
 	public OclTypeNamespace(TypingModel typingModel) {
 		this.typ = typingModel;
 	}
 
+	/**
+	 * This constructor allow things like "self.oclType().allInstances()" to be tracked.
+	 * 
+	 */
+	public OclTypeNamespace(TypingModel typingModel, Type innerType) {
+		this.typ = typingModel;
+		this.innerType = innerType;
+	}
+	
 	@Override
 	public boolean hasFeature(String featureName) {
 		return featureName.equals("name");
@@ -44,6 +54,11 @@ public class OclTypeNamespace implements ITypeNamespace {
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		Type t = AtlTypes.oclType().getOperationReturnType(operationName);
 		if ( t == null ) {
+			// Special case not codified in the ATLlib
+			if ( operationName.equals("allInstances") || operationName.equals("allInstancesFrom") ) {
+				return innerType != null ? this.typ.newSetType(innerType) : this.typ.newSetType(this.typ.newUnknownType());
+			}
+			
 			t = AnalyserContext.getErrorModel().signalNoOperationFound(AnalyserContext.getTypingModel().newStringType(), operationName, node, null);
 		}
 		return t;

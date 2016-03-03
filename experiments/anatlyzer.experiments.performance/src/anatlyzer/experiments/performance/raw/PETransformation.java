@@ -64,10 +64,23 @@ public class PETransformation {
 		List<PETransformationExecution> rest = executions.subList(discard, executions.size());
 		long totalTime = 0;
 		long analysisTime = 0;
+		long pathCreationTime = 0;
+		long treeCreationTime = 0;
+		long parseTime = 0;
+		long metamodelTime = 0;
+		long createATLModelTime = 0;
+		long rawModelFindingTime = 0;
+		
 		for (PETransformationExecution te : rest) {
 			totalTime    += te.getTotalTime().getTime();
 			analysisTime += te.getAnalysisTime().getTime();
-
+			parseTime    += te.getParserTime().getTime();
+			metamodelTime += te.getMetamodelLoadTime().getTime();
+			pathCreationTime += te.getPathGenerationTime().getTime();
+			treeCreationTime += te.getProblemTreeCreationTime().getTime();
+			createATLModelTime += te.getCreateATLModelTime().getTime();
+			rawModelFindingTime += te.getRawModelFindingTime().getTime();
+			
 			Map<String, List<PEProblemExecution>> problemExecs = te.getValidProblemExecutions().stream().collect(Collectors.groupingBy(e -> e.getUniqueId()));
 			checkAllSameExecutions(problemExecs);
 			
@@ -80,7 +93,13 @@ public class PETransformation {
 		
 		avg.setTotalTime(new PETime(totalTime, rest.size()));
 		avg.setAnalysisTime(new PETime(analysisTime, rest.size()));
-
+		avg.setParserTime(new PETime(parseTime, rest.size()));
+		avg.setMetamodelLoadTime(new PETime(metamodelTime, rest.size()));
+		avg.setProblemTreeCreationTime(new PETime(treeCreationTime, rest.size()));
+		avg.setPathGenerationTime(new PETime(pathCreationTime, rest.size()));
+		avg.setCreateATLModelTime(new PETime(createATLModelTime, rest.size()));
+		avg.setRawModelFindingTime(new PETime(rawModelFindingTime, rest.size()));
+		
 		return avg;
 	}
 

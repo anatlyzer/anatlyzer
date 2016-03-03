@@ -77,7 +77,7 @@ public class ProblemGraph {
 	}
 	
 	protected static abstract class AbstractProblemTreeNode implements IProblemTreeNode {
-		protected List<ProblemTreeNode> children = new LinkedList<ProblemTreeNode>();
+		protected List<ProblemTreeNode> children = new ArrayList<ProblemTreeNode>();
 		
 		@Override
 		public List<? extends IProblemTreeNode> getNodes() {
@@ -86,7 +86,8 @@ public class ProblemGraph {
 		
 		protected void add(ProblemPath p) {
 			boolean addedToChildren = false;
-			for (ProblemTreeNode node : children) {
+			
+			for (ProblemTreeNode node : children) {			
 				// Is the problem in the current node (p1) is within the
 				// path to be added (p2), then p2 depends on p1 because
 				// you cannot "execute p2" without probably making p1 fail. 
@@ -94,6 +95,7 @@ public class ProblemGraph {
 				if ( p.isProblemInPath(problem) )   {
 					node.add(p);
 					addedToChildren = true;
+					break;
 				}
 			}
 			

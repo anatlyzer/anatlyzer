@@ -2,11 +2,18 @@ package anatlyzer.experiments.performance;
 
 import org.eclipse.emf.ecore.EPackage;
 
-import transML.exceptions.transException;
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import org.eclipse.m2m.atl.core.emf.EMFModel;
 
 public aspect MeasurePathComputationTime {
+	
+
+	public TimeRecorder parserTime = new TimeRecorder();
+	public TimeRecorder metamodelTime = new TimeRecorder();
+	
 	public TimeRecorder analyserTime = new TimeRecorder();
 	public TimeRecorder pathCreation = new TimeRecorder();
+	public TimeRecorder problemTreeCreation = new TimeRecorder();
 	public TimeRecorder conditionGen = new TimeRecorder();
 	public TimeRecorder solverTime   = new TimeRecorder();
 	public TimeRecorder errorMetamodel = new TimeRecorder();
@@ -14,7 +21,10 @@ public aspect MeasurePathComputationTime {
 	public TimeRecorder extendMetamodels = new TimeRecorder();
 	
 	public static final String ANALYSER_TIME      = "ANALYSER";
+	public static final String PARSER_TIME      = "PARSER";
+	public static final String METAMODEL_TIME      = "METAMODEL";
 	public static final String PATH_CREATION_TIME = "PATH_CREATION_TIME";
+	public static final String PROBLEM_TREE_CREATION_TIME = "PROBLEM_TREE_CREATION_TIME";
 	public static final String CONDITION_GEN_TIME = "COND_GEN_TIME";
 	public static final String SOLVER_TIME = "SOLVER_TIME";
 	public static final String ERROR_METAMODEL = "ERROR_METAMODEL_TIME";
@@ -50,6 +60,28 @@ public aspect MeasurePathComputationTime {
 	}
 	*/
 	
+	// Parsing: not able to make this work, hard-coded in the MeasurePerformance class
+    /*
+	before() : execution(EMFModel anatlyzer.ui.util.AtlEngineUtils.loadATLFile(org.eclipse.core.resources.IFile)){
+    	parserTime.start(PARSER_TIME);
+    }
+
+    after() : execution(org.eclipse.m2m.atl.core.emf.EMFModel anatlyzer.ui.util.AtlEngineUtils.loadATLFile(org.eclipse.core.resources.IFile)){
+    	parserTime.stop();
+    }
+    */
+	
+    // Metamodels
+    before() : execution(GlobalNamespace anatlyzer.atl.util.AnalyserUtils.prepare(..)) {
+    	metamodelTime.start(PARSER_TIME);
+    }
+    
+    after() : execution(GlobalNamespace anatlyzer.atl.util.AnalyserUtils.prepare(..)){
+    	metamodelTime.stop();
+    }
+    
+    
+	// Analysis
     before() : execution(void anatlyzer.atl.analyser.Analyser.perform()){
     	analyserTime.start(ANALYSER_TIME);
     }
@@ -58,12 +90,22 @@ public aspect MeasurePathComputationTime {
     	analyserTime.stop();
     }
     
+    // Path creation
     before() : execution(anatlyzer.atl.graph.ProblemPath anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
     	pathCreation.start(PATH_CREATION_TIME);
     }
     
     after() : execution(anatlyzer.atl.graph.ProblemPath anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
     	pathCreation.stop();
+    }
+    
+    // Construct problem tree 
+    before() : execution(void  anatlyzer.atl.graph.ProblemGraph.addProblemPath(anatlyzer.atl.graph.ProblemPath)){
+    	problemTreeCreation.start(PROBLEM_TREE_CREATION_TIME);
+    }
+    
+    after() : execution(void  anatlyzer.atl.graph.ProblemGraph.addProblemPath(anatlyzer.atl.graph.ProblemPath)){
+    	problemTreeCreation.stop();
     }
     
     before() : execution(anatlyzer.atlext.OCL.OclExpression  anatlyzer.atl.graph.ProblemPath.getWitnessCondition()){

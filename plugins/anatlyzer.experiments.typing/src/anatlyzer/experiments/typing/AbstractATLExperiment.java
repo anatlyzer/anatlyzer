@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -101,13 +102,21 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected AnalyserData executeAnalyser(IResource resource)
 			throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 		IFile file = (IFile) resource;
-		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file);
-		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
+		EMFModel atlEMFModel = parseATLFile(file);
+		ATLModel  atlModel = createATLModel(file, atlEMFModel);
 		if ( !( atlModel.getRoot() instanceof Module) ) {
 			return null; 
 		}
 
 		return executeAnalyser(resource, atlModel);
+	}
+
+	protected ATLModel createATLModel(IFile file, EMFModel atlEMFModel) {
+		return new ATLModel(atlEMFModel.getResource(), file.getFullPath().toPortableString());
+	}
+
+	protected EMFModel parseATLFile(IFile file) {
+		return AtlEngineUtils.loadATLFile(file);
 	}
 	
 	protected ExpAnalyserData copyData(AnalyserData data) { 

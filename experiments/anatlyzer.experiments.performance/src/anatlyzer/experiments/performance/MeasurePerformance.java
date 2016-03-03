@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.simpleframework.xml.Serializer;
@@ -22,6 +23,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.experiments.performance.TimeRecorder.SingleExecution;
 import anatlyzer.experiments.performance.export.PerformanceToExcel;
@@ -33,6 +35,7 @@ import anatlyzer.experiments.performance.raw.PETransformation;
 import anatlyzer.experiments.performance.raw.PETransformationExecution;
 import anatlyzer.experiments.typing.AbstractATLExperiment;
 import anatlyzer.experiments.typing.raw.TEData;
+import anatlyzer.ui.util.AtlEngineUtils;
 
 public class MeasurePerformance extends AbstractATLExperiment {
 
@@ -132,10 +135,27 @@ public class MeasurePerformance extends AbstractATLExperiment {
 		return MeasurePathComputationTime.aspectOf().analyserTime;
 	}
 
+	protected TimeRecorder getParseTimeRecorder() {
+		return MeasurePathComputationTime.aspectOf().parserTime;
+	}
+	
+	protected TimeRecorder getMetamodelTimeRecorder() {
+		return MeasurePathComputationTime.aspectOf().metamodelTime;
+	}
+
+	TimeRecorder createATLModelTimeRecorder = new TimeRecorder();
+	protected TimeRecorder getCreateATLModelTimeRecorder() {
+		return createATLModelTimeRecorder;
+	}
+
 	protected TimeRecorder getCreatePathTimeRecorder() {
 		return MeasurePathComputationTime.aspectOf().pathCreation;
 	}
-	
+
+	protected TimeRecorder getProblemTreeTimeRecorder() {
+		return MeasurePathComputationTime.aspectOf().problemTreeCreation;
+	}
+
 	protected TimeRecorder getConditionGenTimeRecorder() {
 		return MeasurePathComputationTime.aspectOf().conditionGen;
 	}
@@ -193,11 +213,20 @@ public class MeasurePerformance extends AbstractATLExperiment {
 				}
 				
 				currentExecution.setAnalysisTime( getSingleTime(getAnalyserTimeRecorder()) );
-				// Record getAnalyserTimeRecorder() -> There should be only one SingleExecution
+				currentExecution.setParserTime( getSingleTime( getParseTimeRecorder() ));
+				currentExecution.setMetamodelLoadTime( getSingleTime( getMetamodelTimeRecorder() ));
+				currentExecution.setCreateATLModelTime( getSingleTime( getCreateATLModelTimeRecorder() ) );
 				
+				long totalProblemTreeTime = mapTimes(getProblemTreeTimeRecorder()).stream().collect(Collectors.summingLong(t -> t.getTime()));
+				long totalPathGenTime     = mapTimes(getCreatePathTimeRecorder()).stream().collect(Collectors.summingLong(t -> t.getTime()));
+				currentExecution.setProblemTreeCreationTime(new PETime(totalProblemTreeTime));
+				currentExecution.setPathGenerationTime(new PETime(totalPathGenTime));
 				
 				List<Problem> problems = data.getProblems();
 				AnalysisResult r = data;
+		
+				TimeRecorder rawModelFindingTime = new TimeRecorder();
+				rawModelFindingTime.enable();
 				
 				for (Problem p : problems) {
 					if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
@@ -206,8 +235,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 						
 						PEProblemExecution exec = new PEProblemExecution(p);
 
-						ProblemStatus result = execFinder(p, r);
-						p.setStatus(result);
+						rawModelFindingTime.start("RAW_MODEL_FINDER");
+							ProblemStatus result = execFinder(p, r);
+							p.setStatus(result);
+						rawModelFindingTime.stop();
 					
 						exec.setFinalStatus(result);
 						currentExecution.addProblemExecution(exec);
@@ -233,6 +264,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 				}
 				
 				
+				long totalRawModelFindingTime = mapTimes(rawModelFindingTime).stream().collect(Collectors.summingLong(t -> t.getTime()));
+				currentExecution.setRawModelFindingTime(new PETime(totalRawModelFindingTime));
+				
+				
 				totalAnalysis.stop();
 				currentExecution.setTotalTime(getSingleTime(totalAnalysis));
 
@@ -252,7 +287,22 @@ public class MeasurePerformance extends AbstractATLExperiment {
 			e.printStackTrace();
 		}
 	}
+	
+	protected EMFModel parseATLFile(IFile file) {
+		getParseTimeRecorder().start("PARSE");
+		EMFModel r = super.parseATLFile(file);
+		getParseTimeRecorder().stop();
+		return r;
+	}
 
+	@Override
+	protected ATLModel createATLModel(IFile file, EMFModel atlEMFModel) {
+		getCreateATLModelTimeRecorder().start("CREATE_ATL_MODEL");
+		ATLModel r = super.createATLModel(file, atlEMFModel);
+		getCreateATLModelTimeRecorder().stop();
+		return r;
+	}
+	
 	private List<PETime> mapTimes(TimeRecorder tr) {
 		return tr.getExecutions().stream().map(e -> new PETime(e.getMillis())).collect(Collectors.toList());		
 	}
@@ -270,6 +320,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 
 	protected void startAll() {
 		getAnalyserTimeRecorder().enable();
+		getParseTimeRecorder().enable();
+		getCreateATLModelTimeRecorder().enable();
+		getMetamodelTimeRecorder().enable();
+		getProblemTreeTimeRecorder().enable();
 		startSolver();
 	}
 
@@ -284,6 +338,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 
 	protected void resetAll() {
 		getAnalyserTimeRecorder().reset();
+		getParseTimeRecorder().reset();
+		getCreateATLModelTimeRecorder().reset();
+		getMetamodelTimeRecorder().reset();
+		getProblemTreeTimeRecorder().reset();
 		resetSolver();
 	}
 

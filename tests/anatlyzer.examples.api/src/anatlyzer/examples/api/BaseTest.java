@@ -32,6 +32,7 @@ import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ErrorReport;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public class BaseTest {
@@ -64,7 +65,7 @@ public class BaseTest {
 		this.atlTransformationFile = atlTransformationFile;
 
 		long diffs = 0;
-		// for(int i = 0; i < 20; i++) {
+
 		AtlParser atlParser = new AtlParser();
 		ModelFactory modelFactory = new EMFModelFactory();
 		IReferenceModel atlMetamodel = modelFactory
@@ -84,7 +85,7 @@ public class BaseTest {
 		long finishTime = System.currentTimeMillis();
 		diffs += (finishTime - initTime);
 		// }
-		System.out.println("Time: " + (diffs / 1000.0) / 20);
+		System.out.println("Time: " + (diffs / 1000.0));
 	}
 	
 
@@ -209,6 +210,8 @@ public class BaseTest {
 	protected ProblemStatus confirmOrDiscardProblem(LocalProblem problem) {
 		ProblemStatus result = new TestUSEWitnessFinder().
 				setDebugMode(debugMode).
+//				setWitnessGenerationModel(WitnessGenerationMode.ERROR_PATH).
+				setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_FULL_METAMODEL).
 				find(problem, analysisData);
 		return result;
 	}

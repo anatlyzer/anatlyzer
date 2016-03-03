@@ -55,6 +55,9 @@ public class TestRetyping extends UnitTest {
 	public void testFeatureFoundInSubtype_nestedError() throws Exception {
 		System.out
 				.println("TestRetyping.testFeatureFoundInSubtype_nestedError()");
+	
+		this.debugMode = true;
+		
 		String T = trafo("retyping_feature_found_in_subtype");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 	
@@ -62,10 +65,13 @@ public class TestRetyping extends UnitTest {
 		assertTrue(problems().get(0) instanceof OperationFoundInSubtype);
 		assertTrue(problems().get(1) instanceof BindingPossiblyUnresolved);
 		
-		// the constraint for problem(0) is wrong!!! 
-		// TODO: Check
-		// assertEquals(WitnessResult.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(0)));		
-
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
+		
+		// This fails when the possibles subtypes are in the order: D3_B_C,C
+		// This makes src.elements->select(e|e.oclAsType(B3_B_C).aHelperDefinedInC(thisModule))  
+		// 	 and it seems that USE has problems with multiple inheritance
+		// Thus, sometimes it will fail. This is almost logical as there is a previous error
+		// (feature found in subtype) and we are trying to recover (sometimes incorrectly)
 		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));		
 	}
 

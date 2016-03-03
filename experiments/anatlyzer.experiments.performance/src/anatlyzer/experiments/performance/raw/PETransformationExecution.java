@@ -21,8 +21,27 @@ public class PETransformationExecution {
 	@Element(name="analysisTime")
 	private PETime analysisTime;
 
+	@Element(name="parserTime")
+	private PETime parserTime;
+	
+	@Element(name="createATLModelTime")
+	private PETime createATLModelTime;
+
+	@Element(name="metamodelLoadTime")
+	private PETime metamodelLoadTime;
+
+	@Element(name="problemTreeCreationTime")
+	private PETime problemTreeCreationTime;
+
+	@Element(name="pathGenerationTime")
+	private PETime pathGenerationTime;
+
+	@Element(name="rawModelFindingTime")
+	private PETime rawModelFindingTime;
+	
 	@ElementList(name="problemExecutions")
 	private ArrayList<PEProblemExecution> problemExecutions;
+
 
 	public PETransformationExecution() {
 		this.problemExecutions = new ArrayList<PEProblemExecution>();
@@ -57,6 +76,54 @@ public class PETransformationExecution {
 	
 	public PETime getAnalysisTime() {
 		return analysisTime;
+	}
+
+	public void setProblemTreeCreationTime(PETime time) {
+		this.problemTreeCreationTime = time;
+	}
+	
+	public PETime getProblemTreeCreationTime() {
+		return problemTreeCreationTime;
+	}
+
+	public void setPathGenerationTime(PETime peTime) {
+		this.pathGenerationTime = peTime;
+	}
+	
+	public PETime getPathGenerationTime() {
+		return pathGenerationTime;
+	}
+
+	public void setParserTime(PETime t) {
+		this.parserTime = t;
+	}
+
+	public void setMetamodelLoadTime(PETime t) {
+		this.metamodelLoadTime = t;
+	}
+
+	public PETime getParserTime() {
+		return parserTime;
+	}
+	
+	public PETime getMetamodelLoadTime() {
+		return metamodelLoadTime;
+	}
+
+	public void setCreateATLModelTime(PETime t) {
+		this.createATLModelTime = t;
+	}
+	
+	public PETime getCreateATLModelTime() {
+		return createATLModelTime;
+	}
+
+	public void setRawModelFindingTime(PETime peTime) {
+		this.rawModelFindingTime = peTime;
+	}
+	
+	public PETime getRawModelFindingTime() {
+		return rawModelFindingTime;
 	}
 
 }

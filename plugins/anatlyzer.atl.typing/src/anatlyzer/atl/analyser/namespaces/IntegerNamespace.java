@@ -68,9 +68,9 @@ public class IntegerNamespace extends PrimitiveTypeNamespace {
 		}
 
 		
-		// return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
 		// TODO: Remove exception when all cases are completely clear
-		throw new UnsupportedOperationException(operatorSymbol + " - " + node.getLocation());
+		// throw new UnsupportedOperationException(operatorSymbol + " - " + node.getLocation());
 	}
 	
 	@Override

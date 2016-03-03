@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EObject;
 import org.xml.sax.ext.LexicalHandler;
@@ -1041,7 +1043,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		computeEmptyCollection(self);
 		
 		// Check the condition that discard access to empty collections
-		if ( self.getOperationName().equals("notEmpty") || self.getOperationName().equals("isEmpty") ) {
+		if ( isNotEmptyCollection(self) || isEmptyCollection(self) ) {
 			int numberOfNegations = computeConditionPosition(self);
 
 			if ( numberOfNegations != -1 ) {
@@ -1050,21 +1052,52 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				VariableDeclaration vd = ve == null ? null : ve.getReferredVariable();
 				boolean hasNegation = numberOfNegations % 2 == 1;
 				if ( ! hasNegation ) {
-					if ( self.getOperationName().equals("isEmpty") ) {
+					if ( isEmptyCollection(self) ) {
 						attr.getVarScope().putIsEmptyCollection(vd, self.getSource());
-					} else if ( self.getOperationName().equals("notEmpty") ) {
+					} else if ( isNotEmptyCollection(self) ) {
 						attr.getVarScope().putIsNotEmptyCollection(vd, self.getSource());
 					}
 				} else {
-					if ( self.getOperationName().equals("notEmpty") ) {
-						attr.getVarScope().putIsNotEmptyCollection(vd, self.getSource());
-					} else if ( self.getOperationName().equals("isEmpty") ) {
+					if ( isNotEmptyCollection(self) ) {
 						attr.getVarScope().putIsEmptyCollection(vd, self.getSource());
+					} else if ( isEmptyCollection(self) ) {
+						attr.getVarScope().putIsNotEmptyCollection(vd, self.getSource());
 					}
 				}
 			}
 
 		}
+	}
+
+
+	protected boolean isEmptyCollection(final CollectionOperationCallExp self) {
+		return self.getOperationName().equals("isEmpty") || 
+				isCollectionSize(self, (op, arg) -> "=".equals(op) && isIntLiteral(arg, (i) -> i == 0)); 
+	}
+
+
+	private boolean isIntLiteral(OclExpression arg, Function<Integer, Boolean> f) {
+		return (arg instanceof IntegerExp) && f.apply( ((IntegerExp) arg).getIntegerSymbol() );
+	}
+
+
+	private boolean isCollectionSize(CollectionOperationCallExp self, BiFunction<String, OclExpression, Boolean> checker) {
+		EObject container = self.eContainer();
+		if ( container instanceof OperatorCallExp ) {
+			OperatorCallExp op = (OperatorCallExp) container;
+			return op.getArguments().size() == 1 ? checker.apply(op.getOperationName(), op.getArguments().get(0)) : false;
+		}
+		return false;
+	}
+
+
+	protected boolean isNotEmptyCollection(final CollectionOperationCallExp self) {
+		return self.getOperationName().equals("notEmpty") || 
+				isCollectionSize(self, (op, arg) -> {
+					return ( ">".equals(op) && isIntLiteral(arg, (i) -> i >= 0) ) || 
+						   ( ">=".equals(op) && isIntLiteral(arg, (i) -> i > 0) ) ||
+						   ( "=".equals(op) && isIntLiteral(arg, (i) -> i != 0) );
+				});
 	}
 
 	@Override

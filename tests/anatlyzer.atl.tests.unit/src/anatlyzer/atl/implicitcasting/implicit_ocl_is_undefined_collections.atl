@@ -1,0 +1,38 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module implicitoclisundefined;
+create OUT : WXYZ from IN : ABCD;
+
+---- No error here
+--helper context ABCD!Model def : simple1() : String = 
+--	if self.elements->isEmpty() then
+--		'noError'
+--	else
+--		self.elements->first().name
+--	endif;
+--
+---- No error here
+--helper context ABCD!Model def : name2() : String = 
+--	if self.elements->size() = 0 then
+--		'noError'
+--	else
+--		self.elements->first().name
+--	endif;
+
+-- The second branch may provoke an error because the if condition is wrong
+-- (due to the not)
+helper context ABCD!Model def : simple() : String = 
+	if not (self.elements->size() = 0) then
+		'noError'
+	else
+		self.elements->first().name
+	endif;
+
+	
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- src.simple() -- src.name1() + '_' + src.name2()
+    )
+}
+

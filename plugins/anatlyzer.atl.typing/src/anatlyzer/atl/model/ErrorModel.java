@@ -372,8 +372,12 @@ public class ErrorModel {
 	public Type signalInvalidOperator(String operatorSymbol, Type t, LocatedElement node) {
 		InvalidOperator error = AtlErrorFactory.eINSTANCE.createInvalidOperator();
 		initProblem(error, node);
+	
+		String postix = "";
+		if ( t != null )
+			postix = "by " + TypeUtils.typeToString(t);
 		
-		signalError(error, "Operator " + operatorSymbol + " not supported by " + TypeUtils.typeToString(t), node);
+		signalError(error, "Operator " + operatorSymbol + " not supported " + postix, node);
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
@@ -63,6 +64,15 @@ public class TestImplicitCasting extends UnitTest {
 		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 	
+	@Test
+	public void testImplicitOclIsUndefined_Collections() throws Exception {
+		String T = trafo("implicit_ocl_is_undefined_collections");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());		
+		assertTrue(problems().get(0) instanceof AccessToUndefinedValue_ThroughEmptyCollection);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
+	}
 	
 	@Test
 	public void testImplicitInRule() throws Exception {

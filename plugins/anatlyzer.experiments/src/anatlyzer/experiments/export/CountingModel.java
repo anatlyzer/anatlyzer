@@ -399,6 +399,9 @@ public class CountingModel<ART extends IClassifiedArtefact> {
 			st.cell(s, row, col + 6, stats.avg);							
 			st.cell(s, row, col + 7, stats.avgAccOccurrences);				
 			
+			// Add description information for readability
+			st.cell(s, row, col + 8, category.getDescription());
+			
 			row++;
 		}
 		/*

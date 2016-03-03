@@ -2,6 +2,7 @@ package anatlyzer.experiments.typing.raw;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -45,5 +46,14 @@ public class TEProject {
 		TETransformation t = new TETransformation(name, path);
 		transformations.add(t);
 		return t;
+	}
+
+	public TEProject filter(ITEFilter filter) {
+		TEProject prj = new TEProject(name);
+		prj.transformations = transformations.stream().
+				filter(t -> filter.include(t)).
+				map(t -> t.filter(filter)).
+				collect(Collectors.toList());
+		return prj;
 	}
 }

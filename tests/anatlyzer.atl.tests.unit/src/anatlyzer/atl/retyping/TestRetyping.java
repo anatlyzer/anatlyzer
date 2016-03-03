@@ -55,7 +55,6 @@ public class TestRetyping extends UnitTest {
 	public void testFeatureFoundInSubtype_nestedError() throws Exception {
 		System.out
 				.println("TestRetyping.testFeatureFoundInSubtype_nestedError()");
-		
 		String T = trafo("retyping_feature_found_in_subtype");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 	

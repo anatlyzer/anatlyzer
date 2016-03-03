@@ -43,7 +43,6 @@ public class TestBindingResolution extends UnitTest {
 
 	@Test
 	public void testBindingResolution_CheckMonoValued() throws Exception {
-		debugMode = true;
 		String T = trafo("NavigationModification_mutant39");
 		typing(T, new Object[] { PNML2PETRINET_PNML, PNML2PETRINET_PETRINET }, new String[] { "PNML", "PetriNet" });
 				

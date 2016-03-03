@@ -18,6 +18,9 @@ class Model extends NamedElt {
 
 class A extends NamedElt {
     val A[*] children;	
+    
+    attr int anIntegerAttr;
+    attr Boolean aBooleanAttr;
 }
 
 class B extends A {

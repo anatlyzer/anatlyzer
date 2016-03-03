@@ -51,5 +51,15 @@ public class TEData {
 	public List<TEProject> getProjects() {
 		return projects;
 	}
+
+	public TEData filter(ITEFilter filter) {
+		TEData newData = new TEData();
+		newData.date = date;
+		newData.projects = projects.stream().
+				filter(p -> filter.include(p)).
+				map(p -> p.filter(filter)).
+				collect(Collectors.toList());
+		return newData;
+	}
 	
 }

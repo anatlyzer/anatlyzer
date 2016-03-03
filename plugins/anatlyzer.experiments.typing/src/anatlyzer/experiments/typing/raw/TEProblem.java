@@ -128,4 +128,18 @@ public class TEProblem  {
 	public String getUniqueId() {
 		return description + " at " + this.location + "[" + getProblemClassName() + "]";
 	}
+
+	public TEProblem copy() {
+		TEProblem p = new TEProblem();
+		p.description = description;
+		p.exception   = exception;
+		p.finalStatus = finalStatus;
+		p.initialStatus = initialStatus;
+		p.isDependent = isDependent;
+		p.location = location;
+		p.problemClass = problemClass;
+		return p;
+	}
+	
+	
 }

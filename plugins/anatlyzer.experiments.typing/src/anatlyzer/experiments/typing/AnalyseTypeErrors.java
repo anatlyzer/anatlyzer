@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
@@ -23,6 +26,8 @@ import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.export.ExportToExcel;
+import anatlyzer.experiments.typing.export.ExportToExcel_NoDependent;
+import anatlyzer.experiments.typing.export.ExportToExcel_Solver;
 import anatlyzer.experiments.typing.raw.TEData;
 import anatlyzer.experiments.typing.raw.TEProblem;
 import anatlyzer.experiments.typing.raw.TEProject;
@@ -86,12 +91,13 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 			for (Problem p : original.getProblems()) {
 				TEProblem p2 = new TEProblem(p);
 				
+				boolean isDependent  = AnalyserUtils.isDependent(p, pGraph);						
+
 				if ( p.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {				
 					System.out.println("--------------------------");				
 					System.out.println("Confirming: " + p2.getLocation());
 					System.out.println("--------------------------");
 					
-					boolean isDependent  = AnalyserUtils.isDependent(p, pGraph);						
 					ProblemStatus result = null;
 					Exception     except = null;
 					try {
@@ -110,7 +116,7 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 					}
 					
 				} else {
-					p2.setFinalStatus(p.getStatus());
+					p2.setFinalStatus(p.getStatus(), isDependent);
 				}
 				
 				trafo.addProblem(p2);
@@ -185,6 +191,7 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 		String fname = createDataFileName(expFile, "data", "data");
 		
 		FileDialog dialog = new FileDialog(Display.getDefault().getActiveShell());
+		dialog.setFileName(fname);
 		fname = dialog.open();
 		if ( fname != null ) {
 			// Read the data
@@ -218,8 +225,15 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 
 	@Override
 	public void exportToExcel(String fileName) throws IOException {
-		new ExportToExcel(expData).exportToExcel(fileName);
+		IFolder all 	= getFolder(experimentFile.getParent(), "report-all");
+		IFolder dep 	= getFolder(experimentFile.getParent(), "report-no-dependent");
+		IFolder solver 	= getFolder(experimentFile.getParent(), "report-solver");
+		
+		new ExportToExcel(expData).exportToExcel(all, experimentFile);		
+		new ExportToExcel_NoDependent(expData).exportToExcel(dep, experimentFile);	
+		new ExportToExcel_Solver(expData).exportToExcel(solver, experimentFile);			
 	}
 
+	
 
 }

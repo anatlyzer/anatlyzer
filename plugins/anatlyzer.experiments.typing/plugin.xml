@@ -46,6 +46,11 @@
                name="Export to Elm format">
          </actions>
 
+         <actions
+               implementation="anatlyzer.experiments.typing.comparison.CompareExperimentData"
+               name="Compare experiment data">
+         </actions>
+
       </experiment>
    </extension>
 

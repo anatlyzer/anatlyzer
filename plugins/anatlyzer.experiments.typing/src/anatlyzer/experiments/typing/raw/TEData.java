@@ -24,6 +24,9 @@ public class TEData {
 	
 	@Attribute
 	protected Date date;
+
+	@Attribute
+	protected String witnessModeOption;
 	
 	public TEData() {
 		this.projects = new ArrayList<TEProject>();
@@ -38,6 +41,10 @@ public class TEData {
 				projects.add(p);
 				return p;
 			});
+	}
+
+	public void setWitnessMode(String witnessModeOption) {
+		this.witnessModeOption = witnessModeOption;
 	}
 	
 	public List<TETransformation> getAllTransformations() {

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -23,8 +22,12 @@ public class TEProject {
 	@ElementList(name="transformations")
 	protected List<TETransformation> transformations;
 	
+	@ElementList(name="excluded", required=false)
+	protected List<TETransformation> excluded;
+	
 	public TEProject() {
 		this.transformations = new ArrayList<TETransformation>();		
+		this.excluded = new ArrayList<TETransformation>();
 	}
 	
 	public TEProject(String name) {
@@ -48,6 +51,11 @@ public class TEProject {
 		return t;
 	}
 
+	public void addExcluded(String trafoName, String path) {
+		TETransformation t = new TETransformation(name, path);
+		excluded.add(t);		
+	}
+	
 	public TEProject filter(ITEFilter filter) {
 		TEProject prj = new TEProject(name);
 		prj.transformations = transformations.stream().
@@ -56,4 +64,7 @@ public class TEProject {
 				collect(Collectors.toList());
 		return prj;
 	}
+
+
+
 }

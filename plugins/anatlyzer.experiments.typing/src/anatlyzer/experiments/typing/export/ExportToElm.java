@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.swt.custom.StyledText;
 
 import anatlyzer.experiments.IExperimentAction;
 import anatlyzer.experiments.extensions.IExperiment;
@@ -21,6 +22,9 @@ public class ExportToElm implements IExperimentAction {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void setMessageWindow(StyledText text) { }
+	
 	@Override
 	public void execute(IExperiment experiment, IFile confFile) {
 		AnalyseTypeErrors analysis = (AnalyseTypeErrors) experiment;

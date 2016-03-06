@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.custom.StyledText;
 
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.experiments.IExperimentAction;
@@ -33,6 +34,9 @@ public class ExportQuickfixesDetail implements IExperimentAction {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void setMessageWindow(StyledText text) { }
+	
 	@Override
 	public void execute(IExperiment experiment, IFile confFile) {
 		QuickfixEvaluationAbstract ev = (QuickfixEvaluationAbstract) experiment;

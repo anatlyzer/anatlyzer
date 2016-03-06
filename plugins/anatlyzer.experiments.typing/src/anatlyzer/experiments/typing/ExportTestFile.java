@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.custom.StyledText;
 
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -23,6 +24,9 @@ public class ExportTestFile implements IExperimentAction {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void setMessageWindow(StyledText text) { }
+	
 	@Override
 	public void execute(IExperiment experiment, IFile confFile) {
 		CountTypeErrors exp = (CountTypeErrors) experiment;

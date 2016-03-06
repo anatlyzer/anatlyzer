@@ -194,6 +194,7 @@ public class ExperimentConfigurationEditor extends MultiPageEditorPart implement
 
 				private void executeAction(IExperimentAction a) {
 					FileEditorInput input = (FileEditorInput) getEditorInput();
+					a.setMessageWindow(text);
 					a.execute(experiment, input.getFile());
 				}
 			});

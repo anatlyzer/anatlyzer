@@ -48,13 +48,13 @@ public class HelperInvocationNode extends AbstractDependencyNode {
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
 		// Problem could be in the rest of the helper structure??
-		return problemInExpression(lp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
 		// Problem could be in the rest of the helper structure??
-		return expressionInExpression(exp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(exp);
+		return expressionInExpressionCached(exp, ATLUtils.getBody(helper)) || checkDependenciesAndConstraints(exp);
 	}
 
 	

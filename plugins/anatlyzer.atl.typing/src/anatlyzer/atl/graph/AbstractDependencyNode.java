@@ -1,10 +1,13 @@
 package anatlyzer.atl.graph;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -29,9 +32,40 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	public LinkedList<DependencyNode> depending    = new LinkedList<DependencyNode>();
 	public LinkedList<ConstraintNode> constraints = new LinkedList<ConstraintNode>();
 	
-	protected Problem	problem;
+	protected Problem problem;
 	protected boolean leadsToExecution = true;
 	
+	// The cache could be shared by the problemGraph...
+	protected HashMap<EObject, Set<OclExpression>> elementInExpressionCache = new HashMap<>(); 
+	
+	public boolean problemInExpressionCached(LocalProblem lp, OclExpression expr) {
+		return elementInExpression(lp.getElement(), expr, new HashSet<OclExpression>());
+	
+//		Set<OclExpression> allExpressions = elementInExpressionCache.get(lp.getElement());
+//		if ( allExpressions != null && allExpressions.contains(expr) ) {
+//			return true;
+//		}
+//		
+//		HashSet<OclExpression> result = new HashSet<OclExpression>();		
+//		getAllExpressions(lp.getElement(), result, (e) -> false);
+//		elementInExpressionCache.put(lp.getElement(), result);
+//		return result.contains(expr);		
+	}
+	
+	public boolean expressionInExpressionCached(OclExpression subExp, OclExpression expr) {
+		return elementInExpression(subExp, expr, new HashSet<OclExpression>());
+
+//		Set<OclExpression> allExpressions = elementInExpressionCache.get(subExp);
+//		if ( allExpressions != null && allExpressions.contains(expr) ) {
+//			return true;
+//		}
+//		
+//		HashSet<OclExpression> result = new HashSet<OclExpression>();		
+//		getAllExpressions(subExp, result, (e) -> false);
+//		elementInExpressionCache.put(subExp, result);
+//		return result.contains(expr);		
+	}
+
 	public static boolean problemInExpression(LocalProblem lp, OclExpression expr) {
 		return elementInExpression(lp.getElement(), expr, new HashSet<OclExpression>());
 	}
@@ -88,11 +122,65 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 					}
 				}
 			}
-		}
-		
+		}		
 		return false;
 	}
 
+	protected static boolean getAllExpressions(EObject root, HashSet<OclExpression> visited, Function<OclExpression, Boolean> checker) {
+		// The recursive calls to getAllExpressions will have an OclExpression as parameter.
+		if ( visited.contains(root) )
+			return false;
+		
+		if ( root instanceof OclExpression ) {
+			OclExpression expr = (OclExpression) root;
+			visited.add(expr);
+			
+			if ( checker.apply(expr) ) {
+				return true;
+			}
+		}
+		
+		TreeIterator<EObject> it = root.eAllContents();
+		while ( it.hasNext() ) {
+			EObject sub = it.next();
+			if ( (sub instanceof OclExpression) && checker.apply((OclExpression) sub) ) {
+				return true;
+			}
+			
+			// Very similar to OclSlice, except that here static rules are considered
+			if ( sub instanceof PropertyCallExp ) {
+				PropertyCallExp pce = (PropertyCallExp) sub;
+				if ( ! pce.isIsStaticCall() ) {
+					EList<ContextHelper> resolvers = pce.getDynamicResolvers();
+					for (ContextHelper contextHelper : resolvers) {
+						OclExpression body = ATLUtils.getBody(contextHelper);
+						if ( getAllExpressions(body, visited, checker))
+							return true;
+					}	
+				} else {
+					if ( pce.getStaticResolver() instanceof StaticHelper ) {
+						StaticHelper moduleHelper = (StaticHelper) pce.getStaticResolver();
+						OclExpression body = ATLUtils.getBody(moduleHelper);
+						if ( getAllExpressions(body, visited, checker))
+							return true; 
+					} else if ( pce.getStaticResolver() instanceof StaticRule ) {
+						EList<RuleVariableDeclaration> variables = ((StaticRule) pce.getStaticResolver()).getVariables();
+						for (RuleVariableDeclaration v : variables) {
+							if ( getAllExpressions(v.getInitExpression(), visited, checker )) {
+								return true;
+							}
+						}
+					} else if ( pce.getStaticResolver() == null ) {
+						// It is built-in operation
+					} else {
+						throw new UnsupportedOperationException(pce.getStaticResolver() + " not considered. " + pce.getLocation() + " " + pce.getFileLocation());
+					}
+				}
+			}
+		}		
+		return false;
+	}
+	
 	protected boolean checkDependenciesAndConstraints(LocalProblem lp) {
 		for (ConstraintNode constraintNode : constraints) {
 			if ( constraintNode.isProblemInPath(lp) ) 

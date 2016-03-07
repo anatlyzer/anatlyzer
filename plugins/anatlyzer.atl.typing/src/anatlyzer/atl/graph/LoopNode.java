@@ -36,13 +36,13 @@ public class LoopNode extends AbstractDependencyNode {
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return 	problemInExpression(lp, receptor) ||
+		return 	problemInExpressionCached(lp, receptor) ||
 				checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return 	expressionInExpression(exp, receptor) ||
+		return 	expressionInExpressionCached(exp, receptor) ||
 				checkDependenciesAndConstraints(exp);
 	}
 	

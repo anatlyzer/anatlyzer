@@ -25,12 +25,12 @@ public abstract class ExpressionProblemNode<P extends LocalProblem> extends Abst
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, expr) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, expr) || checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression subExp) {
-		return expressionInExpression(subExp, expr) || checkDependenciesAndConstraints(subExp);
+		return expressionInExpressionCached(subExp, expr) || checkDependenciesAndConstraints(subExp);
 	}
 
 	@Override

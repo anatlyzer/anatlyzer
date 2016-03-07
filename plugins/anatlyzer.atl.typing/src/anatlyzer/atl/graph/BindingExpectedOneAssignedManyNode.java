@@ -36,12 +36,12 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override
 	public boolean isExpressionInPath(OclExpression expr) {
-		return expressionInExpression(expr, binding.getValue()) || checkDependenciesAndConstraints(expr);
+		return expressionInExpressionCached(expr, binding.getValue()) || checkDependenciesAndConstraints(expr);
 	}
 	
 	@Override

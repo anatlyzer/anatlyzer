@@ -33,12 +33,12 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, start) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, start) || checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, start) || checkDependenciesAndConstraints(exp);
+		return expressionInExpressionCached(exp, start) || checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

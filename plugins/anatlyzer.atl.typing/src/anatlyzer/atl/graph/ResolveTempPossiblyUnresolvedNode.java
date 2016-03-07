@@ -32,12 +32,12 @@ public class ResolveTempPossiblyUnresolvedNode extends AbstractBindingAssignment
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, resolvedExp) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, resolvedExp) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, resolvedExp) || checkDependenciesAndConstraints(exp);
+		return expressionInExpressionCached(exp, resolvedExp) || checkDependenciesAndConstraints(exp);
 	}
 	
 	@Override

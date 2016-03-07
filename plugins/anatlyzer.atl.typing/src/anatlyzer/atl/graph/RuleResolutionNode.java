@@ -33,7 +33,7 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 		for(DependencyNode n : dependencies) {
 			if ( n instanceof MatchedRuleExecution ) {
 				MatchedRuleExecution mre = (MatchedRuleExecution) n;
-				if ( mre.rule.getInPattern().getFilter() != null && problemInExpression(lp, mre.rule.getInPattern().getFilter()) ) {
+				if ( mre.rule.getInPattern().getFilter() != null && problemInExpressionCached(lp, mre.rule.getInPattern().getFilter()) ) {
 					return true;
 				}
 			}
@@ -46,7 +46,7 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 		for(DependencyNode n : dependencies) {
 			if ( n instanceof MatchedRuleExecution ) {
 				MatchedRuleExecution mre = (MatchedRuleExecution) n;
-				if ( mre.rule.getInPattern().getFilter() != null && expressionInExpression(exp, mre.rule.getInPattern().getFilter()) ) {
+				if ( mre.rule.getInPattern().getFilter() != null && expressionInExpressionCached(exp, mre.rule.getInPattern().getFilter()) ) {
 					return true;
 				}
 			}

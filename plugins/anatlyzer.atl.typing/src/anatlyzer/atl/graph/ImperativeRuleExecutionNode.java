@@ -69,7 +69,7 @@ public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 		}
 		*/
 		for(RuleVariableDeclaration v : rule.getVariables()) {
-			if ( problemInExpression(lp, v.getInitExpression())) 
+			if ( problemInExpressionCached(lp, v.getInitExpression())) 
 				return true;
 		}
 		// Problem could be in the rest of the rule parameters??
@@ -79,7 +79,7 @@ public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
 		for(RuleVariableDeclaration v : rule.getVariables()) {
-			if ( expressionInExpression(exp, v.getInitExpression())) 
+			if ( expressionInExpressionCached(exp, v.getInitExpression())) 
 				return true;
 		}
 		// Problem could be in the rest of the rule parameters??

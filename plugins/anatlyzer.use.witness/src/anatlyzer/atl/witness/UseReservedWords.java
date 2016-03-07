@@ -8,6 +8,7 @@ public class UseReservedWords {
 		reserved.put("operations", "operations_");
 		reserved.put("class", "class_");
 		reserved.put("model", "model_");		
+		reserved.put("enum", "enum_");				
 		reserved.put("null", "null_");	
 		reserved.put("context", "context_");
 		reserved.put("if", "if_");

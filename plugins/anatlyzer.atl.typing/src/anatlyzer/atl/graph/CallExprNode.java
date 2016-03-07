@@ -2,7 +2,6 @@ package anatlyzer.atl.graph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -19,9 +18,7 @@ import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -33,7 +30,6 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
-import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -52,18 +48,43 @@ public class CallExprNode extends AbstractDependencyNode {
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, call.getSource());
+		if ( call instanceof OperationCallExp ) {
+			for (OclExpression exp : ((OperationCallExp) call).getArguments()) {
+				OclSlice.slice(slice, exp);
+			}
+		}
 		// call.getSource() does not work, why???
 		generatedDependencies(slice);
 	}
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, call) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, call) || problemInArguments(lp) || checkDependenciesAndConstraints(lp);
 	}
 	
+	private boolean problemInArguments(LocalProblem lp) {
+		if ( call instanceof OperationCallExp ) {
+			for (OclExpression exp : ((OperationCallExp) call).getArguments()) {
+				if ( problemInExpressionCached(lp, exp) ) 
+					return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, call) || checkDependenciesAndConstraints(exp);
+		return expressionInExpressionCached(exp, call) || expressionInArguments(exp) || checkDependenciesAndConstraints(exp);
+	}
+
+	private boolean expressionInArguments(OclExpression expToCheck) {
+		if ( call instanceof OperationCallExp ) {
+			for (OclExpression exp : ((OperationCallExp) call).getArguments()) {
+				if ( expressionInExpressionCached(expToCheck, exp) ) 
+					return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

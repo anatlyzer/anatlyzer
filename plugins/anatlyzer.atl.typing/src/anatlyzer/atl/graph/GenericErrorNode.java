@@ -35,7 +35,7 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
 		if ( element instanceof OclExpression ) {
-			return problemInExpression(lp, (OclExpression) element) || checkDependenciesAndConstraints(lp);
+			return problemInExpressionCached(lp, (OclExpression) element) || checkDependenciesAndConstraints(lp);
 		} else {
 			return checkDependenciesAndConstraints(lp);	
 		}
@@ -44,7 +44,7 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
 		if ( element instanceof OclExpression ) {
-			return expressionInExpression(exp, (OclExpression) element) || checkDependenciesAndConstraints(exp);
+			return expressionInExpressionCached(exp, (OclExpression) element) || checkDependenciesAndConstraints(exp);
 		} else {
 			return checkDependenciesAndConstraints(exp);	
 		}

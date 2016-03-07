@@ -35,15 +35,15 @@ public class LetScopeNode extends AbstractDependencyNode {
 
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return 	problemInExpression(lp, let.getVariable().getInitExpression()) ||
-				problemInExpression(lp, let.getIn_()) ||
+		return 	problemInExpressionCached(lp, let.getVariable().getInitExpression()) ||
+				problemInExpressionCached(lp, let.getIn_()) ||
 				checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return 	expressionInExpression(exp, let.getVariable().getInitExpression()) ||
-				expressionInExpression(exp, let.getIn_()) ||
+		return 	expressionInExpressionCached(exp, let.getVariable().getInitExpression()) ||
+				expressionInExpressionCached(exp, let.getIn_()) ||
 				checkDependenciesAndConstraints(exp);
 	}
 	

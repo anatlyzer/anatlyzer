@@ -61,19 +61,19 @@ public class ConditionalNode extends AbstractDependencyNode {
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, ifExpr.getCondition()) 
+		return problemInExpressionCached(lp, ifExpr.getCondition()) 
 				|| (branch == TRUE_BRANCH ? 
-						problemInExpression(lp, ifExpr.getThenExpression()) :  
-						problemInExpression(lp, ifExpr.getElseExpression()))				
+						problemInExpressionCached(lp, ifExpr.getThenExpression()) :  
+						problemInExpressionCached(lp, ifExpr.getElseExpression()))				
 				|| checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, ifExpr.getCondition()) 
+		return expressionInExpressionCached(exp, ifExpr.getCondition()) 
 				|| (branch == TRUE_BRANCH ? 
-						expressionInExpression(exp, ifExpr.getThenExpression()) :  
-						expressionInExpression(exp, ifExpr.getElseExpression()))				
+						expressionInExpressionCached(exp, ifExpr.getThenExpression()) :  
+						expressionInExpressionCached(exp, ifExpr.getElseExpression()))				
 				|| checkDependenciesAndConstraints(exp);
 	}
 	

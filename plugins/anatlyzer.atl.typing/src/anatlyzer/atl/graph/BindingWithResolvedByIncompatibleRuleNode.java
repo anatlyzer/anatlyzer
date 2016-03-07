@@ -137,12 +137,12 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpression(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
+		return problemInExpressionCached(lp, binding.getValue()) || checkDependenciesAndConstraints(lp);
 	}
 
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpression(exp, binding.getValue()) || checkDependenciesAndConstraints(exp);
+		return expressionInExpressionCached(exp, binding.getValue()) || checkDependenciesAndConstraints(exp);
 	}
 
 	@Override

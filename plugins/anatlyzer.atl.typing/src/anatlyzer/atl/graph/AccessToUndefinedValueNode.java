@@ -24,7 +24,7 @@ public class AccessToUndefinedValueNode extends ExpressionProblemNode<AccessToUn
 	}
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		OclExpression access = model.gen(((PropertyCallExp) expr).getSource());
 		OperationCallExp checkOclIsUndefined = OCLFactory.eINSTANCE.createOperationCallExp();
 		checkOclIsUndefined.setOperationName("oclIsUndefined");

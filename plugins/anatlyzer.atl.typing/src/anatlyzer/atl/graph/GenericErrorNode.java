@@ -59,7 +59,7 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		throw new UnsupportedOperationException();
 	}
 	

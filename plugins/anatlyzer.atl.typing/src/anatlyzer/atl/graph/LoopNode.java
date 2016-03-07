@@ -53,12 +53,12 @@ public class LoopNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		OclExpression newReceptor = model.gen(receptor);
 		IteratorExp exists = model.createExists(newReceptor, iteratorVar.getVarName());
 		model.addToScope(iteratorVar, exists.getIterators().get(0));
 		
-		OclExpression dep = getDepending().genCSP(model);
+		OclExpression dep = getDepending().genCSP(model, this);
 		exists.setBody(dep);
 		
 		return exists;

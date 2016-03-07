@@ -1,0 +1,18 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module polymorphicpath;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!A def: aHelper(param : String) : String = self.name + param;
+helper context ABCD!B def: aHelper(param : String) : String = self.propOfB + param;
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	-- With this expression the path would not be polymorphic becaus the type is exactly b
+    	-- name <- src.elements->select(a | a.oclIsKindOf(ABCD!B))->collect(a | a.aHelper('x'))->first()	
+		
+		-- With this the type can be either A or B, it has to be resolved "at runtime" by the constraint solver
+		name <- src.elements->collect(a | a.aHelper('x'))->first()
+	)
+}

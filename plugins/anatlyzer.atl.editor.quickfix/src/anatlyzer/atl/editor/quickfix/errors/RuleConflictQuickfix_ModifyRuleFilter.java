@@ -159,7 +159,7 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 		IteratorExp ctx = model.createThisModuleContext();
 		model.setThisModuleVariable(ctx.getIterators().get(0));
 		
-		OclExpression theCondition = node.genCSP(model);
+		OclExpression theCondition = node.genCSP(model, null);
 		ctx.setBody(theCondition);
 		
 		OclExpression condition = ctx;

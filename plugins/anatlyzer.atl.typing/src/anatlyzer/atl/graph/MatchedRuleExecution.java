@@ -66,8 +66,8 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
-		return genPathCondition(model, (m) -> getDepending().genCSP(m));
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
+		return genPathCondition(model, (m) -> getDepending().genCSP(m, this));
 	}
 
 	protected OclExpression genRuleIteration(CSPModel model, String iteratorName, TriFunction<IteratorExp, IteratorExp, HashMap<String, VariableDeclaration>, OclExpression> generator) {
@@ -119,7 +119,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			
 			if ( !isProblemWithinFilter && rule.getInPattern().getFilter() != null ) {
 				// => if ( filterCondition ) then <? : whenFilter> else false endif
-				OclExpression condition = this.getConstraint().genCSP(model);
+				OclExpression condition = this.getConstraint().genCSP(model, this);
 				IfExp ifExp = model.createIfExpression(condition, null, model.createBooleanLiteral(false) );
 				
 				// set <? : allInstancesBody>
@@ -226,7 +226,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 				
 				model.openEmptyScope();
 				model.addToScope(rule.getInPattern().getElements().get(0), select.getIterators().get(0));
-				OclExpression condition = this.getConstraint().genCSP(model);
+				OclExpression condition = this.getConstraint().genCSP(model, this);
 				model.closeScope();
 				select.setBody(condition);
 
@@ -238,7 +238,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 			else if ( rule.getInPattern().getFilter() != null ) {
 				
 				// => if ( filterCondition ) then <? : whenFilter> else false endif
-				OclExpression condition = this.getConstraint().genCSP(model);
+				OclExpression condition = this.getConstraint().genCSP(model, this);
 				IfExp ifExp = model.createIfExpression(condition, null, model.createBooleanLiteral(false) );
 				
 				// set <? : forAllBody>

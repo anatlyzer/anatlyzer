@@ -9,7 +9,15 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public interface GraphNode {
-	OclExpression   genCSP(CSPModel model);
+	
+	/**
+	 * Generates a piece of expression of an OCL path condition.
+	 * 
+	 * @param model The builder used to construct the expression
+	 * @param previous The reference to the calling node, in case it is needed	 * 
+	 * @return The piece of generated constraint from this node until the problem-specific node.
+	 */
+	OclExpression   genCSP(CSPModel model, GraphNode previous);
 	OclExpression   genWeakestPrecondition(CSPModel model);
 	
 	void genErrorSlice(ErrorSlice slice);

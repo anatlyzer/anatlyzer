@@ -48,7 +48,7 @@ public abstract class ExpressionProblemNode<P extends LocalProblem> extends Abst
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		return model.createBooleanLiteral(true);
 	}
 

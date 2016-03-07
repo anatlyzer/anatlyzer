@@ -60,6 +60,7 @@ import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclAnyType;
+import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
@@ -361,6 +362,10 @@ public class ATLUtils {
 		return self.getDefinition().getContext_() != null ;
 	}
 
+	public static OclType getHelperContext(Helper self) {
+		return self.getDefinition().getContext_().getContext_();
+	}
+	
 	public static OclType getHelperType(Helper self) {
 		return self.getDefinition().getContext_().getContext_();
 	}
@@ -814,6 +819,17 @@ public class ATLUtils {
 			}
 		}
 		return result;
+	}
+	
+	public static List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {
+		ArrayList<VariableDeclaration> selfs = new ArrayList<VariableDeclaration>();
+		TreeIterator<EObject> it = contextHelper.eAllContents();
+		while ( it.hasNext() ) {
+			EObject atlObj = it.next();
+			if ( atlObj instanceof VariableExp && ((VariableExp) atlObj).getReferredVariable().getVarName().equals("self") )
+				selfs.add(((VariableExp) atlObj).getReferredVariable());
+		}
+		return selfs;
 	}
 	
 	

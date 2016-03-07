@@ -161,7 +161,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 	}
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		// List<RuleResolutionInfo> rules = sortRules(binding.getResolvedBy());
 		EList<ResolvedRuleInfo> rules = problem.getRules();
 

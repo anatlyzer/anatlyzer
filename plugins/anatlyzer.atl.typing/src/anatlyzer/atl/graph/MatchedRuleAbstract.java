@@ -50,7 +50,7 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		// For target variables a new variable is generated, which is not a problem because they are
 		// set to undefined anyway. If not, a binding to overriding variables should be done instead.
 		Pair<LetExp, LetExp> letPair = genLocalVarsLet(model);
@@ -66,7 +66,7 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 		LetExp letInPatternDeclarationInnerLet  = null;
 		if ( rule.getInPattern() != null ) {
 			for (InPatternElement ipe : rule.getInPattern().getElements()) {
-				LetExp let = model.rebind(ipe);	
+				LetExp let = model.rebind(ipe, (tgtVarDcl) -> model.createVarRef(tgtVarDcl));	
 				let.getVariable().setInferredType(ipe.getInferredType());
 				let.getVariable().getAnnotations().put("GEN_INFERRED_DECLARATION", "YES");
 				
@@ -90,15 +90,15 @@ public class MatchedRuleAbstract extends MatchedRuleBase {
 		OclExpression result = null;
 		
 		if ( rule.getInPattern().getFilter() != null ) {
-			OclExpression condition = this.getConstraint().genCSP(model);
+			OclExpression condition = this.getConstraint().genCSP(model, this);
 			IfExp ifExp = model.createIfExpression(condition, null, model.createBooleanLiteral(false) );
-			OclExpression whenFilterExpr = getDepending().genCSP(model);
+			OclExpression whenFilterExpr = getDepending().genCSP(model, this);
 			
 			
 			ifExp.setThenExpression(whenFilterExpr);
 			result = ifExp;
 		} else {
-			OclExpression dep = getDepending().genCSP(model);
+			OclExpression dep = getDepending().genCSP(model, this);
 			result = dep;			
 		}
 		

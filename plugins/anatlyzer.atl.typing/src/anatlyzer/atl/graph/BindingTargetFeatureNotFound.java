@@ -41,7 +41,7 @@ public class BindingTargetFeatureNotFound extends AbstractBindingAssignmentNode<
 	}
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		return model.createBooleanLiteral(true);
 	}
 

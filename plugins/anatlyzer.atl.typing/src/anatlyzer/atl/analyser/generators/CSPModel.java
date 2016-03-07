@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EClass;
 
@@ -326,14 +327,17 @@ public class CSPModel {
 		scope.put(varDcl, newVar);
 	}
 	
-	public LetExp rebind(VariableDeclaration srcVarDcl) {
+	public LetExp rebind(VariableDeclaration srcVarDcl, Function<VariableDeclaration, OclExpression> genInitExpression) {
 		VariableDeclaration tgtVarDcl = scope.getVar(srcVarDcl);		
-		LetExp let = createLetScope(createVarRef(tgtVarDcl), null, tgtVarDcl.getVarName() + "_rebind");
+		LetExp let = createLetScope(genInitExpression.apply(tgtVarDcl), null, tgtVarDcl.getVarName() + "_rebind");
 		// Assumes that a copy of the scope has been made, so that we can redefine
 		scope.put(srcVarDcl, let.getVariable());
 		return let;		
 	}
 
+	public VariableDeclaration getVar(VariableDeclaration srcVarDcl) {
+		return scope.getVar(srcVarDcl);
+	}
 	
 	public void resetScope() {
 		scope.clear();
@@ -455,7 +459,7 @@ public class CSPModel {
 	}
 
 
-	public OclExpression createVarRef(VariableDeclaration vd) {
+	public VariableExp createVarRef(VariableDeclaration vd) {
 		VariableExp varref = OCLFactory.eINSTANCE.createVariableExp();
 		varref.setReferredVariable(vd);
 		return varref;

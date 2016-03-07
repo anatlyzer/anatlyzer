@@ -48,7 +48,7 @@ public class RuleFilterNode implements ConstraintNode {
 
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		return model.gen(expr);
 	}
 

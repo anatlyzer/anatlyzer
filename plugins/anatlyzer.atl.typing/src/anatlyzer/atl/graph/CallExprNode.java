@@ -94,8 +94,8 @@ public class CallExprNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
-		return genInlining(model, () -> getDepending().genCSP(model), (e) -> model.gen(e), false);
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
+		return genInlining(model, () -> getDepending().genCSP(model, this), (e) -> model.gen(e), false);
 	}
 	
 
@@ -147,43 +147,61 @@ public class CallExprNode extends AbstractDependencyNode {
 			return inlineCall;
 		} else {
 			OclExpression receptorExpr = copier.apply(call.getSource());
-			if ( call.getDynamicResolvers().size() > 1 ) 
-				throw new UnsupportedOperationException();
-			
-			ContextHelper contextHelper = call.getDynamicResolvers().get(0);
-			
-			// TODO: There may be several helpers... ??
-			LetExp topLet = model.createLetScope(receptorExpr, null, "genSelf");
-			for (VariableDeclaration vd : findSelfReferences(contextHelper)) {
-				model.addToScope(vd, topLet.getVariable());
+			ContextHelper invokedHelper = null;
+			if ( call.getDynamicResolvers().size() > 1 ) {
+				// throw new UnsupportedOperationException();
+				HelperInvocationNode hn = (HelperInvocationNode) getDepending();
+				invokedHelper = call.getDynamicResolvers().stream().
+					filter(h -> h == hn.getHelper()).
+					findFirst().orElseThrow(() -> new IllegalStateException("Expected helper " + call));
+				
+			} else {
+				// This is what was at the beginning, which works fine for cases when
+				// there is no polymorphism
+				invokedHelper = call.getDynamicResolvers().get(0);
 			}
-
 			
-			if ( setLetType ) topLet.getVariable().setType(ATLUtils.getOclType(receptorExpr.getInferredType()));
-
-			
-			LetExp innerLet = topLet;
-			for(int i = 0; i < contextHelper.getCallableParameters().size(); i++) {
-				EList<CallableParameter> p = contextHelper.getCallableParameters();
-				OclExpression actualParameter = ((OperationCallExp) call).getArguments().get(i);
-				VariableDeclaration paramVar  = p.get(i).getParamDeclaration();
-				String varName = p.get(i).getName();
-				
-				LetExp let = model.createLetScope(copier.apply(actualParameter), null, varName);
-				if ( setLetType ) let.getVariable().setType(ATLUtils.getOclType(actualParameter.getInferredType()));
-				
-				VariableDeclaration newVar = let.getVariable();
-				model.addToScope(paramVar, newVar);
-				
-				innerLet.setIn_(let);
-				innerLet = let;
-			}
-
-			
-			OclExpression inlineCall   = genDepending.get(); // getDepending().genCSP(model);
-			innerLet.setIn_(inlineCall);
-			return topLet;	
+			LetExp topLet = genCodeForDynamicResolver(model, genDepending,
+					copier, setLetType, receptorExpr, invokedHelper);
+			return topLet;
 		}
+	}
+
+	protected LetExp genCodeForDynamicResolver(CSPModel model,
+			Supplier<OclExpression> genDepending,
+			Function<OclExpression, OclExpression> copier, boolean setLetType,
+			OclExpression receptorExpr, ContextHelper contextHelper) {
+		// TODO: There may be several helpers... ??
+		LetExp topLet = model.createLetScope(receptorExpr, null, "genSelf");
+		for (VariableDeclaration vd : ATLUtils.findSelfReferences(contextHelper)) {
+			model.addToScope(vd, topLet.getVariable());
+		}
+
+		
+		if ( setLetType ) topLet.getVariable().setType(ATLUtils.getOclType(receptorExpr.getInferredType()));
+
+		
+		LetExp innerLet = topLet;
+		for(int i = 0; i < contextHelper.getCallableParameters().size(); i++) {
+			EList<CallableParameter> p = contextHelper.getCallableParameters();
+			OclExpression actualParameter = ((OperationCallExp) call).getArguments().get(i);
+			VariableDeclaration paramVar  = p.get(i).getParamDeclaration();
+			String varName = p.get(i).getName();
+			
+			LetExp let = model.createLetScope(copier.apply(actualParameter), null, varName);
+			if ( setLetType ) let.getVariable().setType(ATLUtils.getOclType(actualParameter.getInferredType()));
+			
+			VariableDeclaration newVar = let.getVariable();
+			model.addToScope(paramVar, newVar);
+			
+			innerLet.setIn_(let);
+			innerLet = let;
+		}
+
+		
+		OclExpression inlineCall   = genDepending.get(); // getDepending().genCSP(model);
+		innerLet.setIn_(inlineCall);
+		return topLet;
 	}
 
 	@Override
@@ -191,16 +209,6 @@ public class CallExprNode extends AbstractDependencyNode {
 		return genInlining(model, () -> getDepending().genWeakestPrecondition(model), (expr) -> model.atlCopy(expr), true); 
 	}
 
-	private List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {
-		ArrayList<VariableDeclaration> selfs = new ArrayList<VariableDeclaration>();
-		TreeIterator<EObject> it = contextHelper.eAllContents();
-		while ( it.hasNext() ) {
-			EObject atlObj = it.next();
-			if ( atlObj instanceof VariableExp && ((VariableExp) atlObj).getReferredVariable().getVarName().equals("self") )
-				selfs.add(((VariableExp) atlObj).getReferredVariable());
-		}
-		return selfs;
-	}
 
 	@Override
 	public void genTransformationSlice(TransformationSlice slice) {

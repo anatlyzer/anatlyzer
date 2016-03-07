@@ -63,7 +63,7 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		throw new UnsupportedOperationException(binding.getLocation());
 	}
 

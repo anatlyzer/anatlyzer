@@ -68,7 +68,7 @@ public class BindingWithoutRuleNode extends AbstractBindingAssignmentNode<Bindin
 	}
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		OclExpression result = null;
 		
 		OclExpression value = genValueRightPart(model, binding.getValue());

@@ -51,7 +51,7 @@ public class BindingExpectedOneAssignedManyNode extends AbstractBindingAssignmen
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		throw new UnsupportedOperationException();
 	}
 

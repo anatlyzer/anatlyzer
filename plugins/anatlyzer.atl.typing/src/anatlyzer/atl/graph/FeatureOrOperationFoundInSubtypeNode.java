@@ -43,7 +43,7 @@ public class FeatureOrOperationFoundInSubtypeNode<P extends LocalProblem> extend
 	}
 	
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		FoundInSubtype p = (FoundInSubtype) this.problem;
 		PropertyCallExp pc = (PropertyCallExp) expr;
 		EClass oneSubClass = p.getPossibleClasses().get(0);

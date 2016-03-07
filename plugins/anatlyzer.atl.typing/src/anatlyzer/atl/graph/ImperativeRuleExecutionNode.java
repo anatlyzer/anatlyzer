@@ -99,8 +99,8 @@ public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
-		return getDepending().genCSP(model);
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
+		return getDepending().genCSP(model, this);
 	}
 
 	@Override

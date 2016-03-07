@@ -84,10 +84,10 @@ public class ConditionalNode extends AbstractDependencyNode {
 	}
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		IfExp exp = null;
 		OclExpression copied = model.gen(ifExpr.getCondition());
-		OclExpression dep    = getDepending().genCSP(model);
+		OclExpression dep    = getDepending().genCSP(model, this);
 		if ( branch == TRUE_BRANCH ) {
 			exp = model.createIfExpression(copied, dep, model.createBooleanLiteral(false) );
 		} else {

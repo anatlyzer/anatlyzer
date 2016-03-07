@@ -66,7 +66,7 @@ public class ResolveTempPossiblyUnresolvedNode extends AbstractBindingAssignment
 
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		return genProblemSpecificCondition(model, "and");
 	}
 

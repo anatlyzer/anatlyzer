@@ -49,7 +49,7 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 
 
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		OclExpression expr = model.gen(start);
 		OclExpression check = null;
 		
@@ -78,7 +78,7 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 		if ( getDepending() instanceof ProblemNode && ((ProblemNode) getDepending()).isStraightforward() ) {
 			return check;
 		}
-		return model.createIfExpression(check, getDepending().genCSP(model), model.createBooleanLiteral(false));
+		return model.createIfExpression(check, getDepending().genCSP(model, this), model.createBooleanLiteral(false));
 	}
 
 	@Override

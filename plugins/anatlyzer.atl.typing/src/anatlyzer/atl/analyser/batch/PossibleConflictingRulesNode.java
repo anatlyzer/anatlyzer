@@ -8,6 +8,7 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.AbstractDependencyNode;
+import anatlyzer.atl.graph.GraphNode;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.IPathVisitor;
 import anatlyzer.atl.graph.RuleFilterNode;
@@ -51,7 +52,7 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		return 	checkDependenciesAndConstraints(exp);
 	}
 	@Override
-	public OclExpression genCSP(CSPModel model) {
+	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 
 		OperationCallExp allInstances = model.createAllInstances(type);
 		IteratorExp exists = model.createIterator(allInstances, "exists");
@@ -62,7 +63,7 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		for (InternalRuleExecution node : nodes) {
 			if ( node.hasGuard() ) {
 				model.addToScope(node.getRule().getInPattern().getElements().get(0), it);
-				OclExpression exp = node.genCSP(model);
+				OclExpression exp = node.genCSP(model, this);
 				if ( orOp == null ) {
 					orOp = exp;
 				} else {
@@ -117,7 +118,7 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 		}
 		
 		@Override
-		public OclExpression genCSP(CSPModel model) {
+		public OclExpression genCSP(CSPModel model, GraphNode previous) {
 			OclExpression result = null;
 			Pair<LetExp, LetExp> letPair = genLocalVarsLet(model);
 			
@@ -125,7 +126,7 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 			LetExp letUsingDeclarationInnerLet = letPair._2;
 			
 			
-			OclExpression condition = this.getConstraint().genCSP(model);
+			OclExpression condition = this.getConstraint().genCSP(model, this);
 			
 			if ( letUsingDeclarations == null ) {
 				result = condition;

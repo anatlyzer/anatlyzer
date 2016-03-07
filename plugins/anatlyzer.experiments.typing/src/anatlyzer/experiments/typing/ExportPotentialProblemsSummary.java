@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.custom.StyledText;
 
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -33,6 +34,9 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void setMessageWindow(StyledText text) { }
+	
 	@Override
 	public void execute(IExperiment experiment, IFile confFile) {
 		CountTypeErrors exp = (CountTypeErrors) experiment;

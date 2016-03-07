@@ -52,6 +52,10 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		this.options = options;
 	}
 	
+	public boolean getExcludeSameName() {
+		return this.options.getOrDefault("exclude_same_name", "false").equals("true");
+	}
+	
 	public WitnessGenerationMode getWitnessGenerationMode() {
 		String option = (String) this.options.getOrDefault("witnessmode", "mandatory-effective");
 		

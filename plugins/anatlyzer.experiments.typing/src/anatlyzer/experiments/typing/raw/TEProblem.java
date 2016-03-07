@@ -18,7 +18,10 @@ public class TEProblem  {
 
 	@Element
 	private String location;
-	
+
+	@Element
+	private String fileLocation;
+
 	@Element
 	private String description;
 	
@@ -35,16 +38,20 @@ public class TEProblem  {
 	private TEException exception;
 
 	private EClass problemClass;
+
 	
 	public TEProblem() { }
 	
-	public TEProblem(Problem problem) {
+	public TEProblem(Problem problem) {		
 		this.problemClass = problem.eClass();
 		this.description = problem.getDescription();
 		this.initialStatus = problem.getStatus();
 		this.location = "-";
-		if ( problem instanceof LocalProblem ) 
+		this.fileLocation = "-";
+		if ( problem instanceof LocalProblem ) {
+			fileLocation = ((LocalProblem) problem).getFileLocation();
 			location = ((LocalProblem) problem).getLocation();
+		}
 	}
 
 	/**
@@ -81,6 +88,10 @@ public class TEProblem  {
 		return this.location;
 	}
 
+	public String getFileLocation() {
+		return fileLocation;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -139,6 +150,15 @@ public class TEProblem  {
 		p.location = location;
 		p.problemClass = problemClass;
 		return p;
+	}
+
+	/**
+	 * Two problems are the same if they have the same location and the same problem class.
+	 * @param p The other problem
+	 * @return true if they are considered the same problem
+	 */
+	public boolean isSame(TEProblem p) {
+		return p.getLocation().equals(this.location) && p.getProblemClassName().equals(getProblemClassName());
 	}
 	
 	

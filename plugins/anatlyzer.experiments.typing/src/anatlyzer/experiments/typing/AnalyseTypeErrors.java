@@ -3,6 +3,7 @@ package anatlyzer.experiments.typing;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -24,6 +25,8 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.experiments.extensions.IExperiment;
 import anatlyzer.experiments.typing.export.ExportToExcel;
 import anatlyzer.experiments.typing.export.ExportToExcel_NoDependent;
@@ -43,6 +46,12 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 	
 	public TEData getExpData() {
 		return expData;
+	}
+	
+	@Override
+	public void setOptions(HashMap<String, Object> options) {
+		super.setOptions(options);
+		expData.setWitnessMode(getWitnessGenerationMode().toString());
 	}
 	
 	@Override
@@ -69,9 +78,16 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 		}
 		
 		String projectName = resource.getProject().getName();
+		String trafoName = resource.getName();
+		TEProject project      = expData.getOrCreate(projectName);		
 		
-		TEProject project      = expData.getOrCreate(projectName);
-		TETransformation trafo = project.addTransformation(resource.getName(), resource.getFullPath().toPortableString()); 
+		if ( getExcludeSameName() && expData.getAllTransformations().stream().filter(t -> trafoName.equals(t.getName())).findAny().isPresent() ) {
+			project.addExcluded(trafoName, resource.getFullPath().toPortableString());
+			return;
+		}
+		
+		TETransformation trafo = project.addTransformation(trafoName, resource.getFullPath().toPortableString());
+		 
 		
 		showMessage("  Processing file: " + resource.getFullPath().toOSString() + "\n");
 		
@@ -101,7 +117,12 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 					ProblemStatus result = null;
 					Exception     except = null;
 					try {
-						result = createWitnessFinder().find(p, original);
+						IWitnessFinder finder = createWitnessFinder(); 
+						if ( getWitnessGenerationMode() == WitnessGenerationMode.MANDATORY_FULL_METAMODEL ) {
+							finder.checkDiscardCause(true);
+						}
+						
+						result = finder.find(p, original);
 					} catch ( Exception e ) {
 						except = e;
 						result = ProblemStatus.IMPL_INTERNAL_ERROR;

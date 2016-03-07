@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.custom.StyledText;
 
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
@@ -39,6 +40,9 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 	public ExportDetailTypeErrors() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public void setMessageWindow(StyledText text) { }
 
 	@Override
 	public void execute(IExperiment experiment, IFile confFile) {

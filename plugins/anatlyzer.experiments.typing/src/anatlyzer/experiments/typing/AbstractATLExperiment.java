@@ -1,12 +1,10 @@
 package anatlyzer.experiments.typing;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -18,9 +16,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import transML.utils.transMLProperties;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
@@ -56,6 +52,10 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		return this.options.getOrDefault("exclude_same_name", "false").equals("true");
 	}
 	
+	public boolean getDoUnfoldingOption() {
+		return this.options.getOrDefault("witness_recursion_unfolding", "false").equals("true");		
+	}
+	
 	public WitnessGenerationMode getWitnessGenerationMode() {
 		String option = (String) this.options.getOrDefault("witnessmode", "mandatory-effective");
 		
@@ -67,6 +67,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		throw new IllegalArgumentException();
 	}
 	
+		
 	@Override
 	public void finished() {
 		
@@ -159,6 +160,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected IWitnessFinder createWitnessFinder() {
 		return new EclipseUseWitnessFinder().	
 				setWitnessGenerationModel(getWitnessGenerationMode()).
+				setDoUnfolding(getDoUnfoldingOption()).
 				checkDiscardCause(false);
 	}
 

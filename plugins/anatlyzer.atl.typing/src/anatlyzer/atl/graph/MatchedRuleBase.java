@@ -2,6 +2,7 @@ package anatlyzer.atl.graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
@@ -66,28 +67,42 @@ abstract public class MatchedRuleBase extends AbstractDependencyNode {
 		LetExp letUsingDeclarations  = null;
 		LetExp letUsingDeclarationInnerLet  = null;
 		if ( rule.getVariables().size() > 0 ) {
-			HashSet<VariableDeclaration> requiredVars = new HashSet<VariableDeclaration>();
 
+			// We mark the variables as required or not (instead of adding them to a list)
+			// to keep the order in subsequent loops
+			boolean requiredVars[] = new boolean[rule.getVariables().size()];
+			
 			for(int i = 0; i < rule.getVariables().size(); i++) {
 				RuleVariableDeclaration v = rule.getVariables().get(i);
 				if ( ! isRequiredByRuleFilter(v) && ! isRequiredByErrorPath(v) ) 
 					continue;
-				
-				requiredVars.add(v);
+
+				// Variable i-th is required
+				requiredVars[i] = true;
 				
 				// Get dependendent variables
-				for(int j = 0; j < i; j++) {
+				for(int j = 0; j < rule.getVariables().size(); j++) {
+					if ( i == j ) 
+						continue;
+					
 					RuleVariableDeclaration v2 = rule.getVariables().get(j);
-					if ( requiredVars.contains(v2) )
+					if ( requiredVars[j] )
 						continue; // already added
 					
-					if ( ATLUtils.findVariableReference(v2.getInitExpression(), v2) != null ) {
-						requiredVars.add(v2);
+					if ( ATLUtils.findVariableReference(v.getInitExpression(), v2) != null ) {
+						requiredVars[j] = true;
 					}
 				}
 			}
+
+			// Now we have to make sure they are in the same order as they are declared
 			
-			for(VariableDeclaration v : requiredVars) {
+			for(int i = 0; i < rule.getVariables().size(); i++) {
+				if ( ! requiredVars[i] )
+					continue;
+				
+				RuleVariableDeclaration v = rule.getVariables().get(i);
+
 				LetExp let = model.createLetScope(model.gen(v.getInitExpression()), null, v.getVarName());
 				if ( setLetType )
 					let.getVariable().setType(ATLUtils.getOclType(v.getInitExpression().getInferredType()));

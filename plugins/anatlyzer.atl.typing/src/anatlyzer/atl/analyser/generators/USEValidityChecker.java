@@ -10,6 +10,8 @@ import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.MapExp;
+import anatlyzer.atlext.OCL.MapType;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
@@ -92,5 +94,18 @@ public class USEValidityChecker extends AbstractVisitor {
 	}
 	
 	// TODO: Check for recursion, some how!!
+	
+	
+	@Override
+	public void inMapExp(MapExp self) {
+		System.out.println("=> Invalid Map type not supportes");
+		this.isValid = false;
+	}
+	
+	@Override
+	public void inMapType(MapType self) {
+		System.out.println("=> Invalid Map type not supported");
+		this.isValid = false;
+	}
 	
 }

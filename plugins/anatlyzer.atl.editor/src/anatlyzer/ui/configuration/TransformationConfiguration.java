@@ -12,8 +12,9 @@ public class TransformationConfiguration {
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
 	private boolean witnessFinderDebugMode = false;
 	private boolean checkDiscardCause      = false;
-	private WitnessGenerationMode witnessMode = WitnessGenerationMode.MANDATORY_FULL_METAMODEL;
+	private WitnessGenerationMode witnessMode = WitnessGenerationMode.ERROR_PATH;
 	private String graphicsType;
+	private boolean doRecursionUnfolding = false;
 	
 	public TransformationConfiguration() {
 		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
@@ -80,6 +81,15 @@ public class TransformationConfiguration {
 	
 	public String getWitnessGenerationGraphics() {
 		return this.graphicsType;
+	}
+
+	public void setDoRecursionUnfolding(boolean b) {
+		this.doRecursionUnfolding = b;
 	}	
+	
+	public boolean getDoRecursionUnfolding() {
+		return this.doRecursionUnfolding;
+	}
+	
 	
 }

@@ -33,6 +33,8 @@ public class ConfigurationReader {
 				checkDiscardCause(line);
 			} else if ( line.startsWith("witness-generation-mode") ) {
 				checkWitnessGenerationMode(line);
+			} else if ( line.startsWith("witness-recursion-unfolding") ) {
+				checkRecursionUnfolding(line);
 			} else if ( line.startsWith("witness-generation-graphics") ) {
 				checkWitnessGenerationGraphics(line);				
 			}
@@ -89,16 +91,16 @@ public class ConfigurationReader {
 
 	/**
 	 * <pre>
-	 *   check-discard-cause on
+	 *   witness-recursion-unfolding on
 	 * </pre>
 	 * 
 	 * @param line
 	 */
-	private void checkDiscardCause(String line) {
+	private void checkRecursionUnfolding(String line) {
 		String[] parts = line.split("\\s+");
 		if ( parts.length == 2 ) {
-			if ( parts[1].equals("on") ) configuration.setCheckDiscardCause(true);
-			else if ( parts[1].equals("off") ) configuration.setCheckDiscardCause(false);
+			if ( parts[1].equals("on") ) configuration.setDoRecursionUnfolding(true);
+			else if ( parts[1].equals("off") ) configuration.setDoRecursionUnfolding(false);
 		}
 	}
 
@@ -119,6 +121,21 @@ public class ConfigurationReader {
 		}
 	}
 
+	/**
+	 * <pre>
+	 *   check-discard-cause on
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkDiscardCause(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if ( parts[1].equals("on") ) configuration.setCheckDiscardCause(true);
+			else if ( parts[1].equals("off") ) configuration.setCheckDiscardCause(false);
+		}
+	}
+	
 	/**
 	 * <pre>
 	 *   witness-generation-graphics plantuml

@@ -32,6 +32,7 @@ public class WitnessUtil {
 		finder.setDebugMode(analysisConfiguration.isWitnessFinderDebugMode());
 		finder.checkDiscardCause(analysisConfiguration.getCheckDiscardCause());
 		finder.setWitnessGenerationModel(analysisConfiguration.getWitnessMode());
+		finder.setDoUnfolding(analysisConfiguration.getDoRecursionUnfolding());
 		return finder;
 	}
 }

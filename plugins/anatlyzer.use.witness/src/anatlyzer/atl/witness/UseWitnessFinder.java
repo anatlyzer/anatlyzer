@@ -58,10 +58,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean checkPreconditions = true;
 	private boolean catchInternalErrors = false;
 	private boolean debugMode = false;
+	private boolean doUnfolding = true;
 	
 	private int foundScope;
 	private IScopeCalculator scopeCalculator;
-	private WitnessGenerationMode mode = WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL;
+	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -105,6 +106,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder checkPreconditions(boolean b) {
 		this.checkPreconditions   = b;
+		return this;
+	}
+	
+	@Override
+	public IWitnessFinder setDoUnfolding(boolean b) {
+		this.doUnfolding = b;
 		return this;
 	}
 	
@@ -362,6 +369,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
+		wrapper.setDoUnfolding(doUnfolding);
 		
 		this.errorSliceMM = new EffectiveMetamodelBuilder(wrapper).extractSource(r, "error", "http://error", "error", "error");
 		return errorSliceMM;

@@ -50,10 +50,15 @@ import anatlyzer.atlext.OCL.StringType;
 public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 
 	private ProblemInPathVisitor problems;
+	private boolean doUnfolding = true;
 
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
 		this.problems = problems;
+	}
+	
+	public void setDoUnfolding(boolean doUnfolding) {
+		this.doUnfolding = doUnfolding;
 	}
 
 	@Override
@@ -99,7 +104,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		
 		// The unfolding has to be done afterwards because helpers are copied and modified
 		// and we need to use all the modifications previously performed
-		boolean doUnfolding = true;
+		
 		if ( doUnfolding ) {
 			for (Helper helper : new HashSet<Helper>(helperSet)) {
 				new UnfoldRecursion(helper, slice).perform().forEach(h -> {

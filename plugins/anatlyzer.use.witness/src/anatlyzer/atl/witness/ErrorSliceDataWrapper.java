@@ -108,9 +108,12 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		if ( doUnfolding ) {
 			for (Helper helper : new HashSet<Helper>(helperSet)) {
 				new UnfoldRecursion(helper, slice).perform().forEach(h -> {
-					//	new Retyping(h).perform();		
+					// Do the retyping again to adapt types to the retyping strategy
+					// which is not taking into account in the unfolding...
+					new Retyping(h).performOnHelperSignature(h);		
+					
 					renaming.perform(h);			
-	
+					
 					helperSet.add(h);	
 				});
 			}
@@ -133,7 +136,6 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 			
 			ann.getDetails().put("class", className);
 			
-			System.out.println(className);
 			for(Helper ctx : helpers.get(className)) {
 				ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className));
 			}

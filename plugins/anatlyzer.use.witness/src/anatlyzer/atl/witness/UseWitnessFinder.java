@@ -217,7 +217,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
 		// other helpers within preconditions
 		ErrorSlice slice = problem.getErrorSlice(analyser);
-
+		
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {

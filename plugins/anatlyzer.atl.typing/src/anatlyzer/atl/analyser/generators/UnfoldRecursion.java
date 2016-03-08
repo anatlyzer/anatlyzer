@@ -44,7 +44,7 @@ public class UnfoldRecursion extends AbstractVisitor {
 	private EObject root;
 	private CSPModel builder = new CSPModel();
 	
-	private int defaultUnfoldings = 5;
+	private int defaultUnfoldings = 4;
 	private List<Helper> newHelpers = new ArrayList<Helper>();
 	private ErrorSlice slice;
 	
@@ -81,10 +81,7 @@ public class UnfoldRecursion extends AbstractVisitor {
 	public void inIterateExp(IterateExp self) {
 		numIterates++;
 		String iterateName = "iterate_" + numIterates;
-		
-		// IterateExp self = (IterateExp) ATLCopier.copySingleElement(selfOriginal);
-		System.out.println(self.getLocation());
-		
+
 		Type sourceType = self.getSource().getInferredType();
 		Type resultType = self.getResult().getInferredType();
 		Type iterateType = self.getInferredType(); // resulType == iterateType

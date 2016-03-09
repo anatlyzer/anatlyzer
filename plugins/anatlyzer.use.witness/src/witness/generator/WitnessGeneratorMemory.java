@@ -87,7 +87,18 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, this.additionalConstraints);
 			else 
 				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, this.additionalConstraints); 
-			return r != null && r.isSatisfiable();
+			
+			if ( r == null ) {
+				return false;
+			} else if ( r.isSatisfiable() ) {
+				return true;
+			} else if ( r.isDiscarded() ) {
+				return false;
+			} else {
+				return false; // I should return a better value... because this probably does not mean discarded by USE_LIMITATION or INVARIANT_FAILED or something like this
+				// throw new RuntimeException("USE failed in the evaluation of some invariant");
+			}
+			// return r != null && r.isSatisfiable();
 		}
 	}
 

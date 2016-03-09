@@ -187,6 +187,12 @@ public class USESolverMemory extends Solver_use {
 					outcome == Outcome.SATISFIABLE ||
 					outcome == Outcome.TRIVIALLY_SATISFIABLE;
 		}
+
+		public boolean isDiscarded() {
+			return satisfyAllInvariants && 
+					outcome == Outcome.UNSATISFIABLE ||
+					outcome == Outcome.TRIVIALLY_UNSATISFIABLE;
+		}
 	}
 	
 

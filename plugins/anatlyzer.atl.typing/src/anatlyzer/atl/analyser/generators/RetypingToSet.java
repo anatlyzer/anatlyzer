@@ -25,6 +25,7 @@ import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -425,8 +426,33 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			self.setSource(oclAsType);		
 			
 			this.subtypeSelectionOnFeatureAccess.add(self);
-		}
 
+		// Similar to in NavigationOrAttributeCallExp
+		} else if ( self.getSource().isImplicitlyCasted() ) {
+			Type t = self.getSource().getInferredType();
+			if ( t instanceof Metaclass ) {
+				boolean transform = false;
+				if ( self.getStaticResolver() instanceof ContextHelper ) {
+					ContextHelper ctx = (ContextHelper) self.getStaticResolver();
+					Type ctxType = ATLUtils.getHelperContext(ctx).getInferredType();
+
+					// Transform only if the context type the same type or a supertype
+					// of the casted type. That is, when the call will be resolved thanks to
+					// implicit casting
+					transform = ATLUtils.isCompatible(t, ctxType);
+				}
+				
+				if ( transform ) {
+					String className = ((Metaclass)	t).getName();		
+					OperationCallExp oclAsType = createOclAsType(className, null, (Metaclass) t, self.getSource());
+					self.setSource(oclAsType);		
+					
+					this.subtypeSelectionOnFeatureAccess.add(self);
+				}
+			}			
+		}
+		
+		
 		// It is not a built-in function, and thus it is helper defined in the transformation 
 		// (unless it is an error, that has not been automatically fixed)
 
@@ -561,10 +587,13 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		seqAsSetModifications.add(self);
 	}
 
-	
+	// The expression must be of type collection
 	private void convertToSet(OclExpression body) {
 		CollectionOperationCallExp opcall = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
 		opcall.setOperationName("asSet");
+		
+		opcall.setInferredType(body.getInferredType());
+		
 		EcoreUtil.replace(body, opcall);
 		opcall.setSource(body);
 	}

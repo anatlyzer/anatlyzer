@@ -117,4 +117,9 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	public boolean visitProblem(FeatureOrOperationFoundInSubtypeNode<?> node) {
 		return true;
 	}
+	
+	@Override
+	public boolean visit(ForEachOutPatternElementNode node) {
+		return true;
+	}
 }

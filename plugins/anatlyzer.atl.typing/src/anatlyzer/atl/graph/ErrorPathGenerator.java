@@ -25,6 +25,7 @@ import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -149,9 +150,8 @@ public class ErrorPathGenerator {
 		ProblemNode node = new BindingWithoutRuleNode(p, atlBinding, atlModel);
 		currentPath = new ProblemPath(p, node);
 			
-		Rule rule = atlBinding.getOutPatternElement().getOutPattern().getRule();
-		pathToRule(rule, node, new TraversedSet(), false);	
-		
+		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);
+
 		pathToBinding(atlBinding, node, new TraversedSet());		
 	}
 	
@@ -160,9 +160,8 @@ public class ErrorPathGenerator {
 
 		ProblemNode node = new BindingExpectedOneAssignedManyNode(p, atlBinding);
 		currentPath = new ProblemPath(p, node);
-			
-		Rule rule = atlBinding.getOutPatternElement().getOutPattern().getRule();
-		pathToRule(rule, node, new TraversedSet(), false);	
+		
+		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);
 		
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
@@ -182,8 +181,7 @@ public class ErrorPathGenerator {
 		ProblemNode node = new BindingPossiblyUnresolvedNode(p, atlBinding, atlModel);
 		currentPath = new ProblemPath(p, node);
 		
-		Rule rule = atlBinding.getOutPatternElement().getOutPattern().getRule();
-		pathToRule(rule, node, new TraversedSet(), false);	
+		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);
 		
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
@@ -194,8 +192,7 @@ public class ErrorPathGenerator {
 		ProblemNode node = new BindingWithResolvedByIncompatibleRuleNode(p, atlBinding, a);
 		currentPath = new ProblemPath(p, node);
 		
-		Rule rule = atlBinding.getOutPatternElement().getOutPattern().getRule();
-		pathToRule(rule, node, new TraversedSet(), false);	
+		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);
 		
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
@@ -321,6 +318,25 @@ public class ErrorPathGenerator {
 		for(RuleResolutionInfo rr : atlBinding.getResolvedBy()) {
 			pathToRule(rr.getRule(), resolutionNode, traversed, true);
 		}
+	}
+	
+	/**
+	 * This method is intended to deal with different types of OutPatternElement (in particular ForEachDistinct)
+	 * before forwarding to PathToRule
+	 */
+	private boolean pathToOutPatternElement(OutPatternElement outp, DependencyNode depNode, TraversedSet traversed, boolean isConstraint) {
+		if ( outp instanceof ForEachOutPatternElement ) {
+			ForEachOutPatternElementNode newNode = new ForEachOutPatternElementNode((ForEachOutPatternElement) outp);
+			depNode.addDependency(newNode);
+			newNode.setLeadsToExecution(true);
+		
+			// The effect is that I have added an intermediate node
+			depNode = newNode;			
+		}
+		
+		Rule rule = outp.getOutPattern().getRule();
+		return pathToRule(rule, depNode, new TraversedSet(), false);
+		
 	}
 	
 	private boolean pathToRule(Rule rule, DependencyNode dependent, TraversedSet traversed, boolean isConstraint) {

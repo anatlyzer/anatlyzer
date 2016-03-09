@@ -180,6 +180,31 @@
           file="contexts.xml">
     </contexts>
  </extension>
+ 
+ 
+    <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            id="anatlyzer.ui.contribution.showConfigurationDialog">
+         <menu
+               label="anATLyzer"
+               path="additions"
+               id="anatlyzer.menu">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               label="Configure anATLyzer"
+               class="anatlyzer.ui.configuration.ShowConfigurationDialogAction"
+               menubarPath="test_and_delete.menu1/group1"
+               enablesFor="1"
+               id="anatlyzer.ui.configuration.ShowConfigurationDialogAction">
+         </action>
+      </objectContribution>
+   </extension>
+ 
 
 
 </plugin>

@@ -25,7 +25,6 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Callable;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
-import anatlyzer.atlext.ATL.ModuleCallable;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.LoopExp;

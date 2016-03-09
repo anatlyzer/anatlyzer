@@ -43,4 +43,6 @@ public interface IPathVisitor {
 	public boolean visitProblem(BindingExpectedOneAssignedManyNode node);
 
 	public boolean visitProblem(PossibleConflictingRulesNode node);
+
+	public boolean visit(ForEachOutPatternElementNode node);
 }

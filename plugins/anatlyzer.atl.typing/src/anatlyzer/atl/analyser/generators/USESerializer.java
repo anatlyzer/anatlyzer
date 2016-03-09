@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;

@@ -528,6 +528,8 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			EcoreUtil.replace(self, any);
 			
 			return;
+		} else if ( self.getOperationName().equals("append") || self.getOperationName().equals("prepend")) {
+			self.setOperationName("including");
 		}
 		
 		// In USESerializer there is:
@@ -663,53 +665,50 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			if ( t == null ) {
 				// This probably means that the expression being evaluated has been
 				// generated as part of the path-condition, so no type has been assigned,
-				// but we can assume that the expression is right...
-				return;
-			}
-			
-			Class<?> sameType = t.getClass();
-			for(int i = 1; i < self.getElements().size(); i++) {
-				if ( sameType != self.getElements().get(i).getInferredType().getClass() ) {
-					areSameType = false;
-					break;
+				// but we can assume that the expression is right...				
+			} else {			
+				Class<?> sameType = t.getClass();
+				for(int i = 1; i < self.getElements().size(); i++) {
+					if ( sameType != self.getElements().get(i).getInferredType().getClass() ) {
+						areSameType = false;
+						break;
+					}
 				}
-			}
+			} 			
+		}
+		
+		if ( ! areSameType ) {		
+			int discrepancy = 0;
 			
-			if ( areSameType ) {
-				return; // do nothing
-			}
-		}
-		
-		int discrepancy = 0;
-		
-		for(int i = 0; i < self.getElements().size(); i++) {
-			if ( self.getElements().get(i).getInferredType() instanceof Metaclass ) {
-				discrepancy++;
-			} 
-			if ( self.getElements().get(i).getInferredType() instanceof CollectionType ) {
-				discrepancy--;
-			}
-		
-			// TODO: What happens with primitive types!!
-		}
-		
-		if ( discrepancy != self.getElements().size() ) {
 			for(int i = 0; i < self.getElements().size(); i++) {
 				if ( self.getElements().get(i).getInferredType() instanceof Metaclass ) {
-					SetExp set = OCLFactory.eINSTANCE.createSetExp();
-					OclExpression element = self.getElements().set(i, set);					
-					set.getElements().add(element);
+					discrepancy++;
 				} 
+				if ( self.getElements().get(i).getInferredType() instanceof CollectionType ) {
+					discrepancy--;
+				}
+			
+				// TODO: What happens with primitive types!!
 			}
 			
-			SetExp set = OCLFactory.eINSTANCE.createSetExp();
-			set.getElements().addAll(self.getElements());
-			
-			CollectionOperationCallExp flattenOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-			flattenOp.setOperationName("flatten");
-			flattenOp.setSource(set);
-			
-			EcoreUtil.replace(self, flattenOp);
+			if ( discrepancy != self.getElements().size() ) {
+				for(int i = 0; i < self.getElements().size(); i++) {
+					if ( self.getElements().get(i).getInferredType() instanceof Metaclass ) {
+						SetExp set = OCLFactory.eINSTANCE.createSetExp();
+						OclExpression element = self.getElements().set(i, set);					
+						set.getElements().add(element);
+					} 
+				}
+				
+				SetExp set = OCLFactory.eINSTANCE.createSetExp();
+				set.getElements().addAll(self.getElements());
+				
+				CollectionOperationCallExp flattenOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				flattenOp.setOperationName("flatten");
+				flattenOp.setSource(set);
+				
+				EcoreUtil.replace(self, flattenOp);
+			}
 		} else {
 			
 			// In any case I always replace this with a Set

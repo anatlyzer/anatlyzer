@@ -202,8 +202,8 @@ public class USESolverMemory extends Solver_use {
 	protected Pair<Outcome, Boolean> handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
 		MModel model = null;
 		// PrintWriter fLogWriter = new PrintWriter(System.out);
-		// PrintWriter fLogWriter = new PrintWriter(System.out);
-		PrintWriter fLogWriter = new NullPrintWriter();
+		PrintWriter fLogWriter = new PrintWriter(System.out);
+		// PrintWriter fLogWriter = new NullPrintWriter();
         model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
         
         final MSystem system;

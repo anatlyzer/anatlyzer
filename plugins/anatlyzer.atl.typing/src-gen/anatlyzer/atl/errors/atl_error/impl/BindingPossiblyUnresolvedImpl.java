@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getTargetType <em>Target Type</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getProblematicClasses <em>Problematic Classes</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingPossiblyUnresolvedImpl#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

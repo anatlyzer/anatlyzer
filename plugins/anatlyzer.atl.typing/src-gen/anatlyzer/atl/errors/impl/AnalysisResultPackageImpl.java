@@ -406,6 +406,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_DISCARDED);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL);
+		addEEnumLiteral(problemStatusEEnum, ProblemStatus.USE_TIME_OUT);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.USE_INTERNAL_ERROR);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.IMPL_INTERNAL_ERROR);
 		addEEnumLiteral(problemStatusEEnum, ProblemStatus.CANNOT_DETERMINE);

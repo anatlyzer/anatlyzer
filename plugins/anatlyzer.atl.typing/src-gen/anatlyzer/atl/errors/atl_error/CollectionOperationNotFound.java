@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.CollectionOperationNotFound#getOperationName <em>Operation Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCollectionOperationNotFound()
  * @model annotation="description name='Collection operation not found' text=''"

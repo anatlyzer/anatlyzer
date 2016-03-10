@@ -37,6 +37,8 @@ public class ConfigurationReader {
 				checkRecursionUnfolding(line);
 			} else if ( line.startsWith("witness-generation-graphics") ) {
 				checkWitnessGenerationGraphics(line);				
+			} else if ( line.startsWith("witness-timeout") ) {
+				checkWitnessTimeOut(line);				
 			}
 		}
 	}
@@ -150,7 +152,37 @@ public class ConfigurationReader {
 			else if ( parts[1].equals("off") ) configuration.setWitnessGenerationGraphics(null);
 		}
 	}
-	
+
+	/**
+	 * <pre>
+	 *   witness-timeout off|1000 millis
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkWitnessTimeOut(String line) {
+		String[] parts = line.split("\\s+");
+		long timeOut = -1;
+		if ( parts.length >= 2 ) {			
+			if ( parts[1].equals("off") ) 
+				timeOut = -1;
+			else {
+				timeOut = Long.parseLong(parts[1]);
+				if ( parts.length >= 3 ) {
+					String unit = parts[2];
+					if ( "millis".equals(unit) ) {
+						// as is
+					} else if ( "seconds".equals(unit) ) {
+						timeOut = timeOut * 1000;
+					} else if ( "minutes".equals(unit) ) {
+						timeOut = timeOut * (1000 * 60);
+					}
+				}
+			}			
+			configuration.setTimeOut(timeOut);
+		}
+	}
+
 	public static TransformationConfiguration read(InputStream stream) throws IOException {
 		TransformationConfiguration conf = new TransformationConfiguration();
 		new ConfigurationReader(stream, conf);

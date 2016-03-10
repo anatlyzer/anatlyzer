@@ -36,6 +36,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private boolean forceOnceInstancePerClass;
 	private int minScope = 1;
 	private int maxScope = 5;
+	private long timeOut = -1;
 	private boolean debugMode = false;
 	private IScopeCalculator scopeCalculator;
 	
@@ -84,9 +85,9 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		} else {
 			USEResult r = null;
 			if ( scopeCalculator == null )
-				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, this.additionalConstraints);
+				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, timeOut, this.additionalConstraints);
 			else 
-				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, this.additionalConstraints); 
+				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, timeOut, this.additionalConstraints); 
 			
 			if ( r == null ) {
 				return false;
@@ -119,6 +120,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	
 	public void setDebugModel(boolean b) {
 		this.debugMode = b;
+	}
+	
+	public void setTimeOut(long timeOut) {
+		this.timeOut = timeOut;
 	}
 	
 	public int getFoundScope() {
@@ -270,7 +275,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 
 
-	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, IScopeCalculator calculator, List<String> additionalConstraints) throws transException {
+	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, IScopeCalculator calculator, long timeOut, List<String> additionalConstraints) throws transException {
 		// I need to invoke this because otherwise transML will try to use some internal
 		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
 		transMLProperties.loadPropertiesFile(path);
@@ -288,7 +293,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		// Just one try with the scope calculator
 		try {
-			model = solver.find(calculator.getDefaultMaxScope());
+			model = TimedOutSolverExecution.find(solver, calculator.getDefaultMaxScope(), timeOut);
+			// model = solver.find(calculator.getDefaultMaxScope());
 		} catch (transException e) {
 			// a) execution error
 			if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
@@ -311,7 +317,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return model;				
 	}
 	
-	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {
+	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, long timeOut, List<String> additionalConstraints) throws transException {
 		// I need to invoke this because otherwise transML will try to use some internal
 		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
 		transMLProperties.loadPropertiesFile(path);
@@ -329,7 +335,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		int scope = 0;
 		for (scope=minScope; scope<=maxScope && (model==null || !model.isSatisfiable()); scope++) {
 			try {
-				model = solver.find(scope);
+				// model = solver.find(scope);
+				model = TimedOutSolverExecution.find(solver, maxScope, timeOut);
 			} catch (transException e) {
 				// a) execution error
 				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
@@ -351,6 +358,66 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			if   (conformanceError == null) return null;
 			else throw conformanceError;
 		return model;		
+	}
+	
+	protected static class TimedOutSolverExecution extends Thread {
+		private USEResult model;
+		private int scope;
+		private USESolverMemory solver;
+		private transException exception;
+		
+		private TimedOutSolverExecution(USESolverMemory solver, int scope) {
+			this.solver = solver;
+			this.scope  = scope;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				model = solver.find(scope);
+			} catch (transException e) {
+				this.exception = e;
+			// Catching this only because the debug mode of Eclipse 
+			// suspends when there is an uncaught ThreadDeath
+			} catch ( ThreadDeath e ) {
+				System.out.println("Time out");
+			}
+		}
+		
+		public static USEResult find(USESolverMemory solver, int scope, long timeout) throws transException {
+			TimedOutSolverExecution t = new TimedOutSolverExecution(solver, scope);
+			t.start();
+			try {
+				if ( timeout == -1 ) {
+					t.join();
+				} else {
+					t.join(timeout);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			if ( t.model != null || t.exception != null ) {
+				if ( t.exception != null )
+					throw t.exception;
+				return t.model;
+			} else {
+				// Kill the thread...
+				t.stop();
+				// Wait a bit until it finishes...
+				while ( t.isAlive() ) { 
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+				
+				throw new TimeOutException();
+			}
+		
+		}
+		
 	}
 	
 	public static WitnessGenResult generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, List<String> additionalConstraints) throws transException {

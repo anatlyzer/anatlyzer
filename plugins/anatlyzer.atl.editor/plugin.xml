@@ -198,7 +198,7 @@
          <action
                label="Configure anATLyzer"
                class="anatlyzer.ui.configuration.ShowConfigurationDialogAction"
-               menubarPath="test_and_delete.menu1/group1"
+               menubarPath="anatlyzer.menu/group1"
                enablesFor="1"
                id="anatlyzer.ui.configuration.ShowConfigurationDialogAction">
          </action>

@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import witness.generator.TimeOutException;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -59,6 +60,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean catchInternalErrors = false;
 	private boolean debugMode = false;
 	private boolean doUnfolding = true;
+	private long timeOut = -1;
 	
 	private int foundScope;
 	private IScopeCalculator scopeCalculator;
@@ -76,6 +78,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode) {
 		this.mode  = mode;
+		return this;
+	}
+
+	@Override
+	public IWitnessFinder setTimeOut(long millis) {
+		this.timeOut = millis;
 		return this;
 	}
 
@@ -281,6 +289,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setMinScope(1);
 		generator.setMaxScope(5);
 		generator.setScopeCalculator(this.scopeCalculator);
+		generator.setTimeOut(timeOut);
 		
 		for(String s : genTwoValuedLogicConstraints(errorSliceMM)) {
 			generator.addAdditionaConstraint(s);			
@@ -309,6 +318,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
 			}
+		} catch ( TimeOutException te ) {
+			return ProblemStatus.USE_TIME_OUT;
 		} catch ( WitnessGeneratorMemory.AdaptationInternalError e1) {
 			e1.printStackTrace();
 			return ProblemStatus.IMPL_INTERNAL_ERROR;

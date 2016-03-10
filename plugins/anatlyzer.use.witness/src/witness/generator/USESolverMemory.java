@@ -193,6 +193,10 @@ public class USESolverMemory extends Solver_use {
 					outcome == Outcome.UNSATISFIABLE ||
 					outcome == Outcome.TRIVIALLY_UNSATISFIABLE;
 		}
+		
+		public boolean isUnsupported() {
+			return ! satisfyAllInvariants;
+		}
 	}
 	
 

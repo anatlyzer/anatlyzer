@@ -122,4 +122,14 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	public boolean visit(ForEachOutPatternElementNode node) {
 		return true;
 	}
+	
+	@Override
+	public boolean visit(ConditionalStatNode node) {
+		return true;
+	}
+	
+	@Override
+	public boolean visit(ForStatNode node) {
+		return true;
+	}
 }

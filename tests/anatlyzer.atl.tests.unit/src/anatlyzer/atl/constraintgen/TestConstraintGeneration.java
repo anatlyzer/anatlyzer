@@ -21,6 +21,6 @@ public class TestConstraintGeneration extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingWithResolvedByIncompatibleRule);
 		
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 }

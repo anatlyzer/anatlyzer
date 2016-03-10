@@ -186,7 +186,7 @@ public class CSPModel {
 	public OclExpression createCastTo(VariableDeclaration varToBeCasted, Metaclass castTo, Type originalNoCastedType) {
 		VariableExp refToVarDcl = OCLFactory.eINSTANCE.createVariableExp();
 		refToVarDcl.setReferredVariable(varToBeCasted);	
-		if ( varToBeCasted.getInferredType() != null  ) {
+		if ( varToBeCasted.getInferredType() != null  && varToBeCasted.getInferredType() instanceof Metaclass ) {
 			Metaclass originalClass = (Metaclass) varToBeCasted.getInferredType();
 			// This is needed to avoid problems such as the following (in workflow2pn)
 			//   binding: input  <- e.input (but in this rule the filter is "e.input.oclIsKindOf(WF!Task)")

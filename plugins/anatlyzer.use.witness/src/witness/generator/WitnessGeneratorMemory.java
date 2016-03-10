@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import kodkod.engine.Solution.Outcome;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -64,7 +66,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.metamodelExtension = strategy;
 	}
 	
-	public boolean generate() throws transException {		
+	public USEResult generate() throws transException {		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
 		}
@@ -81,7 +83,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			if ( witness != null )
 				generateGraphics(witness);
 			
-			return witness != null;
+			Outcome outcome = witness != null ? Outcome.SATISFIABLE : Outcome.UNSATISFIABLE;
+			return new USEResult(outcome, true, null, -1);
 		} else {
 			USEResult r = null;
 			if ( scopeCalculator == null )
@@ -89,17 +92,18 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			else 
 				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, timeOut, this.additionalConstraints); 
 			
-			if ( r == null ) {
-				return false;
-			} else if ( r.isSatisfiable() ) {
-				return true;
-			} else if ( r.isDiscarded() ) {
-				return false;
-			} else {
-				return false; // I should return a better value... because this probably does not mean discarded by USE_LIMITATION or INVARIANT_FAILED or something like this
-				// throw new RuntimeException("USE failed in the evaluation of some invariant");
-			}
-			// return r != null && r.isSatisfiable();
+			return r;
+//			if ( r == null ) {
+//				return false;
+//			} else if ( r.isSatisfiable() ) {
+//				return true;
+//			} else if ( r.isDiscarded() ) {
+//				return false;
+//			} else {
+//				return false; // I should return a better value... because this probably does not mean discarded by USE_LIMITATION or INVARIANT_FAILED or something like this
+//				// throw new RuntimeException("USE failed in the evaluation of some invariant");
+//			}
+//			// return r != null && r.isSatisfiable();
 		}
 	}
 
@@ -288,8 +292,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
 		
 		USEResult  model = null;
-		transException conformanceError = null;
-		
 		
 		// Just one try with the scope calculator
 		try {
@@ -311,9 +313,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			}
 		}
 		
-		if (model == null)
-			if   (conformanceError == null) return null;
-			else throw conformanceError;
 		return model;				
 	}
 	

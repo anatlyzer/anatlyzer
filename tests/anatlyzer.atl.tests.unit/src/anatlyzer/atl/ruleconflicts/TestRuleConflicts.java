@@ -56,7 +56,7 @@ public class TestRuleConflicts extends UnitTest {
 		assertEquals(1, overlaps.size());
 		
 		ProblemStatus[] confirmedOrNot = confirmOrDiscardRuleConflicts();
-		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
+		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED_SPECULATIVE));
 	}
 
 	@Test

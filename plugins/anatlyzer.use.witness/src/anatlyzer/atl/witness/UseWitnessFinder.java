@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import witness.generator.TimeOutException;
+import witness.generator.USESolverMemory.USEResult;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -310,13 +311,18 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setMetamodelExtensionStrategy(strategy);
 		generator.setTempDirectoryPath(projectPath);
 		try {
-			if ( ! generator.generate() ) {
+			USEResult result = generator.generate();
+			if ( result.isDiscarded() ) {
 				return ProblemStatus.ERROR_DISCARDED;
-			} else {
+			} else if ( result.isSatisfiable() ){
 				this.foundScope = generator.getFoundScope();
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
+			} else if ( result.isUnsupported() ) {
+				return ProblemStatus.NOT_SUPPORTED_BY_USE;
+			} else {
+				throw new UnsupportedOperationException();
 			}
 		} catch ( TimeOutException te ) {
 			return ProblemStatus.USE_TIME_OUT;

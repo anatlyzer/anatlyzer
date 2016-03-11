@@ -119,8 +119,11 @@ public class USESolverMemory extends Solver_use {
 			} else {
 				customGenPropertiesFiles(scopeCalculator, metamodel, root.getName(), writer2, objectUpperBound);
 			}
-			
+			System.out.println("Properties files");
+			System.out.println(writer2);
 			writer2.close();
+			//System.out.println(useSpecification);
+			
 			
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());
@@ -317,6 +320,7 @@ public class USESolverMemory extends Solver_use {
 			int upperBound = 0;
 			
 			for (EClassifier classifier : metamodel.getEClassifiers()) {
+				// Bounds for non-abstract classes
 				if ( classifier instanceof EClass && ! ((EClass) classifier).isAbstract() ) {
 					Interval interval = calc.getScope((EClass) classifier);
 					if ( interval == null ) {
@@ -329,21 +333,19 @@ public class USESolverMemory extends Solver_use {
 					
 					writer.write(classifier.getName() + "_min = " + lowerBound + "\n"); 
 					writer.write(classifier.getName() + "_max = " + upperBound + "\n");                                					
-
-				
-
-					// Bound of attributes 
-					if (classifier instanceof EClass) {
-						for (EAttribute feature : ((EClass)classifier).getEAttributes()) {
-							writer.write(classifier.getName() + "_" + feature.getName() + "_min = 0\n");   // 0 (value changed 03-01-2016, before it was -1)
-							writer.write(classifier.getName() + "_" + feature.getName() + "_max = -1\n");  // unbound
-						}
-						for (EReference ref : ((EClass)classifier).getEReferences()) 
-							if (!references.contains(ref.getEOpposite()))
-								references.add(ref);				
-					}			
-
 				}
+
+				// Bound of attributes, including abstract classes
+				if (classifier instanceof EClass) {
+					for (EAttribute feature : ((EClass)classifier).getEAttributes()) {
+						writer.write(classifier.getName() + "_" + feature.getName() + "_min = 0\n");   // 0 (value changed 03-01-2016, before it was -1)
+						writer.write(classifier.getName() + "_" + feature.getName() + "_max = -1\n");  // unbound
+					}
+					for (EReference ref : ((EClass)classifier).getEReferences()) 
+						if (!references.contains(ref.getEOpposite()))
+							references.add(ref);				
+				}			
+
 				
 			}
 			

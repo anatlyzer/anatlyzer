@@ -65,14 +65,19 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			throw new IllegalArgumentException();
 		this.metamodelExtension = strategy;
 	}
-	
+
 	public USEResult generate() throws transException {		
+		return generate(false);
+	}
+	
+	public USEResult generate(boolean isRetry) throws transException {		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
 		}
 		
 		try {
-			adaptMetamodels(index);
+			if ( ! isRetry )
+				adaptMetamodels(index);
 		} catch ( Exception e ) {
 			throw new AdaptationInternalError(e);
 		}
@@ -226,11 +231,6 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		}
 	}
 
-	private void changeConflictingClassNames(EPackage errorMM2) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public String getTempDirectoryPath() {
 		return projectPath == null ? "." : projectPath;
 	}
@@ -249,21 +249,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			return null;
 		this.foundScope = r.scope;
 		return r.r;
-		
-//		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
-//		String witness = generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, this.additionalConstraints);
-//		
-//		// generate witness model visualization
-//		if (witness!=null && !witness.equals("")) 
-//			try {
-//				new EMFModelPlantUMLSerializer(errorMM, witness).generatePNG(witness.substring(0, witness.lastIndexOf("."))+".png");
-//			} catch (IOException e) { e.printStackTrace(); }
-//		
-//		return witness;
 	}
-	
-	
-	
+		
 	public static WitnessGenResult generateWitnessStatic(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope) throws transException {
 		return generateWitnessStatic(path, metamodel, ocl_constraint, index, minScope, maxScope, new ArrayList<String>());
 	}
@@ -295,6 +282,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		// Just one try with the scope calculator
 		try {
+			solver.setScopeGenerator(calculator);
 			model = TimedOutSolverExecution.find(solver, calculator.getDefaultMaxScope(), timeOut);
 			// model = solver.find(calculator.getDefaultMaxScope());
 		} catch (transException e) {

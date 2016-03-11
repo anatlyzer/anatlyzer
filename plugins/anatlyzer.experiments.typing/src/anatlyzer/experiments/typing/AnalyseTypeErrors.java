@@ -22,6 +22,7 @@ import org.simpleframework.xml.core.Persister;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -146,8 +147,18 @@ public class AnalyseTypeErrors extends AbstractATLExperiment implements IExperim
 			// TODO: Fine-grained analysis of rule conflicts and aggregate to the result
 			// Rule analysis 
 			if ( performRuleConflictAnalysis() ) {
+				System.out.println("Evaluating rule conflicts...");
+
 				RuleConflicts rc = doRuleAnalysis(monitor, original, true);
-				original.extendWithRuleConflicts(rc, true);
+				if ( rc != null ) {
+					for(ConflictingRuleSet c : rc.getConflicts()) {
+						TEProblem p = new TEProblem(c);
+						p.setFinalStatus(c.getStatus());
+						trafo.addProblem(p);
+					}
+									
+					original.extendWithRuleConflicts(rc, true);
+				}
 			}
 
 		} catch (Exception e) {

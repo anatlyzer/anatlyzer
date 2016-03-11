@@ -23,10 +23,13 @@ import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -226,6 +229,10 @@ public class ErrorPathGenerator {
 			return pathToIfExpr((IfExp) parent, (OclExpression) lastParent, node, traversed);
 		} else if ( parent instanceof LetExp ) {
 			return pathToLetExpr((LetExp) parent, lastParent, node, traversed);
+		} else if ( parent instanceof IfStat ) {
+			return pathToIfStat((IfStat) parent, lastParent, node, traversed);
+		} else if ( parent instanceof ForStat ) {
+			return pathToForStat((ForStat) parent, node, traversed);
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -242,7 +249,8 @@ public class ErrorPathGenerator {
 
 	public static boolean isControlFlowElement(EObject element) {
 		return (element instanceof Rule) || (element instanceof Helper) ||
-			    (element instanceof IfExp || (element instanceof LetExp ));
+			    (element instanceof IfExp || (element instanceof LetExp )) ||
+			    (element instanceof IfStat || element instanceof ForStat);
 	}
 
 	private void pathFromErrorExpression(OclExpression start, DependencyNode depNode) {		
@@ -312,6 +320,34 @@ public class ErrorPathGenerator {
 		return checkReachesExecution(pathToControlFlow(expr, newNode, traversed), newNode);
 	}
 
+	private boolean pathToIfStat(IfStat stat, EObject directChild, DependencyNode node, TraversedSet traversed) {
+		boolean branch;
+		
+		// Check it is in the true branch
+		if ( stat.getThenStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild) != null) ) {
+			branch = ConditionalNode.TRUE_BRANCH;			
+		} else if ( stat.getElseStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild) != null) ) {
+			branch = ConditionalNode.FALSE_BRANCH;			
+		} else {
+			// must be in the condition
+			return pathToControlFlow(stat, node, traversed);
+		}
+		
+		ConditionalStatNode newNode = new ConditionalStatNode(stat, branch);
+		node.addDependency(newNode);
+		
+		return checkReachesExecution(pathToControlFlow(stat, newNode, traversed), newNode);
+	}
+
+	
+	private boolean pathToForStat(ForStat stat, DependencyNode node, TraversedSet traversed) {
+		ForStatNode newNode = new ForStatNode(stat);
+		node.addDependency(newNode);
+		
+		return checkReachesExecution(pathToControlFlow(stat, newNode, traversed), newNode);
+	}
+
+	
 	private void pathToBinding(Binding atlBinding , ProblemNode node, TraversedSet traversed) {
 		RuleResolutionNode resolutionNode = new RuleResolutionNode(atlBinding);
 		node.addConstraint(resolutionNode);

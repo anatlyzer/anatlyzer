@@ -15,6 +15,7 @@ public class TransformationConfiguration {
 	private WitnessGenerationMode witnessMode = WitnessGenerationMode.ERROR_PATH;
 	private String graphicsType;
 	private boolean doRecursionUnfolding = false;
+	private long timeOut = -1;
 	
 	public TransformationConfiguration() {
 		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
@@ -39,6 +40,14 @@ public class TransformationConfiguration {
 		return checkDiscardCause;
 	}
 	
+	public void setTimeOut(long timeOut) {
+		if ( timeOut <= 0 ) timeOut = -1; 
+		this.timeOut = timeOut;
+	}
+	
+	public long getTimeOut() {
+		return timeOut;
+	}
 	
 	public void setWitnessFinderDebugMode(boolean debug) {
 		this.witnessFinderDebugMode  = debug;

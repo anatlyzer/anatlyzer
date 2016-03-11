@@ -30,6 +30,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
@@ -61,12 +62,23 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 
 	// TODO: Decide if this is worth it. This can perfectly go to a static utils.
 	@Override
-	public void inHelper(Helper self) {
+	public void inContextHelper(ContextHelper self) {
+		treatHelper(self);
+	}
+	
+	@Override
+	public void inStaticHelper(StaticHelper self) {
+		treatHelper(self);
+	}
+	
+	public void treatHelper(Helper self) {
 		if ( self.getDefinition().getFeature() instanceof Attribute ) {
 			self.setIsAttribute(true);
 		} else {
 			self.setIsAttribute(false);
-		
+			if ( ATLUtils.getHelperName(self).equals("findType") ) {
+				System.out.println(self);
+			}
 			List<Parameter> params = ((Operation) self.getDefinition().getFeature()).getParameters();
 			for(int i = 0; i < params.size(); i++) {
 				self.getCallableParameters().add(createCallableParameter(params.get(i)));

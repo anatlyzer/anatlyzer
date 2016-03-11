@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -820,7 +821,19 @@ public class ATLUtils {
 		}
 		return result;
 	}
+
 	
+	public static EObject findElement(EObject init, Function<EObject, Boolean> f) {
+		if ( f.apply(init) ) return init;
+		TreeIterator<EObject> it = init.eAllContents();
+		while ( it.hasNext() ) {
+			EObject obj = it.next();
+			if ( f.apply(obj) ) 
+				return obj;
+		}		
+		return null;
+	}
+
 	public static List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {
 		ArrayList<VariableDeclaration> selfs = new ArrayList<VariableDeclaration>();
 		TreeIterator<EObject> it = contextHelper.eAllContents();
@@ -831,7 +844,6 @@ public class ATLUtils {
 		}
 		return selfs;
 	}
-	
 	
 	public static Rule getRule(Binding binding) {
 		return binding.getOutPatternElement().getOutPattern().getRule();

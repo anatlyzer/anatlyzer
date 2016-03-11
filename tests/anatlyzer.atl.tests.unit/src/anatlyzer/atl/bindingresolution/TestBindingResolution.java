@@ -10,6 +10,7 @@ import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.unit.UnitTest;
+import anatlyzer.atl.util.AnalyserUtils;
 
 public class TestBindingResolution extends UnitTest {
 	String ANT = metamodel("ant2maven/Ant");
@@ -27,7 +28,7 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 	
 	@Test
@@ -38,7 +39,7 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 
 	@Test
@@ -75,10 +76,10 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(ProblemStatus.ERROR_DISCARDED, confirmOrDiscardProblem(problems().get(0)));
 //		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));
 //		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(2)));
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(1))); // Doing the "first()" conversion to multi-valued
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(2))); // Doing the "first()" conversion to multi-valued
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(4)));
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(5)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(1))); // Doing the "first()" conversion to multi-valued
+		assertConfirmed(confirmOrDiscardProblem(problems().get(2))); // Doing the "first()" conversion to multi-valued
+		assertConfirmed(confirmOrDiscardProblem(problems().get(4)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(5)));
 		
 	}
 
@@ -91,7 +92,7 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}	
 
 
@@ -103,6 +104,6 @@ public class TestBindingResolution extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingPossiblyUnresolved);
 
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}	
 }

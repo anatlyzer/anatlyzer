@@ -14,11 +14,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FoundInSubtype#getPossibleClasses <em>Possible Classes</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FoundInSubtype#getMissingClasses <em>Missing Classes</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFoundInSubtype()
  * @model abstract="true"

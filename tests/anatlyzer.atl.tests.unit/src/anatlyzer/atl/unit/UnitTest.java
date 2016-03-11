@@ -1,5 +1,6 @@
 package anatlyzer.atl.unit;
 
+import static org.junit.Assert.assertTrue;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.examples.api.BaseTest;
 
@@ -11,7 +12,13 @@ public class UnitTest extends BaseTest {
 	protected String PNML2PETRINET_PNML = metamodel("pnml2petrinet/PNML_simplified");
 	protected String PNML2PETRINET_PETRINET = metamodel("pnml2petrinet/PetriNet");
 	
+	protected void assertConfirmed(ProblemStatus status) {
+		assertTrue( "Confirmed status expected, found " + status, status == ProblemStatus.ERROR_CONFIRMED || status == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);
+	}
 	
+	protected void assertDiscarded(ProblemStatus status) {
+		assertTrue(status == ProblemStatus.ERROR_DISCARDED);
+	}
     protected String testr(String dir, String name) {
         return dir + "/" + getClass().getPackage().getName().replace(".", "/") + "/" + name;
     }

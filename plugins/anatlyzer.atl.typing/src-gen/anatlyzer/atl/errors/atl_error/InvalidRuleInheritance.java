@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.InvalidRuleInheritance#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getInvalidRuleInheritance()
  * @model annotation="description name='Invalid rule inheritance' text='Problems with rule inheritance of diverse kind'"

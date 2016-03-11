@@ -328,6 +328,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				s = "Cannot determine (solver failed)";break;		
 			case IMPL_INTERNAL_ERROR:
 				s = "Cannot determine (impl. error)";break;		
+			case USE_TIME_OUT:
+				s = "Cannot determine (time out)";break;						
 			case PROBLEMS_IN_PATH:
 				throw new IllegalStateException();
 			}
@@ -540,6 +542,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				case IMPL_INTERNAL_ERROR: prefix = "[E3] "; break;
 				case USE_INTERNAL_ERROR: prefix = "[E1] "; break;
 				case NOT_SUPPORTED_BY_USE: prefix = "[U] "; break;
+				case USE_TIME_OUT: prefix = "[TO] "; break;				
 				}
 			}
 			String desc = p.getDescription();

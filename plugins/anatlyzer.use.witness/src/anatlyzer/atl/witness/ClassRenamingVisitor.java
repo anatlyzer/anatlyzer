@@ -79,7 +79,13 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 		} else if ( t instanceof Metaclass ) {
 			Metaclass m = (Metaclass) t;
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
-			m.setName(newClass.getName());
+			if ( newClass != null ) {
+				m.setName(newClass.getName());
+			} else {
+				// This may happen if the helper has a return type a target element 
+				// (e.g., as a result of invoking a lazy rule or a resolveTemp)
+				System.err.println("Cannot find class " + m.getKlass().getName());
+			}
 		} else if ( t instanceof EnumType ) {
 			EnumType m = (EnumType) t;
 			EEnum newEEnum = srcMetamodels.getTarget((EEnum) m.getEenum());		
@@ -118,12 +124,14 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 			Metaclass m = (Metaclass) self.getInferredType();
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
 			if ( newClass == null ) {
-				System.out.println("No class " + m.getName());
+				System.err.println("No class " + m.getName());
+				// It happens in e.g., DSLBridge/XML2DSL.atl, helper findType(s : String) which returns
+				// the result of a resolveTemp, thus polluting the path with target elements that
+				// do not need to be renamed because they are discarded...
+			} else {
+				self.setName(newClass.getName());
+				m.setName(newClass.getName());
 			}
-				
-			self.setName(newClass.getName());
-			m.setName(newClass.getName());
-
 		} else if ( self.getInferredType() instanceof EnumType ) {
 			EnumType m = (EnumType) self.getInferredType();
 			EEnum newEEnum = srcMetamodels.getTarget((EEnum) m.getEenum());

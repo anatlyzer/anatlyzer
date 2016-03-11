@@ -36,7 +36,7 @@ public class TestHelpers extends UnitTest {
 		// Even though the problem does not require the solver, I am going to use
 		// it to check the generation of path expressions in which there are
 		// polymorphic expressions involved
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 
 	}
 	

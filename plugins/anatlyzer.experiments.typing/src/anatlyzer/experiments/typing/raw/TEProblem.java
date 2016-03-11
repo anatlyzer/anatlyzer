@@ -132,6 +132,11 @@ public class TEProblem  {
 		return AnalyserUtils.getProblemKind(problemClass);
 	}
 	
+	public TEException getException() {
+		return this.exception;
+	}
+	
+	
 	/**
 	 * TODO: Make a special case for rule conflicts
 	 * @return The unique id of the problem instance made of the location and the problem class
@@ -160,6 +165,5 @@ public class TEProblem  {
 	public boolean isSame(TEProblem p) {
 		return p.getLocation().equals(this.location) && p.getProblemClassName().equals(getProblemClassName());
 	}
-	
 	
 }

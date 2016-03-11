@@ -1,6 +1,7 @@
 package anatlyzer.experiments.typing.raw;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.simpleframework.xml.Attribute;
@@ -44,6 +45,22 @@ public class TEException {
 		if ( e.getCause() != null ) {
 			this.cause = new TEException(e.getCause(), false);
 		}
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getMessage() {
+		return message;
+	}
+	
+	public List<String> getStackTrace() {
+		return Collections.unmodifiableList(stackTrace);
+	}
+	
+	public TEException getCause() {
+		return cause;
 	}
 
 }

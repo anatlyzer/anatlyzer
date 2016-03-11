@@ -27,7 +27,7 @@ public class TestResolveTemp extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof ResolveTempPossiblyUnresolved);
 
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 //
 //	@Test

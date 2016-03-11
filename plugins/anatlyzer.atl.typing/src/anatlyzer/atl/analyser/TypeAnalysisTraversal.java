@@ -49,6 +49,7 @@ import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -792,7 +793,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			else if ( parent instanceof IfExp && ((IfExp) parent).getCondition() == child ) {
 				inConditionPosition = true;
 				break;
-			}
+			}  else if ( parent instanceof IfStat && ((IfStat) parent).getCondition() == child ) {
+				inConditionPosition = true;
+				break;
+			} 
 			
 			child  = (OclExpression) parent;
 			parent = parent.eContainer();				

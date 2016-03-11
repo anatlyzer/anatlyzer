@@ -254,7 +254,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
 				
-				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>				
+				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>	
 				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), bindingValue.getNoCastedType());				
 				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
 					

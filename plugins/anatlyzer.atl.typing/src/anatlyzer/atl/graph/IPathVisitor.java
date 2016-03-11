@@ -45,4 +45,8 @@ public interface IPathVisitor {
 	public boolean visitProblem(PossibleConflictingRulesNode node);
 
 	public boolean visit(ForEachOutPatternElementNode node);
+
+	public boolean visit(ConditionalStatNode node);
+
+	public boolean visit(ForStatNode node);
 }

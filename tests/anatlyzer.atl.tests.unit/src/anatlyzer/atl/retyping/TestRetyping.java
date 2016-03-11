@@ -33,7 +33,7 @@ public class TestRetyping extends UnitTest {
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof BindingWithoutRule);
 		
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(0)));						
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));						
 	}
 
 	@Test
@@ -48,16 +48,13 @@ public class TestRetyping extends UnitTest {
 		assertTrue(problems().get(1) instanceof BindingWithoutRule);
 		
 		// The retyping should be done when trying to verify binding without rule.
-		assertEquals(ProblemStatus.ERROR_CONFIRMED, confirmOrDiscardProblem(problems().get(1)));		
+		assertConfirmed(confirmOrDiscardProblem(problems().get(1)));		
 	}
 
 	@Test
 	public void testFeatureFoundInSubtype_nestedError() throws Exception {
 		System.out
 				.println("TestRetyping.testFeatureFoundInSubtype_nestedError()");
-	
-		this.debugMode = true;
-		
 		String T = trafo("retyping_feature_found_in_subtype");
 		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
 	
@@ -72,7 +69,7 @@ public class TestRetyping extends UnitTest {
 		// 	 and it seems that USE has problems with multiple inheritance
 		// Thus, sometimes it will fail. This is almost logical as there is a previous error
 		// (feature found in subtype) and we are trying to recover (sometimes incorrectly)
-		assertEquals(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE, confirmOrDiscardProblem(problems().get(1)));		
+		assertConfirmed(confirmOrDiscardProblem(problems().get(1)));		
 	}
 
 }

@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import witness.generator.TimeOutException;
+import witness.generator.USESolverMemory.USEResult;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -59,6 +61,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private boolean catchInternalErrors = false;
 	private boolean debugMode = false;
 	private boolean doUnfolding = true;
+	private long timeOut = -1;
 	
 	private int foundScope;
 	private IScopeCalculator scopeCalculator;
@@ -76,6 +79,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode) {
 		this.mode  = mode;
+		return this;
+	}
+
+	@Override
+	public IWitnessFinder setTimeOut(long millis) {
+		this.timeOut = millis;
 		return this;
 	}
 
@@ -243,26 +252,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				preconditions.add(new Pair<>(hpre, c));
 			}
 		}
-		
-		
+				
 		String strConstraint = useConstraint.asString();
 		System.out.println("CSP Constraint: " + strConstraint);
 
-		
-//		=> Need to do this before because all has to be put in the ThisModule context		
-//		ErrorSlice slice = problem.getErrorSlice(analyser);
-//		for (Pair<StaticHelper, USEConstraint> pair : preconditions) {
-//			OclSlice.slice(slice, ATLUtils.getBody(pair._1));
-//			slice.addHelper(pair._1);
-//		}
-		
 		if ( slice.hasHelpersNotSupported() )
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
-		
-//		if ( checkPreconditions ) {
-//			List<String> footprints = getFootprints(analyser.getATLModel());			
-//			footprints.forEach(f -> slice.loadFromString(f, analyser));
-//		}
 		
 		EPackage errorSliceMM = generateErrorSliceMetamodel(slice, srcMetamodels, problems);
 		EPackage effective    = generateEffectiveMetamodel(srcMetamodels);
@@ -276,11 +271,49 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ann.getDetails().put("ocl", strConstraint);
 		errorSliceMM.getEAnnotations().add(ann);
 		
+		// Setting up the generator
+		WitnessGeneratorMemory generator = setUpWitnessGenerator(
+				forceOnceInstanceOfConcreteClasses, strategy, preconditions,
+				strConstraint, errorSliceMM, effective, language, projectPath);
+		
+		// This won't work for rule conflicts which are not "problem path".
+//		scopeCalculator = new CountCompulsoryElements(2, (ProblemPath) problem, slice);
+//		generator.setScopeCalculator(scopeCalculator);
+//		generator.setMinScope(1);
+//		generator.setMaxScope(6);
+		
+		if ( scopeCalculator == null ) {		
+			// The generator will do the iteration internally... at least for the moment
+			return tryResolve(useConstraint, generator, false);
+		} else {
+			ProblemStatus result = tryResolve(useConstraint, generator, false);
+			if ( result == ProblemStatus.ERROR_DISCARDED ) {
+				generator = setUpWitnessGenerator(
+						forceOnceInstanceOfConcreteClasses, strategy, preconditions,
+						strConstraint, errorSliceMM, effective, language, projectPath);
+
+				generator.setMinScope(2);
+				// Fallback to the default strategy
+				return tryResolve(useConstraint, generator, true);
+			} else if ( AnalyserUtils.isConfirmed(result) ) {
+				System.out.println("======> Confirmed early!!!");
+			}
+			return result;
+		}
+	}
+
+	protected WitnessGeneratorMemory setUpWitnessGenerator(
+			boolean forceOnceInstanceOfConcreteClasses,
+			IMetamodelExtensionStrategy strategy,
+			List<Pair<StaticHelper, USEConstraint>> preconditions,
+			String strConstraint, EPackage errorSliceMM, EPackage effective,
+			EPackage language, String projectPath) {
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
 		generator.setDebugModel(debugMode);
 		generator.setMinScope(1);
 		generator.setMaxScope(5);
 		generator.setScopeCalculator(this.scopeCalculator);
+		generator.setTimeOut(timeOut);
 		
 		for(String s : genTwoValuedLogicConstraints(errorSliceMM)) {
 			generator.addAdditionaConstraint(s);			
@@ -300,15 +333,26 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		generator.setMetamodelExtensionStrategy(strategy);
 		generator.setTempDirectoryPath(projectPath);
+		return generator;
+	}
+
+	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, boolean isRetry) {
 		try {
-			if ( ! generator.generate() ) {
+			USEResult result = generator.generate(isRetry);
+			if ( result.isDiscarded() ) {
 				return ProblemStatus.ERROR_DISCARDED;
-			} else {
+			} else if ( result.isSatisfiable() ){
 				this.foundScope = generator.getFoundScope();
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
+			} else if ( result.isUnsupported() ) {
+				return ProblemStatus.NOT_SUPPORTED_BY_USE;
+			} else {
+				throw new UnsupportedOperationException();
 			}
+		} catch ( TimeOutException te ) {
+			return ProblemStatus.USE_TIME_OUT;
 		} catch ( WitnessGeneratorMemory.AdaptationInternalError e1) {
 			e1.printStackTrace();
 			return ProblemStatus.IMPL_INTERNAL_ERROR;

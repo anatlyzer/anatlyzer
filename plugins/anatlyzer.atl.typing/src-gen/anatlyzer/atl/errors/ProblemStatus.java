@@ -87,6 +87,14 @@ public enum ProblemStatus implements Enumerator {
 	ERROR_DISCARDED_DUE_TO_METAMODEL(6, "ERROR_DISCARDED_DUE_TO_METAMODEL", "ERROR_DISCARDED_DUE_TO_METAMODEL"),
 
 	/**
+	 * The '<em><b>USE TIME OUT</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #USE_TIME_OUT_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	USE_TIME_OUT(7, "USE_TIME_OUT", "USE_TIME_OUT"), /**
 	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -94,7 +102,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	USE_INTERNAL_ERROR(7, "USE_INTERNAL_ERROR", "USE_INTERNAL_ERROR"),
+	USE_INTERNAL_ERROR(8, "USE_INTERNAL_ERROR", "USE_INTERNAL_ERROR"),
 
 	/**
 	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal object.
@@ -104,7 +112,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	IMPL_INTERNAL_ERROR(8, "IMPL_INTERNAL_ERROR", "IMPL_INTERNAL_ERROR"), /**
+	IMPL_INTERNAL_ERROR(9, "IMPL_INTERNAL_ERROR", "IMPL_INTERNAL_ERROR"), /**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -112,7 +120,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	CANNOT_DETERMINE(9, "CANNOT_DETERMINE", "CANNOT_DETERMINE"), /**
+	CANNOT_DETERMINE(10, "CANNOT_DETERMINE", "CANNOT_DETERMINE"), /**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -120,7 +128,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NOT_SUPPORTED_BY_USE(10, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
+	NOT_SUPPORTED_BY_USE(11, "NOT_SUPPORTED_BY_USE", "NOT_SUPPORTED_BY_USE"),
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal object.
@@ -130,7 +138,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	PROBLEMS_IN_PATH(11, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
+	PROBLEMS_IN_PATH(12, "PROBLEMS_IN_PATH", "PROBLEMS_IN_PATH");
 
 	/**
 	 * The '<em><b>STATICALLY CONFIRMED</b></em>' literal value.
@@ -238,6 +246,21 @@ public enum ProblemStatus implements Enumerator {
 	public static final int ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE = 6;
 
 	/**
+	 * The '<em><b>USE TIME OUT</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>USE TIME OUT</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #USE_TIME_OUT
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int USE_TIME_OUT_VALUE = 7;
+
+	/**
 	 * The '<em><b>USE INTERNAL ERROR</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -250,7 +273,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int USE_INTERNAL_ERROR_VALUE = 7;
+	public static final int USE_INTERNAL_ERROR_VALUE = 8;
 
 	/**
 	 * The '<em><b>IMPL INTERNAL ERROR</b></em>' literal value.
@@ -265,7 +288,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int IMPL_INTERNAL_ERROR_VALUE = 8;
+	public static final int IMPL_INTERNAL_ERROR_VALUE = 9;
 
 	/**
 	 * The '<em><b>CANNOT DETERMINE</b></em>' literal value.
@@ -280,7 +303,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int CANNOT_DETERMINE_VALUE = 9;
+	public static final int CANNOT_DETERMINE_VALUE = 10;
 
 	/**
 	 * The '<em><b>NOT SUPPORTED BY USE</b></em>' literal value.
@@ -295,7 +318,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NOT_SUPPORTED_BY_USE_VALUE = 10;
+	public static final int NOT_SUPPORTED_BY_USE_VALUE = 11;
 
 	/**
 	 * The '<em><b>PROBLEMS IN PATH</b></em>' literal value.
@@ -310,7 +333,7 @@ public enum ProblemStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int PROBLEMS_IN_PATH_VALUE = 11;
+	public static final int PROBLEMS_IN_PATH_VALUE = 12;
 
 	/**
 	 * An array of all the '<em><b>Problem Status</b></em>' enumerators.
@@ -327,6 +350,7 @@ public enum ProblemStatus implements Enumerator {
 			ERROR_CONFIRMED_SPECULATIVE,
 			ERROR_DISCARDED,
 			ERROR_DISCARDED_DUE_TO_METAMODEL,
+			USE_TIME_OUT,
 			USE_INTERNAL_ERROR,
 			IMPL_INTERNAL_ERROR,
 			CANNOT_DETERMINE,
@@ -346,6 +370,8 @@ public enum ProblemStatus implements Enumerator {
 	 * Returns the '<em><b>Problem Status</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ProblemStatus get(String literal) {
@@ -362,6 +388,8 @@ public enum ProblemStatus implements Enumerator {
 	 * Returns the '<em><b>Problem Status</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ProblemStatus getByName(String name) {
@@ -378,6 +406,8 @@ public enum ProblemStatus implements Enumerator {
 	 * Returns the '<em><b>Problem Status</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static ProblemStatus get(int value) {
@@ -389,6 +419,7 @@ public enum ProblemStatus implements Enumerator {
 			case ERROR_CONFIRMED_SPECULATIVE_VALUE: return ERROR_CONFIRMED_SPECULATIVE;
 			case ERROR_DISCARDED_VALUE: return ERROR_DISCARDED;
 			case ERROR_DISCARDED_DUE_TO_METAMODEL_VALUE: return ERROR_DISCARDED_DUE_TO_METAMODEL;
+			case USE_TIME_OUT_VALUE: return USE_TIME_OUT;
 			case USE_INTERNAL_ERROR_VALUE: return USE_INTERNAL_ERROR;
 			case IMPL_INTERNAL_ERROR_VALUE: return IMPL_INTERNAL_ERROR;
 			case CANNOT_DETERMINE_VALUE: return CANNOT_DETERMINE;

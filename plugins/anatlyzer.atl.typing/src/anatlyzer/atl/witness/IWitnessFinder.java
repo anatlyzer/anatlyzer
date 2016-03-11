@@ -22,7 +22,7 @@ public interface IWitnessFinder {
 	public IWitnessFinder setDoUnfolding(boolean b);
 	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
-	
+	public IWitnessFinder setTimeOut(long millis);
 	
 	public static enum WitnessGenerationMode {
 		ERROR_PATH,

@@ -76,6 +76,7 @@ public class USEValidityChecker extends AbstractVisitor {
 			} else {
 				// TODO: Report why!
 				isValid = false;
+				System.out.println("=> Branches with different type");
 			}				
 		} else {
 			if ( ! TypingModel.equalTypes(thenExpr, elseExpr) ) {

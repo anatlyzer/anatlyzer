@@ -1,7 +1,5 @@
 package anatlyzer.atl.graph;
 
-import java.util.stream.Collectors;
-
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
@@ -12,32 +10,33 @@ import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.IfStat;
+import anatlyzer.atlext.ATL.Statement;
 import anatlyzer.atlext.OCL.IfExp;
-import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
+/**
+ * Very similar to ConditionalNode
+ * 
+ * @author jesus
+ *
+ */
+public class ConditionalStatNode extends AbstractDependencyNode {
 
-public class ConditionalNode extends AbstractDependencyNode {
-
-	protected IfExp	ifExpr;
+	protected IfStat ifStat;
 	protected boolean	branch;
 	public final static boolean TRUE_BRANCH = true;
 	public final static boolean FALSE_BRANCH = false;
 	
-	public ConditionalNode(IfExp ifExpr, boolean branch) {
-		this.ifExpr = ifExpr;
+	public ConditionalStatNode(IfStat ifStat, boolean branch) {
+		this.ifStat = ifStat;
 		this.branch = branch;
-	}
-
-	public IfExp getIfExpr() {
-		return ifExpr;
 	}
 	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
-		OclSlice.slice(slice, ifExpr.getCondition());
+		OclSlice.slice(slice, ifStat.getCondition());
 		// The slice of the branches may not be actually needed since the
 		// depending nodes are generating exactly what i need.
 		// Otherwise, I may be adding things not actually needed: 
@@ -60,39 +59,55 @@ public class ConditionalNode extends AbstractDependencyNode {
 		} else {
 			s += "F[";
 		}
-		s += PathIdStringVisitor.serialize(ifExpr.getCondition(), id) + "]";
+		s += PathIdStringVisitor.serialize(ifStat.getCondition(), id) + "]";
 		id.next(s);
 		followDepending((dep) -> dep.genIdentification(id));
 	}
 	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
-		return problemInExpressionCached(lp, ifExpr.getCondition()) 
+		return problemInExpressionCached(lp, ifStat.getCondition()) 
 				|| (branch == TRUE_BRANCH ? 
-						problemInExpressionCached(lp, ifExpr.getThenExpression()) :  
-						problemInExpressionCached(lp, ifExpr.getElseExpression()))				
+						checkStatements(lp, ifStat.getThenStatements()) :
+						checkStatements(lp, ifStat.getElseStatements()) )			
 				|| checkDependenciesAndConstraints(lp);
 	}
 	
 	@Override
 	public boolean isExpressionInPath(OclExpression exp) {
-		return expressionInExpressionCached(exp, ifExpr.getCondition()) 
+		return expressionInExpressionCached(exp, ifStat.getCondition()) 
 				|| (branch == TRUE_BRANCH ? 
-						expressionInExpressionCached(exp, ifExpr.getThenExpression()) :  
-						expressionInExpressionCached(exp, ifExpr.getElseExpression()))				
+						checkStatements(exp, ifStat.getThenStatements()) :
+						checkStatements(exp, ifStat.getElseStatements()) )
 				|| checkDependenciesAndConstraints(exp);
 	}
 	
+	private boolean checkStatements(OclExpression exp, java.util.List<Statement> statements) {
+		return statements.stream().anyMatch(s -> {
+			return ATLUtils.findElement(s, (e) -> {
+				return (e instanceof OclExpression) ? expressionInExpressionCached(exp, (OclExpression) e) : false;
+			}) != null;
+		});
+	}
+	
+	private boolean checkStatements(LocalProblem lp, java.util.List<Statement> statements) {
+		return statements.stream().anyMatch(s -> {
+			return ATLUtils.findElement(s, (e) -> {
+				return (e instanceof OclExpression) ? problemInExpressionCached(lp, (OclExpression) e) : false;
+			}) != null;
+		});
+	}
+
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, "if: " + USESerializer.gen(ifExpr.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
+		gv.addNode(this, "if: " + USESerializer.gen(ifStat.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
 	}
 
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
 		IfExp exp = null;
-		OclExpression copied = model.gen(ifExpr.getCondition());
+		OclExpression copied = model.gen(ifStat.getCondition());
 		OclExpression dep    = getDepending().genCSP(model, this);
 		if ( branch == TRUE_BRANCH ) {
 			exp = model.createIfExpression(copied, dep, model.createBooleanLiteral(false) );
@@ -105,7 +120,7 @@ public class ConditionalNode extends AbstractDependencyNode {
 	@Override
 	public OclExpression genWeakestPrecondition(CSPModel model) {
 		IfExp exp = null;
-		OclExpression copied = model.atlCopy(ifExpr.getCondition());
+		OclExpression copied = model.atlCopy(ifStat.getCondition());
 		OclExpression dep    = getDepending().genWeakestPrecondition(model);
 		if ( branch == TRUE_BRANCH ) {
 			exp = model.createIfExpression(copied, dep, model.createBooleanLiteral(true) );
@@ -125,7 +140,7 @@ public class ConditionalNode extends AbstractDependencyNode {
 	
 	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
-		return ATLUtils.findVariableReference(ifExpr.getCondition(), v) != null 
+		return ATLUtils.findVariableReference(ifStat.getCondition(), v) != null 
 			|| getDepending().isVarRequiredByErrorPath(v);
 	}
 	

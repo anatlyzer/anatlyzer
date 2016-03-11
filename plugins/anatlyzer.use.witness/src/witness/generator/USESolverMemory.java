@@ -253,6 +253,15 @@ public class USESolverMemory extends Solver_use {
 		
         fSession.system().registerPPCHandlerOverride(Shell.getInstance());
 		MSystemState result = system.state();	
+//		KodkodModelValidatorConfiguration.INSTANCE.setBitwidth(bitwidth);
+//		.put("defaultsat4j", "DefaultSAT4J")
+//		.put("lightsat4j", "LightSAT4J")
+//		.put("lingeling", "Lingeling")
+//		.put("minisat", "MiniSat")
+//		.put("minisatprover", "MiniSatProver")
+//		.put("cryptominisat", "CryptoMiniSat")
+//		.put("zchaffmincost", "ZChaffMincost")
+
 		
 		// check whether the result satisfies all invariants
 		boolean     ok = result.check(fLogWriter, true, true, true, Collections.<String>emptyList()); 

@@ -1,5 +1,7 @@
 package anatlyzer.examples.api;
 
+import anatlyzer.atl.unit.BaseTest;
+
 public class Workflow2PN extends BaseTest {
 	public static final String TRANSFORMATION = "examples/workflow2pn/trafo/workflow2pn.atl";
 

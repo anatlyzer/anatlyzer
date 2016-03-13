@@ -1,4 +1,4 @@
-package anatlyzer.examples.api;
+package anatlyzer.atl.unit;
 
 import java.io.FileWriter;
 import java.io.IOException;

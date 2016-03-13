@@ -17,27 +17,27 @@ import anatlyzer.atl.util.AnalyserUtils;
 public class TEProblem  {
 
 	@Element
-	private String location;
+	protected String location;
+
+	@Element(required = false)
+	protected String fileLocation = "-";
 
 	@Element
-	private String fileLocation;
-
-	@Element
-	private String description;
+	protected String description;
 	
 	@Element
-	private ProblemStatus initialStatus;
+	protected ProblemStatus initialStatus;
 	
 	@Element
-	private ProblemStatus finalStatus;
+	protected ProblemStatus finalStatus;
 	
 	@Element
-	private boolean isDependent;
+	protected boolean isDependent;
 	
 	@Element(required=false)
-	private TEException exception;
+	protected TEException exception;
 
-	private EClass problemClass;
+	protected EClass problemClass;
 
 	
 	public TEProblem() { }
@@ -119,6 +119,11 @@ public class TEProblem  {
 	public boolean isFinallyConfirmed() {
 		return AnalyserUtils.isConfirmed(finalStatus);
 	}
+	
+	public boolean isFinallyDiscarded() {
+		return AnalyserUtils.isDiscarded(finalStatus);
+	}
+	
 
 	public boolean isDependent() {
 		return isDependent;

@@ -33,6 +33,16 @@ public class PEProblemExecution extends TEProblem {
 		this.solverTimes = new ArrayList<PETime>();
 	}
 
+	public PEProblemExecution(PEProblemExecution exec) {
+		this();
+		setProblemClassName(exec.getProblemClassName());
+		this.location = exec.location;
+		this.fileLocation = exec.fileLocation;
+		this.exception = exec.exception;
+		this.initialStatus = exec.initialStatus;
+		this.finalStatus = exec.finalStatus;
+	}
+
 	public PEProblemExecution(Problem problem) {
 		super(problem);
 		this.solverTimes = new ArrayList<PETime>();

@@ -12,12 +12,14 @@ import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.StaticRule;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -25,11 +27,12 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 /**
  * Covers both lazy rule and called rule.
  */
-public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
+public class ImperativeRuleExecutionNode extends RuleBase {
 
 	private StaticRule rule;
 
 	public ImperativeRuleExecutionNode(StaticRule rule) {
+		super(rule);
 		this.rule = rule;
 	}
 
@@ -100,7 +103,18 @@ public class ImperativeRuleExecutionNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
-		return getDepending().genCSP(model, this);
+		Pair<LetExp, LetExp> letPair = genLocalVarsLet(model);
+		
+		LetExp letUsingDeclarations = letPair._1;
+		LetExp letUsingDeclarationInnerLet = letPair._2;
+		
+		OclExpression depExp = getDepending().genCSP(model, this);
+		if ( letUsingDeclarations != null ) {			
+			letUsingDeclarationInnerLet.setIn_( depExp );
+			return letUsingDeclarations;	
+		}
+		
+		return depExp;
 	}
 
 	@Override

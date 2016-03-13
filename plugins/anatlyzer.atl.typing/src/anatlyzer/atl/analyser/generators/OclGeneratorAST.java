@@ -34,6 +34,7 @@ import anatlyzer.atlext.OCL.SequenceType;
 import anatlyzer.atlext.OCL.SetType;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.StringType;
+import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -113,7 +114,6 @@ public class OclGeneratorAST {
 			tgt.setElseExpression(gen(ifexp.getElseExpression(), vars));
 			
 			return tgt;
-
 		} else if ( expr instanceof LetExp ) {
 			LetExp src = (LetExp) expr;
 			LetExp tgt = OCLFactory.eINSTANCE.createLetExp();

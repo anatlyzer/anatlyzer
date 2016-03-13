@@ -535,7 +535,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inIteratorExp(IteratorExp self) {
-
 		Type srcType =  attr.typeOf( self.getSource() );
 		if ( !(srcType instanceof CollectionType) ) {
 			Type t = errors().signalIteratorOverNoCollectionType(srcType, self.getSource());
@@ -813,6 +812,9 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	private void resolveResolveTemp(OperationCallExp self) {
+		if ( self.getLocation().equals("357:22-357:55") )
+			System.out.println(self);
+		
 		if ( ! (root instanceof Module ) ) {
 			// errors().signalNoRecoverableError("resolveTemp only available in transformation modules", self);
 			Type t = errors().signalInvalidArgument("resolveTemp", "resolveTemp only available in transformation modules", self);	
@@ -910,7 +912,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 		if ( finalType == null ) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("resolveTemp: " + self.getLocation());
 		}
 
 		attr.linkExprType(finalType);

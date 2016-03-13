@@ -1,4 +1,4 @@
-package anatlyzer.examples.api;
+package anatlyzer.atl.unit;
 
 import java.io.File;
 import java.io.IOException;

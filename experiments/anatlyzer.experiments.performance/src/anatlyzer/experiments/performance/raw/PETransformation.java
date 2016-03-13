@@ -121,7 +121,8 @@ public class PETransformation {
 	}
 
 	private PEProblemExecution getAvg(List<PEProblemExecution> execList) {
-		PEProblemExecution avg = new PEProblemExecution();
+		// This is to init features like id...
+		PEProblemExecution avg = new PEProblemExecution(execList.get(0));
 		
 		double pathTime = execList.stream().map(e -> e.getCreatePathTime()).collect(Collectors.averagingLong(t -> t.getTime()));
 		double condTime = execList.stream().map(e -> e.getConditionGenerationTime()).collect(Collectors.averagingLong(t -> t.getTime()));
@@ -129,7 +130,7 @@ public class PETransformation {
 		double errTime = execList.stream().map(e -> e.getErrorMetamodelTime()).collect(Collectors.averagingLong(t -> t.getTime()));
 		double solverTime = execList.stream().map(e -> e.getTotalSolverTime()).collect(Collectors.averagingLong(t -> t.getTime()));
 
-		
+
 		avg.setCreatePathTime(new PETime(pathTime));
 		avg.setConditionGenerationTime(new PETime(condTime));
 		avg.setEffectiveMetamodelTime(new PETime(effTime));

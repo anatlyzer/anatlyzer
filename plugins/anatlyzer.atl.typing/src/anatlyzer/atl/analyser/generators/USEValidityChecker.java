@@ -13,6 +13,8 @@ import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.MapExp;
 import anatlyzer.atlext.OCL.MapType;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TupleType;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
 /**
@@ -106,6 +108,18 @@ public class USEValidityChecker extends AbstractVisitor {
 	@Override
 	public void inMapType(MapType self) {
 		System.out.println("=> Invalid Map type not supported");
+		this.isValid = false;
+	}
+	
+	@Override
+	public void inTupleExp(TupleExp self) {
+		System.out.println("=> Invalid Tuple type not supported");
+		this.isValid = false;
+	}
+	
+	@Override
+	public void inTupleType(TupleType self) {
+		System.out.println("=> Invalid Tuple type not supported");
 		this.isValid = false;
 	}
 	

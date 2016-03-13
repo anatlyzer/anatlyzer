@@ -1,5 +1,7 @@
 package anatlyzer.examples.api;
 
+import anatlyzer.atl.unit.BaseTest;
+
 public class Modisco extends BaseTest {
 	public static final String Java2KDM_TRANSFORMATION = "third-party/largeprojects/modisco/java2kdm/javaToKdm.atl";
 	public static final String KDM2UML_TRANSFORMATION =  "third-party/largeprojects/modisco/kdm2uml/KDMtoUML.atl";

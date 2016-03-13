@@ -1,5 +1,6 @@
 package anatlyzer.atl.graph;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,18 +14,25 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.StaticRule;
+import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public abstract class AbstractDependencyNode implements DependencyNode {
 
@@ -305,5 +313,6 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	public void genIdentification(PathId id) {
 		throw new UnsupportedOperationException(this.getClass().getName() + " : " + problem);
 	}
+	
 	
 }

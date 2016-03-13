@@ -551,6 +551,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			any.setBody(b);
 			
 			any.setSource(self.getSource());
+			any.setInferredType(self.getInferredType());
 			EcoreUtil.replace(self, any);
 			
 			return;

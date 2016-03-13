@@ -2,8 +2,10 @@ package anatlyzer.experiments.performance.export;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -11,10 +13,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.experiments.export.ExcelUtil;
 import anatlyzer.experiments.export.Styler;
 import anatlyzer.experiments.performance.MeasurePerformance;
 import anatlyzer.experiments.performance.raw.PEData;
+import anatlyzer.experiments.performance.raw.PEProblemExecution;
 import anatlyzer.experiments.performance.raw.PETime;
 import anatlyzer.experiments.performance.raw.PETransformation;
 import anatlyzer.experiments.performance.raw.PETransformationExecution;
@@ -32,7 +37,7 @@ public class PerformanceToExcel {
 		Workbook wb = new XSSFWorkbook();
 		
 		createSummary(wb);
-	
+		createSolverDetails(wb);
 
 		// Save
 		FileOutputStream fileOut = new FileOutputStream(fileName);
@@ -40,7 +45,62 @@ public class PerformanceToExcel {
 		wb.close();
 		fileOut.close();           
 	}
+
+	private void createSolverDetails(Workbook wb) {
+		Sheet s = wb.createSheet("Solver details");
+		ExcelUtil u = new ExcelUtil();
+		Styler    st = new Styler(wb);
+
+		int initRow = 1;
+		int col = 0;
 	
+		col = printSolverDetails(s, st, "All", initRow, col, (exec) -> true);
+		col = printSolverDetails(s, st, "Confirmed", initRow, col + 1, (exec) -> exec.isFinallyConfirmed());
+		col = printSolverDetails(s, st, "Discarded", initRow, col + 1, (exec) -> exec.isFinallyDiscarded());
+	}
+
+	protected int printSolverDetails(Sheet s, Styler st, String name, int initRow, int col,
+			Function<PEProblemExecution, Boolean> f) {
+		
+		st.cell(s, initRow, col + 1, name).centeringBold();			
+		
+		initRow++;
+		st.cell(s, initRow, col + 1, "Trafo").centeringBold();			
+		st.cell(s, initRow, col + 2, "Id").centeringBold();			
+		st.cell(s, initRow, col + 3, "Time").centeringBold();			
+		st.cell(s, initRow, col + 4, "Status").centeringBold();				
+		st.cell(s, initRow, col + 5, "Description").centeringBold();		
+		st.cell(s, initRow, col + 6, "Location").centeringBold();				
+		
+		
+		int row = initRow + 1;	
+		for (PETransformation trafo : data.getTransformations()) {
+			PETransformationExecution avg = trafo.getAvg(DISCARD);
+			
+			for (PEProblemExecution exec : avg.getProblemExecutions()) {
+				if ( ! f.apply(exec) )
+					continue;
+				
+				st.cell(s, row, col + 1, trafo.getName());
+				st.cell(s, row, col + 2, exec.getProblemId());
+				st.cell(s, row, col + 3, exec.getTotalSolverTime().getTime());			
+				st.cell(s, row, col + 4, convert(exec.getFinalStatus()));							
+				st.cell(s, row, col + 5, exec.getProblemTypeDescription());
+				st.cell(s, row, col + 6, exec.getLocation());
+
+				row++;
+			}
+		}
+		
+		return col + 5;
+	}
+	
+	private String convert(ProblemStatus status) {
+		if ( AnalyserUtils.isConfirmed(status) ) return "C";
+		if ( AnalyserUtils.isDiscarded(status) ) return "D";
+		throw new IllegalStateException();
+	}
+
 	private void createSummary(Workbook wb) {
 		Sheet s = wb.createSheet("Summary");
 		ExcelUtil u = new ExcelUtil();

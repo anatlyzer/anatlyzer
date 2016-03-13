@@ -2,7 +2,6 @@ package anatlyzer.atl.unit;
 
 import static org.junit.Assert.assertTrue;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.examples.api.BaseTest;
 
 public class UnitTest extends BaseTest {
 	

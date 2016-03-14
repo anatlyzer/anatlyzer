@@ -1,21 +1,25 @@
--- @path WF=/issre-presentation/metamodels/workflow.ecore
--- @path PN=/issre-presentation/metamodels/petri_nets.ecore
--- @ignore InvalidTarget, style
+-- @path WF=/anatlyzer.atl.tests.api/examples/workflow2pn/metamodels/workflow.ecore
+-- @path PN=/anatlyzer.atl.tests.api/examples/workflow2pn/metamodels/petri_nets.ecore
 
-module abcd;
+
+module wf2pn;
 create OUT : PN from IN : WF;
 
 
 rule model {
   from diag  : WF!FlowDiagram 
   to   model : PN!PetriNet (
-    elems <- diag.nodes->union(
-    	-- diag.edges -- This is not a good idea, because I get wrong targets in "elems" (the solver has problems generating the witness)
-    	diag.edges->select(e | e.input.oclIsKindOf(WF!Task) and 
-    		not e.output.oclIsKindOf(WF!Fork) and 
-			not e.output.oclIsKindOf(WF!Join)
-    	)	
-    ),
+  	-- This binding does not cover all the cases
+	-- The binding next binding (commented) is the proper way of doing it
+    elems <- diag.nodes->union(diag.edges)
+	
+--    elems <- diag.nodes->union(
+--    	diag.edges->select(e | e.input.oclIsKindOf(WF!Task) and 
+--    		not e.output.oclIsKindOf(WF!Fork) and 
+--			not e.output.oclIsKindOf(WF!Join)
+--    	)	
+--    ),
+	
 	arcs <- diag.edges->select(e | 
 	  	e.input.oclIsKindOf(WF!Task) and
 		not e.output.oclIsKindOf(WF!Fork) and
@@ -95,7 +99,6 @@ rule edge2task_forkjoin_arc {
 	 e.output.oclIsKindOf(WF!Join))
   )
   to a: PN!PTArc (
-  	-- The analyser should be more clever here!
   	input  <- e.input,
 	output <- e.output
   )
@@ -108,7 +111,6 @@ rule edge2forkjoin_task_arc {
 	and e.output.oclIsKindOf(WF!Task)
   )
   to a: PN!TPArc (
-  	-- The analyser should be more clever here!
   	input  <- e.input,
 	output <- e.output
   )

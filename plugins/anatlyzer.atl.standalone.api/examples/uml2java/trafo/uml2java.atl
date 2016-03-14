@@ -1,0 +1,34 @@
+-- @path Java=/anatlyzer.atl.tests.api/examples/uml2java/metamodels/java.ecore
+-- @path UML=/anatlyzer.atl.tests.api/examples/uml2java/metamodels/UML2_3_0_0.ecore
+
+module uml2java;
+create OUT : Java from IN : UML;
+
+rule class2class {
+	from
+		src : UML!Class
+	to 
+		tgt : Java!ClassDeclaration (
+			name <- src.name,
+			bodyDeclarations <- src.attribute				
+		)
+}
+
+rule property2fieldDcl {
+	from
+		src : UML!Property
+	to 
+		tgt : Java!FieldDeclaration (
+			name <- src.name,
+			type <- thisModule.createTypeAccess(src.type)
+		)
+}
+
+lazy rule createTypeAccess {
+	from
+		src : UML!Type
+	to 
+		tgt : Java!TypeAccess (
+			type <- src
+		)
+}

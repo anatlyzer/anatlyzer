@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -169,27 +170,27 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		return doRuleAnalysis(monitor, data, false);
 	}
 	
-	protected RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean createIfEmpty) {
+	protected RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean recordAllPossibleGuilty) {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
 		
-		if ( createIfEmpty ) {
-			guiltyRules.addAll(result);
-		} else {
-			for (OverlappingRules overlappingRules : result) {
-				if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-						 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-						 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-					guiltyRules.add(overlappingRules);
-				}
+		for (OverlappingRules overlappingRules : result) {
+			if ( recordAllPossibleGuilty ) {
+				guiltyRules.add(overlappingRules);
+			} else if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+					 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+				guiltyRules.add(overlappingRules);
 			}
 		}
 	
-		if ( guiltyRules.size() > 0 || createIfEmpty ) {
+		if ( guiltyRules.size() > 0 ) {
 			RuleConflicts rc = AtlErrorFactory.eINSTANCE.createRuleConflicts();
 			for (OverlappingRules overlappingRules : guiltyRules) {
 				ConflictingRuleSet set = overlappingRules.createRuleSet();
+				set.setStatus(overlappingRules.getAnalysisResult());
+				set.setDescription("Rule conflict: " + overlappingRules.getRules().stream().map(r -> r.getName()).collect(Collectors.joining(", ")));
 				rc.getConflicts().add(set);
 			}
 			return rc;

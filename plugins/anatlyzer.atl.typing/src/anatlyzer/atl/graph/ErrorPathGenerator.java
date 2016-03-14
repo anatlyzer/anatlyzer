@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -102,6 +103,8 @@ public class ErrorPathGenerator {
 			generatePath_FoundInSubtype((FoundInSubtype) p);
 		} else if ( p instanceof AccessToUndefinedValue ) {
 			generatePath_AccessToUndefinedValue((AccessToUndefinedValue) p);
+		} else if ( p instanceof AccessToUndefinedValue_ThroughEmptyCollection ) {
+			generatePath_AccessToUndefinedValue_ThroughEmptyCollection((AccessToUndefinedValue_ThroughEmptyCollection) p);
 		} else {
 			generatePath_GenericError((LocalProblem) p);
 		}
@@ -142,6 +145,15 @@ public class ErrorPathGenerator {
 	private void generatePath_AccessToUndefinedValue(AccessToUndefinedValue p) {
 		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
 		AccessToUndefinedValueNode node = new AccessToUndefinedValueNode(p, atlExpr);
+		currentPath = new ProblemPath(p, node);
+		
+		pathToControlFlow(atlExpr, node, new TraversedSet());		
+	}
+	
+
+	private void generatePath_AccessToUndefinedValue_ThroughEmptyCollection(AccessToUndefinedValue_ThroughEmptyCollection p) {
+		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
+		AccessToUndefinedValue_ThroughEmptyCollectionNode node = new AccessToUndefinedValue_ThroughEmptyCollectionNode(p, atlExpr);
 		currentPath = new ProblemPath(p, node);
 		
 		pathToControlFlow(atlExpr, node, new TraversedSet());		

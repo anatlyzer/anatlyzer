@@ -1,6 +1,6 @@
 -- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
 -- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
--- @pre Factory.allInstances()->size() > 0 
+-- @pre FAC!Factory.allInstances()->size() > 0 
 -- @footprint Factory
 
 -- MUTATION "Creation of InPattern Element" dummyMachine1 in AssemblerToPlaces (line 52:1-66:2 of original transformation)

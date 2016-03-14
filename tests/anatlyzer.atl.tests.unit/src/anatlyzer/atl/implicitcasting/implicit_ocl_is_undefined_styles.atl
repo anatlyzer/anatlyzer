@@ -1,0 +1,43 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module implicitoclisundefined;
+create OUT : WXYZ from IN : ABCD;
+
+helper context ABCD!Model def : simple() : String = 
+	if self.optionalA = OclUndefined then
+		'noError'
+	else
+		self.optionalA.name
+	endif;
+
+-- No error here
+helper context ABCD!Model def : name1() : String = 
+	if not (self.optionalA <> OclUndefined) then
+		if not (self.optionalB = OclUndefined)  then
+			self.optionalB.name
+		else
+			'defaultValue'
+		endif
+	else
+		self.optionalA.name
+	endif;
+--
+---- The second branch may provoke an error because optionalC is not checked
+helper context ABCD!Model def : name2() : String = 
+	if self.optionalA = OclUndefined then
+		if self.optionalB <> OclUndefined then
+			self.optionalB.name
+		else
+			self.optionalC.name
+		endif
+	else
+		self.optionalA.name
+	endif;
+	
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- src.simple() -- src.name1() + '_' + src.name2()
+    )
+}
+

@@ -164,7 +164,8 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		if ( root instanceof Module && getSameInputOutputMetamodelNames().isEmpty() ) {
 
 			if ( getOutMetamodelNames().contains(metamodel.getName()) && 
-				 self.eContainer() instanceof OclExpression ) {
+				 self.eContainer() instanceof OclExpression && ( ! (self.eContainer() instanceof OclType) )) {
+				// The last check is to avoid problems with declarations of target types like in Set(ATargetType)
 				
 				// Check it is not in a do block, typically invoking a newInstance
 				//  	&& ! (self.container_() instanceof CalledRule)
@@ -242,7 +243,7 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 	@Override
 	public void inOrderedSetType(OrderedSetType self) {
 		// TODO: Create proper OrderedSet type
-		attr.linkExprType( typ().newSetType( attr.typeOf( self.getElementType() ) ) );
+		attr.linkExprType( typ().newOrderedSetType( attr.typeOf( self.getElementType() ) ) );
 	}
 
 	@Override

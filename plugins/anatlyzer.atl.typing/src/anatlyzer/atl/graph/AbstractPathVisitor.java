@@ -112,7 +112,12 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	public boolean visitProblem(AccessToUndefinedValueNode node) {
 		return true;
 	}
-	
+
+	@Override
+	public boolean visitProblem(AccessToUndefinedValue_ThroughEmptyCollectionNode node) {
+		return true;
+	}
+
 	@Override
 	public boolean visitProblem(FeatureOrOperationFoundInSubtypeNode<?> node) {
 		return true;

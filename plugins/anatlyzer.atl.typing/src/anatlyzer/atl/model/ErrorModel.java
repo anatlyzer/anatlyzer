@@ -854,7 +854,7 @@ public class ErrorModel {
 	
 	public void signalAccessToUndefinedValue_ThroughEmptyCollection(PropertyCallExp node) {
 		AccessToUndefinedValue_ThroughEmptyCollection error = AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue_ThroughEmptyCollection();
-		initProblem(error, node);
+		initProblem(error, node, ProblemStatus.WITNESS_REQUIRED, true);
 		
 		signalError(error, "Access to undefined value due to empty collection: " + ATLSerializer.serialize(node.getSource()), node);
 	}

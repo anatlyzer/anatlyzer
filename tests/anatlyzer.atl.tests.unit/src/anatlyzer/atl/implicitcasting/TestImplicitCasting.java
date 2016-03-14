@@ -64,6 +64,17 @@ public class TestImplicitCasting extends UnitTest {
 		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
 	}
 	
+	// Similar to testImplicitOclIsUndefined but using <> and = OclUndefined
+	@Test
+	public void testImplicitOclIsUndefined_Styles() throws Exception {
+		String T = trafo("implicit_ocl_is_undefined_styles");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		assertEquals(1, problems().size());		
+		assertTrue(problems().get(0) instanceof AccessToUndefinedValue);
+		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
+	}
+	
 	@Test
 	public void testImplicitOclIsUndefined_Collections() throws Exception {
 		String T = trafo("implicit_ocl_is_undefined_collections");
@@ -71,7 +82,8 @@ public class TestImplicitCasting extends UnitTest {
 		
 		assertEquals(1, problems().size());		
 		assertTrue(problems().get(0) instanceof AccessToUndefinedValue_ThroughEmptyCollection);
-		assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
+		// assertEquals(ProblemStatus.STATICALLY_CONFIRMED, problems().get(0).getStatus());
+		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 	
 	@Test

@@ -179,7 +179,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		} else {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		}*/
-		if ( ctx.getInferredReturnType() instanceof UnionType || ctx.getInferredReturnType() instanceof OclUndefinedType ) {
+		if ( hasTooSpecificType(ctx.getInferredReturnType()) ) {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		} else {
 			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType()) + " = ";			
@@ -189,6 +189,17 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		s += USESerializer.gen(body); 
 		
 		return s;
+	}
+
+	private boolean hasTooSpecificType(Type t) {
+		if ( t instanceof UnionType || t instanceof OclUndefinedType )
+			return true;
+		
+		if ( t instanceof anatlyzer.atl.types.CollectionType ) {
+			return hasTooSpecificType(((anatlyzer.atl.types.CollectionType) t).getContainedType());
+		}
+		
+		return false;
 	}
 
 	private String toUSETypeName(OclType t) {

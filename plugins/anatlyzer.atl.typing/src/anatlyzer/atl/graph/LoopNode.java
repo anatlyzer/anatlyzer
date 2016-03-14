@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LoopExp;
@@ -54,6 +55,10 @@ public class LoopNode extends AbstractDependencyNode {
 
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
+		if ( loop instanceof IterateExp ) {
+			throw new FeatureNotSupported("Iterate is not supported when the error is within it");
+		}
+		
 		OclExpression newReceptor = model.gen(receptor);
 		IteratorExp exists = model.createExists(newReceptor, iteratorVar.getVarName());
 		model.addToScope(iteratorVar, exists.getIterators().get(0));

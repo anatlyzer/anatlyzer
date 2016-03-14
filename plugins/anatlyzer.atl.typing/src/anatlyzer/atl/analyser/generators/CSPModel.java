@@ -436,7 +436,7 @@ public class CSPModel {
 				if ( aVar.getVarName().equals("thisModule") && thisModule != null )
 					return thisModule;
 				
-				throw new IllegalStateException("Expected mapping for var " + aVar.getVarName() + " => " + context.getLocation());
+				throw new IllegalStateException("Expected mapping for var " + aVar.getVarName() + " at " + aVar.getLocation() + " => " + context.getLocation());
 			}
 			return vd;
 		}

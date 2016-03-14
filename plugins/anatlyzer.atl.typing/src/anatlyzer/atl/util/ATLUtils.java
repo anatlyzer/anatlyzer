@@ -203,7 +203,7 @@ public class ATLUtils {
 			if (mc2.getKlass().getEAllSuperTypes().stream().anyMatch(supertype -> supertype==mc1.getKlass())) return mc1; // t1 is supertype of t2
 			EClass commonAncestor = mc1.getKlass().getEAllSuperTypes().stream().filter(supertype -> 
 				mc2.getKlass().getEAllSuperTypes().stream().anyMatch(supertype2 -> supertype==supertype2)
-			).findFirst().get();
+			).findFirst().orElse(null);
 			if (commonAncestor != null) { // t1 and t2 have a common ancestor
 				Metaclass commonType = TypesFactory.eINSTANCE.createMetaclass();
 				commonType.setName(commonAncestor.getName());

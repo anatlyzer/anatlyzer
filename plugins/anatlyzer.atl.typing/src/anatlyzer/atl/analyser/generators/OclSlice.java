@@ -50,6 +50,10 @@ public class OclSlice {
 		ignore.add(anatlyzer.atlext.OCL.impl.BooleanExpImpl.class);
 		ignore.add(anatlyzer.atlext.OCL.impl.OclUndefinedExpImpl.class);
 		
+		ignore.add(anatlyzer.atlext.OCL.impl.StringTypeImpl.class);
+		ignore.add(anatlyzer.atlext.OCL.impl.IntegerTypeImpl.class);
+		ignore.add(anatlyzer.atlext.OCL.impl.BooleanTypeImpl.class);
+		ignore.add(anatlyzer.atlext.OCL.impl.RealTypeImpl.class);
 	}
 
 	public static void slice(ErrorSlice slice, OclExpression expr) {

@@ -60,6 +60,14 @@ public class USEValidityChecker extends AbstractVisitor {
 	}
 	
 	@Override
+	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
+		if ( self.getOperationName().equals("at") ) {
+			System.out.println("=> Invalid " + " at not supported");
+			isValid = false;
+		}
+	}
+	
+	@Override
 	public void inIfExp(IfExp self) {
 		Type thenExpr = self.getThenExpression().getInferredType();
 		Type elseExpr = self.getElseExpression().getInferredType();

@@ -150,6 +150,12 @@ public class OclGeneratorAST {
 		} else if ( expr instanceof OclType ) {
 			return genType((OclType) expr, vars);
 		} else {
+			if ( expr instanceof TupleExp ) {
+				// I believe this is not supported by USE. Could be adapted, but meanwhile I am just going
+				// to copy and let USEValidityChecker to reject the expression
+				return OCLFactory.eINSTANCE.createTupleExp();
+			}
+			
 			throw new UnsupportedOperationException(expr.toString());
 		}
 	}

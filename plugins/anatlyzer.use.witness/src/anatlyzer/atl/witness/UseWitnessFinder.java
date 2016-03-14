@@ -32,6 +32,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.footprint.TrafoMetamodelData;
+import anatlyzer.atl.graph.FeatureNotSupported;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -156,7 +157,14 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		}
 		
 		
-		OclExpression constraint = problem.getWitnessCondition(); 
+		OclExpression constraint = null;
+		try {
+			constraint = problem.getWitnessCondition();
+		} catch ( FeatureNotSupported e ) {
+			e.printStackTrace();
+			return ProblemStatus.NOT_SUPPORTED_BY_USE;
+		}
+		
 		if ( constraint == null ) {
 			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
 			return ProblemStatus.CANNOT_DETERMINE;

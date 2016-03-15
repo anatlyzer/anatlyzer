@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import witness.generator.TimeOutException;
-import witness.generator.USESolverMemory.USEResult;
+import witness.generator.USEResult;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;

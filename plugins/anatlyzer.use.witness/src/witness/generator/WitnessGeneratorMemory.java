@@ -23,7 +23,6 @@ import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
 import transML.utils.solver.use.Solver_use;
-import witness.generator.USESolverMemory.USEResult;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
 import witness.generator.mmext.MandatoryFullMetamodelStrategy;
 import witness.visualizer.EMFModelPlantUMLSerializer;

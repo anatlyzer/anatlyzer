@@ -2,8 +2,13 @@ package anatlyzer.experiments.performance;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.errors.ProblemStatus;
+
 import org.eclipse.m2m.atl.core.emf.EMFModel;
+
+import witness.generator.WitnessGeneratorMemory;
 
 public aspect MeasurePathComputationTime {
 	
@@ -143,14 +148,23 @@ public aspect MeasurePathComputationTime {
 
     
     // Witness finder. This records all invocations from n = 0 to n < scope at once
-    before() : execution(boolean witness.generator.WitnessGeneratorMemory.generate()){
+    /*
+    before() : execution(witness.generator.USEResult witness.generator.WitnessGeneratorMemory.generate()){
     	solverTime.start(SOLVER_TIME);
     }
     
-    after() :execution(boolean witness.generator.WitnessGeneratorMemory.generate()){
+    after() :execution(witness.generator.USEResult witness.generator.WitnessGeneratorMemory.generate()){
     	solverTime.stop();
     }
-
+    */
+    
+    before() : execution(ProblemStatus anatlyzer.atl.witness.UseWitnessFinder.tryResolve(..)){
+    	solverTime.start(SOLVER_TIME);
+    }
+	
+    after() : execution(ProblemStatus anatlyzer.atl.witness.UseWitnessFinder.tryResolve(..)){
+    	solverTime.stop();
+    }
     
     // Find witness
     /*

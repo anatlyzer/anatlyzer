@@ -1,6 +1,6 @@
 -- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
 -- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
--- @pre Factory.allInstances()->size() > 0 
+-- @pre FAC!Factory.allInstances()->size() > 0 
 -- @footprint Factory
 
 -- MUTATION "Creation of Binding" weight in a (line 76:2-79:3 of original transformation)

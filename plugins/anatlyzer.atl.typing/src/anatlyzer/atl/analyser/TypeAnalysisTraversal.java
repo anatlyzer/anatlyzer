@@ -631,7 +631,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	protected Set<OclExpression> mayBeEmptyCollection = new HashSet<OclExpression>();
 
 	private void computeEmptyCollection(CollectionOperationCallExp self) {
-		if ( self.getOperationName().equals("first") ) {
+		if ( self.getOperationName().equals("first") || self.getOperationName().equals("last") || self.getOperationName().equals("at")) {
 			boolean hasEmptyCollectionHint = false;
 			if ( self.getSource() instanceof LoopExp ) {
 				// Need to be checked by the solver...
@@ -703,54 +703,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		// TODO Shouldnt' I check that this is in an ifCondition?? Perhaps add this to openScope after condition has been
 		// evaluated and add a traversal to fill the scope if needed??
 					
-		// Treating oclIsKindOf
-		if ( self.getOperationName().equals("oclIsKindOf") || 
-			 self.getOperationName().equals("oclIsTypeOf") || // This is not completely accurate!
-			 self.getOperationName().equals("oclIsUndefined") ) {
-			
-			if ( self.getOperationName().equals("oclIsKindOf") ||  self.getOperationName().equals("oclIsTypeOf") ) {
-				if ( arguments.length != 1 ) {
-					return;
-				}  else {
-					// This is to avoid false positives in expressions such as: e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join)
-					Type noCasted = computeNoCastedType(self);
-					if ( ! TypingModel.isCompatibleOclKindOfParam(noCasted, arguments[0]) ) {
-						errors().signalInvalidArgument("oclIsKindOf", 
-								"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(noCasted), self);
-						return;
-					}
-				}
-			}
-			
-			
-			// Discard those with a negation
-			int numberOfNegations = computeConditionPosition(self);
-			
-			
-			if ( numberOfNegations != -1 ) {
-				VariableExp ve = VariableScope.findStartingVarExp(self);
-				boolean hasNegation = numberOfNegations % 2 == 1;
-				if ( ! hasNegation ) {
-					// TODO: Check that kindOfType is a subtype of typeOf(self.getSource), taking OclAny into account
-					if ( self.getOperationName().equals("oclIsUndefined") ) {
-						attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
-					} else {
-						Type kindOfType = attr.typeOf(self.getArguments().get(0));
-						attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
-
-						// If something is confirmed at runtime to be "of type", then in cannot be undefined
-						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
-					}
-				} else {
-					if ( self.getOperationName().equals("oclIsUndefined") ) {
-						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
-					} else {
-						Type kindOfType = attr.typeOf(self.getArguments().get(0));
-						attr.getVarScope().putNotKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
-					}
-				}
-			}
-		}
+		addToKindOfScope(self, arguments);
+		addToOclUndefinedScope(self);
 		
 		// marking already casted elements...
 		if ( attr.wasCasted(self.getSource()) ){
@@ -759,6 +713,68 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 	}
 
+	private void addToOclUndefinedScope(OperationCallExp self) {
+		int oclUndefinedStyle = -1;
+		
+		if ( self.getOperationName().equals("oclIsUndefined") ) { 
+			oclUndefinedStyle = 0;
+		} else if ( self.getOperationName().equals("=") && self.getArguments().size() == 1 && self.getArguments().get(0) instanceof OclUndefinedExp ){
+			oclUndefinedStyle = 0;
+		} else if ( self.getOperationName().equals("<>") && self.getArguments().size() == 1 && self.getArguments().get(0) instanceof OclUndefinedExp ){
+			oclUndefinedStyle = 1;
+		}
+		
+		if ( oclUndefinedStyle != -1 ) {
+			// Discard those with a negation
+			int numberOfNegations = computeConditionPosition(self);
+					
+			if ( numberOfNegations != -1 ) {
+				numberOfNegations += oclUndefinedStyle;
+				VariableExp ve = VariableScope.findStartingVarExp(self);
+				boolean hasNegation = numberOfNegations % 2 == 1;
+				if ( ! hasNegation ) {
+					attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
+				} else {
+					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+				}
+			}
+		}
+	}
+	
+	private void addToKindOfScope(OperationCallExp self, Type[] arguments) {
+		if ( self.getOperationName().equals("oclIsKindOf") || 
+			 self.getOperationName().equals("oclIsTypeOf") ) {
+				
+			if ( arguments.length != 1 ) {
+				return;
+			}  else {
+				// This is to avoid false positives in expressions such as: e.input.oclIsKindOf(WF!Fork) or e.input.oclIsKindOf(WF!Join)
+				Type noCasted = computeNoCastedType(self);
+				if ( ! TypingModel.isCompatibleOclKindOfParam(noCasted, arguments[0]) ) {
+					errors().signalInvalidArgument("oclIsKindOf", 
+							"Type " + TypeUtils.typeToString(arguments[0]) + " not compatible with " + TypeUtils.typeToString(noCasted), self);
+					return;
+				}
+			}
+				
+			int numberOfNegations = computeConditionPosition(self);						
+			if ( numberOfNegations != -1 ) {
+				VariableExp ve = VariableScope.findStartingVarExp(self);
+				boolean hasNegation = numberOfNegations % 2 == 1;
+				if ( ! hasNegation ) {
+					Type kindOfType = attr.typeOf(self.getArguments().get(0));
+					attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+
+					// If something is confirmed at runtime to be "of type", then in cannot be undefined
+					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+				} else {
+					Type kindOfType = attr.typeOf(self.getArguments().get(0));
+					attr.getVarScope().putNotKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
+				}
+			}
+		}
+	}
+	
 
 	private Type computeNoCastedType(OperationCallExp self) {
 		return attr.noCastedTypeOf(self.getSource());
@@ -912,7 +928,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 		if ( finalType == null ) {
+			// TODO: Check TextualPathExp2PathExp.atl raising the exception.
+			//       It is the only case in which it happens
 			throw new IllegalStateException("resolveTemp: " + self.getLocation());
+			// finalType = typ().newUnknownType();
 		}
 
 		attr.linkExprType(finalType);
@@ -1126,6 +1145,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			  ! (self.getOperationName().equals("=") || self.getOperationName().equals("<>")) ) {
 			checkAccessToUndefined(self);
 		}
+		
+		addToOclUndefinedScope(self);
 		
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		attr.linkExprType(tspace.getOperatorType(self.getOperationName(), optional, self));

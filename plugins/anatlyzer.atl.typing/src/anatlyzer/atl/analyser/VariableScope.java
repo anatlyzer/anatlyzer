@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -40,6 +41,12 @@ public class VariableScope {
 	}
 
 	public void putKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
+		// This is to avoid problems like in TT2BDD in which the parameters are OclAny
+		// and makes it difficult to reason about OclIsKindOf
+		if ( source.getInferredType() instanceof Unknown ) {
+			return;
+		}
+		
 		currentKindOf.addOclKindOf(vd, source, typeOfType);
 	}
 

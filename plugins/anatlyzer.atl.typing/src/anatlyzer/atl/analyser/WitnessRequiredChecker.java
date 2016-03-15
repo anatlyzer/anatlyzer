@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.graph.AbstractPathVisitor;
@@ -123,6 +124,9 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 				invalidated = checkUndefined( (EStructuralFeature) ((PropertyCallExp) pcall.getSource()).getUsedFeature(), expr); 					
 			}
 			return invalidated;
+		} else if ( path.getProblem() instanceof AccessToUndefinedValue_ThroughEmptyCollection ) {
+			invalidated = false;
+			
 		} else if ( path.getProblem() instanceof FoundInSubtype ) {
 			Type t = ((PropertyCallExp) path.getProblem().getElement()).getSource().getInferredType();			
 			invalidated = isSubtypeInvalidation(t, expr); 					

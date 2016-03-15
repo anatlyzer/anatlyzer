@@ -177,7 +177,7 @@ public class TypingModel {
 	}
 
 	public OrderedSetType newOrderedSetType(Type nested) {
-		OrderedSetType oset = add(TypesFactory.eINSTANCE.createSetType());
+		OrderedSetType oset = add(TypesFactory.eINSTANCE.createOrderedSetType());
 		oset.setContainedType(nested);
 		oset.setMultivalued(true);
 		oset.setMetamodelRef(primitiveNamespace.getClassifier(PrimitiveGlobalNamespace.ORDERED_SET_TYPE, nested));

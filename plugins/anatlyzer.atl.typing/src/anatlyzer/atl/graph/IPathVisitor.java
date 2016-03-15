@@ -24,6 +24,8 @@ public interface IPathVisitor {
 
 	public boolean visitProblem(AccessToUndefinedValueNode node);
 
+	public boolean visitProblem(AccessToUndefinedValue_ThroughEmptyCollectionNode node);
+	
 	public boolean visitProblem(FeatureOrOperationFoundInSubtypeNode<?> node);
 
 	public boolean visitProblem(ResolveTempPossiblyUnresolvedNode node);

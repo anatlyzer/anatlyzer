@@ -1,6 +1,6 @@
 -- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
 -- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
--- @pre Factory.allInstances()->size() > 0 
+-- @pre FAC!Factory.allInstances()->size() > 0 
 -- @footprint Factory
 
 -- MUTATION "Creation of OutPattern Element" dummyTransition5 in Factory2Net (line 9:1-29:2 of original transformation)

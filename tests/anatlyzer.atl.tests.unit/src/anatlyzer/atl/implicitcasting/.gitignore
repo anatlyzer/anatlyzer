@@ -10,3 +10,4 @@
 /implicit_if_else_not_kind.asm
 /feature_found_in_subtype.asm
 /implicit_ocl_is_undefined_collections.asm
+/implicit_ocl_is_undefined_styles.asm

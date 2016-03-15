@@ -1,6 +1,6 @@
 -- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
 -- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
--- @pre Factory.allInstances()->size() > 0 
+-- @pre FAC!Factory.allInstances()->size() > 0 
 -- @footprint Factory
 
 -- MUTATION "Deletion of Binding" author in p (line 35:3-35:30 of original transformation)

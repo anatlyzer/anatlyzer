@@ -247,7 +247,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				// AnalyserData data = new AnalyserExecutor().exec(resource);
 				AnalyserData data = analysisExecutor.get();
 				if ( data == null ) {
-					System.out.println("May be syntax errors");
+					System.out.println("May be syntax errors in " + resource.getName());
 					return; // if there are syntax errors!
 				}
 				

@@ -1,6 +1,6 @@
 -- @path CPN=/_TSE_Mutation/metamodels/ColouredPetriNet.ecore
 -- @path FAC=/_TSE_Mutation/metamodels/Factory.ecore
--- @pre Factory.allInstances()->size() > 0 
+-- @pre FAC!Factory.allInstances()->size() > 0 
 -- @footprint Factory
 
 -- MUTATION "Collection Type Modification" from SetType:Token to SetType:PetriNet (line 156:42-156:56 of original transformation)

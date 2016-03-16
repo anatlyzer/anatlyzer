@@ -35,12 +35,13 @@ import anatlyzer.experiments.performance.raw.PETransformation;
 import anatlyzer.experiments.performance.raw.PETransformationExecution;
 import anatlyzer.experiments.typing.AbstractATLExperiment;
 import anatlyzer.experiments.typing.raw.TEData;
+import anatlyzer.experiments.typing.raw.TEProject;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class MeasurePerformance extends AbstractATLExperiment {
 
 	public static final int NUM_DISCARDED = 0;
-	public static final int REPETITIONS   = 1;
+	public static final int REPETITIONS   = 3;
 
 	private static final List<MeasureResult> results = new ArrayList<MeasureResult>();
 	private PEData expData;
@@ -178,15 +179,17 @@ public class MeasurePerformance extends AbstractATLExperiment {
 
 	@Override
 	protected void perform(IResource resource) {
+		String trafoName = resource.getName();
+		
+		if ( getExcludeSameName() && expData.getTransformations().stream().filter(t -> trafoName.equals(t.getName())).findAny().isPresent() ) {
+			System.out.println("Excluded " + resource.getFullPath().toPortableString());
+			// project.addExcluded(trafoName, resource.getFullPath().toPortableString());
+			return;
+		}
+		
+		
 		try {
 			resetAll();
-			
-			/*
-			for(int i = 0; i < NUM_DISCARDED; i++) {			
-				AnalyserData data = executeAnalyser(resource);
-				confirmProblems(data.getProblems(), data);
-			}
-			*/
 			
 			System.out.println("Measuring " + resource.getName());
 		

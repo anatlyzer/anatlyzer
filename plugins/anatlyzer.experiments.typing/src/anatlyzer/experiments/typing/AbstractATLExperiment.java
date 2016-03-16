@@ -50,7 +50,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	}
 	
 	public boolean getExcludeSameName() {
-		return this.options.getOrDefault("exclude_same_name", "false").equals("true");
+		return this.options.getOrDefault("exclude_same_name", "true").equals("true");
 	}
 	
 	public boolean getDoUnfoldingOption() {

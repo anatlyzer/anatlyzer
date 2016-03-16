@@ -530,7 +530,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inIterateExp(IterateExp self) {
-		attr.linkExprType( attr.typeOf( self.getResult() ) );
+		attr.linkExprType( attr.typeOf( self.getBody() ) );
 	}
 	
 	@Override
@@ -828,9 +828,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	}
 	
 	private void resolveResolveTemp(OperationCallExp self) {
-		if ( self.getLocation().equals("357:22-357:55") )
-			System.out.println(self);
-		
 		if ( ! (root instanceof Module ) ) {
 			// errors().signalNoRecoverableError("resolveTemp only available in transformation modules", self);
 			Type t = errors().signalInvalidArgument("resolveTemp", "resolveTemp only available in transformation modules", self);	
@@ -864,6 +861,12 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		List<Type> selectedTypes = new ArrayList<Type>();		
 		
 		for(Type t : typ().allPossibleTypes(type_)) {
+			if ( t instanceof TypeError ) {
+				// In case the error is propagatated, I don't want to check anything else
+				errorType = t;
+				break;
+			}
+			
 			if ( ! (t instanceof Metaclass) ) {
 				errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);
 				continue;

@@ -45,7 +45,6 @@ import org.eclipse.m2m.atl.engine.parser.AtlParser;
 
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
-import transML.utils.modeling.ATLEngine;
 import transML.utils.modeling.EMFUtils;
 import transML.utils.modeling.TrafoEngine;
 import transML.utils.solver.FactorySolver;
@@ -125,6 +124,10 @@ public class Tester {
 	private String folderMutants;
 	private String folderModels;
 	private String folderTemp;
+
+	// configuration options
+	private boolean generateMutants = false;
+	private boolean generateTestModels = false;
 	
 	/**
 	 * @param trafo transformation to be used in the evaluation
@@ -157,7 +160,8 @@ public class Tester {
 	 * @throws IOException 
 	 */
 	public void runEvaluation () throws transException, ATLCoreException, IOException {
-		this.generateTestModels ();
+		if ( generateTestModels )
+			this.generateTestModels ();
 		
 		// if the original transformation has no errors, perform the evaluation
 		this.evaluateTransformation(atlFile);
@@ -169,7 +173,10 @@ public class Tester {
 		
 		if (error.isEmpty()) {
 			report.clear();
-			this.generateMutants ();
+			
+			if ( generateMutants )
+				this.generateMutants ();
+			
 			this.evaluate();
 //			this.deleteDirectory(this.folderTemp, true); // delete temporal folder
 			this.printReport();
@@ -323,9 +330,10 @@ public class Tester {
 		// load transformation preconditions (defined as comments annotated by @pre)
 		Module       module        = new ATLModel(atlModel.getResource()).getModule();
 		List<String> preconditions = new ArrayList<String>();
+		String tag = "@pre_use_format";
 		for (String s : module.getCommentsBefore()) {
-			if (s.contains("@pre")) 
-				preconditions.add(s.substring( s.indexOf("@pre")+4 ).trim());
+			if (s.contains(tag)) 
+				preconditions.add(s.substring( s.indexOf(tag)+tag.length()).trim());
 		}
 		
 		// generate models
@@ -495,12 +503,16 @@ public class Tester {
 	 * @return list of confirmed problems
 	 * @throws IOException
 	 * @throws ATLCoreException
+	 * @throws PreconditionParseError 
+	 * @throws CannotLoadMetamodel 
+	 * @throws CoreException 
 	 */
-	private String typing (String atlTransformationFile) throws IOException, ATLCoreException {
+	private String typing (String atlTransformationFile) throws IOException, ATLCoreException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 		String        problem = "";
 		ProblemStatus status  = null;
 		
 		// the anatlyser needs to create the global namespace each time...
+		/*
 		ResourceSet               rs                      = new ResourceSetImpl();
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
 		for (String metamodel : this.namespace.getLogicalNamesToMetamodels().keySet()) {
@@ -509,11 +521,30 @@ public class Tester {
 			logicalNamesToResources.put(metamodel, refresh);
 		}
 		GlobalNamespace namespace = new GlobalNamespace(logicalNamesToResources.values(), logicalNamesToResources);
-
+		*/
+		
+	
 		// load transformation
 		EMFModel  atlModel          = this.loadTransformationModel(atlTransformationFile);			
 		ATLModel  atlTransformation = new ATLModel(atlModel.getResource());
 
+		// The prepare method is in charge of setting up the meta-models but also
+		// configuring libraries (indicated with @lib) and pre-conditions (@pre)
+		GlobalNamespace namespace = AnalyserUtils.prepare(atlTransformation, new IAtlFileLoader() {			
+			@Override
+			public Resource load(IFile f) {
+				EMFModel libModel = AtlEngineUtils.loadATLFile(f);
+				return libModel.getResource();
+			}
+			
+			@Override
+			public Resource load(String text) {
+				EMFModel libModel = AtlEngineUtils.loadATLText(text);
+				return libModel.getResource();
+			}
+		});
+
+		
 		// anatlyse
 		Analyser analyser = new Analyser(namespace, atlTransformation);
 		analyser.perform();
@@ -567,7 +598,7 @@ public class Tester {
 		try {
 			// load transformation
 			String transformation_asm = transformation.replace(".atl", ".asm");
-			TrafoEngine engine = new ATLEngine();
+			TrafoEngine engine = new AnATLyzerATLEngine();
 			engine.loadTransformation(transformation_asm);
 
 			// obtain input test models 

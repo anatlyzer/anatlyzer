@@ -626,7 +626,7 @@ public class ATLUtils {
 	}
 	
 	public static List<String> getPreconditions(ATLModel atlModel) {
-		String tag = "@pre";
+		String tag = "@pre "; // add an space to make sure that there is one and avoid conflicts with any other tag starting with @pre
 		Unit root = atlModel.getRoot();
 		
 		List<String> result = new ArrayList<String>();

@@ -322,7 +322,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		for (scope=minScope; scope<=maxScope && (model==null || !model.isSatisfiable()); scope++) {
 			try {
 				// model = solver.find(scope);
-				model = TimedOutSolverExecution.find(solver, maxScope, timeOut);
+				model = TimedOutSolverExecution.find(solver, scope, timeOut);
 			} catch (transException e) {
 				// a) execution error
 				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {

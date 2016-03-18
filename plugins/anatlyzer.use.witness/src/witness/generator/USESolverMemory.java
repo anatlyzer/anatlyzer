@@ -119,9 +119,9 @@ public class USESolverMemory extends Solver_use {
 			} else {
 				customGenPropertiesFiles(scopeCalculator, metamodel, root.getName(), writer2, objectUpperBound);
 			}
-			System.out.println("Properties files");
-			System.out.println(writer2);
-			writer2.close();
+//			System.out.println("Properties files");
+//			System.out.println(writer2);
+//			writer2.close();
 			//System.out.println(useSpecification);
 			
 			

@@ -235,6 +235,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// other helpers within preconditions
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		
+		computeStats(slice, originalConstraint);
+		
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {
@@ -308,6 +310,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			}
 			return result;
 		}
+	}
+
+	// This is here as a way to easily connect with measuring aspects that want to use this data
+	private void computeStats(ErrorSlice slice, OclExpression originalConstraint) {
+		// do nothing
 	}
 
 	protected WitnessGeneratorMemory setUpWitnessGenerator(

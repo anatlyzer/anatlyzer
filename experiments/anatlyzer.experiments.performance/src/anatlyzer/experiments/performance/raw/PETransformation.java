@@ -9,8 +9,6 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import anatlyzer.atl.util.Pair;
-
 
 /**
  * A transformation shows performance analysis is evaluated.
@@ -71,6 +69,7 @@ public class PETransformation {
 		long createATLModelTime = 0;
 		long rawModelFindingTime = 0;
 		
+		ArrayList<PEProblemExecution> validProgramExecutions = new java.util.ArrayList<>();
 		for (PETransformationExecution te : rest) {
 			totalTime    += te.getTotalTime().getTime();
 			analysisTime += te.getAnalysisTime().getTime();
@@ -81,15 +80,18 @@ public class PETransformation {
 			createATLModelTime += te.getCreateATLModelTime().getTime();
 			rawModelFindingTime += te.getRawModelFindingTime().getTime();
 			
-			Map<String, List<PEProblemExecution>> problemExecs = te.getValidProblemExecutions().stream().collect(Collectors.groupingBy(e -> e.getUniqueId()));
-			checkAllSameExecutions(problemExecs);
-			
-			problemExecs.forEach((str, execList) -> {				
-				PEProblemExecution avgProblem = getAvg(execList);
-				avg.addProblemExecution(avgProblem);				
-			});
-			
+			validProgramExecutions.addAll(te.getValidProblemExecutions());
 		}
+		
+		
+		Map<String, List<PEProblemExecution>> problemExecs = validProgramExecutions.stream().collect(Collectors.groupingBy(e -> e.getUniqueId()));
+		checkAllSameExecutions(problemExecs);
+			
+		problemExecs.forEach((str, execList) -> {				
+			PEProblemExecution avgProblem = getAvg(execList);
+			avg.addProblemExecution(avgProblem);				
+		});
+			
 		
 		avg.setTotalTime(new PETime(totalTime, rest.size()));
 		avg.setAnalysisTime(new PETime(analysisTime, rest.size()));

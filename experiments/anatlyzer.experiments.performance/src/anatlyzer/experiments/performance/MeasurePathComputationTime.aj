@@ -2,9 +2,11 @@ package anatlyzer.experiments.performance;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atlext.OCL.OclExpression;
 
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
@@ -102,6 +104,13 @@ public aspect MeasurePathComputationTime {
     
     after() : execution(anatlyzer.atl.graph.ProblemPath anatlyzer.atl.graph.ErrorPathGenerator.generatePath(anatlyzer.atl.errors.atl_error.LocalProblem)){
     	pathCreation.stop();
+    }
+
+    before(anatlyzer.atl.analyser.generators.ErrorSlice slice, anatlyzer.atlext.OCL.OclExpression constraint) : 
+    	execution(void anatlyzer.atl.witness.UseWitnessFinder.computeStats(anatlyzer.atl.analyser.generators.ErrorSlice, anatlyzer.atlext.OCL.OclExpression)) && 
+    	args(slice, constraint) {
+    	
+    	System.out.println("Compute stats: " + slice);
     }
     
     // Construct problem tree 

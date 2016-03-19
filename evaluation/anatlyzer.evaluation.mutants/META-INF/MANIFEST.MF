@@ -24,3 +24,8 @@ Import-Package: anatlyzer.atl.editor.witness,
  org.eclipse.ui.console
 Export-Package: anatlyzer.evaluation.instrumentation,
  anatlyzer.evaluation.tester
+Bundle-ClassPath: lib/simple-xml-2.7.1/simple-xml-2.7.1.jar,
+ lib/simple-xml-2.7.1/stax-1.2.0.jar,
+ lib/simple-xml-2.7.1/stax-api-1.0.1.jar,
+ lib/simple-xml-2.7.1/xpp3-1.1.3_8.jar,
+ .

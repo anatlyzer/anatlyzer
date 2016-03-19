@@ -2,6 +2,8 @@ package anatlyzer.evaluation.ui;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -12,6 +14,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 
 public class MutantEvaluationConfigurationDialog extends Dialog {
+
+	private Button btnGenerateNewMutants;
+	private Button btnGenerateTestModels;
 
 	/**
 	 * Create the dialog.
@@ -31,10 +36,10 @@ public class MutantEvaluationConfigurationDialog extends Dialog {
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		
-		Button btnGenerateNewMutants = new Button(container, SWT.CHECK);
+		btnGenerateNewMutants = new Button(container, SWT.CHECK);
 		btnGenerateNewMutants.setText("Generate new mutants");
 		
-		Button btnGenerateTestModels = new Button(container, SWT.CHECK);
+		btnGenerateTestModels = new Button(container, SWT.CHECK);
 		btnGenerateTestModels.setText("Generate test models");
 
 		return container;
@@ -60,4 +65,24 @@ public class MutantEvaluationConfigurationDialog extends Dialog {
 		return new Point(280, 177);
 	}
 
+	@Override
+	protected void okPressed() {
+		this.generateTestModels = btnGenerateTestModels.getSelection();
+		this.generateNewMutants = btnGenerateNewMutants.getSelection();
+		super.okPressed();
+	}
+	
+	// Option access
+	private boolean generateTestModels;
+	private boolean generateNewMutants;
+	
+	public boolean getOptionGenerateTestModels() {
+		return generateTestModels;
+	}
+	
+	public boolean getOptionGenerateNewMutants() {
+		return generateNewMutants;
+	}
+	
+	
 }

@@ -20,6 +20,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -43,6 +45,7 @@ import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
 import org.eclipse.m2m.atl.engine.compiler.CompileTimeError;
 import org.eclipse.m2m.atl.engine.compiler.atl2006.Atl2006Compiler;
 import org.eclipse.m2m.atl.engine.parser.AtlParser;
+import org.tzi.use.util.soil.exceptions.EvaluationFailedException;
 
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
@@ -108,6 +111,9 @@ import anatlyzer.evaluation.mutators.modification.type.InElementModificationMuta
 import anatlyzer.evaluation.mutators.modification.type.OutElementModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.ParameterModificationMutator;
 import anatlyzer.evaluation.mutators.modification.type.VariableModificationMutator;
+import anatlyzer.evaluation.raw.MUData;
+import anatlyzer.evaluation.raw.MUProblem;
+import anatlyzer.evaluation.raw.MUTransformation;
 import anatlyzer.evaluation.report.Report;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.AtlEngineUtils;
@@ -122,6 +128,11 @@ public class Tester {
     private HashMap<String, ModelInfo> aliasToPaths = new HashMap<String, ModelInfo>();
 	private ResourceSet rs;
 	private Report report;
+	
+	private MUData rawData;
+	private MUTransformation currentMutant; // The mutant being evaluated (if != null)
+	private long initTime;
+	
 	private ModelGenerationStrategy.STRATEGY modelGenerationStrategy;
 	
 	// temporal folders
@@ -155,6 +166,20 @@ public class Tester {
 		this.folderTemp    = temporalFolder + "temp" + File.separator;
 	}
 	
+	public void setGenerateMutants(boolean optionGenerateNewMutants) {
+		this.generateMutants = optionGenerateNewMutants;
+	}
+	
+	public void setGenerateTestModels(boolean optionGenerateTestModels) {
+		this.generateTestModels = optionGenerateTestModels;
+	}
+
+
+	public void runEvaluation() throws transException, ATLCoreException, IOException {
+		runEvaluation(new NullProgressMonitor());
+	}
+	
+	
 	/**
 	 * It runs the evaluation, consisting on three steps:
 	 * (1) generation of mutants of the original (correct) transformation
@@ -164,9 +189,15 @@ public class Tester {
 	 * @throws ATLCoreException 
 	 * @throws IOException 
 	 */
-	public void runEvaluation () throws transException, ATLCoreException, IOException {
-		if ( generateTestModels )
+	public void runEvaluation(IProgressMonitor monitor) throws transException, ATLCoreException, IOException {
+		rawData = new MUData();
+		initTime = System.currentTimeMillis();
+		
+		if ( generateTestModels ) {
+			monitor.beginTask("Generating test models", IProgressMonitor.UNKNOWN);
 			this.generateTestModels ();
+			monitor.done();
+		}
 		
 		// if the original transformation has no errors, perform the evaluation
 		this.evaluateTransformation(atlFile);
@@ -179,13 +210,26 @@ public class Tester {
 		if (error.isEmpty()) {
 			report.clear();
 			
-			if ( generateMutants )
+			if ( generateMutants ) {
+				monitor.beginTask("Generating mutants", IProgressMonitor.UNKNOWN);
 				this.generateMutants ();
+				monitor.done();
+			}
 			
-			this.evaluate();
+			this.evaluate(monitor);
+
+			// Save the raw data
+			rawData.setElapsedTime(getElapsedTime());
+			rawData.save(atlFile.replace(".atl", ".expdata"));
+
+			// Save the report as was done originally
 //			this.deleteDirectory(this.folderTemp, true); // delete temporal folder
-			this.printReport();
 			this.printReport(URI.createURI(atlFile).trimSegments(1).toString());
+			try {
+				this.printReport(); // be aware that this may provoke an exception if the editor is closed...
+			} catch ( Exception e ) {
+				e.printStackTrace();
+			}
 		}
 		
 		// otherwise, return an error
@@ -384,15 +428,30 @@ public class Tester {
 	
 	/**
 	 * For each transformation in folderTransformations, it checks whether its anatlysis yields a correct result. 
+	 * @param monitor 
 	 */
-	private void evaluate () {
+	private void evaluate (IProgressMonitor monitor) {
 		File[] trafos = new File(this.folderMutants).listFiles(
 			new FilenameFilter() {
 				public boolean accept(File directory, String fileName) {
 					return fileName.endsWith(".atl"); 
 				}
 			});		
-		for (File transformation : trafos) evaluateTransformation(transformation.getPath());
+		
+		monitor.beginTask("Evaluating mutants", trafos.length);
+		
+		for(int i = 0; i < trafos.length; i++) {
+			File transformation = trafos[i];
+			
+			monitor.subTask("Evaluating " + transformation.getName() + " (" + i + "/" + trafos.length + "). Elapsed time: " + getElapsedTime() + " minutes");
+			
+			evaluateTransformation(transformation.getPath());
+		
+			monitor.worked(1);
+			if ( monitor.isCanceled() ) {
+				throw new EvaluationFinishedOnRequest();
+			}
+		}
 	}
 	
 	/**
@@ -405,6 +464,10 @@ public class Tester {
 	 */
 	private void evaluateTransformation (String transformation) {		
 		System.out.println("evaluating " + transformation + "...");
+		
+		currentMutant = new MUTransformation(transformation, transformation);
+		rawData.addMutant(currentMutant);
+		
 		List<Problem> errorsAnatlyser = null;
 		boolean errorsExecution = false;
 		
@@ -413,11 +476,16 @@ public class Tester {
 
 		// anatlyse transformation
 		try {	
-			errorsAnatlyser = this.typing(transformation);
+			errorsAnatlyser = this.typing(transformation);			
+			errorsAnatlyser.forEach(p -> currentMutant.addProblem(new MUProblem(p)));
+			
 			if (!errorsAnatlyser.isEmpty()) 
 				report.setAnatlyserError(transformation, errorsAnatlyser.stream().map(error -> error.getDescription() + " (" + error.getStatus() + ")").collect(Collectors.joining(";")) );
 		}
-		catch (Exception e) { report.setAnatlyserException(transformation, e.getMessage()); }
+		catch (Exception e) { 
+			currentMutant.analysisError(e);
+			report.setAnatlyserException(transformation, e.getMessage()); 
+		}
 		
 		// execute transformation
 		errorsExecution = this.executeTransformation(transformation);
@@ -645,13 +713,21 @@ public class Tester {
 						Resource resource = rs.getResource(uri, true);
 						for (EObject eObject : resource.getContents()) {
 							Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
-							if (diagnostic.getSeverity() != Diagnostic.OK) 
+							if (diagnostic.getSeverity() != Diagnostic.OK) {
 								error = report.setOutputError(transformation, ((BasicDiagnostic)diagnostic.getChildren().get(0)).getMessage(), inputModel.getName());
+								currentMutant.setMutantError(diagnostic, inputModel.getName());
+							}
 						}
 					}
-					else error = report.setExecutionError(transformation, "EXECUTION_ERROR", inputModel.getName());
+					else {
+						error = report.setExecutionError(transformation, "EXECUTION_ERROR", inputModel.getName());
+						currentMutant.setMutantError("EXECUTION_ERROR", inputModel.getName());
+					}
 				}
-				catch (transException e) { error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); }
+				catch (transException e) { 
+					error = report.setExecutionError(transformation, e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName()); 
+					currentMutant.setMutantError( e.getDetails().length>0? e.getDetails()[0] : e.getMessage(), inputModel.getName());
+				}
 				
 				if (error && !exhaustive) break;
 			}
@@ -797,4 +873,13 @@ public class Tester {
 		File target = new File(targetDirectory);
 		Files.move(source.toPath(), target.toPath(), StandardCopyOption.ATOMIC_MOVE);
 	}
+	
+	/**
+	 * Computes the time in minutes since the evaluation started.
+	 */
+	public long getElapsedTime() {
+		long diff = System.currentTimeMillis() - initTime;
+		return diff / (1000 * 60);
+	}
+	
 }

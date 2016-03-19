@@ -160,7 +160,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		errorMM.setNsPrefix(languageMM.getNsPrefix() + idx);
 		errorMM.setNsURI   ((languageMM.getNsURI()!=null?languageMM.getNsURI():effectiveMM.getNsURI()) + "/" + idx);
 
-		addBaseObject(errorMM);
+		// addBaseObject(errorMM);
 		changeNamesToResolveConflicts(errorMM, new USENameModifyier());
 		
 		if ( forceOnceInstancePerClass ) {

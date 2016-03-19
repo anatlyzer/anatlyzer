@@ -12,6 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Text;
 
 public class EditConfiguration extends Dialog {
 
@@ -24,6 +25,8 @@ public class EditConfiguration extends Dialog {
 	private Label lblNewLabel_1;
 	private Combo cmbGraphicalWitness;
 	private TransformationConfiguration configuration;
+	private Label lblTimeOut;
+	private Text txtTimeOut;
 
 	/**
 	 * Create the dialog.
@@ -41,11 +44,13 @@ public class EditConfiguration extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
-		container.setLayout(new GridLayout(3, false));
+		container.setLayout(new GridLayout(5, false));
 		
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		lblNewLabel.setText("Model finding");
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		
@@ -53,20 +58,39 @@ public class EditConfiguration extends Dialog {
 		btnGenerateDebugInformation.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		btnGenerateDebugInformation.setText("Generate debug files");
 		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 		
 		btnContinousWitnessFinder = new Button(container, SWT.CHECK);
 		btnContinousWitnessFinder.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		btnContinousWitnessFinder.setText("Use continous witness finder");
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		
 		btnDoRecursionUnfolding = new Button(container, SWT.CHECK);
 		btnDoRecursionUnfolding.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		btnDoRecursionUnfolding.setText("Unfold recursion");
 		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 		
 		btnCheckDiscardCause = new Button(container, SWT.CHECK);
 		btnCheckDiscardCause.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 		btnCheckDiscardCause.setText("Check discard cause");
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
+		
+		lblTimeOut = new Label(container, SWT.NONE);
+		lblTimeOut.setText("Time out (milliseconds)");
+		
+		txtTimeOut = new Text(container, SWT.BORDER);
+		GridData gd_txtTimeOut = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_txtTimeOut.widthHint = 159;
+		txtTimeOut.setLayoutData(gd_txtTimeOut);
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 		new Label(container, SWT.NONE);
 		
 		lblMetamodelStrategy = new Label(container, SWT.NONE);
@@ -74,7 +98,7 @@ public class EditConfiguration extends Dialog {
 		
 		cmbMetamodelStrategy = new Combo(container, SWT.NONE);
 		cmbMetamodelStrategy.setItems(new String[] {"Error path", "Mandatory full meta-model", "Mandatory effective meta-metamodel"});
-		cmbMetamodelStrategy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		cmbMetamodelStrategy.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 3, 1));
 		new Label(container, SWT.NONE);
 		
 		lblNewLabel_1 = new Label(container, SWT.NONE);
@@ -83,7 +107,9 @@ public class EditConfiguration extends Dialog {
 		
 		cmbGraphicalWitness = new Combo(container, SWT.NONE);
 		cmbGraphicalWitness.setItems(new String[] {"None", "PlantUML"});
-		cmbGraphicalWitness.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		cmbGraphicalWitness.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+		new Label(container, SWT.NONE);
+		new Label(container, SWT.NONE);
 
 		setWidgetValues();
 		

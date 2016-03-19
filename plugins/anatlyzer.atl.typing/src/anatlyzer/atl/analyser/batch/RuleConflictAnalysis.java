@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
@@ -263,9 +264,11 @@ public class RuleConflictAnalysis {
 
 		public ConflictingRuleSet createRuleSet() {
 			ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
+			set.setStatus(getAnalysisResult());
 			set.setType(type);
 			set.getRules().addAll(this.getRules());
 			set.setAnalyserInfo(this);
+			set.setDescription("Rule conflict: " + this.getRules().stream().map(r -> r.getName()).collect(Collectors.joining(", ")));
 			return set;
 		}
 	}

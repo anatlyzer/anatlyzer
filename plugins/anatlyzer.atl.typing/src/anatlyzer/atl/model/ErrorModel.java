@@ -102,6 +102,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -692,6 +693,26 @@ public class ErrorModel {
 		
 		error.getProblematicClasses().addAll(problematicClasses);
 		error.getProblematicClassesImplicit().addAll(problematicClassesImplicit);
+
+		// Fill "rules" feature with the same information that the binding has since these are
+		// the involved rules
+		for (RuleResolutionInfo rb : b.getResolvedBy()) {
+			MatchedRule r = rb.getRule();			
+			ResolvedRuleInfo rinfo = AtlErrorFactory.eINSTANCE.createResolvedRuleInfo();
+			rinfo.setLocation(r.getLocation());
+			rinfo.setElement(r);
+			rinfo.setRuleName(r.getName());
+			rinfo.setInputType(ATLUtils.getInPatternType(r).getKlass());
+			
+			Metaclass tgtMetaclass = (Metaclass) r.getOutPattern().getElements().get(0).getInferredType();
+			rinfo.setOutputType(tgtMetaclass.getKlass());
+
+			for (MatchedRule involvedRule : rb.getAllInvolvedRules()) {
+				rinfo.getAllInvolvedRules().add(involvedRule);				
+			}
+			
+			error.getRules().add(rinfo);
+		}
 		
 		String s = "";
 		for (EClass eClass : problematicClasses) {

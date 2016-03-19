@@ -28,6 +28,7 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.ClassPicker;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
@@ -77,62 +78,8 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			}
 		}
 		
-		/**
-		 * We need to select at least one class that make provoke the error. We have to select
-		 * OpaqueAction to be able to feed the solver, but we need to select something that is not
-		 * "OpaqueAction" to enable the "not" in practice 
-		 * 
-		 * rule ActivityPartition2Pool {
-   			from a : UML!ActivityPartition
-     		to  l : Intalio!Lane (
-	    		activities <- a.node
-	    	)
-	       }
-	    
-	    	rule ActivityNode2Vertex {
-   				from a : UML!ActivityNode( not a.oclIsKindOf(UML!OpaqueAction)  )
-     			to v : Intalio!Vertex
-			}
-	    */
-		
-		// Find class uses in the filters. If found, go to the superclass and pick a sibling.
-		// TODO: Extend this idea to possibly invoked helpers
-		HashSet<Metaclass> usages = new HashSet<Metaclass>();
-		for(ResolvedRuleInfo rinfo : problem.getRules()) {
-			for(EObject rule : rinfo.getAllInvolvedRules()) {
-				MatchedRule mr = (MatchedRule) rule;
-				if ( mr.getInPattern().getFilter() != null ) {
-					mr.getInPattern().getFilter().eAllContents().forEachRemaining(e -> {
-						if ( e instanceof OclModelElement && ((OclModelElement) e).getInferredType() instanceof Metaclass ) {
-							usages.add((Metaclass) ((OclModelElement) e).getInferredType()); 
-						}
-					});				
-				}
-			}
-		}
-		
-		Set<EClass> usageEclasses = usages.stream().map(m -> m.getKlass()).collect(Collectors.toSet());
-		GlobalNamespace global = analyser.getNamespaces();
-		for (Metaclass metaclass : usages) {
-			IClassNamespace ns = (IClassNamespace) metaclass.getMetamodelRef();
-			boolean picked = false;
-			
-			for (ClassNamespace sup : ns.getAllSuperClasses()) {
-				Collection<ClassNamespace> subs = sup.getDirectSubclasses(global);
-				for (ClassNamespace sub : subs) {
-					if ( ! usageEclasses.contains( sub.getKlass() ) ) {
-						System.out.println("picked! " + sub.getKlass());
-						slice.addMetaclassNeededInError(sub.getKlass());
-						picked = true;
-						break;
-					}
-				}
-				
-				if ( picked ) 
-					break;
-			}			
-		}		
-
+		Set<EClass> types = ClassPicker.treatOclIsKindOf_pickSubclassSibling(problem, analyser.getNamespaces());
+		types.forEach(sub -> slice.addMetaclassNeededInError(sub));
 	}
 	
 	@Override

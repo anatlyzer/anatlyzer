@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -59,6 +60,9 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.witness.EclipseUseWitnessFinder;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
+import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
+import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
@@ -128,6 +132,7 @@ public class Tester {
 	// configuration options
 	private boolean generateMutants = false;
 	private boolean generateTestModels = false;
+	private boolean alwaysCheckRuleConflicts = true;
 	
 	/**
 	 * @param trafo transformation to be used in the evaluation
@@ -400,7 +405,7 @@ public class Tester {
 	 */
 	private void evaluateTransformation (String transformation) {		
 		System.out.println("evaluating " + transformation + "...");
-		String  errorsAnatlyser = "";
+		List<Problem> errorsAnatlyser = null;
 		boolean errorsExecution = false;
 		
 		// initialize report
@@ -410,7 +415,7 @@ public class Tester {
 		try {	
 			errorsAnatlyser = this.typing(transformation);
 			if (!errorsAnatlyser.isEmpty()) 
-				report.setAnatlyserError(transformation, errorsAnatlyser);
+				report.setAnatlyserError(transformation, errorsAnatlyser.stream().map(error -> error.getDescription() + " (" + error.getStatus() + ")").collect(Collectors.joining(";")) );
 		}
 		catch (Exception e) { report.setAnatlyserException(transformation, e.getMessage()); }
 		
@@ -420,7 +425,7 @@ public class Tester {
 		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
 		// TODO: devolver lista de errores en vez de String (solo hago esto si ese es el unico error del anatlyzer)
 		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
-	    if (!errorsExecution && errorsAnatlyser.contains("Possibly unresolved binding")) {
+	    if (!errorsExecution && needsInstrumentation(errorsAnatlyser)) {
 			try {
 				java.nio.file.Path transformation_path      = new File(transformation).toPath();
 				java.nio.file.Path transformation_back_path = new File(transformation+".back").toPath();
@@ -449,6 +454,10 @@ public class Tester {
 		}
 	}
 
+	private boolean needsInstrumentation(List<Problem> errorsAnatlyser) {
+		return errorsAnatlyser.stream().anyMatch(p -> (p instanceof BindingPossiblyUnresolved) || (p instanceof BindingWithoutRule)); 
+	}
+	
 	/**
 	 * It compiles an atl transformation file. 
 	 * @param atlTransformationFile
@@ -507,9 +516,9 @@ public class Tester {
 	 * @throws CannotLoadMetamodel 
 	 * @throws CoreException 
 	 */
-	private String typing (String atlTransformationFile) throws IOException, ATLCoreException, CoreException, CannotLoadMetamodel, PreconditionParseError {
-		String        problem = "";
+	private List<Problem> typing (String atlTransformationFile) throws IOException, ATLCoreException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 		ProblemStatus status  = null;
+		ArrayList<Problem> result = new ArrayList<Problem>();
 		
 		// the anatlyser needs to create the global namespace each time...
 		/*
@@ -554,21 +563,29 @@ public class Tester {
 			status = error.getStatus();
 			// if needed, generate witness to confirm the problem
 			if (status==ProblemStatus.WITNESS_REQUIRED) 
-				try                 { status = new EclipseUseWitnessFinder().checkDiscardCause(false).find(error, new AnalysisResult(analyser)); }
+				try                 { status = new EclipseUseWitnessFinder().checkDiscardCause(false).find(error, new AnalysisResult(analyser)); error.setStatus(status); }
 				catch (Exception e) { status = ProblemStatus.IMPL_INTERNAL_ERROR; }	
 			// the problem has been confirmed
-			if (status != ProblemStatus.ERROR_DISCARDED) problem += error.getDescription() + " (" + status + ") ;";
+			if ( AnalyserUtils.isConfirmed(status) ) { 				
+				result.add(error);
+			}
+			// if (status != ProblemStatus.ERROR_DISCARDED) problem += error.getDescription() + " (" + status + ") ;";
 		}
 		
 		// if no problem was found, check rule conflicts
-		if (problem.isEmpty() || status == ProblemStatus.IMPL_INTERNAL_ERROR) {
+		// if (problem.isEmpty() || status == ProblemStatus.IMPL_INTERNAL_ERROR) {
+		if ( result.isEmpty() || alwaysCheckRuleConflicts  ) {
 			List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
-			if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
-			else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
+			rules.stream().filter(or -> AnalyserUtils.isConfirmed(or.getAnalysisResult())).findAny().ifPresent(or -> {
+				ConflictingRuleSet theError = or.createRuleSet();
+				result.add(theError);
+			});
+			// if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
+			// else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
 			//for (OverlappingRules or : rules) System.out.println("------------->"+or.getAnalysisResult() );
 		}
 		
-		return problem;
+		return result;
 	}
 	
 	/**

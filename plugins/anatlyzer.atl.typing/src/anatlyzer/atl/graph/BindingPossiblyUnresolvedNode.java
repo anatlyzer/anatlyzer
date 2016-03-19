@@ -1,25 +1,33 @@
 package anatlyzer.atl.graph;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 
+import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.ClassPicker;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
@@ -40,10 +48,12 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode<BindingPossiblyUnresolved> implements ProblemNode {
 
 	private Binding	binding;
+	private Analyser analyser;
 
-	public BindingPossiblyUnresolvedNode(BindingPossiblyUnresolved p, Binding binding, ATLModel model) {
+	public BindingPossiblyUnresolvedNode(BindingPossiblyUnresolved p, Binding binding, Analyser analyser) {
 		super(p);
 		this.binding = binding;
+		this.analyser = analyser;
 	}
 
 	@Override
@@ -83,6 +93,11 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				binding.getResolvedBy(), 
 				problem.getProblematicClasses(), 
 				problem.getProblematicClassesImplicit());
+	
+		// This is for oclIsKindOf
+		Set<EClass> types = ClassPicker.treatOclIsKindOf_pickSubclassSibling(problem, analyser.getNamespaces());
+		types.forEach(sub -> slice.addMetaclassNeededInError(sub));
+
 	}
 
 	public static void selectProblematicClassesForSlice(ErrorSlice slice, List<? extends RuleResolutionInfo> resolution, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
@@ -131,6 +146,47 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		}
 		
 		OclExpression value = genValueRightPart(model, bindingValue);		
+		
+		// If the right-hand side is a collection it may happen that it has several types involved
+		// (with mono-valued it may happen as well but it is more rare...)
+		// We filter to include only the types involved in this particular notified problem
+		Type srcType = bindingValue.getInferredType();		
+		if ( TypeUtils.isCollection(srcType) ) {
+			IteratorExp select = model.createIterator(value, "select", "binding_value");			
+			OclExpression body = null;
+			for (EClass c : problem.getProblematicClasses()) {
+				VariableExp vr = model.createVarRef(select.getIterators().get(0));
+
+				Metaclass mc = null;
+				for (MetamodelNamespace ns : analyser.getNamespaces().getMetamodels()) {
+					IClassNamespace cns = ns.getClass(c);
+					if ( cns != null ) {
+						// This is tricky way of doing this, but I cannot get the metaclass 
+						// from the namespace because the AnalyserContext is not longer active...				
+						Metaclass metaclass = TypesFactory.eINSTANCE.createMetaclass();
+						metaclass.setKlass(c);
+						metaclass.setName(c.getName());
+						MetaModel mmodel = TypesFactory.eINSTANCE.createMetaModel();
+						mmodel.setName(cns.getMetamodelName());					
+						metaclass.setModel(mmodel);
+
+						mc = metaclass;
+						break;
+					}
+				}
+				assert(mc != null);				
+				
+				OperationCallExp kindOf = model.createKindOf(vr, mc.getModel().getName(), c.getName(), mc);
+				if ( body == null ) {
+					body = kindOf;
+				} else {
+					body = model.createBinaryOperator(body, kindOf, "or");
+				}
+			}
+			select.setBody(body);
+			value = select;
+		}
+		
 		return genProblemSpecificCondition(model, operator, rules, bindingValue, value);		
 	}
 

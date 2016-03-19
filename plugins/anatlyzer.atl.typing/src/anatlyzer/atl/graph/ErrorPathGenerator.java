@@ -96,7 +96,7 @@ public class ErrorPathGenerator {
 		} else if ( p instanceof BindingWithResolvedByIncompatibleRule ) {
 			generatePath_BindingWithResolvedByIncompatibleRule((BindingWithResolvedByIncompatibleRule) p, analyser);				
 		} else if ( p instanceof BindingPossiblyUnresolved ) {
-			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p);	
+			generatePath_BindingPossiblyUnresolved((BindingPossiblyUnresolved) p, analyser);	
 		} else if ( p instanceof ResolveTempPossiblyUnresolved ) {			
 			generatePath_ResolveTempPossiblyUnresolved((ResolveTempPossiblyUnresolved) p);	
 		} else if ( p instanceof FeatureFoundInSubtype ) {
@@ -190,10 +190,10 @@ public class ErrorPathGenerator {
 		pathFromErrorExpression(atlExpr, node);
 	}
 	
-	private void generatePath_BindingPossiblyUnresolved(BindingPossiblyUnresolved p) {
+	private void generatePath_BindingPossiblyUnresolved(BindingPossiblyUnresolved p, Analyser a) {
 		Binding atlBinding = (Binding) p.getElement();
 
-		ProblemNode node = new BindingPossiblyUnresolvedNode(p, atlBinding, atlModel);
+		ProblemNode node = new BindingPossiblyUnresolvedNode(p, atlBinding, a);
 		currentPath = new ProblemPath(p, node);
 		
 		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);

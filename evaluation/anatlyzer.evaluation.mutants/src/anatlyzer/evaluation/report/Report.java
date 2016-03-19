@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -12,6 +13,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import anatlyzer.atl.errors.Problem;
 
 public class Report {
 	
@@ -357,5 +360,18 @@ public class Report {
 			if (other.model==null) return -1;
 			return model.compareTo(other.model);
 		}
-	}	
+	}
+	
+	public class AnATLyzerRecord extends Record {
+
+		public AnATLyzerRecord(String model) {
+			super(model);
+		}
+
+		public void setProblems(List<Problem> p) {
+			
+		}
+		
+		
+	}
 }

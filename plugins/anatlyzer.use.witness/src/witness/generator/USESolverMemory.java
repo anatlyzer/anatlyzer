@@ -121,13 +121,10 @@ public class USESolverMemory extends Solver_use {
 			}
 //			System.out.println("Properties files");
 //			System.out.println(writer2);
-<<<<<<< HEAD
 			writer2.close();
-=======
 //			writer2.close();
->>>>>>> 9e0e75d302930e11635f2ac759ea6d4988662cc8
 			//System.out.println(useSpecification);
-			
+		
 			
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());

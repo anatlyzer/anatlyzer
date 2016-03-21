@@ -868,8 +868,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			}
 			
 			if ( ! (t instanceof Metaclass) ) {
-				errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);
-				continue;
+				errorType = errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);				
+				break;
 			}
 			
 			// This is similar to RuleAnalysis#analyseRuleResolution

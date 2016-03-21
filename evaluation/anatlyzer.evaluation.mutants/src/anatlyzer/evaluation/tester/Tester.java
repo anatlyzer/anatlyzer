@@ -45,7 +45,6 @@ import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
 import org.eclipse.m2m.atl.engine.compiler.CompileTimeError;
 import org.eclipse.m2m.atl.engine.compiler.atl2006.Atl2006Compiler;
 import org.eclipse.m2m.atl.engine.parser.AtlParser;
-import org.tzi.use.util.soil.exceptions.EvaluationFailedException;
 
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
@@ -434,7 +433,8 @@ public class Tester {
 		File[] trafos = new File(this.folderMutants).listFiles(
 			new FilenameFilter() {
 				public boolean accept(File directory, String fileName) {
-					return fileName.endsWith(".atl"); 
+					return  fileName.endsWith(".atl") && 
+							! (fileName.endsWith(".inst.atl")); // to avoid processing instrumented transformations which are only needed for execution 
 				}
 			});		
 		
@@ -493,7 +493,7 @@ public class Tester {
 		// if there are no execution errors, but the anatlyser reported the error "possibly unresolved binding", instrument the transformation to make it fail.
 		// TODO: devolver lista de errores en vez de String (solo hago esto si ese es el unico error del anatlyzer)
 		// TODO: where is the error description ??? => System.out.println("---->"+AtlErrorFactory.eINSTANCE.createAccessToUndefinedValue().getDescription()); // <-- this is null
-	    if (!errorsExecution && needsInstrumentation(errorsAnatlyser)) {
+	    if (!errorsExecution && errorsAnatlyser != null && needsInstrumentation(errorsAnatlyser)) {
 			try {
 				java.nio.file.Path transformation_path      = new File(transformation).toPath();
 				java.nio.file.Path transformation_back_path = new File(transformation+".back").toPath();
@@ -643,11 +643,17 @@ public class Tester {
 		// if no problem was found, check rule conflicts
 		// if (problem.isEmpty() || status == ProblemStatus.IMPL_INTERNAL_ERROR) {
 		if ( result.isEmpty() || alwaysCheckRuleConflicts  ) {
-			List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
-			rules.stream().filter(or -> AnalyserUtils.isConfirmed(or.getAnalysisResult())).findAny().ifPresent(or -> {
-				ConflictingRuleSet theError = or.createRuleSet();
-				result.add(theError);
-			});
+			try { 
+				List<OverlappingRules> rules = new CheckRuleConflicts().performAction(new AnalyserData(analyser), null);
+				rules.stream().filter(or -> AnalyserUtils.isConfirmed(or.getAnalysisResult())).findAny().ifPresent(or -> {
+					ConflictingRuleSet theError = or.createRuleSet();
+					result.add(theError);
+				});
+			} catch ( Exception e ) {
+				// An internal error occurred
+				// Could be recorded as well, but it is likely due to another problems that have already been discovered
+			}
+			
 			// if      (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED))      problem = "CONFLICT: " + ProblemStatus.ERROR_CONFIRMED.getLiteral();
 			// else if (rules.stream().anyMatch(or -> or.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED)) problem = "CONFLICT: " + ProblemStatus.STATICALLY_CONFIRMED.getLiteral();
 			//for (OverlappingRules or : rules) System.out.println("------------->"+or.getAnalysisResult() );

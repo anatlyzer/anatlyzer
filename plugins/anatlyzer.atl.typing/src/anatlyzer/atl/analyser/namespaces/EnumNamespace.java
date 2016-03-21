@@ -29,7 +29,7 @@ public class EnumNamespace extends AbstractTypeNamespace {
 		Type t = super.getOperationType(operationName, arguments, node);
 		if ( t != null ) 
 			return t;
-		throw new UnsupportedOperationException(node.getLocation());
+		return AnalyserContext.getErrorModel().signalNoOperationFound(createType(false), operationName, node, null);
 	}
 
 	public Operation getAttachedOperation(String operationName) {
@@ -46,7 +46,8 @@ public class EnumNamespace extends AbstractTypeNamespace {
 		if ( operatorSymbol.equals("=") || operatorSymbol.equals("<>") ) {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		}
-		throw new UnsupportedOperationException(node.getLocation());
+		return AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, createType(false), node);
+		//throw new UnsupportedOperationException(node.getLocation());
 	}
 
 	@Override

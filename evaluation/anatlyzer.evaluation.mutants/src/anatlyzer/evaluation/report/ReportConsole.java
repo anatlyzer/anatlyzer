@@ -38,7 +38,9 @@ public class ReportConsole {
 	public void display() {
 		IWorkbench       wb   = PlatformUI.getWorkbench();
 		IWorkbenchWindow win  = wb.getActiveWorkbenchWindow();
-	    IWorkbenchPage   page = win.getActivePage();			
+		if ( win == null )
+			return;
+	    IWorkbenchPage   page = win.getActivePage();
 		IConsoleView view; 
 		try {
 			console.activate();

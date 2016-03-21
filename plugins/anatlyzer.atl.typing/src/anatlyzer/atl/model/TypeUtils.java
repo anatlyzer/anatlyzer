@@ -67,7 +67,11 @@ public class TypeUtils {
 	public static String typeToString(Type t) {
 		if ( t instanceof Metaclass ) return ((Metaclass) t).getName();
 		if ( t instanceof Unknown ) return "OclAny";
- 		
+ 		if ( t instanceof EnumType ) {
+ 			EnumType et = (EnumType) t; 
+ 			return et.getName() + " [Enum]";
+ 		}
+		
 		if ( t instanceof UnionType ) {
 			return "Union {" +  typesToString(((UnionType) t).getPossibleTypes()) + "}";
 		}

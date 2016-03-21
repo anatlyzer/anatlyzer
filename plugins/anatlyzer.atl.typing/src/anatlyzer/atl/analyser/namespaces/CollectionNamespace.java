@@ -184,7 +184,10 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 			}
 			return typ.newBooleanType();
 		}
-		throw new UnsupportedOperationException("Collection operation " + name + " not supported.");
+		
+		return AnalyserContext.getErrorModel().signalCollectionOperationNotFound(name, node);
+		
+		// throw new UnsupportedOperationException("Collection operation " + name + " not supported.");
 	}
 	
 	private Type selectIteratorType(IteratorExp node, Type bodyType) {

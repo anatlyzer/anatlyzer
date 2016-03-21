@@ -23,6 +23,7 @@ import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.Statement;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.BagType;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.MapType;
@@ -242,9 +243,16 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inOrderedSetType(OrderedSetType self) {
-		// TODO: Create proper OrderedSet type
 		attr.linkExprType( typ().newOrderedSetType( attr.typeOf( self.getElementType() ) ) );
 	}
+	
+	@Override
+	public void inBagType(BagType self) {
+		attr.linkExprType( typ().newBagType( attr.typeOf( self.getElementType() ) ) );
+	}
+
+	
+	
 
 	@Override
 	public void inMapType(MapType self) {

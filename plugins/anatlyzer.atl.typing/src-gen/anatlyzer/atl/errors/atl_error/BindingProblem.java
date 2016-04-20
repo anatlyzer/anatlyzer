@@ -11,11 +11,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingProblem#getFeature <em>Feature</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingProblem#getFeatureName <em>Feature Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingProblem()
  * @model abstract="true"

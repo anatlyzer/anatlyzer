@@ -2794,7 +2794,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (bindingExpectedOneAssignedManyEClass, 
 		   source, 
 		   new String[] {
-			 "name", "Binding from feature with higher cardinality",
+			 "name", "Collection assigned to mono-valued binding",
 			 "text", "The binding feature is mono-valued but the right part of the binding is a collection"
 		   });	
 		addAnnotation
@@ -3125,7 +3125,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (accessToUndefinedValue_ThroughEmptyCollectionEClass, 
 		   source, 
 		   new String[] {
-			 "prec", "sometimes-solver",
+			 "prec", "always-solver",
 			 "path", "yes",
 			 "severity", "runtime-error",
 			 "when", "model-dep",

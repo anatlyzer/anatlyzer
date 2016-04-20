@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getTargetType <em>Target Type</em>}</li>
@@ -22,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingResolution#getRules <em>Rules</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingResolution()
  * @model abstract="true"

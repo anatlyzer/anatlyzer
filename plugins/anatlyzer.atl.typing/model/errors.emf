@@ -274,7 +274,7 @@ package atl_error {
 	abstract class ResolveTempProblem extends LocalProblem {
 	}
 
-	@description(name="Binding from feature with higher cardinality", text="The binding feature is mono-valued but the right part of the binding is a collection")	 
+	@description(name="Collection assigned to mono-valued binding", text="The binding feature is mono-valued but the right part of the binding is a collection")	 
 	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")
 	class BindingExpectedOneAssignedMany extends BindingProblem {
 	}	

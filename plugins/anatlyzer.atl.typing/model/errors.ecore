@@ -259,7 +259,7 @@
         <details key="example" value=""/>
       </eAnnotations>
       <eAnnotations source="info">
-        <details key="prec" value="sometimes-solver"/>
+        <details key="prec" value="always-solver"/>
         <details key="path" value="yes"/>
         <details key="severity" value="runtime-error"/>
         <details key="when" value="model-dep"/>
@@ -532,7 +532,7 @@
         eSuperTypes="#//atl_error/LocalProblem"/>
     <eClassifiers xsi:type="ecore:EClass" name="BindingExpectedOneAssignedMany" eSuperTypes="#//atl_error/BindingProblem">
       <eAnnotations source="description">
-        <details key="name" value="Binding from feature with higher cardinality"/>
+        <details key="name" value="Collection assigned to mono-valued binding"/>
         <details key="text" value="The binding feature is mono-valued but the right part of the binding is a collection"/>
       </eAnnotations>
       <eAnnotations source="info">

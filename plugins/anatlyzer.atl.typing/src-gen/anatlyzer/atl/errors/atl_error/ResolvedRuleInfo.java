@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolvedRuleInfo#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolvedRuleInfo#getElement <em>Element</em>}</li>
@@ -23,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolvedRuleInfo#getInputType <em>Input Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolvedRuleInfo#getOutputType <em>Output Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolvedRuleInfo()
  * @model

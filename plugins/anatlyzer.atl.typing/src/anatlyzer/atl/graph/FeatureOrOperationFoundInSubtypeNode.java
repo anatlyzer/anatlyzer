@@ -33,10 +33,12 @@ public class FeatureOrOperationFoundInSubtypeNode<P extends LocalProblem> extend
 		//
 		// super.genErrorSlice(slice);
 		generatedDependencies(slice);
-		if ( problem instanceof FeatureFoundInSubtype ) {
+		//if ( problem instanceof FeatureFoundInSubtype ) {
+		if ( problem instanceof FoundInSubtype ) {
 			for(EClass c : ((FeatureFoundInSubtype) problem).getPossibleClasses()) {
 				slice.addMetaclassNeededInError(c);				
-				break; 
+				
+				/// break; 
 				// TODO: Adding only one for the moment, I could add more depending on certain conditions... this also affects genCSP, which considers that the first one is used
 			}			
 		}

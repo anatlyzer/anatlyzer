@@ -13,6 +13,10 @@ public class ErrorPathMetamodelStrategy extends AbstractMetamodelExtension imple
 	
 	public void extend(EPackage errorMM, MetaModel effectiveMM, MetaModel languageMM) {	
 		System.out.println("Using 'Error Path Metamodel' strategy");
+				
+		// extend error meta-model with concrete children classes of abstract leaf classes
+		extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);
+		extendMetamodelWithConcreteLeaves(errorMM, languageMM);			
 	}
 	
 }

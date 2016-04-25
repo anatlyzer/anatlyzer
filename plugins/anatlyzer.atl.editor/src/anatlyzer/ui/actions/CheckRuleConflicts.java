@@ -27,7 +27,6 @@ import anatlyzer.atl.witness.WitnessUtil;
 public class CheckRuleConflicts implements IEditorActionDelegate {
 
 	private AtlEditor editor;
-	private IWitnessFinder wf;
 
 	@Override
 	public void run(IAction action) {
@@ -100,9 +99,12 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		}
 			
 		// The first time obtain a new witness finder, which is reused every time
-		if ( wf == null ) {
-			wf = WitnessUtil.getFirstWitnessFinder();
-		}
+		//if ( wf == null ) {
+		//	wf = WitnessUtil.getFirstWitnessFinder();
+		//}
+		
+		// Do not reuse the witness finder
+		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
 
 		ProblemStatus result = wf.find(overlap, data);
 		overlap.setAnalysisResult(result);

@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureNotFoundInUnionTypeImpl#getFeatureName <em>Feature Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

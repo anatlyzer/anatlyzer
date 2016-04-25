@@ -29,6 +29,9 @@ public class PEProblemExecution extends TEProblem {
 	@Element
 	private PETime errorMetamodelTime;
 
+	@Element(required=false)
+	private PEStatsWitness stats;
+
 	public PEProblemExecution() {
 		this.solverTimes = new ArrayList<PETime>();
 	}
@@ -91,6 +94,14 @@ public class PEProblemExecution extends TEProblem {
 
 	public PETime getErrorMetamodelTime() {
 		return errorMetamodelTime;
+	}
+
+	public void setStats(PEStatsWitness stats) {
+		this.stats = stats;
+	}
+	
+	public PEStatsWitness getStats() {
+		return stats;
 	}
 
 }

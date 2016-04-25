@@ -43,10 +43,8 @@ public class USEValidityChecker extends AbstractVisitor {
 	
 	@Override
 	public void inIterateExp(IterateExp self) {
-		/*
 		System.out.println("NOT SUPPORTED: iterate, " + self.getLocation());
 		isValid = false;
-		*/
 	}
 	
 	@Override

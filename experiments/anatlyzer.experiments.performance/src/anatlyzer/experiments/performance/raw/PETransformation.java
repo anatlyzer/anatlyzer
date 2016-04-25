@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -26,6 +27,9 @@ public class PETransformation {
 	
 	@ElementList(name="executions")
 	protected List<PETransformationExecution> executions; 
+
+	@Element(name="stats", required=false)
+	protected PEStatsTrafo stats;
 	
 	public PETransformation() {
 		executions = new ArrayList<PETransformationExecution>();
@@ -132,7 +136,8 @@ public class PETransformation {
 		double errTime = execList.stream().map(e -> e.getErrorMetamodelTime()).collect(Collectors.averagingLong(t -> t.getTime()));
 		double solverTime = execList.stream().map(e -> e.getTotalSolverTime()).collect(Collectors.averagingLong(t -> t.getTime()));
 
-
+		avg.setStats(execList.get(0).getStats());
+		
 		avg.setCreatePathTime(new PETime(pathTime));
 		avg.setConditionGenerationTime(new PETime(condTime));
 		avg.setEffectiveMetamodelTime(new PETime(effTime));
@@ -140,6 +145,14 @@ public class PETransformation {
 		avg.addSolverTime(new PETime(solverTime));
 
 		return avg;
+	}
+
+	public PEStatsTrafo getStats() {
+		return stats;
+	}
+	
+	public void setStats(PEStatsTrafo stats) {
+		this.stats = stats;
 	}
 	
 }

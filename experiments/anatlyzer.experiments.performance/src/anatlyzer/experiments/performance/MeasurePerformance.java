@@ -25,11 +25,13 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.SourceMetamodelsData;
 import anatlyzer.experiments.performance.TimeRecorder.SingleExecution;
 import anatlyzer.experiments.performance.export.PerformanceToExcel;
 import anatlyzer.experiments.performance.raw.MeasureResult;
 import anatlyzer.experiments.performance.raw.PEData;
 import anatlyzer.experiments.performance.raw.PEProblemExecution;
+import anatlyzer.experiments.performance.raw.PEStatsTrafo;
 import anatlyzer.experiments.performance.raw.PETime;
 import anatlyzer.experiments.performance.raw.PETransformation;
 import anatlyzer.experiments.performance.raw.PETransformationExecution;
@@ -41,7 +43,7 @@ import anatlyzer.ui.util.AtlEngineUtils;
 public class MeasurePerformance extends AbstractATLExperiment {
 
 	public static final int NUM_DISCARDED = 0;
-	public static final int REPETITIONS   = 3;
+	public static final int REPETITIONS   = 1;
 
 	private static final List<MeasureResult> results = new ArrayList<MeasureResult>();
 	private PEData expData;
@@ -177,6 +179,10 @@ public class MeasurePerformance extends AbstractATLExperiment {
 		return MeasurePathComputationTime.aspectOf().extendMetamodels;
 	}
 
+	protected StatsRecorder getStatsRecorder() {
+		return MeasurePathComputationTime.aspectOf().stats;
+	}
+	
 	@Override
 	protected void perform(IResource resource) {
 		String trafoName = resource.getName();
@@ -213,6 +219,12 @@ public class MeasurePerformance extends AbstractATLExperiment {
 					} else {
 						throw new IllegalStateException("Failing now but not before...");
 					}
+				}
+			
+				// Compute stats only once, in the first execution
+				if ( trafo.getStats() == null ) {
+					 SourceMetamodelsData src = SourceMetamodelsData.get(data.getAnalyser());
+					trafo.setStats(new PEStatsTrafo(src));
 				}
 				
 				currentExecution.setAnalysisTime( getSingleTime(getAnalyserTimeRecorder()) );
@@ -263,6 +275,8 @@ public class MeasurePerformance extends AbstractATLExperiment {
 						exec.setErrorMetamodelTime(errTime);
 						// TODO: Compute the meta-model extension? Error-path strategy does nothing so... no need.						
 						
+						
+						exec.setStats(getStatsRecorder().getStats());
 					}
 				}
 				
@@ -355,6 +369,7 @@ public class MeasurePerformance extends AbstractATLExperiment {
 		getEffectiveMetamodelRecorder().reset();
 		getErrorMetamodelRecorder().reset();
 		getExtendMetamodelRecorder().reset();
+		getStatsRecorder().reset();
 	}
 
 }

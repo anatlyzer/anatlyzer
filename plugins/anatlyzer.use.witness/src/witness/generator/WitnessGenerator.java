@@ -574,7 +574,7 @@ public class WitnessGenerator extends AbstractHandler {
 	 * It makes a shallow copy of a classifier.
 	 * @param classifier
 	 */
-	private EClassifier clone (EClassifier classifier) {
+	protected EClassifier clone (EClassifier classifier) {
 		if (classifier instanceof EClass)    return clone ((EClass)   classifier);
 		if (classifier instanceof EEnum)     return clone ((EEnum)    classifier);
 		if (classifier instanceof EDataType) return clone ((EDataType)classifier);

@@ -13,6 +13,7 @@ public class ErrorPathMetamodelStrategy extends AbstractMetamodelExtension imple
 	
 	public void extend(EPackage errorMM, MetaModel effectiveMM, MetaModel languageMM) {	
 		System.out.println("Using 'Error Path Metamodel' strategy");
+		removeUnnecessaryElements(errorMM);
 	}
 	
 }

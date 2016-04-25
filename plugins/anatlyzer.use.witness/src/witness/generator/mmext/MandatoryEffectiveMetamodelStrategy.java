@@ -14,6 +14,8 @@ public class MandatoryEffectiveMetamodelStrategy extends AbstractMetamodelExtens
 	
 		// extend error meta-model with concrete children classes of abstract leaf classes
 		extendMetamodelWithConcreteLeaves(errorMM, effectiveMM);	
+	
+		removeUnnecessaryElements(errorMM);
 	}
 	
 }

@@ -101,11 +101,17 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 	}
 
 	public static void selectProblematicClassesForSlice(ErrorSlice slice, List<? extends RuleResolutionInfo> resolution, List<EClass> problematicClasses, List<EClass> problematicClassesImplicit) {
+		// This way it does not work for Ant2Maven, missing one type in the problem:
+		//		"Possibly unresolved binding Exec, Echo"
+//		for (EClass c : problematicClasses) {
+//			if ( ! problematicClassesImplicit.contains(c) ) {
+//				System.out.println(c.getName());
+//				slice.addMetaclassNeededInError(c);
+//			}
+//		}
+		// So, always adding all problematic classes
 		for (EClass c : problematicClasses) {
-			if ( ! problematicClassesImplicit.contains(c) ) {
-				System.out.println(c.getName());
-				slice.addMetaclassNeededInError(c);
-			}
+			slice.addMetaclassNeededInError(c);
 		}
 		
 		EClass c = ErrorSlice.pickClass(problematicClassesImplicit);
@@ -117,6 +123,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		// Classes whose type appear
 		for (RuleResolutionInfo ruleInfo : resolution) {
 			for (MatchedRule mr : ruleInfo.getAllInvolvedRules()) {			
+				slice.addMetaclassNeededInError(ATLUtils.getInPatternType(mr).getKlass());
 				if ( mr.getInPattern().getFilter() != null ) {
 					OclSlice.slice(slice, mr.getInPattern().getFilter());
 				}

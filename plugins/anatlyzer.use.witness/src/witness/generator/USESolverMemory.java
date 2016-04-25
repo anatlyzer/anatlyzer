@@ -189,10 +189,10 @@ public class USESolverMemory extends Solver_use {
         
         fSession.setSystem(system);
         
+        PluginModelFactory.INSTANCE.registerForSession(fSession);
 		PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null); // new in USE 4.1.1 (enforce model reload)
 		InternalUseValidator modelValidator = new InternalUseValidator(fSession);
         
-		PluginModelFactory.INSTANCE.registerForSession(fSession);
 		
         IModel kodkodModel = PluginModelFactory.INSTANCE.getModel(system.model());        
 		ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher();
@@ -211,10 +211,14 @@ public class USESolverMemory extends Solver_use {
 			// throw new ConfigurationException(LogMessages.configurationError);
 		}
 		// end-of-configure
+
+		
 		
 		// Log.setDebug(true);
-		configureInvariantSettingsFromGenerator(kodkodModel, model);
-        modelValidator.validate(kodkodModel);
+		configureInvariantSettingsFromGenerator(kodkodModel, model);		
+		
+
+		modelValidator.validate(kodkodModel);
 		
         fSession.system().registerPPCHandlerOverride(Shell.getInstance());
 		MSystemState result = system.state();	

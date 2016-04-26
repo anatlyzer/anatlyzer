@@ -26,6 +26,7 @@ public aspect MeasurePathComputationTime {
 	public TimeRecorder errorMetamodel = new TimeRecorder();
 	public TimeRecorder effectiveMetamodel = new TimeRecorder();
 	public TimeRecorder extendMetamodels = new TimeRecorder();
+	public StatsRecorder stats = new StatsRecorder();
 	
 	public static final String ANALYSER_TIME      = "ANALYSER";
 	public static final String PARSER_TIME      = "PARSER";
@@ -106,11 +107,11 @@ public aspect MeasurePathComputationTime {
     	pathCreation.stop();
     }
 
-    before(anatlyzer.atl.analyser.generators.ErrorSlice slice, anatlyzer.atlext.OCL.OclExpression constraint) : 
-    	execution(void anatlyzer.atl.witness.UseWitnessFinder.computeStats(anatlyzer.atl.analyser.generators.ErrorSlice, anatlyzer.atlext.OCL.OclExpression)) && 
-    	args(slice, constraint) {
+    before(anatlyzer.atl.analyser.generators.ErrorSlice slice, anatlyzer.atlext.OCL.OclExpression constraint, org.eclipse.emf.ecore.EPackage errorSliceMM, anatlyzer.atl.witness.SourceMetamodelsData data) : 
+    	execution(void anatlyzer.atl.witness.UseWitnessFinder.computeStats(anatlyzer.atl.analyser.generators.ErrorSlice, anatlyzer.atlext.OCL.OclExpression, org.eclipse.emf.ecore.EPackage, anatlyzer.atl.witness.SourceMetamodelsData)) && 
+    	args(slice, constraint, errorSliceMM, data) {
     	
-    	System.out.println("Compute stats: " + slice);
+    	this.stats.compute(slice, constraint, errorSliceMM, data);
     }
     
     // Construct problem tree 

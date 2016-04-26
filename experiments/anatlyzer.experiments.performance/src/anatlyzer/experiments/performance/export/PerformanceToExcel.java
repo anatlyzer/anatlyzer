@@ -98,6 +98,7 @@ public class PerformanceToExcel {
 	private String convert(ProblemStatus status) {
 		if ( AnalyserUtils.isConfirmed(status) ) return "C";
 		if ( AnalyserUtils.isDiscarded(status) ) return "D";
+		if ( AnalyserUtils.isTimeOut(status)) return "TO";
 		throw new IllegalStateException();
 	}
 
@@ -123,15 +124,25 @@ public class PerformanceToExcel {
 		st.cell(s, initRow, col + 10, "").centeringBold();
 		
 		st.cell(s, initRow, col + 11, "Num. Prob.").centeringBold();
-		st.cell(s, initRow, col + 12, "Path. gen").centeringBold();
-		st.cell(s, initRow, col + 13, "Cond. gen").centeringBold();
-		st.cell(s, initRow, col + 14, "Error MM").centeringBold();
-		st.cell(s, initRow, col + 15, "Eff.  MM").centeringBold();
-		st.cell(s, initRow, col + 16, "Solver").centeringBold();
+		st.cell(s, initRow, col + 12, "Timed out").centeringBold();
+		
+		st.cell(s, initRow, col + 13, "Path. gen").centeringBold();
+		st.cell(s, initRow, col + 14, "Cond. gen").centeringBold();
+		st.cell(s, initRow, col + 15, "Error MM").centeringBold();
+		st.cell(s, initRow, col + 16, "Eff.  MM").centeringBold();
+		st.cell(s, initRow, col + 17, "Solver").centeringBold();
 
-		st.cell(s, initRow, col + 17, "Max. solver").centeringBold();
-		st.cell(s, initRow, col + 18, "Min. solver").centeringBold();
-		st.cell(s, initRow, col + 19, "Median solver").centeringBold();
+		st.cell(s, initRow, col + 18, "Max. solver").centeringBold();
+		st.cell(s, initRow, col + 19, "Min. solver").centeringBold();
+		st.cell(s, initRow, col + 20, "Median solver").centeringBold();
+
+		st.cell(s, initRow, col + 21, "MM classes").centeringBold();
+		st.cell(s, initRow, col + 22, "MM features").centeringBold();
+		st.cell(s, initRow, col + 23, "MM comp. ref.").centeringBold();
+
+		st.cell(s, initRow, col + 24, "Avg classes").centeringBold();
+		st.cell(s, initRow, col + 25, "Avg features").centeringBold();
+		st.cell(s, initRow, col + 26, "Avg comp. ref.").centeringBold();
 
 		
 		for (PETransformation trafo : data.getTransformations()) {
@@ -160,20 +171,36 @@ public class PerformanceToExcel {
 			
 			List<PETime> sortedExecs = avg.getProblemExecutions().stream().map(e -> e.getTotalSolverTime()).sorted(Comparator.comparingLong(t -> t.getTime())).collect(Collectors.toList());
 			double medianSolver = sortedExecs.size() == 0 ? -1 : sortedExecs.get(sortedExecs.size() / 2 ).toSeconds();
-			
+						
 			// This would be the total of the succesfully evaluated problems
 			// st.cell(s, row, col + 9, (createPath + condGen + errorMM + effMM + solver) * numProblems);
 			
+			long timedOut = avg.getProblemExecutions().stream().filter(exec -> exec.getFinalStatus() == ProblemStatus.USE_TIME_OUT).count();
 			
 			st.cell(s, row, col + 11, numProblems);
-			st.cell(s, row, col + 12, createPath);
-			st.cell(s, row, col + 13, condGen);
-			st.cell(s, row, col + 14, errorMM);
-			st.cell(s, row, col + 15, effMM);
-			st.cell(s, row, col + 16, solver);
-			st.cell(s, row, col + 17, maxSolver);
-			st.cell(s, row, col + 18, minSolver);
-			st.cell(s, row, col + 19, medianSolver);
+			st.cell(s, row, col + 12, timedOut);
+			
+			st.cell(s, row, col + 13, createPath);
+			st.cell(s, row, col + 14, condGen);
+			st.cell(s, row, col + 15, errorMM);
+			st.cell(s, row, col + 16, effMM);
+			st.cell(s, row, col + 17, solver);
+			st.cell(s, row, col + 18, maxSolver);
+			st.cell(s, row, col + 19, minSolver);
+			st.cell(s, row, col + 20, medianSolver);
+
+			
+			double avgClasses = avg.getProblemExecutions().stream().filter(e -> e.getStats() != null).map(e -> e.getStats()).collect(Collectors.averagingDouble(t -> t.getNumClasses()));
+			double avgFeatures = avg.getProblemExecutions().stream().filter(e -> e.getStats() != null).map(e -> e.getStats()).collect(Collectors.averagingDouble(t -> t.getNumFeatures()));
+			double avgCompRefs = avg.getProblemExecutions().stream().filter(e -> e.getStats() != null).map(e -> e.getStats()).collect(Collectors.averagingDouble(t -> t.getNumCompulsoryReferences()));
+
+			st.cell(s, row, col + 21, trafo.getStats().getNumClasses());
+			st.cell(s, row, col + 22, trafo.getStats().getNumFeatures());
+			st.cell(s, row, col + 23, trafo.getStats().getNumCompulsoryReferences());
+
+			st.cell(s, row, col + 24, avgClasses);
+			st.cell(s, row, col + 25, avgFeatures);
+			st.cell(s, row, col + 26, avgCompRefs);
 
 			row++;
 		}

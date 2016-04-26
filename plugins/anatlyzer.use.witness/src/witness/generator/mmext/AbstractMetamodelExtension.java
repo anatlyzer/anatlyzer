@@ -1,7 +1,9 @@
 package witness.generator.mmext;
 
 import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import witness.generator.WitnessGenerator;
 
@@ -24,6 +26,15 @@ public abstract class AbstractMetamodelExtension extends WitnessGenerator implem
 		extendMetamodelWithInstanceTypeNames4DataTypes(errorMM);				
 	}
 	
+	// filter to remove classes that explicitly inherit from EObject (required in UML2AnyLogic when using
+	// full meta-model strategy due to DI meta-model Element > EObject
+	protected void removeUnnecessaryElements(EPackage errorMM) {
+		errorMM.eAllContents().forEachRemaining(obj -> {
+			if ( obj instanceof EClass ) {
+				((EClass) obj).getESuperTypes().remove(EcorePackage.Literals.EOBJECT);
+			}
+		});
+	}
 	
 	
 	

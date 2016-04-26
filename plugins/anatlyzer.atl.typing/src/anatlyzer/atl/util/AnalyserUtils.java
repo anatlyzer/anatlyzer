@@ -328,5 +328,9 @@ public class AnalyserUtils {
 				   s == ProblemStatus.IMPL_INTERNAL_ERROR ||
 				   s == ProblemStatus.NOT_SUPPORTED_BY_USE;			
 	}
+
+	public static boolean isTimeOut(ProblemStatus status) {
+		return status == ProblemStatus.USE_TIME_OUT;
+	}
 	
 }

@@ -17,6 +17,7 @@ import witness.generator.TimeOutException;
 import witness.generator.USEResult;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
+import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
 import witness.generator.mmext.MandatoryEffectiveMetamodelStrategy;
 import witness.generator.mmext.MandatoryFullMetamodelStrategy;
@@ -188,7 +189,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		case MANDATORY_FULL_METAMODEL: return new MandatoryFullMetamodelStrategy();
 		case MANDATORY_EFFECTIVE_METAMODEL: return new MandatoryEffectiveMetamodelStrategy();
 		case FULL_METAMODEL:
-			throw new UnsupportedOperationException();
+			return new FullMetamodelStrategy();
 		}
 		return null;
 	}
@@ -235,8 +236,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// other helpers within preconditions
 		ErrorSlice slice = problem.getErrorSlice(analyser);
 		
-		computeStats(slice, originalConstraint);
-		
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {
@@ -280,6 +279,9 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ann.setSource("invariant");
 		ann.getDetails().put("ocl", strConstraint);
 		errorSliceMM.getEAnnotations().add(ann);
+
+		
+		computeStats(slice, originalConstraint, errorSliceMM, srcMetamodels);
 		
 		// Setting up the generator
 		WitnessGeneratorMemory generator = setUpWitnessGenerator(
@@ -313,7 +315,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 
 	// This is here as a way to easily connect with measuring aspects that want to use this data
-	private void computeStats(ErrorSlice slice, OclExpression originalConstraint) {
+	private void computeStats(ErrorSlice slice, OclExpression originalConstraint, EPackage errorSliceMM, SourceMetamodelsData data) {
 		// do nothing
 	}
 

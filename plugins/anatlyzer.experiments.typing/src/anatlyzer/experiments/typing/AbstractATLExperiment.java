@@ -57,6 +57,10 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		return this.options.getOrDefault("witness_recursion_unfolding", "false").equals("true");		
 	}
 	
+	public long getTimeOut() {
+		return Long.parseLong((String) this.options.getOrDefault("timeout", "-1"));		
+	}
+	
 	public WitnessGenerationMode getWitnessGenerationMode() {
 		String option = (String) this.options.getOrDefault("witnessmode", "mandatory-effective");
 		
@@ -160,6 +164,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	
 	protected IWitnessFinder createWitnessFinder() {
 		return new EclipseUseWitnessFinder().	
+				setTimeOut(getTimeOut()).
 				setWitnessGenerationModel(getWitnessGenerationMode()).
 				setDoUnfolding(getDoUnfoldingOption()).
 				checkDiscardCause(false);

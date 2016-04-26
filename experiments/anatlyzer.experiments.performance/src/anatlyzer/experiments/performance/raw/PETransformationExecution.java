@@ -8,6 +8,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils;
 
 @Root(name="transformationExecution")
@@ -54,7 +55,11 @@ public class PETransformationExecution {
 
 	public List<PEProblemExecution> getValidProblemExecutions() {
 		return problemExecutions.stream()
-				.filter(e -> AnalyserUtils.isConfirmed(e.getFinalStatus()) || AnalyserUtils.isDiscarded(e.getFinalStatus()))
+				.filter(e -> 
+						AnalyserUtils.isConfirmed(e.getFinalStatus()) || 
+						AnalyserUtils.isDiscarded(e.getFinalStatus()) ||
+						// Also consider the timeouts
+						e.getFinalStatus() == ProblemStatus.USE_TIME_OUT)
 				.collect(Collectors.toList());
 	}
 	

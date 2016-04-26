@@ -9,7 +9,8 @@ public class USEResult {
 	private Outcome outcome;
 	private Resource model;
 	private boolean satisfyAllInvariants;
-
+	private long time = -1;
+	
 	public USEResult(Outcome outcome, boolean satisfyAllInvariants, Resource model, int defaultScope) {
 		this.outcome   = outcome;
 		this.satisfyAllInvariants = satisfyAllInvariants;
@@ -43,5 +44,13 @@ public class USEResult {
 	
 	public boolean isUnsupported() {
 		return ! satisfyAllInvariants;
+	}
+	
+	public void setTime(long time) {
+		this.time = time;
+	}
+	
+	public long getTime() {
+		return time;
 	}
 }

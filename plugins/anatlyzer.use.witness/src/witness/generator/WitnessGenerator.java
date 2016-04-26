@@ -547,10 +547,10 @@ public class WitnessGenerator extends AbstractHandler {
 	 * @param metamodel meta-model where the class will be copied
 	 * @return the copied class
 	 */
-	private EClass      addClass2Metamodel      (EClass clazz,      EPackage metamodel)            { return (EClass)addClassifier2Metamodel(clazz, metamodel);   }
-	private EClass      addClass2Metamodel      (EClass clazz,      List<EClassifier> classifiers) { return (EClass)addClassifier2Metamodel(clazz, classifiers); }
-	private EClassifier addClassifier2Metamodel (EClassifier clazz, EPackage metamodel)            { return addClassifier2Metamodel(clazz, metamodel.getEClassifiers()); }
-	private EClassifier addClassifier2Metamodel (EClassifier clazz, List<EClassifier> classifiers) {
+	protected EClass      addClass2Metamodel      (EClass clazz,      EPackage metamodel)            { return (EClass)addClassifier2Metamodel(clazz, metamodel);   }
+	protected EClass      addClass2Metamodel      (EClass clazz,      List<EClassifier> classifiers) { return (EClass)addClassifier2Metamodel(clazz, classifiers); }
+	protected EClassifier addClassifier2Metamodel (EClassifier clazz, EPackage metamodel)            { return addClassifier2Metamodel(clazz, metamodel.getEClassifiers()); }
+	protected EClassifier addClassifier2Metamodel (EClassifier clazz, List<EClassifier> classifiers) {
 		EClassifier newClass = clone(clazz);
 		classifiers.add(newClass);
 		if (clazz instanceof EClass && newClass instanceof EClass) 
@@ -574,7 +574,7 @@ public class WitnessGenerator extends AbstractHandler {
 	 * It makes a shallow copy of a classifier.
 	 * @param classifier
 	 */
-	private EClassifier clone (EClassifier classifier) {
+	protected EClassifier clone (EClassifier classifier) {
 		if (classifier instanceof EClass)    return clone ((EClass)   classifier);
 		if (classifier instanceof EEnum)     return clone ((EEnum)    classifier);
 		if (classifier instanceof EDataType) return clone ((EDataType)classifier);

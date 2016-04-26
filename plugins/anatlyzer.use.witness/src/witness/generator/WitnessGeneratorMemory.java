@@ -281,7 +281,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		
 		// Just one try with the scope calculator
 		try {
-			solver.setScopeGenerator(calculator);
+			solver.setScopeGenerator(calculator);			
 			model = TimedOutSolverExecution.find(solver, calculator.getDefaultMaxScope(), timeOut);
 			// model = solver.find(calculator.getDefaultMaxScope());
 		} catch (transException e) {
@@ -321,8 +321,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		int scope = 0;
 		for (scope=minScope; scope<=maxScope && (model==null || !model.isSatisfiable()); scope++) {
 			try {
-				// model = solver.find(scope);
+				timeOut = getTimeOut(model, timeOut);
 				model = TimedOutSolverExecution.find(solver, scope, timeOut);
+				if ( model != null && model.isUnsupported() )
+					return model;
 			} catch (transException e) {
 				// a) execution error
 				if (e.getError() != transException.ERROR.CONFORMANCE_ERROR) {
@@ -346,6 +348,27 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return model;		
 	}
 	
+	/**
+	 * Given a previous result (may be null) compute the new timeOut, throwing
+	 * a {@link TimeOutException} if the new time out is negative.
+	 * @param model
+	 * @return
+	 */
+	private static long getTimeOut(USEResult model, long currentTimeOut) {
+		if  ( model == null || currentTimeOut == -1 )
+			return currentTimeOut;
+		
+		if ( model.getTime() >= 0 ) {
+			currentTimeOut = currentTimeOut - model.getTime();
+		}
+		
+		if ( currentTimeOut < 0 ) {
+			throw new TimeOutException();
+		}
+		
+		return currentTimeOut;
+	}
+
 	protected static class TimedOutSolverExecution extends Thread {
 		private USEResult model;
 		private int scope;
@@ -373,12 +396,18 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		public static USEResult find(USESolverMemory solver, int scope, long timeout) throws transException {
 			TimedOutSolverExecution t = new TimedOutSolverExecution(solver, scope);
 			t.start();
+			
+			long totalTime = -1;
 			try {
+				long init = System.currentTimeMillis();
+				
 				if ( timeout == -1 ) {
 					t.join();
 				} else {
 					t.join(timeout);
 				}
+				
+				totalTime = System.currentTimeMillis() - init;				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -386,6 +415,8 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			if ( t.model != null || t.exception != null ) {
 				if ( t.exception != null )
 					throw t.exception;
+				
+				t.model.setTime(totalTime);
 				return t.model;
 			} else {
 				// Kill the thread...

@@ -155,12 +155,14 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		void goToLocation();		
 	}
 	
-	class BatchAnalysisNodeGroup extends TreeNode {
+	static class BatchAnalysisNodeGroup extends TreeNode {
 		private TreeNode[] children;
 
-		public BatchAnalysisNodeGroup(TreeNode parent) {
+		public BatchAnalysisNodeGroup(TreeNode parent, IAnalysisView view) {
 			super(parent);
-			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this), new RuleConflictAnalysisNode(this) };
+			this.children = new TreeNode[] { 
+					//new UnconnectedComponentsAnalysis(this, view), 
+					new RuleConflictAnalysisNode(this, view) };
 		}
 
 		@Override
@@ -184,13 +186,15 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 
-	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
+	static class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
 		private ConflictingRules[] elements;
 		int numberOfConflicts = 0;
 		private RuleConflicts fRuleConflicts;
+		private IAnalysisView view;
 		
-		public RuleConflictAnalysisNode(TreeNode parent) {
+		public RuleConflictAnalysisNode(TreeNode parent, IAnalysisView view) {
 			super(parent);
+			this.view = view;
 		}
 
 		class RuleAnalysisJob extends Job {
@@ -202,7 +206,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				final CheckRuleConflicts action = new CheckRuleConflicts();
-				final AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser());
+				final AnalyserData data = new AnalyserData(view.getCurrentAnalysis().getAnalyser());
 
 				result = action.performAction(data, monitor);	
 				if ( monitor.isCanceled() )
@@ -249,12 +253,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 						}											
 
 												
-						currentAnalysis.extendWithRuleConflicts(fRuleConflicts, true);
+						view.getCurrentAnalysis().extendWithRuleConflicts(fRuleConflicts, true);
 						
 						Display.getDefault().asyncExec(new Runnable() {	
 							@Override
 							public void run() {
-								viewer.refresh();								
+								view.refresh();								
 							}
 						});
 					}
@@ -293,7 +297,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 	
-	class ConflictingRules extends TreeNode implements IWithCodeLocation {
+	static class ConflictingRules extends TreeNode implements IWithCodeLocation {
 		protected OverlappingRules element;
 		private ConflictingRuleSet problem;
 
@@ -365,10 +369,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	
 	
-	class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
+	static class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
 		private UnconnectedElement[] elements;
-		public UnconnectedComponentsAnalysis(TreeNode parent) {
+		private IAnalysisView view;
+		public UnconnectedComponentsAnalysis(TreeNode parent, IAnalysisView view) {
 			super(parent);
+			this.view = view;
 		}
 
 		@Override
@@ -396,7 +402,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		@Override
 		public void perform() {
-			Result r = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
+			Result r = new UnconnectedElementsAnalysis(view.getCurrentAnalysis().getAnalyser().getATLModel(), view.getCurrentAnalysis().getAnalyser()).perform();
 			List<Cluster> l = r.getClusters();
 			elements = new UnconnectedElement[l.size()];
 			int i = 0;
@@ -404,10 +410,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				elements[i++] = new UnconnectedElement(this, c);
 			}
 			
-			viewer.refresh();
-			
+			view.refresh();
 			// field setter
-			unconnectedElementsResult = r;
+			view.setUnconnectedElementsResult(r);
 		}
 		
 		@Override
@@ -416,7 +421,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 	
-	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
+	static class UnconnectedElement extends TreeNode implements IWithCodeLocation {
 		private Cluster element;
 
 		public UnconnectedElement(TreeNode parent, Cluster c) {
@@ -619,7 +624,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		TreeNode[] children;
 		public TreeParent() {
 			super(null);
-			children = new TreeNode[] { new BatchAnalysisNodeGroup(this), new LocalProblemListNode(this) };
+			children = new TreeNode[] { new BatchAnalysisNodeGroup(this, AnalysisView.this), new LocalProblemListNode(this) };
 		}
 
 		public Object[] getChildren() {
@@ -1291,6 +1296,16 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			return ((AtlEditorExt) part);
 		}
 		return null;
+	}
+
+	@Override
+	public void refresh() {
+		viewer.refresh();
+	}
+
+	@Override
+	public void setUnconnectedElementsResult(Result r) {
+		unconnectedElementsResult = r;	
 	}
 	
 }

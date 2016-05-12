@@ -78,7 +78,8 @@ public class ErrorPathGenerator {
 					graph.addProblemPath(path);				
 				// else System.err.println("ErrorPathGenerator: Ignored " + p.getClass().getSimpleName());
 			} else {
-				throw new UnsupportedOperationException();
+				// throw new UnsupportedOperationException();
+				System.err.println("Ignored non-local problem: " + p);
 			}
 		}
 		

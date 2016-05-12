@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>anATLyzer by Miso</title>
+
+    <link rel="stylesheet" href="stylesheets/custom.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+	 <h1><a class="title" href="index.html">anATLyzer</a></h1>
+         <p>Advanced analysis of ATL transformations</p>
+
+        <ul>
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/binaries/anatlyzer.zip">Download <strong>anATLyzer</strong></a></li>
+
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/sites/anatlyzer.updatesite">or use the<strong>Update site</strong></a></li>
+
+          <li><a href="https://github.com/jesusc/anatlyzer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+
+      <section>
+	
+      <h2>Experiments</h2> 
+      <p>
+      This page provides access to the experimental data generated for
+      the evaluation of An<span class="atlyzer">atl</span>yzer
+      reported in the paper <em>Static Analysis of Model
+      Transformations</em> (submitted to IEEE TSE).
+      </p>
+      <p>
+	The generated data is available in a <a href="data/tse/experimental_data.zip">zip file</a>. The following
+        provides information about the files and how to reproduce the
+        experiments. If you wisth to reproduce the experiments you have to first install <span class="anatlyzer">anatlyzer</span>, including the <em>anATLyzer Experiments</em> feature (or build <span class="anatlyzer">anatlyzer</span> from the sources). This is a facility that we have implemented to run automated experiments for ATL transformations. </p>
+
+
+      </section>
+      <section>
+        <h3>
+<a name="mutants" class="anchor" href="#mutants"><span class="octicon octicon-link"></span></a>Mutants</h3>
+	<p>
+        To analyse the accuracy of an<span class="atlyzer">atl</span>yzer we have generated
+        a set of mutants from an error-free transformation. The mutants have been executed
+        against a large set of input models in order to try to produce runtime errors. The
+        execution of each mutant has been compared against the output of 
+	an<span class="atlyzer">atl</span>yzer is able to accurately report those runtime errors.
+	</p>
+	<p>
+	The results of the experiment are in two files (within <a href="data/tse/experimental_data.zip">experimental_data.zip</a>):
+	<ul>
+	  <li>evaluation_mutants.xlsx : Result of each mutant, 
+                              plus a summary of the experiment</li>
+	  <li>
+	    mutants.expdata : XML file with the raw data. It was used 
+            to produce the previous file.
+	  </li>
+	</ul>
+	</p>
+
+	<p>
+	  To reproduce the experiment you have to import one of these two projects:
+	  <ul>
+	    <li><a href="data/tse/mutation_experiment_all.zip">mutation_experiment_all.zip (150 MB, 1 GB uncompressed!)</a> : Includes the original transformations plus all the generated mutants and test models. To execute the experiment right-click on <code>transformation/factory2pn3.atl -> Evaluate anATLyzer -> Lite/Full evaluation</code>. The evaluation may take several hours to complete. </li>. 
+
+	    <li><a href="data/tse/mutation_experiment_only_trafo.zip">mutation_experiment_only_trafo.zip</a> : Includes only the original transformation. If the experiment is run with this project it will automatically generate a new set of mutants and models.</li>
+	  </ul>
+
+	  </p>
+
+	</p>
+</section>
+
+    <section>
+        <h3>
+<a name="zoo" class="anchor" href="#zoo"><span class="octicon octicon-link"></span></a>Analysis of the ATL Zoo</h3>
+
+	We have used <span class="anatlyzer">anatlyzer</span> to analyse the complete <a href="http://www.eclipse.org/atl/atlTransformations/">ATL Zoo</a>. The results of the experiment are in the following files (within folder <code>zoo_analysis</code> in <a href="data/tse/experimental_data.zip">experimental_data.zip</a>):
+	<ul>
+	  <li>zoo_analysis_byError.xlsx : Summary of problems ocurrences,
+                                 grid relating transformations and problems,
+                                 and list of all problems.</li>
+	  <li>zoo_analysis_byKind : Summary based on the kind of problems.</li>
+	  <li>zoo_analysis_bySeverity : Summary based on the severity of problems.</li>
+	  <li>zoo_analysis_only_solver : Summary of the behaviour of the model finder.</li>
+	  <li>zoo_analysis.expdata : XML file with the raw data. It was used to
+                            produce the previous files.</li>
+	</ul>
+
+	<p>
+	  To execute the experiment you have to import the <a href="data/tse/zoo_analysis.zip">anatlyzer.evaluation.atlzoo</a> project. It contains a file named <code>zoo_analysis.exp</code> with
+the configuration of the experiment. Open it, go to the Result tab and click on Execute.
+One caveat is that you need to have the ATL Zoo projects available in your workspace and 
+properly configured (we provide here <a href="data/tse/atl_zoo.zip">our snapshot</a>, hopefully not violating any license). The experiment may take several ours to complete. 
+    </section>
+
+    <section>
+        <h3>
+<a name="perf" class="anchor" href="#perf"><span class="octicon octicon-link"></span></a>Performance benchmarks</h3>
+<p>
+	The results of the performance benchmarks are in the following files (within folder <code>performance</code> in <a href="data/tse/experimental_data.zip">experimental_data.zip</a>):
+	<ul>
+	  <li>error-path.xlsx : Performance results using error-path strategy, that is,
+              using the smallest input meta-model for the model finder.</li>
+	  <li>mand-full.xlsx : Performance results using mandatory strategy, which sometimes
+              produces larger input meta-models but generate fully conforming witness models</li>
+	  <li>full.xlsx : Performance results without any pruning strategy</li>
+        <ul>
+  </p>
+
+	<p>
+	  To reproduce the experiment you have to import the <a href="data/tse/zoo_performance.zip">anatlyzer.evaluation.performance</a> project. Run one of the <code>.exp</code> files as before.
+	  </p>
+    </section>
+
+
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jesusc">jesusc</a></p>
+        <p><small>Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11389533-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

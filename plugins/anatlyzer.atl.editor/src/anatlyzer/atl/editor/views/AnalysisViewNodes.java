@@ -48,6 +48,7 @@ public class AnalysisViewNodes {
 		public InvisibleTreeRoot() {
 			super(null);
 			children = new TreeNode[] { 
+				new AnalysisView.BatchAnalysisNodeGroup(this, view),
 				new ConfirmedListNode(this),
 				new WitnessRequiredListNode(this),
 				new UnknownListNode(this),

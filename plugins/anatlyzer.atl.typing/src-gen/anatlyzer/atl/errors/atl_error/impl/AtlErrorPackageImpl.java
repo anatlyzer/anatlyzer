@@ -3478,7 +3478,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "path", "no",
 			 "severity", "error-load",
 			 "when", "trafo-dep",
-			 "kind", "trafo-integrity",
+			 "kind", "src-typing",
 			 "phase", "typing",
 			 "source", "none"
 		   });	
@@ -3586,7 +3586,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "path", "no",
 			 "severity", "warning-style",
 			 "when", "model-dep",
-			 "kind", "navigation",
+			 "kind", "src-typing",
 			 "phase", "typing",
 			 "source", "OCL spec, tests"
 		   });	
@@ -3598,7 +3598,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "path", "no",
 			 "severity", "warning-style",
 			 "when", "model-dep",
-			 "kind", "navigation",
+			 "kind", "src-typing",
 			 "phase", "typing",
 			 "source", "OCL spec, tests"
 		   });	

@@ -4,11 +4,13 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -95,4 +97,11 @@ public class LetScopeNode extends AbstractDependencyNode {
 		if ( b ) followDepending(node -> node.bottomUp(visitor));
 	}
 
+	@Override
+	public void genIdentification(PathId id) {
+		String s = let.getVariable().getVarName() + ":" + id.typeSig(let.getVariable().getType()) + "=" + id.gen(let.getVariable().getInitExpression()) + "in" + id.gen(let.getIn_());
+		id.next(s);
+		followDepending(node -> node.genIdentification(id));		
+	}
+	
 }

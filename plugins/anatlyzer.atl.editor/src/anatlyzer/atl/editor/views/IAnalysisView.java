@@ -21,4 +21,7 @@ public interface IAnalysisView {
 	public Result getUnconnectedElementAnalysis();
 	public Problem getProblem();
 	
+	public void refresh();
+	
+	// void setUnconnectedElementsResult(Result r);
 }

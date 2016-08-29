@@ -817,7 +817,7 @@
         <details key="path" value="no"/>
         <details key="severity" value="error-load"/>
         <details key="when" value="trafo-dep"/>
-        <details key="kind" value="trafo-integrity"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
@@ -970,7 +970,7 @@
         <details key="path" value="no"/>
         <details key="severity" value="warning-style"/>
         <details key="when" value="model-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>
@@ -986,7 +986,7 @@
         <details key="path" value="no"/>
         <details key="severity" value="warning-style"/>
         <details key="when" value="model-dep"/>
-        <details key="kind" value="navigation"/>
+        <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="OCL spec, tests"/>
       </eAnnotations>

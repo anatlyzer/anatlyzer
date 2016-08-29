@@ -152,8 +152,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 	public static interface IWithCodeLocation {
 		void goToLocation();		
-	}
-	
+	}	
 	
 	class LocalProblemListNode extends TreeNode {
 		
@@ -1001,6 +1000,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		return null;
 	}
 
+
+	@Override
+	public void refresh() {
+		viewer.refresh();
+	}
 
 	
 }

@@ -2,6 +2,7 @@ package anatlyzer.experiments.performance;
 
 import org.eclipse.emf.ecore.EPackage;
 
+import witness.generator.MetaModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.witness.SourceMetamodelsData;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -11,12 +12,13 @@ public class StatsRecorder {
 
 	private PEStatsWitness stats;
 
-	public void compute(ErrorSlice slice, OclExpression constraint, EPackage errorSliceMM, SourceMetamodelsData data) {
+	public void compute(EPackage errorMM, MetaModel effectiveMM, MetaModel languageMM) {
 		if ( stats != null ) {
 			throw new IllegalStateException();
 		}
-		stats = new PEStatsWitness(slice, constraint, errorSliceMM, data);
+		stats = new PEStatsWitness(errorMM);
 	}
+
 		
 	public PEStatsWitness getStats() {
 		return stats;
@@ -25,6 +27,7 @@ public class StatsRecorder {
 	public void reset() {
 		stats = null;
 	}
+
 
 	
 	

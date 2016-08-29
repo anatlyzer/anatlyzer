@@ -47,7 +47,10 @@ public class AnalysisViewNodes {
 		TreeNode[] children;
 		public InvisibleTreeRoot() {
 			super(null);
-			children = new TreeNode[] { 
+			children = new TreeNode[] {
+				// TODO: This has the problem that it does not set the variable
+				//       in the view to get the unconnected component result
+				new AnalysisViewBatchNodes(view).getRoot(this),
 				new ConfirmedListNode(this),
 				new WitnessRequiredListNode(this),
 				new UnknownListNode(this),

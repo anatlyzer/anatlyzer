@@ -10,6 +10,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 
 import org.eclipse.m2m.atl.core.emf.EMFModel;
 
+import witness.generator.MetaModel;
 import witness.generator.WitnessGeneratorMemory;
 
 public aspect MeasurePathComputationTime {
@@ -107,13 +108,22 @@ public aspect MeasurePathComputationTime {
     	pathCreation.stop();
     }
 
-    before(anatlyzer.atl.analyser.generators.ErrorSlice slice, anatlyzer.atlext.OCL.OclExpression constraint, org.eclipse.emf.ecore.EPackage errorSliceMM, anatlyzer.atl.witness.SourceMetamodelsData data) : 
-    	execution(void anatlyzer.atl.witness.UseWitnessFinder.computeStats(anatlyzer.atl.analyser.generators.ErrorSlice, anatlyzer.atlext.OCL.OclExpression, org.eclipse.emf.ecore.EPackage, anatlyzer.atl.witness.SourceMetamodelsData)) && 
-    	args(slice, constraint, errorSliceMM, data) {
-    	
-    	this.stats.compute(slice, constraint, errorSliceMM, data);
-    }
+//    before(anatlyzer.atl.analyser.generators.ErrorSlice slice, anatlyzer.atlext.OCL.OclExpression constraint, org.eclipse.emf.ecore.EPackage errorSliceMM, anatlyzer.atl.witness.SourceMetamodelsData data) : 
+//    	execution(void anatlyzer.atl.witness.UseWitnessFinder.computeStats(anatlyzer.atl.analyser.generators.ErrorSlice, anatlyzer.atlext.OCL.OclExpression, org.eclipse.emf.ecore.EPackage, anatlyzer.atl.witness.SourceMetamodelsData)) && 
+//    	args(slice, constraint, errorSliceMM, data) {
+//    	
+//    	this.stats.compute(slice, constraint, errorSliceMM, data);
+//    }
+
     
+  after(org.eclipse.emf.ecore.EPackage errorMM, witness.generator.MetaModel effectiveMM, witness.generator.MetaModel languageMM) : 
+	execution(void witness.generator.mmext.IMetamodelExtensionStrategy.extend(org.eclipse.emf.ecore.EPackage, witness.generator.MetaModel, witness.generator.MetaModel)) && 
+	args(errorMM, effectiveMM, languageMM) {
+
+	this.stats.compute(errorMM, effectiveMM, languageMM);
+	}
+
+	
     // Construct problem tree 
     before() : execution(void  anatlyzer.atl.graph.ProblemGraph.addProblemPath(anatlyzer.atl.graph.ProblemPath)){
     	problemTreeCreation.start(PROBLEM_TREE_CREATION_TIME);

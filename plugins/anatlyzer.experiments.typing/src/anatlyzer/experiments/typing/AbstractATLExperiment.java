@@ -177,6 +177,7 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	
 	protected RuleConflicts doRuleAnalysis(IProgressMonitor monitor, AnalysisResult data, boolean recordAllPossibleGuilty) {
 		final CheckRuleConflicts action = new CheckRuleConflicts();
+		action.setTimeOut(getTimeOut());
 		List<OverlappingRules> result = action.performAction(data, monitor);	
 		ArrayList<OverlappingRules> guiltyRules = new ArrayList<OverlappingRules>();
 		

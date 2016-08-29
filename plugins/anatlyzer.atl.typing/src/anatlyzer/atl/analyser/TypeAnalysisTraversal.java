@@ -309,7 +309,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			if ( mc instanceof UnresolvedTypeError ) 
 				return;
 
-			if ( mc.getKlass().isAbstract() ) {
+			if ( mc.getKlass().isAbstract() && ! self.isIsAbstract() ) {
 				errors().signalCannonInstantiateAbstractClass(mc, t);
 			}
 		}));	

@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.views;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
@@ -70,6 +69,8 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
+import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.ConflictingRules;
+import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedComponentsAnalysis;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.GenericProblemNode;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
@@ -119,12 +120,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private boolean sortByDependency = false;
 	private boolean batchMode = false;
 
-	// Set from the tree...
-	private Result unconnectedElementsResult;
-
 	private IResource currentResource;
 
 	private AnalysisViewComparator comparator;
+	private AnalysisViewBatchNodes batchNodes;
 
 	
 	public static abstract class TreeNode {
@@ -148,308 +147,13 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 	}
 	
-	interface IBatchAnalysisNode {
+	public static interface IBatchAnalysisNode {
 		void perform();		
 	}
-	interface IWithCodeLocation {
+	public static interface IWithCodeLocation {
 		void goToLocation();		
 	}
 	
-	class BatchAnalysisNodeGroup extends TreeNode {
-		private TreeNode[] children;
-
-		public BatchAnalysisNodeGroup(TreeNode parent) {
-			super(parent);
-			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this), new RuleConflictAnalysisNode(this) };
-		}
-
-		@Override
-		public Object[] getChildren() {
-			return children;
-		}
-
-		@Override
-		public boolean hasChildren() {
-			return true;
-		}
-		
-		@Override
-		public String toString() {
-			return "Batch analysis";
-		}
-		
-		@Override
-		public ImageDescriptor getImage() {
-	    	return Images.batch_analysis_16x16;
-		}
-	}
-
-	class RuleConflictAnalysisNode extends TreeNode implements IBatchAnalysisNode {
-		private ConflictingRules[] elements;
-		int numberOfConflicts = 0;
-		private RuleConflicts fRuleConflicts;
-		
-		public RuleConflictAnalysisNode(TreeNode parent) {
-			super(parent);
-		}
-
-		class RuleAnalysisJob extends Job {
-			List<OverlappingRules> result = null;
-			public RuleAnalysisJob(String name) {
-				super(name);
-			}
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				final CheckRuleConflicts action = new CheckRuleConflicts();
-				final AnalyserData data = new AnalyserData(currentAnalysis.getAnalyser());
-
-				result = action.performAction(data, monitor);	
-				if ( monitor.isCanceled() )
-					return Status.CANCEL_STATUS;
-				return Status.OK_STATUS;
-			}		
-		}
-		
-		@Override
-		public void perform() {
-			final RuleAnalysisJob job = new RuleAnalysisJob("Rule analysis");
-			
-			job.addJobChangeListener(new JobChangeAdapter() {
-				@Override
-				public void done(IJobChangeEvent event) {
-					if ( job.result != null ) {
-						List<OverlappingRules> result = job.result;	
-						
-						// Create the problem
-						RuleConflicts ruleConflictResult = AtlErrorFactory.eINSTANCE.createRuleConflicts();
-						fRuleConflicts = null;
-						
-						numberOfConflicts = 0;
-						int i = 0;
-						elements = new ConflictingRules[result.size()];
-						for (OverlappingRules overlappingRules : result) {
-							elements[i] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
-							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
-								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
-								// It has not been discarded
-								numberOfConflicts++;
-							}
-							
-							if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-								ConflictingRuleSet set = overlappingRules.createRuleSet();
-								ruleConflictResult.getConflicts().add(set);
-								elements[i].setConflictingRuleSet(set);
-							}
-							
-							i++;
-							fRuleConflicts = ruleConflictResult;							
-						}											
-
-												
-						currentAnalysis.extendWithRuleConflicts(fRuleConflicts, true);
-						
-						Display.getDefault().asyncExec(new Runnable() {	
-							@Override
-							public void run() {
-								viewer.refresh();								
-							}
-						});
-					}
-				}
-			});
-			
-			job.schedule();
-
-		}
-
-		@Override
-		public Object[] getChildren() {
-			return elements;
-		}
-
-		@Override
-		public boolean hasChildren() {
-			return elements != null && elements.length > 0;
-		}
-		
-		@Override
-		public String toString() {
-			return "Rule conflict analysis";
-		}
-		
-		@Override
-		public ImageDescriptor getImage() {
-	    	return Images.rule_conflicts_analysis_16x16;
-		}
-		
-		@Override
-		public String toColumn1() {
-			if ( elements == null )     return "Not analysed";
-			if ( numberOfConflicts == 0 ) return "Passed! " + numberOfConflicts + "/" + elements.length;
-			return "Some conflicts: " + numberOfConflicts + "/" + elements.length;		
-		}
-	}
-	
-	class ConflictingRules extends TreeNode implements IWithCodeLocation {
-		protected OverlappingRules element;
-		private ConflictingRuleSet problem;
-
-		public ConflictingRules(TreeNode parent, OverlappingRules element) {
-			super(parent);
-			this.element = element;
-		}		
-		
-		public void setConflictingRuleSet(ConflictingRuleSet problem) {
-			this.problem = problem;
-		}
-
-		@Override
-		public Object[] getChildren() { return null; }
-		@Override
-		public boolean hasChildren()  { return false; }
-		
-		@Override
-		public String toString() {
-			String s = null;
-			switch ( element.getAnalysisResult() ) {
-			case WITNESS_REQUIRED: s = "Not analysed!"; break;
-			case ERROR_CONFIRMED_SPECULATIVE:
-			case ERROR_CONFIRMED: s = "Confirmed (by solver)"; break;
-			case ERROR_DISCARDED: s = "Discarded (by solver)"; break;
-			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
-			case STATICALLY_CONFIRMED: s = "Confirmed (statically)";break;		
-			case CANNOT_DETERMINE:
-				s = "Cannot determine (e.g., no path to rule)";break;				
-			case NOT_SUPPORTED_BY_USE:
-			case USE_INTERNAL_ERROR: 
-				s = "Cannot determine (solver failed)";break;		
-			case IMPL_INTERNAL_ERROR:
-				s = "Cannot determine (impl. error)";break;		
-			case USE_TIME_OUT:
-				s = "Cannot determine (time out)";break;						
-			case PROBLEMS_IN_PATH:
-				throw new IllegalStateException();
-			}
-			
-			String r = element.toString();
-			return r + " : " + s;
-		}
-
-		@Override
-		public ImageDescriptor getImage() {
-			switch ( element.getAnalysisResult() ) {
-			case ERROR_DISCARDED: 
-			case ERROR_DISCARDED_DUE_TO_METAMODEL: 
-				return Images.rule_conflict_discarded;
-			case ERROR_CONFIRMED: 
-			case ERROR_CONFIRMED_SPECULATIVE:
-			case STATICALLY_CONFIRMED: 
-				return Images.rule_conflict_confirmed;
-			case CANNOT_DETERMINE:
-			case NOT_SUPPORTED_BY_USE:
-			case USE_INTERNAL_ERROR: 
-			case IMPL_INTERNAL_ERROR:
-			}
-			return null;
-		}
-		
-		@Override
-		public void goToLocation() {
-			List<MatchedRule> r = element.getRules();			
-			WorkbenchUtil.goToEditorLocation(r.get(0).getFileLocation(), r.get(0).getLocation());   
-		}
-
-	}
-	
-	
-	class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
-		private UnconnectedElement[] elements;
-		public UnconnectedComponentsAnalysis(TreeNode parent) {
-			super(parent);
-		}
-
-		@Override
-		public Object[] getChildren() {
-			return elements;
-		}
-
-		@Override
-		public boolean hasChildren() {
-			return elements != null && elements.length > 0;
-		}
-		
-		@Override
-		public String toString() {
-			return "Unconnected components";
-		}
-
-		@Override
-		public String toColumn1() {
-			if ( elements == null )     return "Not analysed";
-			if ( elements.length == 0 ) return "0 components. Something went wrong!";
-			if ( elements.length == 1 ) return "Passed!";
-			return "Some not connected: " + elements.length;
-		}
-		
-		@Override
-		public void perform() {
-			Result r = new UnconnectedElementsAnalysis(currentAnalysis.getAnalyser().getATLModel(), currentAnalysis.getAnalyser()).perform();
-			List<Cluster> l = r.getClusters();
-			elements = new UnconnectedElement[l.size()];
-			int i = 0;
-			for (Cluster c : l) {
-				elements[i++] = new UnconnectedElement(this, c);
-			}
-			
-			viewer.refresh();
-			
-			// field setter
-			unconnectedElementsResult = r;
-		}
-		
-		@Override
-		public ImageDescriptor getImage() {
-	    	return Images.unconnected_16x16;
-		}
-	}
-	
-	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
-		private Cluster element;
-
-		public UnconnectedElement(TreeNode parent, Cluster c) {
-			super(parent);
-			this.element = c;
-		}		
-		
-		@Override
-		public Object[] getChildren() { return null; }
-		@Override
-		public boolean hasChildren()  { return false; }
-		
-		@Override
-		public String toString() {
-			String s = "";
-			HashSet<Node> rootNodes = element.getRootNodes();
-			for(Node n : rootNodes) {
-				s += "[" + n.getOut().getType().getName() + " : " + n.getOut().getLocation() + "]";
-			}
-			
-			return s; 
-		}
-
-		@Override
-		public void goToLocation() {
-			// TODO: Expand the tree with possible locations
-			HashSet<Node> nodes = element.getRootNodes();
-			Node first = nodes.iterator().next();
-			
-			WorkbenchUtil.goToEditorLocation(first.getOut().getFileLocation(), first.getOut().getLocation());   
-		}
-
-	}
 	
 	class LocalProblemListNode extends TreeNode {
 		
@@ -619,7 +323,9 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		TreeNode[] children;
 		public TreeParent() {
 			super(null);
-			children = new TreeNode[] { new BatchAnalysisNodeGroup(this), new LocalProblemListNode(this) };
+			// children = new TreeNode[] { new BatchAnalysisNodeGroup(this), new LocalProblemListNode(this) };
+			batchNodes = new AnalysisViewBatchNodes(AnalysisView.this);
+			children = new TreeNode[] { batchNodes.getRoot(this), new LocalProblemListNode(this) };
 		}
 
 		public Object[] getChildren() {
@@ -1165,7 +871,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		refreshFromNonUI();
 	}
 
-	private void refreshFromNonUI() {
+	protected void refreshFromNonUI() {
 		// To avoid "invalid thread access" when called from analysisRegistered
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
@@ -1238,6 +944,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			Object s = selection.getFirstElement();
 			if ( s instanceof LocalProblemNode ) {
 				return Kind.PROBLEM;
+			} else if ( s instanceof GenericProblemNode ) {
+				return Kind.PROBLEM;				
 			} else if ( s instanceof UnconnectedComponentsAnalysis ) {
 				return Kind.UNCONNECTED_ELEMENTS;
 			}
@@ -1259,14 +967,14 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		} else if ( obj instanceof ConflictingRules ) {
 			// May return null if the conflict is discarded or cannot be verified
 			ConflictingRules conflictingRules = (ConflictingRules) obj;
-			return conflictingRules.problem;
+			return conflictingRules.getProblem();
 		} else {
 			throw new UnsupportedOperationException("Node: " + obj.getClass());
 		}
 	}
 	
 	public Result getUnconnectedElementAnalysis() {
-		return this.unconnectedElementsResult;
+		return this.batchNodes.getUnconnectedElementsResult();
 	}
 
 	@Override
@@ -1292,5 +1000,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 		return null;
 	}
+
+
 	
 }

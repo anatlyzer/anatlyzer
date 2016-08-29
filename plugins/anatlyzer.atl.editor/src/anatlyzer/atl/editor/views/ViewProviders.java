@@ -2,13 +2,12 @@ package anatlyzer.atl.editor.views;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-import anatlyzer.atl.editor.views.AnalysisView.BatchAnalysisNodeGroup;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeParent;
 

@@ -281,7 +281,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		errorSliceMM.getEAnnotations().add(ann);
 
 		
-		computeStats(slice, originalConstraint, errorSliceMM, srcMetamodels);
+		// computeStats(slice, originalConstraint, errorSliceMM, srcMetamodels);
 		
 		// Setting up the generator
 		WitnessGeneratorMemory generator = setUpWitnessGenerator(
@@ -312,11 +312,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			}
 			return result;
 		}
-	}
-
-	// This is here as a way to easily connect with measuring aspects that want to use this data
-	private void computeStats(ErrorSlice slice, OclExpression originalConstraint, EPackage errorSliceMM, SourceMetamodelsData data) {
-		// do nothing
 	}
 
 	protected WitnessGeneratorMemory setUpWitnessGenerator(

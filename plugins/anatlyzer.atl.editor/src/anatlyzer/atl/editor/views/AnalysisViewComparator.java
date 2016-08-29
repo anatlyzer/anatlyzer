@@ -4,7 +4,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 
-import anatlyzer.atl.editor.views.AnalysisView.BatchAnalysisNodeGroup;
 import anatlyzer.atl.editor.views.AnalysisView.LocalProblemNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeParent;

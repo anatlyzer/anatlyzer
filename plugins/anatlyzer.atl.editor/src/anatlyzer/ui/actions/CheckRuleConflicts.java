@@ -27,6 +27,7 @@ import anatlyzer.atl.witness.WitnessUtil;
 public class CheckRuleConflicts implements IEditorActionDelegate {
 
 	private AtlEditor editor;
+	private long timeOutMillis = -1;
 
 	@Override
 	public void run(IAction action) {
@@ -46,6 +47,9 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		}
 	}
 
+	public void setTimeOut(long millis) {
+		this.timeOutMillis  = millis;
+	}
 
 	public List<OverlappingRules> performAction(AnalysisResult data, IProgressMonitor monitor) {
 		List<OverlappingRules> overlaps = data.getAnalyser().ruleConflictAnalysis();
@@ -105,7 +109,10 @@ public class CheckRuleConflicts implements IEditorActionDelegate {
 		
 		// Do not reuse the witness finder
 		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
-
+		if ( timeOutMillis != -1 ) {
+			wf.setTimeOut(timeOutMillis);
+		}
+		
 		ProblemStatus result = wf.find(overlap, data);
 		overlap.setAnalysisResult(result);
 		if ( overlap.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 

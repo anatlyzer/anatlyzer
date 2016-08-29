@@ -7,10 +7,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
-import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.witness.SourceMetamodelsData;
-import anatlyzer.atlext.OCL.OclExpression;
-
 @Root(name="stats")
 public class PEStatsWitness {
 
@@ -22,7 +18,8 @@ public class PEStatsWitness {
 		
 	public PEStatsWitness() { }
 	
-	public PEStatsWitness(ErrorSlice slice, OclExpression expr, EPackage errorSliceMM, SourceMetamodelsData data) {
+	//public PEStatsWitness(ErrorSlice slice, OclExpression expr, EPackage errorSliceMM, SourceMetamodelsData data) {
+	public PEStatsWitness(EPackage errorSliceMM) {
 		computeSlice(errorSliceMM);
 	}
 	

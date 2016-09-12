@@ -17,7 +17,8 @@ public class AccessToUndefinedValueQuickfixSet extends AbstractQuickfixSet  {
 				new AccessToUndefinedValue_AddRuleFilter(),
 				new AccessToUndefinedValue_AddIf(),
 				new AccessToUndefinedValue_ChangeMetamodel(),
-				new AccessToUndefinedValue_SpecificPrecondition()
+				new AccessToUndefinedValue_SpecificPrecondition(),
+				new AccessToUndefinedValue_Precondition(),
 		};
 	}
 }

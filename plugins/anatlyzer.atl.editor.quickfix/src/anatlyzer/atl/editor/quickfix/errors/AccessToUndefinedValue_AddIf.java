@@ -14,6 +14,7 @@ import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -68,6 +69,12 @@ public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 				if ( usedVarSet.contains( loop.getIterators().get(0)) )
 					break;				
 			}			
+			
+			if ( current instanceof IfExp ) {
+				// Stop in the nearest branch to avoid putting the if at the top
+				// of a several nested ifs
+				break;
+			}
 		} while ( current instanceof OclExpression );
 		
 		final OclExpression fexpRoot = expRoot;

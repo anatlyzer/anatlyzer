@@ -18,10 +18,17 @@ public class TransformationConfiguration {
 	private long timeOut = -1;
 	
 	public TransformationConfiguration() {
-		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
-		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED);
-		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
-		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);
+//		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
+//		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED);
+//		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
+//		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);		
+	
+	
+		for (ProblemStatus problemStatus : ProblemStatus.values()) {
+			if ( problemStatus == ProblemStatus.ERROR_DISCARDED || problemStatus == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL )
+				continue;
+			this.wantedMarkers.add(problemStatus);
+		}
 	}
 	
 	public void setWitnessMode(WitnessGenerationMode mode) {
@@ -78,9 +85,6 @@ public class TransformationConfiguration {
 
 	public static TransformationConfiguration getDefault() {
 		TransformationConfiguration c = new TransformationConfiguration();
-		for (ProblemStatus problemStatus : ProblemStatus.values()) {
-			c.wantedMarkers.add(problemStatus);
-		}
 		return c;
 	}
 

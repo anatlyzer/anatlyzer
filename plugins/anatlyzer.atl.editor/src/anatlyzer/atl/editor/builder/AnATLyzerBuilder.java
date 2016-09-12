@@ -150,6 +150,8 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 	}
 
 	public void checkATL(IResource resource) {
+		TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);			
+
 		Supplier<AtlNbCharFile> helperCreator = () -> {
 			try {
 				return new AtlNbCharFile(((IFile) resource).getContents());
@@ -170,13 +172,15 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CannotLoadMetamodel e) {
 				try {
-					addMarker(file, helperCreator.get(), null, e.getProblem());
+					if ( c.isMarkerWanted(e.getProblem().getStatus()) )
+						addMarker(file, helperCreator.get(), null, e.getProblem());
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}
 			} catch (PreconditionParseError e) {
 				try {
-					addMarker(file, helperCreator.get(), null, e.getProblem());
+					if ( c.isMarkerWanted(e.getProblem().getStatus()) )
+						addMarker(file, helperCreator.get(), null, e.getProblem());
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}

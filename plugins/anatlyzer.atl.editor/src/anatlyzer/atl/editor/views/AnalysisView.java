@@ -632,11 +632,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
-						lpn.setStatus(status);
+						// This is to update the markers, no matter it is in continuous mode or not
+						AnalysisIndex.getInstance().changeStatus(currentResource, lpn.p, status);
 						viewer.refresh(lpn); //, true);
+						
 					}
-					
-					System.out.println( selection.getFirstElement() );					
 				}
 				else if ( selection != null && ( selection.getFirstElement() instanceof GenericProblemNode )) {
 					GenericProblemNode lpn = (GenericProblemNode) selection.getFirstElement();
@@ -644,13 +644,12 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
-						lpn.setStatus(status);
+						// This is to update the markers, no matter it is in continuous mode or not
+						AnalysisIndex.getInstance().changeStatus(currentResource, lpn.p, status);
 						viewer.refresh();
 					}
-					
-					System.out.println( selection.getFirstElement() );					
 				}
-				
+
 				
 			}
 		};

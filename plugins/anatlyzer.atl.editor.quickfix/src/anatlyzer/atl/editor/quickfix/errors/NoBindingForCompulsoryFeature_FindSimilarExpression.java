@@ -73,7 +73,7 @@ public class NoBindingForCompulsoryFeature_FindSimilarExpression extends Abstrac
 		Unit root = atlModel.getRoot();
 		if ( root instanceof Module ) {
 			List<Binding> candidates = ((Module) root).getElements().stream().
-				filter(e -> e instanceof Rule ).
+				filter(e -> e instanceof Rule && ((Rule) e).getOutPattern() != null ).
 				flatMap(r -> ((Rule) r).getOutPattern().getElements().stream() ).
 				flatMap(o -> o.getBindings().stream() ).
 				filter(b -> b.getWrittenFeature() == feature ).collect(Collectors.toList());

@@ -241,18 +241,22 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		if ( checkPreconditions ) {
 			// Copy!!
 			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions().
-					stream().map(h -> (StaticHelper) ATLCopier.copySingleElement(h)).collect(Collectors.toList());
-			for (StaticHelper hpre : helpers) {
+					stream().map(h -> (StaticHelper) h).collect(Collectors.toList());
+			for (StaticHelper originalPre : helpers) {
+				StaticHelper hpre = (StaticHelper) ATLCopier.copySingleElement(originalPre);
+				
 				// Enclose into a thisModule to allow calls to existing helpers
 				CSPModel model = new CSPModel();
 				IteratorExp ctx = model.createThisModuleContext();
 				model.setThisModuleVariable(ctx.getIterators().get(0));
 				
-				OclExpression originalPrecondition = ATLUtils.getBody(hpre);
+				// The slice must be done over the original, because the copy
+				// does not maintain "dynamicResolvers" properly
+				OclSlice.slice(slice, ATLUtils.getBody(originalPre));
 				
-				OclSlice.slice(slice, originalPrecondition);
 				
-				ctx.setBody(originalPrecondition);
+				OclExpression copiedPrecondition = ATLUtils.getBody(hpre);
+				ctx.setBody(copiedPrecondition);
 				
 				USEConstraint c = USESerializer.retypeAndGenerate(ctx, problem, renaming);	
 				if ( c.useNotSupported() ) {

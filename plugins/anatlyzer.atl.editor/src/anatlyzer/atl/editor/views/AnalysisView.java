@@ -104,6 +104,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	private DrillDownAdapter drillDownAdapter;
 	private Action runAnalyserAction;
 	private Action runWitnessAction;
+	private Action genWitnessAction;
+	
 	private Action runQuickfixDialog;
 	// private Action runSpeculativeQuickfixDialog;
 	
@@ -239,7 +241,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				case STATICALLY_CONFIRMED: prefix = ""; break;
 				case WITNESS_REQUIRED: prefix = "[?] "; break;				
 				case ERROR_CONFIRMED: prefix = "[C] "; break;
-				case ERROR_CONFIRMED_SPECULATIVE: prefix = "[CS] "; break;
+				case ERROR_CONFIRMED_SPECULATIVE: prefix = "[C" + (showSpeculative() ? "S" : "") +"] "; break;
 				case ERROR_DISCARDED: prefix = "[D] "; break;
 				case ERROR_DISCARDED_DUE_TO_METAMODEL: prefix = "[DM] "; break;
 				case IMPL_INTERNAL_ERROR: prefix = "[E3] "; break;
@@ -253,6 +255,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			if ( idx != -1 )
 				desc = desc.substring(0, idx);
 			return prefix + desc;
+		}
+
+		private boolean showSpeculative() {
+			// TODO: Use the configuration file to let the user decide
+			return false;
 		}
 
 		@Override
@@ -568,6 +575,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	private void fillContextMenu(IMenuManager manager) {
 		manager.add(runWitnessAction);
+		manager.add(genWitnessAction);		
 		// manager.add(runSpeculativeQuickfixDialog);
 		manager.add(runQuickfixDialog);		
 		addExtensionActions(manager);
@@ -659,6 +667,37 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		runWitnessAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_ETOOL_CLEAR));
 		
+		// Generate witness
+		genWitnessAction = new Action() {
+			public void run() {
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+				Problem p = null;
+				if ( selection != null && ( selection.getFirstElement() instanceof LocalProblemNode )) {
+					LocalProblemNode lpn = (LocalProblemNode) selection.getFirstElement();
+					p = lpn.p;
+				}
+				else if ( selection != null && ( selection.getFirstElement() instanceof GenericProblemNode )) {
+					GenericProblemNode lpn = (GenericProblemNode) selection.getFirstElement();
+					p = lpn.p;
+				}
+				
+				if ( p != null && AnalyserUtils.isConfirmed(p) ) {
+					TransformationConfiguration conf = getAnalysisConfiguration().clone();
+					// Could do better...
+					conf.setWitnessFinderDebugMode(true);
+					conf.setWitnessGenerationGraphics("plantuml");
+					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(conf);
+					if ( wf != null ) {
+						 wf.find(p, currentAnalysis);
+					}
+				}
+				
+			}
+		};
+		
+		genWitnessAction.setText("Generate witness");
+		genWitnessAction.setToolTipText("Generate a witness (an example of the problem)");
+		genWitnessAction.setImageDescriptor(Images.find_witness_16x16);
 
 		runQuickfixDialog = new QuickfixAction(this) {
 			@Override

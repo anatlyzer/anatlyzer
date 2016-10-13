@@ -22,6 +22,7 @@ public class Images {
 	public static final ImageDescriptor rule_conflict_confirmed;
 	public static final ImageDescriptor rule_conflict_discarded;
 
+	public static final ImageDescriptor find_witness_16x16;
 	
 	static {
 		rule_conflict_confirmed = Activator.getImageDescriptor("icons/rule_conflict_confirmed_16x16.png");
@@ -40,5 +41,8 @@ public class Images {
 		local_problem_16x16 = Activator.getImageDescriptor("icons/local_problem_16x16.png");	
 		local_problem_warning_16x16 = Activator.getImageDescriptor("icons/local_problem_warning_16x16.png");	
 		unconnected_16x16 = Activator.getImageDescriptor("icons/unconnected_16x16.png");	
+
+		find_witness_16x16 = Activator.getImageDescriptor("icons/find_witness_16x16.png");	
+
 	}
 }

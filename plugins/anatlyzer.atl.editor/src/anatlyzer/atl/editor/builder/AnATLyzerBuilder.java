@@ -172,15 +172,13 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);				
 			} catch (CannotLoadMetamodel e) {
 				try {
-					if ( c.isMarkerWanted(e.getProblem().getStatus()) )
-						addMarker(file, helperCreator.get(), null, e.getProblem());
+					addMarker(file, helperCreator.get(), null, e.getProblem());
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}
 			} catch (PreconditionParseError e) {
 				try {
-					if ( c.isMarkerWanted(e.getProblem().getStatus()) )
-						addMarker(file, helperCreator.get(), null, e.getProblem());
+					addMarker(file, helperCreator.get(), null, e.getProblem());
 				} catch (CoreException e1) {
 					e.printStackTrace();
 				}

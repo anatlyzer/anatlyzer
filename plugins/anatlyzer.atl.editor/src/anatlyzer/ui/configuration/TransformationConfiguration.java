@@ -6,7 +6,7 @@ import java.util.Set;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
-public class TransformationConfiguration {
+public class TransformationConfiguration implements Cloneable {
 
 	private boolean continousWitnessFinder = false;
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
@@ -104,5 +104,14 @@ public class TransformationConfiguration {
 		return this.doRecursionUnfolding;
 	}
 	
-	
+	@Override
+	public TransformationConfiguration clone()  {
+		try {
+			TransformationConfiguration conf = (TransformationConfiguration) super.clone();
+			conf.wantedMarkers = new HashSet<>(this.wantedMarkers);
+			return conf;
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalStateException();
+		}
+	}
 }

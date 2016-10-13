@@ -89,6 +89,21 @@ public class RuleConflictAnalysis {
 		
 		ArrayList<OverlappingRules> result = new ArrayList<RuleConflictAnalysis.OverlappingRules>();
 		for (OverlappingRules overlap : overlapping) {
+			// If the rules in an overlapping have extension relationship, remove subrule
+			HashSet<MatchedRule> toBeRemoved = new HashSet<>();
+			for (MatchedRule r1 : overlap.rules) {
+				for (MatchedRule r2 : overlap.rules) {
+					if ( r1 != r2 ) {
+						if ( ATLUtils.allSuperRules(r1).contains(r2) ) {
+							toBeRemoved.add(r2);
+						} else if ( ATLUtils.allSuperRules(r2).contains(r1) ) {
+							toBeRemoved.add(r1);
+						}
+					}
+				}
+			}
+			overlap.rules.removeAll(toBeRemoved);
+			
 			if ( overlap.rules.size() <= 1 ) 
 				continue;
 
@@ -123,7 +138,7 @@ public class RuleConflictAnalysis {
 		
 		IClassNamespace type1 = (IClassNamespace) overlap1.type.getMetamodelRef();
 		IClassNamespace type2 = (IClassNamespace) overlap2.type.getMetamodelRef();
-		
+
 		if ( type1.getKlass() == type2.getKlass() ) {
 			return new OverlappingRules(overlap1.type, overlap1, overlap2);
 		} else if ( type1.getAllSuperClasses().contains(type2) ) {

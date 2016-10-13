@@ -174,8 +174,15 @@ public class EMFModelPlantUMLSerializer {
 		List<EClass> result = new ArrayList<EClass>();
 		for (EPackage e : this.model.getHandler().getPackages() ) 
 			result.addAll( CollectionsUtil.<EClassifier, EClass>selectAs(e.getEClassifiers(), PredicateUtils.FILTER_CONCRETECLASS) );
+		// return result;
 		
-		return result;
+		// This is a trick to remove "ThisModule" elements...
+		List<EClass> result2 = new ArrayList<EClass>();
+		for (EClass eClass : result) {
+			if (! eClass.getName().toUpperCase().equals("THISMODULE") )
+				result2.add(eClass);
+		}
+		return result2;
 	}
 	
 	static class Triple<X, Y, Z> {

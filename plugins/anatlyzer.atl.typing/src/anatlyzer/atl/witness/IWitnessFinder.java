@@ -4,6 +4,7 @@ import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 /**
  * An interface for witness finders, typically using a constraint solving.
@@ -29,8 +30,7 @@ public interface IWitnessFinder {
 		MANDATORY_EFFECTIVE_METAMODEL,
 		MANDATORY_FULL_METAMODEL,
 		FULL_METAMODEL
-	}
-	
+	}	
 	
 //	public static enum WitnessResult {
 //		ERROR_CONFIRMED,

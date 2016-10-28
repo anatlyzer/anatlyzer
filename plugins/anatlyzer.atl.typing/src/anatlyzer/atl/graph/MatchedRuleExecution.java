@@ -26,6 +26,7 @@ import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNode {
@@ -268,10 +269,16 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 	}
 
 	private boolean isProblemWithFilter() {
-		boolean isProblemWithinFilter = problematicElement != null && rule.getInPattern().getFilter() == null ? 
-				false :
-				EcoreUtil.isAncestor(rule.getInPattern().getFilter(), problematicElement);
-		return isProblemWithinFilter;
+		boolean isProblemThroughFilter = false;
+		if ( getDepending() instanceof CallExprNode ) {
+			PropertyCallExp call = ((CallExprNode) getDepending()).getCall();
+			isProblemThroughFilter = EcoreUtil.isAncestor(rule.getInPattern(), call);
+		}
+		return isProblemThroughFilter;
+//		boolean isProblemWithinFilter = problematicElement != null && rule.getInPattern().getFilter() == null ? 
+//				false :
+//				EcoreUtil.isAncestor(rule.getInPattern().getFilter(), problematicElement);
+//		return isProblemWithinFilter;
 	}
 
 		

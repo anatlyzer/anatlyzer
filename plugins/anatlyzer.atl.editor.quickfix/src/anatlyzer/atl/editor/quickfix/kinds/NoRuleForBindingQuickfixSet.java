@@ -14,8 +14,10 @@ public class NoRuleForBindingQuickfixSet extends AbstractQuickfixSet  {
 		return new AtlProblemQuickfix[] {
 				new NoRuleForBindingQuickfix_AddRule(),
 				new NoRuleForBindingQuickfix_RemoveBinding(),
-				new NoRuleForBinding_FilterBinding(),
-				new NoRuleForBinding_Precondition()
+				new NoRuleForBinding_FilterBinding()
+				// This quick fix does not make sense...
+				// ,
+				// new NoRuleForBinding_Precondition()
 		};
 	}
 }

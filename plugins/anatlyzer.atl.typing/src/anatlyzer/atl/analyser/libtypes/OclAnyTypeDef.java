@@ -20,6 +20,15 @@ public class OclAnyTypeDef extends AtlTypeDef {
 		
 		operation("oclIsUndefined").
 			returnType(boolean_());
+		
+		operation("oclIsKindOf").
+			param("type", oclType()).
+			returnType(boolean_());
+
+		operation("oclIsTypeOf").
+			param("type", oclType()).
+			returnType(boolean_());
+
 	}
 	
 }

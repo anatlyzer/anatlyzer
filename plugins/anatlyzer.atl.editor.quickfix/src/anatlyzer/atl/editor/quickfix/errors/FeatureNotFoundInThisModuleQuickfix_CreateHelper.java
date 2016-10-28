@@ -61,8 +61,11 @@ public class FeatureNotFoundInThisModuleQuickfix_CreateHelper extends AbstractAt
 	@Override
 	public QuickfixApplication getQuickfixApplication()  {
 		final NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
-		final Type returnType   = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
-		final ModuleElement anchor = ATLUtils.getContainer(nav, ModuleElement.class);
+		// final Type returnType   = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
+		final Type returnType = ASTUtils.findExpectedTypeInExpressionPosition(nav, false);
+		// final ModuleElement anchor = ATLUtils.getContainer(nav, ModuleElement.class);
+		final ModuleElement anchor = ASTUtils.findHelperPosition(nav, nav.getName());
+				// ATLUtils.getContainer(nav, ModuleElement.class);
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> {			

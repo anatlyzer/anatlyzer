@@ -17,6 +17,7 @@ public abstract class AbstractMetamodelChangeQuickfix extends AbstractAtlQuickfi
 			QuickfixApplication qfa = getQuickfixApplication();
 			qfa.apply();
 			qfa.saveMetamodels(getAnalysisResult());
+			qfa.updateWorkbench(document);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

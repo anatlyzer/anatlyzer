@@ -94,7 +94,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	@Override public void resetCache() { }
 	
 	private StaticHelper buildNewHelper(OperationCallExp op) {		
-		Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
+		Type returnType = ASTUtils.findExpectedTypeInExpressionPosition(op, false); // QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
 		StaticHelper helper = ASTUtils.buildNewThisModuleOperation(op.getOperationName(), 
 				returnType,
 				op.getArguments());

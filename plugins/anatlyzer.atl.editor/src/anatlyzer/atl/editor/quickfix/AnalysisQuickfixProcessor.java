@@ -21,6 +21,7 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
 
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.errors.Problem;
 
 
 public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
@@ -48,8 +49,6 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 
 	@Override
 	public boolean canAssist(IQuickAssistInvocationContext invocationContext) {
-		System.out.println(invocationContext);
-		
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -86,6 +85,10 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		List<ICompletionProposal> allProposals = new ArrayList<ICompletionProposal>();
 		for (IMarker iMarker : annotationMarkers) {
 			ICompletionProposal[] qfixes = getQuickfixes(iMarker);
+			if ( annotationMarkers.size() > 1 ) {
+				// There are quick fixes for several kinds of errors
+				allProposals.add(new ProposalCategory(iMarker));
+			}
 			for (ICompletionProposal iCompletionProposal : qfixes) {
 				allProposals.add(iCompletionProposal);
 			}
@@ -107,6 +110,12 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_QUICKFIX_EXTENSION_POINT);
 		ArrayList<ICompletionProposal> quickfixes = new ArrayList<ICompletionProposal>();
+
+		try {
+			iMarker.setAttribute(AtlProblemQuickfix.GUI_MODE_ATTR, true);
+		} catch (CoreException e1) { 
+			e1.printStackTrace();			
+		}
 		
 		for (IConfigurationElement ce : extensions) {
 			try {

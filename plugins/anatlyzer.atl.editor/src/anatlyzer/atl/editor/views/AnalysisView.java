@@ -36,6 +36,7 @@ import org.eclipse.jface.viewers.LabelDecorator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -71,6 +72,7 @@ import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.ConflictingRules;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedComponentsAnalysis;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.CategoryNode;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.GenericProblemNode;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
@@ -395,8 +397,20 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			// invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
 			if ( batchMode ) {
 				invisibleRoot = new TreeParent();
+				viewer.resetFilters();
 			} else {
 				invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
+				viewer.setFilters(new ViewerFilter[] {
+					new ViewerFilter() {
+						@Override
+						public boolean select(Viewer viewer, Object parentElement, Object element) {
+							if ( element instanceof CategoryNode ) {
+								return ((TreeNode) element).hasChildren();
+							}
+							return true;
+						}
+					}
+				});
 			}
 		}
 		

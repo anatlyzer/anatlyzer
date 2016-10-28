@@ -9,6 +9,8 @@ import anatlyzer.atl.errors.Problem;
 
 public interface AtlProblemQuickfix extends ICompletionProposal {
 
+	public static final String GUI_MODE_ATTR = "GUI_MODE";
+
 	/**
 	 * Checks whether the quickfix can be applied to the problem described
 	 * in the marker.
@@ -23,6 +25,12 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 * without asking the user some additional information (i.e., with a dialog).
 	 */
 	public boolean requiresUserIntervention();
+	
+	/**
+	 * @return true when the quick fix can run in GUI mode, meaning that it can
+	 * show dialogs and expect user interaction.
+	 */
+	public boolean canExpectUserInteraction();
 	
 	/**
 	 * This method is needed to implement speculative quick fixes when isApplicable is not side-effect free.

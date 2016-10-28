@@ -11,7 +11,10 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -44,26 +47,32 @@ public abstract class QuickfixUtil {
 	 * @param defaultType
 	 * @return
 	 */
-	public static Type findPossibleTypeOfFaultyExpression(OclExpression expr, Supplier<Type> defaultType) {
-		EObject parent = expr.eContainer();
-		if ( parent instanceof Binding ) {
-			Binding b = (Binding) expr.eContainer();
-			return b.getLeftType();
-		}
-		if ( parent instanceof IteratorExp ) {
-			String it = ((IteratorExp) parent).getName(); 
-			// TODO: Build all of this into the standard library, and provide there
-			//       queries for the quickfixes...
-			if ( it.equals("select") || it.equals("reject") ) {
-				return TypesFactory.eINSTANCE.createBooleanType();
-			}
-		}
-		
-		return defaultType.get();
-	}
-
-	public static Type findPossibleTypeOfFaultyExpression(OclExpression expr) {
-		return findPossibleTypeOfFaultyExpression(expr, () -> TypesFactory.eINSTANCE.createUnknown());
-	}
+// Merged with ASTUtils.find
+//	public static Type findPossibleTypeOfFaultyExpression(OclExpression expr, Supplier<Type> defaultType) {
+//		EObject parent = expr.eContainer();
+//		if ( parent instanceof Binding ) {
+//			Binding b = (Binding) expr.eContainer();
+//			return b.getLeftType();
+//		}
+//		if ( parent instanceof IteratorExp ) {
+//			String it = ((IteratorExp) parent).getName(); 
+//			// TODO: Build all of this into the standard library, and provide there
+//			//       queries for the quickfixes...
+//			if ( it.equals("select") || it.equals("reject") ) {
+//				return TypesFactory.eINSTANCE.createBooleanType();
+//			}
+//		}
+//		
+//		// Is in a filter
+//		if ( ATLUtils.findElement(expr, (obj) -> obj.eContainingFeature() == ATLPackage.Literals.IN_PATTERN__FILTER) != null ) {
+//			return TypesFactory.eINSTANCE.createBooleanType();
+//		}
+//
+//		return defaultType.get();
+//	}
+//
+//	public static Type findPossibleTypeOfFaultyExpression(OclExpression expr) {
+//		return findPossibleTypeOfFaultyExpression(expr, () -> TypesFactory.eINSTANCE.createUnknown());
+//	}
 
 }

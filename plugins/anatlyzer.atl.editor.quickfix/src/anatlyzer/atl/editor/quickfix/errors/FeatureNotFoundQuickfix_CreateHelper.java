@@ -60,8 +60,8 @@ public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {	
 	public QuickfixApplication getQuickfixApplication()  {
 		final NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
 		final Type receptorType = nav.getSource().getInferredType();
-		final Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(nav);
-		final ModuleElement anchor = ATLUtils.getContainer(nav, ModuleElement.class);
+		final Type returnType = ASTUtils.findExpectedTypeInExpressionPosition(nav, false);
+		final ModuleElement anchor = ASTUtils.findHelperPosition(nav, nav.getName());
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> {			

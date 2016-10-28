@@ -2,6 +2,7 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -167,7 +168,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 					select.setName("reject");
 				
 				Iterator it = OCLFactory.eINSTANCE.createIterator();
-				it.setVarName("_v");
+				it.setVarName(ASTUtils.getNiceIteratorName(original.getInferredType()));
 				select.getIterators().add(it);
 				select.setSource(original);
 				
@@ -217,21 +218,28 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			map(BindingPossiblyUnresolved_FilterBinding::getResolvedEClassType).
 			distinct().sorted((c1, c2) -> c1.isSuperTypeOf(c2) ? +1 : -1).
 			collect(Collectors.toList());
+		
+		Function<EClass, OclExpression> genCondition = (EClass eClass) -> {
+			List<MatchedRule> rules = rulesByType.get(eClass);
+			Metaclass srcType = ATLUtils.getInPatternType(rules.get(0));
+			
+			OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+			op.setOperationName("oclIsKindOf");				
+			op.getArguments().add( ATLUtils.getOclType( srcType ) );	
+			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
+			varRef.setReferredVariable(bindingValueVar);
+			op.setSource(varRef);
+			return op;
+		};
+		
+		if ( orderedTypes.size() == 1 ) {
+			return genCondition.apply(orderedTypes.get(0));
+		}
 
 		return ASTUtils.generateNestedIfs(orderedTypes,
 				// genCondition: And-concatenation of oclIsKind()
-				(EClass eClass) -> {
-					List<MatchedRule> rules = rulesByType.get(eClass);
-					Metaclass srcType = ATLUtils.getInPatternType(rules.get(0));
-					
-					OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
-					op.setOperationName("oclIsKindOf");				
-					op.getArguments().add( ATLUtils.getOclType( srcType ) );	
-					VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
-					varRef.setReferredVariable(bindingValueVar);
-					op.setSource(varRef);
-					return op;
-				},
+				genCondition
+				,
 				// genThen: OR-concatenation of all filters
 				(EClass eClass) -> {
 					List<MatchedRule> rules = rulesByType.get(eClass);

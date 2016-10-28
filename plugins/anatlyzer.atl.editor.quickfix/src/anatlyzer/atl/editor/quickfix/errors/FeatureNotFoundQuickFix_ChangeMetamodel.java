@@ -1,13 +1,18 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.jface.window.Window;
 
+import anatlyzer.atl.editor.quickfix.ui.AskFeature;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.quickfixast.ASTUtils;
+import anatlyzer.atl.quickfixast.NullQuickfixApplication;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
@@ -16,7 +21,6 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -26,7 +30,8 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	@Override
 	public boolean isApplicable(IMarker marker) {
 		setErrorMarker(marker);
-		return checkProblemType(marker, FeatureNotFound.class) && findExpectedType() != null;
+		return checkProblemType(marker, FeatureNotFound.class) && 
+				(canExpectUserInteraction(marker) || findExpectedType() != null);
 	}
 
 	@Override public void resetCache() {}
@@ -47,6 +52,18 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		return null;
 	}
 
+	private String getPropertyName() {
+		Type t = null;
+		if ( getProblematicElement() instanceof NavigationOrAttributeCallExp ) {		
+			NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
+			return nav.getName();
+		} else {
+			Binding b = (Binding) getProblematicElement();
+			return b.getPropertyName();
+		}
+	}
+	
+	
 	@Override
 	public boolean requiresUserIntervention() {
 		return findExpectedType() != null;
@@ -82,14 +99,13 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
-		NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) getProblematicElement();
-
 		Pair<Type, Integer> pair = findExpectedType();
 		
-		// This should be asked to the user!!
-		if ( requiresUserIntervention() ) {
-			throw new UnsupportedOperationException("Not implemented yet!");
+		if ( canExpectUserInteraction() ) {
+			return askUser(pair);
 		}
+		
+		String featureName = getPropertyName();
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
@@ -116,7 +132,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 				throw new UnsupportedOperationException();
 			}
 			
-			feat.setName(nav.getName());
+			feat.setName(featureName);
 			feat.setLowerBound(1);
 			feat.setUpperBound(pair._2);
 			
@@ -124,6 +140,61 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		});
 		
 		return qfa;
+	}
+
+	private QuickfixApplication askUser(Pair<Type, Integer> pair) {
+		AskFeature a = new AskFeature(null);
+		a.setFeatureName(getPropertyName());
+		a.setEnclosingType(getSourceType());
+		if ( pair != null ) {
+			a.setBounds(1, pair._2);
+			a.setFeatureType(pair._1);
+		}
+		
+		if ( a.open() == Window.OK ) {
+			EClassifier c = null;
+			if      ( a.getFeatureType().equals("EBoolean") ) c = EcorePackage.Literals.EBOOLEAN;
+			else if ( a.getFeatureType().equals("EString") )  c = EcorePackage.Literals.ESTRING;
+			else if ( a.getFeatureType().equals("EInteger") ) c = EcorePackage.Literals.EINT;
+			else if ( a.getFeatureType().equals("EFloat") )   c = EcorePackage.Literals.EFLOAT;
+			else if ( a.getFeatureType().equals("EDouble") )  c = EcorePackage.Literals.EDOUBLE;
+			else {
+				c = ASTUtils.getMetamodelClasses(getSourceType()).stream().
+					filter(cl -> cl.getName().equals(a.getFeatureType())).
+					findAny().
+					orElse(null);
+			}
+			
+			if ( c == null ) {
+				// TODO: Notify the user
+				return NullQuickfixApplication.Instance;
+			}
+			
+			String featureName = a.getFeatureName();
+
+			final EClassifier actualFeatureType = c;
+			
+			// Be careful to keep this in sync with the automatic inference
+			QuickfixApplication qfa = new QuickfixApplication(this);			
+			qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
+				EStructuralFeature feat = null;
+				if ( actualFeatureType instanceof EClass ) {
+					feat = EcoreFactory.eINSTANCE.createEReference();										
+				} else {
+					feat = EcoreFactory.eINSTANCE.createEAttribute();					
+				}
+				feat.setEType(actualFeatureType);
+				feat.setName(featureName);
+				feat.setLowerBound(a.getLowerBound());
+				feat.setUpperBound(a.getUpperBound());
+				
+				klass.getEStructuralFeatures().add(feat);
+			});
+			
+			return qfa;
+		}
+		
+		return NullQuickfixApplication.Instance;
 	}
 
 	@Override

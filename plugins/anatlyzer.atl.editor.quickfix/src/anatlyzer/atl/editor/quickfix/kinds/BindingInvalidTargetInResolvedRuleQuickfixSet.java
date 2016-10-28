@@ -3,6 +3,7 @@ package anatlyzer.atl.editor.quickfix.kinds;
 import anatlyzer.atl.editor.quickfix.AbstractQuickfixSet;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_FilterBinding;
+import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_MakeSubclass;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifiyRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_ModifyBindingFeature;
 import anatlyzer.atl.editor.quickfix.errors.BindingInvalidTargetInResolvedRule_Precondition;
@@ -21,7 +22,8 @@ public class BindingInvalidTargetInResolvedRuleQuickfixSet extends AbstractQuick
 				new BindingInvalidTargetInResolvedRule_RemoveRule(),
 				new BindingInvalidTargetInResolvedRule_SpecificPrecondition(),
 				new BindingInvalidTargetInResolvedRule_Precondition(),
-				new BindingInvalidTargetInResolvedRule_ModifyBindingFeature()
+				new BindingInvalidTargetInResolvedRule_ModifyBindingFeature(),
+				new BindingInvalidTargetInResolvedRule_MakeSubclass()				
 		};
 	}
 }

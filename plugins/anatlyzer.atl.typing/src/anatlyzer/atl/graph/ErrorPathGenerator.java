@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.errors.Problem;
@@ -484,6 +485,13 @@ public class ErrorPathGenerator {
 			 
 		dependent.addDependency(newNode);
 		
+		boolean isProblemThroughFilter = false;
+		if ( dependent instanceof CallExprNode ) {
+			PropertyCallExp call = ((CallExprNode) dependent).getCall();
+			isProblemThroughFilter = EcoreUtil.isAncestor(r.getInPattern(), call);
+		}
+		
+		// !isProblemThroughFilter && 
 		if ( r.getInPattern().getFilter() != null ) {
 			ConstraintNode constraint = pathToFilterExpression(r.getInPattern().getFilter());
 			newNode.addConstraint(constraint);

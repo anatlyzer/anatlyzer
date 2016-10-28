@@ -1,5 +1,6 @@
 package anatlyzer.atl.quickfixast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -8,8 +9,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.FloatType;
@@ -29,7 +32,10 @@ import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -402,5 +408,56 @@ public class ASTUtils {
 		return null;
 	}
 
+	/**
+	 * This is a weird way to get the classes of a meta-model. It is needed because
+	 * the information is not available through ATLModel because the analysis thread is over.
+	 * @param c
+	 */
+	public static List<EClass> getMetamodelClasses(Metaclass c) {
+		List<EClass> classes = new ArrayList<EClass>();
+		Resource r = c.getKlass().eResource();
+		if ( r != null ) {
+			r.getAllContents().forEachRemaining(o -> {
+				if ( o instanceof EClass ) {
+					classes.add((EClass) o);
+				}
+			});
+		}		
+		return classes;
+	}
+
+	public static String getNiceIteratorName(Type sourceObjectType) {
+		try {
+			// TODO: Somehow check other variable names in the same scope
+			Type t = TypeUtils.getUnderlyingType(sourceObjectType);
+			if ( t instanceof IntegerType ) return "i"; 
+			if ( t instanceof StringType ) return "str";
+			if ( t instanceof Metaclass ) {
+				return ((Metaclass) t).getName().substring(0, 1).toLowerCase();
+			}
+		} catch ( Exception e ) {
+			// fallback, return a default value
+		}
+		return "_v";
+	}
+
+	public static ModuleElement findHelperPosition(OclExpression currentPosition, String name) {
+		Module mod = ATLUtils.getContainer(currentPosition, Module.class);
+		Helper lastHelper = null;
+		for (ModuleElement moduleElement : mod.getElements()) {
+			if ( moduleElement instanceof Helper ) {
+				lastHelper = (Helper) moduleElement;
+			} else {
+				// assume helpers are at the beginning
+				break;
+			}
+		}
+		
+		if ( lastHelper == null ) {
+			return ATLUtils.getContainer(currentPosition, ModuleElement.class);
+		}
+		
+		return lastHelper;
+	}
 	
 }

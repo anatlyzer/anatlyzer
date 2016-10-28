@@ -44,6 +44,20 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	}
 	
 	@Override
+	public boolean canExpectUserInteraction() {
+		return canExpectUserInteraction(this.marker);
+	}
+		
+	public boolean canExpectUserInteraction(IMarker marker) {
+		try {
+			return (Boolean) marker.getAttribute(AtlProblemQuickfix.GUI_MODE_ATTR);
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@Override
 	public String getChangedMetamodel() {
 		throw new IllegalStateException("Inconsistent 'isMetamodelChanging' for class " + this.getClass().getName());
 	}

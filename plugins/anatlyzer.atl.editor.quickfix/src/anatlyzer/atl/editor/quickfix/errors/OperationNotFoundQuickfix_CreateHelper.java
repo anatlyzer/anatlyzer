@@ -38,7 +38,8 @@ public class OperationNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix 
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.insertAfter(anchor, () -> { 
-			Type returnType = QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
+			Type returnType = ASTUtils.findExpectedTypeInExpressionPosition(op, false);
+				// QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
 			ContextHelper helper = ASTUtils.buildNewContextOperation(op.getOperationName(), 
 					op.getSource().getInferredType(),
 					returnType,				

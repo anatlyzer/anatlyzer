@@ -58,7 +58,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":bento.atl.editor.quickfix.AtlProblemQuickfix"/>
+                  <meta.attribute kind="java" basedOn=":anatlyzer.atl.editor.quickfix.AtlProblemQuickfix"/>
                </appinfo>
             </annotation>
          </attribute>

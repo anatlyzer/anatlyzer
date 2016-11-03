@@ -323,6 +323,14 @@
           apply="anatlyzer.atl.editor.quickfix.errors.CannotInstantiateAbstractClass_ChooseConcrete">
     </quickfix>
  </extension>
+ <extension
+       id="anatlyzer.atl.editor.quickassist.RuleRefactoringSet"
+       name="Quick assists for rule refactorings"
+       point="anatlyzer.atl.editor.quickassist">
+    <quickassistset
+          detector="anatlyzer.atl.editor.quickassist.kinds.RuleRefactoringsSet">
+    </quickassistset>
+ </extension>
    	
    
 </plugin>

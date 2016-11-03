@@ -727,11 +727,12 @@ public class ATLUtils {
 	public static <T> T getContainer(EObject obj, Class<T> class1) {
 		if ( obj == null )
 			return null;
-		
-		obj = obj.eContainer();
+
 		if ( class1.isInstance(obj)) {
 			return class1.cast(obj);
 		}
+		
+		obj = obj.eContainer();
 		return getContainer(obj, class1);
 	}
 

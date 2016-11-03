@@ -28,8 +28,16 @@
             class="anatlyzer.visualizer.views.BindingResolutionInfoView"
             icon="icons/sample.gif"
             id="anatlyzer.visualizer.views.BindingResolutionInfoView"
-            name="Binding Resolution View">
+            name="Problematic Binding View">
       </view>
+            <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.visualizer.views.ResolveBindingView"
+            icon="icons/sample.gif"
+            id="anatlyzer.visualizer.views.ResolveBindingView"
+            name="Binding resolution">
+      </view>
+      
    </extension>
    <extension
          point="org.eclipse.help.contexts">
@@ -43,6 +51,15 @@
             implementation="anatlyzer.visualizer.quickfix.QuickfixImpactVisualizer"
             name="Visualization">
       </impact>
+   </extension>
+
+   <extension
+         id="anatlyzer.visualizer.visualizeBinding"
+         name="visualizeBinding"
+         point="anatlyzer.atl.editor.quickassist">
+      <quickassist
+            apply="anatlyzer.visualizer.quickassist.VisualizeBinding">
+      </quickassist>
    </extension>
 
 </plugin>

@@ -24,6 +24,7 @@ import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.editor.quickfix.AtlCompletionProposal;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.impact.CallableImpactCalculator;
 import anatlyzer.atl.impact.ChangeImpact;
@@ -47,10 +48,10 @@ public class QuickfixApplication {
 
 	private ArrayList<Action> actions = new ArrayList<QuickfixApplication.Action>();
 	private ArrayList<MMAction> mmActions = new ArrayList<QuickfixApplication.MMAction>();
-	private AtlProblemQuickfix qfx;
+	private AtlCompletionProposal qfx;
 	private IQuickfixSpecificImpactComputation impact;
 	
-	public QuickfixApplication(AtlProblemQuickfix qfx) {
+	public QuickfixApplication(AtlCompletionProposal qfx) {
 		this.qfx = qfx;
 	}
 

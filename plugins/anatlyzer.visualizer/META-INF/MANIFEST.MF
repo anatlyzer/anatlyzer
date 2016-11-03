@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.core;bundle-version="1.5.100",
  org.eclipse.zest.layouts;bundle-version="1.1.100",
  anatlyzer.atl.editor.quickfix;bundle-version="0.3.3",
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.jface.text;bundle-version="3.9.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

@@ -1,7 +1,16 @@
 package anatlyzer.atl.editor.quickfix;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import anatlyzer.atl.editor.quickfix.dialog.SpeculativeQuickfixDialog;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -9,7 +18,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "bento.atl.editor.quickfix"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "anatlyzer.atl.editor.quickfix"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -27,6 +36,27 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		configureProposalCategory();
+	}
+
+	private void configureProposalCategory() {
+		ProposalCategory.proposalCallback = (p, analysis) -> {
+			ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysis) );
+			List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+			for (ICompletionProposal prop : quickfixes) {
+				quickfixesList.add((AtlProblemQuickfix) prop);
+			}
+			
+			// analysisView.getAssociatedEditor().getSite().getShell()
+			Shell shell = Display.getCurrent().getActiveShell();
+			SpeculativeQuickfixDialog s = new SpeculativeQuickfixDialog(shell, 
+					analysis,
+					p,
+					quickfixesList);			
+		
+			s.open();
+		};
 	}
 
 	/*
@@ -45,6 +75,17 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	/**
+	 * Returns an image descriptor for the image file at the given
+	 * plug-in relative path
+	 *
+	 * @param path the path
+	 * @return the image descriptor
+	 */
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
 }

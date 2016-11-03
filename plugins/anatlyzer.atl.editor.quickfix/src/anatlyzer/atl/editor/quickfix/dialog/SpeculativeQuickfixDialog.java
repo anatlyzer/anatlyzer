@@ -68,7 +68,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	public SpeculativeQuickfixDialog(Shell parentShell, AnalysisResult analysisResult, Problem problem, List<AtlProblemQuickfix> quickfixes) {
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.TITLE);
-		setBlockOnOpen(true);
+		setBlockOnOpen(true);	
 		
 		this.analysisResult = analysisResult;
 		this.problem = problem;

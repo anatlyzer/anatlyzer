@@ -22,5 +22,5 @@ public interface AtlProblemQuickfixSet {
 	 * @return the list of applicable quickfixes
 	 */
 	public List<AtlProblemQuickfix> getQuickfixes(IMarker marker);
-	
+
 }

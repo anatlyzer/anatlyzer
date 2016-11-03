@@ -7,7 +7,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.NoClassFoundInMetamodel;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -25,6 +27,11 @@ public class NoClassFoundInMetamodelQuickFix_ChangeMetamodel extends AbstractMet
 	@Override
 	public String getDisplayString() {
 		return "Create meta-class in meta-model";
+	}
+	
+	@Override
+	public Image getImage() {
+		return QuickfixImages.metamodel_class.createImage();
 	}
 	
 	public String getChangedMetamodel() {

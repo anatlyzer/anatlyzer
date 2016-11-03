@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -34,8 +35,11 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
+import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atlext.ATL.LocatedElement;
 
 
@@ -110,10 +114,13 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		List<ICompletionProposal> allProposals = new ArrayList<ICompletionProposal>();
 		for (IMarker iMarker : annotationMarkers) {
 			ICompletionProposal[] qfixes = getQuickfixes(iMarker);
-			if ( annotationMarkers.size() > 1 ) {
-				// There are quick fixes for several kinds of errors
-				allProposals.add(new ProposalCategory(iMarker));
-			}
+			
+//			if ( annotationMarkers.size() > 1 ) {
+//				// There are quick fixes for several kinds of errors
+//				allProposals.add(new ProposalCategory(iMarker));
+//			}
+			allProposals.add(new ProposalCategory(iMarker));
+			
 			for (ICompletionProposal iCompletionProposal : qfixes) {
 				allProposals.add(iCompletionProposal);
 			}
@@ -130,6 +137,16 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 	private ICompletionProposal[] computeQuickAssist(IQuickAssistInvocationContext invocationContext, int offset) {
 		
 		AnalysisResult analysis = AnalysisIndex.getInstance().getAnalysis(fEditor.getUnderlyingResource());
+		if ( analysis == null ) {
+			// If it is not available yet, execute the analyser
+			try {
+				analysis = new AnalyserExecutor().exec(fEditor.getUnderlyingResource());
+			} catch (IOException | CoreException | CannotLoadMetamodel | PreconditionParseError e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				return new ICompletionProposal[0];
+			}
+		}
 		AtlNbCharFile helper = new AtlNbCharFile(new ByteArrayInputStream(invocationContext.getSourceViewer().getDocument().get().getBytes()));
 		
 		// Poor's man way of obtaining the element associated to the offset...

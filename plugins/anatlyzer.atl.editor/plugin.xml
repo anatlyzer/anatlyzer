@@ -163,6 +163,16 @@
           name="Analysis View">
     </view>
  </extension>
+ 
+ <!--
+ 	<extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+Shift+A"
+			commandId="uk.co.example.actions.togglecomment"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="uk.co.example.ampleEditorScope"/>
+	</extension>
+ -->
+ 
  <extension
        point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension

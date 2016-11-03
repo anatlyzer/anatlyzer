@@ -22,7 +22,7 @@ public class AnalysisQuickAssistAssistant extends QuickAssistAssistant {
 		this.setQuickAssistProcessor(new AnalysisQuickfixProcessor(fEditor));
 		this.setRestoreCompletionProposalSize(EditorsPlugin.getDefault().getDialogSettingsSection("quick_assist_proposal_size")); //$NON-NLS-1$
 		this.setInformationControlCreator(getQuickAssistAssistantInformationControlCreator());
-
+		this.enableColoredLabels(true);
 		// Events about completion... not needed for the moment
 		// addCompletionListener(new ICompletionListener() { .. });
 	}

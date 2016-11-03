@@ -263,7 +263,10 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inBindingStat(BindingStat self) {
-		s(g(self.getSource()) + " <- " + g(self.getValue()) + ";");
+		String operator = " <- ";
+		if ( self.isIsAssignment() )
+			operator = " <:= ";
+		s(g(self.getSource()) + operator + g(self.getValue()) + ";");
 	}
 		
 	@Override

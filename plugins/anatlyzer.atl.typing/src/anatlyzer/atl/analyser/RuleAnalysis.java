@@ -250,6 +250,9 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		}
 		
 		for (EStructuralFeature f : compulsoryFeatures) {			
+			if ( f.isDerived() )
+				continue;
+			
 			if ( f instanceof EReference && allWrittenFeatures.contains( ((EReference) f).getEOpposite()) ) 
 				continue; // Assumes that if the opposite is written in other rule, it is the one that corresponds to this object
 				
@@ -327,7 +330,8 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			}
 		} else if ( f instanceof EAttribute && rightType instanceof PrimitiveType ) {
 			// Invalid primitive assignments
-			if ( ! typ().assignableTypes(self.getLeftType(), rightType) ) {
+			// Take into account that for "Collection(PrimitiveType) <- Primitive" the assignment is correct
+			if ( ! typ().assignableTypes(TypeUtils.getUnderlyingType(self.getLeftType()), rightType) ) {
 				errors().signalPrimitiveBindingInvalidAssignement(self, (Metaclass) targetVar, self.getPropertyName());
 			}
 		}

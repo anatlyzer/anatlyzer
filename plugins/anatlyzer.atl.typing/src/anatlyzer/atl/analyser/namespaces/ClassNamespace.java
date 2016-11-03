@@ -273,7 +273,9 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public boolean hasOperation(String operationName, Type[] arguments) {
 		if ( super.hasOperation(operationName, arguments) )
 			return true;
-		if ( operationName.equals("allInstances") || operationName.equals("allInstancesFrom") ) 
+		
+		// TODO: Synchronize well with the operations defined by getOperation
+		if ( operationName.equals("allInstances") || operationName.equals("allInstancesFrom") || operationName.equals("refImmediateComposite") || operationName.equals("oclType")) 
 			return true;
 
 		// Reflective

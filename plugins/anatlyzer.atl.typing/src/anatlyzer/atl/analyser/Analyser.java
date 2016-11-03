@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.eclipse.emf.ecore.EObject;
+
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
@@ -13,6 +15,7 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -20,7 +23,9 @@ import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.Unit;
 
 public class Analyser implements IAnalyserResult {
@@ -102,6 +107,7 @@ public class Analyser implements IAnalyserResult {
 					path.getProblem().setStatus(ProblemStatus.WITNESS_REQUIRED);
 				}	
 			}
+			removeIfAnnotated(p);
 		}
 		
 		// This was for initially discarded elements, but I think that it does not makes sense
@@ -117,6 +123,19 @@ public class Analyser implements IAnalyserResult {
 		*/
 	}
 	
+	private void removeIfAnnotated(Problem p) {
+		if ( p instanceof LocalProblem ) {
+			EObject elem = ((LocalProblem) p).getElement();
+			ModuleElement container = ATLUtils.getContainer(elem, ModuleElement.class);
+			if ( container != null ) {
+				if ( container.getCommentsBefore().stream().anyMatch(comm -> comm.contains("@ignore")) ) {
+					p.setStatus(ProblemStatus.ERROR_DISCARDED);
+					// TODO: Add a new kind of status. Discarded by user
+				}
+			}
+		}
+	}
+
 	private List<OverlappingRules> overlapping = null;
 	public List<OverlappingRules> ruleConflictAnalysis() {
 		ExecutorService executor = Executors.newSingleThreadExecutor();

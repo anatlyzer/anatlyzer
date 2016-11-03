@@ -7,7 +7,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 
-public interface AtlProblemQuickfix extends ICompletionProposal {
+public interface AtlProblemQuickfix extends ICompletionProposal, AtlCompletionProposal {
 
 	public static final String GUI_MODE_ATTR = "GUI_MODE";
 
@@ -60,11 +60,6 @@ public interface AtlProblemQuickfix extends ICompletionProposal {
 	 */
 	public String getChangedMetamodel();
 	
-	/**
-	 * Return the analysis over which the quick fix is applied.
-	 */
-	public AnalysisResult getAnalysisResult();
-
 	/** 
 	 * @return The problem associated to the quick fix.
 	 * @throws CoreException if 

@@ -12,6 +12,7 @@ package anatlyzer.atl.errors.atl_error;
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getAccessToUndefinedValue_ThroughEmptyCollection()
  * @model annotation="description name='Possible access to undefined feature via empty collection' text='Source cardinality check' example=''"
  *        annotation="info prec='always-solver' path='yes' severity='runtime-error' when='model-dep' kind='navigation' phase='typing' source='OCL spec, tests'"
+ *        annotation="ignorestring name='undefined-value'"
  * @generated
  */
 public interface AccessToUndefinedValue_ThroughEmptyCollection extends LocalProblem {

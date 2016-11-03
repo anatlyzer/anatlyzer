@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.ide_error.impl.PreconditionParseErrorImpl#getMessages <em>Messages</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

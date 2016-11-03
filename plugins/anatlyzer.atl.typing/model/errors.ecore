@@ -88,6 +88,9 @@
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="no-binding-compulory-feature"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//atl_error/NoBindingForCompulsoryFeatureKind"/>
     </eClassifiers>
@@ -125,6 +128,9 @@
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="unresolved-binding"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClasses" lowerBound="1"
           upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClassesImplicit"
@@ -144,6 +150,9 @@
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="no-rule"/>
+      </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingWithResolvedByIncompatibleRule"
         eSuperTypes="#//atl_error/BindingProblem #//atl_error/BindingResolution">
@@ -159,6 +168,9 @@
         <details key="kind" value="tgt-typing"/>
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
+      </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="invalid-target"/>
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FeatureNotFound" eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
@@ -213,6 +225,9 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="found-in-subtype"/>
+      </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FoundInSubtype" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="possibleClasses" upperBound="-1"
@@ -234,6 +249,9 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="found-in-subtype"/>
+      </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AccessToUndefinedValue" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
@@ -249,6 +267,9 @@
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
         <details key="source" value="OCL spec, tests"/>
+      </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="undefined-value"/>
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AccessToUndefinedValue_ThroughEmptyCollection"
@@ -266,6 +287,9 @@
         <details key="kind" value="navigation"/>
         <details key="phase" value="typing"/>
         <details key="source" value="OCL spec, tests"/>
+      </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="undefined-value"/>
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="RuleConflicts" eSuperTypes="#//BatchAnalysis">
@@ -440,6 +464,9 @@
         <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
+      </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="not-found-in-union"/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

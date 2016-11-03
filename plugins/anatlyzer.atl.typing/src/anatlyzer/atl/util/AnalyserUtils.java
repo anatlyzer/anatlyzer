@@ -282,6 +282,12 @@ public class AnalyserUtils {
 		return "static".equals( ann.getDetails().get("prec") );
 	}
 
+	public static String getIgnoreKeyword(EClass problemClass) {
+		EAnnotation ann = problemClass.getEAnnotation("ignorestring");
+		if ( ann == null ) 
+			return null;
+		return ann.getDetails().get("name");
+	}
 	
 	public static int getProblemId(Problem p) {
 		return getProblemId(p.eClass());

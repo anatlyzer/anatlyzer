@@ -331,6 +331,14 @@
           detector="anatlyzer.atl.editor.quickassist.kinds.RuleRefactoringsSet">
     </quickassistset>
  </extension>
+ <extension
+       id="anatlyzer.atl.IgnoreProblemQuickfix"
+       name="Ignore problem"
+       point="anatlyzer.atl.editor.quickfix">
+    <quickfix
+          apply="anatlyzer.atl.editor.quickfix.IgnoreProblem">
+    </quickfix>
+ </extension>
    	
    
 </plugin>

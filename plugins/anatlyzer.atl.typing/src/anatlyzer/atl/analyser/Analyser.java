@@ -1,10 +1,14 @@
 package anatlyzer.atl.analyser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,6 +28,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.Unit;
@@ -128,12 +133,34 @@ public class Analyser implements IAnalyserResult {
 			EObject elem = ((LocalProblem) p).getElement();
 			ModuleElement container = ATLUtils.getContainer(elem, ModuleElement.class);
 			if ( container != null ) {
-				if ( container.getCommentsBefore().stream().anyMatch(comm -> comm.contains("@ignore")) ) {
-					p.setStatus(ProblemStatus.ERROR_DISCARDED);
-					// TODO: Add a new kind of status. Discarded by user
-				}
+				String expectedKeyword = AnalyserUtils.getIgnoreKeyword(p.eClass());
+				container.getCommentsBefore().stream().
+					filter(comm -> comm.contains("@ignore")).
+					flatMap(comm -> parseIgnoreComment(comm).stream()).
+					filter(k -> expectedKeyword != null && k.equals(expectedKeyword)).
+					findAny().
+					ifPresent((k) -> {
+						p.setStatus(ProblemStatus.ERROR_DISCARDED);	
+					});
+					
+				
+//				if ( container.getCommentsBefore().stream().anyMatch(comm -> comm.contains("@ignore")) ) {
+//					
+//					
+//					p.setStatus(ProblemStatus.ERROR_DISCARDED);
+//					// TODO: Add a new kind of status. Discarded by user
+//				}
 			}
 		}
+	}
+
+	private List<String> parseIgnoreComment(String comm) {
+		int idx = comm.indexOf("@ignore") + "@ignore".length() + 1;
+		if ( idx < comm.length()) {
+			String[] keywords = comm.substring(idx).split(",");
+			return Arrays.stream(keywords).map(s -> s.trim()).collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 	private List<OverlappingRules> overlapping = null;

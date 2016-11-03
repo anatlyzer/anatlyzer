@@ -13,15 +13,16 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved#getProblematicClasses <em>Problematic Classes</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingPossiblyUnresolved()
  * @model annotation="description name='Binding possibly unresolved' text='A binding may be unresolved if certain conditions hold'"
  *        annotation="info prec='always-solver' path='yes' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
+ *        annotation="ignorestring name='unresolved-binding'"
  * @generated
  */
 public interface BindingPossiblyUnresolved extends BindingProblem, BindingResolution {

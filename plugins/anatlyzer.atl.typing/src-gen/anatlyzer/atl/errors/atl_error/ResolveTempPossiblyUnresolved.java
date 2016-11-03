@@ -14,12 +14,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClasses <em>Problematic Classes</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getProblematicClassesImplicit <em>Problematic Classes Implicit</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved#getResolvedExpression <em>Resolved Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolveTempPossiblyUnresolved()
  * @model annotation="description name='ResolveTemp possibly unresolved' text='A resolve temp be unresolved if certain conditions hold'"

@@ -12,6 +12,7 @@ package anatlyzer.atl.errors.atl_error;
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getBindingWithoutRule()
  * @model annotation="description name='No rule to resolve binding' text='No rule able to resolve the binding can be found'"
  *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='analysis' source='none'"
+ *        annotation="ignorestring name='no-rule'"
  * @generated
  */
 public interface BindingWithoutRule extends BindingProblem, BindingResolution {

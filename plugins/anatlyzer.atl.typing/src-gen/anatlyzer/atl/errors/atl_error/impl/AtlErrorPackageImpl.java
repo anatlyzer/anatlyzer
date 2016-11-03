@@ -2605,6 +2605,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createDescriptionAnnotations();
 		// info
 		createInfoAnnotations();
+		// ignorestring
+		createIgnorestringAnnotations();
 		// disabled
 		createDisabledAnnotations();
 	}
@@ -3625,6 +3627,70 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "kind", "trafo-integrity",
 			 "phase", "typing",
 			 "source", ""
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>ignorestring</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createIgnorestringAnnotations() {
+		String source = "ignorestring";	
+		addAnnotation
+		  (noBindingForCompulsoryFeatureEClass, 
+		   source, 
+		   new String[] {
+			 "name", "no-binding-compulory-feature"
+		   });	
+		addAnnotation
+		  (bindingPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "unresolved-binding"
+		   });	
+		addAnnotation
+		  (bindingWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "no-rule"
+		   });	
+		addAnnotation
+		  (bindingWithResolvedByIncompatibleRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "invalid-target"
+		   });	
+		addAnnotation
+		  (operationFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "found-in-subtype"
+		   });	
+		addAnnotation
+		  (featureFoundInSubtypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "found-in-subtype"
+		   });	
+		addAnnotation
+		  (accessToUndefinedValueEClass, 
+		   source, 
+		   new String[] {
+			 "name", "undefined-value"
+		   });	
+		addAnnotation
+		  (accessToUndefinedValue_ThroughEmptyCollectionEClass, 
+		   source, 
+		   new String[] {
+			 "name", "undefined-value"
+		   });	
+		addAnnotation
+		  (featureNotFoundInUnionTypeEClass, 
+		   source, 
+		   new String[] {
+			 "name", "not-found-in-union"
 		   });
 	}
 

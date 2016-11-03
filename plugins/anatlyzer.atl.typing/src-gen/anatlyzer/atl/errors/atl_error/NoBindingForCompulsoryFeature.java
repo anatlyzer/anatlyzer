@@ -12,15 +12,16 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getSubrule <em>Subrule</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature#getKind <em>Kind</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoBindingForCompulsoryFeature()
  * @model annotation="description name='No binding for compulsory target feature' text='Applicable to references and string attributes without default value.'"
  *        annotation="info prec='static' path='no' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source='none'"
+ *        annotation="ignorestring name='no-binding-compulory-feature'"
  * @generated
  */
 public interface NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {

@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.NoEnumLiteral#getLiteral <em>Literal</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoEnumLiteral()
  * @model annotation="description name='Enum literal not found' text='There is no enum declaration with the given enum literal'"

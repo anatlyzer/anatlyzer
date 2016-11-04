@@ -54,6 +54,9 @@ public class CreateAbstractSyntaxHandler extends AbstractHandler implements IHan
 				
 					atlEMFModel.getResource().save(new FileOutputStream(output.getLocation().toOSString()), options);
 					atl.getResource().save(new FileOutputStream(outputMM.getLocation().toOSString()), options);
+					
+					output.refreshLocal(1, null);
+					outputMM.refreshLocal(1, null);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -175,6 +175,15 @@ public interface AtlErrorFactory extends EFactory {
 	DifferentBranchTypes createDifferentBranchTypes();
 
 	/**
+	 * Returns a new object of class '<em>Assignment To Readonly Feature</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Assignment To Readonly Feature</em>'.
+	 * @generated
+	 */
+	AssignmentToReadonlyFeature createAssignmentToReadonlyFeature();
+
+	/**
 	 * Returns a new object of class '<em>No Binding For Compulsory Feature</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

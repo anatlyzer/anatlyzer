@@ -11,9 +11,9 @@ import anatlyzer.atlext.ATL.LocatedElement;
 public abstract class AbstractQuickAssistSet implements AtlQuickAssistSet {
 
 	protected List<AtlQuickAssist> possibleAssists;
-	private boolean canExpectUserInteraction;
-	private LocatedElement element;
-	private AnalysisResult result;
+	protected boolean canExpectUserInteraction;
+	protected LocatedElement element;
+	protected AnalysisResult result;
 	
 	public abstract AtlQuickAssist[] getPossibleAssists();	
 	

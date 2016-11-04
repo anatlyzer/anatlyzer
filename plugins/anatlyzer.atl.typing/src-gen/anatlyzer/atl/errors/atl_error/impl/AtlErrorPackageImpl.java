@@ -7,6 +7,7 @@ import anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
+import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
@@ -301,6 +302,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass resolveTempProblemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass assignmentToReadonlyFeatureEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1300,6 +1308,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAssignmentToReadonlyFeature() {
+		return assignmentToReadonlyFeatureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNoBindingForCompulsoryFeature() {
 		return noBindingForCompulsoryFeatureEClass;
 	}
@@ -2157,6 +2174,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		resolveTempProblemEClass = createEClass(RESOLVE_TEMP_PROBLEM);
 
+		assignmentToReadonlyFeatureEClass = createEClass(ASSIGNMENT_TO_READONLY_FEATURE);
+
 		bindingExpectedOneAssignedManyEClass = createEClass(BINDING_EXPECTED_ONE_ASSIGNED_MANY);
 
 		primitiveBindingButObjectAssignedEClass = createEClass(PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED);
@@ -2341,6 +2360,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		differentBranchTypesEClass.getESuperTypes().add(this.getWarning());
 		bindingProblemEClass.getESuperTypes().add(this.getLocalProblem());
 		resolveTempProblemEClass.getESuperTypes().add(this.getLocalProblem());
+		assignmentToReadonlyFeatureEClass.getESuperTypes().add(this.getBindingProblem());
 		bindingExpectedOneAssignedManyEClass.getESuperTypes().add(this.getBindingProblem());
 		primitiveBindingButObjectAssignedEClass.getESuperTypes().add(this.getBindingProblem());
 		objectBindingButPrimitiveAssignedEClass.getESuperTypes().add(this.getBindingProblem());
@@ -2497,6 +2517,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEAttribute(getBindingProblem_FeatureName(), ecorePackage.getEString(), "featureName", null, 1, 1, BindingProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resolveTempProblemEClass, ResolveTempProblem.class, "ResolveTempProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(assignmentToReadonlyFeatureEClass, AssignmentToReadonlyFeature.class, "AssignmentToReadonlyFeature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(bindingExpectedOneAssignedManyEClass, BindingExpectedOneAssignedMany.class, "BindingExpectedOneAssignedMany", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2791,6 +2813,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Different branch types",
 			 "text", "[Disabled] The types of both if branches should be compatible. Perhaps this should be part of ocl compliance checkings..."
+		   });	
+		addAnnotation
+		  (assignmentToReadonlyFeatureEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Could not assign a derived featuer",
+			 "text", "The binding feature has the isDerived flag (i.e., it is a readonly feature)"
 		   });	
 		addAnnotation
 		  (bindingExpectedOneAssignedManyEClass, 
@@ -3289,6 +3318,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "navigation",
 			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (assignmentToReadonlyFeatureEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "tgt-typing",
+			 "phase", "analysis",
 			 "source", "none"
 		   });	
 		addAnnotation

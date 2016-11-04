@@ -172,6 +172,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/BindingProblem/featureName"/>
       </genClasses>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/ResolveTempProblem"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AssignmentToReadonlyFeature"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/BindingExpectedOneAssignedMany"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/PrimitiveBindingButObjectAssigned"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ObjectBindingButPrimitiveAssigned"/>

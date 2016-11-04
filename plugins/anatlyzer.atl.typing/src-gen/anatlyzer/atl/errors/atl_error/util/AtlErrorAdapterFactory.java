@@ -232,6 +232,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createResolveTempProblemAdapter();
 			}
 			@Override
+			public Adapter caseAssignmentToReadonlyFeature(AssignmentToReadonlyFeature object) {
+				return createAssignmentToReadonlyFeatureAdapter();
+			}
+			@Override
 			public Adapter caseBindingExpectedOneAssignedMany(BindingExpectedOneAssignedMany object) {
 				return createBindingExpectedOneAssignedManyAdapter();
 			}
@@ -794,6 +798,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResolveTempProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature <em>Assignment To Readonly Feature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature
+	 * @generated
+	 */
+	public Adapter createAssignmentToReadonlyFeatureAdapter() {
 		return null;
 	}
 

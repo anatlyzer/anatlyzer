@@ -2,29 +2,27 @@
  */
 package anatlyzer.atl.errors.atl_error.impl;
 
+import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
-import anatlyzer.atl.errors.atl_error.StyleHint;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Style Hint</b></em>'.
+ * An implementation of the model object '<em><b>Assignment To Readonly Feature</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public abstract class StyleHintImpl extends MinimalEObjectImpl.Container implements StyleHint {
+public class AssignmentToReadonlyFeatureImpl extends BindingProblemImpl implements AssignmentToReadonlyFeature {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StyleHintImpl() {
+	protected AssignmentToReadonlyFeatureImpl() {
 		super();
 	}
 
@@ -35,7 +33,7 @@ public abstract class StyleHintImpl extends MinimalEObjectImpl.Container impleme
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return AtlErrorPackage.Literals.STYLE_HINT;
+		return AtlErrorPackage.Literals.ASSIGNMENT_TO_READONLY_FEATURE;
 	}
 
-} //StyleHintImpl
+} //AssignmentToReadonlyFeatureImpl

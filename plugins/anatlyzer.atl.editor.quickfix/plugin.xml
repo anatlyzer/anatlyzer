@@ -332,6 +332,14 @@
     </quickassistset>
  </extension>
  <extension
+       id="anatlyzer.atl.editor.quickassist.OutputPatternSet"
+       name="Quick assists for autocompleting the output pattern"
+       point="anatlyzer.atl.editor.quickassist">
+    <quickassistset
+          detector="anatlyzer.atl.editor.quickassist.kinds.OutputPatternSet">
+    </quickassistset>
+ </extension>
+ <extension
        id="anatlyzer.atl.IgnoreProblemQuickfix"
        name="Ignore problem"
        point="anatlyzer.atl.editor.quickfix">

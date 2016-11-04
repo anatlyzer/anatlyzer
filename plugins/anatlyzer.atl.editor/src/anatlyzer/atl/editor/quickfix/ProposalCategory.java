@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IMarker;
@@ -31,7 +32,7 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 	private IMarker marker;
 
 	// Poor's man extension
-	public static BiConsumer<Problem, AnalysisResult> proposalCallback;
+	public static BiFunction<Problem, AnalysisResult, AtlProblemQuickfix> proposalCallback;
 	
 	public ProposalCategory(IMarker iMarker) {
 		this.marker = iMarker;
@@ -44,7 +45,8 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 			p = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);			
 			if ( proposalCallback != null ) {
-				proposalCallback.accept(p, analysisData);
+				AtlProblemQuickfix qfx = proposalCallback.apply(p, analysisData);
+				qfx.apply(document);
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();

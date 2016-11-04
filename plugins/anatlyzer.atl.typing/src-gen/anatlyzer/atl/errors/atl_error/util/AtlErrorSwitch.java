@@ -51,7 +51,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param ePackage the package in question.
+	 * @parameter ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -451,6 +451,16 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(resolveTempProblem);
 				if (result == null) result = caseProblem(resolveTempProblem);
 				if (result == null) result = caseAnalysisInfo(resolveTempProblem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.ASSIGNMENT_TO_READONLY_FEATURE: {
+				AssignmentToReadonlyFeature assignmentToReadonlyFeature = (AssignmentToReadonlyFeature)theEObject;
+				T result = caseAssignmentToReadonlyFeature(assignmentToReadonlyFeature);
+				if (result == null) result = caseBindingProblem(assignmentToReadonlyFeature);
+				if (result == null) result = caseLocalProblem(assignmentToReadonlyFeature);
+				if (result == null) result = caseProblem(assignmentToReadonlyFeature);
+				if (result == null) result = caseAnalysisInfo(assignmentToReadonlyFeature);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1187,6 +1197,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseResolveTempProblem(ResolveTempProblem object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Assignment To Readonly Feature</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assignment To Readonly Feature</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssignmentToReadonlyFeature(AssignmentToReadonlyFeature object) {
 		return null;
 	}
 

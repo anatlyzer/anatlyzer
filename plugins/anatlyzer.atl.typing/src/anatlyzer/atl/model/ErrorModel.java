@@ -27,6 +27,7 @@ import anatlyzer.atl.errors.SeverityKind;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
+import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
@@ -814,6 +815,13 @@ public class ErrorModel {
 		
 		signalError(error, "In binding " + targetVar.getName() + "." + propertyName + " : " + TypeUtils.typeToString(binding.getLeftType()) + ", but received " + TypeUtils.typeToString(binding.getValue().getInferredType()), binding);						
 	}
+	
+	public void signalAssignmentToReadonlyFeature(EStructuralFeature f, Binding binding) {
+		AssignmentToReadonlyFeature error = AtlErrorFactory.eINSTANCE.createAssignmentToReadonlyFeature();
+		initProblem(error, binding);
+		
+		signalError(error, "Feature " + f.getName() + " is readonly (isDerived = true)", binding);		
+	}
 
 	public void signalWarningInvalidMapKeyType(LocatedElement node) {
 		signalWarning_WITHOUTERROR_TODO("Invalid type for key in Map ", node);								
@@ -991,6 +999,8 @@ public class ErrorModel {
 		// element.getProblems().add(p);
 		
 	}
+
+	
 
 	
 }

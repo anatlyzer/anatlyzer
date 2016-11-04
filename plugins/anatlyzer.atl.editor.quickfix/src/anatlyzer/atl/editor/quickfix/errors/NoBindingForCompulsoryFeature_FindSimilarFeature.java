@@ -9,14 +9,12 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -64,16 +62,22 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 	
 	private boolean findSimilar(NoBindingForCompulsoryFeature problem, ATLModel atlModel) {
 		OutPatternElement out = (OutPatternElement) problem.getElement();
-		Rule aRule = ATLUtils.getContainer(out, Rule.class);		
+		EStructuralFeature fTarget = problem.getFeature();
+		feature = findSimilarAssignment(out, fTarget, atlModel);
+		return feature != null;
+	}
+		
+	// Made static to enable its use by quick assists
+	public static EAttribute findSimilarAssignment(OutPatternElement out, EStructuralFeature fTarget, ATLModel atlModel) {				
+		Rule aRule = ATLUtils.getContainer(out, Rule.class);
 		if ( ! (aRule instanceof RuleWithPattern) ) {
-			return false;
+			return null;
 		}
 		
 		RuleWithPattern containingRule = (RuleWithPattern) aRule;
 
 		LongestCommonSubstring calculator = new LongestCommonSubstring();
 				
-		EStructuralFeature fTarget = problem.getFeature();
 		Metaclass mSource = (Metaclass) containingRule.getInPattern().getElements().get(0).getInferredType();
 		if ( fTarget instanceof EAttribute ) {					
 			Map<EAttribute, Integer> distances = mSource.getKlass().getEAllAttributes().stream().
@@ -98,18 +102,15 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 						isEqualTypes(a, (EAttribute) fTarget);
 			}).findAny();
 			
-			System.out.println(r2.isPresent());
-			
 			if ( r.isPresent() ) {
-				feature = r.get();
-				return true;
+				return r.get();
 			}
 		}
 		
-		return false;
+		return null;
 	}
 
-	private boolean isEqualTypes(EAttribute a1, EAttribute a2) {
+	private static boolean isEqualTypes(EAttribute a1, EAttribute a2) {
 		if ( a1.getEAttributeType() == a2.getEAttributeType() )
 			return true;
 		
@@ -128,23 +129,25 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 		OutPatternElement out = (OutPatternElement) getProblematicElement();
 		RuleWithPattern rule = ATLUtils.getContainer(out, RuleWithPattern.class);		
 
-
-		QuickfixApplication qfa = new QuickfixApplication(this);
+		return createNewBinding(this, out, rule, feature, p.getFeature());
+	}
+	
+	public static QuickfixApplication createNewBinding(anatlyzer.atl.editor.quickfix.AtlCompletionProposal this_, OutPatternElement out, RuleWithPattern rule, EStructuralFeature sourceFeature, EStructuralFeature targetFeature) {
+		QuickfixApplication qfa = new QuickfixApplication(this_);
 		qfa.putIn(out, ATLPackage.eINSTANCE.getOutPatternElement_Bindings(), () -> {
 			Binding newBinding = ATLFactory.eINSTANCE.createBinding();
 			
-			newBinding.setPropertyName(p.getFeature().getName());
+			newBinding.setPropertyName(targetFeature.getName());
 			
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(rule.getInPattern().getElements().get(0));
 			NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
 			nav.setSource(varRef);
-			nav.setName(this.feature.getName());
+			nav.setName(sourceFeature.getName());
 			
 			newBinding.setValue(nav);
 			return newBinding;
 		});
-		
 		return qfa;
 	}
 

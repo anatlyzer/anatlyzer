@@ -217,6 +217,52 @@
    </extension>
  
 
+	<!-- Definition of "anATLyzer" menu in the ATL text editor -->
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:#TextEditorContext?after=additions">
+         <menu
+               id="anatlyzer.atl.editor.popup"
+               label="anATLyzer"
+               mnemonic="A">
+         </menu>	
+      </menuContribution>
+   </extension>
+
+	<!-- Definition of the createAbstract syntax command and menu option -->   
+   <extension
+         point="org.eclipse.ui.menus">
+   
+         <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createAbstractSyntax"
+                  id="anatlyzer.commands.createAbstractSyntax.menu"
+                  mnemonic="S">
+            </command>
+      </menuContribution>
+   </extension>
+   
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="anatlyzer.commands"
+            name="anATLyzer">
+      </category>
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createAbstractSyntax"
+            name="Serialize abstract syntax">
+      </command>
+   </extension>
+     
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.atl.commands.CreateAbstractSyntaxHandler"
+            commandId="anatlyzer.commands.createAbstractSyntax">
+      </handler>
+   </extension>
 
 </plugin>
 	

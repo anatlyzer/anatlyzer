@@ -82,6 +82,7 @@ import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclUndefinedExp;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -109,6 +110,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 	
 	public void perform() {
+		List<OclModelElement> l = model.allObjectsOf(OclModelElement.class);
 		// 1. Get meta-model elements for the explicitly named types
 		explicitTypeTraversal();
 		

@@ -29,6 +29,7 @@ import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.util.IgnoredProblems;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class AnalyserExecutor {
@@ -71,7 +72,7 @@ public class AnalyserExecutor {
 		
 		Analyser analyser = new Analyser(mm, atlModel);		
 		addExtensions(analyser, atlModel, mm);
-		
+
 		try {
 			analyser.perform();
 		} catch ( AnalyserInternalError e ) {

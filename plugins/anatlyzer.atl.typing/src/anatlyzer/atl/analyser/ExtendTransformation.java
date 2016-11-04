@@ -64,11 +64,12 @@ public class ExtendTransformation {
 				Module mod = (Module) unit;
 				for(OclModel in : mod.getInModels()) {
 					if ( in.getMetamodel().getName().equals(m.getName())) {
-						models.put(m, in.getMetamodel());
-						
+						models.put(m, in.getMetamodel());						
 						inputMetamodels.add(m);
 					}
 				}
+				
+				// I need to use also the 
 			}
 			
 			for(MetamodelNamespace m : inputMetamodels) {
@@ -146,22 +147,18 @@ public class ExtendTransformation {
 	 * @return
 	 */
 	private OclModel findOclModel(EClassifier c) {
-		MetamodelNamespace selected = null;
 		for(MetamodelNamespace m : mm.getMetamodels()) {
-			if ( m.belongsTo(c) ) {
-				selected = m;
-				break;
+			// The second check "models.get(m) != null" is needed in case
+			// the following interaction: IN : UML, OUT : EMF,
+			// but in processing UML#Class.applyStereotype : EObject, 
+			// if EMF is processed before the code without the check returns
+			// a null because models only contains input models.
+			if ( m.belongsTo(c) && models.get(m) != null ) {
+				return models.get(m);
 			}
 		}
 
-		if ( selected == null ) {
-			throw new CannotFindClassForOperation("Could not find type: " + c.getName());
-		}
-		
-		if ( unit instanceof Module ) {
-			return models.get(selected);
-		}
-		return null;
+		throw new CannotFindClassForOperation("Could not find type: " + c.getName());		
 	}
 
 	private OclType createType(EClassifier eType, boolean isMany) {
@@ -189,6 +186,9 @@ public class ExtendTransformation {
 			OclModelElement t = OCLFactory.eINSTANCE.createOclModelElement();
 			t.setName(eType.getName());
 			t.setModel(findOclModel(eType));
+			if ( t.getModel() == null ) {
+				findOclModel(eType);
+			}
 			r = t;
 		}
 		

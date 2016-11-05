@@ -221,6 +221,15 @@
       </quickfixset>
    </extension>
    <extension
+     id="anatlyzer.atl.editor.quickfix.kinds.BindingExpectedOneAssignedManyQuickfixSet"
+         name="Quickfixes for &quot;Expected cardinality one but assigned collection &quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.BindingExpectedOneAssignedManyQuickfixSet">
+      </quickfixset>
+   </extension>
+   
+   <extension
          id="anatlyzer.atl.editor.quickfix.kinds.OperationNotFoundQuickfixSet"
          name="Quickfixes for &quot;Operation not found&quot;"
          point="anatlyzer.atl.editor.quickfix">

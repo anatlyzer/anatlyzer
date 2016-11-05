@@ -7,7 +7,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.ui.AskFeature;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.model.TypeUtils;
@@ -202,4 +204,9 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		return "Create new feature (in the meta-model)";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_feature.createImage();
+	}
+	
 }

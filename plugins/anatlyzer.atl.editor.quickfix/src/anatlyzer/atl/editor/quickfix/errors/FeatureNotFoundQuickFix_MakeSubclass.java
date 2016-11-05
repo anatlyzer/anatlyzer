@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -94,6 +96,11 @@ public class FeatureNotFoundQuickFix_MakeSubclass extends AbstractMetamodelChang
 		// TODO: Explain in the long version that it contains the wanted feature
 		// TODO: Could be more intelligent and take into account type compatibility to sort the result
 		return "Make " + getSourceType().getName() + " inherit from " + findSuperClass().get(0).getName();
+	}
+
+	@Override
+	public Image getImage() {
+		return QuickfixImages.make_subclass.createImage();
 	}
 
 }

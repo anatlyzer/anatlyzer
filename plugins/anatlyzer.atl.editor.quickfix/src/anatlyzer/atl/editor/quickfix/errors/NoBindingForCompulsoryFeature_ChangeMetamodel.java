@@ -3,7 +3,9 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -34,6 +36,11 @@ public class NoBindingForCompulsoryFeature_ChangeMetamodel extends
 		return "Set feature lower bound to 0";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.upper_bound_0.createImage();
+	}
+	
 	@Override
 	public String getChangedMetamodel() {
 		OutPatternElement out = (OutPatternElement) getProblematicElement();			

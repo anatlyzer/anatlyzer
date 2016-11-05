@@ -2,7 +2,9 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -32,6 +34,11 @@ public class BindingExpectedOneAssignedMany_ChangeMetamodel extends AbstractMeta
 		return "Change upper bound to *";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.upper_bound_star.createImage();
+	}
+	
 	@Override
 	public String getChangedMetamodel() {
 		Binding  binding = (Binding)getProblematicElement();

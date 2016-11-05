@@ -33,6 +33,7 @@ import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.OCL.OclModelElement;
 
 public class AnalyserUtils {
 	
@@ -89,8 +90,7 @@ public class AnalyserUtils {
 		
 		List<String> preconditions = ATLUtils.getPreconditions(atlModel);
 		extendWithPreconditions(atlModel, preconditions, loader);
-		
-		
+				
 		ResourceSet nrs = new ResourceSetImpl();
 		new ResourceSetImpl.MappedResourceLocator((ResourceSetImpl) nrs); 
 

@@ -83,6 +83,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.INVALID_OPERAND: return createInvalidOperand();
 			case AtlErrorPackage.NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE: return createNoContainerForRefImmediateComposite();
 			case AtlErrorPackage.DIFFERENT_BRANCH_TYPES: return createDifferentBranchTypes();
+			case AtlErrorPackage.ASSIGNMENT_TO_READONLY_FEATURE: return createAssignmentToReadonlyFeature();
 			case AtlErrorPackage.BINDING_EXPECTED_ONE_ASSIGNED_MANY: return createBindingExpectedOneAssignedMany();
 			case AtlErrorPackage.PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED: return createPrimitiveBindingButObjectAssigned();
 			case AtlErrorPackage.OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED: return createObjectBindingButPrimitiveAssigned();
@@ -319,6 +320,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public DifferentBranchTypes createDifferentBranchTypes() {
 		DifferentBranchTypesImpl differentBranchTypes = new DifferentBranchTypesImpl();
 		return differentBranchTypes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssignmentToReadonlyFeature createAssignmentToReadonlyFeature() {
+		AssignmentToReadonlyFeatureImpl assignmentToReadonlyFeature = new AssignmentToReadonlyFeatureImpl();
+		return assignmentToReadonlyFeature;
 	}
 
 	/**

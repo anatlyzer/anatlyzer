@@ -13,7 +13,6 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getOperationName <em>Operation Name</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getType <em>Type</em>}</li>
@@ -22,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getFormalParameters <em>Formal Parameters</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.OperationCallInvalid#getActualParameters <em>Actual Parameters</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getOperationCallInvalid()
  * @model abstract="true"

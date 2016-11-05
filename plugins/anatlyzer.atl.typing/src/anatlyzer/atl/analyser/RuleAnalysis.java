@@ -276,6 +276,10 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		if ( f == null )
 			return; 
 						
+		if ( f.isDerived() ) {
+			errors().signalAssignmentToReadonlyFeature(f, self);
+		}
+		
 		if ( rightType instanceof UnionType ) {
 			UnionType ut = (UnionType) rightType;
 			for(Type t : ut.getPossibleTypes() ) {

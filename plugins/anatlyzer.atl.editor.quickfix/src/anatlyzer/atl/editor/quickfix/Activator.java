@@ -3,13 +3,19 @@ package anatlyzer.atl.editor.quickfix;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.impl.PlatformResourceURIHandlerImpl.WorkbenchHelper;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.quickfix.dialog.SpeculativeQuickfixDialog;
 
 /**
@@ -50,15 +56,19 @@ public class Activator extends AbstractUIPlugin {
 			
 			// analysisView.getAssociatedEditor().getSite().getShell()
 			Shell shell = Display.getCurrent().getActiveShell();
-			SpeculativeQuickfixDialog s = new SpeculativeQuickfixDialog(shell, 
+			SpeculativeQuickfixDialog dialog = new SpeculativeQuickfixDialog(shell, 
 					analysis,
 					p,
 					quickfixesList);			
 		
-			s.open();
+			if ( dialog.open() == Window.OK ) {
+				return dialog.getQuickfix();
+			} 
+			return null;
 		};
 	}
 
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)

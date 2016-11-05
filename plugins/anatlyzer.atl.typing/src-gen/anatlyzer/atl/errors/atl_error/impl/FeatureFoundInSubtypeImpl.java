@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl#getPossibleClasses <em>Possible Classes</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.FeatureFoundInSubtypeImpl#getMissingClasses <em>Missing Classes</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

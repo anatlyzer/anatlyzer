@@ -8,7 +8,7 @@ import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
 public class TransformationConfiguration implements Cloneable {
 
-	private boolean continousWitnessFinder = false;
+	private boolean continousWitnessFinder = true;
 	public Set<ProblemStatus> wantedMarkers = new HashSet<ProblemStatus>();
 	private boolean witnessFinderDebugMode = false;
 	private boolean checkDiscardCause      = false;

@@ -557,6 +557,21 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResolveTempProblem" abstract="true"
         eSuperTypes="#//atl_error/LocalProblem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AssignmentToReadonlyFeature" eSuperTypes="#//atl_error/BindingProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Could not assign a derived featuer"/>
+        <details key="text" value="The binding feature has the isDerived flag (i.e., it is a readonly feature)"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="tgt-typing"/>
+        <details key="phase" value="analysis"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingExpectedOneAssignedMany" eSuperTypes="#//atl_error/BindingProblem">
       <eAnnotations source="description">
         <details key="name" value="Collection assigned to mono-valued binding"/>

@@ -8,8 +8,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.ui.AskClasses;
 import anatlyzer.atl.errors.atl_error.CannotInstantiateAbstractClass;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -60,6 +62,11 @@ public class CannotInstantiateAbstractClass_ChooseConcrete extends AbstractAtlQu
 		return "Change abstract class by concrete class";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.rename.createImage();
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		EClass selectedClass = null;

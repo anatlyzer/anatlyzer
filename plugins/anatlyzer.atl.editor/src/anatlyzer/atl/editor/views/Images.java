@@ -23,7 +23,10 @@ public class Images {
 	public static final ImageDescriptor rule_conflict_discarded;
 
 	public static final ImageDescriptor find_witness_16x16;
-	
+
+	public static final ImageDescriptor visualize_16x16;
+	public static final ImageDescriptor visualize_problem_16x16;
+
 	static {
 		rule_conflict_confirmed = Activator.getImageDescriptor("icons/rule_conflict_confirmed_16x16.png");
 		rule_conflict_discarded = Activator.getImageDescriptor("icons/rule_conflict_discarded_16x16.png");
@@ -44,5 +47,9 @@ public class Images {
 
 		find_witness_16x16 = Activator.getImageDescriptor("icons/find_witness_16x16.png");	
 
+		visualize_16x16 = Activator.getImageDescriptor("icons/visualize.png");	
+		visualize_problem_16x16 = Activator.getImageDescriptor("icons/visualize_problem.png");	
+
+		
 	}
 }

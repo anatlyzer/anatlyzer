@@ -8,9 +8,11 @@ import java.util.function.Function;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.QuickfixUtil;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
@@ -267,6 +269,10 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return "Operation not found in thisModule: create helper or lazy rule";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_helper.createImage();
+	}
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp res = (OperationCallExp) this.getProblematicElement();

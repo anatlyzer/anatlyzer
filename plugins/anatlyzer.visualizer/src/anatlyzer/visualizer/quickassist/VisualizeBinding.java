@@ -9,6 +9,7 @@ import org.eclipse.ui.PlatformUI;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlQuickAssist;
+import anatlyzer.atl.editor.views.Images;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -109,11 +110,10 @@ public class VisualizeBinding implements AtlQuickAssist {
 	public String getDisplayString() {
 		return "Visualize binding";
 	}
-
+	
 	@Override
 	public Image getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return Images.visualize_16x16.createImage();
 	}
 
 	@Override

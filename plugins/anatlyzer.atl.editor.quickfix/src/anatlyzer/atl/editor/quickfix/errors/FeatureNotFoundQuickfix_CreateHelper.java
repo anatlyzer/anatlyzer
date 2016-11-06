@@ -2,8 +2,10 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.QuickfixUtil;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -83,5 +85,8 @@ public class FeatureNotFoundQuickfix_CreateHelper extends AbstractAtlQuickfix {	
 		return "Create context helper";
 	}
 
-
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_helper.createImage();
+	}
 }

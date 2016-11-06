@@ -8,8 +8,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
@@ -175,4 +177,8 @@ public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix 
 		return "Feature "+this.getFeatureName(this.marker)+" not found, replace with "+this.getClosest(this.marker);
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
+}

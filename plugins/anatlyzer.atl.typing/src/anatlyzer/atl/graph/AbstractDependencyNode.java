@@ -311,7 +311,8 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 	
 	@Override
 	public void genIdentification(PathId id) {
-		throw new UnsupportedOperationException(this.getClass().getName() + " : " + problem);
+		// do nothing I think...
+		// throw new UnsupportedOperationException(this.getClass().getName() + " : " + problem);
 	}
 	
 	

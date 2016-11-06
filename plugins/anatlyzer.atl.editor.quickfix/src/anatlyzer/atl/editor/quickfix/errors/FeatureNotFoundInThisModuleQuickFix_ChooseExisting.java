@@ -7,8 +7,10 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.*;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -112,4 +114,9 @@ public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends Abstract
 		return "Feature "+this.getFeature(this.marker).getName()+" not found, replace with "+this.getClosest(this.marker);
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
+	
+}

@@ -1,6 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.m2m.atl.adt.ui.AtlUIPlugin;
 
 public class QuickfixImages {
 	public static final ImageDescriptor metamodel_class;
@@ -11,6 +12,9 @@ public class QuickfixImages {
 	public static final ImageDescriptor upper_bound_star;
 	public static final ImageDescriptor make_subclass;
 	public static final ImageDescriptor create_feature;
+	public static final ImageDescriptor create_helper;
+	public static final ImageDescriptor rename;
+	public static final ImageDescriptor create_matched_rule;
 		
 	static {
 		metamodel_class = Activator.getImageDescriptor("icons/quickfix_metamodel_class_16x16.png");
@@ -24,5 +28,11 @@ public class QuickfixImages {
 		upper_bound_0 = Activator.getImageDescriptor("icons/upper_bound_0.png"); 
 		upper_bound_star = Activator.getImageDescriptor("icons/upper_bound_star.png"); 
 		make_subclass = Activator.getImageDescriptor("icons/make_subclass.png"); 
+	
+		rename = Activator.getImageDescriptor("icons/rename.png"); 
+		
+		create_helper = AtlUIPlugin.getImageDescriptor("helper.gif");
+
+		create_matched_rule = AtlUIPlugin.getImageDescriptor("matchedRule.gif");
 	}		
 }

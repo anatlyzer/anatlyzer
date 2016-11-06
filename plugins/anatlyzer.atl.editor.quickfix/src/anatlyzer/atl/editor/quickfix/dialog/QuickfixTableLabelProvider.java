@@ -42,6 +42,9 @@ public class QuickfixTableLabelProvider implements ITableLabelProvider {
 		if ( useColumns ) {
 			switch (columnIndex) {
 			case 0:
+				if ( qfx.requiresUserIntervention() )
+					return "U";
+				
 				Integer num = (Integer) qfx.getData(ISpeculativeConstants.FOUND_PROBLEMS);
 				if ( num == null ) {
 					return "?";

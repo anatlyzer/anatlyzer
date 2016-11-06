@@ -50,6 +50,11 @@ public interface AtlProblemQuickfix extends ICompletionProposal, AtlCompletionPr
 	public void setErrorMarker(IMarker marker);
 
 	/**
+	 * @return The current error marker.
+	 */
+	public IMarker getErrorMarker();
+	
+	/**
 	 * @return True when the quick fix will change the meta-model.
 	 */
 	public boolean isMetamodelChanging();

@@ -36,6 +36,7 @@ import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ErrorUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.ui.configuration.ConfigurationReader;
@@ -366,7 +367,14 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		int tabWidth = -1;
 		int severity = -1;
 		
+		
+		
 		severity = IMarker.SEVERITY_ERROR;
+		String severityClassification = AnalyserUtils.getProblemSeverity(problem);
+		if ( severityClassification != null && severityClassification.contains("warning") ) {
+			severity = IMarker.SEVERITY_WARNING;
+		}
+		
 		/* UNTIL I HAVE INLINE QUICKFIXES, IT IS EASIER TO ACCESS TO ERRORS THAN WARNINGS
 		switch ( problem.getSeverity() ) {
 		case ERROR:

@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -71,6 +73,10 @@ public class OperationNotFoundQuickfix_ConvertReceptorToCollection extends Abstr
 		return "Convert receptor to collection";
 	}
 
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp le = (OperationCallExp)getProblematicElement();		

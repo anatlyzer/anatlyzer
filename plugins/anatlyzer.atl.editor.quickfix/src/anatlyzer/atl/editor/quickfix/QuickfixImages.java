@@ -15,6 +15,13 @@ public class QuickfixImages {
 	public static final ImageDescriptor create_helper;
 	public static final ImageDescriptor rename;
 	public static final ImageDescriptor create_matched_rule;
+	public static final ImageDescriptor create_expression;
+	public static final ImageDescriptor remove_binding;
+	public static final ImageDescriptor create_binding;
+	public static final ImageDescriptor modify_binding_feature;
+	public static final ImageDescriptor precondition;
+	public static final ImageDescriptor most_general_precondition;
+	public static final ImageDescriptor remove_rule;
 		
 	static {
 		metamodel_class = Activator.getImageDescriptor("icons/quickfix_metamodel_class_16x16.png");
@@ -34,5 +41,16 @@ public class QuickfixImages {
 		create_helper = AtlUIPlugin.getImageDescriptor("helper.gif");
 
 		create_matched_rule = AtlUIPlugin.getImageDescriptor("matchedRule.gif");
+
+		create_expression = AtlUIPlugin.getImageDescriptor("expressionATL.gif");
+
+		remove_binding = AtlUIPlugin.getImageDescriptor("binding.gif");
+		create_binding = AtlUIPlugin.getImageDescriptor("binding.gif");
+		modify_binding_feature = AtlUIPlugin.getImageDescriptor("binding.gif");
+
+		precondition = AtlUIPlugin.getImageDescriptor("query.gif");
+		most_general_precondition = AtlUIPlugin.getImageDescriptor("query.gif");
+
+		remove_rule = AtlUIPlugin.getImageDescriptor("hideMatchedRule.gif");
 	}		
 }

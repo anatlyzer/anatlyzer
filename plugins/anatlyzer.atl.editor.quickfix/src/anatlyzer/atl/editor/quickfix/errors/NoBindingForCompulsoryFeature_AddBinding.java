@@ -6,8 +6,10 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.Conversions;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -92,4 +94,8 @@ public class NoBindingForCompulsoryFeature_AddBinding extends AbstractAtlQuickfi
 		return "Add binding";
 	}
 
+
+	@Override public Image getImage() {
+		return QuickfixImages.create_binding.createImage();
+	}
 }

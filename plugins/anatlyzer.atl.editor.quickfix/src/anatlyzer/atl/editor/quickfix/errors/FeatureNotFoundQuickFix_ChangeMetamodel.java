@@ -169,7 +169,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 			
 			if ( c == null ) {
 				// TODO: Notify the user
-				return NullQuickfixApplication.Instance;
+				return NullQuickfixApplication.NullInstance;
 			}
 			
 			String featureName = a.getFeatureName();
@@ -196,7 +196,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 			return qfa;
 		}
 		
-		return NullQuickfixApplication.Instance;
+		return NullQuickfixApplication.NullInstance;
 	}
 
 	@Override

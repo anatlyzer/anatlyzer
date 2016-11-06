@@ -3,9 +3,11 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.graph.BindingPossiblyUnresolvedNode;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -93,4 +95,8 @@ public class BindingPossiblyUnresolved_Precondition extends BindingProblemQuickF
 		return "Generate most general pre-condition";
 	}
 	
+
+	@Override public Image getImage() {
+		return QuickfixImages.most_general_precondition.createImage();
+	}
 }

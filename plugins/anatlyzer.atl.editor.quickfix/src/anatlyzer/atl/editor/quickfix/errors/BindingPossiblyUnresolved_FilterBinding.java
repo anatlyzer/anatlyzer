@@ -7,7 +7,9 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -65,4 +67,7 @@ public class BindingPossiblyUnresolved_FilterBinding extends BindingProblemQuick
 	}
 
 
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
+	}
 }

@@ -4,8 +4,9 @@ import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -62,6 +63,9 @@ public class AccessToUndefinedValue_ThroughEmptyCollection_AddRuleFilter extends
 		return "Add rule filter";
 	}
 
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
+	}
 	@Override public QuickfixApplication getQuickfixApplication() {
 		PropertyCallExp pce = (PropertyCallExp) this.getProblematicElement();
 		MatchedRule r = ATLUtils.getContainer(pce, MatchedRule.class);

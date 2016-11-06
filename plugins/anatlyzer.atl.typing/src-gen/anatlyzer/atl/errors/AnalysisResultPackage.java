@@ -187,13 +187,22 @@ public interface AnalysisResultPackage extends EPackage {
 	int PROBLEM__STATUS = ANALYSIS_INFO_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Ignored By User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROBLEM__IGNORED_BY_USER = ANALYSIS_INFO_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Problem</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 5;
+	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Problem</em>' class.
@@ -389,6 +398,17 @@ public interface AnalysisResultPackage extends EPackage {
 	EAttribute getProblem_Status();
 
 	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ignored By User</em>'.
+	 * @see anatlyzer.atl.errors.Problem#getIgnoredByUser()
+	 * @see #getProblem()
+	 * @generated
+	 */
+	EAttribute getProblem_IgnoredByUser();
+
+	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.BatchAnalysis <em>Batch Analysis</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -536,6 +556,14 @@ public interface AnalysisResultPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROBLEM__STATUS = eINSTANCE.getProblem_Status();
+
+		/**
+		 * The meta object literal for the '<em><b>Ignored By User</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROBLEM__IGNORED_BY_USER = eINSTANCE.getProblem_IgnoredByUser();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.BatchAnalysisImpl <em>Batch Analysis</em>}' class.

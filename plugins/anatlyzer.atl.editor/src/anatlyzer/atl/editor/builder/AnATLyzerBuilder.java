@@ -276,7 +276,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 						help = helpers.get(loc);
 					}
 					
-					if ( c.isMarkerWanted(problem.getStatus()) )
+					if ( !problem.getIgnoredByUser() && c.isMarkerWanted(problem.getStatus()) )
 						addMarker(problemFile, help, data, problem);
 				}
 				

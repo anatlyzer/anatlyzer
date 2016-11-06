@@ -1,27 +1,12 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.function.Supplier;
-
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.jface.text.IDocument;
 
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.FoundInSubtype;
-import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
-import anatlyzer.atl.quickfixast.ASTUtils;
-import anatlyzer.atl.quickfixast.InDocumentSerializer;
-import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.LoopExp;
-import anatlyzer.atlext.OCL.OCLFactory;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**

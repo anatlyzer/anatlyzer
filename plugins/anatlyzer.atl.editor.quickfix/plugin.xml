@@ -353,7 +353,7 @@
        name="Ignore problem"
        point="anatlyzer.atl.editor.quickfix">
     <quickfix
-          apply="anatlyzer.atl.editor.quickfix.IgnoreProblem">
+          apply="anatlyzer.atl.editor.quickfix.IgnoreProblemQuickfix">
     </quickfix>
  </extension>
    	

@@ -10,8 +10,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.model.ATLModel;
@@ -163,6 +165,11 @@ public class NoBindingForCompulsoryFeature_FindSimilarFeature extends AbstractAt
 	@Override
 	public String getDisplayString() {
 		return "Add binding from similar feature: " + feature.getName() ;
+	}
+	
+
+	@Override public Image getImage() {
+		return QuickfixImages.create_binding.createImage();
 	}
 
 }

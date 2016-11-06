@@ -19,6 +19,9 @@
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
         eType="#//ProblemStatus"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoredByUser" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBooleanObject"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BatchAnalysis" abstract="true"/>
   <eClassifiers xsi:type="ecore:EEnum" name="ProblemStatus">

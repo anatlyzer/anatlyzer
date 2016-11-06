@@ -77,7 +77,7 @@ public class CannotInstantiateAbstractClass_ChooseConcrete extends AbstractAtlQu
 				selectedClass = a.getSelectedClass();
 			}
 			if ( selectedClass == null )
-				return NullQuickfixApplication.Instance;
+				return NullQuickfixApplication.NullInstance;
 		} else {
 			selectedClass = subclasses.get(0); // choose one
 		}

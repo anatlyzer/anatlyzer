@@ -7,8 +7,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
-import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -70,6 +71,10 @@ public class OperationFoundInSubtypeQuickfix_AddRuleFilter extends RuleGeneratin
 		return "Add filter expression";
 	}
 
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
+	}
+	
 	@Override public QuickfixApplication getQuickfixApplication() throws CoreException {
 		PropertyCallExp pce = (PropertyCallExp) this.getProblematicElement();
 		MatchedRule r = ATLUtils.getContainer(pce, MatchedRule.class);

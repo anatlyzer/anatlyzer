@@ -2,8 +2,6 @@ package anatlyzer.atl.editor.quickfix.kinds;
 
 import anatlyzer.atl.editor.quickfix.AbstractQuickfixSet;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
-import anatlyzer.atl.editor.quickfix.errors.FeatureFoundInSubtypeQuickfix_AddRuleFilter;
-import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToBlock;
 import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddIfToExpression;
 import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_AddRuleFilter;
 import anatlyzer.atl.editor.quickfix.errors.OperationFoundInSubtypeQuickfix_ChangeOperationContext;

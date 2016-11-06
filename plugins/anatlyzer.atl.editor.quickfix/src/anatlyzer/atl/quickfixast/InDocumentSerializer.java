@@ -67,6 +67,9 @@ public class InDocumentSerializer extends ATLSerializer {
 					String s = comment + "\n";
 					
 					document.replace(start, length, s);
+
+					qfa.updateWorkbench(document);
+
 					return;
 				}
 				

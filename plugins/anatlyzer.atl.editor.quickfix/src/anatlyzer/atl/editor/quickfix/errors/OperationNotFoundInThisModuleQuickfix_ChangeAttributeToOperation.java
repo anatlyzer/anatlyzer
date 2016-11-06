@@ -1,5 +1,8 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
+import org.eclipse.swt.graphics.Image;
+
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -10,6 +13,10 @@ public class OperationNotFoundInThisModuleQuickfix_ChangeAttributeToOperation ex
 	@Override
 	public String getDisplayString() {
 		return "Convert existing attribute into operation";
+	}
+	
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
 
 	@Override

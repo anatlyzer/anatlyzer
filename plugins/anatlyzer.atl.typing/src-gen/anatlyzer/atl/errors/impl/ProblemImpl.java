@@ -28,14 +28,15 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getSeverity <em>Severity</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#isNeedsCSP <em>Needs CSP</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getStatus <em>Status</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getIgnoredByUser <em>Ignored By User</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -129,6 +130,26 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * @ordered
 	 */
 	protected ProblemStatus status = STATUS_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getIgnoredByUser() <em>Ignored By User</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIgnoredByUser()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Boolean IGNORED_BY_USER_EDEFAULT = Boolean.FALSE;
+
+	/**
+	 * The cached value of the '{@link #getIgnoredByUser() <em>Ignored By User</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIgnoredByUser()
+	 * @generated
+	 * @ordered
+	 */
+	protected Boolean ignoredByUser = IGNORED_BY_USER_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,6 +271,27 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Boolean getIgnoredByUser() {
+		return ignoredByUser;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIgnoredByUser(Boolean newIgnoredByUser) {
+		Boolean oldIgnoredByUser = ignoredByUser;
+		ignoredByUser = newIgnoredByUser;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AnalysisResultPackage.PROBLEM__IGNORED_BY_USER, oldIgnoredByUser, ignoredByUser));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -277,6 +319,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return isNeedsCSP();
 			case AnalysisResultPackage.PROBLEM__STATUS:
 				return getStatus();
+			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
+				return getIgnoredByUser();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -306,6 +350,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__STATUS:
 				setStatus((ProblemStatus)newValue);
 				return;
+			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
+				setIgnoredByUser((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -333,6 +380,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__STATUS:
 				setStatus(STATUS_EDEFAULT);
 				return;
+			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
+				setIgnoredByUser(IGNORED_BY_USER_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -355,6 +405,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return needsCSP != NEEDS_CSP_EDEFAULT;
 			case AnalysisResultPackage.PROBLEM__STATUS:
 				return status != STATUS_EDEFAULT;
+			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
+				return IGNORED_BY_USER_EDEFAULT == null ? ignoredByUser != null : !IGNORED_BY_USER_EDEFAULT.equals(ignoredByUser);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -377,6 +429,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 		result.append(needsCSP);
 		result.append(", status: ");
 		result.append(status);
+		result.append(", ignoredByUser: ");
+		result.append(ignoredByUser);
 		result.append(')');
 		return result.toString();
 	}

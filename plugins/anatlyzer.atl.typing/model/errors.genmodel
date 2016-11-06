@@ -39,6 +39,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/severity"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/needsCSP"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/status"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/ignoredByUser"/>
     </genClasses>
     <genClasses image="false" ecoreClass="errors.ecore#//BatchAnalysis"/>
     <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>

@@ -221,14 +221,18 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		AnalysisResult r = speculativeThread.getAnalysis(current);
 		
 		// This happens when the quick fix requires user intervention
-		if ( r == null ) {
+		if ( current.requiresUserIntervention() ) {
 			tabFolder.setVisible(false);
-			tbtmAllProblems.setText("");			
-			tbtmFixedProblems.setText("Fixed problems (Not available)");
-			tbtmNewProblems.setText("New problems (Not available)");
+			tabFolderImpact.setVisible(false);
 			lblProblems.setText("Speculative analysis not possible. Quick fix requires user intervention.");
 			this.quickfixInformationText.getTextWidget().setText("");
-			return;
+			return;			
+		} else if ( r == null ) {
+			tabFolder.setVisible(false);
+			tabFolderImpact.setVisible(false);
+			lblProblems.setText("There was an internal error in the speculative analysis. Sorry!");
+			this.quickfixInformationText.getTextWidget().setText("");
+			return;			
 		}
 		
 		tabFolder.setVisible(true);

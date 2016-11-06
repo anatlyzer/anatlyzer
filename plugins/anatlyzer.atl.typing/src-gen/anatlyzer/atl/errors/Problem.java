@@ -11,14 +11,15 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDescription <em>Description</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getSeverity <em>Severity</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#isNeedsCSP <em>Needs CSP</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem()
  * @model abstract="true"
@@ -151,5 +152,32 @@ public interface Problem extends AnalysisInfo {
 	 * @generated
 	 */
 	void setStatus(ProblemStatus value);
+
+	/**
+	 * Returns the value of the '<em><b>Ignored By User</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ignored By User</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ignored By User</em>' attribute.
+	 * @see #setIgnoredByUser(Boolean)
+	 * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem_IgnoredByUser()
+	 * @model default="false" required="true"
+	 * @generated
+	 */
+	Boolean getIgnoredByUser();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ignored By User</em>' attribute.
+	 * @see #getIgnoredByUser()
+	 * @generated
+	 */
+	void setIgnoredByUser(Boolean value);
 
 } // Problem

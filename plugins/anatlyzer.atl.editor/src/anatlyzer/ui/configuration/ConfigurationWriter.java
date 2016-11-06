@@ -7,6 +7,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.ecore.EClass;
 
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
@@ -41,9 +45,24 @@ public class ConfigurationWriter {
 
 		ps.println();
 		ps.println("witness-generation-mode " + mode);
+		ps.println();
+		
+		if ( configuration.getAvailableProblems().isDifferentFromDefault() ) {
+			ps.println("# Configuration of problems");
+			writeProblemSet(ps, "continous-problems", configuration.getAvailableProblems().getContinous());
+			writeProblemSet(ps, "batch-problems", configuration.getAvailableProblems().getBatch());
+			writeProblemSet(ps, "ignored-problems", configuration.getAvailableProblems().getIgnored());
+			ps.println();
+		}
 		
 		ps.close();
 	}
 
+	private static void writeProblemSet(PrintStream ps, String keyword, Set<EClass> set) {
+		if ( set.size() > 0 ) {
+			String classNames = set.stream().map(c -> c.getName()).collect(Collectors.joining(", "));
+			ps.println(keyword + " " + classNames);
+		}
+	}
 
 }

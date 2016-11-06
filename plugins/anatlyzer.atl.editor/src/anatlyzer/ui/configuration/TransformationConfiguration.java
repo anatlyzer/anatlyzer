@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.util.ProblemSets;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
 public class TransformationConfiguration implements Cloneable {
@@ -16,6 +17,7 @@ public class TransformationConfiguration implements Cloneable {
 	private String graphicsType;
 	private boolean doRecursionUnfolding = false;
 	private long timeOut = -1;
+	private ProblemSets availableProblems;
 	
 	public TransformationConfiguration() {
 //		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
@@ -23,7 +25,7 @@ public class TransformationConfiguration implements Cloneable {
 //		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
 //		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);		
 	
-	
+		availableProblems = new ProblemSets();
 		for (ProblemStatus problemStatus : ProblemStatus.values()) {
 			if ( problemStatus == ProblemStatus.ERROR_DISCARDED || problemStatus == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL )
 				continue;
@@ -102,6 +104,10 @@ public class TransformationConfiguration implements Cloneable {
 	
 	public boolean getDoRecursionUnfolding() {
 		return this.doRecursionUnfolding;
+	}
+	
+	public ProblemSets getAvailableProblems() {
+		return availableProblems;
 	}
 	
 	@Override

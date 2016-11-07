@@ -230,7 +230,7 @@
       </menuContribution>
    </extension>
 
-	<!-- Definition of the createAbstract syntax command and menu option -->   
+   <!-- Definition of the createAbstract syntax command and menu option -->   
    <extension
          point="org.eclipse.ui.menus">
    
@@ -263,6 +263,42 @@
             commandId="anatlyzer.commands.createAbstractSyntax">
       </handler>
    </extension>
+
+
+   <!-- Definition of the create HOT piece command and menu option -->   
+   <extension
+         point="org.eclipse.ui.menus">
+   
+         <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createATLHOTPiece"
+                  id="anatlyzer.commands.createATLHOTPiece.menu"
+                  mnemonic="H">
+            </command>
+      </menuContribution>
+   </extension>
+   
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="anatlyzer.commands"
+            name="anATLyzer">
+      </category>
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createATLHOTPiece"
+            name="Generate piece of ATL HOT">
+      </command>
+   </extension>
+     
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.atl.commands.CreateATLHOTPiece"
+            commandId="anatlyzer.commands.createATLHOTPiece">
+      </handler>
+   </extension>
+
 
 </plugin>
 	

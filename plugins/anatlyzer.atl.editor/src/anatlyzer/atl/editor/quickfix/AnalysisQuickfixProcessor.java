@@ -3,8 +3,13 @@ package anatlyzer.atl.editor.quickfix;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -112,6 +117,8 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		}
 
 		List<ICompletionProposal> allProposals = new ArrayList<ICompletionProposal>();
+		LinkedList<List<ICompletionProposal>> sortedProposals = new LinkedList<List<ICompletionProposal>>();
+		
 		for (IMarker iMarker : annotationMarkers) {
 			ICompletionProposal[] qfixes = getQuickfixes(iMarker);
 			
@@ -119,13 +126,19 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 //				// There are quick fixes for several kinds of errors
 //				allProposals.add(new ProposalCategory(iMarker));
 //			}
-			allProposals.add(new ProposalCategory(iMarker));
+			List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>(qfixes.length);
+			proposals.add(new ProposalCategory(iMarker));
 			
 			for (ICompletionProposal iCompletionProposal : qfixes) {
-				allProposals.add(iCompletionProposal);
+				proposals.add(iCompletionProposal);
 			}
+			
+			sortedProposals.add(proposals);
 		}
+		sortedProposals.sort((l1, l2) -> -1 * Integer.compare(l1.size(), l2.size()));
 
+		allProposals = sortedProposals.stream().flatMap(l -> l.stream()).collect(Collectors.toList());
+		
 		if ( allProposals.isEmpty() ) {
 			// If there are no errors, then try the quick assist
 			return computeQuickAssist(invocationContext, invocationContext.getOffset());

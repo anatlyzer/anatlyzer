@@ -258,6 +258,15 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getProblem_IgnoredByUser() {
+		return (EAttribute)problemEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBatchAnalysis() {
 		return batchAnalysisEClass;
 	}
@@ -329,6 +338,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		createEAttribute(problemEClass, PROBLEM__SEVERITY);
 		createEAttribute(problemEClass, PROBLEM__NEEDS_CSP);
 		createEAttribute(problemEClass, PROBLEM__STATUS);
+		createEAttribute(problemEClass, PROBLEM__IGNORED_BY_USER);
 
 		batchAnalysisEClass = createEClass(BATCH_ANALYSIS);
 
@@ -392,6 +402,7 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		initEAttribute(getProblem_Severity(), this.getSeverityKind(), "severity", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_NeedsCSP(), ecorePackage.getEBoolean(), "needsCSP", "false", 0, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_Status(), this.getProblemStatus(), "status", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProblem_IgnoredByUser(), ecorePackage.getEBooleanObject(), "ignoredByUser", "false", 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(batchAnalysisEClass, BatchAnalysis.class, "BatchAnalysis", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -5,7 +5,6 @@ import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_AddRule;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBindingQuickfix_RemoveBinding;
 import anatlyzer.atl.editor.quickfix.errors.NoRuleForBinding_FilterBinding;
-import anatlyzer.atl.editor.quickfix.errors.NoRuleForBinding_Precondition;
 
 public class NoRuleForBindingQuickfixSet extends AbstractQuickfixSet  {
 		

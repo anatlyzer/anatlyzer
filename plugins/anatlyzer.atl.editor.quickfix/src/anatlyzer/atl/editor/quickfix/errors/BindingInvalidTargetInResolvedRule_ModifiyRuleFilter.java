@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -58,5 +60,8 @@ public class BindingInvalidTargetInResolvedRule_ModifiyRuleFilter extends Bindin
 		return "Add filter to current rule";
 	}
 	
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
+	}
 
 }

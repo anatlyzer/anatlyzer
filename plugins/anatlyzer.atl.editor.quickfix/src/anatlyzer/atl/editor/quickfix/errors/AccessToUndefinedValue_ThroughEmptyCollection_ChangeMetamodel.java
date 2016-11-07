@@ -2,7 +2,9 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
@@ -33,6 +35,11 @@ public class AccessToUndefinedValue_ThroughEmptyCollection_ChangeMetamodel exten
 		return "Change feature lower cardinality to 1";
 	}
 
+	@Override
+	public Image getImage() {
+		return QuickfixImages.lower_bound_1_coll.createImage();
+	}
+	
 	@Override public QuickfixApplication getQuickfixApplication() {
 		PropertyCallExp optionalFeatureAccess = getOptionalFeatureAccess();
 		

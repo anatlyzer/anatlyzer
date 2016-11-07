@@ -2,8 +2,10 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -42,6 +44,11 @@ public abstract class AbstractOperationQuickfix_CreateHelper extends
 	
 	@Override public String getDisplayString() {
 		return "Create operation " + getNewOperationName((OperationCallExp)getProblematicElement());
+	}
+	
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_helper.createImage();
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {

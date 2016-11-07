@@ -2,8 +2,10 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -43,7 +45,12 @@ public class FeatureFoundInSubtypeQuickfix_CreateHelper extends AbstractAtlQuick
 	}	
 	
 	@Override public String getDisplayString() {
-		return "Create attribtue helper " + getNewOperationName((NavigationOrAttributeCallExp)getProblematicElement());
+		return "Create attribute helper " + getNewOperationName((NavigationOrAttributeCallExp)getProblematicElement());
+	}
+	
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_helper.createImage();
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {

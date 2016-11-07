@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -142,5 +144,8 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 		return qfa;
 	}
 
-
+	@Override
+	public Image getImage() {
+		return QuickfixImages.rename.createImage();
+	}
 }

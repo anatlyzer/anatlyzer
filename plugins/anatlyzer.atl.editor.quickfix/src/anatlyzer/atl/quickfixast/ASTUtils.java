@@ -405,7 +405,9 @@ public class ASTUtils {
 		}
 		
 			
-		return null;
+		// TODO: if the following expression is a collection operation (e.g., obj.notExistsFEature->collect()), return Sequence(OclAny)
+		
+		return TypesFactory.eINSTANCE.createUnknown();				
 	}
 
 	/**

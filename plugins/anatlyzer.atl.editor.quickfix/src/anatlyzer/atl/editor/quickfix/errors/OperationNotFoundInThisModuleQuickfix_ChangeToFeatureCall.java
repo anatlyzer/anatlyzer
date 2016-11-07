@@ -2,8 +2,10 @@ package anatlyzer.atl.editor.quickfix.errors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.OperationNotFoundInThisModule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -51,6 +53,11 @@ public class OperationNotFoundInThisModuleQuickfix_ChangeToFeatureCall extends A
 	@Override
 	public String getDisplayString() {
 		return "Replace by attribute call (with the same name)";
+	}
+	
+
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
 
 	@Override

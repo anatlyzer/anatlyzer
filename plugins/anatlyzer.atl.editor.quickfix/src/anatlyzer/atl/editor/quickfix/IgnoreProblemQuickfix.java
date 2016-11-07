@@ -3,17 +3,18 @@ package anatlyzer.atl.editor.quickfix;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.views.Images;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.ModuleElement;
 
-public class IgnoreProblem extends AbstractAtlQuickfix {
+public class IgnoreProblemQuickfix extends AbstractAtlQuickfix {
 
 	private String keyword;
 
@@ -51,6 +52,11 @@ public class IgnoreProblem extends AbstractAtlQuickfix {
 		return "Add ignore annotation: " + keyword;
 	}
 
+	@Override
+	public Image getImage() {
+		return Images.ignore_problem_16x16.createImage();
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		QuickfixApplication qa = new QuickfixApplication(this);

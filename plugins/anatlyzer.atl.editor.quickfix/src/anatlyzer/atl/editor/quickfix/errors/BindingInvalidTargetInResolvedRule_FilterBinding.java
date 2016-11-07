@@ -3,9 +3,11 @@ package anatlyzer.atl.editor.quickfix.errors;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.NotApplicableAfterConstraintSolving;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atlext.ATL.Binding;
@@ -41,6 +43,10 @@ public class BindingInvalidTargetInResolvedRule_FilterBinding extends BindingInv
 	@Override
 	public String getDisplayString() {
 		return "Add filter expression to binding";
+	}
+
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
 	}
 
 }

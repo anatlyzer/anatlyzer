@@ -31,7 +31,7 @@ public class NoClassFoundInMetamodelQuickFix_ChangeMetamodel extends AbstractMet
 	
 	@Override
 	public Image getImage() {
-		return QuickfixImages.metamodel_class.createImage();
+		return QuickfixImages.create_class.createImage();
 	}
 	
 	public String getChangedMetamodel() {

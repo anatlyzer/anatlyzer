@@ -31,7 +31,7 @@ public class AnalysisViewNodes {
 	
 	public List<Problem> getProblemsByStatus(ProblemStatus... status) {
 		return getCurrentAnalysis().getProblems().stream().filter(p -> {
-			return Arrays.stream(status).anyMatch(s -> p.getStatus() == s);
+			return !p.getIgnoredByUser() && Arrays.stream(status).anyMatch(s -> p.getStatus() == s);
 		}).collect(Collectors.toList());
 	}
 	

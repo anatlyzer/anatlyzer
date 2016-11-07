@@ -122,12 +122,16 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		for (IMarker iMarker : annotationMarkers) {
 			ICompletionProposal[] qfixes = getQuickfixes(iMarker);
 			
-//			if ( annotationMarkers.size() > 1 ) {
+//			if ( qfixes.length > 0 && annotationMarkers.size() > 1 ) {
 //				// There are quick fixes for several kinds of errors
 //				allProposals.add(new ProposalCategory(iMarker));
 //			}
 			List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>(qfixes.length);
 			proposals.add(new ProposalCategory(iMarker));
+
+			if ( qfixes.length > 0 ) {
+				proposals.add(new ProposalCategory(iMarker));
+			}
 			
 			for (ICompletionProposal iCompletionProposal : qfixes) {
 				proposals.add(iCompletionProposal);

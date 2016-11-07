@@ -282,6 +282,10 @@ public class AnalyserUtils {
 		return "static".equals( ann.getDetails().get("prec") );
 	}
 
+	public static boolean isDisabled(EClass problemClass) {
+		return problemClass.getEAnnotation("disabled") != null;
+	}
+	
 	public static String getIgnoreKeyword(EClass problemClass) {
 		EAnnotation ann = problemClass.getEAnnotation("ignorestring");
 		if ( ann == null ) 
@@ -338,5 +342,7 @@ public class AnalyserUtils {
 	public static boolean isTimeOut(ProblemStatus status) {
 		return status == ProblemStatus.USE_TIME_OUT;
 	}
+
+	
 	
 }

@@ -6,7 +6,9 @@ import java.util.function.Predicate;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -59,6 +61,11 @@ public class OperationNotFoundQuickfix_ChangeToFeatureCall extends OperationNotF
 		return "Replace by attribute call (with the same name)";
 	}
 
+
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OperationCallExp le = (OperationCallExp) getProblematicElement();		

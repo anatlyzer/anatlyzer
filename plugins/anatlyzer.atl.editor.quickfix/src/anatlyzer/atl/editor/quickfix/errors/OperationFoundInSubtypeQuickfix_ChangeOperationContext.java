@@ -7,8 +7,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -40,6 +42,11 @@ public class OperationFoundInSubtypeQuickfix_ChangeOperationContext extends Abst
 	
 	@Override public String getDisplayString() {
 		return "Change operation context from " + getCurrentOperationContext((OperationCallExp)getProblematicElement()) + " to " + getNewOperationContext((OperationCallExp)getProblematicElement());
+	}
+	
+
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
 	
 	@Override public QuickfixApplication getQuickfixApplication() {

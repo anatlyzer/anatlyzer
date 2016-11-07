@@ -57,6 +57,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	private Composite composite_1;
 	private Composite composite_2;
 	private TextViewer quickfixInformationText;
+	private TabFolder tabFolder;
 	
 	
 	/**
@@ -69,7 +70,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		super(parentShell);
 		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.TITLE);
 		setBlockOnOpen(true);	
-		
+
 		this.analysisResult = analysisResult;
 		this.problem = problem;
 		this.quickfixes = quickfixes;
@@ -97,6 +98,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
+		container.setSize(800, 600);
 		
 		sashForm = new SashForm(container, SWT.NONE);
 		sashForm.setSashWidth(5);
@@ -153,7 +155,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		lblProblems.setSize(140, 17);
 		lblProblems.setText("Problems after quick fix");
 		
-		TabFolder tabFolder = new TabFolder(composite_2, SWT.NONE);
+		tabFolder = new TabFolder(composite_2, SWT.NONE);
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tabFolder.setSize(330, 119);
 		
@@ -195,8 +197,8 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 		composite.setSize(375, 140);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 						
-						tabFolderImpact = new TabFolder(composite, SWT.NONE);
-		sashForm.setWeights(new int[] {1, 2});
+		tabFolderImpact = new TabFolder(composite, SWT.NONE);
+		sashForm.setWeights(new int[] {2, 3});
 
 		initThreads();
 		
@@ -217,6 +219,23 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	
 	private void updateAnalysis(AtlProblemQuickfix current) {
 		AnalysisResult r = speculativeThread.getAnalysis(current);
+		
+		// This happens when the quick fix requires user intervention
+		if ( current.requiresUserIntervention() ) {
+			tabFolder.setVisible(false);
+			tabFolderImpact.setVisible(false);
+			lblProblems.setText("Speculative analysis not possible. Quick fix requires user intervention.");
+			this.quickfixInformationText.getTextWidget().setText("");
+			return;			
+		} else if ( r == null ) {
+			tabFolder.setVisible(false);
+			tabFolderImpact.setVisible(false);
+			lblProblems.setText("There was an internal error in the speculative analysis. Sorry!");
+			this.quickfixInformationText.getTextWidget().setText("");
+			return;			
+		}
+		
+		tabFolder.setVisible(true);
 		
 		tbtmAllProblems.setText("Remaining problems (" + r.getProblems().size() + ")");
 		tblViewerProblems.setInput(r);
@@ -304,7 +323,7 @@ public class SpeculativeQuickfixDialog extends Dialog implements  SpeculativeLis
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(695, 436);
+		return new Point(800, 500);
 	}
 
 	@Override

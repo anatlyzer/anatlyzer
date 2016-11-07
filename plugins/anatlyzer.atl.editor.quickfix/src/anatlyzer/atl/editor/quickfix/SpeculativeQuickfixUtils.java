@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -84,6 +85,7 @@ public class SpeculativeQuickfixUtils {
 			throw new IllegalStateException();
 		}
 		
+		IMarker saved = qfx.getErrorMarker();
 		qfx.setErrorMarker(mock);
 
 		QuickfixApplication qfa;
@@ -121,11 +123,83 @@ public class SpeculativeQuickfixUtils {
 			// inc.perform();
 		} catch (CoreException e) {
 			e.printStackTrace();
+		} finally {
+			qfx.resetCache();
+			qfx.setErrorMarker(saved);
 		}
 
 		return inc;
 	}
 
+//	/**
+//	 * This method is useful to mimic the behaviour of speculative analysis but without doing it.
+//	 * It is needed for quick fixes which e.g., require user intervention and thus cannot be
+//	 * speculatively applied, but we want them in the result.
+//	 * @param baseAnalysis
+//	 * @param problem
+//	 * @param qfx
+//	 * @return
+//	 */
+//	public static IncrementalCopyBasedAnalyser createDummyAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
+//		IncrementalCopyBasedAnalyser inc = new IncrementalCopyBasedAnalyser(baseAnalysis);
+//
+//		Problem tgtProblem = (Problem) inc.getNewModel().getTarget(problem);
+//		if ( tgtProblem == null )
+//			throw new IllegalStateException("No target problem found for: " + problem);
+//		
+//		qfx.resetCache();
+//		
+//		MockMarker mock = new MockMarker(tgtProblem, new AnalysisResult(inc));
+//		try {
+//			if ( ! qfx.isApplicable(mock) ) {
+//				throw new IllegalStateException();
+//			}
+//		} catch (CoreException e1) {
+//			throw new IllegalStateException();
+//		}
+//		
+//		qfx.setErrorMarker(mock);
+//
+//		QuickfixApplication qfa;
+//		try {
+//			qfa = ((AbstractAtlQuickfix) qfx).getCachedQuickfixApplication();
+//			if ( qfa == null ) {
+//				throw new IllegalStateException("No actual implementation for quick fix: " + qfx);
+//			}
+//			qfa.apply();
+//			
+//			ITracedATLModel trace = (ITracedATLModel) inc.getATLModel();
+//			qfa.updateSpeculativeTrace(trace);
+//
+//			// What happen if the qfx is meta-model changing?
+//			// For the moment I always copy the meta-model
+//			
+//			List<String> preconditions = ATLUtils.getPreconditions(inc.getNewModel());
+//			try {
+//				AnalyserUtils.extendWithPreconditions(inc.getNewModel(), preconditions, new IAtlFileLoader() {			
+//					@Override
+//					public Resource load(IFile f) {	throw new IllegalStateException(); }
+//					
+//					@Override
+//					public Resource load(String text) {
+//						EMFModel libModel = AtlEngineUtils.loadATLText(text);
+//						return libModel.getResource();
+//					}
+//				});
+//			} catch (PreconditionParseError e) {
+//				e.printStackTrace();
+//			}
+//
+//			
+//			// The analysis is not executed, delegated to the client
+//			// inc.perform();
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return inc;
+//	}
+	
 	public static void confirmOrDiscardProblems(IWitnessFinder finder, AnalysisResult analysis) {
 		confirmOrDiscardProblems(finder, analysis, false);
 	}

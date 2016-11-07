@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.quickfix.dialog;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -25,6 +24,9 @@ public class SpeculativeThread extends Thread {
 	
 	@Override
 	public void run() {		
+		if ( qfx.requiresUserIntervention() )
+			return;
+		
 		IncrementalCopyBasedAnalyser inc = SpeculativeQuickfixUtils.createIncrementalAnalyser(baseAnalysis, problem, qfx);
 		inc.perform();
 		newAnalysis = new AnalysisResult(inc);

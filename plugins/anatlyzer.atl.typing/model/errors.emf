@@ -20,6 +20,8 @@ abstract class Problem extends AnalysisInfo {
 	attr boolean needsCSP = false;
 	
 	attr ProblemStatus[1] status;
+
+	attr Boolean[1] ignoredByUser = false;
 }
 
 abstract class BatchAnalysis {

@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getFileLocation <em>File Location</em>}</li>
@@ -31,7 +32,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getMissing <em>Missing</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getRecovery <em>Recovery</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

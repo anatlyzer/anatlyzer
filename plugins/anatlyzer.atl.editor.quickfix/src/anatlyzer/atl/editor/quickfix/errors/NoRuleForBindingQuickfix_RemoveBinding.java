@@ -3,7 +3,9 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -84,5 +86,8 @@ public class NoRuleForBindingQuickfix_RemoveBinding extends BindingProblemQuickF
 		return "Remove binding";
 	}
 
+	@Override public Image getImage() {
+		return QuickfixImages.remove_binding.createImage();
+	}
 
 }

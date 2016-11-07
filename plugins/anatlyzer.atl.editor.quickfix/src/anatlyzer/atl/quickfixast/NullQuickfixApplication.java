@@ -6,18 +6,22 @@ import anatlyzer.atl.analyser.AnalysisResult;
 
 public class NullQuickfixApplication extends QuickfixApplication {
 
-	public NullQuickfixApplication() {
+	private boolean updateWorkbench;
+
+	public NullQuickfixApplication(boolean updateWorkbench) {
 		super(null);
+		this.updateWorkbench = updateWorkbench;
 	}
 
 	@Override
 	public void apply() {
 		// do nothing
 	}
-	
+		
 	@Override
 	public void updateWorkbench(IDocument doc) {
-		// do nothing
+		if ( updateWorkbench )
+			super.updateWorkbench(doc);
 	}
 	
 	@Override
@@ -25,5 +29,7 @@ public class NullQuickfixApplication extends QuickfixApplication {
 		// do nothing
 	}
 	
-	public static final QuickfixApplication Instance = new NullQuickfixApplication();
+	public static final QuickfixApplication NullInstance = new NullQuickfixApplication(false);
+	public static final QuickfixApplication UpdatingInstance = new NullQuickfixApplication(true);
+
 }

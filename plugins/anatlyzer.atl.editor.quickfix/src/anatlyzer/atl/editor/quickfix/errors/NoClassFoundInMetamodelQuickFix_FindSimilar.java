@@ -9,9 +9,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.StringDistance;
@@ -74,6 +76,11 @@ public class NoClassFoundInMetamodelQuickFix_FindSimilar extends AbstractAtlQuic
 		return "Class "+ element.getName()+ " not found, replace by "+this.getClosest(element);
 	}
 
+
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
+	}
+	
 	@Override
 	public QuickfixApplication getQuickfixApplication() {
 		OclModelElement me = (OclModelElement) this.getProblematicElement();

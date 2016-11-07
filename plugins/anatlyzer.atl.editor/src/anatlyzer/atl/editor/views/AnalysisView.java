@@ -1,6 +1,5 @@
 package anatlyzer.atl.editor.views;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -8,13 +7,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -58,15 +51,10 @@ import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.ViewPart;
 
 import anatlyzer.atl.analyser.AnalysisResult;
-import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
-import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.editor.Activator;
 import anatlyzer.atl.editor.AtlEditorExt;
-import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
@@ -77,10 +65,7 @@ import anatlyzer.atl.editor.views.AnalysisViewNodes.GenericProblemNode;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
-import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
-import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
@@ -90,8 +75,6 @@ import anatlyzer.atl.optimizer.AtlOptimizer;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
-import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.WorkbenchUtil;
 
@@ -397,20 +380,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 			// invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
 			if ( batchMode ) {
 				invisibleRoot = new TreeParent();
-				viewer.resetFilters();
 			} else {
 				invisibleRoot = new AnalysisViewNodes(AnalysisView.this).getRoot();
-				viewer.setFilters(new ViewerFilter[] {
-					new ViewerFilter() {
-						@Override
-						public boolean select(Viewer viewer, Object parentElement, Object element) {
-							if ( element instanceof CategoryNode ) {
-								return ((TreeNode) element).hasChildren();
-							}
-							return true;
-						}
-					}
-				});
 			}
 		}
 		
@@ -537,6 +508,22 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		
+		// Set a filter
+		viewer.setFilters(new ViewerFilter[] {
+				new ViewerFilter() {
+					@Override
+					public boolean select(Viewer viewer, Object parentElement, Object element) {
+						// It works also for batch mode because is going to return always true
+						// since there are no category nodes
+						
+						if ( element instanceof CategoryNode ) {
+							return ((TreeNode) element).hasChildren();
+						}
+						return true;
+					}
+				}
+			});
 		
 		// Hook the view to the index
 		AnalysisIndex.getInstance().addListener(this);

@@ -1,7 +1,12 @@
 package anatlyzer.ui.configuration;
 
+import java.util.Iterator;
+import java.util.function.Consumer;
+
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -19,8 +24,23 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.IBaseLabelProvider;
+import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.swt.layout.RowLayout;
+
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.util.ProblemSets;
+
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class EditConfiguration extends Dialog {
 
@@ -45,11 +65,11 @@ public class EditConfiguration extends Dialog {
 	private Label lblIgnored;
 	private Composite composite;
 	private Table tblContinuous;
-	private TableViewer tableViewer;
+	private TableViewer tableViewerContinous;
 	private Table tblBatchMode;
-	private TableViewer tableViewer_1;
+	private TableViewer tableViewerBatch;
 	private Table tblIgnored;
-	private TableViewer tableViewer_2;
+	private TableViewer tableViewerIgnored;
 
 	/**
 	 * Create the dialog.
@@ -146,10 +166,36 @@ public class EditConfiguration extends Dialog {
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		composite.setLayout(new TableColumnLayout());
 		
-		tableViewer = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION);
-		tblContinuous = tableViewer.getTable();
-		tblContinuous.setHeaderVisible(true);
+		tableViewerContinous = new TableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		tblContinuous = tableViewerContinous.getTable();
 		tblContinuous.setLinesVisible(true);
+		
+		Composite compositeContinousButtons = new Composite(compProblemsContinuous, SWT.NONE);
+		RowLayout rl_compositeContinousButtons = new RowLayout(SWT.HORIZONTAL);
+		rl_compositeContinousButtons.fill = true;
+		rl_compositeContinousButtons.center = true;
+		compositeContinousButtons.setLayout(rl_compositeContinousButtons);
+		compositeContinousButtons.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+		
+		Button btnContinousToBatch = new Button(compositeContinousButtons, SWT.CENTER);
+		btnContinousToBatch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveContinousToBatch(e);
+			}
+		});
+		btnContinousToBatch.setAlignment(SWT.LEFT);
+		btnContinousToBatch.setText(">> Batch");
+		
+		Button btnContinousToIgnored = new Button(compositeContinousButtons, SWT.CENTER);
+		btnContinousToIgnored.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveContinousToIgnored(e);
+			}
+		});
+		btnContinousToIgnored.setAlignment(SWT.LEFT);
+		btnContinousToIgnored.setText(">> Ignored");
 		
 		compProblemsBatch = new Composite(sashForm, SWT.NONE);
 		compProblemsBatch.setLayout(new GridLayout(1, false));
@@ -158,11 +204,38 @@ public class EditConfiguration extends Dialog {
 		lblBatchMode.setText("Batch mode");
 		lblBatchMode.setBounds(0, 0, 108, 17);
 		
-		tableViewer_1 = new TableViewer(compProblemsBatch, SWT.BORDER | SWT.FULL_SELECTION);
-		tblBatchMode = tableViewer_1.getTable();
+		tableViewerBatch = new TableViewer(compProblemsBatch, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		tblBatchMode = tableViewerBatch.getTable();
 		tblBatchMode.setLinesVisible(true);
-		tblBatchMode.setHeaderVisible(true);
 		tblBatchMode.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+
+		Composite compositeBatchButtons = new Composite(compProblemsBatch, SWT.NONE);
+		RowLayout rl_compositeBatchButtons = new RowLayout(SWT.HORIZONTAL);
+		rl_compositeBatchButtons.fill = true;
+		rl_compositeBatchButtons.center = true;
+		compositeBatchButtons.setLayout(rl_compositeBatchButtons);
+		compositeBatchButtons.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 1));
+		
+		Button btnBatchToContinous = new Button(compositeBatchButtons, SWT.NONE);
+		btnBatchToContinous.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveBatchToContinous(e);
+			}
+		});
+		btnBatchToContinous.setAlignment(SWT.LEFT);
+		btnBatchToContinous.setText("<< Continous");
+		
+		Button btnBatchToIgnored = new Button(compositeBatchButtons, SWT.NONE);
+		btnBatchToIgnored.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveBatchToIgnored(e);
+			}
+		});
+		btnBatchToIgnored.setAlignment(SWT.LEFT);
+		btnBatchToIgnored.setText(">> Ignored");
+
 		
 		compProblemsIgnored = new Composite(sashForm, SWT.NONE);
 		compProblemsIgnored.setLayout(new GridLayout(1, false));
@@ -171,11 +244,40 @@ public class EditConfiguration extends Dialog {
 		lblIgnored.setText("Ignored");
 		lblIgnored.setBounds(0, 0, 72, 17);
 		
-		tableViewer_2 = new TableViewer(compProblemsIgnored, SWT.BORDER | SWT.FULL_SELECTION);
-		tblIgnored = tableViewer_2.getTable();
+		tableViewerIgnored = new TableViewer(compProblemsIgnored, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		tblIgnored = tableViewerIgnored.getTable();
 		tblIgnored.setLinesVisible(true);
-		tblIgnored.setHeaderVisible(true);
 		tblIgnored.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		Composite compositeIgnoredButtons = new Composite(compProblemsIgnored, SWT.NONE);
+		RowLayout rl_compositeIgnoredButtons = new RowLayout(SWT.HORIZONTAL);
+		rl_compositeIgnoredButtons.fill = true;
+		rl_compositeIgnoredButtons.center = true;
+		compositeIgnoredButtons.setLayout(rl_compositeIgnoredButtons);
+		compositeIgnoredButtons.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 1));
+		
+		Button btnIgnoredToContinous = new Button(compositeIgnoredButtons, SWT.NONE);
+		btnIgnoredToContinous.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveIgnoredToContinous(e);
+			}
+		});
+		btnIgnoredToContinous.setAlignment(SWT.LEFT);
+		btnIgnoredToContinous.setText("<< Continous");
+		
+		Button btnIgnoredToBatch = new Button(compositeIgnoredButtons, SWT.NONE);
+		btnIgnoredToBatch.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				moveIgnoredToBatch(e);
+			}
+		});
+		btnIgnoredToBatch.setAlignment(SWT.LEFT);
+		btnIgnoredToBatch.setText(">> Batch");
+
+		
+		
 		sashForm.setWeights(new int[] {1, 1, 1});
 
 		setWidgetValues();
@@ -188,6 +290,19 @@ public class EditConfiguration extends Dialog {
 		btnCheckDiscardCause.setSelection(configuration.getCheckDiscardCause());
 		btnContinousWitnessFinder.setSelection(configuration.isContinousWitnessFinder());
 		btnDoRecursionUnfolding.setSelection(configuration.getDoRecursionUnfolding());
+		
+		
+		ProblemSets problems = configuration.getAvailableProblems();
+		tableViewerContinous.setContentProvider(new ArrayContentProvider());
+		tableViewerContinous.setLabelProvider(new ProblemTableLabelProvider());		
+		tableViewerBatch.setContentProvider(new ArrayContentProvider());
+		tableViewerBatch.setLabelProvider(new ProblemTableLabelProvider());
+		tableViewerIgnored.setContentProvider(new ArrayContentProvider());
+		tableViewerIgnored.setLabelProvider(new ProblemTableLabelProvider());
+		
+		tableViewerContinous.setInput(problems.getContinous());
+		tableViewerBatch.setInput(problems.getBatch());
+		tableViewerIgnored.setInput(problems.getIgnored());
 		
 	}
 
@@ -219,5 +334,74 @@ public class EditConfiguration extends Dialog {
 	protected Point getInitialSize() {
 		return new Point(635, 456);
 	}
+	
+	public class ProblemTableLabelProvider implements ITableLabelProvider {
+
+		@Override
+		public void addListener(ILabelProviderListener listener) { }
+
+		@Override
+		public void dispose() { }
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {	}
+
+		@Override
+		public Image getColumnImage(Object element, int columnIndex) {
+			return null;
+		}
+
+		@Override
+		public String getColumnText(Object element, int columnIndex) {
+			EClass pClass = (EClass) element;
+			return AnalyserUtils.getProblemDescription(pClass);
+		}
+	}
+	
+	protected void moveIgnoredToBatch(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerIgnored.getSelection(), 
+				configuration.getAvailableProblems()::moveToBatch);
+	}
+
+	protected void moveIgnoredToContinous(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerIgnored.getSelection(), 
+				configuration.getAvailableProblems()::moveToContinous);		
+	}
+
+	protected void moveBatchToIgnored(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerBatch.getSelection(), 
+				configuration.getAvailableProblems()::moveToIgnored);
+	}
+
+	protected void moveBatchToContinous(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerBatch.getSelection(), 
+				configuration.getAvailableProblems()::moveToContinous);		
+	}
+
+	protected void moveContinousToIgnored(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerContinous.getSelection(), 
+				configuration.getAvailableProblems()::moveToIgnored);
+	}
+
+	protected void moveContinousToBatch(SelectionEvent e) {
+		move((IStructuredSelection) tableViewerContinous.getSelection(), 
+				configuration.getAvailableProblems()::moveToBatch);
+	}
+
+	protected void move(IStructuredSelection selection, Consumer<EClass> e) {
+		Iterator<?> it = selection.iterator();
+		while ( it.hasNext() ) {
+			e.accept((EClass) it.next());
+		}
+		tableViewerContinous.refresh();
+		tableViewerBatch.refresh();
+		tableViewerIgnored.refresh();
+	}
+	
 
 }

@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -48,6 +50,10 @@ public class AccessToUndefinedValue_AddIf extends RuleGeneratingQuickFix {
 
 	@Override public String getDisplayString() {
 		return "Add surrounding if";
+	}
+	
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
 	}
 
 	@Override public QuickfixApplication getQuickfixApplication() {

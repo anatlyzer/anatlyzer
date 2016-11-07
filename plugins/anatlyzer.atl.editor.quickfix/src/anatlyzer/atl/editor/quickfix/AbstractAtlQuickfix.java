@@ -85,6 +85,12 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 		this.marker = marker;
 	}
 	
+	@Override
+	public IMarker getErrorMarker() {
+		return marker;
+	}
+	
+	
 	public AnalysisResult getAnalysisResult() {
 		return getAnalyserData(marker);
 	}

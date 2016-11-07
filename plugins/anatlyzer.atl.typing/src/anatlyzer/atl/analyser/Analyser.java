@@ -140,7 +140,7 @@ public class Analyser implements IAnalyserResult {
 					filter(k -> expectedKeyword != null && k.equals(expectedKeyword)).
 					findAny().
 					ifPresent((k) -> {
-						p.setStatus(ProblemStatus.ERROR_DISCARDED);	
+						p.setIgnoredByUser(true);
 					});
 					
 				

@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -100,4 +101,7 @@ public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 	}
 
 
+	@Override public Image getImage() {
+		return QuickfixImages.precondition.createImage();
+	}
 }

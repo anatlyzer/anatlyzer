@@ -24,6 +24,7 @@ public class MockMarker implements IMarker {
 			this.setAttribute(AnATLyzerBuilder.PROBLEM, problem);
 			this.setAttribute(AnATLyzerBuilder.ANALYSIS_DATA, data);
 			this.setAttribute(IMarker.MESSAGE, p.getDescription());
+			this.setAttribute(AtlProblemQuickfix.GUI_MODE_ATTR, false);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}

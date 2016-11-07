@@ -9,8 +9,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
@@ -209,4 +211,8 @@ public class NoBindingForCompulsoryFeature_FindSimilarExpression extends Abstrac
 		return "Add similar binding: " + ATLSerializer.serialize(similarBinding) ;
 	}
 
+
+	@Override public Image getImage() {
+		return QuickfixImages.create_binding.createImage();
+	}
 }

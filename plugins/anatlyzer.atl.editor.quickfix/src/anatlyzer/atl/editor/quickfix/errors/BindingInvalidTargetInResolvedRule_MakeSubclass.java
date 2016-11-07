@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Image;
 
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -75,5 +77,9 @@ public class BindingInvalidTargetInResolvedRule_MakeSubclass extends AbstractMet
 		return "Make " + result.getName() + " a subclass of " + ((Metaclass) ATLUtils.getUnderlyingBindingLeftType(b)).getName();
 	}
 	
+	@Override
+	public Image getImage() {
+		return QuickfixImages.make_subclass.createImage();
+	}
 
 }

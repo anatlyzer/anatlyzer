@@ -7,8 +7,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
@@ -100,5 +102,8 @@ public class BindingInvalidTargetInResolvedRule_ModifyBindingFeature extends Bin
 		return "Modify binding feature to " + getReplacement(result).getName();
 	}
 	
+	@Override public Image getImage() {
+		return QuickfixImages.modify_binding_feature.createImage();
+	}
 
 }

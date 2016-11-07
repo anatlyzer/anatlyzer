@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -39,5 +41,8 @@ public class BindingInvalidTargetInResolvedRule_RemoveRule extends BindingInvali
 		return "Remove rule";
 	}
 	
-
+	@Override
+	public Image getImage() {
+		return QuickfixImages.remove_rule.createImage();
+	}
 }

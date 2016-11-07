@@ -43,6 +43,7 @@ public class SpeculativeMainThread extends Thread {
 			t.start();			
 		}
 		
+		
 		while ( ! allThreads.isEmpty() ) {
 			SpeculativeThread t = allThreads.get(0);
 			if ( ! t.isAlive() ) {

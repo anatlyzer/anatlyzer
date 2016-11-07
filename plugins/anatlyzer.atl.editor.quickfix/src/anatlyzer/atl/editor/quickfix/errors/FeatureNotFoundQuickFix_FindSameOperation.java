@@ -3,8 +3,10 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
@@ -83,5 +85,10 @@ public class FeatureNotFoundQuickFix_FindSameOperation extends AbstractAtlQuickf
 	@Override
 	public String getDisplayString() {
 		return "Replace with existing operation " + ATLUtils.getHelperName(helper) + "()";
+	}
+	
+
+	@Override public Image getImage() {
+		return QuickfixImages.rename.createImage();
 	}
 }

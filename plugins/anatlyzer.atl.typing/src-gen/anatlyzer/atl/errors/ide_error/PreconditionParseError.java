@@ -13,10 +13,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.ide_error.PreconditionParseError#getMessages <em>Messages</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.ide_error.IdeErrorPackage#getPreconditionParseError()
  * @model

@@ -23,6 +23,12 @@ public class Images {
 	public static final ImageDescriptor rule_conflict_discarded;
 
 	public static final ImageDescriptor find_witness_16x16;
+
+	public static final ImageDescriptor visualize_16x16;
+	public static final ImageDescriptor visualize_problem_16x16;
+
+	public static final ImageDescriptor ignore_problem_16x16;
+
 	
 	static {
 		rule_conflict_confirmed = Activator.getImageDescriptor("icons/rule_conflict_confirmed_16x16.png");
@@ -31,7 +37,7 @@ public class Images {
 		optimization_16x16 = Activator.getImageDescriptor("icons/optimization.png");
 		error_dependencies_16x16 = Activator.getImageDescriptor("icons/error_dependencies.png");
 		batch_mode_16x16 = Activator.getImageDescriptor("icons/finger_16x16.png");
-		quickfix_16x16 = Activator.getImageDescriptor("icons/quickfix_16x16.png");
+		quickfix_16x16 = Activator.getImageDescriptor("icons/jdt/quickfix_obj.gif");
 		batch_analysis_16x16 = Activator.getImageDescriptor("icons/batch_analysis_16x16.png");	  
 		local_problems_16x16 = Activator.getImageDescriptor("icons/local_problems_16x16.png");	  
 		rule_conflicts_analysis_16x16 = Activator.getImageDescriptor("icons/rule_conflicts_16x16.png");	  
@@ -44,5 +50,9 @@ public class Images {
 
 		find_witness_16x16 = Activator.getImageDescriptor("icons/find_witness_16x16.png");	
 
+		visualize_16x16 = Activator.getImageDescriptor("icons/visualize.png");	
+		visualize_problem_16x16 = Activator.getImageDescriptor("icons/visualize_problem.png");	
+
+		ignore_problem_16x16 = Activator.getImageDescriptor("icons/jdt/warning_alt_obj.gif");		
 	}
 }

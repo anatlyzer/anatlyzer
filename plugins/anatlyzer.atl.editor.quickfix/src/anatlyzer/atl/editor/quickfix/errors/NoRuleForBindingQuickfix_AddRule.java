@@ -1,25 +1,21 @@
 package anatlyzer.atl.editor.quickfix.errors;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
-import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
-import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Rule;
-import anatlyzer.atlext.ATL.Unit;
 
 public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 
@@ -96,5 +92,8 @@ public class NoRuleForBindingQuickfix_AddRule extends RuleGeneratingQuickFix {
 		return "Add new rule";
 	}
 
-
+	@Override
+	public Image getImage() {
+		return QuickfixImages.create_matched_rule.createImage();
+	}
 }

@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.function.Consumer;
+
+import org.eclipse.emf.ecore.EClass;
 
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 
 public class ConfigurationReader {
@@ -39,11 +43,28 @@ public class ConfigurationReader {
 				checkWitnessGenerationGraphics(line);				
 			} else if ( line.startsWith("witness-timeout") ) {
 				checkWitnessTimeOut(line);				
+			} else if ( line.startsWith("continous-problems") ) {
+				checkProblemsSet(line.substring("continous-problems".length()), configuration.getAvailableProblems()::moveToContinous);
+			}  else if ( line.startsWith("batch-problems") ) {
+				checkProblemsSet(line.substring("batch-problems".length()), configuration.getAvailableProblems()::moveToBatch);
+			}  else if ( line.startsWith("ignored-problems") ) {
+				checkProblemsSet(line.substring("ignored-problems".length()), configuration.getAvailableProblems()::moveToIgnored);
 			}
 		}
 	}
 
 	
+	private void checkProblemsSet(String line, Consumer<EClass> consumer) throws IOException {
+		String[] classNames = line.split(",");
+		for (String className : classNames) {
+			EClass c = (EClass) AtlErrorPackage.eINSTANCE.getEClassifier(className.trim());
+			if ( c == null )
+				throw new IOException("Configuration error. Class " + className + " not found");
+			consumer.accept(c);
+		}
+	}
+
+
 	/**
 	 * <pre>
 	 *   show-marker discarded

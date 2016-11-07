@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -96,5 +98,7 @@ public class BindingInvalidTargetInResolvedRule_Precondition extends BindingInva
 		return "Generate most general pre-condition";
 	}
 	
-
+	@Override public Image getImage() {
+		return QuickfixImages.most_general_precondition.createImage();
+	}
 }

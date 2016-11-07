@@ -9,8 +9,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
+import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.quickfixast.ASTUtils;
@@ -65,6 +67,11 @@ public class OperationFoundInSubtypeQuickfix_AddIfToBlock extends AbstractAtlQui
 		return "Add surrounding if to code block";
 	}
 
+
+	@Override public Image getImage() {
+		return QuickfixImages.create_expression.createImage();
+	}
+	
 	@Override public QuickfixApplication getQuickfixApplication() throws CoreException {
 		PropertyCallExp property = (PropertyCallExp) this.getProblematicElement();
 		

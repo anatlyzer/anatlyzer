@@ -406,7 +406,7 @@ public class ErrorModel {
 //		if ( isErrorType(receptorType) )
 //			return createDependentError(error, receptorType);
 
-		signalError(error, "Iterator operation over " + TypeUtils.typeToString(receptorType), node);		
+		signalError(error, "Iterator operation over non-collection expression, with type: " + TypeUtils.typeToString(receptorType), node);		
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 

@@ -115,7 +115,7 @@ package atl_error {
 
 	@description(name="No rule to resolve binding", text="No rule able to resolve the binding can be found")	 
 	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")	
-	@ignorestring(name="no-rule")
+	@ignorestring(name="unresolved-binding")
 	class BindingWithoutRule extends BindingProblem, BindingResolution {			   
 	}
 	
@@ -334,13 +334,15 @@ package atl_error {
 	}
 
 	@description(name="No rule to resolve a resolveTemp operation", text="No rule able to resolve the resolveTemp operation can be found")	 
-	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="typing", source="none")			
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="typing", source="none")
+	@ignorestring(name="unresolved-resolvedtemp")			
 	class ResolveTempWithoutRule extends ResolveTempProblem {			   
 	   	ref ecore.EClass[0..1] sourceType;
 	}
 
 	@description(name="ResolveTemp possibly unresolved", text="A resolve temp be unresolved if certain conditions hold")	 
-	@info(prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")		
+	@info(prec="always-solver", path="yes", severity="warning-behaviour", when="model-dep", kind="trafo-rules", phase="analysis", source="none")
+	@ignorestring(name="unresolved-resolvedtemp")		
 	class ResolveTempPossiblyUnresolved extends ResolveTempProblem, BindingResolution {
 	   ref EClass[+] problematicClasses;
 	   ref EClass[+] problematicClassesImplicit;

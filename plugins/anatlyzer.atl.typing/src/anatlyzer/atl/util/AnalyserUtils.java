@@ -32,6 +32,7 @@ import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.OCL.OclModelElement;
 
@@ -341,6 +342,10 @@ public class AnalyserUtils {
 
 	public static boolean isTimeOut(ProblemStatus status) {
 		return status == ProblemStatus.USE_TIME_OUT;
+	}
+
+	public static boolean isExplicitReturnTypeForced(Helper h) {
+		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@force-declared-return-type"));
 	}
 
 	

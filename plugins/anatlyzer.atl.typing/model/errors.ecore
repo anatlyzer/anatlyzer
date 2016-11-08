@@ -154,7 +154,7 @@
         <details key="source" value="none"/>
       </eAnnotations>
       <eAnnotations source="ignorestring">
-        <details key="name" value="no-rule"/>
+        <details key="name" value="unresolved-binding"/>
       </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BindingWithResolvedByIncompatibleRule"
@@ -676,6 +676,9 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="unresolved-resolvedtemp"/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="sourceType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResolveTempPossiblyUnresolved" eSuperTypes="#//atl_error/ResolveTempProblem #//atl_error/BindingResolution">
@@ -691,6 +694,9 @@
         <details key="kind" value="trafo-rules"/>
         <details key="phase" value="analysis"/>
         <details key="source" value="none"/>
+      </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="unresolved-resolvedtemp"/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="problematicClasses" lowerBound="1"
           upperBound="-1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EClass"/>

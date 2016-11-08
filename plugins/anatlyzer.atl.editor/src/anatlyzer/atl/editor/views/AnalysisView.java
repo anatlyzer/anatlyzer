@@ -682,7 +682,8 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					p = lpn.p;
 				}
 				
-				if ( p != null && AnalyserUtils.isConfirmed(p) ) {
+				// Allow generating witness for unknown problems, just to check errors
+				if ( p != null ) { // && AnalyserUtils.isConfirmed(p) ) { 
 					TransformationConfiguration conf = getAnalysisConfiguration().clone();
 					// Could do better...
 					conf.setWitnessFinderDebugMode(true);

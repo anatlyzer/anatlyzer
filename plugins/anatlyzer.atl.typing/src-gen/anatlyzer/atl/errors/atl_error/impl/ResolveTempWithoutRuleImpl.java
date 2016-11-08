@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ResolveTempWithoutRuleImpl#getSourceType <em>Source Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

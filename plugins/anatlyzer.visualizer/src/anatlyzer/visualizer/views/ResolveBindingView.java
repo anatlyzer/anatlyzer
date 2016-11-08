@@ -2,7 +2,9 @@ package anatlyzer.visualizer.views;
 
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +32,12 @@ public class ResolveBindingView extends ViewPart {
 
 	private GraphViewer graph;
 
+	private ILabelProvider labelProvider;
+
+	private IContentProvider contentProvider;
+
+	private Object inputElement;
+
 
 	/**
 	 * The constructor.
@@ -39,8 +47,12 @@ public class ResolveBindingView extends ViewPart {
 
 	public void createPartControl(Composite parent) {		
 		graph = new GraphViewer(parent, SWT.NONE);
-		graph.setContentProvider(new ResolveBindingContentProvider());
-		graph.setLabelProvider(new ResolveBindingLabelProvider());
+//		graph.setContentProvider(new ResolveBindingContentProvider());
+//		graph.setLabelProvider(new ResolveBindingLabelProvider());
+		if ( contentProvider != null ) {
+			graph.setContentProvider(contentProvider);
+			graph.setLabelProvider(labelProvider);
+		}
 		graph.setLayoutAlgorithm(new GridLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING));
 				
 		graph.addDoubleClickListener(new IDoubleClickListener() {
@@ -74,8 +86,18 @@ public class ResolveBindingView extends ViewPart {
 //		viewer.getControl().setFocus();
 	}
 
-	public void setBinding(Binding b) {
-		graph.setInput(b);
+	public void setViewData(IContentProvider contentProvider, ILabelProvider labelProvider, Object inputElement) {
+		this.contentProvider = contentProvider;
+		this.labelProvider   = labelProvider;
+		this.inputElement    = inputElement;
+		graph.setContentProvider(contentProvider);
+		graph.setLabelProvider(labelProvider);
+		graph.setInput(inputElement);
 		graph.refresh();
 	}
+	
+//	public void setBinding(Binding b) {
+//		graph.setInput(b);
+//		graph.refresh();
+//	}
 }

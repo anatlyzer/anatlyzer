@@ -23,7 +23,7 @@ public class BindingInvalidTargetInResolvedRuleQuickfixSet extends AbstractQuick
 				new BindingInvalidTargetInResolvedRule_SpecificPrecondition(),
 				new BindingInvalidTargetInResolvedRule_Precondition(),
 				new BindingInvalidTargetInResolvedRule_ModifyBindingFeature(),
-				new BindingInvalidTargetInResolvedRule_MakeSubclass()				
+				new BindingInvalidTargetInResolvedRule_MakeSubclass()
 		};
 	}
 }

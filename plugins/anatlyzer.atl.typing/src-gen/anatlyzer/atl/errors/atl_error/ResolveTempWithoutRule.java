@@ -11,14 +11,15 @@ import org.eclipse.emf.ecore.EClass;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule#getSourceType <em>Source Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getResolveTempWithoutRule()
  * @model annotation="description name='No rule to resolve a resolveTemp operation' text='No rule able to resolve the resolveTemp operation can be found'"
  *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='trafo-rules' phase='typing' source='none'"
+ *        annotation="ignorestring name='unresolved-resolvedtemp'"
  * @generated
  */
 public interface ResolveTempWithoutRule extends ResolveTempProblem {

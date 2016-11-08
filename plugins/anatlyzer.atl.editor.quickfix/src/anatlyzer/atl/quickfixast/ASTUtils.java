@@ -399,6 +399,11 @@ public class ASTUtils {
 				return vd.getType().getInferredType();
 		}
 		
+		// Binding
+		if ( exp.eContainingFeature() == ATLPackage.Literals.BINDING__VALUE ) {
+			Binding b = (Binding) exp.eContainer();
+			return b.getLeftType();
+		}
 		
 		if ( considerTargetTypes ) {
 			// More rules here

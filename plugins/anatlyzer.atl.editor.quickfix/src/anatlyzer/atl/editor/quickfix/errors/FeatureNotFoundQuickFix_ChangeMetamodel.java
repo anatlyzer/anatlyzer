@@ -6,6 +6,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 
@@ -155,11 +157,11 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 		
 		if ( a.open() == Window.OK ) {
 			EClassifier c = null;
-			if      ( a.getFeatureType().equals("EBoolean") ) c = EcorePackage.Literals.EBOOLEAN;
-			else if ( a.getFeatureType().equals("EString") )  c = EcorePackage.Literals.ESTRING;
-			else if ( a.getFeatureType().equals("EInteger") ) c = EcorePackage.Literals.EINT;
-			else if ( a.getFeatureType().equals("EFloat") )   c = EcorePackage.Literals.EFLOAT;
-			else if ( a.getFeatureType().equals("EDouble") )  c = EcorePackage.Literals.EDOUBLE;
+			if      ( a.getFeatureType().equals("EBoolean") || a.getFeatureType().equals("Boolean") ) c = EcorePackage.Literals.EBOOLEAN;
+			else if ( a.getFeatureType().equals("EString")  || a.getFeatureType().equals("String") )  c = EcorePackage.Literals.ESTRING;
+			else if ( a.getFeatureType().equals("EInteger") || a.getFeatureType().equals("Integer") ) c = EcorePackage.Literals.EINT;
+			else if ( a.getFeatureType().equals("EFloat")   || a.getFeatureType().equals("Float") )   c = EcorePackage.Literals.EFLOAT;
+			else if ( a.getFeatureType().equals("EDouble")  || a.getFeatureType().equals("Double") )  c = EcorePackage.Literals.EDOUBLE;
 			else {
 				c = ASTUtils.getMetamodelClasses(getSourceType()).stream().
 					filter(cl -> cl.getName().equals(a.getFeatureType())).
@@ -167,18 +169,32 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 					orElse(null);
 			}
 			
+			final boolean addClassToMetamodel;
 			if ( c == null ) {
-				// TODO: Notify the user
-				return NullQuickfixApplication.NullInstance;
+				boolean ok = MessageDialog.openQuestion(null, "Create class", "Class " + a.getFeatureType() + " not found in the meta-model.\nDo you want to create it automatically?");
+				if ( ok ) {
+					// TODO: I could add a create class dialog
+					c = EcoreFactory.eINSTANCE.createEClass();
+					c.setName(a.getFeatureType());
+					addClassToMetamodel = true;
+				} else {
+					return NullQuickfixApplication.NullInstance;
+				}
+			} else {
+				addClassToMetamodel = false;
 			}
 			
 			String featureName = a.getFeatureName();
-
 			final EClassifier actualFeatureType = c;
+
 			
 			// Be careful to keep this in sync with the automatic inference
 			QuickfixApplication qfa = new QuickfixApplication(this);			
 			qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
+				if ( addClassToMetamodel ) {
+					klass.getEPackage().getEClassifiers().add(actualFeatureType);
+				}
+				
 				EStructuralFeature feat = null;
 				if ( actualFeatureType instanceof EClass ) {
 					feat = EcoreFactory.eINSTANCE.createEReference();										

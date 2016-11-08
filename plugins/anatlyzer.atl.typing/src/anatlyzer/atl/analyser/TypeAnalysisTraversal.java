@@ -42,6 +42,7 @@ import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.types.UnresolvedTypeError;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.BindingStat;
 import anatlyzer.atlext.ATL.CalledRule;
@@ -218,9 +219,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( declared instanceof Unknown ) {
 			TopLevelTraversal.extendTypeForOperation(self, mm, attr, inferred);
 		} else if ( !(inferred instanceof TypeError) && ! typ().assignableTypes(declared, inferred) ) {
-			errors().warningIncoherentHelperReturnType(self, inferred, declared);
-			// The operation is redefined to use the inferred type if it is best
-			TopLevelTraversal.extendTypeForOperation(self, mm, attr, determineBestInIncoherentType(declared, inferred));
+			if ( ! AnalyserUtils.isExplicitReturnTypeForced(h) ) {
+				errors().warningIncoherentHelperReturnType(self, inferred, declared);
+				// The operation is redefined to use the inferred type if it is best
+				TopLevelTraversal.extendTypeForOperation(self, mm, attr, determineBestInIncoherentType(declared, inferred));
+			}
 		}
 	}
 	
@@ -236,8 +239,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( declared instanceof Unknown ) {
 			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, inferred);
 		} else if ( !(inferred instanceof TypeError) && ! typ().assignableTypes(declared, inferred) ) {
-			errors().warningIncoherentHelperReturnType(self, inferred, declared);
-			TopLevelTraversal.extendTypeForAttribute(self, mm, attr, determineBestInIncoherentType(declared, inferred));
+			if ( ! AnalyserUtils.isExplicitReturnTypeForced(h) ) {
+				errors().warningIncoherentHelperReturnType(self, inferred, declared);
+				TopLevelTraversal.extendTypeForAttribute(self, mm, attr, determineBestInIncoherentType(declared, inferred));
+			}
 		}
 	}
 	
@@ -267,7 +272,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 		if ( self.getInPattern().getFilter() != null ) {
 			Type t = attr.typeOf(self.getInPattern().getFilter());
-			if ( ! (t instanceof BooleanType )) {
+			if ( ! (t instanceof BooleanType ) && !(t instanceof TypeError)) {
 				errors().signalMatchedRuleWithNonBooleanFilter(t, self);
 			}
 		}
@@ -484,7 +489,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			Type collType = attr.typeOf(((LoopExp) self.eContainer()).getSource());
 			Type t  = null;
 			if ( !(collType instanceof CollectionType) ) {
-				t = errors().signalIteratorOverNoCollectionType(collType, (LoopExp) self.eContainer());
+				// t = errors().signalIteratorOverNoCollectionType(collType, (LoopExp) self.eContainer());
+				// Ignore the error and pass the mono-valued type to the iterator
+				// The problem is reported in IteratorExp
+				t = collType;
 			} else {
 				t = ((CollectionNamespace) collType.getMetamodelRef()).unwrap();
 			}
@@ -532,14 +540,19 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inIterateExp(IterateExp self) {
+		Type srcType =  attr.typeOf( self.getSource() );
+		if ( !(srcType instanceof CollectionType) ) {
+			errors().signalIteratorOverNoCollectionType(srcType, self);			
+		} 
 		attr.linkExprType( attr.typeOf( self.getBody() ) );
+				
 	}
 	
 	@Override
 	public void inIteratorExp(IteratorExp self) {
 		Type srcType =  attr.typeOf( self.getSource() );
 		if ( !(srcType instanceof CollectionType) ) {
-			Type t = errors().signalIteratorOverNoCollectionType(srcType, self.getSource());
+			Type t = errors().signalIteratorOverNoCollectionType(srcType, self);
 			attr.linkExprType(t);
 		} else {
 			Type bodyType = attr.typeOf( self.getBody() ); 

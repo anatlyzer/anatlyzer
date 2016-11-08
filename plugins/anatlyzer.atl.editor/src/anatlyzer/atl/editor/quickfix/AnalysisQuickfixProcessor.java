@@ -127,7 +127,6 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 //				allProposals.add(new ProposalCategory(iMarker));
 //			}
 			List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>(qfixes.length);
-			proposals.add(new ProposalCategory(iMarker));
 
 			if ( qfixes.length > 0 ) {
 				proposals.add(new ProposalCategory(iMarker));
@@ -172,10 +171,8 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		for (LocatedElement e : analysis.getATLModel().allObjectsOf(LocatedElement.class)) {
 			if ( e.getLocation() != null ) {
 				int indexChar[] = helper.getIndexChar(e.getLocation());
-				System.out.println(indexChar[0] + ", " + offset + ", " + indexChar[1]);
 				if ( indexChar[0] <= offset && indexChar[1] >= offset ) {
 					int dist = (offset - indexChar[0]) + (indexChar[1] - offset);
-					System.out.println(indexChar[0] + ", " + offset + ", " + indexChar[1] + ", " + dist);
 					if ( dist < closest ) {
 						found   = e;
 						closest = dist;

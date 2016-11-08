@@ -19,7 +19,7 @@
       <view
             category="anatlyzer.view.category"
             class="anatlyzer.visualizer.views.ElementConnectionsView"
-            icon="icons/sample.gif"
+            icon="icons/visualize.png"
             id="anatlyzer.visualizer.views.ElementConnectionsView"
             name="Elements Connections View">
       </view>
@@ -60,6 +60,15 @@
       <quickassist
             apply="anatlyzer.visualizer.quickassist.VisualizeBinding">
       </quickassist>
+   </extension>
+
+   <extension
+         id="anatlyzer.visualizer.visualizeBindindInvalidAssignmentError"
+         name="visualizeBindingError"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.visualizer.quickfix.VisualizeBindindInvalidAssignmentErrorQuickfix">
+      </quickfix>
    </extension>
 
 </plugin>

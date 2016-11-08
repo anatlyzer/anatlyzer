@@ -51,6 +51,14 @@
       </quickfix>
    </extension>
    <extension
+         id="anatlyzer.atl.editor.quickfix.errors.IteratorOverNoCollectionType_ChangeMetamodel"
+         name="Quickfix: Change feature upper bound to *"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.IteratorOverNoCollectionType_ChangeMetamodel">
+      </quickfix>
+   </extension>
+   <extension
          id="anatlyzer.atl.editor.quickfix.errors.CollectionOperationNotFoundQuickfix"
          name="Quickfix: Find collection operation with similar name"
          point="anatlyzer.atl.editor.quickfix">

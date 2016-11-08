@@ -232,7 +232,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			return op;
 		};
 		
-		if ( orderedTypes.size() == 1 ) {
+		if ( orderedTypes.size() == 1 && involvedRules.stream().allMatch(r -> r.getInPattern().getFilter() == null) ) {
 			return genCondition.apply(orderedTypes.get(0));
 		}
 

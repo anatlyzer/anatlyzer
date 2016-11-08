@@ -77,6 +77,7 @@ public class EditConfiguration extends Dialog {
 	 */
 	public EditConfiguration(Shell parentShell, TransformationConfiguration configuration) {
 		super(parentShell);
+		setShellStyle(SWT.MAX | SWT.RESIZE | SWT.TITLE);
 		this.configuration = configuration;
 	}
 

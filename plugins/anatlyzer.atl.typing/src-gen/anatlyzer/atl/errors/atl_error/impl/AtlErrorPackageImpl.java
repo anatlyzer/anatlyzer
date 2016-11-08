@@ -3695,7 +3695,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (bindingWithoutRuleEClass, 
 		   source, 
 		   new String[] {
-			 "name", "no-rule"
+			 "name", "unresolved-binding"
 		   });	
 		addAnnotation
 		  (bindingWithResolvedByIncompatibleRuleEClass, 
@@ -3732,6 +3732,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   source, 
 		   new String[] {
 			 "name", "not-found-in-union"
+		   });	
+		addAnnotation
+		  (resolveTempWithoutRuleEClass, 
+		   source, 
+		   new String[] {
+			 "name", "unresolved-resolvedtemp"
+		   });	
+		addAnnotation
+		  (resolveTempPossiblyUnresolvedEClass, 
+		   source, 
+		   new String[] {
+			 "name", "unresolved-resolvedtemp"
 		   });
 	}
 

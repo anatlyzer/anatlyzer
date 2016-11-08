@@ -10,11 +10,11 @@ import org.eclipse.ui.PlatformUI;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlQuickAssist;
 import anatlyzer.atl.editor.views.Images;
-import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.visualizer.views.BindingResolutionInfoView;
+import anatlyzer.visualizer.views.ResolveBindingContentProvider;
+import anatlyzer.visualizer.views.ResolveBindingLabelProvider;
 import anatlyzer.visualizer.views.ResolveBindingView;
 
 public class VisualizeBinding implements AtlQuickAssist {
@@ -88,7 +88,8 @@ public class VisualizeBinding implements AtlQuickAssist {
 			view = (ResolveBindingView) PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().showView(ResolveBindingView.ID);
-			view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
+			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
+			view.setViewData(new ResolveBindingContentProvider(), new ResolveBindingLabelProvider(), ATLUtils.getContainer(getElement(), Binding.class));
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -787,6 +787,23 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WritingSourceModel" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Creation of source elements"/>
+        <details key="text" value="Source elements should not appear in the 'to' part of rules'"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="runtime-error"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="LazyRuleWithFilter" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
         <details key="name" value="Lazy rule with filter"/>

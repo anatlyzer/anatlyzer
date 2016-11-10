@@ -15,6 +15,7 @@ import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
@@ -209,7 +210,7 @@ public class ASTUtils {
 	}
 
 	
-	public static ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, EList<OclExpression> arguments) {		
+	public static ContextHelper buildNewContextOperation(String name, Type receptorType, Type returnType, List<? extends OclExpression> arguments) {		
 		Operation operation = OCLFactory.eINSTANCE.createOperation();
 		operation.setName(name);
 		operation.setReturnType( ATLUtils.getOclType   (returnType) );
@@ -222,11 +223,10 @@ public class ASTUtils {
 		def.setContext_(ctx);
 		def.setFeature (operation);
 		
-		int i=0;
 		for (OclExpression argument : arguments) {
 			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
 			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
-			parameter.setVarName( "param" + (i++) );
+			parameter.setVarName(getNiceParameterName(argument, operation.getParameters()));
 			operation.getParameters().add(parameter);
 		}
 				
@@ -235,6 +235,29 @@ public class ASTUtils {
 		return helper;
 	}
 	
+	public static String getNiceParameterName(OclExpression argument, List<? extends VariableDeclaration> currentParams) {
+		String defaultName = "param";
+		
+		final int MAX_SUBSTRING = 1;
+		
+		Type t = argument.getInferredType();
+		if ( t instanceof Metaclass ) {
+			String name = ((Metaclass) t).getName();
+			defaultName = name.toLowerCase().substring(0, name.length() >= MAX_SUBSTRING ? MAX_SUBSTRING : name.length());
+		} else if ( t instanceof StringType ) {	defaultName = "str";
+		} else if ( t instanceof IntegerType ) { defaultName = "i";	 
+		} else if ( t instanceof FloatType ) { defaultName = "v";	 
+		} else if ( t instanceof BooleanType ) { defaultName = "b"; }	 
+		
+		
+		final String selectedName = defaultName;
+		if ( currentParams.stream().anyMatch(p -> p.getVarName().equals(selectedName)) ) {
+			defaultName = defaultName + currentParams.size();
+		}
+		
+		return defaultName;
+	}
+
 	public static ContextHelper buildNewContextAttribute(String name, Type receptorType, Type returnType) {		
 		Attribute operation = OCLFactory.eINSTANCE.createAttribute();
 		operation.setName(name);
@@ -263,11 +286,10 @@ public class ASTUtils {
 		// def.setContext_(ctx);
 		def.setFeature (operation);
 		
-		int i=0;
 		for (OclExpression argument : arguments) {
 			Parameter parameter = OCLFactory.eINSTANCE.createParameter();
 			parameter.setType   ( ATLUtils.getOclType(argument.getInferredType()) );
-			parameter.setVarName( "param" + (i++) );
+			parameter.setVarName(getNiceParameterName(argument, operation.getParameters()));
 			operation.getParameters().add(parameter);
 		}
 				

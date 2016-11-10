@@ -71,7 +71,7 @@ public class CannotInstantiateAbstractClass_ChooseConcrete extends AbstractAtlQu
 	public QuickfixApplication getQuickfixApplication() {
 		EClass selectedClass = null;
 		if ( canExpectUserInteraction() ) {
-			AskClasses a = new AskClasses(null);
+			AskClasses a = new AskClasses(null, "Select a non-abstract class");
 			a.setClasses(this.subclasses);
 			if ( a.open() == Window.OK ) {
 				selectedClass = a.getSelectedClass();

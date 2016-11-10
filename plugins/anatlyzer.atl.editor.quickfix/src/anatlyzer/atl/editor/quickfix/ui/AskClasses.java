@@ -3,6 +3,8 @@ package anatlyzer.atl.editor.quickfix.ui;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -17,19 +19,23 @@ import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 
-public class AskClasses extends Dialog {
+public class AskClasses extends TitleAreaDialog {
 	
 	private java.util.List<EClass> classes;
 	private List list;
 	private ListViewer listViewer;
 	private EClass selectedClass;
+	private String title;
 
 	/**
 	 * Create the dialog.
 	 * @param parentShell
 	 */
-	public AskClasses(Shell parentShell) {
+	public AskClasses(Shell parentShell, String title) {
 		super(parentShell);
+		//setShellStyle(SWT.MAX | SWT.RESIZE | SWT.TITLE);
+		setShellStyle(SWT.RESIZE | SWT.TITLE);
+		this.title = title;
 	}
 
 	/**
@@ -38,6 +44,9 @@ public class AskClasses extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		setTitle(title);		
+		setMessage("Select a class.", IMessageProvider.INFORMATION);
+				
 		Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		
@@ -71,7 +80,7 @@ public class AskClasses extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(467, 226);
+		return new Point(450, 400);
 	}
 
 	public void setClasses(java.util.List<EClass> classes) {

@@ -54,7 +54,8 @@ public class AnalysisViewNodes {
 				new ConfirmedListNode(this),
 				new WitnessRequiredListNode(this),
 				new UnknownListNode(this),
-				new DiscardedListNode(this)					
+				new DiscardedListNode(this),
+				new TimedOutListNode(this)
 			};
 		}
 
@@ -153,6 +154,16 @@ public class AnalysisViewNodes {
 		}
 	}
 	
+	public class TimedOutListNode extends CategoryNode {
+		public TimedOutListNode(TreeNode parent) {
+			super(parent, "Time out", ProblemStatus.USE_TIME_OUT);
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.timeout_16x16;
+		}
+	}
 	
 	public class GenericProblemNode extends TreeNode implements IWithCodeLocation {
 		protected LocalProblem p;

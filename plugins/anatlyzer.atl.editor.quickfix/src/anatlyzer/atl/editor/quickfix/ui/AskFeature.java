@@ -153,6 +153,9 @@ public class AskFeature extends Dialog {
 			if ( txtCardinality.getText().trim().equals("*") ) {
 				this.lowerBound = 0;
 				this.upperBound = -1;
+			} else if ( txtCardinality.getText().trim().equals("1") ) {
+				this.lowerBound = 0;
+				this.upperBound = 1;				
 			} else {
 				this.lowerBound = Integer.parseInt(txtCardinality.getText().split("\\.\\.")[0].trim());
 				String up = txtCardinality.getText().split("\\.\\.")[1].trim();

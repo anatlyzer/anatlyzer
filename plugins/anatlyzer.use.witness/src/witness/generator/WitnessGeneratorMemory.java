@@ -374,7 +374,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		private int scope;
 		private USESolverMemory solver;
 		private transException exception;
-		
+		private OutOfMemoryError outOfMemory = null;
 		private TimedOutSolverExecution(USESolverMemory solver, int scope) {
 			this.solver = solver;
 			this.scope  = scope;
@@ -390,6 +390,9 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			// suspends when there is an uncaught ThreadDeath
 			} catch ( ThreadDeath e ) {
 				System.out.println("Time out");
+			} catch ( OutOfMemoryError e ) {
+				System.out.println("OutOf memory");
+				outOfMemory = e;
 			}
 		}
 		
@@ -412,7 +415,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				e.printStackTrace();
 			}
 
-			if ( t.model != null || t.exception != null ) {
+			if ( t.model != null || t.exception != null || t.outOfMemory != null ) {
+				if ( t.outOfMemory != null )
+					throw new RuntimeException(t.outOfMemory);
+				
 				if ( t.exception != null )
 					throw t.exception;
 				

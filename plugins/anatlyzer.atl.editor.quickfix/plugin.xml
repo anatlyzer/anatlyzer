@@ -357,6 +357,24 @@
     </quickassistset>
  </extension>
  <extension
+       id="anatlyzer.atl.editor.quickassist.ExpressionSet"
+       name="Quick assists for expressions"
+       point="anatlyzer.atl.editor.quickassist">
+    <quickassistset
+          detector="anatlyzer.atl.editor.quickassist.kinds.ExpressionSet">
+    </quickassistset>
+ </extension>
+ <extension
+       id="anatlyzer.atl.editor.quickassist.VariableDeclarationSet"
+       name="Quick assists for variable declarations"
+       point="anatlyzer.atl.editor.quickassist">
+    <quickassistset
+          detector="anatlyzer.atl.editor.quickassist.kinds.VariableDeclarationSet">
+    </quickassistset>
+ </extension>
+
+
+ <extension
        id="anatlyzer.atl.IgnoreProblemQuickfix"
        name="Ignore problem"
        point="anatlyzer.atl.editor.quickfix">

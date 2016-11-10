@@ -128,7 +128,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		int i = 0;
 		for(OclExpression arg : exp.getArguments()) {
 			Parameter p = OCLFactory.eINSTANCE.createParameter();
-			p.setVarName("arg" + i);
+			p.setVarName(ASTUtils.getNiceParameterName(arg, r.getParameters()));
 			
 			if ( arg.getInferredType() instanceof PrimitiveType ) {
 				p.setType(Conversions.convertPType((PrimitiveType) arg.getInferredType()));
@@ -163,7 +163,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		OutPattern p = ATLFactory.eINSTANCE.createOutPattern();
 		r.setOutPattern(p);
 		SimpleOutPatternElement ope = ATLFactory.eINSTANCE.createSimpleOutPatternElement();
-		ope.setVarName(m.getName().substring(0, 1).toLowerCase() + "tgt");
+		ope.setVarName(m.getName().substring(0, 1).toLowerCase() + "Tgt");
 		ope.setType(ome);
 		p.getElements().add(ope);
 		

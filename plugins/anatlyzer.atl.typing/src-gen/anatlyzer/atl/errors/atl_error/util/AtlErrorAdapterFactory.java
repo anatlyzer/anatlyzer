@@ -288,6 +288,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createReadingTargetModelAdapter();
 			}
 			@Override
+			public Adapter caseWritingSourceModel(WritingSourceModel object) {
+				return createWritingSourceModelAdapter();
+			}
+			@Override
 			public Adapter caseLazyRuleWithFilter(LazyRuleWithFilter object) {
 				return createLazyRuleWithFilterAdapter();
 			}
@@ -1064,6 +1068,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createReadingTargetModelAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.WritingSourceModel <em>Writing Source Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.WritingSourceModel
+	 * @generated
+	 */
+	public Adapter createWritingSourceModelAdapter() {
 		return null;
 	}
 

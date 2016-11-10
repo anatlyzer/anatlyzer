@@ -583,6 +583,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case AtlErrorPackage.WRITING_SOURCE_MODEL: {
+				WritingSourceModel writingSourceModel = (WritingSourceModel)theEObject;
+				T result = caseWritingSourceModel(writingSourceModel);
+				if (result == null) result = caseLocalProblem(writingSourceModel);
+				if (result == null) result = caseProblem(writingSourceModel);
+				if (result == null) result = caseAnalysisInfo(writingSourceModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: {
 				LazyRuleWithFilter lazyRuleWithFilter = (LazyRuleWithFilter)theEObject;
 				T result = caseLazyRuleWithFilter(lazyRuleWithFilter);
@@ -1482,6 +1491,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseReadingTargetModel(ReadingTargetModel object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Writing Source Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Writing Source Model</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseWritingSourceModel(WritingSourceModel object) {
 		return null;
 	}
 

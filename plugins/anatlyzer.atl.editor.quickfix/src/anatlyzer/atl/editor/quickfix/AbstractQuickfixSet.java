@@ -19,7 +19,9 @@ public abstract class AbstractQuickfixSet implements AtlProblemQuickfixSet {
 			try {
 				if ( q.isApplicable(marker) )
 					possibleQuickfixes.add(q);
-			} catch (CoreException e) {
+			} catch (Exception e) {
+				// Internal exceptions are ignored
+				// TODO: SHOULD BE LOGGED
 				e.printStackTrace();
 			}
 		}

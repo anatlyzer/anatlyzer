@@ -377,6 +377,13 @@ package atl_error {
 	class ReadingTargetModel extends LocalProblem {
 		attr String[1] modelName;
 	}
+	
+	@description(name="Creation of source elements", text="Source elements should not appear in the 'to' part of rules'")	 
+	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			
+	class WritingSourceModel extends LocalProblem {
+		attr String[1] modelName;
+	}
+	
 
 	@description(name="Lazy rule with filter", text="In practice filters in lazy rules are not evaluated")	 
 	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			

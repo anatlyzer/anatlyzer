@@ -368,11 +368,17 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		int severity = -1;
 		
 		
+		if ( AnalyserUtils.isWitnessRequred(problem) )
+			return;
 		
 		severity = IMarker.SEVERITY_ERROR;
 		String severityClassification = AnalyserUtils.getProblemSeverity(problem);
 		if ( severityClassification != null && severityClassification.contains("warning") ) {
 			severity = IMarker.SEVERITY_WARNING;
+		} 
+		if ( problem.getStatus() == ProblemStatus.USE_TIME_OUT || AnalyserUtils.isInternalError(problem)) {
+			severity = IMarker.SEVERITY_INFO;
+			// or just return...
 		}
 		
 		/* UNTIL I HAVE INLINE QUICKFIXES, IT IS EASIER TO ACCESS TO ERRORS THAN WARNINGS

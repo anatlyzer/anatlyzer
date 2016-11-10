@@ -96,6 +96,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.CHANGE_SELECT_FIRST_FOR_ANY: return createChangeSelectFirstForAny();
 			case AtlErrorPackage.ITERATOR_OVER_EMPTY_SEQUENCE: return createIteratorOverEmptySequence();
 			case AtlErrorPackage.READING_TARGET_MODEL: return createReadingTargetModel();
+			case AtlErrorPackage.WRITING_SOURCE_MODEL: return createWritingSourceModel();
 			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: return createLazyRuleWithFilter();
 			case AtlErrorPackage.INVALID_RULE_INHERITANCE: return createInvalidRuleInheritance();
 			case AtlErrorPackage.AMBIGUOUS_TARGET_MODEL_REFERENCE: return createAmbiguousTargetModelReference();
@@ -500,6 +501,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public ReadingTargetModel createReadingTargetModel() {
 		ReadingTargetModelImpl readingTargetModel = new ReadingTargetModelImpl();
 		return readingTargetModel;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WritingSourceModel createWritingSourceModel() {
+		WritingSourceModelImpl writingSourceModel = new WritingSourceModelImpl();
+		return writingSourceModel;
 	}
 
 	/**

@@ -6,17 +6,23 @@ import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
+import anatlyzer.atl.editor.quickfix.ui.AskClasses;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
+import anatlyzer.atl.quickfixast.NullQuickfixApplication;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
@@ -37,16 +43,17 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
 /**
- * This quick fix adds a new rule that make the binding resolvable.
- * It is interactive since it asks the user to select the type. 
-
+ * This quick fix adds a new rule that make the binding resolvable. 
+ * It uses the type of the right-hand side of the binding to determine the input
+ * pattern element. It also generates a filter to avoid rule conflicts with other
+ * rules that were resolving the binding before.  
  *    
  * @qfxName Add new rule
  * @qfxError {@link anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved}
  * 
  * @author jesusc
  */
-public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
+public class BindingPossiblyUnresolved_AddRuleInteractive extends BindingProblemQuickFix {
 
 	@Override
 	public boolean isApplicable(IMarker marker) throws CoreException {
@@ -54,6 +61,11 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 	}
 
 	@Override public void resetCache() {};
+	
+	@Override
+	public boolean requiresUserIntervention() {
+		return true;
+	}
 	
 	protected static EClass getResolvedEClassType(MatchedRule mr) {
 		return ATLUtils.getInPatternType(mr).getKlass();
@@ -63,13 +75,31 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
 		Binding b = (Binding) getProblematicElement();
 		Rule bindingRule = ATLUtils.getRule(b);
+
+		BindingPossiblyUnresolved problem = (BindingPossiblyUnresolved) getProblem();
+		EList<EClass> problematicClasses = problem.getProblematicClasses();
+		
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		Metaclass selectedOutputType = (Metaclass) ATLUtils.getUnderlyingBindingLeftType(b);
-		List<Metaclass> sources = getSourceTypes(b);
+		// List<Metaclass> sources = getSourceTypes(b);
+		
+		final EClass selectedClass;
+		AskClasses a = new AskClasses(null, "Select input type for the new rule");
+		// a.setClasses(getSourceTypes(b).stream().map(m -> m.getKlass()).collect(Collectors.toList()));
+		a.setClasses(problematicClasses);
+		if ( a.open() == Window.OK ) {
+			selectedClass = a.getSelectedClass();
+		} else {
+			selectedClass = null;
+		}
+		if ( selectedClass == null )
+			return NullQuickfixApplication.NullInstance;
+		
 		
 		GlobalNamespace mm = getAnalysisResult().getNamespace();
 		
+		// TODO: Allow selecting a target class
 		if ( selectedOutputType.getKlass().isAbstract() ) {
 			IClassNamespace ns = (IClassNamespace) selectedOutputType.getMetamodelRef();
 			for (ClassNamespace subclass : ns.getAllSubclasses(mm)) {
@@ -88,17 +118,27 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 			}			
 		}
 		
+
+		MetamodelNamespace metamodel = mm.getMetamodels().stream().filter(m -> m.belongsTo(selectedClass)).findAny().orElse(null);
+		// Metaclass src = metamodel.getMetaclass(selectedClass);
+		Metaclass src = TypesFactory.eINSTANCE.createMetaclass();
+		src.setKlass(selectedClass);
+		src.setName(selectedClass.getName());
+		MetaModel model = TypesFactory.eINSTANCE.createMetaModel();
+		model.setName(metamodel.getName());					
+		src.setModel(model);
+		
 		Metaclass tgt = selectedOutputType;
-		for (final Metaclass src : sources) {
 			qfa.insertAfter(bindingRule, () -> {
 				MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
-				String ruleName = src.getKlass().getName() + "2" + tgt.getKlass().getName();
+				String ruleName = selectedClass.getName() + "2" + tgt.getKlass().getName();
 				mr.setName(ruleName);
+		
 				ASTUtils.completeRule(mr, src, tgt, null);	
 
 				getATLModel().getTyping().add(tgt);
 				
-				
+				// Same as original: BindingPossiblyUnresolved_AddRule! factorize
 				
 				// Get all rules that resolve elements of type "src"
 				OclExpression expr = b.getResolvedBy().stream().
@@ -144,7 +184,6 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 				return mr;
 			});
 			
-		}
 		
 		return qfa;
 	}
@@ -161,10 +200,7 @@ public class BindingPossiblyUnresolved_AddRule extends BindingProblemQuickFix {
 
 	@Override
 	public String getDisplayString() {
-		Binding b = (Binding) getProblematicElement();
-		List<Metaclass> sources = getSourceTypes(b);
-		String prefix = "Add rule" + (sources.size() == 1 ? "" : "s") + ": ";
-		return prefix + sources.stream().map(m -> m.getName()).collect(Collectors.joining(", "));
+		return "Add rule...";
 	}
 	
 	@Override

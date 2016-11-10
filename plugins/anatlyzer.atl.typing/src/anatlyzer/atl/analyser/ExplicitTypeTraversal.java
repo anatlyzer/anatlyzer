@@ -15,9 +15,11 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
+import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
@@ -120,7 +122,7 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		attr.linkExprType(type);
 
 		checkReadingTargetModel(self);
-		
+		checkWritingSourceModel(self);
 	}	
 
 	protected Set<String> outputMetamodelNames;
@@ -147,6 +149,15 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 			sameInputOutputMetamodelNames.retainAll(getOutMetamodelNames());
 		}
 		return sameInputOutputMetamodelNames;		
+	}
+
+	protected void checkWritingSourceModel(OclModelElement self) {
+		OclModel metamodel = self.getModel();
+		if ( root instanceof Module && getSameInputOutputMetamodelNames().isEmpty() ) {	
+			if ( getInMetamodelNames().contains(metamodel.getName()) && self.eContainer() instanceof OutPatternElement ) {
+				errors().signalWritingSourceModel(self);			
+			}
+		}
 	}
 	
 	/**

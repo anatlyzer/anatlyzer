@@ -7,7 +7,11 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Image;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
+import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
@@ -78,14 +82,14 @@ public class FeatureNotFoundQuickFix_MakeSubclass extends AbstractMetamodelChang
 	}
 	
 	@Override
-	public QuickfixApplication getQuickfixApplication() {		
-		String featureName = getPropertyName();
-		List<EClass> supertypes = findSuperClass();
+	public QuickfixApplication getQuickfixApplication() {				
+		EClass originalClass = getSourceType().getKlass();
+		EClass superclass    = getBestClass();
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
-		qfa.mmModify(getSourceType().getKlass(), getSourceType().getModel().getName(), (klass) -> {
+		qfa.mmModify(originalClass, getSourceType().getModel().getName(), (klass) -> {
 			// pick up the first one. The user could be notified
-			klass.getESuperTypes().add(supertypes.get(0));
+			klass.getESuperTypes().add(superclass);
 		});
 		
 		return qfa;
@@ -95,9 +99,21 @@ public class FeatureNotFoundQuickFix_MakeSubclass extends AbstractMetamodelChang
 	public String getDisplayString() {
 		// TODO: Explain in the long version that it contains the wanted feature
 		// TODO: Could be more intelligent and take into account type compatibility to sort the result
-		return "Make " + getSourceType().getName() + " inherit from " + findSuperClass().get(0).getName();
+		return "Make " + getSourceType().getName() + " inherit from " + getBestClass().getName();
 	}
 
+	public EClass getBestClass() {
+		EClass originalClass = getSourceType().getKlass();
+		LongestCommonSubstring calculator = new LongestCommonSubstring();
+		List<EClass> supertypes = findSuperClass();
+		supertypes.sort((c1, c2) -> {
+			return -1 * Integer.compare(
+					calculator.distance(originalClass.getName(), c1.getName()), 
+					calculator.distance(originalClass.getName(), c2.getName()));  
+		});
+		return supertypes.get(0);		
+	}
+	
 	@Override
 	public Image getImage() {
 		return QuickfixImages.make_subclass.createImage();

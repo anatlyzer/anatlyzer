@@ -64,10 +64,19 @@
 
    <extension
          id="anatlyzer.visualizer.visualizeBindindInvalidAssignmentError"
-         name="visualizeBindingError"
+         name="visualizeBindingInvalidAssignmentError"
          point="anatlyzer.atl.editor.quickfix">
       <quickfix
             apply="anatlyzer.visualizer.quickfix.VisualizeBindindInvalidAssignmentErrorQuickfix">
+      </quickfix>
+   </extension>
+   
+      <extension
+         id="anatlyzer.visualizer.quickfix.VisualizeUnresolvedBindingErrorQuickfix"
+         name="visualizeBindingPossiblyUnresolvedError"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.visualizer.quickfix.VisualizeUnresolvedBindingErrorQuickfix">
       </quickfix>
    </extension>
 

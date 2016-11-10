@@ -337,6 +337,15 @@ public interface AtlErrorFactory extends EFactory {
 	ReadingTargetModel createReadingTargetModel();
 
 	/**
+	 * Returns a new object of class '<em>Writing Source Model</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Writing Source Model</em>'.
+	 * @generated
+	 */
+	WritingSourceModel createWritingSourceModel();
+
+	/**
 	 * Returns a new object of class '<em>Lazy Rule With Filter</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

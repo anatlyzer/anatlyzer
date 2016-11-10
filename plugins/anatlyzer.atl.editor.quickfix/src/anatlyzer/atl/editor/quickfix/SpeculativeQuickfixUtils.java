@@ -124,7 +124,9 @@ public class SpeculativeQuickfixUtils {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} finally {
-			qfx.resetCache();
+			// There is a reset cache before... 
+			// A resetCache must be followed by "isApplicable" to force cache reload...
+			// qfx.resetCache();
 			qfx.setErrorMarker(saved);
 		}
 

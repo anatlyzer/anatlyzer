@@ -222,6 +222,9 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/ReadingTargetModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/WritingSourceModel">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/WritingSourceModel/modelName"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/LazyRuleWithFilter"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/InvalidRuleInheritance">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/InvalidRuleInheritance/kind"/>

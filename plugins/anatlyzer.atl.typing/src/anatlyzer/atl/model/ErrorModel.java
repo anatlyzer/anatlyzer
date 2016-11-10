@@ -84,6 +84,7 @@ import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.ResolveTempWithoutRule;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
+import anatlyzer.atl.errors.atl_error.WritingSourceModel;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryFactory;
 import anatlyzer.atl.errors.atl_recovery.TentativeTypeAssigned;
 import anatlyzer.atl.types.Metaclass;
@@ -517,7 +518,7 @@ public class ErrorModel {
 			initialText = "In subrule " + subrule.getName();
 		}
 		
-		signalWarning(error, initialText + ", no binding for compulsory " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName(), pe);						
+		signalWarning(error, "No binding for compulsory feature " + unboundCompulsoryFeature.getEContainingClass().getName() + "." + unboundCompulsoryFeature.getName() + ". " + initialText, pe);						
 	}
 
 	
@@ -746,6 +747,14 @@ public class ErrorModel {
 		error.setModelName(model.getName());
 		
 		signalError(error, "Reading target model " + model.getModel().getName() + "!" + model.getName(), model);
+	}
+	
+	public void signalWritingSourceModel(OclModelElement model) {
+		WritingSourceModel error = AtlErrorFactory.eINSTANCE.createWritingSourceModel();
+		initProblem(error, model);
+		error.setModelName(model.getName());
+		
+		signalError(error, "Writing source model " + model.getModel().getName() + "!" + model.getName(), model);
 	}
 	
 	public void signalAmbiguousTargetModelReference(OclModelElement model) {

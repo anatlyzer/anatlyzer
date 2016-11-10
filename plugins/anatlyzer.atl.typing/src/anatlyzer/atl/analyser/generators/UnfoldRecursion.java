@@ -44,7 +44,7 @@ public class UnfoldRecursion extends AbstractVisitor {
 	private EObject root;
 	private CSPModel builder = new CSPModel();
 	
-	private int defaultUnfoldings = 4;
+	private int defaultUnfoldings = 3;
 	private List<Helper> newHelpers = new ArrayList<Helper>();
 	private ErrorSlice slice;
 	

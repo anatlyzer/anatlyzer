@@ -260,6 +260,7 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 				} 
 				else if ( ce.getName().equals("quickfixset") ) {
 					AtlProblemQuickfixSet detector = (AtlProblemQuickfixSet) ce.createExecutableExtension("detector");
+					
 					if ( detector.isApplicable(iMarker) ) {
 						for(AtlProblemQuickfix q : detector.getQuickfixes(iMarker) ) {
 							if ( ! q.isApplicable(iMarker) ) {

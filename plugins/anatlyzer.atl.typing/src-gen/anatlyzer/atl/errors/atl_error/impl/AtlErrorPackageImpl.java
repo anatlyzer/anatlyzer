@@ -79,6 +79,7 @@ import anatlyzer.atl.errors.atl_error.RuntimeError;
 import anatlyzer.atl.errors.atl_error.StyleHint;
 import anatlyzer.atl.errors.atl_error.TargetModelConformanceProblem;
 import anatlyzer.atl.errors.atl_error.Warning;
+import anatlyzer.atl.errors.atl_error.WritingSourceModel;
 import anatlyzer.atl.errors.atl_error.WrongType;
 import anatlyzer.atl.errors.atl_recovery.AtlRecoveryPackage;
 import anatlyzer.atl.errors.atl_recovery.impl.AtlRecoveryPackageImpl;
@@ -435,6 +436,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass readingTargetModelEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass writingSourceModelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1677,6 +1685,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getWritingSourceModel() {
+		return writingSourceModelEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getWritingSourceModel_ModelName() {
+		return (EAttribute)writingSourceModelEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLazyRuleWithFilter() {
 		return lazyRuleWithFilterEClass;
 	}
@@ -2220,6 +2246,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		readingTargetModelEClass = createEClass(READING_TARGET_MODEL);
 		createEAttribute(readingTargetModelEClass, READING_TARGET_MODEL__MODEL_NAME);
 
+		writingSourceModelEClass = createEClass(WRITING_SOURCE_MODEL);
+		createEAttribute(writingSourceModelEClass, WRITING_SOURCE_MODEL__MODEL_NAME);
+
 		lazyRuleWithFilterEClass = createEClass(LAZY_RULE_WITH_FILTER);
 
 		invalidRuleInheritanceEClass = createEClass(INVALID_RULE_INHERITANCE);
@@ -2373,6 +2402,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		changeSelectFirstForAnyEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverEmptySequenceEClass.getESuperTypes().add(this.getLocalProblem());
 		readingTargetModelEClass.getESuperTypes().add(this.getLocalProblem());
+		writingSourceModelEClass.getESuperTypes().add(this.getLocalProblem());
 		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
 		invalidRuleInheritanceEClass.getESuperTypes().add(this.getLocalProblem());
 		ambiguousTargetModelReferenceEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2563,6 +2593,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(readingTargetModelEClass, ReadingTargetModel.class, "ReadingTargetModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadingTargetModel_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, ReadingTargetModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(writingSourceModelEClass, WritingSourceModel.class, "WritingSourceModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getWritingSourceModel_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, WritingSourceModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(lazyRuleWithFilterEClass, LazyRuleWithFilter.class, "LazyRuleWithFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -2897,6 +2930,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Read access to target model",
 			 "text", "[DISABLE?] False positives when the same meta-model is used as source and target"
+		   });	
+		addAnnotation
+		  (writingSourceModelEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Creation of source elements",
+			 "text", "Source elements should not appear in the \'to\' part of rules\'"
 		   });	
 		addAnnotation
 		  (lazyRuleWithFilterEClass, 
@@ -3460,6 +3500,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "prec", "static",
 			 "path", "no",
 			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (writingSourceModelEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
 			 "when", "model-dep",
 			 "kind", "trafo-integrity",
 			 "phase", "typing",

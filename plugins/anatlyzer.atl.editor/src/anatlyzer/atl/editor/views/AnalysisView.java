@@ -17,6 +17,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDecorationContext;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -61,7 +62,12 @@ import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.ConflictingRules;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedComponentsAnalysis;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.CategoryNode;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.ConfirmedListNode;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.DiscardedListNode;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.GenericProblemNode;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.InvisibleTreeRoot;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.UnknownListNode;
+import anatlyzer.atl.editor.views.AnalysisViewNodes.WitnessRequiredListNode;
 import anatlyzer.atl.editor.views.TooltipSupport.ViewColumnViewerToolTipSupport;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -915,10 +921,26 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
+				ViewContentProvider v = (ViewContentProvider) viewer.getContentProvider();
 				viewer.refresh();
+				if ( v.invisibleRoot instanceof InvisibleTreeRoot ) {
+					InvisibleTreeRoot root = (InvisibleTreeRoot) v.invisibleRoot;
+					for(Object c : root.getChildren()) {
+						if ( c instanceof ConfirmedListNode ) {
+							viewer.expandToLevel(c, -1);
+						}
+//						new AnalysisViewBatchNodes(view).getRoot(this),
+//						new ConfirmedListNode(this),
+//						new WitnessRequiredListNode(this),
+//						new UnknownListNode(this),
+//						new DiscardedListNode(this)	
+				
+					}					
+				}
 			}
 		});		
 	}
+
 	
 	@Override
 	public void analysisRegistered(IResource r, AnalysisResult result, AnalysisResult previous) {
@@ -1043,7 +1065,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	@Override
 	public void refresh() {
-		viewer.refresh();
+		viewer.refresh();		
 	}
 
 	

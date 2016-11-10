@@ -253,6 +253,14 @@
             detector="anatlyzer.atl.editor.quickfix.kinds.RuleConflictQuickfixSet">
       </quickfixset>
    </extension>
+   <extension
+         id="anatlyzer.atl.editor.quickfix.kinds.InvalidArgumentQuickfixSet"
+         name="Quickfixes for &quot;Invalid argument&quot;"
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfixset
+            detector="anatlyzer.atl.editor.quickfix.kinds.InvalidArgumentQuickfixSet">
+      </quickfixset>
+   </extension>
    
    <extension
          point="anatlyzer.atl.editor.quickfix">
@@ -370,6 +378,15 @@
        point="anatlyzer.atl.editor.quickassist">
     <quickassistset
           detector="anatlyzer.atl.editor.quickassist.kinds.VariableDeclarationSet">
+    </quickassistset>
+ </extension>
+
+ <extension
+       id="anatlyzer.atl.editor.quickassist.choosers.OclModelElement_ChooseSubclass"
+       name="Quick assists to choose a subclass or superclass"
+       point="anatlyzer.atl.editor.quickassist">
+    <quickassistset
+          detector="anatlyzer.atl.editor.quickassist.choosers.OclModelElement_ChooseSubclass">
     </quickassistset>
  </extension>
 

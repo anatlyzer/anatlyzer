@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getElement <em>Element</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getDisplayedElement <em>Displayed Element</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getMissing <em>Missing</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.LocalProblem#getRecovery <em>Recovery</em>}</li>
  * </ul>
@@ -105,6 +106,32 @@ public interface LocalProblem extends Problem {
 	 * @generated
 	 */
 	void setElement(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Displayed Element</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Displayed Element</em>' reference.
+	 * @see #setDisplayedElement(EObject)
+	 * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getLocalProblem_DisplayedElement()
+	 * @model
+	 * @generated
+	 */
+	EObject getDisplayedElement();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getDisplayedElement <em>Displayed Element</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Displayed Element</em>' reference.
+	 * @see #getDisplayedElement()
+	 * @generated
+	 */
+	void setDisplayedElement(EObject value);
 
 	/**
 	 * Returns the value of the '<em><b>Missing</b></em>' attribute.

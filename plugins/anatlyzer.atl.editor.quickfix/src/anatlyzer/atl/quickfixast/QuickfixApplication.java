@@ -2,6 +2,7 @@ package anatlyzer.atl.quickfixast;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -124,13 +125,18 @@ public class QuickfixApplication {
 
 	@SuppressWarnings("unchecked")
 	public void putIn(EObject receptor, EReference feature, Supplier<? extends EObject> creator) {
-		EObject newObj= creator.get();
+		EObject newObj = creator.get();
+		EObject anchor = null;
 		if ( feature.isMany() ) {
-			((List<EObject>) receptor.eGet(feature)).add(newObj);
+			List<EObject> list = ((List<EObject>) receptor.eGet(feature));
+			if ( list.size() > 0 ) {
+				anchor = list.get(list.size() - 1);
+			}
+			list.add(newObj);
 		} else {
 			receptor.eSet(feature, newObj);
 		}
-		actions.add(new PutInAction(receptor, feature, newObj));
+		actions.add(new PutInAction(receptor, feature, newObj, anchor));
 	}
 
 
@@ -349,11 +355,13 @@ public class QuickfixApplication {
 
 		private EObject receptor;
 		private EReference feature;
+		private EObject anchor;
 
-		public PutInAction(EObject receptor, EReference feature, EObject newObj) {
+		public PutInAction(EObject receptor, EReference feature, EObject newObj, EObject anchor) {
 			super(newObj, new Trace());
 			this.receptor = receptor;
 			this.feature = feature;
+			this.anchor = anchor;
 		}
 		
 		public EObject getReceptor() {
@@ -366,6 +374,11 @@ public class QuickfixApplication {
 		
 		@SuppressWarnings("unchecked")
 		public Action toMockReplacement() {
+			if ( anchor != null ) {
+				return new InsertAfterAction(anchor, this.tgt);
+			}
+			
+			
 			Trace mockTrace = new Trace();
 			EList<EReference> refs = receptor.eClass().getEAllReferences();
 			for (EReference ref : refs) {

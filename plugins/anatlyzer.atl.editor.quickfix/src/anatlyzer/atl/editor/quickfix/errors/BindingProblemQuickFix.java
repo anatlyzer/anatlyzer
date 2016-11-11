@@ -168,7 +168,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 					select.setName("reject");
 				
 				Iterator it = OCLFactory.eINSTANCE.createIterator();
-				it.setVarName(ASTUtils.getNiceIteratorName(original.getInferredType()));
+				it.setVarName(ASTUtils.getNiceIteratorName(b, original.getInferredType()));
 				select.getIterators().add(it);
 				select.setSource(original);
 				
@@ -233,7 +233,11 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		};
 		
 		if ( orderedTypes.size() == 1 && involvedRules.stream().allMatch(r -> r.getInPattern().getFilter() == null) ) {
-			return genCondition.apply(orderedTypes.get(0));
+			OclExpression exp = genCondition.apply(orderedTypes.get(0));
+			if ( selectResolvedElements == false ) {
+				exp = ASTUtils.negate(exp);
+			}
+			return exp;
 		}
 
 		return ASTUtils.generateNestedIfs(orderedTypes,

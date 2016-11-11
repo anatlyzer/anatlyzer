@@ -149,6 +149,15 @@ public interface IdeErrorPackage extends EPackage {
 	int COULD_NOT_LOAD_METAMODEL__ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COULD_NOT_LOAD_METAMODEL__DISPLAYED_ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -284,6 +293,15 @@ public interface IdeErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRECONDITION_PARSE_ERROR__ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__DISPLAYED_ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.

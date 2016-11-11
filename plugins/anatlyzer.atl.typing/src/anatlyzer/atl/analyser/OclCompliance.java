@@ -31,6 +31,7 @@ import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
@@ -65,6 +66,16 @@ public class OclCompliance extends AbstractAnalyserVisitor {
 		// in ocl:  aCollection->isEmpty()
 		if ( t instanceof CollectionType && !self.getOperationName().equals("debug" )) {
 			errors().signalOperationOverCollectionType(self);
+		}
+	}
+	
+	@Override
+	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
+		if ( self.getOperationName().equals("at") && self.getArguments().size() > 0 && self.getArguments().get(0) instanceof IntegerExp ) {
+			IntegerExp exp = (IntegerExp) self.getArguments().get(0);
+			if ( exp.getIntegerSymbol() == 0 ) {
+				errors().signalInvalidArgument("at", "Indexes in 'at' start in 1, but not 0", self);
+			}
 		}
 	}
 	

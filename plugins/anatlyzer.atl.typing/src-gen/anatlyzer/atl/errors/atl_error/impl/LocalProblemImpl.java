@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getFileLocation <em>File Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getElement <em>Element</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getDisplayedElement <em>Displayed Element</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getMissing <em>Missing</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.LocalProblemImpl#getRecovery <em>Recovery</em>}</li>
  * </ul>
@@ -85,6 +86,16 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 	 * @ordered
 	 */
 	protected EObject element;
+
+	/**
+	 * The cached value of the '{@link #getDisplayedElement() <em>Displayed Element</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDisplayedElement()
+	 * @generated
+	 * @ordered
+	 */
+	protected EObject displayedElement;
 
 	/**
 	 * The default value of the '{@link #getMissing() <em>Missing</em>}' attribute.
@@ -220,6 +231,44 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EObject getDisplayedElement() {
+		if (displayedElement != null && displayedElement.eIsProxy()) {
+			InternalEObject oldDisplayedElement = (InternalEObject)displayedElement;
+			displayedElement = eResolveProxy(oldDisplayedElement);
+			if (displayedElement != oldDisplayedElement) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT, oldDisplayedElement, displayedElement));
+			}
+		}
+		return displayedElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject basicGetDisplayedElement() {
+		return displayedElement;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDisplayedElement(EObject newDisplayedElement) {
+		EObject oldDisplayedElement = displayedElement;
+		displayedElement = newDisplayedElement;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT, oldDisplayedElement, displayedElement));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object getMissing() {
 		return missing;
 	}
@@ -308,6 +357,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				if (resolve) return getElement();
 				return basicGetElement();
+			case AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT:
+				if (resolve) return getDisplayedElement();
+				return basicGetDisplayedElement();
 			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
 				return getMissing();
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:
@@ -332,6 +384,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)newValue);
+				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT:
+				setDisplayedElement((EObject)newValue);
 				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
 				setMissing(newValue);
@@ -360,6 +415,9 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				setElement((EObject)null);
 				return;
+			case AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT:
+				setDisplayedElement((EObject)null);
+				return;
 			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
 				setMissing(MISSING_EDEFAULT);
 				return;
@@ -384,6 +442,8 @@ public abstract class LocalProblemImpl extends ProblemImpl implements LocalProbl
 				return FILE_LOCATION_EDEFAULT == null ? fileLocation != null : !FILE_LOCATION_EDEFAULT.equals(fileLocation);
 			case AtlErrorPackage.LOCAL_PROBLEM__ELEMENT:
 				return element != null;
+			case AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT:
+				return displayedElement != null;
 			case AtlErrorPackage.LOCAL_PROBLEM__MISSING:
 				return MISSING_EDEFAULT == null ? missing != null : !MISSING_EDEFAULT.equals(missing);
 			case AtlErrorPackage.LOCAL_PROBLEM__RECOVERY:

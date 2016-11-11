@@ -46,12 +46,15 @@ public class InDocumentSerializer extends ATLSerializer {
 		
 		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
 		try {
-			for(Action a : qfa.getActions()) {
-				if ( a instanceof PutInAction ) {
-					a = ((PutInAction) a).toMockReplacement();
-				} else if ( a instanceof DeleteAction ) {
+			for(Action original : qfa.getActions()) {
+				Action a = null;
+				if ( original instanceof PutInAction ) {
+					a = ((PutInAction) original).toMockReplacement();
+				} else if ( original instanceof DeleteAction ) {
 					// This is only an easy way to do this, but it is not able to preserve the layout
-					a = ((DeleteAction) a).toMockReplacement();					
+					a = ((DeleteAction) original).toMockReplacement();					
+				} else {
+					a = original;
 				}
 	
 				this.currentAction = a;
@@ -91,8 +94,12 @@ public class InDocumentSerializer extends ATLSerializer {
 					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
 					start  = offsets[1];
 					length = 0;
-					// By default, add a carriage return...
-					s = "\n\n" + s;
+					if ( a.getTgt() instanceof Binding ) {
+						// For bindings do nothing, inBinding overriding takes care
+					} else {
+						// By default, add a carriage return to other elements
+						s = "\n\n" + s;
+					}
 				} else {
 					throw new UnsupportedOperationException();
 				}
@@ -141,6 +148,21 @@ public class InDocumentSerializer extends ATLSerializer {
 		
 	}
 
+	@Override
+	public void inBinding(Binding self) {
+		if ( currentAction.getTgt() == self ) {
+			int idx = self.getOutPatternElement().getBindings().indexOf(self);
+			if ( idx > 0 && idx == self.getOutPatternElement().getBindings().size() - 1 ) {
+				Binding previousBinding = self.getOutPatternElement().getBindings().get(idx - 1);
+				String indent = getIndent(previousBinding);
+				s(", " + cr() + indent + self.getPropertyName() + " <- " + g(self.getValue()));
+			} else 
+				s(cr() + genTab() + self.getPropertyName() + " <- " + g(self.getValue()) + ", ");
+		} else {
+			super.inBinding(self);
+		}
+	}
+	
 	/*
 	@Override
 	public void inModule(Module self) {
@@ -439,12 +461,34 @@ public class InDocumentSerializer extends ATLSerializer {
 		
 	}
 
+	protected String getIndent(LocatedElement l) {
+		int[] offsets = help.getIndexChar(l.getLocation());
+		IRegion r;
+		try {
+			r = document.getLineInformationOfOffset(offsets[0]);
+			String lineInitial = document.get(r.getOffset(),offsets[0] - r.getOffset());
+			if ( lineInitial.matches("\\s+") ) {
+				return lineInitial;
+			}
+			return "";
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+			return "";
+		}
+	}
+	
 	@Override
 	protected String g(EObject obj) {
 		if ( currentAction.getTrace().isPreserved(obj)  ){
 			LocatedElement l = (LocatedElement) obj;
 			int[] offsets = help.getIndexChar(l.getLocation());
 			try {
+				// int line = document.getLineOfOffset(offsets[0]);
+				IRegion r = document.getLineInformationOfOffset(offsets[0]);
+				String lineInitial = document.get(r.getOffset(),offsets[0] - r.getOffset());
+				if ( lineInitial.matches("\\s+") ) {
+					return lineInitial + document.get(offsets[0], offsets[1] - offsets[0]);
+				}
 				return document.get(offsets[0], offsets[1] - offsets[0]);
 			} catch (BadLocationException e) {
 				e.printStackTrace();

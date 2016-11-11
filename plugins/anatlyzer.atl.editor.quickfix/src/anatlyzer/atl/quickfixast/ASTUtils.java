@@ -35,6 +35,7 @@ import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -455,14 +456,25 @@ public class ASTUtils {
 		return classes;
 	}
 
-	public static String getNiceIteratorName(Type sourceObjectType) {
+	public static String getNiceIteratorName(LocatedElement scope, Type sourceObjectType) {
+		final String result;
 		try {
 			// TODO: Somehow check other variable names in the same scope
 			Type t = TypeUtils.getUnderlyingType(sourceObjectType);
-			if ( t instanceof IntegerType ) return "i"; 
-			if ( t instanceof StringType ) return "str";
-			if ( t instanceof Metaclass ) {
-				return ((Metaclass) t).getName().substring(0, 1).toLowerCase();
+			if ( t instanceof IntegerType ) result = "i"; 
+			else if ( t instanceof StringType ) result = "str";
+			else if ( t instanceof Metaclass ) {
+				result = ((Metaclass) t).getName().substring(0, 1).toLowerCase();
+			} else {
+				result = "v";
+			}
+			
+			boolean found = ATLUtils.findElement(ATLUtils.getContainer(scope, ModuleElement.class), (obj) -> {
+				return (obj instanceof VariableDeclaration) && ((VariableDeclaration) obj).getVarName().equals(result);
+			}) != null;
+			
+			if ( found ) {
+				return "v" + result;
 			}
 		} catch ( Exception e ) {
 			// fallback, return a default value

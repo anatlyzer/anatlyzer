@@ -151,13 +151,22 @@ public interface AtlErrorPackage extends EPackage {
 	int LOCAL_PROBLEM__ELEMENT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCAL_PROBLEM__DISPLAYED_ELEMENT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM__MISSING = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 3;
+	int LOCAL_PROBLEM__MISSING = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
@@ -166,7 +175,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM__RECOVERY = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 4;
+	int LOCAL_PROBLEM__RECOVERY = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Local Problem</em>' class.
@@ -175,7 +184,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_PROBLEM_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 5;
+	int LOCAL_PROBLEM_FEATURE_COUNT = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Local Problem</em>' class.
@@ -834,6 +843,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OCL_COMPLIANCE_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_COMPLIANCE_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -949,6 +967,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -1068,6 +1095,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1183,6 +1219,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int TARGET_MODEL_CONFORMANCE_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGET_MODEL_CONFORMANCE_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -1462,6 +1507,15 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_BINDING_FOR_COMPULSORY_FEATURE__ELEMENT = TARGET_MODEL_CONFORMANCE_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__DISPLAYED_ELEMENT = TARGET_MODEL_CONFORMANCE_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1615,6 +1669,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1760,6 +1823,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ASSIGNMENT_IMPERATIVE_BINDING__ELEMENT = BINDING_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ASSIGNMENT_IMPERATIVE_BINDING__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1893,6 +1965,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_POSSIBLY_UNRESOLVED__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -2093,6 +2174,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITHOUT_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2271,6 +2361,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -2453,6 +2552,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2604,6 +2712,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -2777,6 +2894,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__DISPLAYED_ELEMENT = OPERATION_CALL_INVALID__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2946,6 +3072,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_FOUND_IN_SUBTYPE__ELEMENT = OPERATION_NOT_FOUND__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FOUND_IN_SUBTYPE__DISPLAYED_ELEMENT = OPERATION_NOT_FOUND__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -3173,6 +3308,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_FOUND_IN_SUBTYPE__ELEMENT = FEATURE_NOT_FOUND__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__DISPLAYED_ELEMENT = FEATURE_NOT_FOUND__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3374,6 +3518,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ACCESS_TO_UNDEFINED_VALUE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3499,6 +3652,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -3754,6 +3916,15 @@ public interface AtlErrorPackage extends EPackage {
 	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3869,6 +4040,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_ACCESS_IN_COLLECTION__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -3997,6 +4177,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_OVER_COLLECTION_TYPE__ELEMENT = OCL_COMPLIANCE_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DISPLAYED_ELEMENT = OCL_COMPLIANCE_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4112,6 +4301,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__DISPLAYED_ELEMENT = OPERATION_CALL_INVALID__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -4283,6 +4481,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_PARAMETER__ELEMENT = OPERATION_CALL_INVALID__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__DISPLAYED_ELEMENT = OPERATION_CALL_INVALID__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -4465,6 +4672,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND_IN_THIS_MODULE__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4600,6 +4816,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4726,6 +4951,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND_IN_UNION_TYPE__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4850,6 +5084,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INVALID_OPERATOR__ELEMENT = INVALID_ARGUMENT_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR__DISPLAYED_ELEMENT = INVALID_ARGUMENT_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -4987,6 +5230,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_OPERAND__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5120,6 +5372,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -5257,6 +5518,15 @@ public interface AtlErrorPackage extends EPackage {
 	int DIFFERENT_BRANCH_TYPES__ELEMENT = NAVIGATION_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENT_BRANCH_TYPES__DISPLAYED_ELEMENT = NAVIGATION_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5392,6 +5662,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5517,6 +5796,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSIGNMENT_TO_READONLY_FEATURE__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNMENT_TO_READONLY_FEATURE__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -5654,6 +5942,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__ELEMENT = BINDING_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5787,6 +6084,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -5924,6 +6230,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__ELEMENT = BINDING_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6057,6 +6372,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -6329,6 +6653,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_WITHOUT_RULE__ELEMENT = RESOLVE_TEMP_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_WITHOUT_RULE__DISPLAYED_ELEMENT = RESOLVE_TEMP_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6463,6 +6796,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__ELEMENT = RESOLVE_TEMP_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__DISPLAYED_ELEMENT = RESOLVE_TEMP_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -6654,6 +6996,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__ELEMENT = RESOLVE_TEMP_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__DISPLAYED_ELEMENT = RESOLVE_TEMP_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6789,6 +7140,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FLATTEN_OVER_NON_NESTED_COLLECTION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLATTEN_OVER_NON_NESTED_COLLECTION__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6904,6 +7264,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CHANGE_SELECT_FIRST_FOR_ANY__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -7023,6 +7392,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_EMPTY_SEQUENCE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_EMPTY_SEQUENCE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7138,6 +7516,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int READING_TARGET_MODEL__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READING_TARGET_MODEL__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -7276,6 +7663,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRITING_SOURCE_MODEL__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRITING_SOURCE_MODEL__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7400,6 +7796,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int LAZY_RULE_WITH_FILTER__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -7529,6 +7934,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_RULE_INHERITANCE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_RULE_INHERITANCE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7653,6 +8067,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int AMBIGUOUS_TARGET_MODEL_REFERENCE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -7781,6 +8204,15 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_MODEL_FOUND__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_MODEL_FOUND__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7905,6 +8337,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_ENUM_LITERAL__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_ENUM_LITERAL__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -8033,6 +8474,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRONG_TYPE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRONG_TYPE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8150,6 +8600,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_BODY_WRONG_TYPE__ELEMENT = WRONG_TYPE__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_BODY_WRONG_TYPE__DISPLAYED_ELEMENT = WRONG_TYPE__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8265,6 +8724,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -8394,6 +8862,15 @@ public interface AtlErrorPackage extends EPackage {
 	int MATCHED_RULE_FILTER_NON_BOOLEAN__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_FILTER_NON_BOOLEAN__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8511,6 +8988,15 @@ public interface AtlErrorPackage extends EPackage {
 	int EXPECTED_COLLECTION_IN_FOR_EACH__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPECTED_COLLECTION_IN_FOR_EACH__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8626,6 +9112,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CLASS_FOUND_IN_METAMODEL__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CLASS_FOUND_IN_METAMODEL__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -8754,6 +9249,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8869,6 +9373,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_NOT_FOUND__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_NOT_FOUND__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -8997,6 +9510,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_NO_COLLECTION_TYPE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9121,6 +9643,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -9258,6 +9789,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INCOHERENT_VARIABLE_DECLARATION__ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DISPLAYED_ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9391,6 +9931,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INCOHERENT_HELPER_RETURN_TYPE__ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__DISPLAYED_ELEMENT = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -9537,6 +10086,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_INPLACE_INVALID__ELEMENT = BINDING_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__DISPLAYED_ELEMENT = BINDING_PROBLEM__DISPLAYED_ELEMENT;
 
 	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
@@ -9694,6 +10252,15 @@ public interface AtlErrorPackage extends EPackage {
 	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__ELEMENT = LOCAL_PROBLEM__ELEMENT;
 
 	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
 	 * The feature id for the '<em><b>Missing</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9803,6 +10370,17 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLocalProblem_Element();
+
+	/**
+	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getDisplayedElement <em>Displayed Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Displayed Element</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.LocalProblem#getDisplayedElement()
+	 * @see #getLocalProblem()
+	 * @generated
+	 */
+	EReference getLocalProblem_DisplayedElement();
 
 	/**
 	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.LocalProblem#getMissing <em>Missing</em>}'.
@@ -11380,6 +11958,14 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LOCAL_PROBLEM__ELEMENT = eINSTANCE.getLocalProblem_Element();
+
+		/**
+		 * The meta object literal for the '<em><b>Displayed Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LOCAL_PROBLEM__DISPLAYED_ELEMENT = eINSTANCE.getLocalProblem_DisplayedElement();
 
 		/**
 		 * The meta object literal for the '<em><b>Missing</b></em>' attribute feature.

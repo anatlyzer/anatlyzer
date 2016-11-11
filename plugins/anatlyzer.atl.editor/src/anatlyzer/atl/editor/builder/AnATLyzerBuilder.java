@@ -39,6 +39,7 @@ import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.ui.configuration.ConfigurationReader;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.WorkspaceLogger;
@@ -400,7 +401,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		
 		
 		String description = ErrorUtils.getShortError(lp);
-		String location = lp.getLocation();
+		String location = lp.getDisplayedElement() != null ? ((LocatedElement) lp.getDisplayedElement()).getLocation() : lp.getLocation();
 		String[] parts = null; // 
 		
 		// Location may be null if there are some elements introduced

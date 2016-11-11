@@ -507,6 +507,7 @@ public class ErrorModel {
 	public void signalNoBindingForCompulsoryFeature(EStructuralFeature unboundCompulsoryFeature, OutPatternElement pe, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern subrule) {
 		NoBindingForCompulsoryFeature error = AtlErrorFactory.eINSTANCE.createNoBindingForCompulsoryFeature();
 		initProblem(error, pe);
+		error.setDisplayedElement(pe.getType());
 		error.setFeature(unboundCompulsoryFeature);
 		error.setFeatureName(unboundCompulsoryFeature.getName());
 		error.setKind(kind);

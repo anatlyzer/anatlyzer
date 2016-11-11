@@ -326,7 +326,8 @@ public class ATLSerializer extends AbstractVisitor {
 		}
 		
 		if ( l.size() > 0 ) {
-			s(s + "(" + cr() + join(l, "," + cr()) + cr() + ")");
+			// s(s + "(" + cr() + join(l, "," + cr()) + cr() + ")");
+			s(s + " (" + cr() + join(l, "") + cr() + ")");
 		} else {
 			s(s);
 		}
@@ -355,7 +356,16 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inBinding(Binding self) {
-		s(genTab() + self.getPropertyName() + " <- " + g(self.getValue()));
+		String separator = "";
+		String init = cr();
+		if ( self.getOutPatternElement().getBindings().indexOf(self) != self.getOutPatternElement().getBindings().size() - 1) {
+			separator = ",";
+		}
+		if ( self.getOutPatternElement().getBindings().indexOf(self) == 0 ) {
+			init = "";
+		}			
+		
+		s(init + genTab() + self.getPropertyName() + " <- " + g(self.getValue()) + separator);
 	}
 	
 	//
@@ -775,7 +785,7 @@ public class ATLSerializer extends AbstractVisitor {
 		return new ArrayList<String>();
 	}
 	
-	private String cr() {
+	protected String cr() {
 		return cr(1);
 	}
 	

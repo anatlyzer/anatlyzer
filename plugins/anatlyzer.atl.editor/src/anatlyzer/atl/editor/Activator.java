@@ -23,6 +23,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String ATL_WITNESSFINDER_EXTENSION_POINT = "anatlyzer.atl.editor.witnessfinder"; 
 	public static final String ATL_VIEW_ACTIONS_EXTENSION_POINT = "anatlyzer.atl.editor.views.additionalactions"; 
 	
+	public static final String ATL_EXPLANATION_FIX_DIALOG_EXTENSION_POINT = "anatlyzer.atl.editor.explanation_fixdialog"; 
 	
 	/**
 	 * The constructor

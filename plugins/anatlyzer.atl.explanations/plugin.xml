@@ -19,4 +19,13 @@
       </explanation>
    </extension>
 
+   <extension
+         id="anatlyzer.atl.explanations.errors.AccessToUndefinedValueExplanation"
+         name="Access to undefined value"
+         point="anatlyzer.atl.editor.problemexplanation">
+      <explanation
+            apply="anatlyzer.atl.explanations.errors.AccessToUndefinedValueExplanation">
+      </explanation>
+   </extension>
+
 </plugin>

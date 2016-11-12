@@ -1,8 +1,8 @@
 package anatlyzer.atl.editor.quickfix;
 
-import java.util.function.BiConsumer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
@@ -20,12 +20,16 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.editor.views.Images;
 import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.explanations.AtlProblemExplanation;
+import anatlyzer.atl.explanations.ExplanationFinder;
+import anatlyzer.atl.explanations.ExplanationWithFixesDialog;
 
 public class ProposalCategory implements ICompletionProposal, ICompletionProposalExtension6 {
 
@@ -40,17 +44,49 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 
 	@Override
 	public void apply(IDocument document) {
-		Problem p;
+
+		
 		try {
-			p = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
+			Problem p = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
 			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);			
-			if ( proposalCallback != null ) {
-				AtlProblemQuickfix qfx = proposalCallback.apply(p, analysisData);
-				qfx.apply(document);
+			
+			AtlProblemExplanation exp = ExplanationFinder.find(p, analysisData);
+			
+			if ( exp != null ) {
+				ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysisData) );
+				List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+				for (ICompletionProposal prop : quickfixes) {
+					quickfixesList.add((AtlProblemQuickfix) prop);
+				}
+				
+				Shell shell = Display.getCurrent().getActiveShell();
+				ExplanationWithFixesDialog dialog = new ExplanationWithFixesDialog(shell, exp, p, analysisData, quickfixesList);
+				dialog.open();
+				
+			} else {
+				if ( proposalCallback != null ) {
+					AtlProblemQuickfix qfx = proposalCallback.apply(p, analysisData);
+					if ( qfx != null )
+						qfx.apply(document);
+				}	
 			}
+			
+			// TODO: Check, if there is not fix dialog, fallback to default explanation...
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+
+//		Problem p;
+//		try {
+//			p = (Problem) marker.getAttribute(AnATLyzerBuilder.PROBLEM);
+//			AnalyserData analysisData = (AnalyserData) marker.getAttribute(AnATLyzerBuilder.ANALYSIS_DATA);			
+//			if ( proposalCallback != null ) {
+//				AtlProblemQuickfix qfx = proposalCallback.apply(p, analysisData);
+//				qfx.apply(document);
+//			}
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//		}
 	
 	}
 

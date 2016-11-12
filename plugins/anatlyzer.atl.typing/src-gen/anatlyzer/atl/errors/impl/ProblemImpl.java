@@ -14,12 +14,15 @@ import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -35,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#isNeedsCSP <em>Needs CSP</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getStatus <em>Status</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getIgnoredByUser <em>Ignored By User</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getData <em>Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -150,6 +154,16 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * @ordered
 	 */
 	protected Boolean ignoredByUser = IGNORED_BY_USER_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getData() <em>Data</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<String, Object> data;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -292,11 +306,25 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<String, Object> getData() {
+		if (data == null) {
+			data = new EcoreEMap<String,Object>(AnalysisResultPackage.Literals.STRING_TO_OBJECT_MAP, StringToObjectMapImpl.class, this, AnalysisResultPackage.PROBLEM__DATA);
+		}
+		return data;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case AnalysisResultPackage.PROBLEM__DEPENDENTS:
 				return ((InternalEList<?>)getDependents()).basicRemove(otherEnd, msgs);
+			case AnalysisResultPackage.PROBLEM__DATA:
+				return ((InternalEList<?>)getData()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -321,6 +349,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return getStatus();
 			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
 				return getIgnoredByUser();
+			case AnalysisResultPackage.PROBLEM__DATA:
+				if (coreType) return getData();
+				else return getData().map();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -353,6 +384,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
 				setIgnoredByUser((Boolean)newValue);
 				return;
+			case AnalysisResultPackage.PROBLEM__DATA:
+				((EStructuralFeature.Setting)getData()).set(newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -383,6 +417,9 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
 				setIgnoredByUser(IGNORED_BY_USER_EDEFAULT);
 				return;
+			case AnalysisResultPackage.PROBLEM__DATA:
+				getData().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -407,6 +444,8 @@ public abstract class ProblemImpl extends AnalysisInfoImpl implements Problem {
 				return status != STATUS_EDEFAULT;
 			case AnalysisResultPackage.PROBLEM__IGNORED_BY_USER:
 				return IGNORED_BY_USER_EDEFAULT == null ? ignoredByUser != null : !IGNORED_BY_USER_EDEFAULT.equals(ignoredByUser);
+			case AnalysisResultPackage.PROBLEM__DATA:
+				return data != null && !data.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

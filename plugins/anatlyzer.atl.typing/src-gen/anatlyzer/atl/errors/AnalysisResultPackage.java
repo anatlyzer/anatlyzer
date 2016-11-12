@@ -196,13 +196,22 @@ public interface AnalysisResultPackage extends EPackage {
 	int PROBLEM__IGNORED_BY_USER = ANALYSIS_INFO_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROBLEM__DATA = ANALYSIS_INFO_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Problem</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 6;
+	int PROBLEM_FEATURE_COUNT = ANALYSIS_INFO_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Problem</em>' class.
@@ -214,6 +223,52 @@ public interface AnalysisResultPackage extends EPackage {
 	int PROBLEM_OPERATION_COUNT = ANALYSIS_INFO_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.impl.StringToObjectMapImpl <em>String To Object Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.impl.StringToObjectMapImpl
+	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getStringToObjectMap()
+	 * @generated
+	 */
+	int STRING_TO_OBJECT_MAP = 3;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_OBJECT_MAP__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_OBJECT_MAP__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>String To Object Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_OBJECT_MAP_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>String To Object Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRING_TO_OBJECT_MAP_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.impl.BatchAnalysisImpl <em>Batch Analysis</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -221,7 +276,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getBatchAnalysis()
 	 * @generated
 	 */
-	int BATCH_ANALYSIS = 3;
+	int BATCH_ANALYSIS = 4;
 
 	/**
 	 * The number of structural features of the '<em>Batch Analysis</em>' class.
@@ -249,7 +304,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getRecovery()
 	 * @generated
 	 */
-	int RECOVERY = 4;
+	int RECOVERY = 5;
 
 	/**
 	 * The number of structural features of the '<em>Recovery</em>' class.
@@ -277,7 +332,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getProblemStatus()
 	 * @generated
 	 */
-	int PROBLEM_STATUS = 5;
+	int PROBLEM_STATUS = 6;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.SeverityKind <em>Severity Kind</em>}' enum.
@@ -287,7 +342,7 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getSeverityKind()
 	 * @generated
 	 */
-	int SEVERITY_KIND = 6;
+	int SEVERITY_KIND = 7;
 
 
 	/**
@@ -407,6 +462,51 @@ public interface AnalysisResultPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getProblem_IgnoredByUser();
+
+	/**
+	 * Returns the meta object for the map '{@link anatlyzer.atl.errors.Problem#getData <em>Data</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Data</em>'.
+	 * @see anatlyzer.atl.errors.Problem#getData()
+	 * @see #getProblem()
+	 * @generated
+	 */
+	EReference getProblem_Data();
+
+	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To Object Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>String To Object Map</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EString" keyRequired="true"
+	 *        valueDataType="org.eclipse.emf.ecore.EJavaObject" valueRequired="true"
+	 * @generated
+	 */
+	EClass getStringToObjectMap();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getStringToObjectMap()
+	 * @generated
+	 */
+	EAttribute getStringToObjectMap_Key();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getStringToObjectMap()
+	 * @generated
+	 */
+	EAttribute getStringToObjectMap_Value();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.BatchAnalysis <em>Batch Analysis</em>}'.
@@ -564,6 +664,40 @@ public interface AnalysisResultPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROBLEM__IGNORED_BY_USER = eINSTANCE.getProblem_IgnoredByUser();
+
+		/**
+		 * The meta object literal for the '<em><b>Data</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROBLEM__DATA = eINSTANCE.getProblem_Data();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.StringToObjectMapImpl <em>String To Object Map</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.impl.StringToObjectMapImpl
+		 * @see anatlyzer.atl.errors.impl.AnalysisResultPackageImpl#getStringToObjectMap()
+		 * @generated
+		 */
+		EClass STRING_TO_OBJECT_MAP = eINSTANCE.getStringToObjectMap();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_TO_OBJECT_MAP__KEY = eINSTANCE.getStringToObjectMap_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRING_TO_OBJECT_MAP__VALUE = eINSTANCE.getStringToObjectMap_Value();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.impl.BatchAnalysisImpl <em>Batch Analysis</em>}' class.

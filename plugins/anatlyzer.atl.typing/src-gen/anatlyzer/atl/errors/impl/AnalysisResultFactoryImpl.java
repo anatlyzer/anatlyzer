@@ -4,6 +4,7 @@ package anatlyzer.atl.errors.impl;
 
 import anatlyzer.atl.errors.*;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
@@ -58,6 +59,7 @@ public class AnalysisResultFactoryImpl extends EFactoryImpl implements AnalysisR
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case AnalysisResultPackage.ANALYSIS_RESULT: return createAnalysisResult();
+			case AnalysisResultPackage.STRING_TO_OBJECT_MAP: return (EObject)createStringToObjectMap();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -105,6 +107,16 @@ public class AnalysisResultFactoryImpl extends EFactoryImpl implements AnalysisR
 	public AnalysisResult createAnalysisResult() {
 		AnalysisResultImpl analysisResult = new AnalysisResultImpl();
 		return analysisResult;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, Object> createStringToObjectMap() {
+		StringToObjectMapImpl stringToObjectMap = new StringToObjectMapImpl();
+		return stringToObjectMap;
 	}
 
 	/**

@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Explanations of AnATLyzer problems
+Bundle-SymbolicName: anatlyzer.atl.explanations;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.atl.explanations.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ anatlyzer.atl.editor;bundle-version="0.3.5",
+ org.eclipse.jface.text;bundle-version="3.9.0",
+ org.eclipse.core.resources,
+ anatlyzer.atl.typing,
+ org.eclipse.emf.ecore.editor;bundle-version="2.10.1",
+ anatlyzer.use.witness
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

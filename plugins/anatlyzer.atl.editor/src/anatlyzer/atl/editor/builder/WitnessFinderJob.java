@@ -10,6 +10,7 @@ import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
 
@@ -34,6 +35,7 @@ public class WitnessFinderJob extends Job {
 			
 			if ( problem.getStatus() == ProblemStatus.WITNESS_REQUIRED ) {
 				ProblemStatus status = wf.catchInternalErrors(true).find(problem, data);
+				AnalyserUtils.setProblemWitnessModel(problem, wf.getFoundWitnessModel());
 				AnalysisIndex.getInstance().changeStatus(resource, problem, status);
 			}			
 		}		

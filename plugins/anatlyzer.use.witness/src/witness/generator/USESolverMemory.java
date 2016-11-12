@@ -146,7 +146,7 @@ public class USESolverMemory extends Solver_use {
 				
 				parseOutput2EmfIntoResource(metamodel, model);
 				
-				return new USEResult(outcomePair._1, outcomePair._2, model, scope);				
+				return new USEResult(outcomePair._1, outcomePair._2, new UseFoundWitnessModel(metamodel.eResource(), model), scope);				
 			} else if ( outcomePair != null ) {
 				return new USEResult(outcomePair._1, outcomePair._2, null, scope);								
 			} else {

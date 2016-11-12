@@ -36,6 +36,7 @@ import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
+import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.TypesFactory;
@@ -882,11 +883,17 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				break;
 			}
 			
+			if ( t instanceof TupleType ) {
+				// TODO: Try to resolve rules, but for the moment just return OclAny
+				selectedTypes.add(typ().newUnknownType());
+				break;
+			}
+			
 			if ( ! (t instanceof Metaclass) ) {
 				errorType = errors().signalInvalidArgument("ResolveTemp expects an object", "Expression type is " + TypeUtils.typeToString(t), self);				
 				break;
 			}
-			
+				
 			// This is similar to RuleAnalysis#analyseRuleResolution
 			Metaclass m = (Metaclass) t;
 			IClassNamespace ns = (IClassNamespace) m.getMetamodelRef();						

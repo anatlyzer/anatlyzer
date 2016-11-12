@@ -24,6 +24,7 @@ import anatlyzer.atl.errors.ide_error.IdeErrorPackage;
 import anatlyzer.atl.errors.ide_error.impl.IdeErrorPackageImpl;
 import anatlyzer.atl.types.TypesPackage;
 
+import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -59,6 +60,13 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * @generated
 	 */
 	private EClass problemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stringToObjectMapEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -267,6 +275,42 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getProblem_Data() {
+		return (EReference)problemEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStringToObjectMap() {
+		return stringToObjectMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringToObjectMap_Key() {
+		return (EAttribute)stringToObjectMapEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStringToObjectMap_Value() {
+		return (EAttribute)stringToObjectMapEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getBatchAnalysis() {
 		return batchAnalysisEClass;
 	}
@@ -339,6 +383,11 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		createEAttribute(problemEClass, PROBLEM__NEEDS_CSP);
 		createEAttribute(problemEClass, PROBLEM__STATUS);
 		createEAttribute(problemEClass, PROBLEM__IGNORED_BY_USER);
+		createEReference(problemEClass, PROBLEM__DATA);
+
+		stringToObjectMapEClass = createEClass(STRING_TO_OBJECT_MAP);
+		createEAttribute(stringToObjectMapEClass, STRING_TO_OBJECT_MAP__KEY);
+		createEAttribute(stringToObjectMapEClass, STRING_TO_OBJECT_MAP__VALUE);
 
 		batchAnalysisEClass = createEClass(BATCH_ANALYSIS);
 
@@ -403,6 +452,11 @@ public class AnalysisResultPackageImpl extends EPackageImpl implements AnalysisR
 		initEAttribute(getProblem_NeedsCSP(), ecorePackage.getEBoolean(), "needsCSP", "false", 0, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_Status(), this.getProblemStatus(), "status", null, 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProblem_IgnoredByUser(), ecorePackage.getEBooleanObject(), "ignoredByUser", "false", 1, 1, Problem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProblem_Data(), this.getStringToObjectMap(), null, "data", null, 0, -1, Problem.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stringToObjectMapEClass, Map.Entry.class, "StringToObjectMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStringToObjectMap_Key(), ecorePackage.getEString(), "key", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStringToObjectMap_Value(), ecorePackage.getEJavaObject(), "value", null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(batchAnalysisEClass, BatchAnalysis.class, "BatchAnalysis", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

@@ -20,4 +20,5 @@ Export-Package: anatlyzer.atl.witness,
  transML.utils,
  transML.utils.modeling,
  transML.utils.solver,
- witness.generator
+ witness.generator,
+ witness.visualizer

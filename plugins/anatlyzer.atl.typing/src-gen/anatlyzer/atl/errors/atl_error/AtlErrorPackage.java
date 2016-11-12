@@ -124,6 +124,15 @@ public interface AtlErrorPackage extends EPackage {
 	int LOCAL_PROBLEM__IGNORED_BY_USER = AnalysisResultPackage.PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOCAL_PROBLEM__DATA = AnalysisResultPackage.PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -816,6 +825,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OCL_COMPLIANCE_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OCL_COMPLIANCE_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -940,6 +958,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1068,6 +1095,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1192,6 +1228,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int TARGET_MODEL_CONFORMANCE_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TARGET_MODEL_CONFORMANCE_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -1480,6 +1525,15 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_BINDING_FOR_COMPULSORY_FEATURE__IGNORED_BY_USER = TARGET_MODEL_CONFORMANCE_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_BINDING_FOR_COMPULSORY_FEATURE__DATA = TARGET_MODEL_CONFORMANCE_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1642,6 +1696,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1796,6 +1859,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ASSIGNMENT_IMPERATIVE_BINDING__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ASSIGNMENT_IMPERATIVE_BINDING__DATA = BINDING_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1938,6 +2010,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_POSSIBLY_UNRESOLVED__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_POSSIBLY_UNRESOLVED__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2147,6 +2228,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_WITHOUT_RULE__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITHOUT_RULE__DATA = BINDING_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2334,6 +2424,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_WITH_RESOLVED_BY_INCOMPATIBLE_RULE__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2525,6 +2624,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2685,6 +2793,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID__DATA = NAVIGATION_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -2867,6 +2984,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND__IGNORED_BY_USER = OPERATION_CALL_INVALID__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND__DATA = OPERATION_CALL_INVALID__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3045,6 +3171,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_FOUND_IN_SUBTYPE__IGNORED_BY_USER = OPERATION_NOT_FOUND__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FOUND_IN_SUBTYPE__DATA = OPERATION_NOT_FOUND__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3281,6 +3416,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_FOUND_IN_SUBTYPE__IGNORED_BY_USER = FEATURE_NOT_FOUND__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_FOUND_IN_SUBTYPE__DATA = FEATURE_NOT_FOUND__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3491,6 +3635,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ACCESS_TO_UNDEFINED_VALUE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3625,6 +3778,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -3790,6 +3952,15 @@ public interface AtlErrorPackage extends EPackage {
 	int CONFLICTING_RULE_SET__IGNORED_BY_USER = AnalysisResultPackage.PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONFLICTING_RULE_SET__DATA = AnalysisResultPackage.PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3887,6 +4058,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR__DATA = NAVIGATION_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4013,6 +4193,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int FEATURE_ACCESS_IN_COLLECTION__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_ACCESS_IN_COLLECTION__DATA = NAVIGATION_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4150,6 +4339,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_OVER_COLLECTION_TYPE__IGNORED_BY_USER = OCL_COMPLIANCE_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OVER_COLLECTION_TYPE__DATA = OCL_COMPLIANCE_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4274,6 +4472,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__IGNORED_BY_USER = OPERATION_CALL_INVALID__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_NUMBER_OF_PARAMETERS__DATA = OPERATION_CALL_INVALID__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4454,6 +4661,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_INVALID_PARAMETER__IGNORED_BY_USER = OPERATION_CALL_INVALID__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_INVALID_PARAMETER__DATA = OPERATION_CALL_INVALID__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -4645,6 +4861,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OPERATION_NOT_FOUND_IN_THIS_MODULE__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_NOT_FOUND_IN_THIS_MODULE__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4789,6 +5014,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_NOT_FOUND_IN_THIS_MODULE__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4924,6 +5158,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FEATURE_NOT_FOUND_IN_UNION_TYPE__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_NOT_FOUND_IN_UNION_TYPE__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5057,6 +5300,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INVALID_OPERATOR__IGNORED_BY_USER = INVALID_ARGUMENT_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR__DATA = INVALID_ARGUMENT_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5203,6 +5455,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_OPERAND__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERAND__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5345,6 +5606,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CONTAINER_FOR_REF_IMMEDIATE_COMPOSITE__DATA = NAVIGATION_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5491,6 +5761,15 @@ public interface AtlErrorPackage extends EPackage {
 	int DIFFERENT_BRANCH_TYPES__IGNORED_BY_USER = NAVIGATION_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIFFERENT_BRANCH_TYPES__DATA = NAVIGATION_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5635,6 +5914,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5769,6 +6057,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSIGNMENT_TO_READONLY_FEATURE__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSIGNMENT_TO_READONLY_FEATURE__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -5915,6 +6212,15 @@ public interface AtlErrorPackage extends EPackage {
 	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_EXPECTED_ONE_ASSIGNED_MANY__DATA = BINDING_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6057,6 +6363,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_BUT_OBJECT_ASSIGNED__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6203,6 +6518,15 @@ public interface AtlErrorPackage extends EPackage {
 	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OBJECT_BINDING_BUT_PRIMITIVE_ASSIGNED__DATA = BINDING_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6345,6 +6669,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRIMITIVE_BINDING_INVALID_ASSIGNMENT__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6626,6 +6959,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_WITHOUT_RULE__IGNORED_BY_USER = RESOLVE_TEMP_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_WITHOUT_RULE__DATA = RESOLVE_TEMP_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6769,6 +7111,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__IGNORED_BY_USER = RESOLVE_TEMP_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_POSSIBLY_UNRESOLVED__DATA = RESOLVE_TEMP_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -6969,6 +7320,15 @@ public interface AtlErrorPackage extends EPackage {
 	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__IGNORED_BY_USER = RESOLVE_TEMP_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_OUTPUT_PATTERN_ELEMENT_NOT_FOUND__DATA = RESOLVE_TEMP_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7113,6 +7473,15 @@ public interface AtlErrorPackage extends EPackage {
 	int FLATTEN_OVER_NON_NESTED_COLLECTION__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLATTEN_OVER_NON_NESTED_COLLECTION__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7237,6 +7606,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CHANGE_SELECT_FIRST_FOR_ANY__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHANGE_SELECT_FIRST_FOR_ANY__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -7365,6 +7743,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_EMPTY_SEQUENCE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_EMPTY_SEQUENCE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7489,6 +7876,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int READING_TARGET_MODEL__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int READING_TARGET_MODEL__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -7636,6 +8032,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRITING_SOURCE_MODEL__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRITING_SOURCE_MODEL__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7769,6 +8174,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int LAZY_RULE_WITH_FILTER__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LAZY_RULE_WITH_FILTER__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -7907,6 +8321,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_RULE_INHERITANCE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_RULE_INHERITANCE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8040,6 +8463,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int AMBIGUOUS_TARGET_MODEL_REFERENCE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -8177,6 +8609,15 @@ public interface AtlErrorPackage extends EPackage {
 	int NO_MODEL_FOUND__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_MODEL_FOUND__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8310,6 +8751,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_ENUM_LITERAL__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_ENUM_LITERAL__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -8447,6 +8897,15 @@ public interface AtlErrorPackage extends EPackage {
 	int WRONG_TYPE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WRONG_TYPE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8573,6 +9032,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_BODY_WRONG_TYPE__IGNORED_BY_USER = WRONG_TYPE__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_BODY_WRONG_TYPE__DATA = WRONG_TYPE__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8697,6 +9165,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -8835,6 +9312,15 @@ public interface AtlErrorPackage extends EPackage {
 	int MATCHED_RULE_FILTER_NON_BOOLEAN__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MATCHED_RULE_FILTER_NON_BOOLEAN__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8961,6 +9447,15 @@ public interface AtlErrorPackage extends EPackage {
 	int EXPECTED_COLLECTION_IN_FOR_EACH__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXPECTED_COLLECTION_IN_FOR_EACH__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9085,6 +9580,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int NO_CLASS_FOUND_IN_METAMODEL__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NO_CLASS_FOUND_IN_METAMODEL__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -9222,6 +9726,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INVALID_ARGUMENT__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_ARGUMENT__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9346,6 +9859,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_NOT_FOUND__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_NOT_FOUND__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -9483,6 +10005,15 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_NO_COLLECTION_TYPE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_OVER_NO_COLLECTION_TYPE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9616,6 +10147,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -9762,6 +10302,15 @@ public interface AtlErrorPackage extends EPackage {
 	int INCOHERENT_VARIABLE_DECLARATION__IGNORED_BY_USER = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_VARIABLE_DECLARATION__DATA = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -9904,6 +10453,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int INCOHERENT_HELPER_RETURN_TYPE__IGNORED_BY_USER = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCOHERENT_HELPER_RETURN_TYPE__DATA = ABSTRACT_INCOHERENT_VARIABLE_DECLARATION__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -10059,6 +10617,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int BINDING_INPLACE_INVALID__IGNORED_BY_USER = BINDING_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BINDING_INPLACE_INVALID__DATA = BINDING_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -10223,6 +10790,15 @@ public interface AtlErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS__DATA = LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.

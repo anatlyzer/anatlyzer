@@ -1,5 +1,7 @@
 package anatlyzer.atl.witness;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
@@ -24,6 +26,8 @@ public interface IWitnessFinder {
 	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
 	public IWitnessFinder setTimeOut(long millis);
+	
+	public IWitnessModel getFoundWitnessModel();
 	
 	public static enum WitnessGenerationMode {
 		ERROR_PATH,

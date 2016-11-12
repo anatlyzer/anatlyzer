@@ -22,7 +22,15 @@ abstract class Problem extends AnalysisInfo {
 	attr ProblemStatus[1] status;
 
 	attr Boolean[1] ignoredByUser = false;
+
+	transient val StringToObjectMap[*] data;	
+ } 
+  
+class StringToObjectMap : java.util.Map$Entry {
+ 	attr String[1] key;
+ 	attr Object[1] value;  	
 }
+
 
 abstract class BatchAnalysis {
 		

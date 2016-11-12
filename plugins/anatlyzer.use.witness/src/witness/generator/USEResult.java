@@ -1,24 +1,23 @@
 package witness.generator;
 
 import kodkod.engine.Solution.Outcome;
-
-import org.eclipse.emf.ecore.resource.Resource;
+import anatlyzer.atl.witness.IWitnessModel;
 
 public class USEResult {
 	private int scope;
 	private Outcome outcome;
-	private Resource model;
+	private IWitnessModel model;
 	private boolean satisfyAllInvariants;
 	private long time = -1;
 	
-	public USEResult(Outcome outcome, boolean satisfyAllInvariants, Resource model, int defaultScope) {
+	public USEResult(Outcome outcome, boolean satisfyAllInvariants, IWitnessModel model, int defaultScope) {
 		this.outcome   = outcome;
 		this.satisfyAllInvariants = satisfyAllInvariants;
 		this.model = model;
 		this.scope = defaultScope;
 	}
 	
-	public Resource getModel() {
+	public IWitnessModel getModel() {
 		return model;
 	}
 	

@@ -3,6 +3,7 @@
 package anatlyzer.atl.errors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link anatlyzer.atl.errors.Problem#isNeedsCSP <em>Needs CSP</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getStatus <em>Status</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.Problem#getData <em>Data</em>}</li>
  * </ul>
  * </p>
  *
@@ -179,5 +181,22 @@ public interface Problem extends AnalysisInfo {
 	 * @generated
 	 */
 	void setIgnoredByUser(Boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Data</b></em>' map.
+	 * The key is of type {@link java.lang.String},
+	 * and the value is of type {@link java.lang.Object},
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Data</em>' map isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Data</em>' map.
+	 * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem_Data()
+	 * @model mapType="anatlyzer.atl.errors.StringToObjectMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EJavaObject>" transient="true"
+	 * @generated
+	 */
+	EMap<String, Object> getData();
 
 } // Problem

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import witness.visualizer.eclectic.idc.datatypes.JavaListConverter;
 import witness.visualizer.eclectic.modeling.emf.BasicEMFModel;
@@ -46,6 +47,11 @@ public class EMFModelPlantUMLSerializer {
 		this.model = loader.basicModelFromFile(metamodel, model);		
 	}
 
+	public EMFModelPlantUMLSerializer(EPackage metamodel, Resource model) throws IOException {
+		this.loader = new EMFLoader(new JavaListConverter());		
+		this.model = loader.basicModelFromMemory(metamodel, model);		
+	}
+	
 	public void generatePNG(String output) throws IOException {
 	    try {
 	    	OutputStream       png    = new FileOutputStream  (output);

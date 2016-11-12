@@ -122,6 +122,15 @@ public interface IdeErrorPackage extends EPackage {
 	int COULD_NOT_LOAD_METAMODEL__IGNORED_BY_USER = AtlErrorPackage.LOCAL_PROBLEM__IGNORED_BY_USER;
 
 	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COULD_NOT_LOAD_METAMODEL__DATA = AtlErrorPackage.LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -266,6 +275,15 @@ public interface IdeErrorPackage extends EPackage {
 	 * @ordered
 	 */
 	int PRECONDITION_PARSE_ERROR__IGNORED_BY_USER = AtlErrorPackage.LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PRECONDITION_PARSE_ERROR__DATA = AtlErrorPackage.LOCAL_PROBLEM__DATA;
 
 	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.

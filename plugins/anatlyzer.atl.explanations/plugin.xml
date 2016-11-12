@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="anatlyzer.atl.editor.problemexplanation.NoBindingForCompulsoryFeatureExplanation"
+         name="No binding for compulsory feature"
+         point="anatlyzer.atl.editor.problemexplanation">
+      <explanation
+            apply="anatlyzer.atl.explanations.errors.NoBindingForCompulsoryFeatureExplanation">
+      </explanation>
+   </extension>
+
+   <extension
+         id="anatlyzer.atl.explanations.errors.BindingPossiblyUnresolvedExplanation"
+         name="Binding possibly unresolved"
+         point="anatlyzer.atl.editor.problemexplanation">
+      <explanation
+            apply="anatlyzer.atl.explanations.errors.BindingPossiblyUnresolvedExplanation">
+      </explanation>
+   </extension>
+
+</plugin>

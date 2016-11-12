@@ -317,6 +317,16 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	@Override
+	public void beforeSimpleOutPatternElement(SimpleOutPatternElement self) {
+		inctab();
+	}
+	
+	@Override
+	public void afterSimpleInPatternElement(SimpleInPatternElement self) {
+		dectab();
+	}
+	
+	@Override
 	public void inSimpleOutPatternElement(SimpleOutPatternElement self) {
 		String s = self.getVarName() + " : " + g(self.getType());
 		
@@ -327,7 +337,7 @@ public class ATLSerializer extends AbstractVisitor {
 		
 		if ( l.size() > 0 ) {
 			// s(s + "(" + cr() + join(l, "," + cr()) + cr() + ")");
-			s(s + " (" + cr() + join(l, "") + cr() + ")");
+			s(s + " (" + cr() + join(l, "") + cr() + genTab() + ")");
 		} else {
 			s(s);
 		}

@@ -40,6 +40,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/needsCSP"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/status"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//Problem/ignoredByUser"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//Problem/data"/>
+    </genClasses>
+    <genClasses ecoreClass="errors.ecore#//StringToObjectMap">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//StringToObjectMap/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//StringToObjectMap/value"/>
     </genClasses>
     <genClasses image="false" ecoreClass="errors.ecore#//BatchAnalysis"/>
     <genClasses image="false" ecoreClass="errors.ecore#//Recovery"/>

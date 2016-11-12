@@ -29,6 +29,7 @@ public class Images {
 
 	public static final ImageDescriptor ignore_problem_16x16;
 	public static final ImageDescriptor timeout_16x16;
+	public static final ImageDescriptor explanation_16x16;
 
 	
 	static {
@@ -56,6 +57,8 @@ public class Images {
 
 		ignore_problem_16x16 = Activator.getImageDescriptor("icons/jdt/warning_alt_obj.gif");
 		timeout_16x16 = Activator.getImageDescriptor("icons/timeout_16x16.gif");		
+
+		explanation_16x16 = Activator.getImageDescriptor("icons/explanation_16x16.png");		
 
 	}
 }

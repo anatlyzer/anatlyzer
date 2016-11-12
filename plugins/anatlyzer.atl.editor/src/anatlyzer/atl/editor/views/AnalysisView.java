@@ -586,7 +586,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		// manager.add(runSpeculativeQuickfixDialog);
 		manager.add(runQuickfixDialog);		
 		addExtensionActions(manager);
-		drillDownAdapter.addNavigationActions(manager);
+		// drillDownAdapter.addNavigationActions(manager);
 		
 		/*
 		manager.add(runAnalyserAction);
@@ -651,6 +651,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 						AnalysisIndex.getInstance().changeStatus(currentResource, lpn.p, status);
 						viewer.refresh(lpn); //, true);
 						
+						AnalyserUtils.setProblemWitnessModel(lpn.p, wf.getFoundWitnessModel());
 					}
 				}
 				else if ( selection != null && ( selection.getFirstElement() instanceof GenericProblemNode )) {
@@ -659,6 +660,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 					IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(getAnalysisConfiguration());
 					if ( wf != null ) {
 						ProblemStatus status = wf.find(lpn.p, currentAnalysis);
+						AnalyserUtils.setProblemWitnessModel(lpn.p, wf.getFoundWitnessModel());
 						// This is to update the markers, no matter it is in continuous mode or not
 						AnalysisIndex.getInstance().changeStatus(currentResource, lpn.p, status);
 						viewer.refresh();

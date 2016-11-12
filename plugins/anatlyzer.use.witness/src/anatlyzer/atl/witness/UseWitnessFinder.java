@@ -68,6 +68,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private int foundScope;
 	private IScopeCalculator scopeCalculator;
 	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
+	private IWitnessModel foundModel;
 
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -353,12 +354,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 
 	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, boolean isRetry) {
+		this.foundScope = -1;
+		this.foundModel = null;
 		try {
 			USEResult result = generator.generate(isRetry);
 			if ( result.isDiscarded() ) {
 				return ProblemStatus.ERROR_DISCARDED;
 			} else if ( result.isSatisfiable() ){
 				this.foundScope = generator.getFoundScope();
+				this.foundModel = result.getModel();
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;
@@ -460,4 +464,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return effective;
 	}
 
+	@Override
+	public IWitnessModel getFoundWitnessModel() {
+		return foundModel;
+	}
 }

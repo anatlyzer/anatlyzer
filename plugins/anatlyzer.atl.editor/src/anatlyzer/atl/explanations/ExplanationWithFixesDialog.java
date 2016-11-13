@@ -7,10 +7,12 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -45,32 +47,41 @@ public class ExplanationWithFixesDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
+		container.setLayout(new GridLayout(1, false));
 		
 		SashForm sashForm = new SashForm(container, SWT.VERTICAL);
 		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		sashForm.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_GRAY));
+		sashForm.setSashWidth(5);
 		
 		Composite explanationComposite = new Composite(sashForm, SWT.BORDER);
-		explanationComposite.setLayout(new GridLayout(1, false));
+		// explanationComposite.setLayout(new GridLayout(1, false));
+		explanationComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		Composite fixComposite = new Composite(sashForm, SWT.BORDER);
-		fixComposite.setLayout(new GridLayout(1, false));
+		//fixComposite.setLayout(new GridLayout(1, false));
+		fixComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		ExplanationComposite composite = new ExplanationComposite(explanationComposite, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+//		// composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+//		
 		composite.setExplanation(explanation);
 		
 		initFixComposite(fixComposite);
-		sashForm.setWeights(new int[] {2, 4});
+//		Composite c = new Composite(fixComposite, SWT.NONE);
+//		c.setLayout(new GridLayout(1, false));
+//		Label l = new Label(c, SWT.NONE);
+//		l.setText("------");
+//		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		sashForm.setWeights(new int[] {1, 2});
 		
 		return container;
 	}
 
 	private void initFixComposite(Composite fixComposite) {
 		IExplanationFixDialog fixPart = ExplanationFinder.findExplanationFixDialog();
-		Composite f = fixPart.create(fixComposite, result, problem, quickfixes);
-		f.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		fixPart.create(fixComposite, result, problem, quickfixes);
+		//f.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 	}
 
 	/**

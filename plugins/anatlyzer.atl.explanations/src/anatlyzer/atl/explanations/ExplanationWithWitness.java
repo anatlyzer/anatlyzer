@@ -24,7 +24,10 @@ public abstract class ExplanationWithWitness extends AbstractAtlExplanation {
 		Label l = new Label(composite, SWT.NONE);
 		
 		IWitnessModel witness = AnalyserUtils.getProblemWitnessModel(getProblem());
-
+		if (witness == null ) {
+			l.setText("Could not compute witness. Try again, please.");
+			return;
+		}
 		// TODO: This is not very clean since here we depend directly from this plugin. There should be extension points for this kind of visualizations.
 		try {
 			// Do this in the proper place...

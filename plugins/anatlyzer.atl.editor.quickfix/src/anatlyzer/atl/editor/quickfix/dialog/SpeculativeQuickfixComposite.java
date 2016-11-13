@@ -98,7 +98,7 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 //		container.setLayout(new GridLayout(1, false));
 //		container.setSize(800, 600);
 		
-		sashForm = new SashForm(container, SWT.NONE);
+		sashForm = new SashForm(this, SWT.NONE);
 		sashForm.setSashWidth(5);
 		sashForm.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		

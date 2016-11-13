@@ -366,6 +366,11 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inBinding(Binding self) {
+		if ( self.getOutPatternElement() == null ) { // this may happen in speculative quick fixes when "Remove binding" is applied
+			s(genTab() + self.getPropertyName() + " <- " + g(self.getValue()));
+			return;
+		}
+		
 		String separator = "";
 		String init = cr();
 		if ( self.getOutPatternElement().getBindings().indexOf(self) != self.getOutPatternElement().getBindings().size() - 1) {

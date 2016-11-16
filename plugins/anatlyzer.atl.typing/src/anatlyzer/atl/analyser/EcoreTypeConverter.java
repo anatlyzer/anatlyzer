@@ -95,7 +95,14 @@ public class EcoreTypeConverter {
 		} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real")) {
 			return typ.newFloatType();
 		}
-		throw new UnsupportedOperationException(getClass().getSimpleName() + ":" + "Type [" + c.getName() + "] not supported");
+	
+		// TODO: Create a custom data type...
+		// For the moment heuristics... like
+//		if ( c.getName().toLowerCase().contains("size") ) 
+//			return typ.newIntegerType();
+		System.out.println(getClass().getSimpleName() + ":" + "Type [" + c.getName() + "] not supported");
+		return typ.newStringType();
+		// throw new UnsupportedOperationException(getClass().getSimpleName() + ":" + "Type [" + c.getName() + "] not supported");
 	}
 
 	private Type convertEEnum(EEnum c) {

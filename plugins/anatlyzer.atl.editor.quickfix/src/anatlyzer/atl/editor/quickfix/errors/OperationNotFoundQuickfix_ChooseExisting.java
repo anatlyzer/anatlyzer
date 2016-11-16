@@ -100,7 +100,7 @@ public class OperationNotFoundQuickfix_ChooseExisting extends OperationNotFoundA
 	@Override
 	public String getDisplayString() {
 		OperationCallExp res = (OperationCallExp) this.getProblematicElement();
-		return "Operation "+res.getOperationName()+" not found, replace by "+this.getClosest();
+		return "Replace by "+this.getClosest();
 	}
 	
 	@Override

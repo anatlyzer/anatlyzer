@@ -11,13 +11,17 @@ import anatlyzer.atl.explanations.IExplanationFixDialog;
 
 public class ExplanationFixComposite implements IExplanationFixDialog {
 
-	public ExplanationFixComposite() {
-		// TODO Auto-generated constructor stub
-	}
+	private SpeculativeQuickfixComposite composite;
 
 	@Override
 	public Composite create(Composite composite, AnalysisResult r, Problem p, List<AtlProblemQuickfix> quickfixes) {
-		return new SpeculativeQuickfixComposite(composite, r, p, quickfixes);
+		this.composite = new SpeculativeQuickfixComposite(composite, r, p, quickfixes);
+		return composite;
+	}
+	
+	@Override
+	public AtlProblemQuickfix getSelectedQuickfix() {
+		return composite.getSelected();
 	}
 
 }

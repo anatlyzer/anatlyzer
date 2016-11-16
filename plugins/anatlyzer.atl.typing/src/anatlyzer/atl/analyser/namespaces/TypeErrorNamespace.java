@@ -62,7 +62,7 @@ public class TypeErrorNamespace implements ITypeNamespace {
 	}
 
 	public boolean hasAttachedOperation(String operationName) {
-		throw new UnsupportedOperationException();
+		return false;
 	}
 	
 	@Override
@@ -72,14 +72,12 @@ public class TypeErrorNamespace implements ITypeNamespace {
 
 	@Override
 	public void extendType(String featureName, Type returnType, Attribute attrDefinition) {
-		throw new UnsupportedOperationException();
-		
+		// Do nothing
 	}
 
 	@Override
 	public void extendType(String operationName, Type returnType, Operation opDefinition) {
-		throw new UnsupportedOperationException();
-		
+		// Do nothing
 	}
 
 	@Override

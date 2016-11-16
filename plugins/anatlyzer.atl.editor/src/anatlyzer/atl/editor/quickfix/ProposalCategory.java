@@ -6,6 +6,8 @@ import java.util.function.BiFunction;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -61,7 +63,15 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 				
 				Shell shell = Display.getCurrent().getActiveShell();
 				ExplanationWithFixesDialog dialog = new ExplanationWithFixesDialog(shell, exp, p, analysisData, quickfixesList);
-				dialog.open();
+				int result = dialog.open();
+				if ( result == Dialog.OK ) {
+					AtlProblemQuickfix qfx = dialog.getSelectedQuickfix();
+					if ( qfx != null ) {
+						if ( MessageDialog.openConfirm(shell, "Confirm quick fix application", "Apply quick fix '" + qfx.getDisplayString() + "'?") ) { 
+							qfx.apply(document);
+						}
+					}
+				}
 				
 			} else {
 				if ( proposalCallback != null ) {

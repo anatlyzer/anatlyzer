@@ -1,6 +1,7 @@
 package anatlyzer.atl.quickfixast;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +25,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 
 public class InDocumentSerializer extends ATLSerializer {
 
@@ -148,6 +150,31 @@ public class InDocumentSerializer extends ATLSerializer {
 		
 	}
 
+	@Override
+	public void inSimpleOutPatternElement(SimpleOutPatternElement self) {
+		// A trick to deal with deletion of bindings...
+		if ( currentAction.getTgt() == self ) {
+			String s = self.getVarName() + " : " + g(self.getType());
+			
+			List<String> l = sl();
+			for(Binding b : self.getBindings()) {
+				l.add(g(b));
+			}
+			
+			if ( l.size() > 0 ) {
+				// s(s + "(" + cr() + join(l, "," + cr()) + cr() + ")");
+				s(s + " (" + cr() + join(l, ",\n") + cr() + genTab() + ")");
+			} else {
+				s(s);
+			}
+		} else {
+			super.inSimpleOutPatternElement(self);
+		}
+			
+
+	}
+
+	
 	@Override
 	public void inBinding(Binding self) {
 		if ( currentAction.getTgt() == self ) {
@@ -487,7 +514,9 @@ public class InDocumentSerializer extends ATLSerializer {
 				IRegion r = document.getLineInformationOfOffset(offsets[0]);
 				String lineInitial = document.get(r.getOffset(),offsets[0] - r.getOffset());
 				if ( lineInitial.matches("\\s+") ) {
-					return lineInitial + document.get(offsets[0], offsets[1] - offsets[0]);
+					// hack to avoid problems with other things that use to work
+					if ( currentAction.getTgt() instanceof Binding )
+						return lineInitial + document.get(offsets[0], offsets[1] - offsets[0]);
 				}
 				return document.get(offsets[0], offsets[1] - offsets[0]);
 			} catch (BadLocationException e) {

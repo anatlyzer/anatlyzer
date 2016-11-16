@@ -26,6 +26,8 @@ public interface IWitnessFinder {
 	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
 	public IWitnessFinder setTimeOut(long millis);
+	public IWitnessFinder setCheckAllCompositeConstraints(boolean b);
+	
 	
 	public IWitnessModel getFoundWitnessModel();
 	

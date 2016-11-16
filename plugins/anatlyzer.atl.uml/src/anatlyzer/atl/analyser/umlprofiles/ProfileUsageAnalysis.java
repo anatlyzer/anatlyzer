@@ -14,6 +14,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.StringExp;
 
@@ -52,6 +53,16 @@ public class ProfileUsageAnalysis extends AbstractAnalyserVisitor {
 		startVisiting(root);
 	}
 
+	@Override
+	public void inOperationCallExp(OperationCallExp self) {
+		if ( self.getOperationName().equals("getAppliedStereotype") && self.getArguments().size() > 0 && self.getArguments().get(0) instanceof StringExp ) {
+			StringExp str = (StringExp) self.getArguments().get(0);
+			String stereotypeName = str.getStringSymbol();
+			findStereotype(stereotypeName, str);
+		}
+		
+	}
+	
 	@Override
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
 		// Look for the pattern

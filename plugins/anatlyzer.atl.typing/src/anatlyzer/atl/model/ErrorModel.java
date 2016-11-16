@@ -661,7 +661,7 @@ public class ErrorModel {
 			error.getRules().add(rinfo);
 		}
 		
-		String s = "Binding may be resolved by rule with invalid target type (src : " +  rightType.getName() + "). " + b.getLocation() + "\n";
+		String s = "Binding resolved by rule with invalid target type (src : " +  rightType.getName() + "). " + b.getLocation() + "\n";
 		for (ResolvedRuleInfo rinfo : error.getRules()) {
 			s += "\t" + rinfo.getRuleName() + " " + rinfo.getLocation() + "\n";
 		}

@@ -100,7 +100,7 @@ package atl_error {
 
 	@description(name="No binding for compulsory target feature", text="Applicable to references and string attributes without default value.")	 
 	@info(prec="static", path="no", severity="error-target", when="model-dep", kind="tgt-typing", phase="analysis", source="none")	
-	@ignorestring(name="no-binding-compulory-feature")
+	@ignorestring(name="no-binding-compulsory-feature")
 	class NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {	   
 		ref EObject[0..1] subrule;
 		attr NoBindingForCompulsoryFeatureKind kind;

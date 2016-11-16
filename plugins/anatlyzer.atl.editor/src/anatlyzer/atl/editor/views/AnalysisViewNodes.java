@@ -97,6 +97,9 @@ public class AnalysisViewNodes {
 			return getProblemsByStatus(requiredStatus).size() > 0;
 		}
 		public GenericProblemNode[] toGenericNodes(List<Problem> problems) {
+			// Remove this line and see that there is problem when refreshing the rule conflict nodes
+			problems = problems.stream().filter(p -> p instanceof LocalProblem).collect(Collectors.toList());
+			
 			GenericProblemNode[] nodes = new GenericProblemNode[problems.size()];
 			for (int i = 0; i < problems.size(); i++) {
 				nodes[i] = new GenericProblemNode(this, (LocalProblem) problems.get(i));

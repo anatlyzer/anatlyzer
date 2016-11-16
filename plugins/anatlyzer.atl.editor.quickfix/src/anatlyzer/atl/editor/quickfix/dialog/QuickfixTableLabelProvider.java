@@ -39,6 +39,7 @@ public class QuickfixTableLabelProvider implements ITableLabelProvider {
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		AtlProblemQuickfix qfx = (AtlProblemQuickfix) element;
+		try {
 		if ( useColumns ) {
 			switch (columnIndex) {
 			case 0:
@@ -57,6 +58,10 @@ public class QuickfixTableLabelProvider implements ITableLabelProvider {
 			return null;
 		} else {			
 			return qfx.getDisplayString();
+		}
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			return "Cannot get description: " + qfx;
 		}
 	}
 	

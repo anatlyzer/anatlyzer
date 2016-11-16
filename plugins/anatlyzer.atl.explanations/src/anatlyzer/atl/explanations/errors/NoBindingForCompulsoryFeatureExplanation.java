@@ -34,34 +34,14 @@ public class NoBindingForCompulsoryFeatureExplanation extends AbstractAtlExplana
 
 	@Override
 	public void setAdditionalInfo(Composite composite) {
-		TreeViewer selectionViewer = new TreeViewer(composite);
-		
-		// From EcoreEditor
-	    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
-	    adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-	    adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
-	    adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-	    
-	    selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-	    selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-	    //selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), null));
-	    		// new DiagnosticDecorator(editingDomain, selectionViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
-	    //  selectionViewer.setInput(editingDomain.getResourceSet());
-	    //  selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-
 	    NoBindingForCompulsoryFeature p = (NoBindingForCompulsoryFeature) getProblem();
 	    OutPatternElement out = (OutPatternElement) p.getElement();
 	    String mmName = ((Metaclass) out.getInferredType()).getModel().getName();
 	    
 	    EStructuralFeature f = p.getFeature();
-	    
-	    Resource r = getAnalysis().getNamespace().getLogicalNamesToMetamodels().get(mmName);
-	    selectionViewer.setInput(r);
-
-	    // Reveal the problematic meta-model element
-	    selectionViewer.setSelection(new StructuredSelection(f), true);
-	    
+		createMetamodelViewer(composite, mmName, f);	    
 	}
+
+
 
 }

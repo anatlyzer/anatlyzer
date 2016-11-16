@@ -59,7 +59,7 @@ public class RuleConflictAnalysis {
 	}
 	
 	public List<OverlappingRules> perform() {
-		List<MatchedRule> rules = ATLUtils.getAllMatchedRules(this.model);
+		List<MatchedRule> rules = ATLUtils.getAllMatchedRules(this.model).stream().filter(m -> ! m.isIsNoDefault()).collect(Collectors.toList());
 		List<OverlappingRules> overlapping = new ArrayList<OverlappingRules>();
 			
 		

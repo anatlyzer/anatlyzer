@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getNoBindingForCompulsoryFeature()
  * @model annotation="description name='No binding for compulsory target feature' text='Applicable to references and string attributes without default value.'"
  *        annotation="info prec='static' path='no' severity='error-target' when='model-dep' kind='tgt-typing' phase='analysis' source='none'"
- *        annotation="ignorestring name='no-binding-compulory-feature'"
+ *        annotation="ignorestring name='no-binding-compulsory-feature'"
  * @generated
  */
 public interface NoBindingForCompulsoryFeature extends TargetModelConformanceProblem, BindingProblem {

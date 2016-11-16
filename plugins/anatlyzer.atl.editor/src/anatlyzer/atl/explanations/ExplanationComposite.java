@@ -47,8 +47,18 @@ public class ExplanationComposite extends Composite {
 
 	public void setExplanation(AtlProblemExplanation explanation) {
 		styledTextExplanation.setFont(getFont());
-		explanation.setDetailedProblemDescription(styledTextExplanation);
-		explanation.setAdditionalInfo(composite);
+		try {
+			explanation.setDetailedProblemDescription(styledTextExplanation);
+		} catch ( Exception e ) {
+			styledTextExplanation.setText("Oops. We had a internal error: " + e.getMessage());
+		}
+		
+		try {
+			explanation.setAdditionalInfo(composite);
+		} catch ( Exception e ) {
+			styledTextExplanation.setText("Oops. We had a internal error: " + e.getMessage());
+		}
+
 	}
 	
 	public Font getFontData() {

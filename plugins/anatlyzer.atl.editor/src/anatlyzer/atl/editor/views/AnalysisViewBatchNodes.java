@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 
+import anatlyzer.atl.analyser.batch.ChildStealingAnalysis;
+import anatlyzer.atl.analyser.batch.PossibleStealingNode;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -26,7 +28,10 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.ui.actions.CheckChildStealing;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.util.WorkbenchUtil;
 
@@ -54,7 +59,8 @@ public class AnalysisViewBatchNodes {
 
 		public BatchAnalysisNodeGroup(TreeNode parent) {
 			super(parent);
-			this.children = new TreeNode[] { new UnconnectedComponentsAnalysis(this), new RuleConflictAnalysisNode(this) };
+			// this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent), new UnconnectedComponentsAnalysis(this) };
+			this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent) };
 		}
 
 		@Override
@@ -244,6 +250,7 @@ public class AnalysisViewBatchNodes {
 			case NOT_SUPPORTED_BY_USE:
 			case USE_INTERNAL_ERROR: 
 			case IMPL_INTERNAL_ERROR:
+				return Images.uknown_problems_16x16;
 			}
 			return null;
 		}
@@ -343,4 +350,206 @@ public class AnalysisViewBatchNodes {
 	}
 
 	
+	
+	
+	
+	//
+	// Child stealing
+	//
+	
+	class ChildStealingAnalysisBatchNode extends TreeNode implements IBatchAnalysisNode {
+		private StealingOcurrence[] elements;
+		int numberOfConflicts = 0;
+		// private RuleConflicts fRuleConflicts;
+		
+		public ChildStealingAnalysisBatchNode(TreeNode parent) {
+			super(parent);
+		}
+
+		class ChildStealingAnalysisJob extends Job {
+			List<PossibleStealingNode> result = null;
+			public ChildStealingAnalysisJob(String name) {
+				super(name);
+			}
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				// final CheckChildStealing = new CheckChildStealing();
+				final AnalyserData data = new AnalyserData(view.getCurrentAnalysis().getAnalyser());
+
+				CheckChildStealing action = new CheckChildStealing();
+				result = action.performAction(data, monitor);	
+				if ( monitor.isCanceled() )
+					return Status.CANCEL_STATUS;
+				return Status.OK_STATUS;
+			}		
+		}
+		
+		@Override
+		public void perform() {
+			final ChildStealingAnalysisJob job = new ChildStealingAnalysisJob("Child stealing analysis");
+			
+			job.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+					if ( job.result != null ) {
+						numberOfConflicts = 0;
+						List<PossibleStealingNode> result = job.result;	
+						elements = new StealingOcurrence[result.size()];
+						
+						int i = 0;
+						for (PossibleStealingNode possibleStealingNode : result) {
+							elements[i] = new StealingOcurrence(ChildStealingAnalysisBatchNode.this, possibleStealingNode);
+							if ( AnalyserUtils.isConfirmed(possibleStealingNode.getAnalysisResult()) ) {
+								numberOfConflicts++;
+							}
+							i++;
+						}
+						
+						/*
+						// Create the problem
+						RuleConflicts ruleConflictResult = AtlErrorFactory.eINSTANCE.createRuleConflicts();
+						fRuleConflicts = null;
+						
+						numberOfConflicts = 0;
+						int i = 0;
+						elements = new ConflictingRules[result.size()];
+						for (OverlappingRules overlappingRules : result) {
+							elements[i] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
+							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
+								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
+								// It has not been discarded
+								numberOfConflicts++;
+							}
+							
+							if ( overlappingRules.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+								 overlappingRules.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+								ConflictingRuleSet set = overlappingRules.createRuleSet();
+								ruleConflictResult.getConflicts().add(set);
+								elements[i].setConflictingRuleSet(set);
+							}
+							
+							i++;
+							fRuleConflicts = ruleConflictResult;							
+						}											
+
+												
+						view.getCurrentAnalysis().extendWithRuleConflicts(fRuleConflicts, true);
+						*/
+						view.refreshFromNonUI();
+					}
+				}
+			});
+			
+			job.schedule();
+
+		}
+
+		@Override
+		public Object[] getChildren() {
+			return elements;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return elements != null && elements.length > 0;
+		}
+		
+		@Override
+		public String toString() {
+			return "Child stealing analysis";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.rule_child_stealing_16x16;
+		}
+		
+		@Override
+		public String toColumn1() {
+			if ( elements == null )     return "Not analysed";
+			if ( numberOfConflicts == 0 ) return "Passed! " + numberOfConflicts + "/" + elements.length;
+			return "Some conflicts: " + numberOfConflicts + "/" + elements.length;		
+		}
+	}
+
+	
+	class StealingOcurrence extends TreeNode implements IWithCodeLocation {
+		protected PossibleStealingNode element;
+		private ConflictingRuleSet problem;
+
+		public StealingOcurrence(TreeNode parent, PossibleStealingNode possibleStealingNode) {
+			super(parent);
+			this.element = possibleStealingNode;
+		}		
+		
+		public void setConflictingRuleSet(ConflictingRuleSet problem) {
+			this.problem = problem;
+		}
+
+		public ConflictingRuleSet getProblem() {
+			return problem;
+		}
+		
+		@Override
+		public Object[] getChildren() { return null; }
+		@Override
+		public boolean hasChildren()  { return false; }
+		
+		@Override
+		public String toString() {
+			String s = null;
+			switch ( element.getAnalysisResult() ) {
+			case WITNESS_REQUIRED: s = "Not analysed!"; break;
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case ERROR_CONFIRMED: s = "Confirmed (by solver)"; break;
+			case ERROR_DISCARDED: s = "Discarded (by solver)"; break;
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
+			case STATICALLY_CONFIRMED: s = "Confirmed (statically)";break;		
+			case CANNOT_DETERMINE:
+				s = "Cannot determine (e.g., no path to rule)";break;				
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+				s = "Cannot determine (solver failed)";break;		
+			case IMPL_INTERNAL_ERROR:
+				s = "Cannot determine (impl. error)";break;		
+			case USE_TIME_OUT:
+				s = "Cannot determine (time out)";break;						
+			case PROBLEMS_IN_PATH:
+				throw new IllegalStateException();
+			}
+			
+			String r = element.toString();
+			return r + " : " + s;
+		}
+
+		@Override
+		public ImageDescriptor getImage() {
+			switch ( element.getAnalysisResult() ) {
+			case ERROR_DISCARDED: 
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: 
+				return Images.rule_conflict_discarded;
+			case ERROR_CONFIRMED: 
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case STATICALLY_CONFIRMED: 
+				return Images.rule_conflict_confirmed;
+			case CANNOT_DETERMINE:
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+			case IMPL_INTERNAL_ERROR:
+				return Images.uknown_problems_16x16;
+			}
+			return null;
+		}
+		
+		@Override
+		public void goToLocation() {
+			Binding r = element.getBinding1();			
+			WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
+		}
+
+	}
+
 }
+

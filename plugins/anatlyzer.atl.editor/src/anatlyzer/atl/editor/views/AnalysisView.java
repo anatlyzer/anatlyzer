@@ -919,6 +919,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 	}
 
 	protected void refreshFromNonUI() {
+		refreshFromNonUI(null);
+	}
+	
+	protected void refreshFromNonUI(Object elementToRefresh) {
 		// To avoid "invalid thread access" when called from analysisRegistered
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
@@ -938,6 +942,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 //						new DiscardedListNode(this)	
 				
 					}					
+				}
+
+				if ( elementToRefresh != null ) {
+					viewer.refresh(elementToRefresh);
+					viewer.reveal(elementToRefresh);
 				}
 			}
 		});		

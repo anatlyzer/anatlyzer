@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import anatlyzer.atl.analyser.batch.PossibleConflictingRulesNode;
+import anatlyzer.atl.analyser.batch.PossibleStealingNode;
 
 public abstract class AbstractPathVisitor implements IPathVisitor {
 
@@ -105,6 +106,11 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	@Override
 	public boolean visitProblem(
 			PossibleConflictingRulesNode node) {
+		return true;
+	}
+	
+	@Override
+	public boolean visitProblem(PossibleStealingNode node) {
 		return true;
 	}
 	

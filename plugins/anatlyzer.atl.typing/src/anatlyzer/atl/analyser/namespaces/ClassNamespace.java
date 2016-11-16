@@ -544,7 +544,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	@Override
 	public void attachResolvingRule(String ruleName, Type returnType, MatchedRule rule) {
 		if ( rule instanceof LazyRule ) throw new IllegalArgumentException();
-			
+		if ( rule.isIsNoDefault()) return;	
+		
 		resolvingRules.add(rule);		
 
 		// For any supertype, the rule *may* resolve the object 

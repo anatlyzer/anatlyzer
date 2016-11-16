@@ -25,7 +25,7 @@ public abstract class ExplanationWithWitness extends AbstractAtlExplanation {
 		
 		IWitnessModel witness = AnalyserUtils.getProblemWitnessModel(getProblem());
 		if (witness == null ) {
-			l.setText("Could not compute witness. Try again, please.");
+			l.setText("No witness is available.");
 			return;
 		}
 		// TODO: This is not very clean since here we depend directly from this plugin. There should be extension points for this kind of visualizations.
@@ -49,6 +49,7 @@ public abstract class ExplanationWithWitness extends AbstractAtlExplanation {
 			f.deleteOnExit();
 			serializer.generatePNG(f.getAbsolutePath());
 
+			l.setAlignment(SWT.CENTER);
 			Image img = new Image(null, f.getAbsolutePath());
 			l.setImage(img);
 		} catch (IOException e) {

@@ -30,6 +30,7 @@ public class Images {
 	public static final ImageDescriptor ignore_problem_16x16;
 	public static final ImageDescriptor timeout_16x16;
 	public static final ImageDescriptor explanation_16x16;
+	public static final ImageDescriptor rule_child_stealing_16x16;
 
 	
 	static {
@@ -59,6 +60,8 @@ public class Images {
 		timeout_16x16 = Activator.getImageDescriptor("icons/timeout_16x16.gif");		
 
 		explanation_16x16 = Activator.getImageDescriptor("icons/explanation_16x16.png");		
+
+		rule_child_stealing_16x16 = Activator.getImageDescriptor("icons/child_stealing_16x16.png");		
 
 	}
 }

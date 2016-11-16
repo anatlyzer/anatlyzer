@@ -74,8 +74,10 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			// we don't know the types of the resolving rules
 			// varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
 			if ( b.getValue().getNoCastedType() != null ) {
+				varDcl.setInferredType(b.getValue().getNoCastedType());
 				varDcl.setType(ATLUtils.getOclType(b.getValue().getNoCastedType()));
 			} else {
+				varDcl.setInferredType(b.getValue().getInferredType());
 				varDcl.setType(ATLUtils.getOclType(b.getValue().getInferredType()));
 			}
 			
@@ -168,6 +170,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 					select.setName("reject");
 				
 				Iterator it = OCLFactory.eINSTANCE.createIterator();
+				it.setInferredType(original.getInferredType());
 				it.setVarName(ASTUtils.getNiceIteratorName(b, original.getInferredType()));
 				select.getIterators().add(it);
 				select.setSource(original);
@@ -180,6 +183,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			qa.change(b.getValue(), OCLFactory.eINSTANCE::createLetExp, (original, let, trace) -> {
 				VariableDeclaration varDcl = OCLFactory.eINSTANCE.createVariableDeclaration();
 				varDcl.setVarName("_v");
+				varDcl.setInferredType(original.getInferredType());
 				varDcl.setType(ATLUtils.getOclType(original.getInferredType()));
 				varDcl.setInitExpression(original);
 				let.setVariable(varDcl);
@@ -209,7 +213,15 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 		return qa;
 	}
 	
+	/**
+	 * In addition to genarate a check expression, tries to simplify it.
+	 */
 	protected OclExpression genCheck(VariableDeclaration bindingValueVar, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
+		OclExpression expr = genCheckNormal(bindingValueVar, involvedRules, selectResolvedElements);
+		return ASTUtils.simplify(expr, bindingValueVar);
+	}
+	
+	protected OclExpression genCheckNormal(VariableDeclaration bindingValueVar, List<MatchedRule> involvedRules, boolean selectResolvedElements) {
 		final Map<EClass, List<MatchedRule>> rulesByType = 
 			involvedRules.stream().
 			collect(Collectors.groupingBy(BindingPossiblyUnresolved_FilterBinding::getResolvedEClassType)); 

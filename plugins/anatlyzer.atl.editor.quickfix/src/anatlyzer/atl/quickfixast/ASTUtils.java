@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -499,6 +500,33 @@ public class ASTUtils {
 		}
 		
 		return lastHelper;
+	}
+
+	public static OclExpression simplify(OclExpression expr, VariableDeclaration bindingValueVar) {
+		OclExpression tmp = expr;
+			// if x.oclIsKindOf() then true else false => x.oclIsKindOf
+		if ( tmp instanceof IfExp ) {
+			IfExp ifExp = (IfExp) tmp;
+			OclExpression cond = ifExp.getCondition();
+			if ( isOperation(cond, "isKindOf") || isOperation(cond, "isTypeOf") ) {					
+				if ( isBoolean(ifExp.getThenExpression(), true) && isBoolean(ifExp.getElseExpression(), false) ) {
+					return cond;
+				}
+			}
+		}
+	
+		return tmp;
+	}
+	
+	
+
+	private static boolean isBoolean(OclExpression exp, boolean b) {
+		return exp instanceof BooleanExp && ((BooleanExp) exp).isBooleanSymbol() == b;
+	}
+
+	private static boolean isOperation(OclExpression cond, String name) {
+		return cond instanceof OperationCallExp && 
+				((OperationCallExp) cond).getOperationName().equals(name);
 	}
 	
 }

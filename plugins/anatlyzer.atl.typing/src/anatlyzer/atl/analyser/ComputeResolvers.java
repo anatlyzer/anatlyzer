@@ -143,7 +143,7 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 			nss.add(srcNs);
 			for(IClassNamespace sub : nss) {
 				for(MatchedRule r : sub.getResolvingRules() ) {
-					if ( r.isIsAbstract() || alreadyAdded.contains(r) )
+					if ( r.isIsAbstract() || alreadyAdded.contains(r) || r.isIsNoDefault() )
 						continue;
 
 					alreadyAdded.add(r);

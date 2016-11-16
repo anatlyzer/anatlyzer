@@ -99,7 +99,7 @@
         <details key="source" value="none"/>
       </eAnnotations>
       <eAnnotations source="ignorestring">
-        <details key="name" value="no-binding-compulory-feature"/>
+        <details key="name" value="no-binding-compulsory-feature"/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EReference" name="subrule" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//atl_error/NoBindingForCompulsoryFeatureKind"/>

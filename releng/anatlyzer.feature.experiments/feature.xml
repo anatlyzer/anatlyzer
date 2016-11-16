@@ -2,7 +2,7 @@
 <feature
       id="anatlyzer.feature.experiments"
       label="anATLyzer Experiments"
-      version="0.3.5.qualifier"
+      version="0.5.1.qualifier"
       provider-name="Miso Team">
 
    <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
@@ -22,24 +22,10 @@
    </url>
 
    <plugin
-         id="anatlyzer.evaluation.mutants"
-         download-size="0"
-         install-size="0"
-         version="0.3.5.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="anatlyzer.experiments"
          download-size="0"
          install-size="0"
-         version="0.3.5.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="anatlyzer.experiments.typing"
-         download-size="0"
-         install-size="0"
-         version="0.3.5.qualifier"
+         version="0.5.1.qualifier"
          unpack="false"/>
 
 </feature>

@@ -796,7 +796,7 @@ public class ATLSerializer extends AbstractVisitor {
 	// Utilities
 	//
 	
-	private ArrayList<String> sl() {
+	protected ArrayList<String> sl() {
 		return new ArrayList<String>();
 	}
 	
@@ -853,6 +853,9 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	protected String dectab() {
+		if ( indentationStack.size() == 0 )
+			return cr(); // this is a fallback... Try to remove and test 
+		
 		indentationStack.remove(indentationStack.size() - 1);
 		return cr() + genTab();
 	}

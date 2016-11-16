@@ -15,6 +15,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -37,7 +39,6 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 	private Problem problem;
 	private SpeculativeMainThread speculativeThread;
 	private TableViewer tblViewerProblems;
-	private TabFolder tabFolderImpact;
 	
 	private Table tblFixed;
 	private TableViewer tblViewerFixed;
@@ -52,7 +53,10 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 	private Composite composite_2;
 	private TextViewer quickfixInformationText;
 	private TabFolder tabFolder;
-	
+
+	private Group textImpact;
+	//private TabFolder tabFolderImpact;
+
 	
 	/**
 	 * Create the dialog.
@@ -194,18 +198,27 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		composite.setSize(375, 140);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
-						
-		tabFolderImpact = new TabFolder(composite, SWT.NONE);
+			
+		textImpact = new Group(composite, SWT.BORDER); 
+		textImpact.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		// tabFolderImpact = new TabFolder(composite, SWT.NONE);
+		
+		
 		sashForm.setWeights(new int[] {2, 3});
 
 		initThreads();
 		
 	}
 
+	private AtlProblemQuickfix selectedQuickfix;
+
 	class QuickfixSelectionListener implements ISelectionChangedListener {
+
 		@Override
 		public void selectionChanged(SelectionChangedEvent event) {
 			AtlProblemQuickfix current = (AtlProblemQuickfix) ((IStructuredSelection) event.getSelection()).getFirstElement();
+			SpeculativeQuickfixComposite.this.selectedQuickfix = current;
 			if ( speculativeThread.isFinished(current) ) {
 				lblProblems.setText("Analysing new problems...");
 			} else {
@@ -220,19 +233,22 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 		// This happens when the quick fix requires user intervention
 		if ( current.requiresUserIntervention() ) {
 			tabFolder.setVisible(false);
-			tabFolderImpact.setVisible(false);
+			// tabFolderImpact.setVisible(false);
+			textImpact.setVisible(false);
 			lblProblems.setText("Speculative analysis not possible. Quick fix requires user intervention.");
 			this.quickfixInformationText.getTextWidget().setText("");
 			return;			
 		} else if ( r == null ) {
 			tabFolder.setVisible(false);
-			tabFolderImpact.setVisible(false);
+			// tabFolderImpact.setVisible(false);
+			textImpact.setVisible(false);
 			lblProblems.setText("There was an internal error in the speculative analysis. Sorry!");
 			this.quickfixInformationText.getTextWidget().setText("");
 			return;			
 		}
 		
 		tabFolder.setVisible(true);
+		textImpact.setVisible(true);
 		
 		tbtmAllProblems.setText("Remaining problems (" + r.getProblems().size() + ")");
 		tblViewerProblems.setInput(r);
@@ -275,31 +291,37 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 		this.quickfixInformationText.getTextWidget().setText(info);
 		
 		
-		int i = 0;
-		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {
-			TabItem item = null;
-			if ( tabFolderImpact.getItemCount() <= i ) {
-				item = new TabItem(tabFolderImpact, SWT.NONE);
-			} else {
-				item = tabFolderImpact.getItem(i);
-			}
-	
-			item.setText(information.getName());
-			Composite c = new Composite(tabFolderImpact, SWT.NONE);
-			c.setLayout(new FillLayout(SWT.HORIZONTAL));
-			item.setControl(c);
-			information.initialize(c, current, ic);
-			i++;
-		
-		}
-		tabFolderImpact.pack();
-		tabFolderImpact.getParent().layout();			
+//		int i = 0;
+//		for (ImpactInformation information : DialogExtensions.getImpactInformationExtensions()) {
+//			TabItem item = null;
+//			if ( tabFolderImpact.getItemCount() <= i ) {
+//				item = new TabItem(tabFolderImpact, SWT.NONE);
+//			} else {
+//				item = tabFolderImpact.getItem(i);
+//			}
+//	
+//			item.setText(information.getName());
+//			Composite c = new Composite(tabFolderImpact, SWT.NONE);
+//			c.setLayout(new FillLayout(SWT.HORIZONTAL));
+//			item.setControl(c);
+//			information.initialize(c, current, ic);
+//			i++;
+//		
+//		}
+//		tabFolderImpact.pack();
+//		tabFolderImpact.getParent().layout();			
 
+		for (Control control : textImpact.getChildren()) {
+			control.dispose();
+		}
 		
+		List<ImpactInformation> infoImpact = DialogExtensions.getImpactInformationExtensions();
+		if ( infoImpact.size() > 0 ) {
+			infoImpact.get(0).initialize(textImpact, current, ic);
+		}
+		textImpact.pack(true);
+		textImpact.getParent().layout();			
 		
-//		getButtonBar().pack(false);
-//		getDialogArea().pack(false);
-//		getContents().pack(true);
 	}
 	
 	//
@@ -328,10 +350,11 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 	}
 
 	public AtlProblemQuickfix getSelected() {
-		IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
-		if ( selection.size() > 0 ) {
-			return (AtlProblemQuickfix) selection.getFirstElement();
-		}
-		return null;
+		return selectedQuickfix;
+//		IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+//		if ( selection.size() > 0 ) {
+//			return (AtlProblemQuickfix) selection.getFirstElement();
+//		}
+//		return null;
 	}
 }

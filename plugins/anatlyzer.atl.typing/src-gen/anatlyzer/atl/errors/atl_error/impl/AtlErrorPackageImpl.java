@@ -3746,7 +3746,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		  (noBindingForCompulsoryFeatureEClass, 
 		   source, 
 		   new String[] {
-			 "name", "no-binding-compulory-feature"
+			 "name", "no-binding-compulsory-feature"
 		   });	
 		addAnnotation
 		  (bindingPossiblyUnresolvedEClass, 

@@ -106,7 +106,7 @@ public class FeatureNotFoundInThisModuleQuickFix_ChooseExisting extends Abstract
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Feature "+this.getFeature(this.marker).getName()+" not found, replace with "+this.getClosest(this.marker);
+		return "Replace with "+this.getClosest(this.marker);
 	}
 
 	@Override

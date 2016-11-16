@@ -54,7 +54,7 @@ public class ShowConfigurationDialogAction implements IObjectActionDelegate {
 					IPath newPath = selectedFile.getLocation().removeFileExtension().addFileExtension("atlc");
 					os = new FileOutputStream(newPath.toOSString());
 					ConfigurationWriter.write(os, conf);
-					ResourcesPlugin.getWorkspace().getRoot().getFile(newPath).refreshLocal(1, null);
+					ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(newPath).refreshLocal(-1, null);					
 				} catch (IOException e ) {
 					MessageDialog.openError(shell, "Error", "Cannot write file: "  + e.getMessage());
 				} catch (CoreException e) {

@@ -1,13 +1,19 @@
 package anatlyzer.atl.witness;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -344,6 +350,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			generator.addAdditionaConstraint(pair._2.asString());
 		}
 		
+		if ( generateAllCompositeConstraints == true ) {
+			generator.addAdditionaConstraint(this.getCompositeConstraints(errorSliceMM));
+		}
+		
 		if ( forceOnceInstanceOfConcreteClasses ) {
 			generator.forceOnceInstancePerClass();
 		}
@@ -467,5 +477,63 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessModel getFoundWitnessModel() {
 		return foundModel;
+	}
+
+	private boolean generateAllCompositeConstraints = false;
+	
+	@Override
+	public IWitnessFinder setCheckAllCompositeConstraints(boolean b) {
+		this.generateAllCompositeConstraints = b;
+		return this;
+	}
+	
+	// This should be done a bit better because like this there is renaming and so on...
+	private String getCompositeConstraints(EPackage errorSliceMM2) {
+//		context ValueSpecification inv single_container:
+//	        ActivityEdge.allInstances()->collect(o | o.guard)->count(self) +
+//	        ActivityEdge.allInstances()->collect(o | o.weight)->count(self) <= 1
+		// slice.getClasses()
+		//Set<EClass> classes = errorSliceMM2.getClasses();
+//		for (EClass eClass : classes) {
+//			String s = "context " + eClass.getName() 
+//		}
+		Set<EClass> classes = new HashSet<EClass>();
+		errorSliceMM2.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
+		
+		List<EReference> references = classes.stream().flatMap(c -> c.getEReferences().stream()).filter(r -> r.isContainment()).collect(Collectors.toList());
+		String constraints = "";
+		
+		// obtain the containment references that can contain each class
+		Hashtable<String,List<EReference>> containers = new Hashtable<String,List<EReference>>();
+		for (EReference ref : references) {
+			if (ref.isContainment()) {
+				String classname = ref. getEReferenceType().getName();
+				if (!containers.containsKey(classname)) 
+					containers.put(classname, new ArrayList<EReference>());
+				containers.get(classname).add(ref);
+			}
+			if (ref.getEOpposite()!=null && ref.getEOpposite().isContainment()) {
+				String classname = ref.getEOpposite().getEReferenceType().getName();
+				if (!containers.containsKey(classname)) 
+					containers.put(classname, new ArrayList<EReference>());
+				containers.get(classname).add(ref.getEOpposite());
+			}
+		}
+		
+		// if a class can potentially be in more than two containers, add a constraint
+		for (Entry<String,List<EReference>> entry : containers.entrySet()) {
+			//if (entry.getValue().size()>1) {
+				constraints += "\n\ncontext " + entry.getKey() + " inv single_container_only_one_instance:\n";
+				for (EReference ref : entry.getValue()) 
+					constraints += "\t" + ref.getEContainingClass().getName() + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
+				constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "<= 1";
+			//}
+		}
+		if (!constraints.isEmpty()) constraints += "\n";
+		
+		// Trick to make this work with the default context header which is added automatically...
+		constraints = "true\n\n" + constraints;
+		
+		return constraints;
 	}
 }

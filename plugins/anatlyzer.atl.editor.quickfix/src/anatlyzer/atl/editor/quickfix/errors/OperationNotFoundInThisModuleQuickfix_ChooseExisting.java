@@ -123,8 +123,7 @@ public class OperationNotFoundInThisModuleQuickfix_ChooseExisting extends Operat
 
 	@Override
 	public String getDisplayString() {
-		OperationCallExp res = this.getElement();
-		return "Operation "+res.getOperationName()+" not found in thisModule, replace by "+this.getClosest();
+		return "Replace by "+this.getClosest();
 	}
 
 	@Override

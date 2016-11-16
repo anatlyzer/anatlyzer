@@ -221,11 +221,14 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 
 	@Override
 	public void inLazyRule(LazyRule self) {
-		// Abstract lazy rules cannot be called, so they are not added to the transformation namespace
-		if ( self.isIsAbstract() ) 
-			return;
+		// Abstract lazy rules cannot be called if they don't have subclasses, so they are not added to the transformation namespace
+		if ( self.isIsAbstract() ) { 
+			boolean hasSuperRule = ATLUtils.getAllLazyRules(model).stream().anyMatch(r -> r.getSuperRule() == self);
+			if ( ! hasSuperRule )
+				return;
+		}
 		
-		if ( self.getInPattern().getFilter() != null ) {
+		if ( self.getInPattern().getFilter() != null && self.getSuperRule() == null ) {
 			errors().signalLazyRuleWithFilter(self);
 		}
 		
@@ -240,7 +243,10 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			
 			if ( ATLUtils.allSuperRules(self).stream().allMatch(r -> ruleWithoutOutputPattern(r) ) ) {
 			// if ( self.getOutPattern().getDropPattern() != null )
-				errors().signalMatchedRuleWithoutOutputPattern(self);
+				
+				if ( ! model.getModule().isIsRefining() ) {				
+					errors().signalMatchedRuleWithoutOutputPattern(self);
+				}
 			}
 			return;
 		}

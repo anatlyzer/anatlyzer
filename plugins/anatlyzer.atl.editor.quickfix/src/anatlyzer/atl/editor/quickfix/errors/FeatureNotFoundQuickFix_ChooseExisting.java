@@ -169,7 +169,7 @@ public class FeatureNotFoundQuickFix_ChooseExisting extends AbstractAtlQuickfix 
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Feature "+this.getFeatureName(this.marker)+" not found, replace with "+this.getClosest(this.marker);
+		return "Replace with "+this.getClosest(this.marker);
 	}
 
 	@Override

@@ -28,4 +28,12 @@
       </explanation>
    </extension>
 
+   <extension
+         id="anatlyzer.atl.explanations.errors.BindingInvalidTargetExplanation"
+         name="Binding invalid target explanation"
+         point="anatlyzer.atl.editor.problemexplanation">
+      <explanation
+            apply="anatlyzer.atl.explanations.errors.BindingInvalidTargetExplanation">
+      </explanation>
+   </extension>
 </plugin>

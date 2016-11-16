@@ -12,4 +12,6 @@ public interface IExplanationFixDialog {
 
 	Composite create(Composite composite, AnalysisResult r, Problem p, List<AtlProblemQuickfix> quickfixes);
 
+	AtlProblemQuickfix getSelectedQuickfix();
+
 }

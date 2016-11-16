@@ -95,7 +95,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	
 	@Override public void resetCache() { }
 	
-	private StaticHelper buildNewHelper(OperationCallExp op) {		
+	protected StaticHelper buildNewHelper(OperationCallExp op) {		
 		Type returnType = ASTUtils.findExpectedTypeInExpressionPosition(op, false); // QuickfixUtil.findPossibleTypeOfFaultyExpression(op);
 		StaticHelper helper = ASTUtils.buildNewThisModuleOperation(op.getOperationName(), 
 				returnType,
@@ -105,7 +105,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 	}
 	
 
-	private StaticRule buildNewLazyRule(OperationCallExp exp, Binding b) {		
+	protected StaticRule buildNewLazyRule(OperationCallExp exp, Binding b) {		
 		LazyRule r = ATLFactory.eINSTANCE.createLazyRule();
 		
 		InPattern p = ATLFactory.eINSTANCE.createInPattern();
@@ -121,7 +121,7 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 		return buildImperativeRule(r, exp, b);	
 	}
 
-	private StaticRule buildNewCalledRule(OperationCallExp exp, Binding b) {		
+	protected StaticRule buildNewCalledRule(OperationCallExp exp, Binding b) {		
 		CalledRule r = ATLFactory.eINSTANCE.createCalledRule();
 
 		// Infer parameter types from the types of the actual arguments
@@ -261,12 +261,12 @@ public class OperationNotFoundInThisModuleQuickfix_CreateHelper extends Abstract
 
 	@Override
 	public String getAdditionalProposalInfo() {
-		return "Operation not found in thisModule: create helper or lay rule";
+		return "Create helper or lazy rule (heuristic)";
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Operation not found in thisModule: create helper or lazy rule";
+		return "Create helper or lazy rule (heuristic)";
 	}
 
 	@Override

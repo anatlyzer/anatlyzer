@@ -172,6 +172,18 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createConflictingRuleSetAdapter();
 			}
 			@Override
+			public Adapter caseTargetConformanceViolations(TargetConformanceViolations object) {
+				return createTargetConformanceViolationsAdapter();
+			}
+			@Override
+			public Adapter caseBatchTargetConformanceIssue(BatchTargetConformanceIssue object) {
+				return createBatchTargetConformanceIssueAdapter();
+			}
+			@Override
+			public Adapter caseTargetInvariantViolation(TargetInvariantViolation object) {
+				return createTargetInvariantViolationAdapter();
+			}
+			@Override
 			public Adapter caseCollectionOperationOverNoCollectionError(CollectionOperationOverNoCollectionError object) {
 				return createCollectionOperationOverNoCollectionErrorAdapter();
 			}
@@ -536,6 +548,48 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createConflictingRuleSetAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.TargetConformanceViolations <em>Target Conformance Violations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.TargetConformanceViolations
+	 * @generated
+	 */
+	public Adapter createTargetConformanceViolationsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.BatchTargetConformanceIssue <em>Batch Target Conformance Issue</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.BatchTargetConformanceIssue
+	 * @generated
+	 */
+	public Adapter createBatchTargetConformanceIssueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.TargetInvariantViolation <em>Target Invariant Violation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.TargetInvariantViolation
+	 * @generated
+	 */
+	public Adapter createTargetInvariantViolationAdapter() {
 		return null;
 	}
 

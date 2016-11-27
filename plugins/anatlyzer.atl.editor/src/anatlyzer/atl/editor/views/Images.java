@@ -31,6 +31,7 @@ public class Images {
 	public static final ImageDescriptor timeout_16x16;
 	public static final ImageDescriptor explanation_16x16;
 	public static final ImageDescriptor rule_child_stealing_16x16;
+	public static final ImageDescriptor target_invariant_analysis_16x16;
 
 	
 	static {
@@ -62,6 +63,6 @@ public class Images {
 		explanation_16x16 = Activator.getImageDescriptor("icons/explanation_16x16.png");		
 
 		rule_child_stealing_16x16 = Activator.getImageDescriptor("icons/child_stealing_16x16.png");		
-
+		target_invariant_analysis_16x16 = Activator.getImageDescriptor("icons/target_invariants_analysis_16x16.png");	
 	}
 }

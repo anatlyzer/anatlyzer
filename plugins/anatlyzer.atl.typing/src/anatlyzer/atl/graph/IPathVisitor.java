@@ -1,6 +1,7 @@
 package anatlyzer.atl.graph;
 
 import anatlyzer.atl.analyser.batch.PossibleConflictingRulesNode;
+import anatlyzer.atl.analyser.batch.PossibleInvariantViolationNode;
 import anatlyzer.atl.analyser.batch.PossibleStealingNode;
 
 public interface IPathVisitor {
@@ -54,4 +55,7 @@ public interface IPathVisitor {
 	public boolean visit(ForStatNode node);
 
 	public boolean visitProblem(PossibleStealingNode node);
+
+	public boolean visitProblem(PossibleInvariantViolationNode node);
+
 }

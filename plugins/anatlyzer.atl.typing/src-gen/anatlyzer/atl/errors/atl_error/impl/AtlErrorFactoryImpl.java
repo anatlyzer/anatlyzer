@@ -71,6 +71,8 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.ACCESS_TO_UNDEFINED_VALUE_THROUGH_EMPTY_COLLECTION: return createAccessToUndefinedValue_ThroughEmptyCollection();
 			case AtlErrorPackage.RULE_CONFLICTS: return createRuleConflicts();
 			case AtlErrorPackage.CONFLICTING_RULE_SET: return createConflictingRuleSet();
+			case AtlErrorPackage.TARGET_CONFORMANCE_VIOLATIONS: return createTargetConformanceViolations();
+			case AtlErrorPackage.TARGET_INVARIANT_VIOLATION: return createTargetInvariantViolation();
 			case AtlErrorPackage.COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR: return createCollectionOperationOverNoCollectionError();
 			case AtlErrorPackage.FEATURE_ACCESS_IN_COLLECTION: return createFeatureAccessInCollection();
 			case AtlErrorPackage.OPERATION_OVER_COLLECTION_TYPE: return createOperationOverCollectionType();
@@ -171,6 +173,26 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public ConflictingRuleSet createConflictingRuleSet() {
 		ConflictingRuleSetImpl conflictingRuleSet = new ConflictingRuleSetImpl();
 		return conflictingRuleSet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TargetConformanceViolations createTargetConformanceViolations() {
+		TargetConformanceViolationsImpl targetConformanceViolations = new TargetConformanceViolationsImpl();
+		return targetConformanceViolations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TargetInvariantViolation createTargetInvariantViolation() {
+		TargetInvariantViolationImpl targetInvariantViolation = new TargetInvariantViolationImpl();
+		return targetInvariantViolation;
 	}
 
 	/**

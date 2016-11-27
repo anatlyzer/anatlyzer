@@ -40,6 +40,24 @@ public interface AtlErrorFactory extends EFactory {
 	ConflictingRuleSet createConflictingRuleSet();
 
 	/**
+	 * Returns a new object of class '<em>Target Conformance Violations</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Target Conformance Violations</em>'.
+	 * @generated
+	 */
+	TargetConformanceViolations createTargetConformanceViolations();
+
+	/**
+	 * Returns a new object of class '<em>Target Invariant Violation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Target Invariant Violation</em>'.
+	 * @generated
+	 */
+	TargetInvariantViolation createTargetInvariantViolation();
+
+	/**
 	 * Returns a new object of class '<em>Collection Operation Over No Collection Error</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -196,6 +196,17 @@ package atl_error {
 		attr Object[0..1] analyserInfo;
 	}
 
+	class TargetConformanceViolations extends BatchAnalysis {
+		val BatchTargetConformanceIssue[*] targetIssues;
+	}
+
+	abstract class BatchTargetConformanceIssue extends Problem {
+	}
+
+	class TargetInvariantViolation extends BatchTargetConformanceIssue {
+		attr String[1] invariantName;
+	}
+
 	// when: if the error will happen as soon as the transformation is loaded (always) or if the control flow needs to reach the error (model-dep)
 	//       note that this is different from precision.
 	@description(name="Collection operation over no collection (``$\rightarrow$'' vs. ``.'')", example="aClassInstance->select(...)")	 

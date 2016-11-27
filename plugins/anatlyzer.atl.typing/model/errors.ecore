@@ -326,6 +326,16 @@
           eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="analyserInfo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TargetConformanceViolations" eSuperTypes="#//BatchAnalysis">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="targetIssues" upperBound="-1"
+          eType="#//atl_error/BatchTargetConformanceIssue" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BatchTargetConformanceIssue" abstract="true"
+        eSuperTypes="#//Problem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TargetInvariantViolation" eSuperTypes="#//atl_error/BatchTargetConformanceIssue">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="invariantName" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationOverNoCollectionError"
         eSuperTypes="#//atl_error/NavigationProblem #//atl_error/RuntimeError">
       <eAnnotations source="description">

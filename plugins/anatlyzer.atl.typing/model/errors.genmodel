@@ -124,6 +124,13 @@
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/ConflictingRuleSet/rules"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ConflictingRuleSet/analyserInfo"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/TargetConformanceViolations">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference errors.ecore#//atl_error/TargetConformanceViolations/targetIssues"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="errors.ecore#//atl_error/BatchTargetConformanceIssue"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/TargetInvariantViolation">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/TargetInvariantViolation/invariantName"/>
+      </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/CollectionOperationOverNoCollectionError"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/FeatureAccessInCollection">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/FeatureAccessInCollection/featureName"/>

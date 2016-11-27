@@ -51,7 +51,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -290,6 +290,30 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				T result = caseConflictingRuleSet(conflictingRuleSet);
 				if (result == null) result = caseProblem(conflictingRuleSet);
 				if (result == null) result = caseAnalysisInfo(conflictingRuleSet);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.TARGET_CONFORMANCE_VIOLATIONS: {
+				TargetConformanceViolations targetConformanceViolations = (TargetConformanceViolations)theEObject;
+				T result = caseTargetConformanceViolations(targetConformanceViolations);
+				if (result == null) result = caseBatchAnalysis(targetConformanceViolations);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.BATCH_TARGET_CONFORMANCE_ISSUE: {
+				BatchTargetConformanceIssue batchTargetConformanceIssue = (BatchTargetConformanceIssue)theEObject;
+				T result = caseBatchTargetConformanceIssue(batchTargetConformanceIssue);
+				if (result == null) result = caseProblem(batchTargetConformanceIssue);
+				if (result == null) result = caseAnalysisInfo(batchTargetConformanceIssue);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.TARGET_INVARIANT_VIOLATION: {
+				TargetInvariantViolation targetInvariantViolation = (TargetInvariantViolation)theEObject;
+				T result = caseTargetInvariantViolation(targetInvariantViolation);
+				if (result == null) result = caseBatchTargetConformanceIssue(targetInvariantViolation);
+				if (result == null) result = caseProblem(targetInvariantViolation);
+				if (result == null) result = caseAnalysisInfo(targetInvariantViolation);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -921,6 +945,51 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseConflictingRuleSet(ConflictingRuleSet object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Target Conformance Violations</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Target Conformance Violations</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTargetConformanceViolations(TargetConformanceViolations object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Batch Target Conformance Issue</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Batch Target Conformance Issue</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseBatchTargetConformanceIssue(BatchTargetConformanceIssue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Target Invariant Violation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Target Invariant Violation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTargetInvariantViolation(TargetInvariantViolation object) {
 		return null;
 	}
 

@@ -11,6 +11,7 @@ import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
+import anatlyzer.atl.errors.atl_error.BatchTargetConformanceIssue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
@@ -77,6 +78,8 @@ import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.errors.atl_error.RuntimeError;
 import anatlyzer.atl.errors.atl_error.StyleHint;
+import anatlyzer.atl.errors.atl_error.TargetConformanceViolations;
+import anatlyzer.atl.errors.atl_error.TargetInvariantViolation;
 import anatlyzer.atl.errors.atl_error.TargetModelConformanceProblem;
 import anatlyzer.atl.errors.atl_error.Warning;
 import anatlyzer.atl.errors.atl_error.WritingSourceModel;
@@ -170,6 +173,27 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass conflictingRuleSetEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass targetConformanceViolationsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass batchTargetConformanceIssueEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass targetInvariantViolationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -895,6 +919,51 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 */
 	public EAttribute getConflictingRuleSet_AnalyserInfo() {
 		return (EAttribute)conflictingRuleSetEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTargetConformanceViolations() {
+		return targetConformanceViolationsEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTargetConformanceViolations_TargetIssues() {
+		return (EReference)targetConformanceViolationsEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getBatchTargetConformanceIssue() {
+		return batchTargetConformanceIssueEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTargetInvariantViolation() {
+		return targetInvariantViolationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTargetInvariantViolation_InvariantName() {
+		return (EAttribute)targetInvariantViolationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -2158,6 +2227,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(conflictingRuleSetEClass, CONFLICTING_RULE_SET__RULES);
 		createEAttribute(conflictingRuleSetEClass, CONFLICTING_RULE_SET__ANALYSER_INFO);
 
+		targetConformanceViolationsEClass = createEClass(TARGET_CONFORMANCE_VIOLATIONS);
+		createEReference(targetConformanceViolationsEClass, TARGET_CONFORMANCE_VIOLATIONS__TARGET_ISSUES);
+
+		batchTargetConformanceIssueEClass = createEClass(BATCH_TARGET_CONFORMANCE_ISSUE);
+
+		targetInvariantViolationEClass = createEClass(TARGET_INVARIANT_VIOLATION);
+		createEAttribute(targetInvariantViolationEClass, TARGET_INVARIANT_VIOLATION__INVARIANT_NAME);
+
 		collectionOperationOverNoCollectionErrorEClass = createEClass(COLLECTION_OPERATION_OVER_NO_COLLECTION_ERROR);
 
 		featureAccessInCollectionEClass = createEClass(FEATURE_ACCESS_IN_COLLECTION);
@@ -2373,6 +2450,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		accessToUndefinedValue_ThroughEmptyCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		ruleConflictsEClass.getESuperTypes().add(theAnalysisResultPackage.getBatchAnalysis());
 		conflictingRuleSetEClass.getESuperTypes().add(theAnalysisResultPackage.getProblem());
+		targetConformanceViolationsEClass.getESuperTypes().add(theAnalysisResultPackage.getBatchAnalysis());
+		batchTargetConformanceIssueEClass.getESuperTypes().add(theAnalysisResultPackage.getProblem());
+		targetInvariantViolationEClass.getESuperTypes().add(this.getBatchTargetConformanceIssue());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getNavigationProblem());
 		collectionOperationOverNoCollectionErrorEClass.getESuperTypes().add(this.getRuntimeError());
 		featureAccessInCollectionEClass.getESuperTypes().add(this.getNavigationProblem());
@@ -2506,6 +2586,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEReference(getConflictingRuleSet_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getConflictingRuleSet_Rules(), ecorePackage.getEObject(), null, "rules", null, 0, -1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConflictingRuleSet_AnalyserInfo(), ecorePackage.getEJavaObject(), "analyserInfo", null, 0, 1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(targetConformanceViolationsEClass, TargetConformanceViolations.class, "TargetConformanceViolations", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTargetConformanceViolations_TargetIssues(), this.getBatchTargetConformanceIssue(), null, "targetIssues", null, 0, -1, TargetConformanceViolations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(batchTargetConformanceIssueEClass, BatchTargetConformanceIssue.class, "BatchTargetConformanceIssue", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(targetInvariantViolationEClass, TargetInvariantViolation.class, "TargetInvariantViolation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTargetInvariantViolation_InvariantName(), ecorePackage.getEString(), "invariantName", null, 1, 1, TargetInvariantViolation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collectionOperationOverNoCollectionErrorEClass, CollectionOperationOverNoCollectionError.class, "CollectionOperationOverNoCollectionError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

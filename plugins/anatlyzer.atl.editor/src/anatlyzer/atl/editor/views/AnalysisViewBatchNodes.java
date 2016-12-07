@@ -672,8 +672,9 @@ public class AnalysisViewBatchNodes {
 		
 		@Override
 		public void goToLocation() {
-			Binding r = element.getBinding1();			
-			WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
+			//Binding r = element.getBinding1();			
+			// WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
+			throw new UnsupportedOperationException();
 		}
 
 	}

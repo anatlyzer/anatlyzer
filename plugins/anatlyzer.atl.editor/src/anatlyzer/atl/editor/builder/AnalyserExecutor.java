@@ -29,7 +29,6 @@ import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.util.IgnoredProblems;
-import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class AnalyserExecutor {
@@ -41,6 +40,15 @@ public class AnalyserExecutor {
 	public AnalyserData exec(IResource resource, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError {
 		IFile file = (IFile) resource;
 		return exec(resource, file.getContents(), addToIndex);
+	}
+	
+	public AnalyserData exec(InputStream stream) throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError  {
+		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(null, stream, false);
+		if ( atlEMFModel == null )
+			return null;
+				
+		ATLModel  atlModel = new ATLModel(atlEMFModel.getResource(), null);
+		return exec(null, atlModel, false);
 	}
 	
 	public AnalyserData exec(IResource resource, InputStream stream, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError  {

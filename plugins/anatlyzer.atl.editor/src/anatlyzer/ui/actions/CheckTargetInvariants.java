@@ -109,14 +109,14 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 			wf.setTimeOut(timeOutMillis);
 		}
 		//wf.setDebugMode(true);
-		wf.setCheckAllCompositeConstraints(true);
-		ProblemStatus result = wf.find(node, data);
-		node.setAnalysisResult(result);
-		if ( node.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-			return true;
-		}
+//		wf.setCheckAllCompositeConstraints(true);
+//		ProblemStatus result = wf.find(node, data);
+//		node.setAnalysisResult(result);
+//		if ( node.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
+//			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
+//			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+//			return true;
+//		}
 		
 		return false;				
 	}

@@ -858,6 +858,10 @@ public class ATLUtils {
 		return TypeUtils.getUnderlyingType(b.getLeftType());
 	}
 
+	public static Type getUnderlyingBindingRightType(Binding b) {
+		return TypeUtils.getUnderlyingType(b.getValue().getInferredType());
+	}
+
 	public static List<Metaclass> getUnderlyingBindingRightMetaclasses(Binding b) {
 		return TypingModel.getInvolvedMetaclassesOfType(b.getValue().getInferredType());
 	}

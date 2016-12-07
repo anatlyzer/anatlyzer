@@ -13,6 +13,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.StaticHelper;
 
 /**
  * Analyse violations of the target invariants.
@@ -33,6 +34,11 @@ public class TargetInvariantAnalysis_SourceBased {
 	public List<PossibleInvariantViolationNode> perform() {		
 		ArrayList<PossibleInvariantViolationNode> nodes = new ArrayList<PossibleInvariantViolationNode>();
 				
+		
+		List<StaticHelper> invariants = model.allObjectsOf(StaticHelper.class).stream().filter(h -> h.getCommentsBefore().stream().anyMatch(s -> s.contains("@target_invariant"))).collect(Collectors.toList());
+		for (StaticHelper staticHelper : invariants) {
+			nodes.add(new PossibleInvariantViolationNode(staticHelper, model, analyser));
+		}
 		
 		return nodes;
 	}

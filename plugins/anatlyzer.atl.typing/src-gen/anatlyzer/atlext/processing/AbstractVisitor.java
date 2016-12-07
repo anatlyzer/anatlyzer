@@ -1722,6 +1722,8 @@ public class AbstractVisitor {
 	}
 	
 	private void visit(EObject obj) {	
+	defaultBeforeVisit(obj);
+		
 	if ( obj.eClass().getName().equals("ForEachOutPatternElement") ) { visitForEachOutPatternElement((anatlyzer.atlext.ATL.ForEachOutPatternElement) obj); return; }
 	if ( obj.eClass().getName().equals("RuleVariableDeclaration") ) { visitRuleVariableDeclaration((anatlyzer.atlext.ATL.RuleVariableDeclaration) obj); return; }
 	if ( obj.eClass().getName().equals("Query") ) { visitQuery((anatlyzer.atlext.ATL.Query) obj); return; }
@@ -1797,10 +1799,19 @@ public class AbstractVisitor {
 	if ( obj.eClass().getName().equals("ContextHelper") ) { visitContextHelper((anatlyzer.atlext.ATL.ContextHelper) obj); return; }
 	if ( obj.eClass().getName().equals("OrderedSetExp") ) { visitOrderedSetExp((anatlyzer.atlext.OCL.OrderedSetExp) obj); return; }
 	if ( obj.eClass().getName().equals("Operation") ) { visitOperation((anatlyzer.atlext.OCL.Operation) obj); return; }
+	defaultAfterVisit(obj);
 		if ( obj.eClass().getName().equals("StringToStringMap") ) { return; }
 		throw new IllegalStateException("Cannot handle class: " + obj.eClass().getName());
 	}
-	
+
+	protected void defaultBeforeVisit(EObject obj) {
+		
+	}
+
+	protected void defaultAfterVisit(EObject obj) {
+		
+	}
+
 	//
 	// Framework code inlined as a template
 	//

@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.batch.TargetInvariantAnalysis_SourceBased;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
@@ -98,25 +99,20 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 	 * @return
 	 */
 	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data) {
-//		if ( ! node.requireConstraintSolving() ) {
-//			node.setAnalysisResult(ProblemStatus.STATICALLY_CONFIRMED);
-//			return true;
-//		}
-			
 		// Do not reuse the witness finder
 		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
 		if ( timeOutMillis != -1 ) {
 			wf.setTimeOut(timeOutMillis);
 		}
-		//wf.setDebugMode(true);
+		wf.setDebugMode(true);
 //		wf.setCheckAllCompositeConstraints(true);
-//		ProblemStatus result = wf.find(node, data);
-//		node.setAnalysisResult(result);
-//		if ( node.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-//			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-//			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
-//			return true;
-//		}
+		
+		
+		
+		ProblemStatus result = wf.find(node, data);
+		node.setAnalysisResult(result);
+		if ( AnalyserUtils.isConfirmed(result) )
+			return true;
 		
 		return false;				
 	}

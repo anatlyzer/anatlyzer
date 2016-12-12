@@ -647,7 +647,7 @@ public class AnalysisViewBatchNodes {
 				throw new IllegalStateException();
 			}
 			
-			String r = element.toString();
+			String r = element.getInvName();
 			return r + " : " + s;
 		}
 

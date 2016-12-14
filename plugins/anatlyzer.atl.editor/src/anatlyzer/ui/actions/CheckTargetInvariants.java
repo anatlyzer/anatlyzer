@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.batch.TargetInvariantAnalysis_SourceBased;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
@@ -28,7 +29,6 @@ import anatlyzer.atl.witness.WitnessUtil;
 public class CheckTargetInvariants implements IEditorActionDelegate {
 
 	private AtlEditor editor;
-	private long timeOutMillis = -1;
 
 	@Override
 	public void run(IAction action) {
@@ -36,7 +36,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 		try {
 			AnalyserData data = new AnalyserExecutor().exec(resource);
 			if ( data != null )
-				performAction(data);
+				performAction(data, resource);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CoreException e) {
@@ -48,11 +48,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 		}
 	}
 
-	public void setTimeOut(long millis) {
-		this.timeOutMillis  = millis;
-	}
-
-	public List<PossibleInvariantViolationNode> performAction(AnalysisResult data, IProgressMonitor monitor) {
+	public List<PossibleInvariantViolationNode> performAction(AnalysisResult data, IResource resource, IProgressMonitor monitor) {
 		TargetInvariantAnalysis_SourceBased analysis = new TargetInvariantAnalysis_SourceBased(data.getATLModel(), data.getAnalyser());
 		List<PossibleInvariantViolationNode> toBeChecked = analysis.perform();
 		int i = 0;
@@ -73,7 +69,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 				monitor.subTask("Running " + ++i + " of " + toBeChecked.size());
 			}
 			
-			processNode(node, data);
+			processNode(node, data, resource);
 			result.add(node);
 
 			if ( monitor != null )
@@ -87,8 +83,8 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 		return result;
 	}
 	
-	public List<PossibleInvariantViolationNode> performAction(AnalyserData data) {
-		return performAction(data, null);
+	public List<PossibleInvariantViolationNode> performAction(AnalyserData data, IResource resource) {
+		return performAction(data, resource, null);
 	}
 
 	/**
@@ -98,17 +94,8 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 	 * @param data
 	 * @return
 	 */
-	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data) {
-		// Do not reuse the witness finder
-		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
-		if ( timeOutMillis != -1 ) {
-			wf.setTimeOut(timeOutMillis);
-		}
-		wf.setDebugMode(true);
-//		wf.setCheckAllCompositeConstraints(true);
-		
-		
-		
+	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data, IResource resource) {
+		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));
 		ProblemStatus result = wf.find(node, data);
 		node.setAnalysisResult(result);
 		if ( AnalyserUtils.isConfirmed(result) )

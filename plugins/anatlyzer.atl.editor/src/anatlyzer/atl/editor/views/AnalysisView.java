@@ -1059,6 +1059,10 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		return currentAnalysis;
 	}
 	
+	public IResource getCurrentResource() {
+		return currentResource;
+	}
+	
 	public TransformationConfiguration getAnalysisConfiguration() {
 		return AnalysisIndex.getInstance().getConfiguration(currentResource);
 	}

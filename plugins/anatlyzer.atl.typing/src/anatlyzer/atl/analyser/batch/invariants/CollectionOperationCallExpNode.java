@@ -14,11 +14,13 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 
 	private CollectionOperationCallExp exp;
 	private IInvariantNode source;
+	private List<IInvariantNode> args;
 
-	public CollectionOperationCallExpNode(IInvariantNode source, CollectionOperationCallExp exp) {
+	public CollectionOperationCallExpNode(IInvariantNode source, CollectionOperationCallExp exp, List<IInvariantNode> args) {
 		super(source, null);
 		this.source = source;
 		this.exp = exp;
+		this.args = args;
 	}
 	
 	@Override
@@ -52,6 +54,9 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 		CollectionOperationCallExp copy = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
 		copy.setSource( source.genExpr(builder) );
 		copy.setOperationName(exp.getOperationName());
+		for (IInvariantNode node : args) {
+			copy.getArguments().add(node.genExpr(builder));
+		}
 		return copy;
 	}
 	

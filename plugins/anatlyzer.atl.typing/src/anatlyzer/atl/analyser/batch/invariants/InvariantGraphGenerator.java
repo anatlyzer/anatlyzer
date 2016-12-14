@@ -57,15 +57,17 @@ public class InvariantGraphGenerator {
 			if ( context == null )
 				throw new IllegalArgumentException();
 			Env env = new Env(context); 
+			env.map = new HashMap<>(map);
 			env.map.put(vd, context);
 			return env;
 		}
 
 		public MatchedRule getContext(VariableDeclaration v) {
 			if ( ! map.containsKey(v) )
-				throw new IllegalStateException();
+				throw new IllegalStateException("Not var for: " + v);
 			return map.get(v);
 		}
+		
 		public HashMap<? extends EObject, ? extends EObject> getVarMapping() {
 			HashMap<EObject, EObject> mapping = new HashMap<EObject, EObject>();
 			Set<Entry<VariableDeclaration, MatchedRule>> entrySet = map.entrySet();
@@ -127,8 +129,9 @@ public class InvariantGraphGenerator {
 			src = split;
 		}
 		
-		// TODO: Get parameters;
-		CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr);
+		List<IInvariantNode> args = expr.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
+		
+		CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
 		return node;
 	}
 
@@ -318,9 +321,13 @@ public class InvariantGraphGenerator {
 		
 		@Override
 		public OclExpression genExpr(CSPModel builder) {
-			if ( this.nodes.size() != 2 ) 
-				throw new UnsupportedOperationException();
+			if ( this.nodes.size() > 2 ) 
+				throw new UnsupportedOperationException("Only 2 or less nodes supported. We have: " + this.nodes);
 		
+			if ( this.nodes.size() == 1 ) {
+				return this.nodes.get(0).genExpr(builder);
+			}
+			
 			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
 			op.setOperationName("and");
 			

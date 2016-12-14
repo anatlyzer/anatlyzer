@@ -544,7 +544,7 @@ public class AnalysisViewBatchNodes {
 				final AnalyserData data = new AnalyserData(view.getCurrentAnalysis().getAnalyser());
 
 				CheckTargetInvariants action = new CheckTargetInvariants();
-				result = action.performAction(data, monitor);	
+				result = action.performAction(data, view.getCurrentResource() , monitor);	
 				if ( monitor.isCanceled() )
 					return Status.CANCEL_STATUS;
 				return Status.OK_STATUS;

@@ -8,7 +8,15 @@
    <extension-point id="anatlyzer.atl.editor.witnessfinder" name="Witness finder" schema="schema/anatlyzer.atl.editor.witnessfinder.exsd"/>
    <extension-point id="anatlyzer.atl.editor.views.additionalactions" name="Additional actions" schema="schema/anatlyzer.atl.editor.views.additionalactions.exsd"/>
    <extension-point id="anatlyzer.atl.editor.explanation_fixdialog" name="anATLyzer Fix for the Explanation Dialog " schema="schema/anatlyzer.atl.editor.explanation_fixdialog.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.witnessvisualizer" name="anATLyzer witness visualizer" schema="schema/anatlyzer.atl.editor.witnessvisualizer.exsd"/>
 
+   <extension
+         point="anatlyzer.atl.editor.witnessfinder">
+      <finder
+            finder="anatlyzer.atl.editor.witness.EclipseUseWitnessFinder">
+      </finder>
+   </extension>
+   
    <extension
          id="anatlyzerATLBuilder"
          name="anATLyzer Project Builder"
@@ -305,6 +313,13 @@
       <viewaction
             action="anatlyzer.atl.explanations.ShowExplanationDialog">
       </viewaction>
+   </extension>
+   <extension
+         point="anatlyzer.atl.editor.witnessvisualizer">
+      <visualizer
+            format="plantuml"
+            visualizer="anatlyzer.atl.witness.PlantUMLWitnessVisualizer">
+      </visualizer>
    </extension>
 
 

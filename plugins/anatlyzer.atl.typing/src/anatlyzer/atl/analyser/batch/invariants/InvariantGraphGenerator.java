@@ -21,6 +21,7 @@ import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IntegerExp;
@@ -97,7 +98,9 @@ public class InvariantGraphGenerator {
 	private IInvariantNode checkIteratorExp(IteratorExp expr, final Env env) {
 		IInvariantNode src = analyse(expr.getSource(), env);
 		
-		if ( src instanceof MultiNode ) {
+		if ( src instanceof NoResolutionNode && !((NoResolutionNode) src).evaluateSubsequentNodes()) {
+			return src;
+		} else	if ( src instanceof MultiNode ) {
 			MultiNode m = (MultiNode) src;
 			
 			List<IInvariantNode> paths = m.map(n -> {
@@ -212,7 +215,7 @@ public class InvariantGraphGenerator {
 		
 	}
 
-	private AbstractInvariantReplacerNode checkNavExp(NavigationOrAttributeCallExp self, Env env) {
+	private IInvariantNode checkNavExp(NavigationOrAttributeCallExp self, Env env) {
 		// Is it a true navigation, not a helper call
 		if ( self.getUsedFeature() != null ) {
 			List<IInvariantNode> resolutions = new ArrayList<IInvariantNode>();
@@ -258,6 +261,10 @@ public class InvariantGraphGenerator {
 					// resolutions.add(new Info(info, src, rri.getRule()));				
 					resolutions.add(new ReferenceNavigationNode(source, self, b, rri.getRule(), env));
 				}
+				
+				if ( resolutions.size() == 0 ) {
+					return new NoResolutionNode(source, self, b);
+				}
 			}
 			
 			return new MultiNode(resolutions);
@@ -300,7 +307,11 @@ public class InvariantGraphGenerator {
 		public void genErrorSlice(ErrorSlice slice) {
 			throw new UnsupportedOperationException();			
 		}
-		
+
+		@Override
+		public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	
@@ -337,6 +348,10 @@ public class InvariantGraphGenerator {
 			return op;
 		}
 		
+		@Override
+		public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 
+			this.nodes.forEach(n -> n.getTargetObjectsInBinding(elems));
+		}
 	}
 
 }

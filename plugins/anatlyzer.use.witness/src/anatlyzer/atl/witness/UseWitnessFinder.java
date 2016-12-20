@@ -230,19 +230,18 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, IMetamodelExtensionStrategy strategy) { 
 		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
-		
-		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels);
+		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
+		// other helpers within preconditions
+		ErrorSlice slice = problem.getErrorSlice(analyser);
+
+		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels, slice);
 		ProblemInPathVisitor problems = new ProblemInPathVisitor();
 		problems.perform(originalConstraint);
 		USEConstraint useConstraint = USESerializer.retypeAndGenerate(originalConstraint, problem, renaming);	
 		if ( useConstraint.useNotSupported() ) {
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		}
-		
-		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
-		// other helpers within preconditions
-		ErrorSlice slice = problem.getErrorSlice(analyser);
-		
+				
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
 		if ( checkPreconditions ) {

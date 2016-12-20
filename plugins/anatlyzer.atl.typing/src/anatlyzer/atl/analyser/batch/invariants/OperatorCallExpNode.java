@@ -1,9 +1,11 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
+import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperatorCallExp;
@@ -40,4 +42,9 @@ public class OperatorCallExpNode extends AbstractInvariantReplacerNode {
 		return copy;
 	}
 	
+	@Override
+	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
+		source.getTargetObjectsInBinding(elems);
+		args.forEach(n -> n.getTargetObjectsInBinding(elems));
+	}
 }

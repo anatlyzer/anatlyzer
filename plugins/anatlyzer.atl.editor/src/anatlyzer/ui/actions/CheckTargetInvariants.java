@@ -97,7 +97,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data, IResource resource) {
 		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));
 		ProblemStatus result = wf.find(node, data);
-		node.setAnalysisResult(result);
+		node.setAnalysisResult(result, wf.getFoundWitnessModel());
 		if ( AnalyserUtils.isConfirmed(result) )
 			return true;
 		

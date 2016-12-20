@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
@@ -35,9 +36,11 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 
 	private SourceMetamodelsData srcMetamodels;
 	private HashSet<EObject> renamed = new HashSet<EObject>();
+	private ErrorSlice slice;
 	
-	public ClassRenamingVisitor(SourceMetamodelsData srcMetamodels) {
+	public ClassRenamingVisitor(SourceMetamodelsData srcMetamodels, ErrorSlice slice) {
 		this.srcMetamodels = srcMetamodels;
+		this.slice = slice;
 	}
 	
 	@Override
@@ -124,10 +127,17 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 			Metaclass m = (Metaclass) self.getInferredType();
 			EClass newClass = srcMetamodels.getTarget(m.getKlass());
 			if ( newClass == null ) {
-				System.err.println("No class " + m.getName());
 				// It happens in e.g., DSLBridge/XML2DSL.atl, helper findType(s : String) which returns
 				// the result of a resolveTemp, thus polluting the path with target elements that
 				// do not need to be renamed because they are discarded...
+				
+				// The other cause is that the classes is part of the target (a dummy value)
+				if ( slice != null && slice.getTargetMetaclassesNeededInError().contains(m.getKlass()) ) {
+					m.setName("TGT_" + m.getName());
+					self.setName(m.getName());
+				} else {
+					System.err.println("No class " + m.getName());					
+				}
 			} else {
 				self.setName(newClass.getName());
 				m.setName(newClass.getName());

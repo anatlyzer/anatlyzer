@@ -1,10 +1,12 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
+import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.MultiNode;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -35,7 +37,9 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		it.setVarName(exp.getIterators().get(0).getVarName());
 
 		builder.copyScope();
-		builder.addToScope(context.getInPattern().getElements().get(0), it);
+		// This is so because the same context may appear in several places
+		// (e.g., when considering target elements created secondary out pattern elements)
+		builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
 		
 		OclExpression source = this.src.genExpr(builder);
 		OclExpression body = this.body.genExpr(builder);
@@ -52,4 +56,9 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		return newIterator;
 	}
 	
+	@Override
+	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 
+		this.src.getTargetObjectsInBinding(elems);
+		this.body.getTargetObjectsInBinding(elems);
+	}
 }

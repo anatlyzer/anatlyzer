@@ -67,12 +67,6 @@
       </quickfix>
    </extension>
    <extension
-         point="anatlyzer.atl.editor.witnessfinder">
-      <finder
-            finder="anatlyzer.atl.editor.witness.EclipseUseWitnessFinder">
-      </finder>
-   </extension>
-   <extension
          id="anatlyzer.atl.editor.quickfix.errors.FeatureNotFoundQuickFixSet"
          name="Quickfixes for &quot;Feature not found&quot;"
          point="anatlyzer.atl.editor.quickfix">

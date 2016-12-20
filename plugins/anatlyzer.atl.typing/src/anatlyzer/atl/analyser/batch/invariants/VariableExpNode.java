@@ -1,10 +1,12 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableExp;
@@ -33,4 +35,10 @@ public class VariableExpNode extends AbstractInvariantReplacerNode {
 		return copy;
 	}
 	
+	@Override
+	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 
+		if ( exp.getReferredVariable() instanceof OutPatternElement ) {
+			elems.add((OutPatternElement) exp.getReferredVariable());
+		}
+	}
 }

@@ -35,6 +35,8 @@ import anatlyzer.footprint.IEffectiveMetamodelData;
 
 public class ErrorSlice implements IEffectiveMetamodelData {
 	private HashSet<EClass> explicitTypes = new HashSet<EClass>();
+	private HashSet<EClass> targetMetaclassesNeededInError = new HashSet<EClass>();
+
 	private HashSet<EEnum> explicitEnums = new HashSet<EEnum>();
 	private HashSet<EStructuralFeature> explicitFeatures = new HashSet<EStructuralFeature>();
 	
@@ -107,10 +109,22 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 	}
 	
+	/**
+	 * This is used by the invariant checker to enable dummy target elements
+	 * representing secondary output elements.
+	 */
 	public void addMetaclassNeededInError(EClass eClass) {
 		explicitTypes.add(eClass);
 	}
 
+	public void addTargetMetaclassNeededInError(EClass klass) {
+		targetMetaclassesNeededInError.add(klass);
+	}
+
+	public Collection<? extends EClass> getTargetMetaclassesNeededInError() {
+		return Collections.unmodifiableCollection(this.targetMetaclassesNeededInError);
+	}
+	
 	public void addExplicitFeature(EStructuralFeature f) {
 		explicitFeatures.add(f);
 	}

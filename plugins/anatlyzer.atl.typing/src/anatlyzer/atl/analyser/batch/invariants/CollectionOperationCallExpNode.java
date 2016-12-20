@@ -5,6 +5,7 @@ import java.util.List;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -58,6 +59,11 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 			copy.getArguments().add(node.genExpr(builder));
 		}
 		return copy;
+	}
+	
+	@Override
+	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { 
+		source.getTargetObjectsInBinding(elems);
 	}
 	
 }

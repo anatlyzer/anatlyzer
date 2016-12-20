@@ -36,4 +36,25 @@ public class WitnessUtil {
 		finder.setTimeOut(analysisConfiguration.getTimeOut());
 		return finder;
 	}
+
+
+	public static IWitnessVisualizer getWitnessVisualizer(IWitnessModel model) {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_WITNESSVISUALIZER_EXTENSION_POINT);
+		// ArrayList<IWitnessFinder> finders = new ArrayList<IWitnessFinder>();
+		
+		for (IConfigurationElement ce : extensions) {
+			IWitnessVisualizer wf;
+			try {
+				wf = (IWitnessVisualizer) ce.createExecutableExtension("visualizer");
+				wf.setModel(model);
+				return wf;
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+
 }

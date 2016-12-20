@@ -1,10 +1,13 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
+
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -30,6 +33,11 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 		
 		// return copy(binding.getValue());
 		return builder.gen(binding.getValue());
+	}
+	
+	@Override
+	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { 
+		// In principle this does not apply to attribute
 	}
 	
 }

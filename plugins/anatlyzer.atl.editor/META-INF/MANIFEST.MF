@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface,
  org.eclipse.swt,
  anatlyzer.atl.optimizer;bundle-version="0.2.0",
- org.eclipse.m2m.atl.core.emf
+ org.eclipse.m2m.atl.core.emf,
+ anatlyzer.use.witness
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: anatlyzer.atl.analysisext,
@@ -26,6 +27,7 @@ Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.atl.editor.builder,
  anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.views,
+ anatlyzer.atl.editor.witness,
  anatlyzer.atl.explanations,
  anatlyzer.atl.index,
  anatlyzer.atl.reveng,

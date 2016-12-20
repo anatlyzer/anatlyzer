@@ -763,6 +763,10 @@ public class ATLUtils {
 			return uriOrPath != null;
 		}
 		
+		public boolean isURI() {
+			return isURI;
+		}
+		
 		public boolean isInput() { return modelKind == INPUT; }
 		public boolean isOutput() { return modelKind == OUTPUT; }
 		public boolean isInOut() { return modelKind == INOUT; }

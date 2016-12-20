@@ -1,10 +1,12 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
+import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -46,4 +48,8 @@ public class SplitNode implements IInvariantNode {
 		return null;
 	}
 
+	@Override
+	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
+		paths.forEach(n -> n.getTargetObjectsInBinding(elems));
+	}
 }

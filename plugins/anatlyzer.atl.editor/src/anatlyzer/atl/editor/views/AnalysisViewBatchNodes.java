@@ -26,6 +26,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
+import anatlyzer.atl.explanations.InvariantExplanationDialog;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -674,7 +675,8 @@ public class AnalysisViewBatchNodes {
 		public void goToLocation() {
 			//Binding r = element.getBinding1();			
 			// WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
-			throw new UnsupportedOperationException();
+			// throw new UnsupportedOperationException();
+			new InvariantExplanationDialog(null, this.element).open();
 		}
 
 	}

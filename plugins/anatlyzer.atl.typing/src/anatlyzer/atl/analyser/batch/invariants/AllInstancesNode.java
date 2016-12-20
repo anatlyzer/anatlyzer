@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -10,6 +11,7 @@ import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -65,5 +67,8 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		
 		return op;
 	}
+	
+	@Override
+	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { }
 	
 }

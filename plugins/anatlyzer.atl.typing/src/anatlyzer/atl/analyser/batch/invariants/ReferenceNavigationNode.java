@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.Set;
+
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -8,10 +10,12 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 
@@ -65,4 +69,12 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 		return src;
 	}
 	
+	@Override
+	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
+		binding.eAllContents().forEachRemaining(o -> {
+			if ( o instanceof VariableExp && ((VariableExp) o).getReferredVariable() instanceof OutPatternElement ) {
+				elems.add((OutPatternElement) ((VariableExp) o).getReferredVariable());
+			}
+		});
+	}
 }

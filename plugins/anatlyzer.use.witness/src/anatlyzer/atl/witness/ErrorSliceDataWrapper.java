@@ -51,9 +51,11 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 
 	private ProblemInPathVisitor problems;
 	private boolean doUnfolding = true;
+	private ErrorSlice slice;
 
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
+		this.slice = slice;
 		this.problems = problems;
 	}
 	
@@ -70,6 +72,16 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		classes.add(thisModuleClass);
 		
 		classes.addAll(problems.getExtraClasses().stream().map(c -> getTarget(c)).collect(Collectors.toSet()));
+		
+		// classes.addAll(slice.getTargetMetaclassesNeededInError());
+		slice.getTargetMetaclassesNeededInError().forEach(c -> {
+			// There may be naming conflicts... so a copy is created with a special name
+			// Method getPackageAnnotations perform the renaming at the expression level
+			EClass newClass = EcoreFactory.eINSTANCE.createEClass();
+			newClass.setName("TGT_" + c.getName());
+			classes.add(newClass);
+			
+		});
 		
 		return classes;
 	}
@@ -90,7 +102,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		Set<Helper> helperSet = slice.getHelpers();
 		
 		List<Helper> helpersAddedByRetyping = new ArrayList<Helper>();
-		ClassRenamingVisitor renaming = new ClassRenamingVisitor(mapping);
+		ClassRenamingVisitor renaming = new ClassRenamingVisitor(mapping, slice);
 		for (Helper helper : helperSet) {
 			problems.perform(helper);
 			

@@ -335,20 +335,24 @@ public class InvariantGraphGenerator {
 		
 		@Override
 		public OclExpression genExpr(CSPModel builder) {
-			if ( this.nodes.size() > 2 ) 
-				throw new UnsupportedOperationException("Only 2 or less nodes supported. We have: " + this.nodes);
-		
-			if ( this.nodes.size() == 1 ) {
-				return this.nodes.get(0).genExpr(builder);
+//			if ( this.nodes.size() == 1 ) {
+//				return this.nodes.get(0).genExpr(builder);
+//			}
+						
+			OclExpression result = nodes.get(0).genExpr(builder);
+			for(int i = 1; i < nodes.size(); i++) {
+				IInvariantNode node = nodes.get(i);
+				
+				OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+				op.setOperationName("and");
+
+				op.setSource(result);
+				op.getArguments().add(node.genExpr(builder));
+				
+				result = op;
 			}
 			
-			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
-			op.setOperationName("and");
-			
-			op.setSource(this.nodes.get(0).genExpr(builder));
-			op.getArguments().add(this.nodes.get(1).genExpr(builder));
-			
-			return op;
+			return result;
 		}
 		
 		@Override

@@ -117,6 +117,9 @@ public class InvariantGraphGenerator {
 				return new MergeIteratorSourceNode(paths);				
 			}
 		} else {
+//			Env env2 = env;
+//			if ( ! (src instanceof NoResolutionNode) )
+//				env2 = env.put(expr.getIterators().get(0), src.getContext());
 			Env env2 = env.put(expr.getIterators().get(0), src.getContext());
 			IInvariantNode body = analyse(expr.getBody(), env2);
 	

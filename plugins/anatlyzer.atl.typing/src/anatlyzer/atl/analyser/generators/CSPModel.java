@@ -327,9 +327,9 @@ public class CSPModel {
 		scope.put(varDcl, newVar);
 	}
 
-	public void addToScopeAllowRebinding(VariableDeclaration varDcl, VariableDeclaration newVar) {
-		scope.put(varDcl, newVar);
-	}
+//	public void addToScopeAllowRebinding(VariableDeclaration varDcl, VariableDeclaration newVar) {
+//		scope.put(varDcl, newVar);
+//	}
 	
 	public LetExp rebind(VariableDeclaration srcVarDcl, Function<VariableDeclaration, OclExpression> genInitExpression) {
 		VariableDeclaration tgtVarDcl = scope.getVar(srcVarDcl);		

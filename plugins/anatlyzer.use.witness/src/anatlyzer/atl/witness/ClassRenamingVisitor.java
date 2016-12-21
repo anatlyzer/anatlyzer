@@ -133,8 +133,9 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 				
 				// The other cause is that the classes is part of the target (a dummy value)
 				if ( slice != null && slice.getTargetMetaclassesNeededInError().contains(m.getKlass()) ) {
-					m.setName("TGT_" + m.getName());
-					self.setName(m.getName());
+					self.setName("TGT_" + m.getName());
+					// Do not change the name because it is not a copy
+					// m.setName(self.getName());
 				} else {
 					System.err.println("No class " + m.getName());					
 				}

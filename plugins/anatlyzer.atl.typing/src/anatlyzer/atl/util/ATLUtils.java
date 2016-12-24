@@ -507,6 +507,8 @@ public class ATLUtils {
 	public static List<String> findCommaTags(Unit root, String tag) {
 		if ( ! tag.startsWith("@") )
 			tag = "@" + tag;
+		if ( ! tag.endsWith(" ") ) 
+			tag = tag + " ";
 		
 		List<String> result = new ArrayList<String>();
 		for (String str : root.getCommentsBefore()) {

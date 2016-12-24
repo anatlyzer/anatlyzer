@@ -39,7 +39,12 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		builder.copyScope();
 		// This is so because the same context may appear in several places
 		// (e.g., when considering target elements created secondary out pattern elements)
-		builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
+		if ( src instanceof NoResolutionNode ) {
+			// Do not bind the variable
+		} else {
+			builder.addToScope(context.getInPattern().getElements().get(0), it);
+		}
+		// builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
 		
 		OclExpression source = this.src.genExpr(builder);
 		OclExpression body = this.body.genExpr(builder);

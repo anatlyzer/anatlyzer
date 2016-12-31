@@ -625,6 +625,16 @@ public class ATLUtils {
 		return result;
 	}
 	
+	public static Set<String> getTargetMetamodelNames(ATLModel model) {
+		HashSet<String> result = new HashSet<String>();
+		for(ModelInfo m : getModelInfo(model)) {
+			if ( m.isOutput() ) {
+				result.add(m.getMetamodelName());
+			}
+		}
+		return result;
+	}
+	
 	public static List<String> getPreconditions(ATLModel atlModel) {
 		String tag = "@pre "; // add an space to make sure that there is one and avoid conflicts with any other tag starting with @pre
 		Unit root = atlModel.getRoot();

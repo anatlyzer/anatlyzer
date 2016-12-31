@@ -15,8 +15,10 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -191,9 +193,14 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 					if ( parent instanceof Parameter && parent.eContainer() instanceof CalledRule ) {
 						return;
 					}
+				
 					parent = parent.eContainer();
 				}
 				
+				if ( parent instanceof Helper ) {
+					if ( AnalyserUtils.isTargetInvariant((Helper) parent) ) 
+						return;
+				}
 				
 				errors().signalReadingTargetModel(self);
 			}

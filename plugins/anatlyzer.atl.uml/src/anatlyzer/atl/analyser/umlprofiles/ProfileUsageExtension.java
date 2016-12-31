@@ -20,6 +20,10 @@ import anatlyzer.atlext.ATL.Unit;
 
 public class ProfileUsageExtension implements AnalyserExtension {
 
+	@Override
+	public boolean isPreparationTask() {
+		return false;
+	}
 
 	public void perform(ATLModel model, GlobalNamespace mm, Unit root) {
 		HashMap<String, Profile> profiles = loadProfiles(model, mm);

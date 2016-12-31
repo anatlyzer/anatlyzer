@@ -73,6 +73,12 @@ public class Analyser implements IAnalyserResult {
 				List<? extends Unit> units = trafo.allObjectsOf(Unit.class);
 				for (Unit unit : units) {
 					new ExtendTransformation(trafo, mm, unit).perform();
+					
+					for(AnalyserExtension pass : additional) {
+						if ( pass.isPreparationTask() )
+							pass.perform(trafo, mm, unit);
+					}
+					
 					if ( unit instanceof Module && ((Module) unit).isIsRefining() ) {
 						new RefiningAnalysisTraversal(trafo, mm, unit).perform();
 					} else {
@@ -80,7 +86,8 @@ public class Analyser implements IAnalyserResult {
 					}
 				
 					for(AnalyserExtension pass : additional) {
-						pass.perform(trafo, mm, unit);
+						if ( ! pass.isPreparationTask() )
+							pass.perform(trafo, mm, unit);
 					}
 				}	
 				

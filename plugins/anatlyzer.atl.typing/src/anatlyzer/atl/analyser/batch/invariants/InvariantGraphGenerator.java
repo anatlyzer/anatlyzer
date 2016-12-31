@@ -238,15 +238,21 @@ public class InvariantGraphGenerator {
 			List<Binding> allBindings = context.getOutPattern().getElements().stream().flatMap(o -> 
 					o.getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature())).
 					collect(Collectors.toList());
+
 			
+			if ( allBindings.size() > 1 ) {
+				//throw new UnsupportedOperationException("For navigation: " + self.getName() + " at " + self.getLocation());
+				OutPatternElement o = context.getOutPattern().getElements().get(0);
+				allBindings = 
+						o.getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
+						collect(Collectors.toList());
+			}
+
+
 			if ( allBindings.size() == 0 ) {
 				throw new UnsupportedOperationException();
 			}
-			
-			if ( allBindings.size() > 1 ) {
-				throw new UnsupportedOperationException("For navigation: " + self.getName() + " at " + self.getLocation());
-			}
-			
+						
 			Binding b = allBindings.get(0);
 			
 			if ( isPrimitiveBinding(b) ) {

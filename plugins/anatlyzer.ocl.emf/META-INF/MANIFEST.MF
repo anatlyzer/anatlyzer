@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OCL handling for EMF
+Bundle-SymbolicName: anatlyzer.ocl.emf;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.ocl.emf.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore,
+ org.eclipse.emf.ecore,
+ anatlyzer.atl.typing;bundle-version="0.5.1",
+ org.junit;resolution:=optional,
+ anatlyzer.atl.editor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

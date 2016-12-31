@@ -56,7 +56,7 @@ public class EffectiveMetamodelDataWrapper implements IEffectiveMetamodelData {
 	protected EStructuralFeature getTarget(EStructuralFeature f) {
 		EStructuralFeature tgt = mapping.getTarget(f);
 		if ( tgt == null ) 
-			throw new IllegalStateException("Feature " + f.getName() + " not found.");		
+			throw new IllegalStateException("Feature " + f.getName() + " not found. Class: " + f.getEContainingClass().getName());		
 		return tgt;
 	}
 	

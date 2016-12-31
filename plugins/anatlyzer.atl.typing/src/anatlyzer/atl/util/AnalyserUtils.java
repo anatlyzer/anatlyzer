@@ -33,9 +33,19 @@ import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.witness.IWitnessModel;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.OperationCallExp;
 
 public class AnalyserUtils {
 	
@@ -349,6 +359,10 @@ public class AnalyserUtils {
 		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@force-declared-return-type"));
 	}
 
+	public static boolean isTargetInvariant(Helper h) {
+		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@target_invariant"));
+	}
+
 	public static void setProblemWitnessModel(Problem p, IWitnessModel foundWitnessModel) {
 		p.getData().put("FOUND_WITNESS_MODEL", foundWitnessModel);		
 	}
@@ -357,6 +371,45 @@ public class AnalyserUtils {
 		return (IWitnessModel) p.getData().get("FOUND_WITNESS_MODEL");
 	}
 
+	public static StaticHelper convertContextInvariant(ContextHelper contextHelper) {
+		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
+		
+		IteratorExp forAll = OCLFactory.eINSTANCE.createIteratorExp();
+		forAll.setName("forAll");
+		Iterator it = OCLFactory.eINSTANCE.createIterator();
+		it.setVarName("self_");
+		forAll.getIterators().add(it);
+		
+		ATLCopier copier = new ATLCopier(contextHelper.getDefinition());
+		
+		ATLUtils.findSelfReferences(contextHelper).forEach(var -> copier.bind(var, it));
+		
+		h.setDefinition( (OclFeatureDefinition) copier.copy());
+		
+		//OclModelElement elem = OCLFactory.eINSTANCE.createOclModelElement();
+		//elem.setType(h.getDefinition().getContext_().getContext_());
+		//elem.setModel(h.getDefinition().getContext_().get);
+		OclModelElement elem = (OclModelElement) h.getDefinition().getContext_().getContext_();
+
+		OperationCallExp allInstancesCall = OCLFactory.eINSTANCE.createOperationCallExp();
+		allInstancesCall.setOperationName("allInstances");
+		allInstancesCall.setSource(elem);
+
+		forAll.setSource(allInstancesCall);
+		
+		if ( h.getDefinition().getFeature() instanceof Attribute ) {
+			Attribute att = (Attribute) h.getDefinition().getFeature();
+			forAll.setBody(att.getInitExpression());
+			att.setInitExpression(forAll);
+		} else if ( h.getDefinition().getFeature() instanceof Operation ) {
+			Operation op = (Operation) h.getDefinition().getFeature();
+			forAll.setBody(op.getBody());
+			op.setBody(forAll);
+		}
+		
+		h.getDefinition().setContext_(null);
+		return h;
+	}
 	
 	
 }

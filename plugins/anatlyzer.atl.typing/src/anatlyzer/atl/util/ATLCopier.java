@@ -25,10 +25,19 @@ public class ATLCopier extends EcoreUtil.Copier {
 	private HashSet<EObject> ignoredElements = new HashSet<EObject>();
 	
 	public ATLCopier(EObject object) {
-		super();
 		this.root = object;
 	}
 
+	public ATLCopier() {
+		this.root = null;
+		// Must be set later
+	}
+	
+	public ATLCopier setRoot(EObject objectToCopy) {
+		this.root = objectToCopy;
+		return this;
+	}
+	
 	public EObject copy() {
 		EObject result = this.copy(root);
 		this.copyReferences();

@@ -77,7 +77,6 @@ import anatlyzer.atl.graph.ProblemGraph.IProblemTreeNode;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.index.IndexChangeListener;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.optimizer.AtlOptimizer;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
@@ -761,19 +760,19 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 		//
 		
-		optimizerAction = new Action() {
-			public void run() {
-				if ( currentAnalysis != null ) {
-					ATLModel atlModel = currentAnalysis.getAnalyser().getATLModel();
-					GlobalNamespace ns = currentAnalysis.getNamespace();
-					
-					new AtlOptimizer(atlModel, ns).perform();
-				}
-			}
-		};
-		optimizerAction.setText("Optimize transformation");
-		optimizerAction.setToolTipText("Optimize transformation");
-		optimizerAction.setImageDescriptor(Images.optimization_16x16);
+//		optimizerAction = new Action() {
+//			public void run() {
+//				if ( currentAnalysis != null ) {
+//					ATLModel atlModel = currentAnalysis.getAnalyser().getATLModel();
+//					GlobalNamespace ns = currentAnalysis.getNamespace();
+//					
+//					new AtlOptimizer(atlModel, ns).perform();
+//				}
+//			}
+//		};
+//		optimizerAction.setText("Optimize transformation");
+//		optimizerAction.setToolTipText("Optimize transformation");
+//		optimizerAction.setImageDescriptor(Images.optimization_16x16);
 		
 		//
 

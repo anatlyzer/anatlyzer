@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: anATLyzer refactorings
-Bundle-SymbolicName: anatlyzer.atl.refactorings
-Bundle-Version: 0.5.1.qualifier
-Bundle-Activator: anatlyzer.atl.refactorings.Activator
-Require-Bundle: org.eclipse.core.runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ActivationPolicy: lazy

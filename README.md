@@ -13,4 +13,6 @@ The following presentation provides a quick overview:
 
  * <https://github.com/jesusc/atl-tutorial/blob/master/pdfs/02-anatlyzer.pdf>
 
+The wiki provide technical documentation:
 
+ * [Building anATLyzer from sources](https://github.com/jesusc/anatlyzer/wiki/Building-from-sources)

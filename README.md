@@ -16,6 +16,10 @@ The following presentation provides a quick overview:
 
  * <https://github.com/jesusc/atl-tutorial/blob/master/pdfs/02-anatlyzer.pdf>
 
+The following is the list of publications describing the technical details of anATLyzer:
+ * [Static analysis of model transformations](http://miso.es/pubs/tse2016.pdf). Jesús Sánchez Cuadrado, Esther Guerra and Juan de Lara. IEEE Transactions on Software Engineering, 2016 
+ * [Quick fixing ATL transformations with speculative analysis](http://www.miso.es/pubs/sosym_qfx.pdf). Jesús Sánchez Cuadrado, Esther Guerra and Juan de Lara. Software and Systems Modeling, 2016
+
 The wiki provides technical documentation:
 
  * [Building anATLyzer from sources](https://github.com/jesusc/anatlyzer/wiki/Building-from-sources)

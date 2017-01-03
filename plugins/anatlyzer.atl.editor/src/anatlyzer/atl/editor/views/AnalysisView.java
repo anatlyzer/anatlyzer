@@ -107,8 +107,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 
 	private AnalysisResult currentAnalysis;
 
-	private Action optimizerAction;
-
 	private boolean sortByDependency = false;
 	private boolean batchMode = false;
 
@@ -574,7 +572,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(runAnalyserAction);
 		manager.add(new Separator());
 		manager.add(transformationInformationAction);
-		manager.add(optimizerAction);
 		
 		addExtensionActions(manager);
 	}
@@ -603,8 +600,6 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(sortByDependencyAction);		
 		manager.add(new Separator());		
 		manager.add(transformationInformationAction);
-		manager.add(new Separator());
-		manager.add(optimizerAction);
 		manager.add(new Separator());
 		// addExtensionActions(manager);
 		drillDownAdapter.addNavigationActions(manager);
@@ -757,23 +752,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		transformationInformationAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 				getImageDescriptor(ISharedImages.IMG_OBJ_FILE));
 		
-
-		//
-		
-//		optimizerAction = new Action() {
-//			public void run() {
-//				if ( currentAnalysis != null ) {
-//					ATLModel atlModel = currentAnalysis.getAnalyser().getATLModel();
-//					GlobalNamespace ns = currentAnalysis.getNamespace();
-//					
-//					new AtlOptimizer(atlModel, ns).perform();
-//				}
-//			}
-//		};
-//		optimizerAction.setText("Optimize transformation");
-//		optimizerAction.setToolTipText("Optimize transformation");
-//		optimizerAction.setImageDescriptor(Images.optimization_16x16);
-		
+	
 		//
 
 		sortByDependencyAction = new Action("Group by dependencies", IAction.AS_CHECK_BOX) {

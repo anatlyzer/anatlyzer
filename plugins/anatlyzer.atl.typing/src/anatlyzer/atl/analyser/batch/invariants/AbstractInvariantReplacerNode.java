@@ -9,7 +9,10 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
@@ -60,5 +63,10 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	
 	public abstract OclExpression genExpr(CSPModel builder);
 	
+	@Override
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+		// Default is doing nothing
+		return null;
+	}
 	
 }

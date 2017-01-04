@@ -7,9 +7,12 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -85,5 +88,10 @@ public class NoResolutionNode implements IInvariantNode {
 			}
 		});		
 		return elems;
+	}
+
+	@Override
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+		throw new IllegalStateException();
 	}
 }

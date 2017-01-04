@@ -119,14 +119,14 @@ public class USEValidityChecker extends AbstractVisitor {
 	
 	@Override
 	public void inTupleExp(TupleExp self) {
-		System.out.println("=> Invalid Tuple type not supported");
-		this.isValid = false;
+//		System.out.println("=> Invalid Tuple type not supported");
+//		this.isValid = false;
 	}
 	
 	@Override
 	public void inTupleType(TupleType self) {
-		System.out.println("=> Invalid Tuple type not supported");
-		this.isValid = false;
+//		System.out.println("=> Invalid Tuple type not supported");
+//		this.isValid = false;
 	}
 	
 }

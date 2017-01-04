@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
@@ -8,17 +9,18 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
-import anatlyzer.atlext.OCL.OperatorCallExp;
 
 public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 
 	private OperationCallExp exp;
 	private IInvariantNode source;
+	private List<IInvariantNode> args;
 
-	public OperationCallExpNode(IInvariantNode source, OperationCallExp exp) {
+	public OperationCallExpNode(IInvariantNode source, OperationCallExp exp, List<IInvariantNode> args) {
 		super(source, source.getContext());
 		this.source = source;
 		this.exp = exp;
+		this.args = args;
 	}
 	
 	@Override
@@ -35,6 +37,10 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 		
 		if ( exp.getArguments().size() != 0 )
 			throw new IllegalStateException();
+
+		for (IInvariantNode node : args) {
+			op.getArguments().add(node.genExpr(builder));
+		}
 
 		return op;
 	}

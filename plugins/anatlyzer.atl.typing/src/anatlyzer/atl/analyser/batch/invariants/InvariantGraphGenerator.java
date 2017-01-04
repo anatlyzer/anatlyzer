@@ -165,46 +165,19 @@ public class InvariantGraphGenerator {
 				return new MultiNode(nodes);
 			}
 			
-			
-//			OclExpression result = null;
-//			MatchedRule rule = null;
-//			
-//			// For the moment assume only one rule
-//			for (MatchedRule r : rules) {
-//				
-//				InPatternElement firtIPE = r.getInPattern().getElements().get(0);
-//				
-//				OclModelElement sourceType = (OclModelElement) ATLCopier.copySingleElement(firtIPE.getType());
-//				
-//				OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
-//				op.setOperationName(self.getOperationName());
-//				op.setSource(sourceType);
-//				
-//				result = op;				
-//				rule = r;
-//				
-//				break; // REMOVE THIS AND CONCATENATE WITH AND
-//			}
-//			
-//			if ( result == null )
-//				throw new IllegalStateException();
-//		
-//		
-//			OclExpression finalResult = result;
-//			MatchedRule finalRule = rule;
-//			
-//			// If there are more nodes create an split node
-//			
-//			return new AllInstancesNode(rule);
-			
-//			// TODO: Set the parent properly
-//			Info parent = null;
-//			
-//			// Probably I should generate a list of INFO, one per rule
-//			store(Collections.singletonList(new Info(parent, finalResult, finalRule)));
 		} else {
+			// Similar to colOp
 			IInvariantNode src = analyse(self.getSource(), env);
-			return new OperationCallExpNode(src, self);
+
+			if ( src instanceof MultiNode ) {			
+				SplitNodeOperation split = new SplitNodeOperation(((MultiNode) src).getNodes(), self);
+				src = split;
+			}
+			
+			List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());			
+			// CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
+			// return node;			
+			return new OperationCallExpNode(src, self, args);
 		}
 	}
 
@@ -259,15 +232,6 @@ public class InvariantGraphGenerator {
 				return new AttributeNavigationNode(source, self, b);
 			} else {			
 				for(RuleResolutionInfo rri : b.getResolvedBy()) {
-//						OclExpression src = copy(b.getValue());
-//						if ( rri.getRule().getInPattern().getFilter() != null ) {
-//							IteratorExp select = builder.createIterator(src, "select", rri.getRule().getInPattern().getElements().get(0).getVarName());
-//							select.setBody( copy(rri.getRule().getInPattern().getFilter()) );
-//							src = select;
-//						}
-					
-					
-					// resolutions.add(new Info(info, src, rri.getRule()));				
 					resolutions.add(new ReferenceNavigationNode(source, self, b, rri.getRule(), env));
 				}
 				

@@ -326,7 +326,7 @@ public class USESerializer {
 	private static String join(String delimiter, ArrayList<String> parts) {
 		String s = parts.isEmpty() ? "" : parts.get(0);
 		for(int i = 1; i < parts.size(); i++) {
-			s = delimiter + parts.get(i);
+			s += delimiter + parts.get(i);
 		}
 		return s;
 	}

@@ -6,9 +6,11 @@ import java.util.Set;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.MultiNode;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -37,16 +39,21 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		it.setVarName(exp.getIterators().get(0).getVarName());
 
 		builder.copyScope();
+		
+		OclExpression source = this.src.genExpr(builder);
+		
+		Pair<LetExp, LetExp> additionalItBindings = null;
 		// This is so because the same context may appear in several places
 		// (e.g., when considering target elements created secondary out pattern elements)
 		if ( src instanceof NoResolutionNode ) {
 			// Do not bind the variable
 		} else {
-			builder.addToScope(context.getInPattern().getElements().get(0), it);
+			// builder.addToScope(context.getInPattern().getElements().get(0), it);
+			additionalItBindings = this.src.genIteratorBindings(builder, it);
 		}
 		// builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
+	
 		
-		OclExpression source = this.src.genExpr(builder);
 		OclExpression body = this.body.genExpr(builder);
 
 		builder.closeScope();
@@ -55,8 +62,13 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		newIterator.setName(exp.getName());
 		newIterator.getIterators().add(it);
 		
-		newIterator.setSource( source);			
-		newIterator.setBody( body );
+		newIterator.setSource(source);
+		if ( additionalItBindings == null ) {
+			newIterator.setBody( body );
+		} else {
+			additionalItBindings._2.setIn_(body); // innerLet
+			newIterator.setBody(additionalItBindings._1); // externalLet
+		}
 
 		return newIterator;
 	}

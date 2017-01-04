@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Assert;
+
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
@@ -13,14 +15,16 @@ import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
 
-public class SplitNode implements IInvariantNode {
+public class SplitNodeOperation implements IInvariantNode {
 
 	private List<IInvariantNode> paths;
-	private CollectionOperationCallExp expr;
+	private OperationCallExp expr;
 
-	public SplitNode(List<IInvariantNode> paths, CollectionOperationCallExp expr) {
+	public SplitNodeOperation(List<IInvariantNode> paths, OperationCallExp expr) {
 		this.paths = paths;
 		this.expr = expr;
 	}
@@ -32,17 +36,24 @@ public class SplitNode implements IInvariantNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel builder) {
-		// assume the paths are from collections...
-		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
-		for (IInvariantNode iInvariantNode : paths) {
-			seq.getElements().add(iInvariantNode.genExpr(builder));
+		Assert.isTrue(paths.size() > 1);
+		
+		// Asume the operation is a boolean expression
+		
+		OclExpression result = paths.get(0).genExpr(builder);
+		for(int i = 1; i < paths.size(); i++) {
+			IInvariantNode node = paths.get(i);
+			
+			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+			op.setOperationName("or");
+
+			op.setSource(result);
+			op.getArguments().add(node.genExpr(builder));
+			
+			result = op;
 		}
 		
-		CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-		flatten.setOperationName("flatten");
-		flatten.setSource(seq);
-		
-		return flatten;
+		return result;
 	}
 
 	@Override
@@ -58,7 +69,7 @@ public class SplitNode implements IInvariantNode {
 
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
-		// do nothing
+		// Do nothing
 		return null;
 	}
 }

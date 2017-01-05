@@ -24,6 +24,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -230,7 +231,15 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			innerIterator = newIterator;				
 		}
 		
-		innerIterator.setBody(bodySupplier.get());
+		if ( rule.getInPattern().getFilter() != null ) {
+			OperatorCallExp implies = OCLFactory.eINSTANCE.createOperatorCallExp();
+			implies.setOperationName("implies");
+			implies.setSource(builder.gen(rule.getInPattern().getFilter()));
+			implies.getArguments().add(bodySupplier.get());
+			innerIterator.setBody(implies);
+		} else {		
+			innerIterator.setBody(bodySupplier.get());
+		}
 		
 		return externaIterator;
 	}

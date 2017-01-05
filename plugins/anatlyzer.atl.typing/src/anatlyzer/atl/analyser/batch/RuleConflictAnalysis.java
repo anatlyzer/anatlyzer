@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -234,6 +235,11 @@ public class RuleConflictAnalysis {
 		
 		public OclExpression getCondition() {
 			return condition;
+		}
+		
+		@Override
+		public List<OclExpression> getFrameConditions() {
+			return Collections.emptyList();
 		}
 		
 		public boolean requireConstraintSolving() {

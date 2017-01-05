@@ -1,7 +1,15 @@
 package anatlyzer.atl.analyser.batch;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
@@ -11,6 +19,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.AbstractDependencyNode;
@@ -25,6 +34,7 @@ import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
@@ -43,6 +53,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	private String invName;
 	private IInvariantNode invNode;
 	private IWitnessModel witness;
+	private ErrorSlice slice;
 
 	public PossibleInvariantViolationNode(StaticHelper helper, ATLModel model, IAnalyserResult result) {
 		this.invName = ATLUtils.getHelperName(helper);
@@ -152,7 +163,10 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	
 	@Override
 	public ErrorSlice getErrorSlice(IAnalyserResult result) {
-		ErrorSlice slice = new ErrorSlice(result, ATLUtils.getSourceMetamodelNames(result.getATLModel()), this);
+		if ( slice != null )
+			return slice;
+		
+		slice = new ErrorSlice(result, ATLUtils.getSourceMetamodelNames(result.getATLModel()), this);
 		this.genErrorSlice(slice);
 		return slice;
 	}
@@ -169,6 +183,44 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		return ctx;
 	}
 
+	@Override
+	public List<OclExpression> getFrameConditions() {
+		Set<String> srcNames = ATLUtils.getModelInfo(model).stream().filter(info -> info.isInput()).map(i -> i.getMetamodelName()).collect(Collectors.toSet());
+		List<MetamodelNamespace> srcMetamodels = result.getNamespaces().getMetamodels().stream().filter(m -> srcNames.contains(m.getName())).collect(Collectors.toList());
+		
+		ArrayList<OclExpression> conds = new ArrayList<OclExpression>();
+		for (EStructuralFeature f : getErrorSlice(result).getFeatures()) {
+			if ( f.getLowerBound() == 1 ) {
+				CSPModel builder = new CSPModel();
+				// String s = className + ".allInstances()->forAll(c | not c." + attr.getName() + ".isUndefined())";
+				EClass eClass = f.getEContainingClass();
+				
+				
+				MetamodelNamespace ns = srcMetamodels.stream().filter(m -> m.hasClass(eClass)).findAny().orElseThrow(() -> new IllegalStateException());
+				
+				OperationCallExp allInstances = builder.createAllInstances(ns.getMetaclassCached(eClass));
+				IteratorExp forAll = builder.createIterator(allInstances, "forAll", "o");
+				
+				NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+				nav.setName(f.getName());
+				nav.setUsedFeature(f);
+				nav.setSource(builder.createVarRef(forAll.getIterators().get(0)));				
+				OclExpression body = null;
+				
+				if ( f.isMany() ) { 
+					body = builder.createCollectionOperationCall(nav, "notEmpty");
+				} else {
+					body = builder.negateExpression(builder.createOperationCall(nav, "oclIsUndefined"));
+				}
+					
+				forAll.setBody(body);
+				
+				conds.add(forAll);
+			}
+		}
+		return conds;
+	}
+	
 	public ProblemStatus getAnalysisResult() {
 		return status;
 	}

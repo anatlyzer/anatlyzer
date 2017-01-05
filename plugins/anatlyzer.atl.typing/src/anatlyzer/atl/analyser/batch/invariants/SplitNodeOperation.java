@@ -45,7 +45,8 @@ public class SplitNodeOperation implements IInvariantNode {
 			IInvariantNode node = paths.get(i);
 			
 			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
-			op.setOperationName("or");
+			// op.setOperationName("or");
+			op.setOperationName("and"); // Every possible path must be true
 
 			op.setSource(result);
 			op.getArguments().add(node.genExpr(builder));

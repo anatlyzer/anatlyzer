@@ -56,6 +56,10 @@ public class ProblemPath implements IDetectedProblem {
 		return CSPGenerator.generateCSPCondition(this);
 	}
 
+	@Override
+	public List<OclExpression> getFrameConditions() {
+		return Collections.emptyList();
+	}
 
 	public OclExpression getWeakestPrecondition() {
 		return CSPGenerator.generateWeakestPrecondition(this);

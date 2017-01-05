@@ -1,5 +1,7 @@
 package analyser.atl.problems;
 
+import java.util.List;
+
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -33,5 +35,12 @@ public interface IDetectedProblem {
 	 * @return
 	 */
 	public boolean isExpressionInPath(OclExpression expr);
+	
+	/**
+	 * Returns a set of additional constraints which typically act as
+	 * frame conditions for the main constraint ({@link #getWitnessCondition()}. 
+	 * @return
+	 */
+	public List<OclExpression> getFrameConditions();
 	
 }

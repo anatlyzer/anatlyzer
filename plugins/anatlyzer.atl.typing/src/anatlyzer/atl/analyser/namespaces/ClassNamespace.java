@@ -40,7 +40,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 				new HashMap<String, VirtualFeature<ClassNamespace, Attribute>>();
 	protected HashMap<String, VirtualFeature<ClassNamespace, Operation>> operations = 
 				new HashMap<String, VirtualFeature<ClassNamespace, Operation>>();
-	private Metaclass	theType;
+	protected Metaclass	theType;
 
 	
 	public ClassNamespace(MetamodelNamespace metamodel, EClass eclass) {
@@ -331,7 +331,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	
 	public Metaclass getType() {
 		if ( this.theType == null )
-			this.theType = (Metaclass) createType(true);		
+			this.theType = (Metaclass) createType(true);
 		return this.theType;
 	}
 	
@@ -342,6 +342,13 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public Type createType(boolean explicitOcurrence) {
 		// TODO: Not sure if this should cache the result... to have only one type
 		// per metaclass
+		// To enable homogenous access to getType, do always a getType to make sure it is assigned
+		if ( this.theType == null ) {		
+			Metaclass m = AnalyserContext.getConverter().convertEClass(eClass, this);
+			m.setExplicitOcurrence(explicitOcurrence);
+			theType = m;
+			// See getFrameConditions in PossibleInvariantNode
+		}
 		
 		Metaclass m = AnalyserContext.getConverter().convertEClass(eClass, this);
 		m.setExplicitOcurrence(explicitOcurrence);

@@ -155,6 +155,16 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 		return ((ClassNamespace) classifiers.get(c.getName())).getType();
 	}
 
+	// This is a temporary hack to avoid the problem of accessing getMetaclass outside 
+	// the thread context
+	public Metaclass getMetaclassCached(EClass c) {
+		Metaclass type = ((ClassNamespace) classifiers.get(c.getName())).theType;
+		if ( type == null )
+			throw new IllegalStateException("Type type for " + c.getName());
+		return type;
+	}
+
+	
 	public EnumType findEnumLiteral(String name) {
 		for(EEnum eenum : allEnums) {
 			EEnumLiteral literal = eenum.getEEnumLiteral(name);
@@ -217,6 +227,7 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass, GlobalNamespace ns) {
 		return ns.getDirectSubclasses(eClass);		
 	}
+
 
 	
 	

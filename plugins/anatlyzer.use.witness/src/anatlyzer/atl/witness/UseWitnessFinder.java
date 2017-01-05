@@ -48,13 +48,16 @@ import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
@@ -244,6 +247,28 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				
 		// The problem is that we cannot call helpers here... (not in the error slice...)
 		List<Pair<StaticHelper, USEConstraint>> preconditions =  new ArrayList<Pair<StaticHelper,USEConstraint>>();
+		
+		// Frame conditions are added as preconditions
+		for (int i = 0; i < problem.getFrameConditions().size(); i++) {
+			OclExpression exp = problem.getFrameConditions().get(i);
+			
+			StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
+			OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+			Attribute att = OCLFactory.eINSTANCE.createAttribute();
+			att.setName("frame_" + i);
+			h.setDefinition(def);
+			def.setFeature(att);
+			att.setInitExpression(exp);
+			
+			
+			USEConstraint c = USESerializer.retypeAndGenerate(exp, problem, renaming);	
+			if ( c.useNotSupported() ) {
+				return ProblemStatus.NOT_SUPPORTED_BY_USE;
+			}
+			preconditions.add(new Pair<>(h, c));
+		}
+		
+		
 		if ( checkPreconditions ) {
 			// Copy!!
 			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions().

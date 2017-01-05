@@ -210,6 +210,11 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 		}
 
 		@Override
+		public List<OclExpression> getFrameConditions() {
+			return Collections.emptyList();
+		}
+		
+		@Override
 		public boolean isExpressionInPath(OclExpression expr) {
 			for (MatchedRule rule : rules) {
 				if ( rule.getInPattern().getFilter() != null && 

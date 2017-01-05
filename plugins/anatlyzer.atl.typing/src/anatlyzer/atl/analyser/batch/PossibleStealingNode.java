@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
@@ -336,6 +337,11 @@ public class PossibleStealingNode extends AbstractDependencyNode implements IDet
 		return ctx;
 	}
 
+	@Override
+	public List<OclExpression> getFrameConditions() {
+		return Collections.emptyList();
+	}
+	
 	public void setAnalysisResult(ProblemStatus analysisResult) {
 		this.analysisResult = analysisResult;
 	}

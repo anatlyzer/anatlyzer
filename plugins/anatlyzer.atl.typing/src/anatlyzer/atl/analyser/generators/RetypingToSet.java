@@ -260,7 +260,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			}			
 		}
 		
-		if ( self.getUsedFeature() == null ) {
+		if ( self.getUsedFeature() == null && isTupleAccess(self) ) {
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 			navT.setOperationName(self.getName());
 		
@@ -278,7 +278,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 		
 		if ( self.getInferredType() instanceof BooleanType && self.getUsedFeature() != null) {
-			System.out.println("Not retyping, because it seems that USE supports Booleans!");
+			// System.out.println("Not retyping, because it seems that USE supports Booleans!");
 			/*
 			OperatorCallExp operator = OCLFactory.eINSTANCE.createOperatorCallExp();
 			StringExp stringExp = OCLFactory.eINSTANCE.createStringExp();
@@ -292,6 +292,10 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 	}
 	
+	private boolean isTupleAccess(NavigationOrAttributeCallExp self) {
+		return self.getAnnotations().contains("TUPLE_ACCESS");
+	}
+
 	private Metaclass createMetaclass(EClass klass) {
 		Metaclass m = TypesFactory.eINSTANCE.createMetaclass();
 		m.setKlass(klass);

@@ -166,18 +166,34 @@ public class InvariantGraphGenerator {
 			}
 			
 		} else {
-			// Similar to colOp
+			// In contrast to colOp, the split operations goes after
 			IInvariantNode src = analyse(self.getSource(), env);
 
 			if ( src instanceof MultiNode ) {			
-				SplitNodeOperation split = new SplitNodeOperation(((MultiNode) src).getNodes(), self);
-				src = split;
+				List<IInvariantNode> ops = ((MultiNode) src).getNodes().stream().map(n -> {
+					List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
+					return new OperationCallExpNode(n, self, args);					
+				}).collect(Collectors.toList());
+				
+				SplitNodeOperation split = new SplitNodeOperation(ops, self);
+				return split;
+			} else {
+				List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());				
+				return new OperationCallExpNode(src, self, args);
 			}
 			
-			List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());			
-			// CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
-			// return node;			
-			return new OperationCallExpNode(src, self, args);
+//			// Similar to colOp
+//			IInvariantNode src = analyse(self.getSource(), env);
+//
+//			if ( src instanceof MultiNode ) {			
+//				SplitNodeOperation split = new SplitNodeOperation(((MultiNode) src).getNodes(), self);
+//				src = split;
+//			}
+//			
+//			List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());			
+//			// CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
+//			// return node;			
+//			return new OperationCallExpNode(src, self, args);
 		}
 	}
 

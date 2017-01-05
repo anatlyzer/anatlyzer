@@ -77,7 +77,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			builder.openEmptyScope();
 			
 			OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
-			IteratorExp innerMap = builder.createIterator(op, "map", rule.getInPattern().getElements().get(0).getVarName());
+			IteratorExp innerMap = builder.createIterator(op, "collect", rule.getInPattern().getElements().get(0).getVarName());
 			IteratorExp externalMap = innerMap;
 			
 			builder.addToScope(rule.getInPattern().getElements().get(0), innerMap.getIterators().get(0));
@@ -87,7 +87,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 				InPatternElement e = rule.getInPattern().getElements().get(i);
 				
 				op = createAllInstances(e);
-				IteratorExp newMap = builder.createIterator(op, "map", e.getVarName());
+				IteratorExp newMap = builder.createIterator(op, "collect", e.getVarName());
 			
 				builder.addToScope(e, newMap.getIterators().get(0));
 				
@@ -168,6 +168,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		VariableExp varExp = OCLFactory.eINSTANCE.createVariableExp();
 		varExp.setReferredVariable(tupleVar);
 		nav.setSource(varExp);
+		nav.getAnnotations().put("TUPLE_ACCESS", "true");
 		
 		vd.setInitExpression(nav);
 		innerLet.setVariable(vd);

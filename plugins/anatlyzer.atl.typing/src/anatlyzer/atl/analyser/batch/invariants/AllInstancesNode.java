@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -72,71 +73,80 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			}
 			return op;
 		} else {
-			// General case.
-			// T1.allInstances()->map(t1 | T2.allInstances()->map(t2 | Tuple { t1 = t1, t2 = t2 }))
-			builder.openEmptyScope();
-			
-			OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
-			IteratorExp innerMap = builder.createIterator(op, "collect", rule.getInPattern().getElements().get(0).getVarName());
-			IteratorExp externalMap = innerMap;
-			
-			builder.addToScope(rule.getInPattern().getElements().get(0), innerMap.getIterators().get(0));
-			
-			// I do this in a separate piece of code because the other one is known to work...
-			for (int i = 1; i < rule.getInPattern().getElements().size(); i++) {
-				InPatternElement e = rule.getInPattern().getElements().get(i);
-				
-				op = createAllInstances(e);
-				IteratorExp newMap = builder.createIterator(op, "collect", e.getVarName());
-			
-				builder.addToScope(e, newMap.getIterators().get(0));
-				
-				innerMap.setBody(newMap);
-				innerMap = newMap;				
-			}
-			
-			TupleExp t = OCLFactory.eINSTANCE.createTupleExp();
-			for (int i = 0; i < rule.getInPattern().getElements().size(); i++) {
-				InPatternElement e = rule.getInPattern().getElements().get(i);
-				TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
-				part.setVarName(e.getVarName());
-				part.setInitExpression(builder.createVarRef(builder.getVar(e)));
-				
-				t.getTuplePart().add(part);
-			}
-			
-			innerMap.setBody(t);
-			
-			
-			IteratorExp result = null;
-			if ( rule.getInPattern().getFilter() != null ) {
-				IteratorExp select = builder.createIterator(externalMap, "select", "ipe_tuple");
+			// IteratorExp result = genCrossProductExpression(builder);
+			// return result;
 
-				builder.openEmptyScope();
-
-				Pair<LetExp, LetExp> lets = genMultipleIPEBindings(rule, select.getIterators().get(0), builder);
-				LetExp externalLet = lets._1;
-				LetExp innerLet = lets._2;
-
-				OclExpression body = builder.gen(rule.getInPattern().getFilter());
-				innerLet.setIn_(body);
-
-				builder.closeScope();
-				
-				// OclExpression body = (OclExpression) new ATLCopier(rule.getInPattern().getFilter()).
-				//	bind(firstIPE, select.getIterators().get(0)).
-				//	copy();
-				select.setBody(externalLet);
-
-				result = select;
-			} else {
-				result = externalMap;
-			}
-			
-			builder.closeScope();
-			return result;
+			// This cannot be done with tuples in USE, so we just throw an Exception, and generate
+			// nested forAlls in a more complicated way which requires interaction with IteratorExpNode
+			throw new UnsupportedOperationException();
 		}
 		
+	}
+
+	private IteratorExp genCrossProductExpression(CSPModel builder) {
+		// General case.
+		// T1.allInstances()->map(t1 | T2.allInstances()->map(t2 | Tuple { t1 = t1, t2 = t2 }))
+		builder.openEmptyScope();
+		
+		OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
+		IteratorExp innerMap = builder.createIterator(op, "collect", rule.getInPattern().getElements().get(0).getVarName());
+		IteratorExp externalMap = innerMap;
+		
+		builder.addToScope(rule.getInPattern().getElements().get(0), innerMap.getIterators().get(0));
+		
+		// I do this in a separate piece of code because the other one is known to work...
+		for (int i = 1; i < rule.getInPattern().getElements().size(); i++) {
+			InPatternElement e = rule.getInPattern().getElements().get(i);
+			
+			op = createAllInstances(e);
+			IteratorExp newMap = builder.createIterator(op, "collect", e.getVarName());
+		
+			builder.addToScope(e, newMap.getIterators().get(0));
+			
+			innerMap.setBody(newMap);
+			innerMap = newMap;				
+		}
+		
+		TupleExp t = OCLFactory.eINSTANCE.createTupleExp();
+		for (int i = 0; i < rule.getInPattern().getElements().size(); i++) {
+			InPatternElement e = rule.getInPattern().getElements().get(i);
+			TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
+			part.setVarName(e.getVarName());
+			part.setInitExpression(builder.createVarRef(builder.getVar(e)));
+			
+			t.getTuplePart().add(part);
+		}
+		
+		innerMap.setBody(t);
+		
+		
+		IteratorExp result = null;
+		if ( rule.getInPattern().getFilter() != null ) {
+			IteratorExp select = builder.createIterator(externalMap, "select", "ipe_tuple");
+
+			builder.openEmptyScope();
+
+			Pair<LetExp, LetExp> lets = genMultipleIPEBindings(rule, select.getIterators().get(0), builder);
+			LetExp externalLet = lets._1;
+			LetExp innerLet = lets._2;
+
+			OclExpression body = builder.gen(rule.getInPattern().getFilter());
+			innerLet.setIn_(body);
+
+			builder.closeScope();
+			
+			// OclExpression body = (OclExpression) new ATLCopier(rule.getInPattern().getFilter()).
+			//	bind(firstIPE, select.getIterators().get(0)).
+			//	copy();
+			select.setBody(externalLet);
+
+			result = select;
+		} else {
+			result = externalMap;
+		}
+		
+		builder.closeScope();
+		return result;
 	}
 
 	private Pair<LetExp, LetExp> genMultipleIPEBindings(MatchedRule rule, VariableDeclaration tupleVar, CSPModel builder) {
@@ -196,6 +206,37 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			return genMultipleIPEBindings(rule, it, builder);			
 		}
 		return null;
+	}
+
+	public IteratorExp genNested(String itName, CSPModel builder, Supplier<OclExpression> bodySupplier) {
+		builder.openEmptyScope();
+		
+		OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
+		IteratorExp innerIterator = builder.createIterator(op, itName, rule.getInPattern().getElements().get(0).getVarName());
+		IteratorExp externaIterator = innerIterator;
+		
+		builder.addToScope(rule.getInPattern().getElements().get(0), innerIterator.getIterators().get(0));
+		
+		// I do this in a separate piece of code because the other one is known to work...
+		for (int i = 1; i < rule.getInPattern().getElements().size(); i++) {
+			InPatternElement e = rule.getInPattern().getElements().get(i);
+			
+			op = createAllInstances(e);
+			IteratorExp newIterator = builder.createIterator(op, itName, e.getVarName());
+		
+			builder.addToScope(e, newIterator.getIterators().get(0));
+			
+			innerIterator.setBody(newIterator);
+			innerIterator = newIterator;				
+		}
+		
+		innerIterator.setBody(bodySupplier.get());
+		
+		return externaIterator;
+	}
+
+	public boolean requiresNesting() {
+		return rule.getInPattern().getElements().size() > 1;
 	}
 	
 }

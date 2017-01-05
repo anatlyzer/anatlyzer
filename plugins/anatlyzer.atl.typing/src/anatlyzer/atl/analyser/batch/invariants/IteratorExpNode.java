@@ -35,6 +35,19 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel builder) {
+		// This is a special case to deal with USE limitation to do the cross-product
+		if ( src instanceof AllInstancesNode && ((AllInstancesNode) src).requiresNesting() ){
+			builder.copyScope();
+			IteratorExp result = ((AllInstancesNode) src).genNested(exp.getName(), builder, () -> {
+				return this.body.genExpr(builder);
+			});
+			builder.closeScope();
+			return result;
+		}
+
+		
+		
+		// This is the normal case
 		Iterator it = OCLFactory.eINSTANCE.createIterator();
 		it.setVarName(exp.getIterators().get(0).getVarName());
 

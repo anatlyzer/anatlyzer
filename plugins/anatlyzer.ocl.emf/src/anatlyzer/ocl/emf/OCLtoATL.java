@@ -6,10 +6,15 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.ocl.ecore.BooleanLiteralExp;
 import org.eclipse.ocl.ecore.Constraint;
+import org.eclipse.ocl.ecore.IntegerLiteralExp;
 import org.eclipse.ocl.ecore.IteratorExp;
 import org.eclipse.ocl.ecore.LetExp;
+import org.eclipse.ocl.ecore.NullLiteralExp;
 import org.eclipse.ocl.ecore.OperationCallExp;
+import org.eclipse.ocl.ecore.RealLiteralExp;
+import org.eclipse.ocl.ecore.StringLiteralExp;
 import org.eclipse.ocl.ecore.TypeExp;
 import org.eclipse.ocl.ecore.PropertyCallExp;
 import org.eclipse.ocl.ecore.VariableExp;
@@ -21,6 +26,8 @@ import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.Attribute;
+import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -28,6 +35,8 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.RealExp;
+import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 /**
@@ -145,6 +154,25 @@ public class OCLtoATL {
 			// TODO: set the model
 		
 			return oclType;
+		// Literals
+		} else if ( exp instanceof IntegerLiteralExp ) {
+			IntegerExp l = OCLFactory.eINSTANCE.createIntegerExp();
+			l.setIntegerSymbol(((IntegerLiteralExp) exp).getIntegerSymbol());
+			return l;
+		} else if ( exp instanceof StringLiteralExp ) {
+			StringExp l = OCLFactory.eINSTANCE.createStringExp();
+			l.setStringSymbol(((StringLiteralExp) exp).getStringSymbol());
+			return l;
+		} else if ( exp instanceof BooleanLiteralExp ) {
+			BooleanExp l = OCLFactory.eINSTANCE.createBooleanExp();
+			l.setBooleanSymbol(((BooleanLiteralExp) exp).getBooleanSymbol());
+			return l;
+		} else if ( exp instanceof RealLiteralExp ) {
+			RealExp l = OCLFactory.eINSTANCE.createRealExp();
+			l.setRealSymbol(((RealLiteralExp) exp).getRealSymbol());
+			return l;
+		} else if ( exp instanceof NullLiteralExp ) {
+			return OCLFactory.eINSTANCE.createOclUndefinedExp(); 
 		}
 		
 		throw new IllegalStateException("Not handled yet: " + exp + " : " + exp.eClass());

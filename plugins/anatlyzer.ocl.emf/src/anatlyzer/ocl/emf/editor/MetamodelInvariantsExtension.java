@@ -86,7 +86,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 	private List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
 		EAnnotation ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL");
-		if ( ann == null ) {
+		if ( ann == null ) {                
 			ann = c.getEAnnotation("http://www.eclipse.org/ocl/examples/OCL");
 		}
 		
@@ -102,7 +102,13 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 					Constraint constraint = helper.createInvariant(inv);
 					constraint.setName(invName);
 					
-					helpers.add(new OCLtoATL().transform(mmName, constraint));
+					try {
+						helpers.add(new OCLtoATL().transform(mmName, constraint));
+					} catch ( IllegalStateException e ) {
+						// This is only while developing...
+						System.out.println("Cannot handle: " + e.getMessage());
+					}
+					System.out.println("Success translating: " + c.getName() + "." + constraint.getName());
 				} catch ( ParserException e ) {
 					System.err.println("Problem in " + c.getName() + "." + invName + ": " + e.getMessage());
 				}

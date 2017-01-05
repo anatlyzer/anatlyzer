@@ -75,8 +75,14 @@ public class Analyser implements IAnalyserResult {
 					new ExtendTransformation(trafo, mm, unit).perform();
 					
 					for(AnalyserExtension pass : additional) {
-						if ( pass.isPreparationTask() )
-							pass.perform(trafo, mm, unit);
+						if ( pass.isPreparationTask() ) {
+							try {
+								pass.perform(trafo, mm, unit);
+							} catch ( Exception e ) {
+								System.err.println("Extension " + pass + " failed!");
+								e.printStackTrace();								
+							}
+						}
 					}
 					
 					if ( unit instanceof Module && ((Module) unit).isIsRefining() ) {
@@ -86,8 +92,14 @@ public class Analyser implements IAnalyserResult {
 					}
 				
 					for(AnalyserExtension pass : additional) {
-						if ( ! pass.isPreparationTask() )
-							pass.perform(trafo, mm, unit);
+						if ( ! pass.isPreparationTask() ) {
+							try {
+								pass.perform(trafo, mm, unit);
+							} catch ( Exception e ) {
+								System.err.println("Extension " + pass + " failed!");
+								e.printStackTrace();								
+							}
+						}
 					}
 				}	
 				

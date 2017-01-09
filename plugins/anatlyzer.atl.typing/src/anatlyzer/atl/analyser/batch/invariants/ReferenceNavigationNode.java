@@ -3,19 +3,22 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.OCL.IfExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -59,7 +62,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		MatchedRule rule = context;
 
 		// OclExpression src = copy(binding.getValue(), env);
@@ -89,6 +92,16 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 		}
 		
 		return src;
+	}
+
+	@Override
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
+		if ( context.getInPattern().getElements().size() == 1 ) {
+			builder.addToScope(context.getInPattern().getElements().get(0), it, targetIt);
+		} else {
+			throw new IllegalStateException();			
+		}
+		return null;
 	}
 	
 	@Override

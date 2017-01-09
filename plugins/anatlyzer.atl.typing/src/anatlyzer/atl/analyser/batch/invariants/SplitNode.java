@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -31,7 +32,7 @@ public class SplitNode implements IInvariantNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		// assume the paths are from collections...
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
 		for (IInvariantNode iInvariantNode : paths) {
@@ -57,7 +58,7 @@ public class SplitNode implements IInvariantNode {
 	}
 
 	@Override
-	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		// do nothing
 		return null;
 	}

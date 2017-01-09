@@ -1,15 +1,14 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
-import java.util.List;
-
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atlext.ATL.Binding;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 
@@ -28,8 +27,13 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		// TODO: Do I need the source here???
+		
+		if ( targetNav.getSource() instanceof VariableExp ) {
+			VariableDeclaration vd = ((VariableExp) targetNav.getSource()).getReferredVariable();
+			return builder.gen2(binding.getValue(), vd);
+		}
 		
 		// return copy(binding.getValue());
 		return builder.gen(binding.getValue());

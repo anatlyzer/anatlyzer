@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -30,7 +31,7 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
 		op.setOperationName(exp.getOperationName());
 		op.setSource(source.genExpr(builder));

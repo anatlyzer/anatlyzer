@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -13,6 +14,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypingModel;
@@ -22,6 +24,7 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IntegerExp;
@@ -202,7 +205,10 @@ public class InvariantGraphGenerator {
 		// TODO: Consider subtyping relationships
 		return model.allObjectsOf(MatchedRule.class).stream().
 			filter(r -> r.getOutPattern() != null).
-			filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
+			// filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
+			
+			// We ask, is OPE a subtype of the T.allInstances() in the postcondition?
+			filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType()))).
 			collect(Collectors.toList());
 		
 	}
@@ -246,9 +252,21 @@ public class InvariantGraphGenerator {
 			
 			if ( isPrimitiveBinding(b) ) {
 				return new AttributeNavigationNode(source, self, b);
-			} else {			
-				for(RuleResolutionInfo rri : b.getResolvedBy()) {
-					resolutions.add(new ReferenceNavigationNode(source, self, b, rri.getRule(), env));
+			} else {							
+				// To support several bindings, like:
+				//    	relations <- s.entities,
+				//		relations <- s.relships
+				//
+				
+				HashSet<Rule> included = new HashSet<>();
+				//for(RuleResolutionInfo rri : allBindings.stream().flatMap(binding -> binding.getResolvedBy().stream()).collect(Collectors.toList())) {
+				for(Binding binding : allBindings) {
+					for(RuleResolutionInfo rri : binding.getResolvedBy()) { 
+						if ( included.contains(rri.getRule()))
+								continue;
+						included.add(rri.getRule());
+						resolutions.add(new ReferenceNavigationNode(source, self, binding, rri.getRule(), env));						
+					}
 				}
 				
 				if ( resolutions.size() == 0 ) {
@@ -256,7 +274,11 @@ public class InvariantGraphGenerator {
 				}
 			}
 			
-			return new MultiNode(resolutions);
+			if ( resolutions.size() == 1 ) {
+				return resolutions.get(0);
+			} else {
+				return new MultiNode(resolutions);
+			}
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -288,7 +310,7 @@ public class InvariantGraphGenerator {
 		}
 		
 		@Override
-		public OclExpression genExpr(CSPModel builder) {
+		public OclExpression genExpr(CSPModel2 builder) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -320,7 +342,7 @@ public class InvariantGraphGenerator {
 		}
 		
 		@Override
-		public OclExpression genExpr(CSPModel builder) {
+		public OclExpression genExpr(CSPModel2 builder) {
 //			if ( this.nodes.size() == 1 ) {
 //				return this.nodes.get(0).genExpr(builder);
 //			}

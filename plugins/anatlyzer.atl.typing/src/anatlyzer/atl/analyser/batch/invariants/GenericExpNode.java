@@ -1,8 +1,6 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
-import java.util.List;
-
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -23,7 +21,7 @@ public class GenericExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		return (OclExpression) ATLCopier.copySingleElement(exp);
 	}
 	

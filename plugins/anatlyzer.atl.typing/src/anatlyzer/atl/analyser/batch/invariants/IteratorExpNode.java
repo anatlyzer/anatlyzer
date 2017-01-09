@@ -1,10 +1,8 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
-import java.util.List;
 import java.util.Set;
 
-import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.MultiNode;
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -34,7 +32,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		// This is a special case to deal with USE limitation to do the cross-product
 		if ( src instanceof AllInstancesNode && ((AllInstancesNode) src).requiresNesting() ){
 			builder.copyScope();
@@ -62,7 +60,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 			// Do not bind the variable
 		} else {
 			// builder.addToScope(context.getInPattern().getElements().get(0), it);
-			additionalItBindings = this.src.genIteratorBindings(builder, it);
+			additionalItBindings = this.src.genIteratorBindings(builder, it, this.exp.getIterators().get(0));
 		}
 		// builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
 	

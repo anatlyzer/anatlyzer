@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -61,10 +62,10 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 		return (OclExpression) new ATLCopier(value).bindAll(env.getVarMapping()).copy();
 	}
 	
-	public abstract OclExpression genExpr(CSPModel builder);
+	public abstract OclExpression genExpr(CSPModel2 builder);
 	
 	@Override
-	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		// Default is doing nothing
 		return null;
 	}

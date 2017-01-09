@@ -2,7 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.Set;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -13,8 +13,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 
 public interface IInvariantNode {
 
-	OclExpression genExpr(CSPModel builder);
-	Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it);
+	OclExpression genExpr(CSPModel2 builder);
+	Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt);
 	
 	MatchedRule getContext();
 

@@ -1,5 +1,7 @@
 package anatlyzer.ui.util;
 
+import java.util.function.Supplier;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -74,6 +76,23 @@ public class WorkbenchUtil {
 			folder.refreshLocal(1, null);
 		}
 		return folder;
+	}
+	
+	public static <T> T logExecutionTime(Supplier<T> s) {
+	     long start = System.nanoTime();
+	     T v = s.get();
+	     long end = System.nanoTime();
+	     // return end-start;
+	     return v;
+	}
+	
+	public static <T> T logSecondsTime(Supplier<T> s) {
+	     long start = System.nanoTime();
+	     T v = s.get();
+	     long end = System.nanoTime();
+	     // return end-start;
+	     System.out.println((end-start) / 1000000000d);
+	     return v;
 	}
 
 }

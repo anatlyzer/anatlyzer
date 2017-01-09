@@ -17,6 +17,7 @@ import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.invariants.IInvariantNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
@@ -81,7 +82,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	}
 	
 	protected OclExpression getPrecondition(Function<OclExpression, OclExpression> negator) {
-		CSPModel cspmodel = new CSPModel();
+		CSPModel2 cspmodel = new CSPModel2();
 		cspmodel.initWithoutThisModuleContext();
 
 		HashSet<OutPatternElement> targets = new HashSet<OutPatternElement>();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -28,7 +29,7 @@ public class VariableExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		VariableExp copy = OCLFactory.eINSTANCE.createVariableExp();
 //		// TODO: Do variable re-assignment well
 		copy.setReferredVariable(exp.getReferredVariable());

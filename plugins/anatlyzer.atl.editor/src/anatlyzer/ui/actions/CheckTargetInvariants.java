@@ -25,6 +25,7 @@ import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
+import anatlyzer.ui.util.WorkbenchUtil;
 
 public class CheckTargetInvariants implements IEditorActionDelegate {
 
@@ -94,7 +95,8 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 	 * @param data
 	 * @return
 	 */
-	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data, IResource resource) {
+	private boolean processNode(PossibleInvariantViolationNode node, AnalysisResult data, IResource resource) {		
+return WorkbenchUtil.logSecondsTime(() -> {
 		IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder(AnalysisIndex.getInstance().getConfiguration(resource));
 		ProblemStatus result = wf.find(node, data);
 		node.setAnalysisResult(result, wf.getFoundWitnessModel());
@@ -102,6 +104,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 			return true;
 		
 		return false;				
+});
 	}
 
 	@Override

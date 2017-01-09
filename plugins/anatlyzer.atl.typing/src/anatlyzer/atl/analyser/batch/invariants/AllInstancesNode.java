@@ -1,10 +1,10 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.types.Metaclass;
@@ -57,7 +57,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		if ( rule.getInPattern().getElements().size() == 1 ) {
 			InPatternElement firstIPE = rule.getInPattern().getElements().get(0);
 			
@@ -200,9 +200,9 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { }
 	
 	@Override
-	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		if ( rule.getInPattern().getElements().size() == 1 ) {
-			builder.addToScope(rule.getInPattern().getElements().get(0), it);
+			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
 		} else {
 			return genMultipleIPEBindings(rule, it, builder);			
 		}

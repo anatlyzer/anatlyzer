@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.List;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -31,7 +32,7 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 //		// This is a merger node, so get all the parents and put then in a unique collection
 //		SetExp colExp = OCLFactory.eINSTANCE.createSetExp();
 //		

@@ -5,19 +5,17 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
-import anatlyzer.atlext.OCL.SequenceExp;
 
 public class SplitNodeOperation implements IInvariantNode {
 
@@ -35,7 +33,7 @@ public class SplitNodeOperation implements IInvariantNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		Assert.isTrue(paths.size() > 1);
 		
 		// Asume the operation is a boolean expression
@@ -69,7 +67,7 @@ public class SplitNodeOperation implements IInvariantNode {
 	}
 
 	@Override
-	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		// Do nothing
 		return null;
 	}

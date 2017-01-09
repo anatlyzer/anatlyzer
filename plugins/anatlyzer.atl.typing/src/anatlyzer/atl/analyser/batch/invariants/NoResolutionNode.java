@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.model.TypeUtils;
@@ -16,7 +17,6 @@ import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
 public class NoResolutionNode implements IInvariantNode {
@@ -49,7 +49,7 @@ public class NoResolutionNode implements IInvariantNode {
 	}
 	
 	@Override
-	public OclExpression genExpr(CSPModel builder) {
+	public OclExpression genExpr(CSPModel2 builder) {
 		// OclExpression exp = builder.gen(binding.getValue());
 		
 		if ( getTargets().size() > 0 ) {
@@ -91,7 +91,7 @@ public class NoResolutionNode implements IInvariantNode {
 	}
 
 	@Override
-	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel builder, Iterator it) {
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		throw new IllegalStateException();
 	}
 }

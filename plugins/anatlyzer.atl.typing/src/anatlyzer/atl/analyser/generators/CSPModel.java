@@ -317,8 +317,8 @@ public class CSPModel {
 	}
 
 
-	private CSPModelScope scope = null; //new CSPModelScope();
-	private Stack<CSPModelScope> previousScopes = new Stack<CSPModelScope>();
+	protected CSPModelScope scope = null; //new CSPModelScope();
+	protected Stack<CSPModelScope> previousScopes = new Stack<CSPModelScope>();
 
 	public void addToScope(VariableDeclaration varDcl, VariableDeclaration newVar) {
 		if ( scope.containsKey(varDcl) ) 
@@ -366,8 +366,13 @@ public class CSPModel {
 	public void setThisModuleVariable(VariableDeclaration thisModule) {
 		if ( scope != null )
 			throw new IllegalStateException();
-		scope = new CSPModelScope(thisModule);
+		scope = createModelScope(thisModule);
 		// scope.setThisModuleVariable(thisModule);
+	}
+
+
+	protected CSPModelScope createModelScope(VariableDeclaration thisModule) {
+		return new CSPModelScope(thisModule);
 	}
 	
 	public void initWithoutThisModuleContext() {
@@ -381,7 +386,7 @@ public class CSPModel {
 		vd.setVarName("thisModule");
 		vd.setType(m);
 		
-		scope = new CSPModelScope(vd);
+		scope = createModelScope(vd);
 	}
 
 	public VariableDeclaration getThisModuleVariable() {

@@ -8,6 +8,7 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
@@ -33,7 +34,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	private Env env;
 
 	public ReferenceNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b, MatchedRule context, Env env) {
-		super(parent, context);
+		super(context);
 		this.targetNav = targetNav;
 		this.binding = b;
 		
@@ -86,12 +87,17 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 			OperationCallExp kindOf = builder.createKindOf(src, type.getModel().getName(), type.getName(), (Metaclass) type.getInferredType());
 			ifexp.setCondition(kindOf);
 			ifexp.setThenExpression(builder.gen(binding.getValue()));
-			ifexp.setElseExpression(OCLFactory.eINSTANCE.createOclUndefinedExp());
+			ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
 			
 			src = ifexp;
 		}
 		
 		return src;
+	}
+
+	private OclExpression createUndefinedValue(Type inferredType) {
+		return OCLFactory.eINSTANCE.createOclUndefinedExp();
+		// return null;
 	}
 
 	@Override
@@ -111,5 +117,10 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 				elems.add((OutPatternElement) ((VariableExp) o).getReferredVariable());
 			}
 		});
+	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return ATLUtils.findVariableReference(binding.getValue(), e) != null;
 	}
 }

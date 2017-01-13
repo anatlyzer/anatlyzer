@@ -1,13 +1,8 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.Pair;
@@ -18,35 +13,24 @@ import anatlyzer.atlext.OCL.OclExpression;
 
 public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	protected MatchedRule context;
-	protected List<IInvariantNode> parents;
-	protected List<IInvariantNode> children = new ArrayList<>();
-
+	private IInvariantNode parent;
 	
-	public AbstractInvariantReplacerNode(List<IInvariantNode> parents, MatchedRule context) {
-		this.parents = new ArrayList<>(parents);
-		this.context = context;
-		
-//		for (IInvariantNode parent : parents) {
-//			parent.getChildren().add(this);
-//		}	
-	}
-	
-	public AbstractInvariantReplacerNode(IInvariantNode parent, MatchedRule context) {
-		this(parent == null ? new ArrayList<IInvariantNode>() : Collections.singletonList(parent), context);		
-	}
-
-	public List<IInvariantNode> getChildren() {
-		return Collections.unmodifiableList(children);
-	}
-	
-	public IInvariantNode getParent() {
-		if ( parents.size() != 1 )
-			throw new IllegalStateException();
-		return parents.get(0);
+	public AbstractInvariantReplacerNode(MatchedRule context) {
+		this.context = context;		
 	}
 	
 	public MatchedRule getContext() {
 		return context;
+	}
+	
+	public void setParent(IInvariantNode node) {
+		this.parent = node;
+	}
+	
+	public IInvariantNode getParent() {
+		if ( parent == null )
+			throw new IllegalStateException("Not available for " + this.getClass().getName());
+		return parent;
 	}
 	
 	
@@ -69,5 +53,5 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 		// Default is doing nothing
 		return null;
 	}
-	
+
 }

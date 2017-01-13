@@ -6,6 +6,7 @@ import java.util.Set;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -18,10 +19,13 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 	private List<IInvariantNode> args;
 
 	public OperationCallExpNode(IInvariantNode source, OperationCallExp exp, List<IInvariantNode> args) {
-		super(source, source.getContext());
+		super(source.getContext());
 		this.source = source;
 		this.exp = exp;
 		this.args = args;
+		
+		source.setParent(this);
+		args.forEach(a -> a.setParent(this));
 	}
 	
 	@Override
@@ -51,5 +55,11 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
 		source.getTargetObjectsInBinding(elems);
 	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return source.isUsed(e) || args.stream().anyMatch(a -> a.isUsed(e));
+	}
+
 
 }

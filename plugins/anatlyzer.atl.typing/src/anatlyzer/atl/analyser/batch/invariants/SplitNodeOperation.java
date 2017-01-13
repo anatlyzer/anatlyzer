@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Assert;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
@@ -21,6 +22,7 @@ public class SplitNodeOperation implements IInvariantNode {
 
 	private List<IInvariantNode> paths;
 	private OperationCallExp expr;
+	private IInvariantNode parent;
 
 	public SplitNodeOperation(List<IInvariantNode> paths, OperationCallExp expr) {
 		this.paths = paths;
@@ -71,4 +73,22 @@ public class SplitNodeOperation implements IInvariantNode {
 		// Do nothing
 		return null;
 	}
+	
+	@Override
+	public void setParent(IInvariantNode node) {
+		this.parent = node;
+	}
+	
+	@Override
+	public IInvariantNode getParent() {
+		if ( parent == null ) throw new IllegalStateException();
+		return parent;
+	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		throw new UnsupportedOperationException();
+	}
+
+	
 }

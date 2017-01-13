@@ -10,6 +10,7 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
@@ -93,5 +94,20 @@ public class NoResolutionNode implements IInvariantNode {
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		throw new IllegalStateException();
+	}
+	
+	@Override
+	public void setParent(IInvariantNode node) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public IInvariantNode getParent() {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		throw new UnsupportedOperationException();
 	}
 }

@@ -25,6 +25,8 @@ import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -130,14 +132,32 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 
 	@Override
-	public void inModule(Module self) {
+	public void inLibrary(Library self) {
 		String s = "";
+		s += commentsBefore(self);
 		
-		for(String c : self.getCommentsBefore()) {
-			s += c + cr();
+		s += "library " + self.getName() + ";" + cr();
+		
+		for(ModuleElement r : self.getHelpers()) {
+			s += g(r) + cr(2);
 		}
 		
-		
+		s(s);
+	}
+	
+	private String commentsBefore(LocatedElement self) {
+		String s = "";
+		for(String c : self.getCommentsBefore()) {
+			s += "-- " + c + cr();
+		}
+		return s;
+	}
+
+
+	@Override
+	public void inModule(Module self) {
+		String s = commentsBefore(self);
+			
 		s += "module " + self.getName() + ";" + cr() +
 		      "create ";
 		
@@ -388,7 +408,7 @@ public class ATLSerializer extends AbstractVisitor {
 	//
 	@Override
 	public void inContextHelper(ContextHelper self) {
-		String s = "helper context " + g(ATLUtils.getHelperType(self)) + 
+		String s = commentsBefore(self) + "helper context " + g(ATLUtils.getHelperType(self)) + 
 				" def: " + g(self.getDefinition().getFeature()) + ";";
 		s(s);
 	}
@@ -416,7 +436,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inStaticHelper(StaticHelper self) {
-		String s = "helper " + 
+		String s = commentsBefore(self) + "helper " + 
 				" def: " + g(self.getDefinition().getFeature()) + ";";
 		s(s);
 	}

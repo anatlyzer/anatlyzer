@@ -5,6 +5,7 @@ import java.util.Set;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
@@ -21,6 +22,10 @@ public interface IInvariantNode {
 	void genErrorSlice(ErrorSlice slice);
 	
 	void getTargetObjectsInBinding(Set<OutPatternElement> elems);
-
+	
+	void setParent(IInvariantNode node);
+	IInvariantNode  getParent();
+	
+	boolean isUsed(InPatternElement e);
 	
 }

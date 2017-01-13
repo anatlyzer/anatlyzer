@@ -42,7 +42,7 @@ public class OclTypeNamespace implements ITypeNamespace {
 		if ( featureName.equals("name" ) ) 
 			return typ.newStringType();
 		
-		throw new UnsupportedOperationException(featureName);
+		return AnalyserContext.getErrorModel().signalNoFeatureInOclAny("No feature in OclType", node); // Todo: create a specific error
 	}
 
 	@Override

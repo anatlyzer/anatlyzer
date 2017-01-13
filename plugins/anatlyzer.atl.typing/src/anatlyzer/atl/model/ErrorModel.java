@@ -737,6 +737,10 @@ public class ErrorModel {
 
 
 	public void signalIteratorBodyWrongType(IteratorExp node, Type bodyType) {
+		// Do not signal in this case, to avoid cluttering of errors
+		if ( bodyType instanceof TypeError )
+			return;
+		
 		IteratorBodyWrongType error = AtlErrorFactory.eINSTANCE.createIteratorBodyWrongType();
 		initProblem(error, node);
 		

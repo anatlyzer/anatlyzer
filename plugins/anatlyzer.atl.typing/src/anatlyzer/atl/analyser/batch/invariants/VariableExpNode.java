@@ -1,11 +1,10 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
-import java.util.ArrayList;
 import java.util.Set;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -17,7 +16,7 @@ public class VariableExpNode extends AbstractInvariantReplacerNode {
 	private VariableExp exp;
 
 	public VariableExpNode(VariableExp exp, MatchedRule ctx) {
-		super(new ArrayList<IInvariantNode>(), ctx);
+		super(ctx);
 		if ( ctx == null )
 			throw new IllegalArgumentException("No context for " + exp);
 		this.exp = exp;
@@ -42,4 +41,10 @@ public class VariableExpNode extends AbstractInvariantReplacerNode {
 			elems.add((OutPatternElement) exp.getReferredVariable());
 		}
 	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return exp.getReferredVariable() == e;
+	}
+
 }

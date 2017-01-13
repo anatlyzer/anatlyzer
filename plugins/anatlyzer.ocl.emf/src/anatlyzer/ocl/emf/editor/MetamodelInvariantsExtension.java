@@ -83,12 +83,9 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		}
 	}
 
-	private List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c) {
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
-		EAnnotation ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL");
-		if ( ann == null ) {                
-			ann = c.getEAnnotation("http://www.eclipse.org/ocl/examples/OCL");
-		}
+		EAnnotation ann = getOclAnnotation(c);
 		
 		if ( ann != null ) {
 			OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);			
@@ -116,6 +113,14 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		}
 
 		return helpers;
+	}
+
+	public static EAnnotation getOclAnnotation(EClass c) {
+		EAnnotation ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL");
+		if ( ann == null ) {                
+			ann = c.getEAnnotation("http://www.eclipse.org/ocl/examples/OCL");
+		}
+		return ann;
 	}
 
 }

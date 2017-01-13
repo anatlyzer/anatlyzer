@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -11,7 +12,7 @@ public class GenericExpNode extends AbstractInvariantReplacerNode {
 	private OclExpression exp;
 
 	public GenericExpNode(AbstractInvariantReplacerNode parent, OclExpression exp) {
-		super(parent, null);
+		super(null);
 		this.exp = exp;
 	}
 	
@@ -27,4 +28,10 @@ public class GenericExpNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { }	
+
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return false;
+	}
+
 }

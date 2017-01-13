@@ -5,6 +5,8 @@ import java.util.Set;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -19,10 +21,13 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	private IInvariantNode src;
 
 	public IteratorExpNode(IInvariantNode src, IInvariantNode body, IteratorExp exp) {
-		super(src, src.getContext());
+		super(src.getContext());
 		this.src  = src;
 		this.body = body;
 		this.exp = exp;
+		
+		src.setParent(this);
+		body.setParent(this);
 	}
 	
 	@Override
@@ -36,7 +41,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 		// This is a special case to deal with USE limitation to do the cross-product
 		if ( src instanceof AllInstancesNode && ((AllInstancesNode) src).requiresNesting() ){
 			builder.copyScope();
-			IteratorExp result = ((AllInstancesNode) src).genNested(exp.getName(), builder, () -> {
+			OclExpression result = ((AllInstancesNode) src).genNested(exp.getName(), builder, () -> {
 				return this.body.genExpr(builder);
 			});
 			builder.closeScope();
@@ -85,8 +90,31 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
+	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
+		// Similar to AllInstancesNode, but this does not handle teh multiple case
+		MatchedRule rule = context;
+		if ( rule.getInPattern().getElements().size() == 1 ) {
+			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
+			return null;
+		} else {
+			System.out.println("Generating binding only for the first in pattern (IteratorExpNode)");
+			System.out.println("If other input elements are used then the expression is not translatable");
+			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
+			return null;			
+			// throw new UnsupportedOperationException();			
+		}
+	}
+	
+
+	
+	@Override
 	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 
 		this.src.getTargetObjectsInBinding(elems);
 		this.body.getTargetObjectsInBinding(elems);
+	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return this.body.isUsed(e);
 	}
 }

@@ -3,7 +3,9 @@ package anatlyzer.atl.analyser.batch.invariants;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -16,7 +18,7 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	private Binding binding;
 
 	public AttributeNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b) {
-		super(parent, parent.getContext());
+		super(parent.getContext());
 		this.targetNav = targetNav;
 		this.binding = b;
 	}
@@ -43,5 +45,10 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { 
 		// In principle this does not apply to attribute
 	}
-	
+
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		return ATLUtils.findVariableReference(binding.getValue(), e) != null;
+	}
+
 }

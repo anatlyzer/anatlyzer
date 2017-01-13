@@ -1,10 +1,12 @@
 package anatlyzer.ocl.emf;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.ocl.ecore.BooleanLiteralExp;
 import org.eclipse.ocl.ecore.Constraint;
@@ -13,18 +15,18 @@ import org.eclipse.ocl.ecore.IteratorExp;
 import org.eclipse.ocl.ecore.LetExp;
 import org.eclipse.ocl.ecore.NullLiteralExp;
 import org.eclipse.ocl.ecore.OperationCallExp;
+import org.eclipse.ocl.ecore.PropertyCallExp;
 import org.eclipse.ocl.ecore.RealLiteralExp;
 import org.eclipse.ocl.ecore.StringLiteralExp;
 import org.eclipse.ocl.ecore.TypeExp;
-import org.eclipse.ocl.ecore.PropertyCallExp;
 import org.eclipse.ocl.ecore.VariableExp;
 import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.types.CollectionType;
 
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
-import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
@@ -48,10 +50,12 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 public class OCLtoATL {
 
 	private TranslationContext ctx;
+	private String mmName;
 
 
 	public ContextHelper transform(String mmName, Constraint constraint) {
 		EClass context = (EClass) constraint.getSpecification().getContextVariable().getType();
+		this.mmName = mmName;
 		
 		OCLExpression<EClassifier> expression = constraint.getSpecification().getBodyExpression();
 
@@ -103,7 +107,25 @@ public class OCLtoATL {
 				return atlIt;
 			}).forEach(atlIt -> atl.getIterators().add(atlIt));
 			
-			atl.setBody(transform(itExp.getBody()));
+			// Convert iterators to nested iterator expressions
+			anatlyzer.atlext.OCL.IteratorExp innerItExp = atl;
+			if ( atl.getIterators().size() > 1 ) {
+				for(int i = 1; i < atl.getIterators().size(); i++) {
+					anatlyzer.atlext.OCL.Iterator atlIt = atl.getIterators().get(i);
+					anatlyzer.atlext.OCL.IteratorExp anotherItExp = OCLFactory.eINSTANCE.createIteratorExp();
+					anotherItExp.setName(atl.getName());		
+					// This could be done more wisely analysing the e.g., the length of the source to determine
+					// if it makes sense to generate a let expression if the source is very large
+					anotherItExp.setSource(transform(itExp.getSource()));
+					
+					anotherItExp.getIterators().add(atlIt);
+					innerItExp.setBody(anotherItExp);
+					innerItExp = anotherItExp;
+				}
+			}
+			
+			
+			innerItExp.setBody(transform(itExp.getBody()));
 			
 			return atl;
 		} else if ( exp instanceof OperationCallExp ) {
@@ -111,10 +133,15 @@ public class OCLtoATL {
 			EClassifier sourceType = op.getSource().getType();
 			
 			anatlyzer.atlext.OCL.OperationCallExp atlOp = null;
-			if ( sourceType instanceof CollectionType<?, ?> ) {
-				atlOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			
+			if ( isOperator(op) ) {
+				atlOp = OCLFactory.eINSTANCE.createOperatorCallExp();
 			} else {
-				atlOp = OCLFactory.eINSTANCE.createOperationCallExp();
+				if ( sourceType instanceof CollectionType<?, ?> ) {
+					atlOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+				} else {
+					atlOp = OCLFactory.eINSTANCE.createOperationCallExp();
+				}
 			}
 			
 			atlOp.setOperationName(op.getReferredOperation().getName());
@@ -149,11 +176,23 @@ public class OCLtoATL {
 			return atl;
 		} else if ( exp instanceof TypeExp ) {
 			TypeExp type = (TypeExp) exp;
-			OclType oclType = OCLFactory.eINSTANCE.createOclType();
-			oclType.setName(type.getName());
+			if ( type.getReferredType() instanceof EClass ) {
+				return createType((EClass) type.getReferredType(), this.mmName);
 			// TODO: set the model
+			} else {
+				EDataType dt = (EDataType) type.getReferredType();
+				String name = dt.getName().toLowerCase();
+				if ( name.contains("integer") || name.contains("int") )
+					return OCLFactory.eINSTANCE.createIntegerType();
+				else if ( name.contains("string") ) 
+					return OCLFactory.eINSTANCE.createStringType();
+				else if ( name.contains("double") || name.contains("float") )
+					return OCLFactory.eINSTANCE.createRealType();
+				else if ( name.contains("bool") ) 
+					return OCLFactory.eINSTANCE.createBooleanType();
+			}
 		
-			return oclType;
+			throw new UnsupportedOperationException();
 		// Literals
 		} else if ( exp instanceof IntegerLiteralExp ) {
 			IntegerExp l = OCLFactory.eINSTANCE.createIntegerExp();
@@ -176,6 +215,29 @@ public class OCLtoATL {
 		}
 		
 		throw new IllegalStateException("Not handled yet: " + exp + " : " + exp.eClass());
+	}
+
+	private static HashSet<String> operators = new HashSet<String>();
+	static {
+		operators.add("not");
+		operators.add("*");
+		operators.add("/");
+		operators.add("-");
+		operators.add("+");
+		operators.add("<");
+		operators.add(">");
+		operators.add("<=");
+		operators.add(">=");
+		operators.add("=");
+		operators.add("<>");
+		operators.add("and");
+		operators.add("or");
+		operators.add("xor");
+		operators.add("implies");
+	}
+	
+	private boolean isOperator(OperationCallExp op) {
+		return operators.contains(op.getReferredOperation().getName());
 	}
 
 	private VariableDeclaration transform(

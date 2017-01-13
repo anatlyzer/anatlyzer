@@ -7,6 +7,7 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
@@ -62,4 +63,20 @@ public class SplitNode implements IInvariantNode {
 		// do nothing
 		return null;
 	}
+	
+	@Override
+	public void setParent(IInvariantNode node) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public IInvariantNode getParent() {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public boolean isUsed(InPatternElement e) {
+		throw new UnsupportedOperationException();
+	}
+
 }

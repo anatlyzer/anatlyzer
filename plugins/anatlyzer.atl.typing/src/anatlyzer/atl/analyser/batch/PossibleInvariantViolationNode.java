@@ -114,7 +114,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	
 	private IInvariantNode getInvariantNode() {
 		if ( invNode == null)
-			this.invNode = new InvariantGraphGenerator(this.model).replace(expr);		
+			this.invNode = new InvariantGraphGenerator(this.result).replace(expr);		
 		return this.invNode;
 	}
 

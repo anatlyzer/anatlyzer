@@ -254,6 +254,21 @@
       </menuContribution>
    </extension>
    
+
+   <extension
+         point="org.eclipse.ui.menus">
+      <!-- <menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=additions">  -->
+      <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+		 <!-- Main popup menu for files -->
+         <menu
+               label="AnATLyzer"
+               mnemonic="M"
+               id="anatlyzer.popup.menu">
+         </menu>
+      </menuContribution>
+   </extension>
+   
+   
    <extension point="org.eclipse.ui.commands">
       <category
             id="anatlyzer.commands"

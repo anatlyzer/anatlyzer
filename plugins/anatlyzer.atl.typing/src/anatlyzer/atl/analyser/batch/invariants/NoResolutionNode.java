@@ -25,6 +25,7 @@ public class NoResolutionNode implements IInvariantNode {
 	private IInvariantNode source;
 	private NavigationOrAttributeCallExp nav;
 	private Binding binding;
+	private IInvariantNode parent;
 
 	public NoResolutionNode(IInvariantNode source, NavigationOrAttributeCallExp nav, Binding b) {
 		this.source = source;
@@ -98,12 +99,12 @@ public class NoResolutionNode implements IInvariantNode {
 	
 	@Override
 	public void setParent(IInvariantNode node) {
-		throw new UnsupportedOperationException();
+		this.parent = node;
 	}
 	
 	@Override
 	public IInvariantNode getParent() {
-		throw new UnsupportedOperationException();
+		return this.parent;
 	}
 	
 	@Override

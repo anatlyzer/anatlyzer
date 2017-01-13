@@ -478,6 +478,7 @@ public class InvariantGraphGenerator {
 		public MergeIteratorSourceNode(List<IInvariantNode> resolutions) {
 			super(null);
 			this.nodes = resolutions;
+			this.nodes.forEach(n -> n.setParent(this));
 		}
 		
 		@Override

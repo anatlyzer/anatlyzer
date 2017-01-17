@@ -48,12 +48,14 @@ public class OutputPatternSet extends AbstractQuickAssistSet  {
 		return m.getKlass().getEAllStructuralFeatures().stream().
 			filter(f -> ! f.isDerived() ).
 			filter(f -> ope.getBindings().stream().noneMatch(b -> f == b.getWrittenFeature())).
-			map(f -> {
-				EStructuralFeature source = NoBindingForCompulsoryFeature_FindSimilarFeature.findSimilarAssignment(ope, f, model);
-				return source == null ? null : new CreateBinding(ope, source, f);
-			}).filter(f -> f != null).collect(Collectors.toList());
+			map(f -> createBinding(ope, f, model)).filter(f -> f != null).collect(Collectors.toList());
 	}
 
+	public CreateBinding createBinding(OutPatternElement ope, EStructuralFeature f, ATLModel model) {
+		EStructuralFeature source = NoBindingForCompulsoryFeature_FindSimilarFeature.findSimilarAssignment(ope, f, model);
+		return source == null ? null : new CreateBinding(ope, source, f);
+	}
+	
 	public static class CreateBinding extends anatlyzer.atl.editor.quickassist.AbstractAtlQuickAssist {
 
 		private OutPatternElement out;

@@ -35,6 +35,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.Iterator;
@@ -83,7 +84,7 @@ public class InvariantGraphGenerator {
 			public IInvariantNode getParent() { throw new UnsupportedOperationException(); }
 			
 			@Override
-			public MatchedRule getContext() { throw new UnsupportedOperationException(); }
+			public SourceContext<RuleWithPattern> getContext() { throw new UnsupportedOperationException(); }
 			
 			@Override
 			public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder,
@@ -108,10 +109,10 @@ public class InvariantGraphGenerator {
 	}
 
 	public class Env {
-		MatchedRule context;
-		HashMap<VariableDeclaration, MatchedRule> map = new HashMap<>();
-		public Env(MatchedRule context) { this.context = context; }
-		public Env put(VariableDeclaration vd, MatchedRule context) {
+		SourceContext<? extends RuleWithPattern>  context;
+		HashMap<VariableDeclaration, SourceContext<? extends RuleWithPattern> > map = new HashMap<>();
+		public Env(SourceContext<? extends RuleWithPattern> context) { this.context = context; }
+		public Env put(VariableDeclaration vd, SourceContext<? extends RuleWithPattern> context) {
 			if ( context == null )
 				throw new IllegalArgumentException();
 			Env env = new Env(context); 
@@ -120,7 +121,7 @@ public class InvariantGraphGenerator {
 			return env;
 		}
 
-		public MatchedRule getContext(VariableDeclaration v) {
+		public SourceContext<? extends RuleWithPattern>  getContext(VariableDeclaration v) {
 			if ( ! map.containsKey(v) )
 				throw new IllegalStateException("Not var for: " + v);
 			return map.get(v);
@@ -128,9 +129,9 @@ public class InvariantGraphGenerator {
 		
 		public HashMap<? extends EObject, ? extends EObject> getVarMapping() {
 			HashMap<EObject, EObject> mapping = new HashMap<EObject, EObject>();
-			Set<Entry<VariableDeclaration, MatchedRule>> entrySet = map.entrySet();
-			for (Entry<VariableDeclaration, MatchedRule> entry : entrySet) {
-				mapping.put(entry.getKey(), entry.getValue().getInPattern().getElements().get(0));
+			Set<Entry<VariableDeclaration, SourceContext<? extends RuleWithPattern>>> entrySet = map.entrySet();
+			for (Entry<VariableDeclaration, SourceContext<? extends RuleWithPattern>> entry : entrySet) {
+				mapping.put(entry.getKey(), entry.getValue().getRule().getInPattern().getElements().get(0));
 			}
 			return mapping;
 		}
@@ -220,12 +221,12 @@ public class InvariantGraphGenerator {
 	
 	private IInvariantNode checkOperationCallExp(OperationCallExp self, Env env) {
 		if ( self.getOperationName().equals("allInstances") ) {
-			List<MatchedRule> rules = findTargetOcurrences((OclModelElement) self.getSource());
+			List<SourceContext<? extends RuleWithPattern>> rules = findTargetOcurrences((OclModelElement) self.getSource());
 			if ( rules.size() == 0 ) 
 				throw new IllegalStateException();
 			
 			List<IInvariantNode> nodes = rules.stream().map(r -> {
-				return new AllInstancesNode(r);
+				return new AllInstancesNode((SourceContext<RuleWithPattern>) r);
 			}).collect(Collectors.toList());
 			
 			if ( nodes.size() == 1 ) {
@@ -233,7 +234,19 @@ public class InvariantGraphGenerator {
 			} else {
 				return new MultiNode(nodes);
 			}
-			
+		} else if ( self.getOperationName().equals("oclIsKindOf") ) {
+			IInvariantNode src = analyse(self.getSource(), env);
+
+			if ( src instanceof MultiNode ) {			
+				List<IInvariantNode> ops = ((MultiNode) src).getNodes().stream().map(n -> {
+					return createKindOfNode(self, n);
+				}).collect(Collectors.toList());
+				
+				SplitNodeOperation split = new SplitNodeOperation(ops, self);
+				return split;
+			} else {
+				return createKindOfNode(self, src);
+			}
 		} else {
 			// In contrast to colOp, the split operations goes after
 			IInvariantNode src = analyse(self.getSource(), env);
@@ -266,15 +279,35 @@ public class InvariantGraphGenerator {
 		}
 	}
 
+	private IInvariantNode createKindOfNode(OperationCallExp self,
+			IInvariantNode src) {
+		// Let's try to follow the same strategy
+		List<SourceContext<? extends RuleWithPattern>> rules = findTargetOcurrences((OclModelElement) self.getArguments().get(0));
+		if ( rules.size() == 0 ) 
+			throw new IllegalStateException();
+		
+		List<IInvariantNode> nodes = rules.stream().map(r -> {
+			return new KindOfNode(src, self, (SourceContext<RuleWithPattern>) r);
+		}).collect(Collectors.toList());
+		
+		if ( nodes.size() == 1 ) {
+			return nodes.get(0);
+		} else {
+			return new MultiNode(nodes);
+		}
+	}
 
-	private List<MatchedRule> findTargetOcurrences(OclModelElement targetType) {
+
+	private List<SourceContext<? extends RuleWithPattern>> findTargetOcurrences(OclModelElement targetType) {
 		// TODO: Consider subtyping relationships
 		return model.allObjectsOf(MatchedRule.class).stream().
 			filter(r -> r.getOutPattern() != null).
 			// filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
 			
 			// We ask, is OPE a subtype of the T.allInstances() in the postcondition?
-			filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType()))).
+			flatMap(r -> r.getOutPattern().getElements().stream()).
+			filter(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType())).
+			map(ope -> new MatchedRuleContext(ope, (MatchedRule) ope.getOutPattern().getRule())).
 			collect(Collectors.toList());
 		
 	}
@@ -290,23 +323,20 @@ public class InvariantGraphGenerator {
 				throw new UnsupportedOperationException();
 			}
 			
-			MatchedRule context = source.getContext();
+			// RuleWithPattern context = source.getContext().getRule();
 			
 //			List<Binding> allBindings = model.allObjectsOf(Binding.class).stream().
 //				filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
 //				collect(Collectors.toList());
 			
-			List<Binding> allBindings = context.getOutPattern().getElements().stream().flatMap(o -> 
-					o.getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature())).
+			List<Binding> allBindings = source.getContext().getOutputPatternElement().
+					getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
 					collect(Collectors.toList());
 
 			
 			if ( allBindings.size() > 1 ) {
-				//throw new UnsupportedOperationException("For navigation: " + self.getName() + " at " + self.getLocation());
-				OutPatternElement o = context.getOutPattern().getElements().get(0);
-				allBindings = 
-						o.getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
-						collect(Collectors.toList());
+				// Split the path somehow
+				throw new UnsupportedOperationException("For navigation: " + self.getName() + " at " + self.getLocation());
 			}
 
 
@@ -371,7 +401,7 @@ public class InvariantGraphGenerator {
 						return analyse(select, env);
 					}
 				} else {			
-					throw new UnsupportedOperationException("TODO: Compute default values");
+					throw new UnsupportedOperationException("No binding for: " + self.getName() + "TODO: Compute default values. " + self);
 				}				
 			}
 						
@@ -392,7 +422,8 @@ public class InvariantGraphGenerator {
 						if ( included.contains(rri.getRule()))
 								continue;
 						included.add(rri.getRule());
-						resolutions.add(new ReferenceNavigationNode(source, self, binding, rri.getRule(), env));						
+						MatchedRuleContext newCtx = new MatchedRuleContext(rri.getRule().getOutPattern().getElements().get(0), rri.getRule());						
+						resolutions.add(new ReferenceNavigationNode(source, self, binding, newCtx, env));						
 					}
 				}
 				
@@ -520,5 +551,31 @@ public class InvariantGraphGenerator {
 
 	}
 
+	public static class SourceContext<T extends RuleWithPattern> {
+		protected OutPatternElement ope;
+		protected T rule;
+
+		public SourceContext(OutPatternElement ope, T rule) {
+			this.ope = ope;
+			this.rule = rule;
+		}
+
+		public OutPatternElement getOutputPatternElement() {
+			return ope;
+		}
+
+		public T getRule() {
+			return rule;
+		}		
+	}
+	
+	public static class MatchedRuleContext extends SourceContext<MatchedRule> {
+
+		public MatchedRuleContext(OutPatternElement ope, MatchedRule rule) {
+			super(ope, rule);
+		}
+		
+	}
+	
 }
 

@@ -92,7 +92,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		// Similar to AllInstancesNode, but this does not handle teh multiple case
-		MatchedRule rule = context;
+		MatchedRule rule = (MatchedRule) context.getRule();
 		if ( rule.getInPattern().getElements().size() == 1 ) {
 			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
 			return null;

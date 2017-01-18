@@ -3,7 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.HashSet;
 import java.util.Set;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
@@ -11,8 +11,8 @@ import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -34,7 +34,7 @@ public class NoResolutionNode implements IInvariantNode {
 	}
 
 	@Override
-	public MatchedRule getContext() {
+	public SourceContext<? extends RuleWithPattern> getContext() {
 		if ( evaluateSubsequentNodes() )
 			return this.source.getContext();
 		// This is the problem... there is no context...

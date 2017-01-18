@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.List;
 import java.util.Set;
 
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -10,6 +11,7 @@ import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
@@ -21,6 +23,7 @@ public class SplitNode implements IInvariantNode {
 
 	private List<IInvariantNode> paths;
 	private CollectionOperationCallExp expr;
+	private IInvariantNode parent;
 
 	public SplitNode(List<IInvariantNode> paths, CollectionOperationCallExp expr) {
 		this.paths = paths;
@@ -48,7 +51,7 @@ public class SplitNode implements IInvariantNode {
 	}
 
 	@Override
-	public MatchedRule getContext() {
+	public SourceContext<RuleWithPattern> getContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -66,12 +69,12 @@ public class SplitNode implements IInvariantNode {
 	
 	@Override
 	public void setParent(IInvariantNode node) {
-		throw new UnsupportedOperationException();
+		this.parent = node;
 	}
 	
 	@Override
 	public IInvariantNode getParent() {
-		throw new UnsupportedOperationException();
+		return this.parent;
 	}
 	
 	@Override

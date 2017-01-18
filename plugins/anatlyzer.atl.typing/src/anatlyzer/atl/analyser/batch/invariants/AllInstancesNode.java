@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -17,6 +18,7 @@ import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -36,9 +38,10 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 	private MatchedRule rule;
 
-	public AllInstancesNode(MatchedRule rule) {
-		super(rule);
-		this.rule = rule;
+	public AllInstancesNode(SourceContext<RuleWithPattern> ctx) {
+		super(ctx);
+		// For the moment we only support matched rules
+		this.rule = (MatchedRule) ctx.getRule();
 	}
 
 	@Override

@@ -5,12 +5,14 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -58,7 +60,7 @@ public class SplitNodeOperation implements IInvariantNode {
 	}
 
 	@Override
-	public MatchedRule getContext() {
+	public SourceContext<RuleWithPattern> getContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}

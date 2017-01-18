@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.ocl.ecore.BooleanLiteralExp;
 import org.eclipse.ocl.ecore.Constraint;
@@ -37,6 +38,8 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -52,14 +55,62 @@ public class OCLtoATL {
 	private TranslationContext ctx;
 	private String mmName;
 
+	public ContextHelper transform(String mmName, EOperation eOperation, Constraint constraint) {
+		EClass context = (EClass) constraint.getSpecification().getContextVariable().getType();
+		this.mmName = mmName;
+		this.ctx = new TranslationContext();
+	
+		String name = eOperation.getName();
+		Operation operation = OCLFactory.eINSTANCE.createOperation();
+		operation.setName(name);
+		operation.setReturnType( OCLFactory.eINSTANCE.createBooleanType() );
+
+		for (Variable<EClassifier, EParameter> variable : constraint.getSpecification().getParameterVariable()) {
+			EParameter eParameter = variable.getRepresentedParameter();
+
+			Parameter param = OCLFactory.eINSTANCE.createParameter();
+			param.setVarName(eParameter.getName());
+			param.setType(createType(eParameter.getEType()));
+			ctx.bind(variable, param);
+		}
+		
+		// Create now the body, bindings are set
+		OclExpression body = transformConstraint(constraint);
+
+		OclExpression init = body;
+		String modelName = mmName;
+		
+		// This is createHelper adapted to eOperations
+		operation.setBody( init );
+		
+		OclContextDefinition ctx = OCLFactory.eINSTANCE.createOclContextDefinition();
+		ctx.setContext_( createType(context, modelName) );
+		
+		OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		def.setContext_(ctx);
+		def.setFeature (operation);
+				
+		ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
+		helper.setDefinition(def);
+		
+
+		return helper;
+	}
 
 	public ContextHelper transform(String mmName, Constraint constraint) {
 		EClass context = (EClass) constraint.getSpecification().getContextVariable().getType();
 		this.mmName = mmName;
+		this.ctx = new TranslationContext();
 		
+		OclExpression body = transformConstraint(constraint);
+		
+		ContextHelper helper = createHelper(constraint.getName(), mmName, context, body);
+		return helper;
+	}
+
+	private OclExpression transformConstraint(Constraint constraint) {
 		OCLExpression<EClassifier> expression = constraint.getSpecification().getBodyExpression();
 
-		this.ctx = new TranslationContext();
 		// TODO: Configure parameters if it is a helper...
 		// System.out.println(	constraint.getSpecification().getParameterVariable() );
 		
@@ -69,9 +120,7 @@ public class OCLtoATL {
 		ctx.bind(constraint.getSpecification().getContextVariable(), self_);
 		
 		OclExpression body = transform(expression);
-		
-		ContextHelper helper = createHelper(constraint.getName(), mmName, context, body);
-		return helper;
+		return body;
 	}
 
 	private ContextHelper createHelper(String name, String modelName, EClass context, OclExpression init) {
@@ -176,23 +225,8 @@ public class OCLtoATL {
 			return atl;
 		} else if ( exp instanceof TypeExp ) {
 			TypeExp type = (TypeExp) exp;
-			if ( type.getReferredType() instanceof EClass ) {
-				return createType((EClass) type.getReferredType(), this.mmName);
-			// TODO: set the model
-			} else {
-				EDataType dt = (EDataType) type.getReferredType();
-				String name = dt.getName().toLowerCase();
-				if ( name.contains("integer") || name.contains("int") )
-					return OCLFactory.eINSTANCE.createIntegerType();
-				else if ( name.contains("string") ) 
-					return OCLFactory.eINSTANCE.createStringType();
-				else if ( name.contains("double") || name.contains("float") )
-					return OCLFactory.eINSTANCE.createRealType();
-				else if ( name.contains("bool") ) 
-					return OCLFactory.eINSTANCE.createBooleanType();
-			}
-		
-			throw new UnsupportedOperationException();
+			EClassifier refType = type.getReferredType();			
+			return createType(refType);
 		// Literals
 		} else if ( exp instanceof IntegerLiteralExp ) {
 			IntegerExp l = OCLFactory.eINSTANCE.createIntegerExp();
@@ -215,6 +249,26 @@ public class OCLtoATL {
 		}
 		
 		throw new IllegalStateException("Not handled yet: " + exp + " : " + exp.eClass());
+	}
+
+	private OclType createType(EClassifier refType) {
+		if ( refType instanceof EClass ) {
+			return createType((EClass) refType, this.mmName);
+		// TODO: set the model
+		} else {
+			EDataType dt = (EDataType) refType;
+			String name = dt.getName().toLowerCase();
+			if ( name.contains("integer") || name.contains("int") )
+				return OCLFactory.eINSTANCE.createIntegerType();
+			else if ( name.contains("string") ) 
+				return OCLFactory.eINSTANCE.createStringType();
+			else if ( name.contains("double") || name.contains("float") )
+				return OCLFactory.eINSTANCE.createRealType();
+			else if ( name.contains("bool") ) 
+				return OCLFactory.eINSTANCE.createBooleanType();
+		}
+
+		throw new UnsupportedOperationException();
 	}
 
 	private static HashSet<String> operators = new HashSet<String>();
@@ -265,10 +319,12 @@ public class OCLtoATL {
 		
 		public VariableDeclaration get(Variable<EClassifier, EParameter> v1) {
 			if ( ! vars.containsKey(v1))
-				throw new IllegalStateException();
+				throw new IllegalStateException("No var: " + v1);
 			return vars.get(v1);
 		}
 		
 	}
+
+
 	
 }

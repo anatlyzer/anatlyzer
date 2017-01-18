@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
@@ -16,6 +17,7 @@ import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -33,7 +35,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	private Binding binding;
 	private Env env;
 
-	public ReferenceNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b, MatchedRule context, Env env) {
+	public ReferenceNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b, SourceContext<? extends RuleWithPattern> context, Env env) {
 		super(context);
 		this.targetNav = targetNav;
 		this.binding = b;
@@ -45,7 +47,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	public void genErrorSlice(ErrorSlice slice) {
 		OclSlice.slice(slice, binding.getValue());
 		
-		MatchedRule rule = context;		
+		RuleWithPattern rule = context.getRule();		
 		for(Metaclass m : ATLUtils.getAllPatternTypes(rule) ) {
 			slice.addExplicitMetaclass(m);
 		}
@@ -64,7 +66,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
-		MatchedRule rule = context;
+		RuleWithPattern rule = context.getRule();
 
 		// OclExpression src = copy(binding.getValue(), env);
 		// THE PREVIOUS EXPRESSION IS SETTING UP THE VARIABLE BINDING...
@@ -102,8 +104,8 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
-		if ( context.getInPattern().getElements().size() == 1 ) {
-			builder.addToScope(context.getInPattern().getElements().get(0), it, targetIt);
+		if ( context.getRule().getInPattern().getElements().size() == 1 ) {
+			builder.addToScope(context.getRule().getInPattern().getElements().get(0), it, targetIt);
 		} else {
 			throw new IllegalStateException();			
 		}

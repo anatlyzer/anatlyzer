@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
@@ -27,6 +29,8 @@ import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.ocl.emf.OCLtoATL;
 
 public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserExtension {
+
+	private boolean extractOperations = true;
 
 	public MetamodelInvariantsExtension() {
 		// TODO Auto-generated constructor stub
@@ -57,7 +61,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 
 		for (MetamodelNamespace ns : mm.getMetamodels()) {
 			for (EClass eClass : ns.getAllClasses()) {
-				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOCL(ns.getName(), eClass);
+				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOCL(ns.getName(), eClass, false);
 				for (anatlyzer.atlext.ATL.ContextHelper helper : helpers) {
 
 					// helper.getCommentsBefore().add("@invariant mm=\"" + mmName+ "\"");
@@ -83,10 +87,11 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		}
 	}
 
-	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c) {
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c, boolean extractOperations) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
-		EAnnotation ann = getOclAnnotation(c);
 		
+		// Extract invariants
+		EAnnotation ann = getOclAnnotation(c);		
 		if ( ann != null ) {
 			OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);			
 			Helper helper = ocl.createOCLHelper();
@@ -112,10 +117,41 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 			}
 		}
 
+		if ( extractOperations ) {
+			for (EOperation eOperation : c.getEOperations()) {
+				ann = getOclAnnotation(eOperation);
+				if ( ann != null ) {
+					String body = ann.getDetails().get("body");
+					if (  body != null ) {
+						OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);			
+						Helper helper = ocl.createOCLHelper();
+						
+						helper.setOperationContext(c, eOperation);
+						Constraint bodyConstraint = null;
+						try {
+							bodyConstraint = helper.createBodyCondition(body);
+							
+							helpers.add(new OCLtoATL().transform(mmName, eOperation, bodyConstraint));
+							
+							System.out.println(bodyConstraint);
+							System.out.println("-- ok ");
+						} catch (ParserException e) {
+							System.err.println("Error parsing " + eOperation.getName());
+							e.printStackTrace();
+						} catch ( IllegalStateException e ) {
+							System.err.println("Problem with " + eOperation.getName() + " " + e.getMessage());
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
+		}
+		
 		return helpers;
 	}
 
-	public static EAnnotation getOclAnnotation(EClass c) {
+	public static EAnnotation getOclAnnotation(EModelElement c) {
 		EAnnotation ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL");
 		if ( ann == null ) {                
 			ann = c.getEAnnotation("http://www.eclipse.org/ocl/examples/OCL");

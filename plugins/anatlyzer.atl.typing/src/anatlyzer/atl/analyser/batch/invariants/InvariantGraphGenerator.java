@@ -174,7 +174,7 @@ public class InvariantGraphGenerator {
 				return new MultiNode(paths);
 			} else {
 				// TODO: Check types
-				return new MergeIteratorSourceNode(paths);				
+				return new MergeIteratorSourceNode(expr, paths);				
 			}
 		} else {
 //			Env env2 = env;
@@ -279,22 +279,25 @@ public class InvariantGraphGenerator {
 		}
 	}
 
-	private IInvariantNode createKindOfNode(OperationCallExp self,
-			IInvariantNode src) {
+	private IInvariantNode createKindOfNode(OperationCallExp self, IInvariantNode src) {
 		// Let's try to follow the same strategy
 		List<SourceContext<? extends RuleWithPattern>> rules = findTargetOcurrences((OclModelElement) self.getArguments().get(0));
 		if ( rules.size() == 0 ) 
 			throw new IllegalStateException();
 		
-		List<IInvariantNode> nodes = rules.stream().map(r -> {
-			return new KindOfNode(src, self, (SourceContext<RuleWithPattern>) r);
-		}).collect(Collectors.toList());
-		
-		if ( nodes.size() == 1 ) {
-			return nodes.get(0);
-		} else {
-			return new MultiNode(nodes);
-		}
+		return new KindOfNode(src, self, rules);
+				
+		// This cannot be like this, because if this returns a MultiNode we need a way to
+		// merge it, and this is precisely the task of KindOfNode
+//		List<IInvariantNode> nodes = rules.stream().map(r -> {
+//			return new KindOfNode(src, self, (SourceContext<RuleWithPattern>) r);
+//		}).collect(Collectors.toList());
+//		
+//		if ( nodes.size() == 1 ) {
+//			return nodes.get(0);
+//		} else {
+//			return new MultiNode(nodes);
+//		}
 	}
 
 
@@ -505,9 +508,11 @@ public class InvariantGraphGenerator {
 	public class MergeIteratorSourceNode extends AbstractInvariantReplacerNode {
 
 		private List<IInvariantNode> nodes;
+		private IteratorExp iterator;
 
-		public MergeIteratorSourceNode(List<IInvariantNode> resolutions) {
+		public MergeIteratorSourceNode(IteratorExp expr, List<IInvariantNode> resolutions) {
 			super(null);
+			this.iterator = expr;
 			this.nodes = resolutions;
 			this.nodes.forEach(n -> n.setParent(this));
 		}
@@ -523,12 +528,20 @@ public class InvariantGraphGenerator {
 //				return this.nodes.get(0).genExpr(builder);
 //			}
 						
+			String mergeOp = "and";
+			if ( iterator.getName().equals("exists") ) {
+				mergeOp = "or";
+			}
+			else if ( iterator.getName().equals("forAll") ) {
+				mergeOp = "and";
+			}
+			
 			OclExpression result = nodes.get(0).genExpr(builder);
 			for(int i = 1; i < nodes.size(); i++) {
 				IInvariantNode node = nodes.get(i);
 				
 				OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
-				op.setOperationName("and");
+				op.setOperationName(mergeOp);
 
 				op.setSource(result);
 				op.getArguments().add(node.genExpr(builder));

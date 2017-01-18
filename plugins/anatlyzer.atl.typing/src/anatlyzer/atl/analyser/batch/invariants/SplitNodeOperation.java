@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.MultiNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -29,6 +30,11 @@ public class SplitNodeOperation implements IInvariantNode {
 	public SplitNodeOperation(List<IInvariantNode> paths, OperationCallExp expr) {
 		this.paths = paths;
 		this.expr = expr;
+		paths.forEach(p -> {
+			if ( p instanceof MultiNode ) {
+				throw new IllegalStateException("Multinode found: " + expr.getLocation());
+			}
+		});
 	}
 	
 	@Override

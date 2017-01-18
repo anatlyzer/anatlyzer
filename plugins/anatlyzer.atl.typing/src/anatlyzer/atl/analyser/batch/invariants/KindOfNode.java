@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
@@ -14,18 +15,19 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 
 public class KindOfNode extends AbstractInvariantReplacerNode {
 
 	private OperationCallExp exp;
 	private IInvariantNode source;
-	private SourceContext<? extends RuleWithPattern> mappedCtx;
+	private List<SourceContext<? extends RuleWithPattern>> rules;
 
-	public KindOfNode(IInvariantNode source, OperationCallExp exp, SourceContext<? extends RuleWithPattern> mappedCtx) {
+	public KindOfNode(IInvariantNode source, OperationCallExp exp, List<SourceContext<? extends RuleWithPattern>> rules) {
 		super(source.getContext());
 		this.source = source;
 		this.exp = exp;
-		this.mappedCtx = mappedCtx;
+		this.rules = rules;
 		
 		source.setParent(this);
 	}
@@ -33,16 +35,42 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		this.source.genErrorSlice(slice);
-		this.mappedCtx.getRule().getInPattern().getElements().forEach(e -> slice.addExplicitMetaclass((Metaclass) e.getType().getInferredType()));
+		this.rules.forEach(ctx -> { 
+			ctx.getRule().getInPattern().getElements().forEach(e -> {
+				slice.addExplicitMetaclass((Metaclass) e.getType().getInferredType());
+			});
+		});
 	}
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
-		if ( this.mappedCtx.getRule().getInPattern().getElements().size() > 1 ) {
+		if ( rules.size() == 1 ) {
+			return createKindOfCall(builder, rules.get(0));			
+		}
+		
+		OclExpression result = createKindOfCall(builder, rules.get(0));	
+		for(int i = 1; i < rules.size(); i++) {
+			SourceContext<? extends RuleWithPattern> ctx = rules.get(i);
+			
+			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+			op.setOperationName("or"); // One of the types must be true
+
+			op.setSource(result);
+			op.getArguments().add(createKindOfCall(builder, ctx));
+			
+			result = op;
+		}
+		
+		return result;
+	}
+
+	private OperationCallExp createKindOfCall(CSPModel2 builder,
+			SourceContext<? extends RuleWithPattern> mappedCtx) {
+		if ( mappedCtx.getRule().getInPattern().getElements().size() > 1 ) {
 			throw new UnsupportedOperationException("Only oclIsKindOf matching rules with 1-input element are supported");
 		}
 
-		InPatternElement e = this.mappedCtx.getRule().getInPattern().getElements().get(0);
+		InPatternElement e = mappedCtx.getRule().getInPattern().getElements().get(0);
 		
 		OclModelElement sourceType = (OclModelElement) ATLCopier.copySingleElement(e.getType());
 
@@ -50,7 +78,6 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 		op.getArguments().add(  sourceType );
 		op.setOperationName(exp.getOperationName());
 		op.setSource(source.genExpr(builder));
-		
 		return op;
 	}
 	
@@ -62,7 +89,9 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public boolean isUsed(InPatternElement e) {
-		return source.isUsed(e) || this.mappedCtx.getRule().getInPattern().getElements().stream().anyMatch(e1 -> e1 == e);
+		return source.isUsed(e) || 
+				this.rules.stream().anyMatch(ctx -> 
+					ctx.getRule().getInPattern().getElements().stream().anyMatch(e1 -> e1 == e));
 	}
 
 

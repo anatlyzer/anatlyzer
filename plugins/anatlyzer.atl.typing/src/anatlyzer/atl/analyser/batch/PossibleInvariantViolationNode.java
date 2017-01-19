@@ -86,7 +86,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		cspmodel.initWithoutThisModuleContext();
 
 		HashSet<OutPatternElement> targets = new HashSet<OutPatternElement>();
-		// getInvariantNode().getTargetObjectsInBinding(targets);
+		getInvariantNode().getTargetObjectsInBinding(targets);
 
 		if ( targets.size() > 0 ) {
 			OutPatternElement ope = targets.iterator().next();

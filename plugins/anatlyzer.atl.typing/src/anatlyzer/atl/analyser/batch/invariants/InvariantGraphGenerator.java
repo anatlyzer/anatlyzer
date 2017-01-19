@@ -1,7 +1,6 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.model.ATLModel;
@@ -37,7 +35,6 @@ import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
-import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -318,7 +315,6 @@ public class InvariantGraphGenerator {
 	private IInvariantNode checkNavExp(NavigationOrAttributeCallExp self, Env env) {
 		// Is it a true navigation, not a helper call
 		if ( self.getUsedFeature() != null ) {
-			List<IInvariantNode> resolutions = new ArrayList<IInvariantNode>();
 
 			IInvariantNode source = analyse(self.getSource(), env);
 
@@ -408,40 +404,66 @@ public class InvariantGraphGenerator {
 				}				
 			}
 						
-			Binding b = allBindings.get(0);
 			
+			Binding b = allBindings.get(0);
 			if ( isPrimitiveBinding(b) ) {
 				return new AttributeNavigationNode(source, self, b);
-			} else {							
-				// To support several bindings, like:
-				//    	relations <- s.entities,
-				//		relations <- s.relships
-				//
-				
-				HashSet<Rule> included = new HashSet<>();
-				//for(RuleResolutionInfo rri : allBindings.stream().flatMap(binding -> binding.getResolvedBy().stream()).collect(Collectors.toList())) {
-				for(Binding binding : allBindings) {
-					for(RuleResolutionInfo rri : binding.getResolvedBy()) { 
-						if ( included.contains(rri.getRule()))
-								continue;
-						included.add(rri.getRule());
-						MatchedRuleContext newCtx = new MatchedRuleContext(rri.getRule().getOutPattern().getElements().get(0), rri.getRule());						
-						resolutions.add(new ReferenceNavigationNode(source, self, binding, newCtx, env));						
-					}
-				}
-				
-				if ( resolutions.size() == 0 ) {
-					return new NoResolutionNode(source, self, b);
-				}
+			} else {						
+				return handleReferenceBinding(self, env, source, allBindings);
 			}
 			
-			if ( resolutions.size() == 1 ) {
-				return resolutions.get(0);
-			} else {
-				return new MultiNode(resolutions);
-			}
 		} else {
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	protected IInvariantNode handleReferenceBinding(
+			NavigationOrAttributeCallExp self, Env env, IInvariantNode source,
+			List<Binding> allBindings) {
+		// We support several bindings, like:
+		//    	relations <- s.entities,
+		//		relations <- s.relships
+		// We traverse all bindings, generating one resolution per binding
+
+		System.out.println(self.getName());
+		List<IInvariantNode> resolutions = new ArrayList<IInvariantNode>();
+		
+		HashSet<Rule> included = new HashSet<>();
+		//for(RuleResolutionInfo rri : allBindings.stream().flatMap(binding -> binding.getResolvedBy().stream()).collect(Collectors.toList())) {
+		for(Binding binding : allBindings) {
+
+			// We may need to split the binding if it uses target elements directly
+			// Poor's man approach, assuming assignments like: pkeys <- Sequence {idCol}
+			// We need to consider also calls to lazy rules
+			
+			List<OutPatternElement> refsToTargets = ATLUtils.findAllVarExp(binding.getValue()).stream().
+					filter(v -> v.getReferredVariable() instanceof OutPatternElement).
+					map(v -> (OutPatternElement) v.getReferredVariable()).distinct().collect(Collectors.toList());
+			
+			if ( refsToTargets.size() > 0) {
+				for(OutPatternElement ope : refsToTargets) { 					
+					SourceContext<? extends RuleWithPattern> newCtx = source.getContext().newOutPatternElement(ope);
+					resolutions.add(new ReferenceNavigationTargetAssignmentNode(source, self, binding, newCtx, env));
+				}
+			} else {
+				for(RuleResolutionInfo rri : binding.getResolvedBy()) { 
+					if ( included.contains(rri.getRule()))
+							continue;
+					included.add(rri.getRule());
+					MatchedRuleContext newCtx = new MatchedRuleContext(rri.getRule().getOutPattern().getElements().get(0), rri.getRule());						
+					resolutions.add(new ReferenceNavigationNode(source, self, binding, newCtx, env));						
+				}
+			}
+		}
+		
+		if ( resolutions.size() == 0 ) {
+			return new NoResolutionNode(source, self, allBindings.get(0));
+		}
+
+		if ( resolutions.size() == 1 ) {
+			return resolutions.get(0);
+		} else {
+			return new MultiNode(resolutions);
 		}
 	}
 
@@ -564,7 +586,7 @@ public class InvariantGraphGenerator {
 
 	}
 
-	public static class SourceContext<T extends RuleWithPattern> {
+	public static abstract class SourceContext<T extends RuleWithPattern> {
 		protected OutPatternElement ope;
 		protected T rule;
 
@@ -572,6 +594,8 @@ public class InvariantGraphGenerator {
 			this.ope = ope;
 			this.rule = rule;
 		}
+
+		public abstract SourceContext<? extends RuleWithPattern> newOutPatternElement(OutPatternElement ope2);
 
 		public OutPatternElement getOutputPatternElement() {
 			return ope;
@@ -586,6 +610,11 @@ public class InvariantGraphGenerator {
 
 		public MatchedRuleContext(OutPatternElement ope, MatchedRule rule) {
 			super(ope, rule);
+		}
+
+		@Override
+		public SourceContext<MatchedRule> newOutPatternElement(OutPatternElement ope2) {
+			return new MatchedRuleContext(ope2, this.rule);
 		}
 		
 	}

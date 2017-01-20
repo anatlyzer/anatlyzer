@@ -425,7 +425,6 @@ public class InvariantGraphGenerator {
 		//		relations <- s.relships
 		// We traverse all bindings, generating one resolution per binding
 
-		System.out.println(self.getName());
 		List<IInvariantNode> resolutions = new ArrayList<IInvariantNode>();
 		
 		HashSet<Rule> included = new HashSet<>();
@@ -443,7 +442,7 @@ public class InvariantGraphGenerator {
 			if ( refsToTargets.size() > 0) {
 				for(OutPatternElement ope : refsToTargets) { 					
 					SourceContext<? extends RuleWithPattern> newCtx = source.getContext().newOutPatternElement(ope);
-					resolutions.add(new ReferenceNavigationTargetAssignmentNode(source, self, binding, newCtx, env));
+					resolutions.add(new ReferenceNavigationTargetAssignmentNode(source, self, binding, newCtx, env, ope));
 				}
 			} else {
 				for(RuleResolutionInfo rri : binding.getResolvedBy()) { 

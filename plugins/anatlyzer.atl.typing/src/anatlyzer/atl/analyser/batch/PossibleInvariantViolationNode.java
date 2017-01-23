@@ -86,30 +86,47 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		cspmodel.initWithoutThisModuleContext();
 
 		HashSet<OutPatternElement> targets = new HashSet<OutPatternElement>();
-		// getInvariantNode().getTargetObjectsInBinding(targets);
+//		getInvariantNode().getTargetObjectsInBinding(targets);
 
 		if ( targets.size() > 0 ) {
-			OutPatternElement ope = targets.iterator().next();
+			IteratorExp outerExists = null;
+			IteratorExp innerExists = null;
 			
-			OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
-			OclModel model = OCLFactory.eINSTANCE.createOclModel();
-			model.setName("TGT");
-			m.setName(ope.getType().getName());
-			m.setModel(model);
-			m.setInferredType(ope.getInferredType());
+			for (OutPatternElement ope : targets) {
+				if ( innerExists == null ) {
+					innerExists = createTargetExistential(cspmodel, ope, null);
+					outerExists = innerExists;
+				} else {
+					outerExists = createTargetExistential(cspmodel, ope, outerExists);
+				}
+			}
 			
-			OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
-			op.setOperationName("allInstances");
-			op.setSource(m);
-		
-			IteratorExp exists = cspmodel.createExists(op, ope.getVarName());
-			cspmodel.addToScope(ope, exists.getIterators().get(0));
-
-			exists.setBody( negator.apply(getInvariantNode().genExpr(cspmodel)) );
-			return exists;
+			OclExpression body = negator.apply(getInvariantNode().genExpr(cspmodel));
+			innerExists.setBody(body);
+			return outerExists;
 		}
 		
 		return negator.apply( getInvariantNode().genExpr(cspmodel) );		
+	}
+
+	protected IteratorExp createTargetExistential(CSPModel2 cspmodel, OutPatternElement ope, OclExpression body) {
+		
+		OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
+		OclModel model = OCLFactory.eINSTANCE.createOclModel();
+		model.setName("TGT");
+		m.setName(ope.getType().getName());
+		m.setModel(model);
+		m.setInferredType(ope.getInferredType());
+		
+		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+		op.setOperationName("allInstances");
+		op.setSource(m);
+
+		IteratorExp exists = cspmodel.createExists(op, ope.getVarName());
+		cspmodel.addToScope(ope, exists.getIterators().get(0));
+
+		exists.setBody( body );
+		return exists;
 	}
 	
 	private IInvariantNode getInvariantNode() {

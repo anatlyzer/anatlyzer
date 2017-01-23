@@ -31,9 +31,9 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 
-	private NavigationOrAttributeCallExp targetNav;
-	private Binding binding;
-	private Env env;
+	protected NavigationOrAttributeCallExp targetNav;
+	protected Binding binding;
+	protected Env env;
 
 	public ReferenceNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b, SourceContext<? extends RuleWithPattern> context, Env env) {
 		super(context);

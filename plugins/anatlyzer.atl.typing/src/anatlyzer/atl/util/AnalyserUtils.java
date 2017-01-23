@@ -401,10 +401,14 @@ public class AnalyserUtils {
 			Attribute att = (Attribute) h.getDefinition().getFeature();
 			forAll.setBody(att.getInitExpression());
 			att.setInitExpression(forAll);
+
+			att.setName(ATLUtils.getHelperContext(contextHelper).getName() + "_" + att.getName());
 		} else if ( h.getDefinition().getFeature() instanceof Operation ) {
 			Operation op = (Operation) h.getDefinition().getFeature();
 			forAll.setBody(op.getBody());
 			op.setBody(forAll);
+
+			op.setName(ATLUtils.getHelperContext(contextHelper).getName() + "_" + op.getName());
 		}
 		
 		h.getDefinition().setContext_(null);

@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.ocl.ecore.BooleanLiteralExp;
 import org.eclipse.ocl.ecore.Constraint;
+import org.eclipse.ocl.ecore.IfExp;
 import org.eclipse.ocl.ecore.IntegerLiteralExp;
 import org.eclipse.ocl.ecore.IteratorExp;
 import org.eclipse.ocl.ecore.LetExp;
@@ -31,6 +33,7 @@ import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
+import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -63,7 +66,7 @@ public class OCLtoATL {
 		String name = eOperation.getName();
 		Operation operation = OCLFactory.eINSTANCE.createOperation();
 		operation.setName(name);
-		operation.setReturnType( OCLFactory.eINSTANCE.createBooleanType() );
+		operation.setReturnType( createType(eOperation.getEType()) );
 
 		for (Variable<EClassifier, EParameter> variable : constraint.getSpecification().getParameterVariable()) {
 			EParameter eParameter = variable.getRepresentedParameter();
@@ -71,11 +74,20 @@ public class OCLtoATL {
 			Parameter param = OCLFactory.eINSTANCE.createParameter();
 			param.setVarName(eParameter.getName());
 			param.setType(createType(eParameter.getEType()));
+			operation.getParameters().add(param);
 			ctx.bind(variable, param);
 		}
 		
+		OCLExpression<EClassifier> originalBody = constraint.getSpecification().getBodyExpression();
+		if ( originalBody instanceof OperationCallExp && 
+			((OperationCallExp) originalBody).getSource() instanceof VariableExp && 
+			((OperationCallExp) originalBody).getSource().getName().equals("result") ) {
+			
+			originalBody = ((OperationCallExp) originalBody).getArgument().get(0);			
+		}
+		
 		// Create now the body, bindings are set
-		OclExpression body = transformConstraint(constraint);
+		OclExpression body = transformConstraint(constraint, originalBody);
 
 		OclExpression init = body;
 		String modelName = mmName;
@@ -102,15 +114,13 @@ public class OCLtoATL {
 		this.mmName = mmName;
 		this.ctx = new TranslationContext();
 		
-		OclExpression body = transformConstraint(constraint);
+		OclExpression body = transformConstraint(constraint, constraint.getSpecification().getBodyExpression());
 		
 		ContextHelper helper = createHelper(constraint.getName(), mmName, context, body);
 		return helper;
 	}
 
-	private OclExpression transformConstraint(Constraint constraint) {
-		OCLExpression<EClassifier> expression = constraint.getSpecification().getBodyExpression();
-
+	private OclExpression transformConstraint(Constraint constraint, OCLExpression<EClassifier> expression) {
 		// TODO: Configure parameters if it is a helper...
 		// System.out.println(	constraint.getSpecification().getParameterVariable() );
 		
@@ -216,6 +226,15 @@ public class OCLtoATL {
 			letOp.setIn_(transform(let.getIn()));
 			
 			return letOp;
+		} else if ( exp instanceof IfExp ) {
+			IfExp ifexp = (IfExp) exp;
+			anatlyzer.atlext.OCL.IfExp atl = OCLFactory.eINSTANCE.createIfExp();
+			
+			atl.setCondition( transform(ifexp.getCondition()) );
+			atl.setThenExpression( transform(ifexp.getThenExpression()));
+			atl.setElseExpression( transform(ifexp.getThenExpression()));
+			
+			return atl;
 		} else if ( exp instanceof VariableExp ) {
 			VariableExp var = (VariableExp) exp;
 			anatlyzer.atlext.OCL.VariableExp atl = OCLFactory.eINSTANCE.createVariableExp();
@@ -255,20 +274,39 @@ public class OCLtoATL {
 		if ( refType instanceof EClass ) {
 			return createType((EClass) refType, this.mmName);
 		// TODO: set the model
+		} else if ( refType instanceof EEnum ) {
+			// Not supported by ATL
+			return OCLFactory.eINSTANCE.createOclAnyType();
 		} else {
 			EDataType dt = (EDataType) refType;
-			String name = dt.getName().toLowerCase();
-			if ( name.contains("integer") || name.contains("int") )
-				return OCLFactory.eINSTANCE.createIntegerType();
-			else if ( name.contains("string") ) 
-				return OCLFactory.eINSTANCE.createStringType();
-			else if ( name.contains("double") || name.contains("float") )
-				return OCLFactory.eINSTANCE.createRealType();
-			else if ( name.contains("bool") ) 
-				return OCLFactory.eINSTANCE.createBooleanType();
+
+			OclType r = createPTypeFromName(dt.getName().toLowerCase());
+			if ( r != null ) {
+				return r;
+			}
+			
+			if ( dt.getInstanceClassName() != null ) {
+				r = createPTypeFromName(dt.getInstanceClassName().toLowerCase());
+			} 
+
+			if ( r != null ) {
+				return r;
+			}
 		}
 
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("Cannot create type for: " + refType);
+	}
+
+	private OclType createPTypeFromName(String name) {
+		if ( name.contains("integer") || name.contains("int") || name.contains("natural"))
+			return OCLFactory.eINSTANCE.createIntegerType();
+		else if ( name.contains("string") ) 
+			return OCLFactory.eINSTANCE.createStringType();
+		else if ( name.contains("double") || name.contains("float") )
+			return OCLFactory.eINSTANCE.createRealType();
+		else if ( name.contains("bool") ) 
+			return OCLFactory.eINSTANCE.createBooleanType();
+		return null;
 	}
 
 	private static HashSet<String> operators = new HashSet<String>();

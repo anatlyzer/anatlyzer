@@ -23,14 +23,16 @@ import anatlyzer.atl.analysisext.AnalysisProvider;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.ocl.emf.OCLtoATL;
 
 public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserExtension {
-
-	private boolean extractOperations = true;
 
 	public MetamodelInvariantsExtension() {
 		// TODO Auto-generated constructor stub
@@ -61,7 +63,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 
 		for (MetamodelNamespace ns : mm.getMetamodels()) {
 			for (EClass eClass : ns.getAllClasses()) {
-				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOCL(ns.getName(), eClass, false);
+				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOclInvariants(ns.getName(), eClass, false);
 				for (anatlyzer.atlext.ATL.ContextHelper helper : helpers) {
 
 					// helper.getCommentsBefore().add("@invariant mm=\"" + mmName+ "\"");
@@ -87,7 +89,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		}
 	}
 
-	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOCL(String mmName, EClass c, boolean extractOperations) {
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclInvariants(String mmName, EClass c, boolean extractOperations) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
 		
 		// Extract invariants
@@ -111,15 +113,21 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 						System.out.println("Cannot handle: " + e.getMessage());
 					}
 					System.out.println("Success translating: " + c.getName() + "." + constraint.getName());
-				} catch ( ParserException e ) {
+				} catch ( ParserException e ) {					
 					System.err.println("Problem in " + c.getName() + "." + invName + ": " + e.getMessage());
 				}
 			}
 		}
+		
+		
+		return helpers;
+	}
+	
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclOperations(String mmName, EClass c, boolean extractOperations) {
+		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
 
-		if ( extractOperations ) {
-			for (EOperation eOperation : c.getEOperations()) {
-				ann = getOclAnnotation(eOperation);
+		for (EOperation eOperation : c.getEOperations()) {
+				EAnnotation ann = getOclAnnotation(eOperation);
 				if ( ann != null ) {
 					String body = ann.getDetails().get("body");
 					if (  body != null ) {
@@ -139,14 +147,19 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 							System.err.println("Error parsing " + eOperation.getName());
 							e.printStackTrace();
 						} catch ( IllegalStateException e ) {
+//							StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
+//							OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+//							h.setDefinition(def);
+//							Operation op = OCLFactory.eINSTANCE.createOperation();
+//							def.setFeature(op);
+//							op.setName(eOperation.getName());
+
 							System.err.println("Problem with " + eOperation.getName() + " " + e.getMessage());
 							e.printStackTrace();
 						}
 					}
 				}
 			}
-			
-		}
 		
 		return helpers;
 	}

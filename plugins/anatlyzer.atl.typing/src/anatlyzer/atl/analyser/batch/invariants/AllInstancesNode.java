@@ -215,19 +215,25 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	}
 
 	public OclExpression genNested(String itName, CSPModel builder, Supplier<OclExpression> bodySupplier) {
-		String firstItName = itName;
+		String innerIteratorName = itName;
 		boolean doFlatten = false;
-		if ( itName.equals("select") ) {
-			firstItName = "collect";
+		
+		if ( itName.equals("select") ) { // probably should use requiresSorting (e.g., for reject)
+			innerIteratorName = "collect";
 			doFlatten = true;
 		}
 		
 		builder.openEmptyScope();
 		
-		List<InPatternElement> elements = sortElements(rule.getInPattern().getElements());
+		List<InPatternElement> elements = null;
+		if ( requiresSorting(itName) ) {		
+			elements = sortElements(rule.getInPattern().getElements());
+		} else {
+			elements = rule.getInPattern().getElements();
+		}
 		
 		OperationCallExp op = createAllInstances(elements.get(0));
-		IteratorExp innerIterator = builder.createIterator(op, firstItName, elements.get(0).getVarName());
+		IteratorExp innerIterator = builder.createIterator(op, innerIteratorName, elements.get(0).getVarName());
 		IteratorExp externaIterator = innerIterator;
 		
 		builder.addToScope(elements.get(0), innerIterator.getIterators().get(0));
@@ -259,6 +265,10 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return doFlatten ? builder.createCollectionOperationCall(externaIterator, "flatten") : externaIterator;
 	}
 
+	private boolean requiresSorting(String name) {
+		return name.equals("select") || name.equals("reject"); // TODO: etc.
+	}
+
 	private List<InPatternElement> sortElements(List<InPatternElement> elements) {
 		// REL!RELAttribute.allInstances()->select(relattribute_ | relattribute_.relation = r)->
 		//           exists(a | a.isKey));
@@ -273,7 +283,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			throw new UnsupportedOperationException("Cannot be translated! Only one var of a multiple input pattern can be used");
 		}
 		if ( used.size() == 0 ) {
-			// Does not matter the other
+			// Does not matter the order
 			return elements;
 		}
 		

@@ -58,29 +58,35 @@ public class GenInvariantLibrary extends AbstractHandler {
 				
 				String mmName = dialog.getValue();
 				
-				List<ContextHelper> helpers = new ArrayList<ContextHelper>();
+				List<ContextHelper> helpersInvariants = new ArrayList<ContextHelper>();
+				List<ContextHelper> helpersOperations = new ArrayList<ContextHelper>();
 				TreeIterator<EObject> it = mm.getAllContents();
 				while ( it.hasNext() ) {
 					EObject obj = it.next();
 					if ( obj instanceof EClass ) {
 						EClass c = (EClass) obj;
-						helpers.addAll(MetamodelInvariantsExtension.extractOCL(mmName, c, true));
+						helpersInvariants.addAll(MetamodelInvariantsExtension.extractOclInvariants(mmName, c, true));
+						helpersOperations.addAll(MetamodelInvariantsExtension.extractOclOperations(mmName, c, true));
 					}
 				}
 				
-				if ( helpers.size() == 0 ) {
+				if ( helpersInvariants.size() == 0 ) {
 					MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "No invariants", "The meta-model does not contain any OCL invariant. No file is generated.");					
 					return null;
 				}
 				
 				// helpers.forEach(h -> h.getCommentsBefore().add("@target_invariant"));								
-				List<StaticHelper> staticHelpers = helpers.stream().map(ch -> AnalyserUtils.convertContextInvariant(ch)).collect(Collectors.toList());
+				List<StaticHelper> staticHelpers = helpersInvariants.stream().map(ch -> AnalyserUtils.convertContextInvariant(ch)).collect(Collectors.toList());
 				staticHelpers.forEach(h -> h.getCommentsBefore().add("@target_invariant"));
+				helpersOperations.forEach(h -> h.getCommentsBefore().add("@eoperation"));
 				
 				Library lib = ATLFactory.eINSTANCE.createLibrary();
 				lib.setName("inv" + mmName);
 				// lib.getHelpers().addAll(helpers);
 				lib.getHelpers().addAll(staticHelpers);
+				
+				lib.getHelpers().addAll(helpersOperations);
+				
 				
 				String text = ATLSerializer.serialize(lib);
 				IFile output = ResourcesPlugin.getWorkspace().getRoot().getFile(f.getFullPath().removeFileExtension().addFileExtension("atl"));

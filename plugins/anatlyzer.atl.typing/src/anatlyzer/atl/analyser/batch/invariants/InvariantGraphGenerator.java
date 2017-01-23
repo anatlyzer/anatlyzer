@@ -333,12 +333,6 @@ public class InvariantGraphGenerator {
 					collect(Collectors.toList());
 
 			
-			if ( allBindings.size() > 1 ) {
-				// Split the path somehow
-				throw new UnsupportedOperationException("For navigation: " + self.getName() + " at " + self.getLocation());
-			}
-
-
 			if ( allBindings.size() == 0 ) {
 				EReference opposite = getOpposite((EStructuralFeature) self.getUsedFeature());
 				if ( opposite != null ) {

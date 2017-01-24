@@ -28,6 +28,7 @@ public class SplitNode implements IInvariantNode {
 	public SplitNode(List<IInvariantNode> paths, CollectionOperationCallExp expr) {
 		this.paths = paths;
 		this.expr = expr;
+		this.paths.forEach(p -> p.setParent(this));
 	}
 	
 	@Override

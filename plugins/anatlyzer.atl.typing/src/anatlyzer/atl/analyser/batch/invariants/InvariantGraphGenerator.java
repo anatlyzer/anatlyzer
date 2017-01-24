@@ -28,6 +28,7 @@ import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -147,6 +148,10 @@ public class InvariantGraphGenerator {
 		throw new UnsupportedOperationException(expr.toString());
 	}
 
+	private void converHelper(ContextHelper h) {
+		OclExpression body = ATLUtils.getBody(h);
+	}
+	
 	private IInvariantNode checkVariableExp(VariableExp expr, Env env) {
 		return new VariableExpNode(expr, env.getContext(expr.getReferredVariable()));
 	}
@@ -257,6 +262,15 @@ public class InvariantGraphGenerator {
 				SplitNodeOperation split = new SplitNodeOperation(ops, self);
 				return split;
 			} else {
+				if ( isBuiltinOperation(self) ) {
+					// That's fine, just copy the result
+				} else {
+					for(ContextHelper h : self.getDynamicResolvers()) {
+						converHelper(h);
+					}
+					// Parameter passing should be seamlessly handled by the args mapping below
+				}
+				
 				List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());				
 				return new OperationCallExpNode(src, self, args);
 			}
@@ -274,6 +288,10 @@ public class InvariantGraphGenerator {
 //			// return node;			
 //			return new OperationCallExpNode(src, self, args);
 		}
+	}
+
+	private boolean isBuiltinOperation(OperationCallExp self) {
+		return self.getStaticResolver() == null;
 	}
 
 	private IInvariantNode createKindOfNode(OperationCallExp self, IInvariantNode src) {

@@ -16,6 +16,7 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.invariants.IInvariantNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.TranslatedHelper;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -55,6 +56,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	private IInvariantNode invNode;
 	private IWitnessModel witness;
 	private ErrorSlice slice;
+	private List<TranslatedHelper> translatedHelpers;
 
 	public PossibleInvariantViolationNode(StaticHelper helper, ATLModel model, IAnalyserResult result) {
 		this.invName = ATLUtils.getHelperName(helper);
@@ -130,8 +132,11 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	}
 	
 	private IInvariantNode getInvariantNode() {
-		if ( invNode == null)
-			this.invNode = new InvariantGraphGenerator(this.result).replace(expr);		
+		if ( invNode == null) {
+			InvariantGraphGenerator gen = new InvariantGraphGenerator(this.result);
+			this.invNode = gen.replace(expr);
+			this.translatedHelpers = gen.getTranslatedHelpers();
+		}
 		return this.invNode;
 	}
 
@@ -144,6 +149,9 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		});
 		
 		getInvariantNode().genErrorSlice(slice);
+		
+		translatedHelpers.forEach(h -> h.genErrorSlice(slice));
+		translatedHelpers.forEach(h -> slice.addHelper(h.genSourceHelper()));
 	}
 
 	@Override

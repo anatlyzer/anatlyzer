@@ -26,6 +26,7 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.BuildUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -45,6 +46,7 @@ import anatlyzer.atlext.OCL.OCLPackage;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OclUndefinedExp;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
@@ -61,50 +63,61 @@ public class InvariantGraphGenerator {
 		this.model = result.getATLModel();
 	}
 
+	// Additional result: generated helpers
+	protected List<TranslatedHelper> translatedHelpers = new ArrayList<TranslatedHelper>();
+	public List<TranslatedHelper> getTranslatedHelpers() { return translatedHelpers; }
+	
 	public IInvariantNode replace(OclExpression expr) {
+		translatedHelpers = new ArrayList<InvariantGraphGenerator.TranslatedHelper>();
+
 		IInvariantNode result = analyse(expr, new Env(null));
 
+		System.out.println(translatedHelpers);
+		
 		// Set a "NullParent"
-		result.setParent(new IInvariantNode() {
-			
-			@Override
-			public void setParent(IInvariantNode node) { }
-			
-			@Override
-			public boolean isUsed(InPatternElement e) {
-				return false;
-			}
-			
-			@Override
-			public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { }
-			
-			@Override
-			public IInvariantNode getParent() { throw new UnsupportedOperationException(); }
-			
-			@Override
-			public SourceContext<RuleWithPattern> getContext() { throw new UnsupportedOperationException(); }
-			
-			@Override
-			public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder,
-					Iterator it, Iterator targetIt) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public OclExpression genExpr(CSPModel2 builder) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			@Override
-			public void genErrorSlice(ErrorSlice slice) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		result.setParent(new NullParent());
 		return result;
 	}
+
+	private final class NullParent implements IInvariantNode {
+		@Override
+		public void setParent(IInvariantNode node) { }
+
+		@Override
+		public boolean isUsed(InPatternElement e) {
+			return false;
+		}
+
+		@Override
+		public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { }
+
+		@Override
+		public IInvariantNode getParent() { throw new UnsupportedOperationException(); }
+
+		@Override
+		public SourceContext<RuleWithPattern> getContext() { throw new UnsupportedOperationException(); }
+
+		@Override
+		public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder,
+				Iterator it, Iterator targetIt) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public OclExpression genExpr(CSPModel2 builder) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void genErrorSlice(ErrorSlice slice) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
+
 
 	public class Env {
 		SourceContext<? extends RuleWithPattern>  context;
@@ -119,6 +132,15 @@ public class InvariantGraphGenerator {
 			return env;
 		}
 
+		public Env putAll(List<VariableDeclaration> refs, SourceContext<? extends RuleWithPattern> sourceContext) {
+			Env env = this;
+			for (VariableDeclaration vd : refs) {
+				env = env.put(vd, sourceContext);
+			}
+			return env;
+		}
+
+		
 		public SourceContext<? extends RuleWithPattern>  getContext(VariableDeclaration v) {
 			if ( ! map.containsKey(v) )
 				throw new IllegalStateException("Not var for: " + v);
@@ -148,8 +170,18 @@ public class InvariantGraphGenerator {
 		throw new UnsupportedOperationException(expr.toString());
 	}
 
-	private void converHelper(ContextHelper h) {
+	private void converHelper(ContextHelper h, OperationCallExp caller, SourceContext<? extends RuleWithPattern> sourceContext) {
 		OclExpression body = ATLUtils.getBody(h);
+		
+		if ( ATLUtils.getArgumentTypes(h).length > 0 ) {
+			throw new UnsupportedOperationException("Only helpers with 0 args supported. Not clear how to translate arguments if there is more than one corresponding rule for an argument type");
+		}
+		
+		Env env = new Env(sourceContext).putAll(ATLUtils.findSelfReferences(h), sourceContext);		
+		IInvariantNode result = analyse(body, env);
+		result.setParent(new NullParent());
+
+		translatedHelpers.add( new TranslatedHelper(h, result, sourceContext) );
 	}
 	
 	private IInvariantNode checkVariableExp(VariableExp expr, Env env) {
@@ -266,7 +298,7 @@ public class InvariantGraphGenerator {
 					// That's fine, just copy the result
 				} else {
 					for(ContextHelper h : self.getDynamicResolvers()) {
-						converHelper(h);
+						converHelper(h, self, src.getContext());
 					}
 					// Parameter passing should be seamlessly handled by the args mapping below
 				}
@@ -629,6 +661,54 @@ public class InvariantGraphGenerator {
 		}
 		
 	}
-	
+
+	public static class TranslatedHelper {
+		private ContextHelper helper;
+		private IInvariantNode body;
+		private SourceContext<? extends RuleWithPattern> sourceContext;
+
+		public TranslatedHelper(ContextHelper h, IInvariantNode body, SourceContext<? extends RuleWithPattern> sourceContext) {
+			this.helper = h;
+			this.body = body;
+			this.sourceContext = sourceContext;
+		}
+		
+		public ContextHelper getHelper() {
+			return helper;
+		}
+		
+		public IInvariantNode getBody() {
+			return body;
+		}
+
+		public ContextHelper genSourceHelper() {
+			CSPModel2 builder = new CSPModel2();
+			builder.initWithoutThisModuleContext();
+			
+			
+			String name = ATLUtils.getHelperName(helper); // TODO: Generate unique names???
+
+			if ( sourceContext.getRule().getInPattern().getElements().size() > 1 ) 
+				throw new UnsupportedOperationException();
+			
+			InPatternElement ipe = sourceContext.getRule().getInPattern().getElements().get(0);
+			
+			OclType ctxType = (OclType) ATLCopier.copySingleElement(ipe.getType());
+			OclType retType = (OclType) ATLCopier.copySingleElement(ATLUtils.getHelperReturnType(helper)); // ... This needs to be back-translated if it is not primitive!
+
+			ATLUtils.findSelfReferences(helper).forEach(v -> builder.addToScope(ipe, v));
+
+			OclExpression body = this.body.genExpr(builder);
+			
+			ContextHelper newHelper = BuildUtils.createContextOperationHelper(name, ctxType, body, retType);
+			newHelper.getAnnotations().put("DO_NOT_ADD_THIS_MODULE", "true");
+			return newHelper;
+		}
+
+		public void genErrorSlice(ErrorSlice slice) {
+			this.body.genErrorSlice(slice);
+		}
+
+	}
 }
 

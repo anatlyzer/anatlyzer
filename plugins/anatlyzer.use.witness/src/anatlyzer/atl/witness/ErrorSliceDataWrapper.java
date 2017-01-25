@@ -175,8 +175,11 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private String genUSEOperation(Helper ctx, String className) {
 		String s = ATLUtils.getHelperName(ctx) + "(";
 		
-		// The first parameter is always the ThisModule object */
-		s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
+		// The first parameter is *by default* the ThisModule object 
+		// if the helper is not marked as no rewrite
+		if ( ! ctx.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE") ) {		
+			s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
+		}
 		
 		String[] argNames = ATLUtils.getArgumentNames(ctx);
 		Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);

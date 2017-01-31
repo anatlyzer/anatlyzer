@@ -130,7 +130,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
-		gv.addNode(this, gvText("Iterator", this.exp), true);
+		gv.addNode(this, gvText("Iterator " + this.exp.getName(), this.exp), true);
 		this.src.genGraphviz(gv);
 		this.body.genGraphviz(gv);
 		gv.addEdge(this.src, this);

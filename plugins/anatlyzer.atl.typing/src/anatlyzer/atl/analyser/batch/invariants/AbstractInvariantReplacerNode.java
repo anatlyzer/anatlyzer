@@ -8,6 +8,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -67,7 +68,8 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	// Utils
 	
 	protected String gvText(String str, LocatedElement e) {
-		return str + "\n" + e.getLocation();
+		String code = ATLSerializer.serialize(e);
+		return str + "\n" + code.substring(0, code.length() < 50 ? code.length() : 50) +  "\n" + e.getLocation();
 	}
 
 

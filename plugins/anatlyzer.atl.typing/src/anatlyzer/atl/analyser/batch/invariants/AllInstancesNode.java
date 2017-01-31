@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceCon
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLCopier;
@@ -19,6 +20,7 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -64,20 +66,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		if ( rule.getInPattern().getElements().size() == 1 ) {
-			InPatternElement firstIPE = rule.getInPattern().getElements().get(0);
-			
-			OperationCallExp op = createAllInstances(firstIPE);
-	
-			if ( rule.getInPattern().getFilter() != null ) {
-				IteratorExp select = builder.createIterator(op, "select", firstIPE.getVarName());
-				OclExpression body = (OclExpression) new ATLCopier(rule.getInPattern().getFilter()).
-					bind(firstIPE, select.getIterators().get(0)).
-					copy();
-				select.setSource(op);
-				select.setBody(body);
-				return select;
-			}
-			return op;
+			return genSingleIterator(builder);
 		} else {
 			// IteratorExp result = genCrossProductExpression(builder);
 			// return result;
@@ -89,7 +78,24 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		
 	}
 
-	private IteratorExp genCrossProductExpression(CSPModel builder) {
+	private OclExpression genSingleIterator(CSPModel2 builder) {
+		InPatternElement firstIPE = rule.getInPattern().getElements().get(0);
+		
+		OperationCallExp op = createAllInstances(firstIPE);
+
+		if ( rule.getInPattern().getFilter() != null ) {
+			IteratorExp select = builder.createIterator(op, "select", firstIPE.getVarName());
+			OclExpression body = (OclExpression) new ATLCopier(rule.getInPattern().getFilter()).
+				bind(firstIPE, select.getIterators().get(0)).
+				copy();
+			select.setSource(op);
+			select.setBody(body);
+			return select;
+		}
+		return op;
+	}
+
+	private IteratorExp genCrossProductExpressionUsingMap(CSPModel builder) {
 		// General case.
 		// T1.allInstances()->map(t1 | T2.allInstances()->map(t2 | Tuple { t1 = t1, t2 = t2 }))
 		builder.openEmptyScope();
@@ -155,6 +161,24 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return result;
 	}
 
+	private OclExpression genCrossProduct(CSPModel builder) {
+		// General case.
+		// T1.allInstances()->product(T2.allInstances(), T3.allInstances()...)
+		
+		OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
+		CollectionOperationCallExp product = builder.createCollectionOperationCall(op, "product");
+		
+		// I do this in a separate piece of code because the other one is known to work...
+		for (int i = 1; i < rule.getInPattern().getElements().size(); i++) {
+			InPatternElement e = rule.getInPattern().getElements().get(i);
+			
+			op = createAllInstances(e);
+			product.getArguments().add(op);
+		}
+		
+		return product;
+	}
+
 	private Pair<LetExp, LetExp> genMultipleIPEBindings(MatchedRule rule, VariableDeclaration tupleVar, CSPModel builder) {
 		LetExp innerLet = createLetForIPE(rule.getInPattern().getElements().get(0), tupleVar);
 		LetExp externalLet = innerLet;
@@ -204,6 +228,11 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	@Override
 	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { }
 	
+	/**
+	 * @param builder
+	 * @param it An iterator in a newly constructed expression.
+	 * @param targetIt The target it in the invariant being translated
+	 */
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		if ( rule.getInPattern().getElements().size() == 1 ) {
@@ -214,7 +243,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return null;
 	}
 
-	public OclExpression genNested(String itName, CSPModel builder, Supplier<OclExpression> bodySupplier) {
+	public OclExpression genNested(CSPModel2 builder, String itName, Iterator targetIt, Supplier<OclExpression> bodySupplier) {
 		String innerIteratorName = itName;
 		boolean doFlatten = false;
 		
@@ -223,7 +252,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			doFlatten = true;
 		}
 		
-		builder.openEmptyScope();
+		builder.copyScope();
 		
 		List<InPatternElement> elements = null;
 		if ( requiresSorting(itName) ) {		
@@ -236,7 +265,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		IteratorExp innerIterator = builder.createIterator(op, innerIteratorName, elements.get(0).getVarName());
 		IteratorExp externaIterator = innerIterator;
 		
-		builder.addToScope(elements.get(0), innerIterator.getIterators().get(0));
+		builder.addToScope(elements.get(0), innerIterator.getIterators().get(0), targetIt);
 		
 		// I do this in a separate piece of code because the other one is known to work...
 		for (int i = 1; i < elements.size(); i++) {
@@ -245,7 +274,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			op = createAllInstances(e);
 			IteratorExp newIterator = builder.createIterator(op, itName, e.getVarName());
 		
-			builder.addToScope(e, newIterator.getIterators().get(0));
+			builder.addToScope(e, newIterator.getIterators().get(0), targetIt);
 			
 			innerIterator.setBody(newIterator);
 			innerIterator = newIterator;				
@@ -302,4 +331,20 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	public boolean isUsed(InPatternElement e) {
 		return false;
 	}
+	
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, "allInstances: " + rule.getName(), true);
+	}
+
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		if ( rule.getInPattern().getElements().size() == 1 ) {
+			return genSingleIterator(builder);
+		} else {
+			return genCrossProduct(builder);
+		}
+	}
+	
 }

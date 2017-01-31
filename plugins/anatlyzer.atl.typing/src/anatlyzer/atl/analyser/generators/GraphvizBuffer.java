@@ -3,9 +3,7 @@ package anatlyzer.atl.analyser.generators;
 import java.util.ArrayList;
 import java.util.List;
 
-import anatlyzer.atl.graph.GraphNode;
-
-public class GraphvizBuffer {
+public class GraphvizBuffer<GraphNode> {
 	private List<GraphNode> allNodes = new ArrayList<GraphNode>();
 
 	private List<GraphNode> subraphList = new ArrayList<GraphNode>();
@@ -48,7 +46,7 @@ public class GraphvizBuffer {
 		edges += "\n" + genNodeName(i) + " -> " + genNodeName(j) + ";";
 	}
 	
-	protected String getText() {
+	public String getText() {
 		String body = null;
 		if ( subgraphs.size() == 0 ) body = genBody();
 		else {

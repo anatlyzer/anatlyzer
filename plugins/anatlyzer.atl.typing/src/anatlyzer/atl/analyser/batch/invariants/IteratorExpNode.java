@@ -1,9 +1,11 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -38,10 +40,12 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		Iterator targetIt = this.exp.getIterators().get(0);
+		
 		// This is a special case to deal with USE limitation to do the cross-product
 		if ( src instanceof AllInstancesNode && ((AllInstancesNode) src).requiresNesting() ){
 			builder.copyScope();
-			OclExpression result = ((AllInstancesNode) src).genNested(exp.getName(), builder, () -> {
+			OclExpression result = ((AllInstancesNode) src).genNested(builder, exp.getName(), targetIt, () -> {
 				return this.body.genExpr(builder);
 			});
 			builder.closeScope();
@@ -65,7 +69,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 			// Do not bind the variable
 		} else {
 			// builder.addToScope(context.getInPattern().getElements().get(0), it);
-			additionalItBindings = this.src.genIteratorBindings(builder, it, this.exp.getIterators().get(0));
+			additionalItBindings = this.src.genIteratorBindings(builder, it, targetIt);
 		}
 		// builder.addToScopeAllowRebinding(context.getInPattern().getElements().get(0), it);
 	
@@ -91,7 +95,7 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
-		// Similar to AllInstancesNode, but this does not handle teh multiple case
+		// Similar to AllInstancesNode, but this does not handle the multiple case
 		MatchedRule rule = (MatchedRule) context.getRule();
 		if ( rule.getInPattern().getElements().size() == 1 ) {
 			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
@@ -104,8 +108,34 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 			// throw new UnsupportedOperationException();			
 		}
 	}
-	
 
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		builder.copyScope();
+		
+		OclExpression source = this.src.genExpr(builder);
+		List<Iterator> iterators = this.src.genIterators(builder);
+		OclExpression body = this.body.genExpr(builder);
+				
+		builder.closeScope();
+		
+		IteratorExp newIterator = OCLFactory.eINSTANCE.createIteratorExp();
+		newIterator.setName(exp.getName());
+		newIterator.getIterators().addAll(iterators);		
+		newIterator.setSource(source);
+		newIterator.setBody( body );
+		return newIterator;
+
+	}
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, gvText("Iterator", this.exp), true);
+		this.src.genGraphviz(gv);
+		this.body.genGraphviz(gv);
+		gv.addEdge(this.src, this);
+		gv.addEdge(this.body, this);
+	}
 	
 	@Override
 	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) { 

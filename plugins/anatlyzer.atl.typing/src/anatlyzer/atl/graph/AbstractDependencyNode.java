@@ -296,8 +296,7 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 		for (ConstraintNode c : constraints) {
 			c.genGraphviz(gv);
 			gv.addEdge(this, c);
-		}
-		
+		}		
 	}
 	
 	public boolean leadsToExecution() {

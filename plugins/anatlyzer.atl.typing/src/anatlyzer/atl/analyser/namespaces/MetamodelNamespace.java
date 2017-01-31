@@ -164,6 +164,10 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 		return type;
 	}
 
+	public void cacheResult() {
+		classifiers.values().forEach(t -> t.createType(false));
+	}
+
 	
 	public EnumType findEnumLiteral(String name) {
 		for(EEnum eenum : allEnums) {
@@ -227,7 +231,6 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	public Collection<ClassNamespace> getDirectSubclasses(EClass eClass, GlobalNamespace ns) {
 		return ns.getDirectSubclasses(eClass);		
 	}
-
 
 	
 	

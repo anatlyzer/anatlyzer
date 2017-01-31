@@ -1,11 +1,13 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.Pair;
@@ -77,6 +79,22 @@ public class NoResolutionNode implements IInvariantNode {
 			return OCLFactory.eINSTANCE.createOclUndefinedExp();
 	}
 
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	@Override
+	public List<Iterator> genIterators(CSPModel2 builder) {
+		throw new IllegalStateException();
+	}
+	
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {				
+		gv.addNode(this, "No resolution: " + this.nav.getName(), true);		
+	}
+	
 	@Override
 	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
 		elems.addAll(getTargets());

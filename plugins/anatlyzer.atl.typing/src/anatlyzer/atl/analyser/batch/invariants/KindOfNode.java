@@ -6,6 +6,7 @@ import java.util.Set;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -64,6 +65,16 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 		return result;
 	}
 
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, gvText("oclIsKindOf", exp), true);
+	}
+	
 	private OperationCallExp createKindOfCall(CSPModel2 builder,
 			SourceContext<? extends RuleWithPattern> mappedCtx) {
 		if ( mappedCtx.getRule().getInPattern().getElements().size() > 1 ) {

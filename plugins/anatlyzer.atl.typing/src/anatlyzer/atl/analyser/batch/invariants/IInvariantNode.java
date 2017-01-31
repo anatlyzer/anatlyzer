@@ -1,10 +1,14 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.graph.ConstraintNode;
+import anatlyzer.atl.graph.DependencyNode;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -28,5 +32,10 @@ public interface IInvariantNode {
 	IInvariantNode  getParent();
 	
 	boolean isUsed(InPatternElement e);
+
 	
+	void genGraphviz(GraphvizBuffer<IInvariantNode> gv);
+
+	OclExpression genExprNorm(CSPModel2 builder);
+	List<Iterator> genIterators(CSPModel2 builder); // This goes is for genExprNorm
 }

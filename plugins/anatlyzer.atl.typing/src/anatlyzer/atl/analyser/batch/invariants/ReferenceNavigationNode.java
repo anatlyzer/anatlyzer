@@ -6,6 +6,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
@@ -97,6 +98,17 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 		return src;
 	}
 
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, gvText("Ref." + targetNav.getName(), targetNav), true);
+		gv.addEdge(this.getParent(), this);
+	}
+	
 	private OclExpression createUndefinedValue(Type inferredType) {
 		return OCLFactory.eINSTANCE.createOclUndefinedExp();
 		// return null;

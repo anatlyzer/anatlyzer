@@ -6,14 +6,12 @@ import java.util.Set;
 import org.eclipse.core.runtime.Assert;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.MultiNode;
-import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -21,13 +19,13 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 
-public class SplitNodeOperation implements IInvariantNode {
+public class SplitNodeOperation extends AbstractInvariantReplacerNode {
 
 	private List<IInvariantNode> paths;
 	private OperationCallExp expr;
-	private IInvariantNode parent;
 
 	public SplitNodeOperation(List<IInvariantNode> paths, OperationCallExp expr) {
+		super(null);
 		this.paths = paths;
 		this.expr = expr;
 		paths.forEach(p -> {
@@ -64,13 +62,21 @@ public class SplitNodeOperation implements IInvariantNode {
 		
 		return result;
 	}
-
+	
 	@Override
-	public SourceContext<RuleWithPattern> getContext() {
-		// TODO Auto-generated method stub
-		return null;
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
 	}
-
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, gvText("Split operation node. ", expr), true);
+		paths.forEach(p -> {
+			p.genGraphviz(gv);
+			gv.addEdge(p, this);
+		});
+	}
+	
 	@Override
 	public void getTargetObjectsInBinding(Set<OutPatternElement> elems) {  
 		paths.forEach(n -> n.getTargetObjectsInBinding(elems));
@@ -81,18 +87,7 @@ public class SplitNodeOperation implements IInvariantNode {
 		// Do nothing
 		return null;
 	}
-	
-	@Override
-	public void setParent(IInvariantNode node) {
-		this.parent = node;
-	}
-	
-	@Override
-	public IInvariantNode getParent() {
-		if ( parent == null ) throw new IllegalStateException();
-		return parent;
-	}
-	
+		
 	@Override
 	public boolean isUsed(InPatternElement e) {
 		throw new UnsupportedOperationException();

@@ -20,6 +20,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Translate
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -140,6 +141,11 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		return this.invNode;
 	}
 
+	@Override
+	public void genGraphviz(GraphvizBuffer gv) {
+		getInvariantNode().genGraphviz(gv);
+	}
+	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		HashSet<OutPatternElement> targets = new HashSet<OutPatternElement>();

@@ -2,16 +2,14 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.SetExp;
 
 public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNode {
 
@@ -64,6 +62,22 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 			copy.getArguments().add(node.genExpr(builder));
 		}
 		return copy;
+	}
+	
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {				
+		gv.addNode(this, "ColOp: " + this.exp.getOperationName(), true);		
+		this.source.genGraphviz(gv);
+		gv.addEdge(this.source, this);
+		args.forEach(a -> { 
+			a.genGraphviz(gv); 
+			gv.addEdge(a, this); 
+		});
 	}
 	
 	@Override

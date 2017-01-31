@@ -3,9 +3,9 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.List;
 import java.util.Set;
 
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -45,6 +45,22 @@ public class OperatorCallExpNode extends AbstractInvariantReplacerNode {
 		}
 
 		return copy;
+	}
+	
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {				
+		gv.addNode(this, "Operator: " + this.exp.getOperationName(), true);		
+		this.source.genGraphviz(gv);
+		gv.addEdge(this.source, this);
+		args.forEach(a -> { 
+			a.genGraphviz(gv); 
+			gv.addEdge(a, this); 
+		});
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -40,7 +41,17 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 		// return copy(binding.getValue());
 		return builder.gen(binding.getValue());
 	}
-	
+
+	@Override
+	public OclExpression genExprNorm(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+
+	@Override
+	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
+		gv.addNode(this, gvText("attNav: " + this.targetNav.getName(), targetNav), true);
+	}
+		
 	@Override
 	public void getTargetObjectsInBinding(java.util.Set<OutPatternElement> elems) { 
 		// In principle this does not apply to attribute
@@ -50,5 +61,6 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	public boolean isUsed(InPatternElement e) {
 		return ATLUtils.findVariableReference(binding.getValue(), e) != null;
 	}
+
 
 }

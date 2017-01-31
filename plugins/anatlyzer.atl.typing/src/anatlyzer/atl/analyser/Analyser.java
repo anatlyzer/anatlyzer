@@ -109,6 +109,8 @@ public class Analyser implements IAnalyserResult {
 				if ( doErrorRefinement )
 					refineErrors();
 				
+				mm.getMetamodels().forEach(m -> m.cacheResult());
+				
 				stage++;
 			}
 		});

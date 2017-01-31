@@ -37,10 +37,15 @@ public class CSPModel2 extends CSPModel {
 
 		public void put(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {			
 			this.put(varDcl, newVar);
-			if ( disambiguations.containsKey(disambiguation) ) {
+			
+			CSPModelScope savedScope = disambiguations.get(disambiguations);
+			if ( savedScope != null && savedScope != this ) {
 				throw new IllegalStateException("Rebound disambiguation: " + disambiguation.getVarName() + " : " + disambiguation.getLocation());
 			}
 			
+			// If the scope is already saved (savedScope == this), the we allow the rebound. 
+			// This is to handle the case: T.allInstances(), and then "rule (from x:X, y:Y) (to t:T)
+			// because the could will call "put" twice, once for x and once for y for the same disambiguation variable.
 			disambiguations.put(disambiguation,  new CSPModelScope2(this.getThisModuleVar(), this));
 		}
 		

@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
@@ -7,6 +9,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceCon
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
@@ -55,5 +58,17 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 		// Default is doing nothing
 		return null;
 	}
+	
+	@Override
+	public List<Iterator> genIterators(CSPModel2 builder) {
+		throw new IllegalStateException();
+	}
+	
+	// Utils
+	
+	protected String gvText(String str, LocatedElement e) {
+		return str + "\n" + e.getLocation();
+	}
+
 
 }

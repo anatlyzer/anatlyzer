@@ -32,6 +32,7 @@ import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
+import anatlyzer.atl.errors.atl_error.GenericLocalProblem;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
@@ -642,6 +643,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass cannotInstantiateAbstractClassEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass genericLocalProblemEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2114,6 +2122,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getGenericLocalProblem() {
+		return genericLocalProblemEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGenericLocalProblem_GenericKind() {
+		return (EAttribute)genericLocalProblemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getNoBindingForCompulsoryFeatureKind() {
 		return noBindingForCompulsoryFeatureKindEEnum;
 	}
@@ -2385,6 +2411,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		cannotInstantiateAbstractClassEClass = createEClass(CANNOT_INSTANTIATE_ABSTRACT_CLASS);
 		createEReference(cannotInstantiateAbstractClassEClass, CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE);
 
+		genericLocalProblemEClass = createEClass(GENERIC_LOCAL_PROBLEM);
+		createEAttribute(genericLocalProblemEClass, GENERIC_LOCAL_PROBLEM__GENERIC_KIND);
+
 		// Create enums
 		noBindingForCompulsoryFeatureKindEEnum = createEEnum(NO_BINDING_FOR_COMPULSORY_FEATURE_KIND);
 		invalidRuleInheritanceKindEEnum = createEEnum(INVALID_RULE_INHERITANCE_KIND);
@@ -2513,6 +2542,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		incoherentHelperReturnTypeEClass.getESuperTypes().add(this.getAbstractIncoherentVariableDeclaration());
 		bindingInplaceInvalidEClass.getESuperTypes().add(this.getBindingProblem());
 		cannotInstantiateAbstractClassEClass.getESuperTypes().add(this.getLocalProblem());
+		genericLocalProblemEClass.getESuperTypes().add(this.getLocalProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2744,6 +2774,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEClass(cannotInstantiateAbstractClassEClass, CannotInstantiateAbstractClass.class, "CannotInstantiateAbstractClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCannotInstantiateAbstractClass_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, CannotInstantiateAbstractClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(genericLocalProblemEClass, GenericLocalProblem.class, "GenericLocalProblem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGenericLocalProblem_GenericKind(), ecorePackage.getEString(), "genericKind", null, 1, 1, GenericLocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.class, "NoBindingForCompulsoryFeatureKind");

@@ -12,7 +12,6 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDescription <em>Description</em>}</li>
@@ -22,6 +21,7 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getData <em>Data</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem()
  * @model abstract="true"

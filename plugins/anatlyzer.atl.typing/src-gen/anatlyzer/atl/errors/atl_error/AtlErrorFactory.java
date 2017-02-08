@@ -553,6 +553,15 @@ public interface AtlErrorFactory extends EFactory {
 	CannotInstantiateAbstractClass createCannotInstantiateAbstractClass();
 
 	/**
+	 * Returns a new object of class '<em>Generic Local Problem</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Generic Local Problem</em>'.
+	 * @generated
+	 */
+	GenericLocalProblem createGenericLocalProblem();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

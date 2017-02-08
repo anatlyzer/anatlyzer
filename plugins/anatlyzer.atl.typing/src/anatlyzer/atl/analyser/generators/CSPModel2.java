@@ -1,7 +1,12 @@
 package anatlyzer.atl.analyser.generators;
 import java.util.HashMap;
+import java.util.function.Function;
 
+import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class CSPModel2 extends CSPModel {
@@ -17,6 +22,10 @@ public class CSPModel2 extends CSPModel {
 //		disambiguations.get(varDcl).put(disambiguation,  new CSPModelScope(scope.getThisModuleVar(), scope));
 //	}
 
+	public CSPModel2() {
+		this.generator.setLazyRuleStrategy(new LazyRuleToParameter());
+	}
+	
 	
 	public void addToScope(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {
 		((CSPModelScope2) scope).put(varDcl, newVar, disambiguation);
@@ -82,6 +91,15 @@ public class CSPModel2 extends CSPModel {
 		return generator.gen(expr, ((CSPModelScope2) scope).getDisambiguation(vd));
 	}
 
-
+	public static class LazyRuleToParameter extends LazyRuleCallTransformationStrategy {
+		@Override
+		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {
+			if ( opCall.getArguments().size() > 1 )  
+				throw new UnsupportedTranslation("Cannot translate lazy rule calls with size(args) > 1", opCall);
+			
+			OclExpression sourceElem = opCall.getArguments().get(0);
+			return generator.apply(sourceElem);			
+		}
+	}
 	
 }

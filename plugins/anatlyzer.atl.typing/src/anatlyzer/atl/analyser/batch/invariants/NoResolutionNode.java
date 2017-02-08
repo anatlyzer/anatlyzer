@@ -10,9 +10,11 @@ import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
@@ -20,8 +22,19 @@ import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
+/**
+ * This node handles the case of:
+ * <li>
+ * 	<ul>Unresolved bindings</ul>
+ *  <ul>Assignments of target elements</ul>
+ *  <ul>Bindings with lazy rules</ul>
+ * </li>
+ * @author jesus
+ *
+ */
 public class NoResolutionNode implements IInvariantNode {
 
 	private IInvariantNode source;
@@ -38,6 +51,7 @@ public class NoResolutionNode implements IInvariantNode {
 	@Override
 	public SourceContext<? extends RuleWithPattern> getContext() {
 		if ( evaluateSubsequentNodes() )
+			// TODO: Check if the context must be changed to reflect the new output pattern element
 			return this.source.getContext();
 		// This is the problem... there is no context...
 		throw new IllegalStateException();
@@ -48,8 +62,16 @@ public class NoResolutionNode implements IInvariantNode {
 		OclSlice.slice(slice, binding.getValue());
 	}
 
+	/**
+	 * The absence of binding resolution may be due to three cause: (1) no rule to resolve binding,
+	 * (2) assignment of target elements or (3) usage of lazy rules. In case (1) there is no
+	 * context and thus we cannot pass the context the following iterator. Therefore, the result is
+	 * false. The translation for iterators must check this and stop evaluating.
+	 * 
+	 * @return true when the evaluation of the parent node must proceed normally.
+	 */
 	public boolean evaluateSubsequentNodes() {
-		return getTargets().size() > 0;
+		return getTargets().size() > 0 || hasLazyRules();
 	}
 	
 	@Override
@@ -59,6 +81,10 @@ public class NoResolutionNode implements IInvariantNode {
 		if ( getTargets().size() > 0 ) {
 			// TODO: Slice this properly, for the moment assuming a single target elements
 			// Variable references must be set...
+			return builder.gen(binding.getValue());
+		}
+		
+		if ( hasLazyRules() ) {
 			return builder.gen(binding.getValue());
 		}
 		
@@ -108,6 +134,15 @@ public class NoResolutionNode implements IInvariantNode {
 			}
 		});		
 		return elems;
+	}
+	
+	public boolean hasLazyRules() {
+		return ATLUtils.findElement(binding.getValue(), (o) -> {
+			if ( o instanceof OperationCallExp ) {
+				return ((OperationCallExp) o).getStaticResolver() instanceof LazyRule;
+			}
+			return false;
+		}).isPresent();
 	}
 
 	@Override

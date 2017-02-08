@@ -21,19 +21,31 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	}
 
 	@Override
+	public void visitAfter(ConditionalNode node) { }
+	
+	@Override
 	public boolean visit(CallExprNode node) {
 		return true;
 	}
 
 	@Override
+	public void visitAfter(CallExprNode node) { }
+
+	@Override
 	public boolean visit(MatchedRuleExecution node) {
 		return true;
 	}
-
+	
+	@Override
+	public void visitAfter(MatchedRuleExecution node) { }
+	
 	@Override
 	public boolean visit(MatchedRuleAbstract node) {
 		return true;
 	}
+	
+	@Override
+	public void visitAfter(MatchedRuleAbstract node) { }
 
 	@Override
 	public boolean visit(LoopNode node) {
@@ -41,14 +53,23 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	}
 
 	@Override
+	public void visitAfter(LoopNode node) { }
+	
+	@Override
 	public boolean visit(LetScopeNode node) {
 		return true;
 	}
+	
+	@Override
+	public void visitAfter(LetScopeNode node) { }
 
 	@Override
 	public boolean visit(ImperativeRuleExecutionNode node) {
 		return true;
 	}
+	
+	@Override
+	public void visitAfter(ImperativeRuleExecutionNode node) { }
 
 	@Override
 	public boolean visit(HelperInvocationNode node) {
@@ -56,9 +77,15 @@ public abstract class AbstractPathVisitor implements IPathVisitor {
 	}
 
 	@Override
+	public void visitAfter(HelperInvocationNode node) { }
+
+	@Override
 	public boolean visit(RuleResolutionNode node) {
 		return true;
 	}
+
+	@Override
+	public void visitAfter(RuleResolutionNode node) { }
 	
 	@Override
 	public boolean visitProblem(

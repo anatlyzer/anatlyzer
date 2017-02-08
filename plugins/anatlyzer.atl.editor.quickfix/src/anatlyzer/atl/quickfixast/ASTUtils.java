@@ -472,7 +472,7 @@ public class ASTUtils {
 			
 			boolean found = ATLUtils.findElement(ATLUtils.getContainer(scope, ModuleElement.class), (obj) -> {
 				return (obj instanceof VariableDeclaration) && ((VariableDeclaration) obj).getVarName().equals(result);
-			}) != null;
+			}).isPresent();
 			
 			if ( found ) {
 				return "v" + result;

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
@@ -48,9 +49,9 @@ import anatlyzer.atlext.OCL.VariableExp;
 public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode<BindingPossiblyUnresolved> implements ProblemNode {
 
 	private Binding	binding;
-	private Analyser analyser;
+	private IAnalyserResult  analyser;
 
-	public BindingPossiblyUnresolvedNode(BindingPossiblyUnresolved p, Binding binding, Analyser analyser) {
+	public BindingPossiblyUnresolvedNode(BindingPossiblyUnresolved p, Binding binding, IAnalyserResult analyser) {
 		super(p);
 		this.binding = binding;
 		this.analyser = analyser;

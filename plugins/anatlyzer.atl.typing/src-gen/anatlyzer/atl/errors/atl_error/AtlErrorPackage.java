@@ -11111,6 +11111,160 @@ public interface AtlErrorPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.GenericLocalProblemImpl <em>Generic Local Problem</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.GenericLocalProblemImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getGenericLocalProblem()
+	 * @generated
+	 */
+	int GENERIC_LOCAL_PROBLEM = 77;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ignored By User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__MISSING = LOCAL_PROBLEM__MISSING;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Generic Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM__GENERIC_KIND = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Generic Local Problem</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Generic Local Problem</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_LOCAL_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11118,7 +11272,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 77;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 78;
 
 
 	/**
@@ -11129,7 +11283,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidRuleInheritanceKind()
 	 * @generated
 	 */
-	int INVALID_RULE_INHERITANCE_KIND = 78;
+	int INVALID_RULE_INHERITANCE_KIND = 79;
 
 
 	/**
@@ -12739,6 +12893,27 @@ public interface AtlErrorPackage extends EPackage {
 	EReference getCannotInstantiateAbstractClass_Type();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.GenericLocalProblem <em>Generic Local Problem</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Generic Local Problem</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.GenericLocalProblem
+	 * @generated
+	 */
+	EClass getGenericLocalProblem();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.GenericLocalProblem#getGenericKind <em>Generic Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Generic Kind</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.GenericLocalProblem#getGenericKind()
+	 * @see #getGenericLocalProblem()
+	 * @generated
+	 */
+	EAttribute getGenericLocalProblem_GenericKind();
+
+	/**
 	 * Returns the meta object for enum '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -14158,6 +14333,24 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CANNOT_INSTANTIATE_ABSTRACT_CLASS__TYPE = eINSTANCE.getCannotInstantiateAbstractClass_Type();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.GenericLocalProblemImpl <em>Generic Local Problem</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.GenericLocalProblemImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getGenericLocalProblem()
+		 * @generated
+		 */
+		EClass GENERIC_LOCAL_PROBLEM = eINSTANCE.getGenericLocalProblem();
+
+		/**
+		 * The meta object literal for the '<em><b>Generic Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute GENERIC_LOCAL_PROBLEM__GENERIC_KIND = eINSTANCE.getGenericLocalProblem_GenericKind();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.

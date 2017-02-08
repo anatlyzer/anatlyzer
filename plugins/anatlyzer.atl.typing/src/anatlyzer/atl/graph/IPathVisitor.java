@@ -7,22 +7,31 @@ import anatlyzer.atl.analyser.batch.PossibleStealingNode;
 public interface IPathVisitor {
 
 	public boolean visit(ConditionalNode node);
+	public void visitAfter(ConditionalNode node);	
 
 	public boolean visit(CallExprNode node);
+	public void visitAfter(CallExprNode node);
 
 	public boolean visit(MatchedRuleExecution node);
+	public void visitAfter(MatchedRuleExecution node);
 
 	public boolean visit(MatchedRuleAbstract node);
+	public void visitAfter(MatchedRuleAbstract node);
 
 	public boolean visit(LoopNode node);
+	public void visitAfter(LoopNode node);
 
 	public boolean visit(LetScopeNode node);
+	public void visitAfter(LetScopeNode node);
 
 	public boolean visit(ImperativeRuleExecutionNode node);
+	public void visitAfter(ImperativeRuleExecutionNode node);
 
 	public boolean visit(HelperInvocationNode node);
+	public void visitAfter(HelperInvocationNode node);
 
 	public boolean visit(RuleResolutionNode node);
+	public void visitAfter(RuleResolutionNode node);
 
 	public boolean visitProblem(AccessToUndefinedValueNode node);
 

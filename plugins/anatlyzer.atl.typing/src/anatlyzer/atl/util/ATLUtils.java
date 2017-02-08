@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 import java.util.function.Consumer;
@@ -840,15 +841,15 @@ public class ATLUtils {
 	}
 
 	
-	public static EObject findElement(EObject init, Function<EObject, Boolean> f) {
-		if ( f.apply(init) ) return init;
+	public static Optional<EObject> findElement(EObject init, Function<EObject, Boolean> f) {
+		if ( f.apply(init) ) return Optional.of(init);
 		TreeIterator<EObject> it = init.eAllContents();
 		while ( it.hasNext() ) {
 			EObject obj = it.next();
 			if ( f.apply(obj) ) 
-				return obj;
+				return Optional.of(obj);
 		}		
-		return null;
+		return Optional.empty();
 	}
 
 	public static List<VariableDeclaration> findSelfReferences(ContextHelper contextHelper) {

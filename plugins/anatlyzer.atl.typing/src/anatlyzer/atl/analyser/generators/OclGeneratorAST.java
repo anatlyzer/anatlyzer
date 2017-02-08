@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.generators;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -161,7 +162,7 @@ public class OclGeneratorAST {
 	}
 
 
-	private OclExpression genPropertyCall(OclExpression expr, CSPModel.CSPModelScope vars) {
+	private OclExpression genPropertyCall(OclExpression expr, final CSPModel.CSPModelScope vars) {
 		OclExpression receptor = gen(((PropertyCallExp) expr).getSource(), vars);
 		if (expr instanceof OperatorCallExp) {
 			OperatorCallExp opS  = (OperatorCallExp) expr;
@@ -215,11 +216,11 @@ public class OclGeneratorAST {
 
 			// CallExprAnn ann = (CallExprAnn) typ.getAnnotation(navS.original_());
 			if ( navS.getStaticResolver() instanceof StaticRule ) {
-				return lazyRuleStrategy.gen(atlModel, navS);
+				return lazyRuleStrategy.gen(atlModel, navS, (exp) -> gen(exp, vars));
 			} 
 			if ( navS.getOperationName().equals("resolveTemp") ) {
 				// If it is within a collect, the collect could be removed...
-				return lazyRuleStrategy.gen(atlModel, navS);				
+				return lazyRuleStrategy.gen(atlModel, navS, (exp) -> gen(exp, vars));				
 			}
 			
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
@@ -255,9 +256,9 @@ public class OclGeneratorAST {
 			tgt.getIterators().add( itTgt );
 
 			// Create a new var for the body
-			vars = vars.derive();
-			vars.put(src.getIterators().get(0), itTgt);
-			tgt.setBody( gen(src.getBody(), vars));
+			CSPModelScope bodyVars = vars.derive();
+			bodyVars.put(src.getIterators().get(0), itTgt);
+			tgt.setBody( gen(src.getBody(), bodyVars));
 			
 			return tgt;
 		} else if ( expr instanceof IterateExp ) {
@@ -280,10 +281,10 @@ public class OclGeneratorAST {
 			result.setType((OclType) gen(src.getResult().getType(), vars));
 			tgt.setResult( result );
 
-			vars = vars.derive();
-			vars.put(src.getIterators().get(0), itTgt);
-			vars.put(src.getResult(), result);
-			tgt.setBody( gen(src.getBody(), vars));
+			CSPModelScope bodyVars = vars.derive();
+			bodyVars.put(src.getIterators().get(0), itTgt);
+			bodyVars.put(src.getResult(), result);
+			tgt.setBody( gen(src.getBody(), bodyVars));
 			
 			return tgt;			
 		}
@@ -329,18 +330,18 @@ public class OclGeneratorAST {
 
 	public static class LazyRuleNotSupported extends LazyRuleCallTransformationStrategy {
 		@Override
-		public OclExpression gen(ATLModel model, OperationCallExp opCall) {
+		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {
 			throw new UnsupportedOperationException(opCall.getLocation());
 		}
 	}
 
 	public static abstract class LazyRuleCallTransformationStrategy {
-		public abstract OclExpression gen(ATLModel model, OperationCallExp opCall);
+		public abstract OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator);
 	}
 
 	public static class LazyRuleToOclUndefined extends LazyRuleCallTransformationStrategy {
 		@Override
-		public OclExpression gen(ATLModel model, OperationCallExp opCall) {
+		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {
 			return OCLFactory.eINSTANCE.createOclUndefinedExp();
 		}
 	}
@@ -353,7 +354,7 @@ public class OclGeneratorAST {
 		}
 		
 		@Override
-		public OclExpression gen(ATLModel model, OperationCallExp opCall) {
+		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(dummyDcl);
 			return varRef;

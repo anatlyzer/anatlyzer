@@ -32,6 +32,7 @@ import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -206,7 +207,7 @@ public class InvariantGraphGenerator {
 
 	private IInvariantNode checkIteratorExp(IteratorExp expr, final Env env) {
 		IInvariantNode src = analyse(expr.getSource(), env);
-		
+
 		if ( src instanceof NoResolutionNode && !((NoResolutionNode) src).evaluateSubsequentNodes()) {
 			return src;
 		} else	if ( src instanceof MultiNode ) {
@@ -273,10 +274,10 @@ public class InvariantGraphGenerator {
 		if ( self.getOperationName().equals("allInstances") ) {
 			List<SourceContext<? extends RuleWithPattern>> rules = findTargetOcurrences((OclModelElement) self.getSource());
 			if ( rules.size() == 0 ) 
-				throw new IllegalStateException();
+				throw new IllegalStateException("No rules for " + ((OclModelElement) self.getSource()).getName());
 			
 			List<IInvariantNode> nodes = rules.stream().map(r -> {
-				return new AllInstancesNode((SourceContext<RuleWithPattern>) r);
+				return new AllInstancesNode((SourceContext<RuleWithPattern>) r, this.result);
 			}).collect(Collectors.toList());
 			
 			if ( nodes.size() == 1 ) {
@@ -366,16 +367,41 @@ public class InvariantGraphGenerator {
 
 	private List<SourceContext<? extends RuleWithPattern>> findTargetOcurrences(OclModelElement targetType) {
 		// TODO: Consider subtyping relationships
-		return model.allObjectsOf(MatchedRule.class).stream().
+		return model.allObjectsOf(RuleWithPattern.class).stream().
 			filter(r -> r.getOutPattern() != null).
 			// filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
 			
 			// We ask, is OPE a subtype of the T.allInstances() in the postcondition?
 			flatMap(r -> r.getOutPattern().getElements().stream()).
 			filter(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType())).
-			map(ope -> new MatchedRuleContext(ope, (MatchedRule) ope.getOutPattern().getRule())).
+			map(ope -> {
+				Rule rule = ope.getOutPattern().getRule();
+				if ( rule instanceof MatchedRule ) {
+					return new MatchedRuleContext(ope, (MatchedRule) rule);
+				} else {
+					return new LazyRuleContext(ope, (LazyRule) rule);
+				}
+			}).
 			collect(Collectors.toList());
-		
+	
+		/*
+		return model.allObjectsOf(RuleWithPattern.class).stream().
+				filter(r -> r.getOutPattern() != null).
+				// filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
+				
+				// We ask, is OPE a subtype of the T.allInstances() in the postcondition?
+				flatMap(r -> r.getOutPattern().getElements().stream()).
+				filter(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType())).
+				map(ope -> {
+					Rule rule = ope.getOutPattern().getRule();
+					if ( rule instanceof MatchedRule ) {
+						new MatchedRuleContext(ope, (MatchedRule) rule);
+					} else {
+						return null;
+					}
+				}).
+				collect(Collectors.toList());
+		*/
 	}
 
 	private IInvariantNode checkNavExp(NavigationOrAttributeCallExp self, Env env) {
@@ -516,6 +542,8 @@ public class InvariantGraphGenerator {
 		}
 		
 		if ( resolutions.size() == 0 ) {
+			// Beaware that no resolutions node also handles the case of having only lazy rules
+			// in the RHS.
 			return new NoResolutionNode(source, self, allBindings.get(0));
 		}
 
@@ -629,6 +657,21 @@ public class InvariantGraphGenerator {
 		
 	}
 
+	public static class LazyRuleContext extends SourceContext<LazyRule> {
+
+		public LazyRuleContext(OutPatternElement ope, LazyRule rule) {
+			super(ope, rule);
+		}
+
+		@Override
+		public SourceContext<LazyRule> newOutPatternElement(OutPatternElement ope2) {
+			return new LazyRuleContext(ope2, this.rule);
+		}
+		
+	}
+
+	
+	
 	public static class TranslatedHelper {
 		private ContextHelper helper;
 		private IInvariantNode body;

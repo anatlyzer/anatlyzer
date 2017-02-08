@@ -254,6 +254,7 @@ public class CallExprNode extends AbstractDependencyNode {
 	public void bottomUp(IPathVisitor visitor) {
 		boolean b = visitor.visit(this);
 		if ( b ) followDepending(node -> node.bottomUp(visitor));
+		visitor.visitAfter(this);
 	}
 	
 	

@@ -523,7 +523,9 @@ package atl_error {
 		ref types.Metaclass[1] type;
 	}	
 
-	
+	class GenericLocalProblem extends LocalProblem {
+		attr String[1] genericKind;
+	}
 }
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")

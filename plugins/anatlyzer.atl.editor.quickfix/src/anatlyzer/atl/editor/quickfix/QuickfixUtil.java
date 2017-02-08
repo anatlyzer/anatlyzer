@@ -64,7 +64,7 @@ public abstract class QuickfixUtil {
 //		}
 //		
 //		// Is in a filter
-//		if ( ATLUtils.findElement(expr, (obj) -> obj.eContainingFeature() == ATLPackage.Literals.IN_PATTERN__FILTER) != null ) {
+//		if ( ATLUtils.findElement(expr, (obj) -> obj.eContainingFeature() == ATLPackage.Literals.IN_PATTERN__FILTER).isPresent() ) {
 //			return TypesFactory.eINSTANCE.createBooleanType();
 //		}
 //

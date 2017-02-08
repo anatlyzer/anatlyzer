@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
@@ -16,13 +17,9 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.BindingWithoutRule;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
-import anatlyzer.atl.errors.atl_error.FeatureNotFound;
-import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
 import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
-import anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeature;
-import anatlyzer.atl.errors.atl_error.OperationNotFound;
 import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
@@ -61,9 +58,9 @@ public class ErrorPathGenerator {
 
 	private ProblemGraph graph;
 	private ProblemPath	currentPath;
-	private Analyser analyser;
+	private IAnalyserResult analyser;
 	
-	public ErrorPathGenerator(Analyser r) {
+	public ErrorPathGenerator(IAnalyserResult r) {
 		this.analyser = r;
 		this.atlModel = r.getATLModel();
 //		this.errors = atlModel.getErrors();
@@ -116,24 +113,29 @@ public class ErrorPathGenerator {
 
 	private void generatePath_GenericError(LocalProblem p) {
 		GenericErrorNode node = new GenericErrorNode(p);
-		currentPath = new ProblemPath(p, node);
-		if ( p.getElement() instanceof OclExpression ) {
-			pathFromErrorExpression((OclExpression) p.getElement(), node); 			
+		ProblemPath path = new ProblemPath(p, node);
+		LocatedElement elem = (LocatedElement) p.getElement();
+		generatePath(path, node, elem);
+	}
+
+	public void generatePath(ProblemPath p, DependencyNode node, LocatedElement elem) {
+		this.currentPath = p;
+		if ( elem instanceof OclExpression ) {
+			pathFromErrorExpression((OclExpression) elem, node); 			
 		} else {
 			TraversedSet traversed = new TraversedSet();
 			
 			// Same as the last part of pathToControlFlow
-			if ( p.getElement() instanceof Rule ) {
-				pathToRule((Rule) p.getElement(), node, traversed, false);
-			} else if ( p.getElement() instanceof Helper ){
-				pathToHelper((Helper) p.getElement(), node, traversed);			
+			if ( elem instanceof Rule ) {
+				pathToRule((Rule) elem, node, traversed, false);
+			} else if ( elem instanceof Helper ){
+				pathToHelper((Helper) elem, node, traversed);			
 			} else {
-				pathToControlFlow(p.getElement(), node, traversed);
+				pathToControlFlow(elem, node, traversed);
 			}			
 		}
-		
 	}
-
+	
 	private void generatePath_FoundInSubtype(FoundInSubtype f) {
 		NavigationProblem p = (NavigationProblem) f;
 		PropertyCallExp atlExpr = (PropertyCallExp) p.getElement();
@@ -192,7 +194,7 @@ public class ErrorPathGenerator {
 		pathFromErrorExpression(atlExpr, node);
 	}
 	
-	private void generatePath_BindingPossiblyUnresolved(BindingPossiblyUnresolved p, Analyser a) {
+	private void generatePath_BindingPossiblyUnresolved(BindingPossiblyUnresolved p, IAnalyserResult  a) {
 		Binding atlBinding = (Binding) p.getElement();
 
 		ProblemNode node = new BindingPossiblyUnresolvedNode(p, atlBinding, a);
@@ -203,7 +205,7 @@ public class ErrorPathGenerator {
 		pathToBinding(atlBinding, node, new TraversedSet());
 	}
 
-	private void generatePath_BindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule p, Analyser a) {
+	private void generatePath_BindingWithResolvedByIncompatibleRule(BindingWithResolvedByIncompatibleRule p, IAnalyserResult a) {
 		Binding atlBinding = (Binding) p.getElement();
 
 		ProblemNode node = new BindingWithResolvedByIncompatibleRuleNode(p, atlBinding, a);
@@ -338,9 +340,9 @@ public class ErrorPathGenerator {
 		boolean branch;
 		
 		// Check it is in the true branch
-		if ( stat.getThenStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild) != null) ) {
+		if ( stat.getThenStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild).isPresent() ) ) {
 			branch = ConditionalNode.TRUE_BRANCH;			
-		} else if ( stat.getElseStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild) != null) ) {
+		} else if ( stat.getElseStatements().stream().anyMatch(s -> ATLUtils.findElement(s, (e) -> e == directChild).isPresent()) ) {
 			branch = ConditionalNode.FALSE_BRANCH;			
 		} else {
 			// must be in the condition

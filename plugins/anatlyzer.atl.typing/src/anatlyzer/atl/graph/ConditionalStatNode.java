@@ -86,7 +86,7 @@ public class ConditionalStatNode extends AbstractDependencyNode {
 		return statements.stream().anyMatch(s -> {
 			return ATLUtils.findElement(s, (e) -> {
 				return (e instanceof OclExpression) ? expressionInExpressionCached(exp, (OclExpression) e) : false;
-			}) != null;
+			}).isPresent();
 		});
 	}
 	
@@ -94,7 +94,7 @@ public class ConditionalStatNode extends AbstractDependencyNode {
 		return statements.stream().anyMatch(s -> {
 			return ATLUtils.findElement(s, (e) -> {
 				return (e instanceof OclExpression) ? problemInExpressionCached(lp, (OclExpression) e) : false;
-			}) != null;
+			}).isPresent();
 		});
 	}
 

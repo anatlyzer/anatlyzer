@@ -5,17 +5,35 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
+import anatlyzer.atl.analyser.generators.CSPGenerator;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
+import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
+import anatlyzer.atl.errors.atl_error.GenericLocalProblem;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.graph.AbstractDependencyNode;
+import anatlyzer.atl.graph.ConstraintNode;
+import anatlyzer.atl.graph.DependencyNode;
+import anatlyzer.atl.graph.ErrorPathGenerator;
+import anatlyzer.atl.graph.GraphNode;
+import anatlyzer.atl.graph.IPathVisitor;
+import anatlyzer.atl.graph.ProblemNode;
+import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
@@ -38,12 +56,14 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
-	private MatchedRule rule;
+	private RuleWithPattern rule;
+	private IAnalyserResult result;
 
-	public AllInstancesNode(SourceContext<RuleWithPattern> ctx) {
+	public AllInstancesNode(SourceContext<RuleWithPattern> ctx, IAnalyserResult result) {
 		super(ctx);
 		// For the moment we only support matched rules
-		this.rule = (MatchedRule) ctx.getRule();
+		this.rule = (RuleWithPattern) ctx.getRule();
+		this.result = result;
 	}
 
 	@Override
@@ -65,20 +85,25 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		if ( rule instanceof LazyRule ) {
+			return createPathCondition((LazyRule) rule);
+		}
+		
 		if ( rule.getInPattern().getElements().size() == 1 ) {
-			return genSingleIterator(builder);
+			return genSingleIterator(builder, rule);
 		} else {
 			// IteratorExp result = genCrossProductExpression(builder);
 			// return result;
 
 			// This cannot be done with tuples in USE, so we just throw an Exception, and generate
 			// nested forAlls in a more complicated way which requires interaction with IteratorExpNode
-			throw new UnsupportedOperationException();
+			// (so, see IteratorExpNode to learn how genNested is used)
+			throw new IllegalStateException();
 		}
 		
 	}
 
-	private OclExpression genSingleIterator(CSPModel2 builder) {
+	public static OclExpression genSingleIterator(CSPModel2 builder, RuleWithPattern rule) {
 		InPatternElement firstIPE = rule.getInPattern().getElements().get(0);
 		
 		OperationCallExp op = createAllInstances(firstIPE);
@@ -138,7 +163,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 			builder.openEmptyScope();
 
-			Pair<LetExp, LetExp> lets = genMultipleIPEBindings(rule, select.getIterators().get(0), builder);
+			Pair<LetExp, LetExp> lets = genMultipleIPEBindings((MatchedRule) rule, select.getIterators().get(0), builder);
 			LetExp externalLet = lets._1;
 			LetExp innerLet = lets._2;
 
@@ -215,7 +240,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return innerLet;
 	}
 
-	protected OperationCallExp createAllInstances(InPatternElement e) {
+	private static OperationCallExp createAllInstances(InPatternElement e) {
 		OclModelElement sourceType = (OclModelElement) ATLCopier.copySingleElement(e.getType());
 		
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
@@ -238,7 +263,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		if ( rule.getInPattern().getElements().size() == 1 ) {
 			builder.addToScope(rule.getInPattern().getElements().get(0), it, targetIt);
 		} else {
-			return genMultipleIPEBindings(rule, it, builder);			
+			return genMultipleIPEBindings((MatchedRule) rule, it, builder);			
 		}
 		return null;
 	}
@@ -340,11 +365,69 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 	@Override
 	public OclExpression genExprNorm(CSPModel2 builder) {
+		if ( rule instanceof LazyRule )
+			return createPathCondition((LazyRule) rule);
+
 		if ( rule.getInPattern().getElements().size() == 1 ) {
-			return genSingleIterator(builder);
+			return genSingleIterator(builder, rule);
 		} else {
 			return genCrossProduct(builder);
 		}
 	}
+
+	private OclExpression createPathCondition(LazyRule rule) {
+		// Create a mock problem
+		GenericLocalProblem p = AtlErrorFactory.eINSTANCE.createGenericLocalProblem();
+		p.setElement(rule);
+		MockNode mockNode = new MockNode();
+		ProblemPath path = new ProblemPath(p, mockNode); 
+		ErrorPathGenerator pathGen = new ErrorPathGenerator(result);
+		
+		pathGen.generatePath(path, mockNode, rule);
+		// The result is in path.getExecutionNodes
+		
+		return CSPGenerator.generateCSPCondition(path);
+	}
 	
+	public static class MockNode extends AbstractDependencyNode implements ProblemNode {
+
+		@Override
+		public OclExpression genCSP(CSPModel model, GraphNode previous) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public OclExpression genWeakestPrecondition(CSPModel model) { throw new IllegalStateException(); }
+		@Override 
+		public void genErrorSlice(ErrorSlice slice) { throw new IllegalStateException(); }
+		@Override
+		public void genTransformationSlice(TransformationSlice slice) { throw new IllegalStateException();	}
+		@Override
+		public void genGraphviz(GraphvizBuffer gv) { throw new IllegalStateException();	}
+		@Override
+		public void genIdentification(PathId id) { throw new IllegalStateException();	}
+		@Override
+		public boolean isProblemInPath(LocalProblem lp) { throw new IllegalStateException(); }
+		@Override
+		public boolean isExpressionInPath(OclExpression expr) { throw new IllegalStateException();	}
+		@Override
+		public void bottomUp(IPathVisitor visitor) { throw new IllegalStateException(); }
+		@Override
+		public boolean isVarRequiredByErrorPath(VariableDeclaration v) { throw new IllegalStateException(); 	}
+
+		@Override
+		public ErrorSlice getErrorSlice(IAnalyserResult result, IDetectedProblem problem) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean isStraightforward() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+	}
+
 }

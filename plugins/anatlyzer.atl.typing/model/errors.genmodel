@@ -283,6 +283,9 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference errors.ecore#//atl_error/CannotInstantiateAbstractClass/type"/>
       </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/GenericLocalProblem">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/GenericLocalProblem/genericKind"/>
+      </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"
         ecorePackage="errors.ecore#//atl_recovery">

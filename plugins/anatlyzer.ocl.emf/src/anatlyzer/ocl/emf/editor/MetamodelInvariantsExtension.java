@@ -168,6 +168,9 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		EAnnotation ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL");
 		if ( ann == null ) {                
 			ann = c.getEAnnotation("http://www.eclipse.org/ocl/examples/OCL");
+			if ( ann == null ) {                
+				ann = c.getEAnnotation("http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot");
+			}
 		}
 		return ann;
 	}

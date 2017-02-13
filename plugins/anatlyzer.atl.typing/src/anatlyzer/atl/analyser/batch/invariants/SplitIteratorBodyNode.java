@@ -3,29 +3,26 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.List;
 import java.util.Set;
 
-import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.SequenceExp;
 
-public class SplitNode extends AbstractInvariantReplacerNode {
+public class SplitIteratorBodyNode extends AbstractInvariantReplacerNode {
 
 	private List<IInvariantNode> paths;
-	private CollectionOperationCallExp expr;
+	private IteratorExp expr;
 
-	public SplitNode(List<IInvariantNode> paths, CollectionOperationCallExp expr) {
+	public SplitIteratorBodyNode(List<IInvariantNode> paths, IteratorExp expr) {
 		super(null);
 		this.paths = paths;
 		this.expr = expr;

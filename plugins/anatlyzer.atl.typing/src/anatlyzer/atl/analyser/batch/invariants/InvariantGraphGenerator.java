@@ -234,15 +234,32 @@ public class InvariantGraphGenerator {
 			Env env2 = env.put(expr.getIterators().get(0), src.getContext());
 			IInvariantNode body = analyse(expr.getBody(), env2);
 	
+			// TODO: Take into account cardinality and the kind of iterator?
+			if ( body instanceof MultiNode ) {			
+				SplitIteratorBodyNode split = new SplitIteratorBodyNode(((MultiNode) body).getNodes(), expr);
+				body = split;
+			}
+			
 			return new IteratorExpNode(src, body, expr);
 		}		
+	}
+	
+	private static HashSet<String> colRetOps = new HashSet<String>();
+	static {
+		colRetOps.add("flatten");
 	}
 	
 	private AbstractInvariantReplacerNode checkColExp(CollectionOperationCallExp expr, Env env) {
 		IInvariantNode src = analyse(expr.getSource(), env);
 
+		// Depending on the kind of operation, we need to continue with a split path or to merge it.
+		// This depends on whether the operation returns another collection or not, e.g., flatten
+		if ( colRetOps.contains(expr.getOperationName()) ) {
+			// TODO: XXX For flatten do not split, for asSet merge and split again the path
+		}
+		
 		if ( src instanceof MultiNode ) {			
-			SplitNode split = new SplitNode(((MultiNode) src).getNodes(), expr);
+			SplitCollectionOperationNode split = new SplitCollectionOperationNode(((MultiNode) src).getNodes(), expr);
 			src = split;
 		}
 		

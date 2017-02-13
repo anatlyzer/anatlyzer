@@ -29,7 +29,8 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 	
 	@Override
 	public boolean visit(LoopNode node) {
-		node.getDepending()
+		// node.getDepending()
+		return false;
 	}
 	
 }

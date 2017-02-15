@@ -41,7 +41,7 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		visitor.bottomUp(path);
 		
 		List<? extends ExecutionNode> exec = path.getExecutionNodes();
-		if ( exec.size() == 0 ) {
+		if ( exec.size() == 1 ) {
 			return visitor.get(exec.get(0));			
 		}
 		

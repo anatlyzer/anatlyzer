@@ -58,6 +58,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 	private RuleWithPattern rule;
 	private IAnalyserResult result;
+	private ProblemPath lazyRulePath;
 
 	public AllInstancesNode(SourceContext<RuleWithPattern> ctx, IAnalyserResult result) {
 		super(ctx);
@@ -81,6 +82,10 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 		if ( rule.getInPattern().getFilter() != null )
 			OclSlice.slice(slice, rule.getInPattern().getFilter());
+		
+		if ( rule instanceof LazyRule ) {
+			genLazyRulePath((LazyRule) rule).getErrorNode().genErrorSlice(slice);
+		}
 	}
 	
 	@Override
@@ -376,18 +381,26 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	}
 
 	private OclExpression createPathCondition(LazyRule rule, CSPModel2 builder) {
-		// Create a mock problem
-		GenericLocalProblem p = AtlErrorFactory.eINSTANCE.createGenericLocalProblem();
-		p.setElement(rule);
-		MockNode mockNode = new MockNode();
-		ProblemPath path = new ProblemPath(p, mockNode); 
-		ErrorPathGenerator pathGen = new ErrorPathGenerator(result);
-		
-		pathGen.generatePath(path, mockNode, rule);
-		// The result is in path.getExecutionNodes
-		
-		
+		ProblemPath path = genLazyRulePath(rule);		
 		return LazyRulePathVisitor.genCondition(path, builder);
+	}
+
+	private ProblemPath genLazyRulePath(LazyRule rule) {
+		if ( this.lazyRulePath == null ) {
+			// Create a mock problem
+			GenericLocalProblem p = AtlErrorFactory.eINSTANCE.createGenericLocalProblem();
+			p.setElement(rule);
+			MockNode mockNode = new MockNode();
+			ProblemPath path = new ProblemPath(p, mockNode); 
+			ErrorPathGenerator pathGen = new ErrorPathGenerator(result);
+			
+			pathGen.generatePath(path, mockNode, rule);
+			// The result is in path.getExecutionNodes
+			
+			this.lazyRulePath = path;
+		}
+		
+		return this.lazyRulePath;
 	}
 	
 	public static class MockNode extends AbstractDependencyNode implements ProblemNode {
@@ -403,11 +416,14 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			// Do nothing
 		}
 
+		@Override 
+		public void genErrorSlice(ErrorSlice slice) { 
+			generatedDependencies(slice);
+		}
+
 		
 		@Override
 		public OclExpression genWeakestPrecondition(CSPModel model) { throw new IllegalStateException(); }
-		@Override 
-		public void genErrorSlice(ErrorSlice slice) { throw new IllegalStateException(); }
 		@Override
 		public void genTransformationSlice(TransformationSlice slice) { throw new IllegalStateException();	}
 		@Override

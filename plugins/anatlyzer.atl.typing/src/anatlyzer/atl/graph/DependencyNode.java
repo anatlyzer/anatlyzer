@@ -13,9 +13,8 @@ public interface DependencyNode extends GraphNode {
 	void addDepending(DependencyNode node);
 	void addConstraint(ConstraintNode constraint);
 	
-	
-	
-	public DependencyNode getDependency();
+	public DependencyNode getDepending();
+		
 	
 	void setProblem(Problem p);
 	Problem getProblem();

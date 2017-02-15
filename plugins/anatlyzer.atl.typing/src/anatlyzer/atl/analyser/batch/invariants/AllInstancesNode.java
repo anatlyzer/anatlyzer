@@ -86,7 +86,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		if ( rule instanceof LazyRule ) {
-			return createPathCondition((LazyRule) rule);
+			return createPathCondition((LazyRule) rule, builder);
 		}
 		
 		if ( rule.getInPattern().getElements().size() == 1 ) {
@@ -366,7 +366,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	@Override
 	public OclExpression genExprNorm(CSPModel2 builder) {
 		if ( rule instanceof LazyRule )
-			return createPathCondition((LazyRule) rule);
+			return createPathCondition((LazyRule) rule, builder);
 
 		if ( rule.getInPattern().getElements().size() == 1 ) {
 			return genSingleIterator(builder, rule);
@@ -375,7 +375,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		}
 	}
 
-	private OclExpression createPathCondition(LazyRule rule) {
+	private OclExpression createPathCondition(LazyRule rule, CSPModel2 builder) {
 		// Create a mock problem
 		GenericLocalProblem p = AtlErrorFactory.eINSTANCE.createGenericLocalProblem();
 		p.setElement(rule);
@@ -386,7 +386,8 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		pathGen.generatePath(path, mockNode, rule);
 		// The result is in path.getExecutionNodes
 		
-		return CSPGenerator.generateCSPCondition(path);
+		
+		return LazyRulePathVisitor.genCondition(path, builder);
 	}
 	
 	public static class MockNode extends AbstractDependencyNode implements ProblemNode {
@@ -397,6 +398,12 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			return null;
 		}
 
+		@Override
+		public void bottomUp(IPathVisitor visitor) { 
+			// Do nothing
+		}
+
+		
 		@Override
 		public OclExpression genWeakestPrecondition(CSPModel model) { throw new IllegalStateException(); }
 		@Override 
@@ -411,8 +418,6 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		public boolean isProblemInPath(LocalProblem lp) { throw new IllegalStateException(); }
 		@Override
 		public boolean isExpressionInPath(OclExpression expr) { throw new IllegalStateException();	}
-		@Override
-		public void bottomUp(IPathVisitor visitor) { throw new IllegalStateException(); }
 		@Override
 		public boolean isVarRequiredByErrorPath(VariableDeclaration v) { throw new IllegalStateException(); 	}
 

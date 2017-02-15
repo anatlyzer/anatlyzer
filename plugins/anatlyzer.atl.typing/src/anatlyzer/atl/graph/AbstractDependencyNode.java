@@ -223,13 +223,6 @@ public abstract class AbstractDependencyNode implements DependencyNode {
 		node.addDepending(this);
 	}
 
-	public DependencyNode getDependency() {
-		if 		( dependencies.size() == 0 ) return null;
-		else if ( dependencies.size() == 1 ) return dependencies.get(0);
-		
-		throw new IllegalStateException("Only one dependency per node supported");
-	}
-
 	public DependencyNode getDepending() {
 		if 		( depending.size() == 0 ) return null;
 		else if ( depending.size() == 1 ) return depending.get(0);

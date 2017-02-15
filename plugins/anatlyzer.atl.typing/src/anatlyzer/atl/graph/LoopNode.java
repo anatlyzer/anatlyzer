@@ -35,6 +35,10 @@ public class LoopNode extends AbstractDependencyNode {
 		super.generatedDependencies(slice);
 	}
 
+	public LoopExp getLoop() {
+		return loop;
+	}
+	
 	@Override
 	public boolean isProblemInPath(LocalProblem lp) {
 		return 	problemInExpressionCached(lp, receptor) ||

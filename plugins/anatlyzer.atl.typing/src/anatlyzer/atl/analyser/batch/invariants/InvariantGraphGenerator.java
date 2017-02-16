@@ -29,6 +29,7 @@ import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.BuildUtils;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -38,6 +39,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.OCL.CollectionExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -53,6 +55,7 @@ import anatlyzer.atlext.OCL.OclUndefinedExp;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PrimitiveExp;
+import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -183,8 +186,16 @@ public class InvariantGraphGenerator {
 		else if ( expr instanceof VariableExp ) return checkVariableExp((VariableExp) expr, env);
 		else if ( expr instanceof PrimitiveExp ) return new GenericExpNode(null, expr);
 		else if ( expr instanceof OclUndefinedExp ) return new GenericExpNode(null, expr);
-
+		else if ( expr instanceof CollectionExp ) return checkCollectionExp((CollectionExp) expr, env);
+		
 		throw new UnsupportedOperationException(expr.toString());
+	}
+
+	private IInvariantNode checkCollectionExp(CollectionExp expr, Env env) {
+		if ( expr.getElements().size() > 0 )
+			throw new UnsupportedTranslation("TODO: Support Col { } with elements");
+
+		return new GenericExpNode(null, expr);
 	}
 
 	private void converHelper(ContextHelper h, OperationCallExp caller, SourceContext<? extends RuleWithPattern> sourceContext) {
@@ -502,8 +513,8 @@ public class InvariantGraphGenerator {
 						// System.out.println(ATLSerializer.serialize(select.eContainer()));
 						return analyse(select, env);
 					}
-				} else {			
-					throw new UnsupportedOperationException("No binding for: " + self.getName() + "TODO: Compute default values. " + self);
+				} else {
+					return new DefaultValueNode(source.getContext(), self); 					
 				}				
 			}
 						

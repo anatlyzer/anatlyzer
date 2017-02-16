@@ -12,11 +12,13 @@ import anatlyzer.atl.graph.ExecutionNode;
 import anatlyzer.atl.graph.GraphNode;
 import anatlyzer.atl.graph.ImperativeRuleExecutionNode;
 import anatlyzer.atl.graph.LoopNode;
+import anatlyzer.atl.graph.MatchedRuleAbstract;
 import anatlyzer.atl.graph.MatchedRuleExecution;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IterateExp;
 import anatlyzer.atlext.OCL.Iterator;
@@ -25,6 +27,7 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class LazyRulePathVisitor extends AbstractPathVisitor  {
 
@@ -55,15 +58,36 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		return r;
 	}
 
+	@Override
+	public boolean visit(MatchedRuleAbstract node) {
+//		if ( node.getRule().getInPattern().getFilter() != null ) {
+//			throw new UnsupportedTranslation("Abstract rules with filter not supported yet: " + node.getRule().getLocation());
+//		}
+//		
+//		InPatternElement firstIPE = node.getRule().getInPattern().getElements().get(0);
+//		IteratorExp iterator = (IteratorExp) get(node.getDepending());
+//		builder.addToScope(firstIPE, iterator.getIterators().get(0));
+		
+		// TODO: Create a select if there is a filter? Not actually needed...
+		
+		return true;
+	}
+	
 	
 	@Override
 	public boolean visit(MatchedRuleExecution node) {
+		builder.copyScope();
+
 		// TODO: Consider the product, which will be similar to AllInstances cross-product
 		OclExpression exp = AllInstancesNode.genSingleIterator(builder, node.getRule());
 		
 		InPatternElement firstIPE = node.getRule().getInPattern().getElements().get(0);
 		IteratorExp iterator = builder.createIterator(exp, "collect", firstIPE.getVarName());
 		builder.addToScope(firstIPE, iterator.getIterators().get(0));
+
+		HashMap<String, VariableDeclaration> mappedVars = new HashMap<String, VariableDeclaration>();
+		mappedVars.put(firstIPE.getVarName(), iterator.getIterators().get(0));
+		MatchedRuleExecution.mapSuperRuleVariables(mappedVars, (MatchedRule) node.getRule().getSuperRule(), builder);
 		
 		// Defer setting the body after the evaluation of the depending body 
 		put(node, iterator);
@@ -73,11 +97,23 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 
 	@Override
 	public void visitAfter(MatchedRuleExecution node) {
+		DependencyNode dep = skipAbstract(node.getDepending());
+		
 		IteratorExp iterator = (IteratorExp) get(node);
-		OclExpression body = get(node.getDepending());
+		OclExpression body = get(dep);
 		iterator.setBody(body);
+		
+		builder.closeScope();
 	}
 	
+
+	// Abstract rules are skiped because they do not generate anything
+	private DependencyNode skipAbstract(DependencyNode depending) {
+		if ( depending instanceof MatchedRuleAbstract ) {
+			return skipAbstract(depending.getDepending());
+		}
+		return depending;
+	}
 
 	private void put(GraphNode node, OclExpression exp) {
 		map.put(node, exp);

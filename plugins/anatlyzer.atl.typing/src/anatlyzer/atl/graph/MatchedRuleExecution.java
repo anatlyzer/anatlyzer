@@ -149,7 +149,7 @@ public class MatchedRuleExecution extends MatchedRuleBase implements ExecutionNo
 		});
 	}
 
-	private void mapSuperRuleVariables(HashMap<String, VariableDeclaration> mappedVars, MatchedRule superRule, CSPModel model) {
+	public static void mapSuperRuleVariables(HashMap<String, VariableDeclaration> mappedVars, MatchedRule superRule, CSPModel model) {
 		if ( superRule == null )
 			return;
 		

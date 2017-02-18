@@ -438,9 +438,9 @@ public class InvariantGraphGenerator {
 
 			IInvariantNode source = analyse(self.getSource(), env);
 
-			if ( ! (self.getSource() instanceof VariableExp) ) {
-				throw new UnsupportedOperationException();
-			}
+//			if ( ! (self.getSource() instanceof VariableExp) ) {
+//				throw new UnsupportedOperationException();
+//			}
 			
 			// RuleWithPattern context = source.getContext().getRule();
 			

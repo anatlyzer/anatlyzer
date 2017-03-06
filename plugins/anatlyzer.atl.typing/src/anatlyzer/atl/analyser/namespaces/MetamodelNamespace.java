@@ -186,6 +186,12 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	}
 
 	public boolean belongsTo(EClassifier type) {
+		if ( type.eResource() == null ) {
+			// This happens when handling transformations whose input is the EMF/OCL meta-model
+			System.err.println("EClassifier without resource.");
+			return false;
+		}
+		
 		return type.eResource().equals(resource);
 	}
 

@@ -75,11 +75,7 @@ public class OclGeneratorAST {
 		if (expr instanceof PropertyCallExp) {
 			return genPropertyCall(expr, vars);
 		} else if (expr instanceof VariableExp) {
-			VariableExp varT = OCLFactory.eINSTANCE.createVariableExp();
-			
-			varT.setReferredVariable( vars.getVar((VariableExp) expr) );
-			
-			return varT;
+			return resolveVariableExp((VariableExp) expr, vars);
 		
 		} else if (expr instanceof IntegerExp) {
 			IntegerExp lit = OCLFactory.eINSTANCE.createIntegerExp();
@@ -161,6 +157,14 @@ public class OclGeneratorAST {
 		}
 	}
 
+	protected OclExpression resolveVariableExp(VariableExp expr,
+			CSPModel.CSPModelScope vars) {
+		VariableExp varT = OCLFactory.eINSTANCE.createVariableExp();
+		
+		varT.setReferredVariable( vars.getVar(expr) );
+		
+		return varT;
+	}
 
 	private OclExpression genPropertyCall(OclExpression expr, final CSPModel.CSPModelScope vars) {
 		OclExpression receptor = gen(((PropertyCallExp) expr).getSource(), vars);

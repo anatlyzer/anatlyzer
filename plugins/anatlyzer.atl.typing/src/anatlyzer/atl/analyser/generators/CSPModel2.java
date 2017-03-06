@@ -5,9 +5,11 @@ import java.util.function.Function;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.UnsupportedTranslation;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
+import anatlyzer.atlext.OCL.VariableExp;
 
 public class CSPModel2 extends CSPModel {
 
@@ -23,6 +25,7 @@ public class CSPModel2 extends CSPModel {
 //	}
 
 	public CSPModel2() {
+		this.generator = new OclGeneratorAST2(atlModel);
 		this.generator.setLazyRuleStrategy(new LazyRuleToParameter());
 	}
 	
@@ -31,11 +34,16 @@ public class CSPModel2 extends CSPModel {
 		((CSPModelScope2) scope).put(varDcl, newVar, disambiguation);
 	}
 
+	public void addToScope(VariableDeclaration varDcl, OclExpression mapping) {
+		((CSPModelScope2) scope).put(varDcl, mapping);
+	}
+
+	
 	public static class CSPModelScope2 extends CSPModelScope {
-		public CSPModelScope2(VariableDeclaration thisModuleVar,
-				CSPModelScope2 cspModelScope2) {
+		public CSPModelScope2(VariableDeclaration thisModuleVar, CSPModelScope2 cspModelScope2) {
 			super(thisModuleVar, cspModelScope2);
 			disambiguations.putAll(cspModelScope2.disambiguations);
+			exprMapping.putAll(cspModelScope2.exprMapping);
 		}
 
 		public CSPModelScope2(VariableDeclaration thisModuleVar) {
@@ -43,7 +51,26 @@ public class CSPModel2 extends CSPModel {
 		}
 
 		HashMap<VariableDeclaration, CSPModelScope> disambiguations = new HashMap<>();
+		HashMap<VariableDeclaration, OclExpression> exprMapping = new HashMap<>();
 
+		public void put(VariableDeclaration varDcl, OclExpression mapping) {
+			if ( exprMapping.containsKey(varDcl) ) {
+				throw new IllegalStateException("Expression mapping already bound for " + varDcl.getVarName() + " " + varDcl.getLocation() );
+			}
+			exprMapping.put(varDcl, mapping);
+		}
+
+		public OclExpression getExprOrVarExp(VariableDeclaration varDcl) {
+			if ( exprMapping.containsKey(varDcl) ) {
+				return exprMapping.get(varDcl);
+			}
+			
+			VariableDeclaration newVar = getVar(varDcl);
+			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
+			varRef.setReferredVariable(newVar);
+			return varRef;
+		}
+		
 		public void put(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {			
 			this.put(varDcl, newVar);
 			

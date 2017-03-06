@@ -23,6 +23,7 @@ Import-Package: anatlyzer.atl.editor.witness,
  org.eclipse.m2m.atl.core.emf,
  org.eclipse.ui.console
 Export-Package: anatlyzer.evaluation.instrumentation,
+ anatlyzer.evaluation.models,
  anatlyzer.evaluation.tester
 Bundle-ClassPath: lib/simple-xml-2.7.1/simple-xml-2.7.1.jar,
  lib/simple-xml-2.7.1/stax-1.2.0.jar,

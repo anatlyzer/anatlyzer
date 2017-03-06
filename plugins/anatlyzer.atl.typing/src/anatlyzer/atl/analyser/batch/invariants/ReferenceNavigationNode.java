@@ -27,6 +27,7 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -35,9 +36,11 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	protected NavigationOrAttributeCallExp targetNav;
 	protected Binding binding;
 	protected Env env;
+	private IInvariantNode source;
 
 	public ReferenceNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b, SourceContext<? extends RuleWithPattern> context, Env env) {
 		super(context);
+		this.source = parent;
 		this.targetNav = targetNav;
 		this.binding = b;
 		
@@ -46,6 +49,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
+		source.genErrorSlice(slice);
 		OclSlice.slice(slice, binding.getValue());
 		
 		RuleWithPattern rule = context.getRule();		
@@ -74,6 +78,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 		OclExpression src = builder.gen(binding.getValue());
 		
 		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
+			// TODO: Check types
 			if ( rule.getInPattern().getFilter() != null ) {
 				// Multivalued
 				IteratorExp select = builder.createIterator(src, "select", rule.getInPattern().getElements().get(0).getVarName());
@@ -85,14 +90,25 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 			InPatternElement elem = rule.getInPattern().getElements().get(0);
 			OclModelElement type = (OclModelElement) elem.getType();
 			
+//			LetExp letBindingValue = builder.createLetScope(src, null, elem.getVarName());
+//			letBindingValue.getVariable().setType((OclType) builder.gen(type));
+			
 			// Monovalued
+			// TODO: Check filter
 			IfExp ifexp = OCLFactory.eINSTANCE.createIfExp();
 			OperationCallExp kindOf = builder.createKindOf(src, type.getModel().getName(), type.getName(), (Metaclass) type.getInferredType());
 			ifexp.setCondition(kindOf);
 			ifexp.setThenExpression(builder.gen(binding.getValue()));
+//			ifexp.setThenExpression(builder.createVarRef(letBindingValue.getVariable()));
 			ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
 			
 			src = ifexp;
+			
+			
+			//letBindingValue.setIn_(ifexp);
+			//src = letBindingValue;
+
+			builder.addToScope(elem, src);
 		}
 		
 		return src;

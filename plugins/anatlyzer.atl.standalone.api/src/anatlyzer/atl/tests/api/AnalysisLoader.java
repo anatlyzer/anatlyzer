@@ -85,6 +85,10 @@ public class AnalysisLoader {
 		return new AnalysisResult(analyser);		
 	}
 	
+	public ATLModel getAtlTransformation() {
+		return atlTransformation;
+	}
+	
 	public static void setStandaloneMode() {
 		// This is needed for the copier, which uses this special extension...
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ext", new XMIResourceFactoryImpl());

@@ -688,7 +688,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inOclModelElement(OclModelElement self) {
-		s(self.getModel().getName() + "!" + self.getName());
+		s(self.getModel().getName() + "!" + norm(self.getName()));
 	}
 	
 	@Override
@@ -918,6 +918,7 @@ public class ATLSerializer extends AbstractVisitor {
 	private static HashSet<String> reservedWords = new HashSet<String>();
 	static {
 		reservedWords.add("in");		
+		reservedWords.add("OclType");
 	}
 	
 	private String norm(String name) {

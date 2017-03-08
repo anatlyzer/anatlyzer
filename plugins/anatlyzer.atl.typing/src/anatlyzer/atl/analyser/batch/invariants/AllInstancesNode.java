@@ -39,6 +39,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -311,11 +312,16 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		}
 		
 		if ( rule.getInPattern().getFilter() != null ) {
-			OperatorCallExp implies = OCLFactory.eINSTANCE.createOperatorCallExp();
-			implies.setOperationName("implies");
-			implies.setSource(builder.gen(rule.getInPattern().getFilter()));
-			implies.getArguments().add(bodySupplier.get());
-			innerIterator.setBody(implies);
+// 	Cannot be implies :'(
+//			OperatorCallExp implies = OCLFactory.eINSTANCE.createOperatorCallExp();
+//			implies.setOperationName("implies");
+//			implies.setSource(builder.gen(rule.getInPattern().getFilter()));
+//			implies.getArguments().add(bodySupplier.get());
+//			innerIterator.setBody(implies);
+			
+			IfExp ifexp = builder.createIfExpression(builder.gen(rule.getInPattern().getFilter()), bodySupplier.get(), builder.createBooleanLiteral(false));
+			innerIterator.setBody(ifexp);
+			
 		} else {		
 			innerIterator.setBody(bodySupplier.get());
 		}

@@ -17,15 +17,18 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 
 	private NavigationOrAttributeCallExp targetNav;
 	private Binding binding;
+	private IInvariantNode source;
 
-	public AttributeNavigationNode(IInvariantNode parent, NavigationOrAttributeCallExp targetNav, Binding b) {
-		super(parent.getContext());
+	public AttributeNavigationNode(IInvariantNode src, NavigationOrAttributeCallExp targetNav, Binding b) {
+		super(src.getContext());
+		this.source = src;
 		this.targetNav = targetNav;
 		this.binding = b;
 	}
 	
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
+		this.source.genErrorSlice(slice);
 		OclSlice.slice(slice, binding.getValue());
 	}
 	
@@ -37,6 +40,9 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 			VariableDeclaration vd = ((VariableExp) targetNav.getSource()).getReferredVariable();
 			return builder.gen2(binding.getValue(), vd);
 		}
+		
+		// This puts the subexpression in the scope, so that gen gets the value
+		source.genExpr(builder);
 		
 		// return copy(binding.getValue());
 		return builder.gen(binding.getValue());

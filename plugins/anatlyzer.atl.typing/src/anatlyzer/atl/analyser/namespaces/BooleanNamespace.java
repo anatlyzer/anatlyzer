@@ -38,7 +38,7 @@ public class BooleanNamespace extends PrimitiveTypeNamespace {
 			return AnalyserContext.getTypingModel().newBooleanType();
 		}
 		if ( optionalArgument instanceof BooleanType ) {
-			if ( operatorSymbol.equals("or") ) {
+			if ( operatorSymbol.equals("or") || operatorSymbol.equals("xor")) {
 				return AnalyserContext.getTypingModel().newBooleanType();
 			} else if ( operatorSymbol.equals("implies") ) {
 				return AnalyserContext.getTypingModel().newBooleanType();

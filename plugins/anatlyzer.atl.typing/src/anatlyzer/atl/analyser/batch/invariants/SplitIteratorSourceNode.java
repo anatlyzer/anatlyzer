@@ -42,6 +42,8 @@ public class SplitIteratorSourceNode extends AbstractInvariantReplacerNode {
 			}
 			else if ( iterator.getName().equals("forAll") ) {
 				mergeOp = "and";
+			} if ( iterator.getName().equals("one") ) {
+				mergeOp = "xor";
 			}
 			
 			OclExpression result = nodes.get(0).genExpr(builder);

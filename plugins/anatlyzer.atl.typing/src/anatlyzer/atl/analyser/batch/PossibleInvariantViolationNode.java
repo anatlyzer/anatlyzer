@@ -49,15 +49,15 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 // Probably there is no need to inherit from AbstractDependencyNode
 public class PossibleInvariantViolationNode extends AbstractDependencyNode implements IDetectedProblem {
 
-	private OclExpression expr;
-	private ATLModel model;
-	private IAnalyserResult result;
-	private ProblemStatus status = ProblemStatus.WITNESS_REQUIRED;
-	private String invName;
-	private IInvariantNode invNode;
-	private IWitnessModel witness;
-	private ErrorSlice slice;
-	private List<TranslatedHelper> translatedHelpers;
+	protected OclExpression expr;
+	protected ATLModel model;
+	protected IAnalyserResult result;
+	protected ProblemStatus status = ProblemStatus.WITNESS_REQUIRED;
+	protected String invName;
+	protected IInvariantNode invNode;
+	protected IWitnessModel witness;
+	protected ErrorSlice slice;
+	protected List<TranslatedHelper> translatedHelpers;
 
 	public PossibleInvariantViolationNode(StaticHelper helper, ATLModel model, IAnalyserResult result) {
 		this.invName = ATLUtils.getHelperName(helper);
@@ -132,7 +132,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		return exists;
 	}
 	
-	private IInvariantNode getInvariantNode() {
+	protected IInvariantNode getInvariantNode() {
 		if ( invNode == null) {
 			InvariantGraphGenerator gen = new InvariantGraphGenerator(this.result);
 			this.invNode = gen.replace(expr);

@@ -59,7 +59,8 @@ public class AnalysisViewBatchNodes {
 
 		public BatchAnalysisNodeGroup(TreeNode parent) {
 			super(parent);
-			this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent), new UnconnectedComponentsAnalysis(this), new TargetInvariantAnalysisBatchNode(this) };
+			this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent), new UnconnectedComponentsAnalysis(this), 
+					new TargetInvariantAnalysisBatchNode(this) };
 			// this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent) };
 		}
 

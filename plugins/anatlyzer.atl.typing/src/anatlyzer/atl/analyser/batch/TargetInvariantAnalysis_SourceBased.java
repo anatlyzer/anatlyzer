@@ -42,7 +42,7 @@ public class TargetInvariantAnalysis_SourceBased {
 		ArrayList<PossibleInvariantViolationNode> nodes = new ArrayList<PossibleInvariantViolationNode>();
 		
 		List<StaticHelper> invariants = model.allObjectsOf(StaticHelper.class).stream().filter(AnalyserUtils::isTargetInvariant).collect(Collectors.toList());
-		
+				
 //		List<ContextHelper> contextInvariants = model.allObjectsOf(ContextHelper.class).stream().filter(AnalyserUtils::isTargetInvariant).collect(Collectors.toList());
 //		for (ContextHelper contextHelper : contextInvariants) {
 //			StaticHelper h = AnalyserUtils.convertContextInvariant(contextHelper);
@@ -52,6 +52,12 @@ public class TargetInvariantAnalysis_SourceBased {
 		
 		for (StaticHelper staticHelper : invariants) {
 			nodes.add(new PossibleInvariantViolationNode(staticHelper, model, analyser));
+		}
+		
+		// Not the best idea to mix both analysis, but for the moment is the easiest way to share the UI
+		List<StaticHelper> contracts = model.allObjectsOf(StaticHelper.class).stream().filter(AnalyserUtils::isContract).collect(Collectors.toList());
+		for (StaticHelper staticHelper : contracts) {
+			nodes.add(new PossibleContractViolationNode(staticHelper, model, analyser));
 		}
 		
 		return nodes;

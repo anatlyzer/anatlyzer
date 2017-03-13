@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.generators;
 import java.util.HashMap;
 import java.util.function.Function;
 
+import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.UnsupportedTranslation;
@@ -53,6 +54,12 @@ public class CSPModel2 extends CSPModel {
 		HashMap<VariableDeclaration, CSPModelScope> disambiguations = new HashMap<>();
 		HashMap<VariableDeclaration, OclExpression> exprMapping = new HashMap<>();
 
+		@Override
+		public CSPModelScope derive() {
+			CSPModelScope r = new CSPModelScope2(thisModule, this);
+			return r;
+		}
+		
 		public void put(VariableDeclaration varDcl, OclExpression mapping) {
 			if ( exprMapping.containsKey(varDcl) ) {
 				throw new IllegalStateException("Expression mapping already bound for " + varDcl.getVarName() + " " + varDcl.getLocation() );

@@ -77,8 +77,6 @@ public class InvariantGraphGenerator {
 
 		IInvariantNode result = analyse(expr, new Env(null));
 
-		System.out.println(translatedHelpers);
-		
 		// Set a "NullParent"
 		result.setParent(new NullParent());
 		return result;

@@ -363,6 +363,10 @@ public class AnalyserUtils {
 		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@target_invariant"));
 	}
 
+	public static boolean isContract(Helper h) {
+		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@contract"));
+	}
+
 	public static void setProblemWitnessModel(Problem p, IWitnessModel foundWitnessModel) {
 		p.getData().put("FOUND_WITNESS_MODEL", foundWitnessModel);		
 	}

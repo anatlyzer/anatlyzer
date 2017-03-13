@@ -407,7 +407,7 @@ public class CSPModel {
 	
 	public static class CSPModelScope extends HashMap<VariableDeclaration, VariableDeclaration> {
 		
-		private VariableDeclaration thisModule;
+		protected VariableDeclaration thisModule;
 
 		public CSPModelScope(VariableDeclaration thisModule) {
 			this.thisModule = thisModule;			

@@ -109,10 +109,14 @@ public class AnATLyzerATLEngine implements TrafoEngine {
 	
 	@Override
 	public boolean execute() throws transException {
+		return execute(true);
+	}
+	
+	public boolean execute (boolean allowInterModelReferences) throws transException {
 		if (trafo==null || source==null || target==null || launcher==null) return false;
 
 		Map<String,Object> options = new HashMap<String,Object>();
-		options.put("allowInterModelReferences","true");
+		if (allowInterModelReferences) options.put("allowInterModelReferences","true");
 		try {
 			injector.inject  (source, sourceFile);
 			launcher.launch(ILauncher.RUN_MODE, new NullProgressMonitor(), options, trafo);
@@ -136,7 +140,7 @@ public class AnATLyzerATLEngine implements TrafoEngine {
 		}
 		
 		return true;
-	}
+	}	
 	
 	private String normalizePath (String path) {
 		File f = new File(path);

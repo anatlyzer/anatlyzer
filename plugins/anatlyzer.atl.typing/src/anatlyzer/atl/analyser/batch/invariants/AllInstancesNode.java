@@ -277,10 +277,15 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	public OclExpression genNested(CSPModel2 builder, String itName, Iterator targetIt, Supplier<OclExpression> bodySupplier) {
 		String innerIteratorName = itName;
 		boolean doFlatten = false;
+		boolean impliesForm = true;
 		
 		if ( itName.equals("select") ) { // probably should use requiresSorting (e.g., for reject)
 			innerIteratorName = "collect";
 			doFlatten = true;
+		}
+		
+		if ( itName.equals("exists") ) {
+			impliesForm = false;
 		}
 		
 		builder.copyScope();
@@ -312,16 +317,17 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		}
 		
 		if ( rule.getInPattern().getFilter() != null ) {
-// 	Cannot be implies :'(
-//			OperatorCallExp implies = OCLFactory.eINSTANCE.createOperatorCallExp();
-//			implies.setOperationName("implies");
-//			implies.setSource(builder.gen(rule.getInPattern().getFilter()));
-//			implies.getArguments().add(bodySupplier.get());
-//			innerIterator.setBody(implies);
-			
-			IfExp ifexp = builder.createIfExpression(builder.gen(rule.getInPattern().getFilter()), bodySupplier.get(), builder.createBooleanLiteral(false));
-			innerIterator.setBody(ifexp);
-			
+			if ( impliesForm ) {
+				// The alternative is to generate the same if with "true" in the false branch
+				OperatorCallExp implies = OCLFactory.eINSTANCE.createOperatorCallExp();
+				implies.setOperationName("implies");
+				implies.setSource(builder.gen(rule.getInPattern().getFilter()));
+				implies.getArguments().add(bodySupplier.get());
+				innerIterator.setBody(implies);
+			} else {
+				IfExp ifexp = builder.createIfExpression(builder.gen(rule.getInPattern().getFilter()), bodySupplier.get(), builder.createBooleanLiteral(false));
+				innerIterator.setBody(ifexp);
+			}
 		} else {		
 			innerIterator.setBody(bodySupplier.get());
 		}

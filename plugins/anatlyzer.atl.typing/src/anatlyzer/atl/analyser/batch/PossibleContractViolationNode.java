@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.analyser.batch.contracts.ContractGraphGenerator;
 import anatlyzer.atl.analyser.batch.invariants.IInvariantNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
 import anatlyzer.atl.model.ATLModel;
@@ -16,7 +17,7 @@ public class PossibleContractViolationNode extends PossibleInvariantViolationNod
 	@Override
 	protected IInvariantNode getInvariantNode() {
 		if ( invNode == null) {
-			InvariantGraphGenerator gen = new InvariantGraphGenerator(this.result);
+			InvariantGraphGenerator gen = new ContractGraphGenerator(this.result);
 			this.invNode = gen.replace(expr);
 			this.translatedHelpers = gen.getTranslatedHelpers();
 		}

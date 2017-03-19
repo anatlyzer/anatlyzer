@@ -198,7 +198,7 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 				}
 				
 				if ( parent instanceof Helper ) {
-					if ( AnalyserUtils.isTargetInvariant((Helper) parent) ) 
+					if ( AnalyserUtils.isTargetInvariant((Helper) parent) || AnalyserUtils.isContract((Helper) parent)) 
 						return;
 				}
 				

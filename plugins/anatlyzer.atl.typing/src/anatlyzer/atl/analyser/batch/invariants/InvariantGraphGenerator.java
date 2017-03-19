@@ -175,7 +175,7 @@ public class InvariantGraphGenerator {
 		}
 	}
 	
-	private IInvariantNode analyse(OclExpression expr, Env env) {
+	protected IInvariantNode analyse(OclExpression expr, Env env) {
 		if ( expr instanceof CollectionOperationCallExp ) return checkColExp((CollectionOperationCallExp) expr, env);
 		else if ( expr instanceof OperatorCallExp ) return checkOperatorCallExp((OperatorCallExp) expr, env);
 		else if ( expr instanceof OperationCallExp ) return checkOperationCallExp((OperationCallExp) expr, env);
@@ -278,7 +278,7 @@ public class InvariantGraphGenerator {
 		return node;
 	}
 
-	private IInvariantNode checkOperatorCallExp(OperatorCallExp self, Env env) {
+	protected IInvariantNode checkOperatorCallExp(OperatorCallExp self, Env env) {
 		IInvariantNode src = analyse(self.getSource(), env);
 
 		if ( src instanceof MultiNode ) {			
@@ -296,7 +296,7 @@ public class InvariantGraphGenerator {
 		}
 	}
 	
-	private IInvariantNode checkOperationCallExp(OperationCallExp self, Env env) {
+	protected IInvariantNode checkOperationCallExp(OperationCallExp self, Env env) {
 		if ( self.getOperationName().equals("allInstances") ) {
 			List<SourceContext<? extends RuleWithPattern>> rules = findTargetOcurrences((OclModelElement) self.getSource());
 			if ( rules.size() == 0 ) 

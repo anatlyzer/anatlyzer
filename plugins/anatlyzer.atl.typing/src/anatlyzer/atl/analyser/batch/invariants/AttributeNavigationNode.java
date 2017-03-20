@@ -56,6 +56,8 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
 		gv.addNode(this, gvText("attNav: " + this.targetNav.getName(), targetNav), true);
+		this.source.genGraphviz(gv);
+		gv.addEdge(this.source, this);
 	}
 		
 	@Override

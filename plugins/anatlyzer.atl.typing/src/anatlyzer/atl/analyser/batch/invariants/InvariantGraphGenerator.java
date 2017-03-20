@@ -188,6 +188,19 @@ public class InvariantGraphGenerator {
 		
 		throw new UnsupportedOperationException(expr.toString());
 	}
+	
+	protected IInvariantNode analyse(OclExpression expr, Env env, Function<IInvariantNode, IInvariantNode> mapper, Function<List<IInvariantNode>, IInvariantNode> flattener) {
+		IInvariantNode node = analyse(expr, env);
+
+		if ( node instanceof MultiNode ) {
+			MultiNode m = (MultiNode) node;
+			
+			List<IInvariantNode> ops = m.map(mapper);
+			return flattener.apply(ops);
+		} else {
+			return mapper.apply(node);
+		}
+	}
 
 	private IInvariantNode checkCollectionExp(CollectionExp expr, Env env) {
 		if ( expr.getElements().size() > 0 )
@@ -279,21 +292,41 @@ public class InvariantGraphGenerator {
 	}
 
 	protected IInvariantNode checkOperatorCallExp(OperatorCallExp self, Env env) {
-		IInvariantNode src = analyse(self.getSource(), env);
+		return analyse(self.getSource(), env, 
+			(n) -> {
+				List<IInvariantNode> args = self.getArguments().stream().map(a -> 
+					analyse(a, env, (arg) -> arg, (nodes) -> new SplitOperand(nodes, self))).
+					collect(Collectors.toList());
+				return new OperatorCallExpNode(n, self, args);		
+			}, 
+			(nodes) -> new SplitNodeOperation(nodes, self));
 
-		if ( src instanceof MultiNode ) {			
-			List<IInvariantNode> ops = ((MultiNode) src).getNodes().stream().map(n -> {
-				List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
-				return new OperatorCallExpNode(n, self, args);					
-			}).collect(Collectors.toList());
-			
-			SplitNodeOperation split = new SplitNodeOperation(ops, self);
-			return split;
-		} else {
-			List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());		
-			OperatorCallExpNode node = new OperatorCallExpNode(src, self, args);
-			return node;
-		}
+		
+//		IInvariantNode src = analyse(self.getSource(), env);
+
+//		if ( src instanceof MultiNode ) {			
+//			List<IInvariantNode> ops = ((MultiNode) src).getNodes().stream().map(n -> {
+//				List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
+//				return new OperatorCallExpNode(n, self, args);					
+//			}).collect(Collectors.toList());
+//			
+//			SplitNodeOperation split = new SplitNodeOperation(ops, self);
+//			return split;
+
+//			List<IInvariantNode> ops = ((MultiNode) src).getNodes().stream().map(n -> {
+//					List<IInvariantNode> args = self.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
+//					return new OperatorCallExpNode(n, self, args);					
+//				}).collect(Collectors.toList());
+//		
+//			SplitNodeOperation split = new SplitNodeOperation(ops, self);
+//			return split;			
+//		} else {
+//			List<IInvariantNode> args = self.getArguments().stream().
+//					map(a -> analyse(a, env, (nodes) -> new SplitOperand(nodes, self) ) ).
+//					collect(Collectors.toList());		
+//			OperatorCallExpNode node = new OperatorCallExpNode(src, self, args);
+//			return node;
+//		}
 	}
 	
 	protected IInvariantNode checkOperationCallExp(OperationCallExp self, Env env) {

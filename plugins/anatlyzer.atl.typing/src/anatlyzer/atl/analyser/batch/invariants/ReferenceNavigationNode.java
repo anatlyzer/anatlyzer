@@ -213,7 +213,8 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
 		gv.addNode(this, gvText("Ref." + targetNav.getName(), targetNav), true);
-		gv.addEdge(this.getParent(), this);
+		this.source.genGraphviz(gv);
+		gv.addEdge(this.source, this);
 	}
 	
 	private OclExpression createUndefinedValue(Type inferredType) {

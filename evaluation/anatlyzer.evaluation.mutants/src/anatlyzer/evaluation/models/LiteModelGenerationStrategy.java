@@ -14,11 +14,17 @@ public class LiteModelGenerationStrategy extends ModelGenerationStrategy {
 	
 	protected List<Integer> combination = new ArrayList<Integer>();
 
-	protected final int MAX_OBJECT_SCOPE = 2;  // maximum number of objects/links of each class/association
+	protected int MAX_OBJECT_SCOPE = 2;  // maximum number of objects/links of each class/association
 	
 	public LiteModelGenerationStrategy (List<String> classes, List<String> references) {
 		super (classes, references);
 		init  (classes, combination);
+	}
+	
+	public LiteModelGenerationStrategy (List<String> classes, List<String> references, int maxObjectScope) {
+		this (classes, references);
+		if (maxObjectScope >= 0) 
+			MAX_OBJECT_SCOPE = maxObjectScope;
 	}
 	
 	@Override

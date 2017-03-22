@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
@@ -12,6 +13,7 @@ import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.ATLPackage;
@@ -36,10 +38,12 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.PropertyCallExp;
+import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
-public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
+public class ReferenceNavigationNode extends AbstractInvariantReplacerNode implements IGenChaining {
 
 	protected NavigationOrAttributeCallExp targetNav;
 	protected Binding binding;
@@ -78,14 +82,92 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
+		System.out.println("genExpr2: " + this.context.getRule().getName());
+			
+		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+			System.out.println("genExpr2: " + this.context.getRule().getName());
+			return genExpr2_aux(builder, src, generator);
+		});
+		
+//		source.genExpr(builder); // force variable binding
+//		OclExpression src = builder.gen(binding.getValue());
+//		return genExpr2_aux(builder, src, generator);
+	}
+
+	public OclExpression genExpr2_aux(CSPModel2 builder, OclExpression src, Function<OclExpression, OclExpression> generator) {
+		RuleWithPattern rule = context.getRule();
+		
+		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
+			throw new IllegalStateException("Cannot happen, at least yet, because attributes cannot be accessed from multi-valued features");
+		} else {
+			// Mono-valued case
+			InPatternElement elem = rule.getInPattern().getElements().get(0);
+			OclModelElement type = (OclModelElement) elem.getType();
+			
+			builder.copyScope();
+			builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue()));
+
+			IfExp ifexp = OCLFactory.eINSTANCE.createIfExp();
+			
+			// Given the previous scope, this has the effect of replacing variables in "src" with the binding value
+			// e.g., (v1.cover) + v1.illustration => v1.cover.illustration
+			OclExpression valueToCheck = builder.gen(src); 
+			OperationCallExp kindOf = builder.createKindOf(valueToCheck, type.getModel().getName(), type.getName(), (Metaclass) type.getInferredType());
+			ifexp.setCondition(kindOf);
+			
+
+			if ( rule.getInPattern().getFilter() != null ) {
+				IfExp ifexp2 = OCLFactory.eINSTANCE.createIfExp();
+
+
+				ifexp2.setCondition( builder.gen(rule.getInPattern().getFilter()) );
+				
+
+				ifexp2.setThenExpression(generator.apply(builder.gen(binding.getValue())));
+			
+				ifexp.setThenExpression(ifexp2);
+				//ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
+				ifexp2.setElseExpression( createNavigationDefaultValue() );
+			} else {			
+				ifexp.setThenExpression(generator.apply(builder.gen(binding.getValue())));
+			}
+			
+			// ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
+			ifexp.setElseExpression( createNavigationDefaultValue() );
+
+			builder.closeScope();
+			
+			return ifexp;
+		}
+		
+	}	
+	
+	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		if ( source instanceof IGenChaining ) {
+			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+				// adapt the call
+				return this.genExprChaining(builder, (src2) -> {
+					return builder.gen(binding.getValue());
+				});
+				// return genExprOriginal(builder);
+			});
+		}
+		return genExprOriginal(builder);
+	}
+	
+	public OclExpression genExprOriginal(CSPModel2 builder) {
 		
 		RuleWithPattern rule = context.getRule();
 
+		source.genExpr(builder);// force the variable binding
+		
 		// OclExpression src = copy(binding.getValue(), env);
 		// THE PREVIOUS EXPRESSION IS SETTING UP THE VARIABLE BINDING...
+
 		OclExpression src = builder.gen(binding.getValue());
-		
+				
 		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
 			// TODO: Check types
 			if ( rule.getInPattern().getFilter() != null ) {
@@ -111,7 +193,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 
 				builder.copyScope();
 
-				builder.addToScope(rule.getInPattern().getElements().get(0), builder.gen(binding.getValue()));
+				builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue()));
 				ifexp2.setCondition( builder.gen(rule.getInPattern().getFilter()) );
 
 				builder.closeScope();
@@ -119,13 +201,39 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 				ifexp2.setThenExpression(result);
 			
 				ifexp.setThenExpression(ifexp2);
-				ifexp2.setElseExpression( createNavigationDefaultValue() );
+				ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
 			} else {			
 				ifexp.setThenExpression(result);
 			}
 			
-			// ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
-			ifexp.setElseExpression( createNavigationDefaultValue() );
+			ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
+			
+
+// This strategy generates default values for "false" branches, but it is not well-formed
+// yet because we need to put the following expression within the true branch!
+			
+//			if ( rule.getInPattern().getFilter() != null ) {
+//				IfExp ifexp2 = OCLFactory.eINSTANCE.createIfExp();
+//
+//				builder.copyScope();
+//
+//				builder.addToScope(rule.getInPattern().getElements().get(0), builder.gen(binding.getValue()));
+//				ifexp2.setCondition( builder.gen(rule.getInPattern().getFilter()) );
+//
+//				builder.closeScope();
+//				
+//				ifexp2.setThenExpression(result);
+//			
+//				ifexp.setThenExpression(ifexp2);
+//				ifexp2.setElseExpression( createNavigationDefaultValue() );
+//			} else {			
+//				ifexp.setThenExpression(result);
+//			}
+//			
+//			// ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
+//			ifexp.setElseExpression( createNavigationDefaultValue() );
+
+			
 			
 			src = ifexp;
 			
@@ -133,7 +241,8 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 			//letBindingValue.setIn_(ifexp);
 			//src = letBindingValue;
 
-			builder.addToScope(elem, src);
+			OclExpression toAllowRef = src;			
+			builder.addToScope(elem, () -> copy(toAllowRef) );
 		}
 		
 		return src;
@@ -199,12 +308,25 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode {
 			// More rules here
 		}
 		
-			
+		
+		// These are additional rules wrt to ASTUtils
+		Type t = additionalDefaultValueRules(exp);
+		if ( t != null ) {
+			return t;
+		}
+		
 		// TODO: if the following expression is a collection operation (e.g., obj.notExistsFEature->collect()), return Sequence(OclAny)
 		
 		return TypesFactory.eINSTANCE.createUnknown();				
 	}
 	
+	private static Type additionalDefaultValueRules(OclExpression exp) {
+		if ( exp.eContainingFeature() == OCLPackage.Literals.PROPERTY_CALL_EXP__SOURCE ) {
+			return ((OclExpression) exp.eContainer()).getInferredType();
+		}
+		return null;
+	}
+
 	@Override
 	public OclExpression genExprNorm(CSPModel2 builder) {
 		return genExpr(builder);

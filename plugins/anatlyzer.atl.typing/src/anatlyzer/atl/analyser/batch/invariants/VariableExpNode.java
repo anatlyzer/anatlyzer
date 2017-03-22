@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
@@ -13,7 +14,7 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableExp;
 
-public class VariableExpNode extends AbstractInvariantReplacerNode {
+public class VariableExpNode extends AbstractInvariantReplacerNode implements IGenChaining {
 
 	private VariableExp exp;
 
@@ -35,6 +36,19 @@ public class VariableExpNode extends AbstractInvariantReplacerNode {
 //		// TODO: Do variable re-assignment well
 		copy.setReferredVariable(exp.getReferredVariable());
 		return copy;
+	}
+	
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
+		RuleWithPattern rule = context.getRule();
+		builder.copyScope();
+		//builder.addToScope(rule.getInPattern().getElements().get(0), () -> genExpr(builder));
+		builder.addToScope(exp.getReferredVariable(), () -> genExpr(builder));
+		
+		OclExpression r = generator.apply(genExpr(builder));
+		// OclExpression r = generator.apply(rule.getInPattern().getElements().get(0));
+		
+		builder.closeScope();
+		return r;
 	}
 	
 	@Override

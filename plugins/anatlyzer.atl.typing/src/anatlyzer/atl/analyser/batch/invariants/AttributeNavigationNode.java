@@ -40,6 +40,17 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 			VariableDeclaration vd = ((VariableExp) targetNav.getSource()).getReferredVariable();
 			return builder.gen2(binding.getValue(), vd);
 		}
+
+		if ( source instanceof IGenChaining ) {			
+			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+				// It is already bound... by the source...
+				// builder.addToScope(context.getRule().getI...., src)
+				return builder.gen(binding.getValue());
+			});
+		}
+		
+		
+		// Not sure if the following case holds anymore...
 		
 		// This puts the subexpression in the scope, so that gen gets the value
 		source.genExpr(builder);

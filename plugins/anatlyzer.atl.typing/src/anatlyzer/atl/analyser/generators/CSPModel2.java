@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.generators;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
@@ -35,7 +36,7 @@ public class CSPModel2 extends CSPModel {
 		((CSPModelScope2) scope).put(varDcl, newVar, disambiguation);
 	}
 
-	public void addToScope(VariableDeclaration varDcl, OclExpression mapping) {
+	public void addToScope(VariableDeclaration varDcl, Supplier<OclExpression> mapping) {
 		((CSPModelScope2) scope).put(varDcl, mapping);
 	}
 
@@ -52,7 +53,7 @@ public class CSPModel2 extends CSPModel {
 		}
 
 		HashMap<VariableDeclaration, CSPModelScope> disambiguations = new HashMap<>();
-		HashMap<VariableDeclaration, OclExpression> exprMapping = new HashMap<>();
+		HashMap<VariableDeclaration, Supplier<OclExpression>> exprMapping = new HashMap<>();
 
 		@Override
 		public CSPModelScope derive() {
@@ -60,7 +61,7 @@ public class CSPModel2 extends CSPModel {
 			return r;
 		}
 		
-		public void put(VariableDeclaration varDcl, OclExpression mapping) {
+		public void put(VariableDeclaration varDcl, Supplier<OclExpression> mapping) {
 			if ( exprMapping.containsKey(varDcl) ) {
 				throw new IllegalStateException("Expression mapping already bound for " + varDcl.getVarName() + " " + varDcl.getLocation() );
 			}
@@ -69,7 +70,7 @@ public class CSPModel2 extends CSPModel {
 
 		public OclExpression getExprOrVarExp(VariableDeclaration varDcl) {
 			if ( exprMapping.containsKey(varDcl) ) {
-				return exprMapping.get(varDcl);
+				return exprMapping.get(varDcl).get();
 			}
 			
 			VariableDeclaration newVar = getVar(varDcl);

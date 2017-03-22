@@ -467,98 +467,105 @@ public class InvariantGraphGenerator {
 		// Is it a true navigation, not a helper call
 		if ( self.getUsedFeature() != null ) {
 
-			IInvariantNode source = analyse(self.getSource(), env);
-
-//			if ( ! (self.getSource() instanceof VariableExp) ) {
-//				throw new UnsupportedOperationException();
+			IInvariantNode source = analyse(self.getSource(), env, 
+					(src) -> checkNavMapper(self, env, src), 
+					// (nodes) -> new SplitNavigationExpNode(nodes, self));
+					(nodes) -> new MultiNode(nodes));
+					
+//			IInvariantNode src = analyse(self.getSource(), env);
+//			if ( src instanceof MultiNode ) {
+//				((MultiNode) src).getNodes()
+//			} else {
+//				return checkNavMapper(self, env, src);
 //			}
 			
-			// RuleWithPattern context = source.getContext().getRule();
-			
-//			List<Binding> allBindings = model.allObjectsOf(Binding.class).stream().
-//				filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
-//				collect(Collectors.toList());
-			
-			List<Binding> allBindings = source.getContext().getOutputPatternElement().
-					getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
-					collect(Collectors.toList());
-
-			
-			if ( allBindings.size() == 0 ) {
-				EReference opposite = getOpposite((EStructuralFeature) self.getUsedFeature());
-				if ( opposite != null ) {
-					// Find any binding writing the opposite
-					allBindings = model.allObjectsOf(Binding.class).stream().
-							filter(b -> b.getWrittenFeature() == opposite).
-							collect(Collectors.toList());
-					
-					if ( allBindings.size() == 0 ) {
-						throw new UnsupportedOperationException("TODO: Compute default values: " + self.getName() + ":" + self.getLocation());
-					} else {
-						// CSPModel builder = new CSPModel();
-
-						// T.allInstances()->select(t | t.oppositeFeature = sourceOf(navExp))
-						Metaclass m = (Metaclass) TypeUtils.getUnderlyingType(self.getInferredType());						
-						OclModelElement ome = OCLFactory.eINSTANCE.createOclModelElement();
-						ome.setName(m.getName());
-						OclModel model = OCLFactory.eINSTANCE.createOclModel();
-						model.setName(m.getModel().getName());
-						ome.setModel(model);
-						// ome.setInferredType(getMetaclass(m.getModel().getName(), opposite.getEReferenceType()));
-						ome.setInferredType(getMetaclass(m.getModel().getName(), m.getKlass()));
-						
-						OperationCallExp allInstances = OCLFactory.eINSTANCE.createOperationCallExp();
-						allInstances.setOperationName("allInstances");
-						allInstances.setSource(ome);
-						
-						IteratorExp select = OCLFactory.eINSTANCE.createIteratorExp();
-						select.setName("select");
-						select.setSource(allInstances);
-						Iterator it = OCLFactory.eINSTANCE.createIterator();
-						it.setVarName(m.getName().toLowerCase()+"_");
-						select.getIterators().add(it);
-						
-						// body
-						VariableExp refToIt = OCLFactory.eINSTANCE.createVariableExp();
-						refToIt.setReferredVariable(it);
-						NavigationOrAttributeCallExp navOpposite = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
-						navOpposite.setName(opposite.getName());
-						navOpposite.setSource(refToIt);
-						navOpposite.setUsedFeature(opposite);
-						
-						OperationCallExp equals = null;
-						if ( opposite.isMany() ) {
-							equals = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-							equals.setOperationName("includes");
-						} else {
-							equals = OCLFactory.eINSTANCE.createOperatorCallExp();
-							equals.setOperationName("=");
-						} 
-						equals.setSource(navOpposite);
-						equals.getArguments().add((OclExpression) ATLCopier.copySingleElement(self.getSource()));							
-						
-						select.setBody(equals);
-						
-						System.out.println(ATLSerializer.serialize(select));
-						
-						// System.out.println(ATLSerializer.serialize(select.eContainer()));
-						return analyse(select, env);
-					}
-				} else {
-					return new DefaultValueNode(source.getContext(), self); 					
-				}				
-			}
-						
-			
-			Binding b = allBindings.get(0);
-			if ( isPrimitiveBinding(b) ) {
-				return new AttributeNavigationNode(source, self, b);
-			} else {						
-				return handleReferenceBinding(self, env, source, allBindings);
-			}
+			// p.net.capacity
+			// 
+			return source;
 			
 		} else {
 			throw new UnsupportedOperationException();
+		}
+	}
+
+	protected IInvariantNode checkNavMapper(NavigationOrAttributeCallExp self,
+			Env env, IInvariantNode source) {
+		List<Binding> allBindings = source.getContext().getOutputPatternElement().
+				getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
+				collect(Collectors.toList());
+
+		
+		if ( allBindings.size() == 0 ) {
+			EReference opposite = getOpposite((EStructuralFeature) self.getUsedFeature());
+			if ( opposite != null ) {
+				// Find any binding writing the opposite
+				allBindings = model.allObjectsOf(Binding.class).stream().
+						filter(b -> b.getWrittenFeature() == opposite).
+						collect(Collectors.toList());
+				
+				if ( allBindings.size() == 0 ) {
+					throw new UnsupportedOperationException("TODO: Compute default values: " + self.getName() + ":" + self.getLocation());
+				} else {
+					// CSPModel builder = new CSPModel();
+
+					// T.allInstances()->select(t | t.oppositeFeature = sourceOf(navExp))
+					Metaclass m = (Metaclass) TypeUtils.getUnderlyingType(self.getInferredType());						
+					OclModelElement ome = OCLFactory.eINSTANCE.createOclModelElement();
+					ome.setName(m.getName());
+					OclModel model = OCLFactory.eINSTANCE.createOclModel();
+					model.setName(m.getModel().getName());
+					ome.setModel(model);
+					// ome.setInferredType(getMetaclass(m.getModel().getName(), opposite.getEReferenceType()));
+					ome.setInferredType(getMetaclass(m.getModel().getName(), m.getKlass()));
+					
+					OperationCallExp allInstances = OCLFactory.eINSTANCE.createOperationCallExp();
+					allInstances.setOperationName("allInstances");
+					allInstances.setSource(ome);
+					
+					IteratorExp select = OCLFactory.eINSTANCE.createIteratorExp();
+					select.setName("select");
+					select.setSource(allInstances);
+					Iterator it = OCLFactory.eINSTANCE.createIterator();
+					it.setVarName(m.getName().toLowerCase()+"_");
+					select.getIterators().add(it);
+					
+					// body
+					VariableExp refToIt = OCLFactory.eINSTANCE.createVariableExp();
+					refToIt.setReferredVariable(it);
+					NavigationOrAttributeCallExp navOpposite = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+					navOpposite.setName(opposite.getName());
+					navOpposite.setSource(refToIt);
+					navOpposite.setUsedFeature(opposite);
+					
+					OperationCallExp equals = null;
+					if ( opposite.isMany() ) {
+						equals = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+						equals.setOperationName("includes");
+					} else {
+						equals = OCLFactory.eINSTANCE.createOperatorCallExp();
+						equals.setOperationName("=");
+					} 
+					equals.setSource(navOpposite);
+					equals.getArguments().add((OclExpression) ATLCopier.copySingleElement(self.getSource()));							
+					
+					select.setBody(equals);
+					
+					System.out.println(ATLSerializer.serialize(select));
+					
+					// System.out.println(ATLSerializer.serialize(select.eContainer()));
+					return analyse(select, env);
+				}
+			} else {
+				return new DefaultValueNode(source.getContext(), self); 					
+			}				
+		}
+					
+		
+		Binding b = allBindings.get(0);
+		if ( isPrimitiveBinding(b) ) {
+			return new AttributeNavigationNode(source, self, b);
+		} else {						
+			return handleReferenceBinding(self, env, source, allBindings);
 		}
 	}
 

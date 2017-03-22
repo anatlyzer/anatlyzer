@@ -57,7 +57,9 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 //		builder.closeScope();
 //		return r;
 		
-		return generator.apply(null);
+		// return generator.apply(null);
+		
+		return generator.apply(genExpr(builder));
 	}
 	
 	@Override

@@ -84,6 +84,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	@Override
 	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
 		System.out.println("genExpr2: " + this.context.getRule().getName());
+		System.out.println("targetNav: " + this.targetNav.getName());
 			
 		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
 			System.out.println("genExpr2: " + this.context.getRule().getName());
@@ -99,14 +100,16 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 		RuleWithPattern rule = context.getRule();
 		
 		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
-			throw new IllegalStateException("Cannot happen, at least yet, because attributes cannot be accessed from multi-valued features");
+			return genExprOriginal(builder); // default...
+			// throw new IllegalStateException("Cannot happen, at least yet, because attributes cannot be accessed from multi-valued features");
 		} else {
 			// Mono-valued case
 			InPatternElement elem = rule.getInPattern().getElements().get(0);
 			OclModelElement type = (OclModelElement) elem.getType();
 			
 			builder.copyScope();
-			builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue()));
+			// builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue()));
+			builder.addToScope(rule.getInPattern().getElements().get(0), () -> copy(src) );
 
 			IfExp ifexp = OCLFactory.eINSTANCE.createIfExp();
 			
@@ -114,11 +117,17 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			// e.g., (v1.cover) + v1.illustration => v1.cover.illustration
 			// The null check is the sloppy why that VariablExpNode has to signal that it let the work of generating
 			// the value completely to the parent node (this one)
-			OclExpression valueToCheck = src != null ? builder.gen(src) : builder.gen(binding.getValue()); 
+			// OclExpression valueToCheck = src != null ? builder.gen(src) : builder.gen(binding.getValue()); 			
+			OclExpression valueToCheck = builder.gen(binding.getValue());
+			
 			OperationCallExp kindOf = builder.createKindOf(valueToCheck, type.getModel().getName(), type.getName(), (Metaclass) type.getInferredType());
 			ifexp.setCondition(kindOf);
 			
-
+			builder.closeScope();
+			
+			builder.copyScope();
+			builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue() ) );
+			
 			if ( rule.getInPattern().getFilter() != null ) {
 				IfExp ifexp2 = OCLFactory.eINSTANCE.createIfExp();
 
@@ -129,14 +138,14 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 				ifexp2.setThenExpression(generator.apply(builder.gen(binding.getValue())));
 			
 				ifexp.setThenExpression(ifexp2);
-				//ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
-				ifexp2.setElseExpression( createNavigationDefaultValue() );
+				ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
+				// ifexp2.setElseExpression( createNavigationDefaultValue() );
 			} else {			
 				ifexp.setThenExpression(generator.apply(builder.gen(binding.getValue())));
 			}
 			
-			// ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
-			ifexp.setElseExpression( createNavigationDefaultValue() );
+			ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
+			// ifexp.setElseExpression( createNavigationDefaultValue() );
 
 			builder.closeScope();
 			
@@ -148,13 +157,14 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		if ( source instanceof IGenChaining ) {
-			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
-				// adapt the call
-				return this.genExprChaining(builder, (src2) -> {
-					return builder.gen(binding.getValue());
-				});
-				// return genExprOriginal(builder);
-			});
+			return genExprChaining(builder, (src) -> src);
+//			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+//				// adapt the call
+//				return this.genExprChaining(builder, (src2) -> {
+//					return builder.gen(binding.getValue());
+//				});
+//				// return genExprOriginal(builder);
+//			});
 		}
 		return genExprOriginal(builder);
 	}

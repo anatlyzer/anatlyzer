@@ -112,7 +112,9 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			
 			// Given the previous scope, this has the effect of replacing variables in "src" with the binding value
 			// e.g., (v1.cover) + v1.illustration => v1.cover.illustration
-			OclExpression valueToCheck = builder.gen(src); 
+			// The null check is the sloppy why that VariablExpNode has to signal that it let the work of generating
+			// the value completely to the parent node (this one)
+			OclExpression valueToCheck = src != null ? builder.gen(src) : builder.gen(binding.getValue()); 
 			OperationCallExp kindOf = builder.createKindOf(valueToCheck, type.getModel().getName(), type.getName(), (Metaclass) type.getInferredType());
 			ifexp.setCondition(kindOf);
 			

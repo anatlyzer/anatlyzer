@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.generators;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -40,6 +42,24 @@ public class CSPModel2 extends CSPModel {
 		((CSPModelScope2) scope).put(varDcl, mapping);
 	}
 
+// This makes no sense... delete...
+//	public VariableDeclaration getInverseVar(VariableDeclaration tgtVar) {
+//		ArrayList<VariableDeclaration> results = new ArrayList<VariableDeclaration>();
+//		for (Entry<VariableDeclaration, VariableDeclaration> entry : ((CSPModelScope2) scope).entrySet()) {
+//			if ( entry.getValue() == tgtVar ) {
+//				results.add(entry.getKey());
+//			}
+//		}		
+//		
+//		if ( results.size() == 0 ) {
+//			throw new IllegalStateException("No binding for target var " + tgtVar);			
+//		} else if ( results.size() > 1 ) {
+//			throw new IllegalStateException("Too many bindings for target var " + tgtVar);
+//		}
+//		return results.get(0);
+//	}
+
+	
 	
 	public static class CSPModelScope2 extends CSPModelScope {
 		public CSPModelScope2(VariableDeclaration thisModuleVar, CSPModelScope2 cspModelScope2) {
@@ -82,7 +102,9 @@ public class CSPModel2 extends CSPModel {
 		public void put(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {			
 			this.put(varDcl, newVar);
 			
+			// TODO: This is a bug!!!
 			CSPModelScope savedScope = disambiguations.get(disambiguations);
+			// CSPModelScope savedScope = disambiguations.get(disambiguation);
 			if ( savedScope != null && savedScope != this ) {
 				throw new IllegalStateException("Rebound disambiguation: " + disambiguation.getVarName() + " : " + disambiguation.getLocation());
 			}
@@ -136,5 +158,6 @@ public class CSPModel2 extends CSPModel {
 			return generator.apply(sourceElem);			
 		}
 	}
+
 	
 }

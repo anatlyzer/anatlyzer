@@ -12,6 +12,7 @@ import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
 public class VariableExpNode extends AbstractInvariantReplacerNode implements IGenChaining {
@@ -39,16 +40,24 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 	}
 	
 	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
-		RuleWithPattern rule = context.getRule();
-		builder.copyScope();
-		//builder.addToScope(rule.getInPattern().getElements().get(0), () -> genExpr(builder));
-		builder.addToScope(exp.getReferredVariable(), () -> genExpr(builder));
+//		builder.copyScope();
+//		//builder.addToScope(rule.getInPattern().getElements().get(0), () -> genExpr(builder));
+//		VariableDeclaration sourceVar = builder.getInverseVar(exp.getReferredVariable());
+//		
+//		// This is needed because in ReferenceNavigationNode we need to rewrite 
+//		// builder.addToScope(exp.getReferredVariable(), sourceVar); 
+//		
+//		VariableExp copy = OCLFactory.eINSTANCE.createVariableExp();
+//		copy.setReferredVariable(sourceVar);
+//		
+//		OclExpression r = generator.apply(copy);
+//		// OclExpression r = generator.apply(genExpr(builder));		
+//		// OclExpression r = generator.apply(rule.getInPattern().getElements().get(0));
+//		
+//		builder.closeScope();
+//		return r;
 		
-		OclExpression r = generator.apply(genExpr(builder));
-		// OclExpression r = generator.apply(rule.getInPattern().getElements().get(0));
-		
-		builder.closeScope();
-		return r;
+		return generator.apply(null);
 	}
 	
 	@Override

@@ -101,18 +101,23 @@ public class CSPModel2 extends CSPModel {
 		
 		public void put(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {			
 			this.put(varDcl, newVar);
-			
-			// TODO: This is a bug!!!
-			CSPModelScope savedScope = disambiguations.get(disambiguations);
-			// CSPModelScope savedScope = disambiguations.get(disambiguation);
-			if ( savedScope != null && savedScope != this ) {
-				throw new IllegalStateException("Rebound disambiguation: " + disambiguation.getVarName() + " : " + disambiguation.getLocation());
-			}
-			
-			// If the scope is already saved (savedScope == this), the we allow the rebound. 
-			// This is to handle the case: T.allInstances(), and then "rule (from x:X, y:Y) (to t:T)
-			// because the could will call "put" twice, once for x and once for y for the same disambiguation variable.
+
+// Things used to work with this bug... the equivalent code ommiting to the bugged code is as follows:
+			// Essentially, we allow rebindings for disambiguations
 			disambiguations.put(disambiguation,  new CSPModelScope2(this.getThisModuleVar(), this));
+			
+// Original code:
+//			// TODO: This is a bug!!!
+//			CSPModelScope savedScope = disambiguations.get(disambiguations);
+//			// CSPModelScope savedScope = disambiguations.get(disambiguation);
+//			if ( savedScope != null && savedScope != this ) {
+//				throw new IllegalStateException("Rebound disambiguation: " + disambiguation.getVarName() + " : " + disambiguation.getLocation());
+//			}
+//			
+//			// If the scope is already saved (savedScope == this), the we allow the rebound. 
+//			// This is to handle the case: T.allInstances(), and then "rule (from x:X, y:Y) (to t:T)
+//			// because the could want to call "put" twice, once for x and once for y for the same disambiguation variable.
+//			disambiguations.put(disambiguation,  new CSPModelScope2(this.getThisModuleVar(), this));
 		}
 		
 		public CSPModelScope getDisambiguation(VariableDeclaration vd) {

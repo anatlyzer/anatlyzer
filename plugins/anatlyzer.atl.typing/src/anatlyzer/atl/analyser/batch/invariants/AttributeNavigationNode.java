@@ -1,19 +1,24 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
-public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
+public class AttributeNavigationNode extends AbstractInvariantReplacerNode implements IGenChaining {
 
 	private NavigationOrAttributeCallExp targetNav;
 	private Binding binding;
@@ -46,7 +51,7 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 				// It is already bound... by the source...
 				// builder.addToScope(context.getRule().getI...., src)
 				return builder.gen(binding.getValue());
-			});
+			}, () -> OCLFactory.eINSTANCE.createOclUndefinedExp());
 		}
 		
 		
@@ -60,13 +65,26 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode {
 	}
 
 	@Override
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
+		if ( source instanceof IGenChaining ) {			
+			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+				return generator.apply(builder.gen(binding.getValue()));
+			}, falsePart);
+		}
+
+		return genExpr(builder); // ignore the generator...
+	}
+
+
+	
+	@Override
 	public OclExpression genExprNorm(CSPModel2 builder) {
 		return genExpr(builder);
 	}
 
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
-		gv.addNode(this, gvText("attNav: " + this.targetNav.getName(), targetNav), true);
+		gv.addNode(this, gvText("attNav: " + this.targetNav.getName() + "\n" + "binding: " + ATLSerializer.serialize(binding), targetNav), true);
 		this.source.genGraphviz(gv);
 		gv.addEdge(this.source, this);
 	}

@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
@@ -39,7 +40,7 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 		return copy;
 	}
 	
-	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
 //		builder.copyScope();
 //		//builder.addToScope(rule.getInPattern().getElements().get(0), () -> genExpr(builder));
 //		VariableDeclaration sourceVar = builder.getInverseVar(exp.getReferredVariable());
@@ -69,7 +70,7 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
-		gv.addNode(this, "Var: " + this.exp.getReferredVariable().getVarName()	, true);
+		gv.addNode(this, gvText("Var: " + this.exp.getReferredVariable().getVarName(), exp)	, true);
 	}
 	
 	@Override

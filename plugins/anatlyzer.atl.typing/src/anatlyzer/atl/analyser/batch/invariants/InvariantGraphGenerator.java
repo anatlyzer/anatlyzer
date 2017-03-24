@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel2;
@@ -469,8 +470,8 @@ public class InvariantGraphGenerator {
 
 			IInvariantNode source = analyse(self.getSource(), env, 
 					(src) -> checkNavMapper(self, env, src), 
-					// (nodes) -> new SplitNavigationExpNode(nodes, self));
-					(nodes) -> new MultiNode(nodes));
+					(nodes) -> new SplitNavigationExpNode(nodes, self));
+					// (nodes) -> new MultiNode(nodes));
 					
 //			IInvariantNode src = analyse(self.getSource(), env);
 //			if ( src instanceof MultiNode ) {
@@ -616,6 +617,13 @@ public class InvariantGraphGenerator {
 		if ( resolutions.size() == 1 ) {
 			return resolutions.get(0);
 		} else {
+			// At this point of the development it is clear that for a mono-valued feature
+			// a merging node must be introduced
+//			if ( ! ((EStructuralFeature) self.getUsedFeature()).isMany() ) {
+//				return new SplitNavigationExpNode(resolutions, self);
+//			}
+			
+			// For the multi-valued case, stick for the moment with the original strategy
 			return new MultiNode(resolutions);
 		}
 	}

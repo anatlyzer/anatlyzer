@@ -69,7 +69,8 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	
 	protected String gvText(String str, LocatedElement e) {
 		String code = ATLSerializer.serialize(e);
-		return str + "\n" + code.substring(0, code.length() < 50 ? code.length() : 50) +  "\n" + e.getLocation();
+		String ctx  = this.context == null ? "no-ctx" : "<" + this.context.getRule().getName() + ", " + this.context.getOutputPatternElement().getVarName() + ">";
+		return str + "\n" + ctx + "\n" + code.substring(0, code.length() < 50 ? code.length() : 50) +  "\n" + e.getLocation();
 	}
 
 

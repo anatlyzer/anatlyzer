@@ -2,26 +2,22 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
-import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
-import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
-import anatlyzer.atlext.ATL.RuleWithPattern;
-import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
-import anatlyzer.atlext.OCL.SequenceExp;
 
-public class SplitNavigationExpNode extends AbstractInvariantReplacerNode {
+public class SplitNavigationExpNode extends AbstractInvariantReplacerNode implements IGenChaining {
 
 	private List<IInvariantNode> paths;
 	private NavigationOrAttributeCallExp expr;
@@ -37,20 +33,31 @@ public class SplitNavigationExpNode extends AbstractInvariantReplacerNode {
 	public void genErrorSlice(ErrorSlice slice) {
 		paths.forEach(p -> p.genErrorSlice(slice));
 	}
-	
+
 	@Override
-	public OclExpression genExpr(CSPModel2 builder) {
-		// assume the paths are from collections...
-		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
-		for (IInvariantNode iInvariantNode : paths) {
-			seq.getElements().add(iInvariantNode.genExpr(builder));
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
+		IGenChaining currentPath = (IGenChaining) paths.get(0);
+		OclExpression val = currentPath.genExprChaining(builder, (src) -> src, falsePart);
+		
+		for(int i = 1; i < paths.size(); i++) {
+			IGenChaining nextPath = (IGenChaining) paths.get(i);
+			
+			OclExpression fVal = val;
+			val = nextPath.genExprChaining(builder, (src) -> src, () -> copy(fVal));
+			
+			currentPath = nextPath;
 		}
 		
-		CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-		flatten.setOperationName("flatten");
-		flatten.setSource(seq);
+		return val;
+	}
+
+	@Override
+	public OclExpression genExpr(CSPModel2 builder) {
+		return genExprChaining(builder, (src) -> src, () -> {
+			// TODO: Decide if this is createUndefinedValue or createDefaultValue
+			return DefaultValueNode.defaultValue(expr.getInferredType());
+		});
 		
-		return flatten;
 	}
 
 	@Override
@@ -82,5 +89,6 @@ public class SplitNavigationExpNode extends AbstractInvariantReplacerNode {
 	public boolean isUsed(InPatternElement e) {
 		throw new UnsupportedOperationException();
 	}
+
 
 }

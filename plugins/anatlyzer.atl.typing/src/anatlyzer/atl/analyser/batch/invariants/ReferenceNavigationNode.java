@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
@@ -82,21 +83,17 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	}
 	
 	@Override
-	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator) {
+	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
 		System.out.println("genExpr2: " + this.context.getRule().getName());
 		System.out.println("targetNav: " + this.targetNav.getName());
 			
 		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
 			System.out.println("genExpr2: " + this.context.getRule().getName());
-			return genExpr2_aux(builder, src, generator);
-		});
-		
-//		source.genExpr(builder); // force variable binding
-//		OclExpression src = builder.gen(binding.getValue());
-//		return genExpr2_aux(builder, src, generator);
+			return genExpr2_aux(builder, src, generator, falsePart);
+		}, falsePart);		
 	}
 
-	public OclExpression genExpr2_aux(CSPModel2 builder, OclExpression src, Function<OclExpression, OclExpression> generator) {
+	public OclExpression genExpr2_aux(CSPModel2 builder, OclExpression src, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
 		RuleWithPattern rule = context.getRule();
 		
 		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
@@ -138,13 +135,15 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 				ifexp2.setThenExpression(generator.apply(builder.gen(binding.getValue())));
 			
 				ifexp.setThenExpression(ifexp2);
-				ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
+				ifexp2.setElseExpression(falsePart.get());
+				// ifexp2.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));				
 				// ifexp2.setElseExpression( createNavigationDefaultValue() );
 			} else {			
 				ifexp.setThenExpression(generator.apply(builder.gen(binding.getValue())));
 			}
 			
-			ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
+			ifexp.setElseExpression(falsePart.get());
+			// ifexp.setElseExpression(createUndefinedValue(binding.getValue().getInferredType()));
 			// ifexp.setElseExpression( createNavigationDefaultValue() );
 
 			builder.closeScope();
@@ -157,7 +156,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		if ( source instanceof IGenChaining ) {
-			return genExprChaining(builder, (src) -> src);
+			return genExprChaining(builder, (src) -> src, () -> createUndefinedValue(binding.getValue().getInferredType()));
 //			return ((IGenChaining) source).genExprChaining(builder, (src) -> {
 //				// adapt the call
 //				return this.genExprChaining(builder, (src2) -> {
@@ -346,7 +345,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
-		gv.addNode(this, gvText("Ref." + targetNav.getName(), targetNav), true);
+		gv.addNode(this, gvText("Ref." + targetNav.getName(), targetNav) + "\n" + "binding: " + ATLSerializer.serialize(binding), true);
 		this.source.genGraphviz(gv);
 		gv.addEdge(this.source, this);
 	}

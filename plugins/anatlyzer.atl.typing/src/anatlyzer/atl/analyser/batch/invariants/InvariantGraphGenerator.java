@@ -491,6 +491,7 @@ public class InvariantGraphGenerator {
 
 	protected IInvariantNode checkNavMapper(NavigationOrAttributeCallExp self,
 			Env env, IInvariantNode source) {
+		
 		List<Binding> allBindings = source.getContext().getOutputPatternElement().
 				getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
 				collect(Collectors.toList());

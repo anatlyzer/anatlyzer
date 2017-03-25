@@ -19,8 +19,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 
 public class SplitNavigationExpNode extends AbstractInvariantReplacerNode implements IGenChaining {
 
-	private List<IInvariantNode> paths;
-	private NavigationOrAttributeCallExp expr;
+	protected List<IInvariantNode> paths;
+	protected NavigationOrAttributeCallExp expr;
 
 	public SplitNavigationExpNode(List<IInvariantNode> paths, NavigationOrAttributeCallExp expr) {
 		super(null);

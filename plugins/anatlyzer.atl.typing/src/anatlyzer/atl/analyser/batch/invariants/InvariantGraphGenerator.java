@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -470,7 +471,24 @@ public class InvariantGraphGenerator {
 
 			IInvariantNode source = analyse(self.getSource(), env, 
 					(src) -> checkNavMapper(self, env, src), 
-					(nodes) -> new SplitNavigationExpNode(nodes, self));
+					// I need a flatMap!
+					(nodes) -> {
+						List<IInvariantNode> newNodes = nodes.stream().flatMap(n -> {
+							if ( n instanceof MultiNode ) {
+								return ((MultiNode) n).nodes.stream();
+							} else {
+								return Stream.of(n);
+							}
+						}).collect(Collectors.toList());
+						
+						if ( self.eContainer() instanceof NavigationOrAttributeCallExp ) {
+							return new MultiNode(newNodes);
+						} else {
+							return new SplitNavigationExpNode(newNodes, self);
+						}
+						// new SplitNavigationExpNode(nodes, self)	
+					});
+					// (nodes) -> new SplitNavigationExpNode(nodes, self));
 					// (nodes) -> new MultiNode(nodes));
 					
 //			IInvariantNode src = analyse(self.getSource(), env);

@@ -39,6 +39,14 @@ public class SplitCollectionOperationNode extends AbstractInvariantReplacerNode 
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		String op = expr.getOperationName();
+		
+		// Boolean operations
+		if ( "isEmpty".equals(op) || "notEmpty".equals(op) ) {
+			return InvariantRewritingUtils.combineBoolean(builder, paths, "and");
+		}
+		
+		
 		// assume the paths are from collections...
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
 		for (IInvariantNode iInvariantNode : paths) {
@@ -59,7 +67,7 @@ public class SplitCollectionOperationNode extends AbstractInvariantReplacerNode 
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
-		gv.addNode(this, gvText("Split node. ", expr), true);
+		gv.addNode(this, gvText("Split colOp. ", expr), true);
 		paths.forEach(p -> {
 			p.genGraphviz(gv);
 			gv.addEdge(p, this);

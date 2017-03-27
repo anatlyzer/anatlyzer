@@ -238,6 +238,9 @@ public class InvariantGraphGenerator {
 			MultiNode m = (MultiNode) src;
 			
 			List<IInvariantNode> paths = m.map(n -> {
+				if ( n.getContext() == null )
+					System.out.println(n);
+				
 				Env env2 = env.put(expr.getIterators().get(0), n.getContext());
 				IInvariantNode body = analyse(expr.getBody(), env2);
 		
@@ -254,7 +257,7 @@ public class InvariantGraphGenerator {
 		} else {
 //			Env env2 = env;
 //			if ( ! (src instanceof NoResolutionNode) )
-//				env2 = env.put(expr.getIterators().get(0), src.getContext());
+//				env2 = env.put(expr.getIterators().get(0), src.getContext());			
 			Env env2 = env.put(expr.getIterators().get(0), src.getContext());
 			IInvariantNode body = analyse(expr.getBody(), env2);
 	
@@ -268,29 +271,60 @@ public class InvariantGraphGenerator {
 		}		
 	}
 	
-	private static HashSet<String> colRetOps = new HashSet<String>();
-	static {
-		colRetOps.add("flatten");
-	}
+//	private static HashSet<String> colRetOps = new HashSet<String>();
+//	static {
+//		colRetOps.add("flatten");
+//	}
 	
-	private AbstractInvariantReplacerNode checkColExp(CollectionOperationCallExp expr, Env env) {
-		IInvariantNode src = analyse(expr.getSource(), env);
+	private IInvariantNode checkColExp(CollectionOperationCallExp expr, Env env) {
+		
+		
+		return analyse(expr.getSource(), env, 
+				(src) -> {
+					List<IInvariantNode> args = expr.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());					
+					CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);					
+					return node;
+				}, 
+				// I need a flatMap!
+				(nodes) -> {
+					List<IInvariantNode> newNodes = nodes.stream().flatMap(n -> {
+						if ( n instanceof MultiNode ) {
+							return ((MultiNode) n).nodes.stream();
+						} else {
+							return Stream.of(n);
+						}
+					}).collect(Collectors.toList());
+					
+					// This is not valid, because it returns true when the expression is the last in a chain of navigations
+					// of an IteratorExp#body
+					// if ( expr.eContainer() instanceof IteratorExp || expr.eContainer() instanceof CollectionOperationCallExp ) {
+					if ( expr.eContainingFeature() == OCLPackage.Literals.PROPERTY_CALL_EXP__SOURCE ) {
+						return new MultiNode(newNodes);
+					} else {						
+						return new SplitCollectionOperationNode(nodes, expr);
+					}
+					// new SplitNavigationExpNode(nodes, self)	
+				});
 
-		// Depending on the kind of operation, we need to continue with a split path or to merge it.
-		// This depends on whether the operation returns another collection or not, e.g., flatten
-		if ( colRetOps.contains(expr.getOperationName()) ) {
-			// TODO: XXX For flatten do not split, for asSet merge and split again the path
-		}
-		
-		if ( src instanceof MultiNode ) {			
-			SplitCollectionOperationNode split = new SplitCollectionOperationNode(((MultiNode) src).getNodes(), expr);
-			src = split;
-		}
-		
-		List<IInvariantNode> args = expr.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
-		
-		CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
-		return node;
+
+//		// Depending on the kind of operation, we need to continue with a split path or to merge it.
+//		// This depends on whether the operation returns another collection or not, e.g., flatten
+//		if ( colRetOps.contains(expr.getOperationName()) ) {
+//			// TODO: XXX For flatten do not split, for asSet merge and split again the path
+//		}
+
+// Original code
+//		IInvariantNode src = analyse(expr.getSource(), env);
+//
+//		if ( src instanceof MultiNode ) {			
+//			SplitCollectionOperationNode split = new SplitCollectionOperationNode(((MultiNode) src).getNodes(), expr);
+//			src = split;
+//		}
+//		
+//		List<IInvariantNode> args = expr.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());
+//		
+//		CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);
+//		return node;
 	}
 
 	protected IInvariantNode checkOperatorCallExp(OperatorCallExp self, Env env) {

@@ -18,7 +18,7 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 	private List<IInvariantNode> args;
 
 	public CollectionOperationCallExpNode(IInvariantNode source, CollectionOperationCallExp exp, List<IInvariantNode> args) {
-		super(null);
+		super(source.getContext());
 		this.source = source;
 		this.exp = exp;
 		this.args = args;

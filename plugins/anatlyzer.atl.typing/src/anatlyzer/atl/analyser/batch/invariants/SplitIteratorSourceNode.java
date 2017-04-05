@@ -2,16 +2,19 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.SequenceExp;
 
 public class SplitIteratorSourceNode extends AbstractInvariantReplacerNode {
 
@@ -32,9 +35,18 @@ public class SplitIteratorSourceNode extends AbstractInvariantReplacerNode {
 		
 		@Override
 		public OclExpression genExpr(CSPModel2 builder) {
-//			if ( this.nodes.size() == 1 ) {
-//				return this.nodes.get(0).genExpr(builder);
-//			}
+			return genAux(builder, (node) -> node.genExpr(builder));
+		}
+		
+		@Override
+		public OclExpression genExprNormalized(CSPModel2 builder) {
+			return genAux(builder, (node) -> node.genExprNormalized(builder));
+		}
+		
+		public OclExpression genAux(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
+	//		if ( this.nodes.size() == 1 ) {
+	//			return this.nodes.get(0).genExpr(builder);
+	//		}
 						
 			String mergeOp = "and";
 			if ( iterator.getName().equals("exists") ) {
@@ -46,12 +58,7 @@ public class SplitIteratorSourceNode extends AbstractInvariantReplacerNode {
 				mergeOp = "xor";
 			}
 			
-			return InvariantRewritingUtils.combineBoolean(builder, nodes, mergeOp);
-		}
-		
-		@Override
-		public OclExpression genExprNorm(CSPModel2 builder) {
-			return genExpr(builder);
+			return InvariantRewritingUtils.combineBoolean(builder, nodes, mergeOp, gen);
 		}
 		
 		@Override

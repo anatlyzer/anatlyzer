@@ -85,7 +85,7 @@ public class ExtendTransformation {
 					extendWith(c, op);
 				} catch ( CannotFindClassForOperation e) {
 					// Ignore the operation and notify
-					// System.out.println("Operation: " + op.getName() + "ignored -> " + e.getMessage());
+					System.out.println("Operation: " + op.getName() + " ignored -> " + e.getMessage());
 				}
 			}
 		}

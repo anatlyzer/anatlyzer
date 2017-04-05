@@ -14,8 +14,7 @@ Require-Bundle: org.eclipse.ui,
  anatlyzer.atl.editor;bundle-version="0.1.0",
  org.eclipse.m2m.atl.engine.emfvm;bundle-version="3.5.0";visibility:=reexport,
  anatlyzer.use.witness,
- org.eclipse.equinox.registry,
- transML;bundle-version="1.0.0"
+ org.eclipse.equinox.registry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: anatlyzer.atl.editor.witness,

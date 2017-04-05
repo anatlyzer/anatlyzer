@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
@@ -46,10 +47,10 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		if ( rules.size() == 1 ) {
-			return createKindOfCall(builder, rules.get(0));			
+			return createKindOfCall(builder, rules.get(0), (expr) -> expr.genExpr(builder));			
 		}
 		
-		OclExpression result = createKindOfCall(builder, rules.get(0));	
+		OclExpression result = createKindOfCall(builder, rules.get(0), (expr) -> expr.genExpr(builder));	
 		for(int i = 1; i < rules.size(); i++) {
 			SourceContext<? extends RuleWithPattern> ctx = rules.get(i);
 			
@@ -57,7 +58,7 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 			op.setOperationName("or"); // One of the types must be true
 
 			op.setSource(result);
-			op.getArguments().add(createKindOfCall(builder, ctx));
+			op.getArguments().add(createKindOfCall(builder, ctx, (expr) -> expr.genExpr(builder)));
 			
 			result = op;
 		}
@@ -66,8 +67,25 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		if ( rules.size() == 1 ) {
+			return createKindOfCall(builder, rules.get(0), (expr) -> expr.genExprNormalized(builder));			
+		}
+		
+		OclExpression result = createKindOfCall(builder, rules.get(0), (expr) -> expr.genExprNormalized(builder));	
+		for(int i = 1; i < rules.size(); i++) {
+			SourceContext<? extends RuleWithPattern> ctx = rules.get(i);
+			
+			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+			op.setOperationName("or"); // One of the types must be true
+
+			op.setSource(result);
+			op.getArguments().add(createKindOfCall(builder, ctx, (expr) -> expr.genExprNormalized(builder)));
+			
+			result = op;
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -76,7 +94,8 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 	}
 	
 	private OperationCallExp createKindOfCall(CSPModel2 builder,
-			SourceContext<? extends RuleWithPattern> mappedCtx) {
+			SourceContext<? extends RuleWithPattern> mappedCtx,
+			Function<IInvariantNode, OclExpression> genExprFunct) {
 		if ( mappedCtx.getRule().getInPattern().getElements().size() > 1 ) {
 			throw new UnsupportedOperationException("Only oclIsKindOf matching rules with 1-input element are supported");
 		}
@@ -88,7 +107,7 @@ public class KindOfNode extends AbstractInvariantReplacerNode {
 		OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
 		op.getArguments().add(  sourceType );
 		op.setOperationName(exp.getOperationName());
-		op.setSource(source.genExpr(builder));
+		op.setSource(genExprFunct.apply(source));
 		return op;
 	}
 	

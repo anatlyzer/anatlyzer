@@ -126,12 +126,12 @@ public class InvariantGraphGenerator {
 		}
 
 		@Override
-		public OclExpression genExprNorm(CSPModel2 builder) {
+		public OclExpression genExprNormalized(CSPModel2 builder) {
 			throw new UnsupportedOperationException();
 		}
 		
 		@Override
-		public List<Iterator> genIterators(CSPModel2 builder) {
+		public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 			throw new IllegalStateException();
 		}
 		
@@ -743,7 +743,7 @@ public class InvariantGraphGenerator {
 		}
 
 		@Override
-		public OclExpression genExprNorm(CSPModel2 builder) {
+		public OclExpression genExprNormalized(CSPModel2 builder) {
 			throw new UnsupportedOperationException();
 		}
 

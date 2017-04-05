@@ -77,7 +77,7 @@ public class SourceExprNode implements IInvariantNode {
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
+	public OclExpression genExprNormalized(CSPModel2 builder) {
 		return builder.gen(expr);
 	}
 
@@ -87,7 +87,7 @@ public class SourceExprNode implements IInvariantNode {
 	}
 
 	@Override
-	public List<Iterator> genIterators(CSPModel2 builder) {
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 		throw new UnsupportedOperationException();
 	}
 

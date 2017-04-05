@@ -479,15 +479,19 @@ public class CSPModel {
 	
 	
 	public String genNiceVarName(OclExpression expr) {
-		String var = "v";
-		Integer i = vars.get(var);
-		if ( i == null ) {
-			vars.put(var, 0);
-		} else {
-			vars.put(var, i + 1);
-			var = var + (i + 1);
-		}
-		return var;
+		return genNiceVarName("v");
 	}
+	
+	public String genNiceVarName(String varName) {
+		Integer i = vars.get(varName);
+		if ( i == null ) {
+			vars.put(varName, 0);
+		} else {
+			vars.put(varName, i + 1);
+			varName = varName + (i + 1);
+		}
+		return varName;
+	}
+
 	
 }

@@ -29,8 +29,8 @@ public class GenericExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return (OclExpression) ATLCopier.copySingleElement(exp);
 	}
 	
 	@Override

@@ -1,7 +1,6 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,11 +11,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
-import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToUse;
 import anatlyzer.atl.analyser.batch.invariants.IInvariantNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.TranslatedHelper;
+import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToATL;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -30,8 +30,6 @@ import anatlyzer.atl.graph.GraphNode;
 import anatlyzer.atl.graph.IPathVisitor;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
-import anatlyzer.atl.util.ATLCopier;
-import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -55,6 +53,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	protected ProblemStatus status = ProblemStatus.WITNESS_REQUIRED;
 	protected String invName;
 	protected IInvariantNode invNode;
+	protected DenormalizeInvariantToUse useDenormalizer;
 	protected IWitnessModel witness;
 	protected ErrorSlice slice;
 	protected List<TranslatedHelper> translatedHelpers;
@@ -66,22 +65,52 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		this.result = result; 
 	}
 
+	private boolean useNorm = true;
+	
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
-//		CSPModel cspmodel = new CSPModel();
-//		cspmodel.initWithoutThisModuleContext();
-//
-//		return cspmodel.negateExpression( getInvariantNode().genExpr(cspmodel) );
-		return getPrecondition((pre) -> {
-			OperatorCallExp negate = OCLFactory.eINSTANCE.createOperatorCallExp();
-			negate.setOperationName("not");
-			negate.setSource(pre);
-			return negate;
-		});
+		if ( useNorm ) {
+			if ( useDenormalizer != null ) {
+				return useDenormalizer.getResult();
+			}
+			
+			OclExpression preNorm = getPreconditionNorm((pre) -> {
+				OperatorCallExp negate = OCLFactory.eINSTANCE.createOperatorCallExp();
+				negate.setOperationName("not");
+				negate.setSource(pre);
+				return negate;
+			});
+			
+			
+			useDenormalizer = new DenormalizeInvariantToUse(preNorm);
+			useDenormalizer.perform();
+			return useDenormalizer.getResult();			
+		} else {
+			return getPrecondition((pre) -> {
+				OperatorCallExp negate = OCLFactory.eINSTANCE.createOperatorCallExp();
+				negate.setOperationName("not");
+				negate.setSource(pre);
+				return negate;
+			});
+		}
 	}
 
+	public OclExpression getPreconditionATL() {
+		return new DenormalizeInvariantToATL(getPreconditionNorm()).perform();
+	}
+	
 	public OclExpression getPrecondition() {
 		return getPrecondition(exp -> exp);
+	}
+
+	public OclExpression getPreconditionNorm() {
+		return getPreconditionNorm(exp -> exp);
+	}
+
+	protected OclExpression getPreconditionNorm(Function<OclExpression, OclExpression> negator) {
+		CSPModel2 cspmodel = new CSPModel2();
+		cspmodel.initWithoutThisModuleContext();
+		return negator.apply( getInvariantNode().genExprNormalized(cspmodel) );		
 	}
 	
 	protected OclExpression getPrecondition(Function<OclExpression, OclExpression> negator) {
@@ -155,6 +184,13 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		});
 		
 		getInvariantNode().genErrorSlice(slice);
+		
+		if ( useNorm ) { 
+			if ( useDenormalizer == null )
+				throw new IllegalStateException("Class protocol requires calling getWitnessCondition before genErrorSlice");
+			
+			useDenormalizer.genErrorSlice(slice);
+		}
 		
 		translatedHelpers.forEach(h -> h.genErrorSlice(slice));
 		translatedHelpers.forEach(h -> slice.addHelper(h.genSourceHelper()));

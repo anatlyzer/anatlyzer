@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.eclipse.core.runtime.Assert;
 
@@ -42,11 +43,20 @@ public class SplitNodeOperation extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExpr(builder));
+	}
+	
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExprNormalized(builder));
+	}
+	
+	public OclExpression genAux(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
 		Assert.isTrue(paths.size() > 1);
 		
 		// Asume the operation is a boolean expression
 		
-		OclExpression result = paths.get(0).genExpr(builder);
+		OclExpression result = gen.apply(paths.get(0));
 		for(int i = 1; i < paths.size(); i++) {
 			IInvariantNode node = paths.get(i);
 			
@@ -55,18 +65,14 @@ public class SplitNodeOperation extends AbstractInvariantReplacerNode {
 			op.setOperationName("and"); // Every possible path must be true
 
 			op.setSource(result);
-			op.getArguments().add(node.genExpr(builder));
+			op.getArguments().add(gen.apply(node));
 			
 			result = op;
 		}
 		
-		return result;
+		return result;		
 	}
 	
-	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
-	}
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {

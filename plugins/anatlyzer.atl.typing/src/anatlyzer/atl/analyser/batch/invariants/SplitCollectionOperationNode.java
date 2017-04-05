@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel;
@@ -39,30 +40,34 @@ public class SplitCollectionOperationNode extends AbstractInvariantReplacerNode 
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExpr(builder));
+	}
+
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExprNormalized(builder));
+	}
+	
+	public OclExpression genAux(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
 		String op = expr.getOperationName();
 		
 		// Boolean operations
 		if ( "isEmpty".equals(op) || "notEmpty".equals(op) ) {
-			return InvariantRewritingUtils.combineBoolean(builder, paths, "and");
+			return InvariantRewritingUtils.combineBoolean(builder, paths, "and", gen);
 		}
 		
 		
 		// assume the paths are from collections...
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
 		for (IInvariantNode iInvariantNode : paths) {
-			seq.getElements().add(iInvariantNode.genExpr(builder));
+			seq.getElements().add(gen.apply(iInvariantNode));
 		}
 		
 		CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
 		flatten.setOperationName("flatten");
 		flatten.setSource(seq);
 		
-		return flatten;
-	}
-
-	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+		return flatten;		
 	}
 	
 	@Override

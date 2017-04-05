@@ -10,12 +10,15 @@ import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.Pair;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	protected SourceContext<? extends RuleWithPattern> context;
@@ -61,10 +64,27 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 	}
 	
 	@Override
-	public List<Iterator> genIterators(CSPModel2 builder) {
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 		throw new IllegalStateException();
 	}
-	
+
+	protected Iterator createIterator(CSPModel2 builder, VariableDeclaration sourceVar, VariableDeclaration optTargetVar) {
+		Iterator it = OCLFactory.eINSTANCE.createIterator();
+		it.setInferredType(sourceVar.getInferredType());			
+		
+		if (optTargetVar == null) { 
+			it.setVarName(builder.genNiceVarName(sourceVar.getVarName()));
+			builder.addToScope(sourceVar, it); 
+		} else {
+			it.setVarName(builder.genNiceVarName(optTargetVar.getVarName()));
+			builder.addToScope(sourceVar, it, optTargetVar);
+			// I also bind the target to enable its resolution by VariableExpNode
+			// Not sure this makes sense, but it solves the problem of rebinding the same target iterator
+			// when the mapped rule has more than on input pattern
+			builder.addToScope(optTargetVar, it, optTargetVar); 
+		}
+		return it;
+	}
 	// Utils
 	
 	protected String gvText(String str, LocatedElement e) {

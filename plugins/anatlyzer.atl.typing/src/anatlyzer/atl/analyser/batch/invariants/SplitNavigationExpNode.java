@@ -50,19 +50,42 @@ public class SplitNavigationExpNode extends AbstractInvariantReplacerNode implem
 		
 		return val;
 	}
+	
+	@Override
+	public OclExpression genExprChainingNorm(CSPModel2 builder,
+			Function<OclExpression, OclExpression> generator,
+			Supplier<OclExpression> falsePart) {
+
+		IGenChaining currentPath = (IGenChaining) paths.get(0);
+		OclExpression val = currentPath.genExprChainingNorm(builder, (src) -> src, falsePart);
+		
+		for(int i = 1; i < paths.size(); i++) {
+			IGenChaining nextPath = (IGenChaining) paths.get(i);
+			
+			OclExpression fVal = val;
+			val = nextPath.genExprChainingNorm(builder, (src) -> src, () -> copy(fVal));
+			
+			currentPath = nextPath;
+		}
+		
+		return val;
+
+	}
 
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
 		return genExprChaining(builder, (src) -> src, () -> {
 			// TODO: Decide if this is createUndefinedValue or createDefaultValue
 			return DefaultValueNode.defaultValue(expr.getInferredType());
-		});
-		
+		});		
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return genExprChainingNorm(builder, (src) -> src, () -> {
+			// TODO: Decide if this is createUndefinedValue or createDefaultValue
+			return DefaultValueNode.defaultValue(expr.getInferredType());
+		});
 	}
 	
 	@Override

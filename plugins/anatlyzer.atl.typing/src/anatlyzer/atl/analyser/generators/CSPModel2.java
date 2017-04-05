@@ -9,6 +9,7 @@ import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.UnsupportedTranslation;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -163,6 +164,7 @@ public class CSPModel2 extends CSPModel {
 			return generator.apply(sourceElem);			
 		}
 	}
+
 
 	
 }

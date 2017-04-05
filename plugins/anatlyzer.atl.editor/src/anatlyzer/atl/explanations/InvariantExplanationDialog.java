@@ -48,7 +48,9 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 
 		@Override
 		public void setDetailedProblemDescription(StyledText text) {
-			text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPrecondition()));
+			// text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPrecondition()));
+			
+			text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPreconditionNorm()));
 		}
 
 		@Override

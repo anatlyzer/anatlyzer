@@ -78,10 +78,43 @@ public class AttributeNavigationNode extends AbstractInvariantReplacerNode imple
 
 	
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		// TODO: Do I need the source here???
+		
+		if ( targetNav.getSource() instanceof VariableExp ) {
+			VariableDeclaration vd = ((VariableExp) targetNav.getSource()).getReferredVariable();
+			return builder.gen2(binding.getValue(), vd);
+		}
+
+		if ( source instanceof IGenChaining ) {			
+			return ((IGenChaining) source).genExprChainingNorm(builder, (src) -> {
+				// It is already bound... by the source...
+				// builder.addToScope(context.getRule().getI...., src)
+				return builder.gen(binding.getValue());
+			}, () -> OCLFactory.eINSTANCE.createOclUndefinedExp());
+		}
+		
+		
+		// Not sure if the following case holds anymore...
+		
+		// This puts the subexpression in the scope, so that gen gets the value
+		source.genExprNormalized(builder);
+		
+		// return copy(binding.getValue());
+		return builder.gen(binding.getValue());
 	}
 
+	@Override
+	public OclExpression genExprChainingNorm(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
+		if ( source instanceof IGenChaining ) {			
+			return ((IGenChaining) source).genExprChainingNorm(builder, (src) -> {
+				return generator.apply(builder.gen(binding.getValue()));
+			}, falsePart);
+		}
+
+		return genExprNormalized(builder); // ignore the generator...
+	}
+	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
 		gv.addNode(this, gvText("attNav: " + this.targetNav.getName() + "\n" + "binding: " + ATLSerializer.serialize(binding), targetNav), true);

@@ -65,8 +65,14 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 	}
 	
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		CollectionOperationCallExp copy = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+		copy.setSource( source.genExprNormalized(builder) );
+		copy.setOperationName(exp.getOperationName());
+		for (IInvariantNode node : args) {
+			copy.getArguments().add(node.genExprNormalized(builder));
+		}
+		return copy;
 	}
 	
 	@Override

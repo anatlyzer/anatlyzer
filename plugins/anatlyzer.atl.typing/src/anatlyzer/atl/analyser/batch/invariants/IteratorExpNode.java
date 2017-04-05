@@ -1,7 +1,9 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -15,6 +17,7 @@ import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class IteratorExpNode extends AbstractInvariantReplacerNode {
 
@@ -110,13 +113,30 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		builder.copyScope();
-		
-		OclExpression source = this.src.genExpr(builder);
-		List<Iterator> iterators = this.src.genIterators(builder);
-		OclExpression body = this.body.genExpr(builder);
-				
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
+		MatchedRule rule = (MatchedRule) context.getRule();
+		if ( rule.getInPattern().getElements().size() == 1 ) {
+			return Collections.singletonList( createIterator(builder, context.getRule().getInPattern().getElements().get(0), optTargetVar));
+		} else {
+			if ( ! exp.getName().equals("collect") ) {
+				return rule.getInPattern().getElements().stream().
+						map(e -> createIterator(builder, e, optTargetVar)).
+						collect(Collectors.toList());
+			} else {
+				throw new IllegalStateException("Multiple iterator propagation for collect cannot be supported");
+			}
+		}		
+	}
+
+	
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		OclExpression source = this.src.genExprNormalized(builder);		
+
+		builder.copyScope();	
+			Iterator targetIt = this.exp.getIterators().get(0);
+			List<Iterator> iterators = this.src.genIterators(builder, targetIt);
+			OclExpression body = this.body.genExprNormalized(builder);				
 		builder.closeScope();
 		
 		IteratorExp newIterator = OCLFactory.eINSTANCE.createIteratorExp();

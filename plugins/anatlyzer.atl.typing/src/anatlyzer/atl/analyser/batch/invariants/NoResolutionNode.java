@@ -23,6 +23,7 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
 /**
@@ -106,12 +107,12 @@ public class NoResolutionNode implements IInvariantNode {
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
+	public OclExpression genExprNormalized(CSPModel2 builder) {
 		return genExpr(builder);
 	}
 	
 	@Override
-	public List<Iterator> genIterators(CSPModel2 builder) {
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 		throw new IllegalStateException();
 	}
 	

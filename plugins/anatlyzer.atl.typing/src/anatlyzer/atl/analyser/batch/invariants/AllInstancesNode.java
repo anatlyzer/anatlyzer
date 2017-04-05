@@ -192,14 +192,13 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return result;
 	}
 
-	private OclExpression genCrossProduct(CSPModel builder) {
+	private OclExpression genCrossProduct(CSPModel2 builder) {
 		// General case.
 		// T1.allInstances()->product(T2.allInstances(), T3.allInstances()...)
 		
 		OperationCallExp op = createAllInstances(rule.getInPattern().getElements().get(0));
 		CollectionOperationCallExp product = builder.createCollectionOperationCall(op, "product");
 		
-		// I do this in a separate piece of code because the other one is known to work...
 		for (int i = 1; i < rule.getInPattern().getElements().size(); i++) {
 			InPatternElement e = rule.getInPattern().getElements().get(i);
 			
@@ -207,7 +206,36 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 			product.getArguments().add(op);
 		}
 		
-		return product;
+		if ( rule.getInPattern().getFilter() != null ) {
+			builder.copyScope();
+				IteratorExp select = OCLFactory.eINSTANCE.createIteratorExp();
+				select.setName("select");
+				select.setSource(product);
+						
+				ATLCopier copier = new ATLCopier(rule.getInPattern().getFilter());
+				
+				rule.getInPattern().getElements().stream().forEach(e -> {
+					Iterator it = OCLFactory.eINSTANCE.createIterator();
+					it.setVarName(e.getVarName());
+					copier.bind(e, it);
+					select.getIterators().add(it);
+				});
+				
+				OclExpression body = (OclExpression) copier.copy();
+				select.setBody(body);
+				
+//				List<Iterator> its = genIterators(builder, null);
+//				select.getIterators().addAll(its);
+				
+				// I avoid using the regular gen/genIterators method because I cannot pass a
+				// any target variable, and this is just a local copy
+				// select.setBody(builder.gen(rule.getInPattern().getFilter()));
+		
+			builder.closeScope();
+			return select;
+		} else {
+			return product;
+		}
 	}
 
 	private Pair<LetExp, LetExp> genMultipleIPEBindings(MatchedRule rule, VariableDeclaration tupleVar, CSPModel builder) {
@@ -274,6 +302,21 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 		return null;
 	}
 
+
+	@Override
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
+		List<Iterator> result = new ArrayList<Iterator>();
+		
+		for (int i = 0; i < rule.getInPattern().getElements().size(); i++) {
+			InPatternElement e = rule.getInPattern().getElements().get(i);
+			Iterator it = createIterator(builder, e, optTargetVar);
+
+			result.add(it);
+		}		
+		
+		return result;
+	}
+	
 	public OclExpression genNested(CSPModel2 builder, String itName, Iterator targetIt, Supplier<OclExpression> bodySupplier) {
 		String innerIteratorName = itName;
 		boolean doFlatten = false;
@@ -381,7 +424,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 	}
 
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
+	public OclExpression genExprNormalized(CSPModel2 builder) {
 		if ( rule instanceof LazyRule )
 			return createPathCondition((LazyRule) rule, builder);
 

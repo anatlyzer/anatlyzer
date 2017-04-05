@@ -526,10 +526,9 @@ public class ATLUtils {
 	}
 
 	public static void replacePathTag(ATLModel model, String name, String newPath) {
-		replacePathTag(model, name, name, newPath);
+		modifyOclModelPathTag(model, name, name, newPath);
 	}
-	
-	public static void replacePathTag(ATLModel model, String name, String newName, String newPath) {
+	public static void replaceSinglePathTag(ATLModel model, String name, String newName, String newPath) {
 		Unit root = model.getRoot();
 		
 		// Partly copied from findCommaTags
@@ -543,12 +542,19 @@ public class ATLUtils {
 				line = line.substring(index + tag.length());
 				String[] parts = line.split("=");
 				if ( parts.length == 2 && parts[0].trim().equals(name)) {
-					root.getCommentsBefore().set(i, "-- " + tag + " " + newName + "=" + newPath);
+					root.getCommentsBefore().set(i, tag + " " + newName + "=" + newPath);
 				}
 			}		
 			i++;
 		}
+	}
 		
+	public static void modifyOclModelPathTag(ATLModel model, String name, String newName, String newPath) {
+		replaceSinglePathTag(model, name, newName, newPath);
+		modifyOclModels(model, name, newName);
+	}
+	
+	private static void modifyOclModels(ATLModel model, String name, String newName) {
 		// Traverse the transformation and change ocurrences of OclModel to the new name
 		if ( ! name.equals(newName) ) {
 			model.allObjectsOf(OclModel.class).forEach(m -> {

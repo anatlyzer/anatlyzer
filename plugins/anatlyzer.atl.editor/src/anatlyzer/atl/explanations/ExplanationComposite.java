@@ -50,13 +50,13 @@ public class ExplanationComposite extends Composite {
 		try {
 			explanation.setDetailedProblemDescription(styledTextExplanation);
 		} catch ( Exception e ) {
-			styledTextExplanation.setText("Oops. We had a internal error: " + e.getMessage());
+			styledTextExplanation.setText("Oops. We had an internal error: " + e.getMessage());
 		}
 		
 		try {
 			explanation.setAdditionalInfo(composite);
 		} catch ( Exception e ) {
-			styledTextExplanation.setText("Oops. We had a internal error: " + e.getMessage());
+			styledTextExplanation.setText("Oops. We had an internal error: " + e.getMessage());
 		}
 
 	}

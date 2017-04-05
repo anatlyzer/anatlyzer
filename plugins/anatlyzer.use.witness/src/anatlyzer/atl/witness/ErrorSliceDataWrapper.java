@@ -11,8 +11,11 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -52,7 +55,8 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private ProblemInPathVisitor problems;
 	private boolean doUnfolding = true;
 	private ErrorSlice slice;
-
+	private Set<EStructuralFeature> targetClassesFeatures = new HashSet<EStructuralFeature>();
+	
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
 		this.slice = slice;
@@ -77,8 +81,28 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		slice.getTargetMetaclassesNeededInError().forEach(c -> {
 			// There may be naming conflicts... so a copy is created with a special name
 			// Method getPackageAnnotations perform the renaming at the expression level
+			
 			EClass newClass = EcoreFactory.eINSTANCE.createEClass();
 			newClass.setName("TGT_" + c.getName());
+
+			for(EStructuralFeature f : c.getEStructuralFeatures()) {
+				if ( f instanceof EReference ) {
+					EReference ref = EcoreFactory.eINSTANCE.createEReference();
+					ref.setName(f.getName());
+					ref.setContainment(((EReference) f).isContainment());
+					ref.setLowerBound(f.getLowerBound());
+					ref.setUpperBound(f.getUpperBound());
+					ref.setEType(getTarget((EClass) f.getEType()));
+					
+					newClass.getEStructuralFeatures().add(ref);
+				}
+			}
+			
+			//EClass newClass = (EClass) EcoreUtil.copy((EObject) c);
+			//newClass.setName("TGT_" + c.getName());
+			
+			targetClassesFeatures.addAll(newClass.getEStructuralFeatures());
+			
 			classes.add(newClass);
 			
 		});
@@ -90,6 +114,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	public Set<EStructuralFeature> getFeatures() {
 		Set<EStructuralFeature> set = super.getFeatures();
 		set.addAll(problems.getExtraFeatures().stream().map(f -> getTarget(f)).collect(Collectors.toSet()));
+		set.addAll(targetClassesFeatures);
 		return set;
 	}
 	

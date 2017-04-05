@@ -39,6 +39,12 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 		copy.setReferredVariable(exp.getReferredVariable());
 		return copy;
 	}
+
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		// It is copied to to force variable binding
+		return builder.gen(exp); 
+	}
 	
 	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
 //		builder.copyScope();
@@ -63,9 +69,8 @@ public class VariableExpNode extends AbstractInvariantReplacerNode implements IG
 		return generator.apply(genExpr(builder));
 	}
 	
-	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprChainingNorm(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
+		return generator.apply(genExprNormalized(builder));
 	}
 	
 	@Override

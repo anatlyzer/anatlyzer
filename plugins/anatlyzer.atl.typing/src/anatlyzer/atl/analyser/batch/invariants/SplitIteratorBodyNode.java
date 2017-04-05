@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -36,10 +37,19 @@ public class SplitIteratorBodyNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public OclExpression genExpr(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExpr(builder));
+	}
+
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return genAux(builder, (node) -> node.genExprNormalized(builder));
+	}
+	
+	public OclExpression genAux(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
 		// assume the paths are from collections...
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
 		for (IInvariantNode iInvariantNode : paths) {
-			seq.getElements().add(iInvariantNode.genExpr(builder));
+			seq.getElements().add(gen.apply(iInvariantNode));
 		}
 		
 		CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
@@ -47,11 +57,6 @@ public class SplitIteratorBodyNode extends AbstractInvariantReplacerNode {
 		flatten.setSource(seq);
 		
 		return flatten;
-	}
-
-	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
 	}
 	
 	@Override

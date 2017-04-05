@@ -9,5 +9,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 public interface IGenChaining {
 
 	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart);
+	
+	public OclExpression genExprChainingNorm(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart);
 
 }

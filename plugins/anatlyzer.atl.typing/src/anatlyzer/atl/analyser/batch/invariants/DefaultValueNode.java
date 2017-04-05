@@ -50,8 +50,10 @@ public class DefaultValueNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		// Analyse the type of the expression to generate a proper default value
+		Type typ = exp.getInferredType();
+		return defaultValue(typ);
 	}
 	
 	@Override

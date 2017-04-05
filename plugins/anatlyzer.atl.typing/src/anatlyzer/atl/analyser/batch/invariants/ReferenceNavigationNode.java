@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -84,20 +86,31 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	
 	@Override
 	public OclExpression genExprChaining(CSPModel2 builder, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
-		System.out.println("genExpr2: " + this.context.getRule().getName());
-		System.out.println("targetNav: " + this.targetNav.getName());
+		// System.out.println("genExpr2: " + this.context.getRule().getName());
+		// System.out.println("targetNav: " + this.targetNav.getName());
 			
 		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
-			System.out.println("genExpr2: " + this.context.getRule().getName());
-			return genExpr2_aux(builder, src, generator, falsePart);
+			// System.out.println("genExpr2: " + this.context.getRule().getName());
+			return genExpr2_aux(builder, src, generator, falsePart, (node) -> node.genExpr(builder));
 		}, falsePart);		
 	}
 
-	public OclExpression genExpr2_aux(CSPModel2 builder, OclExpression src, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart) {
+	@Override
+	public OclExpression genExprChainingNorm(CSPModel2 builder,
+			Function<OclExpression, OclExpression> generator,
+			Supplier<OclExpression> falsePart) {
+
+		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+			// System.out.println("genExpr2: " + this.context.getRule().getName());
+			return genExpr2_aux(builder, src, generator, falsePart, (node) -> node.genExprNormalized(builder));
+		}, falsePart);		
+	}
+	
+	public OclExpression genExpr2_aux(CSPModel2 builder, OclExpression src, Function<OclExpression, OclExpression> generator, Supplier<OclExpression> falsePart, Function<IInvariantNode, OclExpression> gen) {
 		RuleWithPattern rule = context.getRule();
 		
 		if ( binding.getValue().getInferredType() instanceof CollectionType ) {
-			return genExprOriginal(builder); // default...
+			return genExprOriginal(builder, gen); // default...
 			// throw new IllegalStateException("Cannot happen, at least yet, because attributes cannot be accessed from multi-valued features");
 		} else {
 			// Mono-valued case
@@ -165,14 +178,23 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 //				// return genExprOriginal(builder);
 //			});
 		}
-		return genExprOriginal(builder);
+		return genExprOriginal(builder, (node) -> node.genExpr(builder));
 	}
 	
-	public OclExpression genExprOriginal(CSPModel2 builder) {
+
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		if ( source instanceof IGenChaining ) {
+			return genExprChainingNorm(builder, (src) -> src, () -> createUndefinedValue(binding.getValue().getInferredType()));
+		}
+		return genExprOriginal(builder, (node) -> node.genExprNormalized(builder));
+	}
+	
+	public OclExpression genExprOriginal(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
 		
 		RuleWithPattern rule = context.getRule();
 
-		source.genExpr(builder);// force the variable binding
+		gen.apply(source); //source.genExpr(builder);// force the variable binding
 		
 		// OclExpression src = copy(binding.getValue(), env);
 		// THE PREVIOUS EXPRESSION IS SETTING UP THE VARIABLE BINDING...
@@ -337,11 +359,6 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 		}
 		return null;
 	}
-
-	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
-	}
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
@@ -363,6 +380,15 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			throw new IllegalStateException();			
 		}
 		return null;
+	}
+	
+	@Override
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
+		if ( context.getRule().getInPattern().getElements().size() == 1 ) {
+			return Collections.singletonList( createIterator(builder, context.getRule().getInPattern().getElements().get(0), optTargetVar));
+		} else {
+			throw new IllegalStateException();			
+		}
 	}
 	
 	@Override

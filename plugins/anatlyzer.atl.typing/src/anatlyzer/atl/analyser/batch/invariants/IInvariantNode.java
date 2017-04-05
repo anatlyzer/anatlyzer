@@ -16,6 +16,7 @@ import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public interface IInvariantNode {
 
@@ -36,6 +37,8 @@ public interface IInvariantNode {
 	
 	void genGraphviz(GraphvizBuffer<IInvariantNode> gv);
 
-	OclExpression genExprNorm(CSPModel2 builder);
-	List<Iterator> genIterators(CSPModel2 builder); // This goes is for genExprNorm
+	OclExpression genExprNormalized(CSPModel2 builder);
+	
+	// This is for genExprNorm
+	List<Iterator> genIterators(CSPModel2 builder,	VariableDeclaration optTargetVar);
 }

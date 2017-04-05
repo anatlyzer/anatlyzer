@@ -51,6 +51,7 @@ import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.IterateExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.MapElement;
@@ -576,8 +577,13 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inIteratorExp(IteratorExp self) {
+		List<String> l = sl();
+		for(Iterator it : self.getIterators()) {
+			l.add(it.getVarName());
+		}
+						
 		String s = g(self.getSource()) + "->" + self.getName() + "(" + 
-					self.getIterators().get(0).getVarName() + " | " + g(self.getBody()) + ")";
+					join(l) + " | " + g(self.getBody()) + ")";
 		s(s);
 	}
 	

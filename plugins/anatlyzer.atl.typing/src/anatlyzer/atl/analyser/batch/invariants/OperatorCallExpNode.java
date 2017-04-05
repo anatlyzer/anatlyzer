@@ -52,8 +52,21 @@ public class OperatorCallExpNode extends AbstractInvariantReplacerNode {
 	}
 	
 	@Override
-	public OclExpression genExprNorm(CSPModel2 builder) {
-		return genExpr(builder);
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		builder.copyScope();
+			OperatorCallExp copy = OCLFactory.eINSTANCE.createOperatorCallExp();
+			copy.setSource(source.genExprNormalized(builder));
+			copy.setOperationName(exp.getOperationName());
+		builder.closeScope();
+
+		for (IInvariantNode arg : args) {
+			builder.copyScope();
+			copy.getArguments().add(arg.genExprNormalized(builder));
+			builder.closeScope();
+		}
+
+		return copy;
+	
 	}
 	
 	@Override

@@ -57,15 +57,17 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	protected IWitnessModel witness;
 	protected ErrorSlice slice;
 	protected List<TranslatedHelper> translatedHelpers;
+	protected StaticHelper helper;
+	protected boolean useNorm = true;
 
 	public PossibleInvariantViolationNode(StaticHelper helper, ATLModel model, IAnalyserResult result) {
+		this.helper = helper;
 		this.invName = ATLUtils.getHelperName(helper);
 		this.expr = ATLUtils.getHelperBody(helper);
 		this.model = model;
 		this.result = result; 
 	}
 
-	private boolean useNorm = true;
 	
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
@@ -305,5 +307,9 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	public String getInvName() {
 		return this.invName;
 	}
-	
+
+	public IAnalyserResult getAnalysis() {
+		return result;
+	}
+
 }

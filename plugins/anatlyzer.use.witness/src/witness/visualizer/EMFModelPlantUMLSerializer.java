@@ -52,6 +52,11 @@ public class EMFModelPlantUMLSerializer {
 		this.model = loader.basicModelFromMemory(metamodel, model);		
 	}
 	
+	public EMFModelPlantUMLSerializer(List<EPackage> metamodel, Resource model) throws IOException {
+		this.loader = new EMFLoader(new JavaListConverter());		
+		this.model = loader.basicModelFromMemory(metamodel, model);		
+	}
+
 	public void generatePNG(String output) throws IOException {
 	    try {
 	    	OutputStream       png    = new FileOutputStream  (output);

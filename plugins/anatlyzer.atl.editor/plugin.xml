@@ -244,7 +244,7 @@
    <extension
          point="org.eclipse.ui.menus">
    
-         <menuContribution
+      <menuContribution
             locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
             <command
                   commandId="anatlyzer.commands.createAbstractSyntax"
@@ -252,6 +252,16 @@
                   mnemonic="S">
             </command>
       </menuContribution>
+      
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.createTargetConstraintChecker"
+                  id="anatlyzer.commands.createTargetConstraintChecker.menu"
+                  mnemonic="C">
+            </command>
+      </menuContribution>
+      
    </extension>
    
 
@@ -279,6 +289,13 @@
             id="anatlyzer.commands.createAbstractSyntax"
             name="Serialize abstract syntax">
       </command>
+
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.createTargetConstraintChecker"
+            name="Generate target constraint checker">
+      </command>
+
    </extension>
      
    <extension
@@ -287,7 +304,15 @@
             class="anatlyzer.atl.commands.CreateAbstractSyntaxHandler"
             commandId="anatlyzer.commands.createAbstractSyntax">
       </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.CreateTargetConstraintCheckerHandler"
+            commandId="anatlyzer.commands.createTargetConstraintChecker">
+      </handler>
+      
    </extension>
+
+
 
 
    <!-- Definition of the create HOT piece command and menu option -->   

@@ -1,17 +1,31 @@
 package anatlyzer.atl.explanations;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.IWitnessModel;
 
 public class SimpleExplanationDialog extends Dialog {
 
-	private AtlProblemExplanation explanation;
+	public static final int SAVE_WITNESS = 1024;
+	protected AtlProblemExplanation explanation;
+	protected ExplanationComposite explanationComposite;
 
 	/**
 	 * Create the dialog.
@@ -24,6 +38,7 @@ public class SimpleExplanationDialog extends Dialog {
 		this.explanation = exp;
 	}
 
+	
 	/**
 	 * Create contents of the dialog.
 	 * @param parent
@@ -31,10 +46,10 @@ public class SimpleExplanationDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = (Composite) super.createDialogArea(parent);
-		ExplanationComposite composite = new ExplanationComposite(container, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		explanationComposite = new ExplanationComposite(container, SWT.NONE);
+		explanationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		composite.setExplanation(explanation);
+		explanationComposite.setExplanation(explanation);
 		
 		return container;
 	}
@@ -49,7 +64,45 @@ public class SimpleExplanationDialog extends Dialog {
 				true);
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
+
+		createButton(parent, SAVE_WITNESS,
+				"Save witness", false);
 	}
+	
+	@Override
+	protected void buttonPressed(int buttonId) {
+		if ( buttonId == SAVE_WITNESS ) { 
+			saveWitness();
+		}
+		super.buttonPressed(buttonId);
+	}
+	
+	private void saveWitness() {
+		IWitnessModel witness = explanation.getWitness();
+		if ( witness != null ) {
+			
+			ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), null, true, "Select a folder to save the witness");
+			dialog.setTitle("Container Selection");
+			if ( dialog.open() == Window.OK ) {
+				Resource r = witness.getModelAsOriginal();
+				
+				Object[] files = dialog.getResult();
+				if ( files.length > 0 ) {
+					String path = ResourcesPlugin.getWorkspace().getRoot().getFile(((Path) files[0]).append("witness.xmi")).getLocation().toOSString();
+					try {
+						r.save(new FileOutputStream(path), null);
+						System.out.println("Witness saved: " + path);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					}
+				}
+				
+			}
+		}
+	}
+
 
 	/**
 	 * Return the initial size of the dialog.

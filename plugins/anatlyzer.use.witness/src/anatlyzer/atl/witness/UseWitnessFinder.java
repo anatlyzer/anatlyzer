@@ -331,19 +331,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		if ( scopeCalculator == null ) {		
 			// The generator will do the iteration internally... at least for the moment
-			return tryResolve(useConstraint, generator, false);
+			return tryResolve(useConstraint, generator, srcMetamodels, false);
 		} else {
-			ProblemStatus result = tryResolve(useConstraint, generator, false);
-			if ( result == ProblemStatus.ERROR_DISCARDED ) {
-				generator = setUpWitnessGenerator(
-						forceOnceInstanceOfConcreteClasses, strategy, preconditions,
-						strConstraint, errorSliceMM, effective, language, projectPath);
-
-				generator.setMinScope(2);
-				// Fallback to the default strategy
-				return tryResolve(useConstraint, generator, true);
-			} else if ( AnalyserUtils.isConfirmed(result) ) {
-				System.out.println("======> Confirmed early!!!");
+			ProblemStatus result = tryResolve(useConstraint, generator, srcMetamodels, false);
+			while ( AnalyserUtils.isDiscarded(result) && scopeCalculator.incrementScope() ) {
+				result = tryResolve(useConstraint, generator, srcMetamodels, true);
 			}
 			return result;
 		}
@@ -387,7 +379,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return generator;
 	}
 
-	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, boolean isRetry) {
+	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, SourceMetamodelsData srcMetamodels, boolean isRetry) {
 		this.foundScope = -1;
 		this.foundModel = null;
 		try {
@@ -397,6 +389,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			} else if ( result.isSatisfiable() ){
 				this.foundScope = generator.getFoundScope();
 				this.foundModel = result.getModel();
+				this.foundModel.setMetamodelRewritingData(srcMetamodels);
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;

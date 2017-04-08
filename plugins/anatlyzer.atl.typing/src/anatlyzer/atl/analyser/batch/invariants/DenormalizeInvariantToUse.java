@@ -1,10 +1,12 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -30,6 +32,9 @@ import anatlyzer.atlext.processing.AbstractVisitor.VisitingActions;
 public class DenormalizeInvariantToUse extends Denormalizer  {
 
 
+	public static final String EXTRA_CLASS = "http://extra_class";
+
+
 	public DenormalizeInvariantToUse(OclExpression preNorm) {
 		super(preNorm);
 	}
@@ -47,6 +52,11 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 		eClasses.values().forEach(c -> slice.addTargetMetaclassNeededInError(c));
 	}
 
+	public Collection<EClass> getClasses() {
+		return eClasses.values();
+	}
+	
+	
 	@Override
 	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
 		if ( isProductOperation(self) ) {
@@ -65,7 +75,6 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 	
 	protected HashMap<Iterator, Iterator> it2it = new HashMap<>();
 
-	
 	@Override
 	public void beforeIteratorExp(IteratorExp self) {
 		if ( self.getIterators().size() > 1 ) {		
@@ -114,6 +123,9 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 			return eClasses.get(name);
 		
 		EClass c = EcoreFactory.eINSTANCE.createEClass();
+		EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+		ann.setSource(EXTRA_CLASS);
+		c.getEAnnotations().add(ann);
 		c.setName(name);
 		
 		for (int i = 0; i < getTypes(self).size(); i++) {

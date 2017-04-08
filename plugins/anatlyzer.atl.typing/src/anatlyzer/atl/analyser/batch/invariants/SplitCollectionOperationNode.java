@@ -52,10 +52,19 @@ public class SplitCollectionOperationNode extends AbstractInvariantReplacerNode 
 		String op = expr.getOperationName();
 		
 		// Boolean operations
-		if ( "isEmpty".equals(op) || "notEmpty".equals(op) ) {
-			return InvariantRewritingUtils.combineBoolean(builder, paths, "and", gen);
-		}
-		
+		if ( "isEmpty".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "and", gen);
+		} else if ( "notEmpty".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "or", gen);
+		} else if ( "size".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "+", gen);
+		} else if ( "includes".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "or", gen);
+		} else if ( "excludes".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "and", gen);
+		} else if ( "count".equals(op) ) {
+			return InvariantRewritingUtils.combineOperator(builder, paths, "+", gen);
+		}		
 		
 		// assume the paths are from collections...
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();

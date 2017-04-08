@@ -10,6 +10,7 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -44,23 +45,64 @@ public class SplitIteratorSourceNode extends AbstractInvariantReplacerNode {
 		}
 		
 		public OclExpression genAux(CSPModel2 builder, Function<IInvariantNode, OclExpression> gen) {
-	//		if ( this.nodes.size() == 1 ) {
-	//			return this.nodes.get(0).genExpr(builder);
-	//		}
-						
+			String name = iterator.getName();
+			
 			String mergeOp = "and";
-			if ( iterator.getName().equals("exists") ) {
+			if ( name.equals("exists") ) {
 				mergeOp = "or";
 			}
-			else if ( iterator.getName().equals("forAll") ) {
+			else if ( name.equals("forAll") ) {
 				mergeOp = "and";
-			} if ( iterator.getName().equals("one") ) {
-				mergeOp = "xor";
-			}
+			} else if ( name.equals("one") ) {				
+				return mergeOne(gen);
+			} else if ( name.equals("select") || name.equals("reject") || name.equals("collect") ) {				
+				return InvariantRewritingUtils.combineUnion(builder, nodes, gen);
+			} 
 			
-			return InvariantRewritingUtils.combineBoolean(builder, nodes, mergeOp, gen);
+			
+			return InvariantRewritingUtils.combineOperator(builder, nodes, mergeOp, gen);
 		}
 		
+		// <split-exp>->one(x | p(x)) => <path1>->select(x|p(x))->union(...)->size() = 1
+		private OclExpression mergeOne( Function<IInvariantNode, OclExpression> gen) {
+			
+			CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			
+			for(int i = 0; i < nodes.size(); i++) {
+				IInvariantNode node = nodes.get(i);
+				
+				OclExpression exp = gen.apply(node);
+				if ( ! (exp instanceof IteratorExp) && !(((IteratorExp) exp).getName().equals("one")) ) {
+					throw new IllegalStateException();
+				}
+				
+				IteratorExp oneToSelect = (IteratorExp) exp;
+				oneToSelect.setName("select");				
+
+				if ( i == 0 ) {
+					colOp.setSource(oneToSelect);
+				} else {
+					colOp.setOperationName("union");
+					colOp.getArguments().add(oneToSelect);
+					
+					CollectionOperationCallExp tmp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+					tmp.setSource(colOp);
+					colOp = tmp;					
+				}
+			}			
+			
+			colOp.setOperationName("size");
+			
+			OperatorCallExp eqCall = OCLFactory.eINSTANCE.createOperatorCallExp();
+			eqCall.setOperationName("=");
+			eqCall.setSource(colOp);
+			IntegerExp integer = OCLFactory.eINSTANCE.createIntegerExp();
+			integer.setIntegerSymbol(1);
+			eqCall.getArguments().add(integer);
+			
+			return eqCall;
+		}
+
 		@Override
 		public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {
 			gv.addNode(this, gvText("Split iterator. ", iterator), true);

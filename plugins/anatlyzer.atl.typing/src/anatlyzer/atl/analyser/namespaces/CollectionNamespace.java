@@ -112,18 +112,29 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		}
 		
 		if ( operationName.equals("flatten") ) {
-			if ( nested instanceof CollectionType ) {
-				return nested;
-			} else if ( nested instanceof UnionType ) {
-				return newCollectionTypeAux(AnalyserContext.getTypingModel().flattenUnion((UnionType) nested));
-			} else {
+			if ( !(nested instanceof CollectionType) && !(nested instanceof UnionType) ) {
 				AnalyserContext.getErrorModel().signalFlattenOverNonNestedCollection(nested, node);
 				// System.out.println("CollectionNamespace.getOperationType(): TODO: Signal warning, flatten over non-nested collection." + node.getLocation() );
-				return newCollectionTypeAux(nested); 
+				return newCollectionTypeAux(nested); 				
+			}
+			
+			nested = extractFlattenedType(nested);
+			if ( nested instanceof UnionType ) {
+				return newCollectionTypeAux(AnalyserContext.getTypingModel().flattenUnion((UnionType) nested));
+			} else {
+				return newCollectionTypeAux(nested);
 			}
 		}
 		
 		return AnalyserContext.getErrorModel().signalCollectionOperationNotFound(operationName, node);
+	}
+
+	private Type extractFlattenedType(Type t) {
+		if ( t instanceof CollectionType ) {
+			return extractFlattenedType(((CollectionType) t).getContainedType());
+		} else {
+			return t;
+		}
 	}
 
 	@Override

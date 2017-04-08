@@ -19,18 +19,26 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 
-public class SourceMetamodelsData {
+public class SourceMetamodelsData implements IMetamodelRewrite {
 
 	private EPackage root;
 	private HashMap<EObject, EObject> trace;
+	private IAnalyserResult result;
 
-	public SourceMetamodelsData(EPackage newRoot, HashMap<EObject, EObject> trace) {
+	protected SourceMetamodelsData(IAnalyserResult result, EPackage newRoot, HashMap<EObject, EObject> trace) {
 		this.root = newRoot;
 		this.trace = trace;
+		this.result = result;
+	}
+	
+	@Override
+	public IAnalyserResult getAnalysis() {
+		return result;
 	}
 
 	public static SourceMetamodelsData get(Analyser analyser) {
@@ -74,7 +82,7 @@ public class SourceMetamodelsData {
 			}
 		});
 		
-		return new SourceMetamodelsData(newRoot, copier);
+		return new SourceMetamodelsData(analyser, newRoot, copier);
 	}
 	
 	private static void checkRenaming(EStructuralFeature src, EStructuralFeature tgt) {
@@ -140,6 +148,35 @@ public class SourceMetamodelsData {
 			throw new IllegalStateException();
 		return trace.get(src);
 	}
+
+
+	@Override
+	public EClass getOriginal(EClass eClass) {
+//		trace.forEach((k, v) -> {
+//			System.out.println(k + " = " + v);
+//		});
+//		return (EClass) trace.entrySet().stream().filter(entry -> entry.getValue() == eClass).findAny().map(e -> e.getKey()).orElse(null);
+		// Using pointers it is not working, so relying on names
+		// This is not going to work if there are classes with the same name in different packages!
+		return trace.entrySet().stream().
+				filter(entry -> entry.getValue() instanceof EClass).
+				filter(entry -> ((EClass) entry.getValue()).getName().equals(eClass.getName()) ).
+				findAny().map(e -> (EClass) e.getKey()).orElse(null);
+	}
+
+	@Override
+	public EStructuralFeature getOriginal(EStructuralFeature f) {
+		// return (EStructuralFeature) trace.entrySet().stream().filter(entry -> entry.getValue() == f).findAny().map(e -> e.getKey()).orElse(null);
+		return trace.entrySet().stream().
+				filter(entry -> entry.getValue() instanceof EStructuralFeature).
+				filter(entry -> {
+					EStructuralFeature fTgt = (EStructuralFeature) entry.getValue();
+					return 
+						fTgt.getName().equals(f.getName()) && 
+						fTgt.getEContainingClass().getName().equals(f.getEContainingClass().getName());
+				}).findAny().map(e -> (EStructuralFeature) e.getKey()).orElse(null);
+	}
+
 
 	
 }

@@ -21,7 +21,9 @@ import anatlyzer.atl.witness.WitnessUtil;
 
 public class InvariantExplanationDialog extends SimpleExplanationDialog {
 
-	public static final int SHOW_REWRITING_TREE = 1024;
+	public static final int SHOW_REWRITING_TREE = SimpleExplanationDialog.SAVE_WITNESS + 1;
+	public static final int SHOW_NORMALIZED_PRECONDITION = SimpleExplanationDialog.SAVE_WITNESS + 2;
+	
 	private PossibleInvariantViolationNode node;
 
 	public InvariantExplanationDialog(Shell parentShell, PossibleInvariantViolationNode node) {
@@ -34,6 +36,11 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 
 		public InvariantExplanation(PossibleInvariantViolationNode node) {
 			this.node = node;
+		}
+		
+		@Override
+		public IWitnessModel getWitness() {
+			return node.getWitness();
 		}
 
 		@Override
@@ -49,8 +56,9 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 		@Override
 		public void setDetailedProblemDescription(StyledText text) {
 			// text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPrecondition()));
-			
-			text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPreconditionNorm()));
+			System.out.println("Original pre-condition:");
+			System.out.println(ATLSerializer.serialize(node.getPreconditionNorm()));
+			text.setText("This is the generated pre-condition (in ATL): \n\n" + ATLSerializer.serialize(node.getPreconditionATL()));
 		}
 
 		@Override
@@ -79,6 +87,8 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 		super.createButtonsForButtonBar(parent);
 		createButton(parent, SHOW_REWRITING_TREE,
 				"Show rewriting tree", false);
+		createButton(parent, SHOW_NORMALIZED_PRECONDITION,
+				"Show normalized", false);
 	}
 	
 	@Override
@@ -86,10 +96,17 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 		if ( buttonId == SHOW_REWRITING_TREE ) { 
 			showTree();
 			cancelPressed();			
+		} else if ( buttonId == SHOW_NORMALIZED_PRECONDITION ) { 
+			showNormalized();
 		}
 		super.buttonPressed(buttonId);
 	}
 
+	private void showNormalized() {
+		String text = "This is the generated pre-condition (normalized): \n\n" + ATLSerializer.serialize(node.getPreconditionNorm());
+		this.explanationComposite.setExplanationText(text);
+	}
+	
 	private void showTree() {
 		GraphvizBuffer<IInvariantNode> gv = new GraphvizBuffer<IInvariantNode>();
 		this.node.genGraphviz(gv);

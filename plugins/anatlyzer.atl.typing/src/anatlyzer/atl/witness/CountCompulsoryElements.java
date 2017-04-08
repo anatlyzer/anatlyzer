@@ -72,4 +72,8 @@ public class CountCompulsoryElements implements IScopeCalculator {
 				klass.getName().equals("ThisModule");
 	}
 
+	@Override
+	public boolean incrementScope() {
+		return false;
+	}
 }

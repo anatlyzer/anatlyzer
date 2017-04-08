@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
+import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
@@ -21,6 +23,8 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
+import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.processing.AbstractVisitor;
 
 public class DenormalizeInvariantToATL extends Denormalizer  { 
 
@@ -31,21 +35,60 @@ public class DenormalizeInvariantToATL extends Denormalizer  {
 
 	public OclExpression perform() {
 		// rewrite
+		new ReplaceProductOperations().startVisiting(normalizedExpr);
 		startVisiting(normalizedExpr);
 		return normalizedExpr;
 	}
 	
-	@Override
-	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
-		if ( isProductOperation(self) ) {
-			IteratorExp newIterator = genCrossProductExpressionUsingMap(self);
-			
-			EcoreUtil.replace(self, newIterator);
+	public class ReplaceProductOperations extends AbstractVisitor {
+		@Override
+		public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
+			if ( isProductOperation(self) ) {
+				CollectionOperationCallExp flattenedIterators = genCrossProductExpressionUsingMap(self);
+				EcoreUtil.replace(self, flattenedIterators);
+			}
 		}
 	}
-
 	
-	private IteratorExp genCrossProductExpressionUsingMap(CollectionOperationCallExp self) {
+	protected HashMap<Iterator, Iterator> it2it = new HashMap<>();
+
+	// Similar to DenormalizeInvariantToUse
+	@Override
+	public void beforeIteratorExp(IteratorExp self) {
+		if ( self.getIterators().size() > 1 ) {		
+			Iterator it = OCLFactory.eINSTANCE.createIterator();
+			it.setVarName(self.getIterators().stream().map(i -> i.getVarName()).collect(Collectors.joining("_")));
+			
+			self.getIterators().forEach(oldIt -> it2it.put(oldIt, it));		
+			
+			self.getIterators().clear();
+			self.getIterators().add(it);
+		}
+	}
+	
+	// Similar to DenormalizeInvariantToUse
+	@Override
+	public void inVariableExp(VariableExp self) {
+		if ( it2it.containsKey(self.getReferredVariable() )) {
+			Iterator newVarDcl = it2it.get(self.getReferredVariable());
+			String refName = annotation.getReference(self.getReferredVariable());
+			
+			if ( newVarDcl == null || refName == null ) 
+				throw new IllegalStateException();
+			
+			NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+			nav.setName(refName);
+			
+			VariableExp vExp = OCLFactory.eINSTANCE.createVariableExp();
+			vExp.setReferredVariable(newVarDcl);
+			nav.setSource(vExp);
+			
+			EcoreUtil.replace(self, nav);
+		}
+	}
+	
+	
+	private CollectionOperationCallExp genCrossProductExpressionUsingMap(CollectionOperationCallExp self) {
 		// General case.
 		// T1.allInstances()->map(t1 | T2.allInstances()->map(t2 | Tuple { t1 = t1, t2 = t2 }))
 		// builder.openEmptyScope();
@@ -66,7 +109,7 @@ public class DenormalizeInvariantToATL extends Denormalizer  {
 		// I do this in a separate piece of code because the other one is known to work...
 		for (int i = 1; i < types.size(); i++) {
 			OclModelElement e = types.get(i);
-			String varName = varNames.get(0);
+			String varName = varNames.get(i);
 			
 			op = createAllInstances(e);
 			IteratorExp newMap = builder.createIterator(op, "collect", varName);
@@ -90,8 +133,7 @@ public class DenormalizeInvariantToATL extends Denormalizer  {
 		
 		innerMap.setBody(t);
 		
-		IteratorExp result = externalMap;
-		return result;
+		return builder.createCollectionOperationCall(externalMap, "flatten");
 	}
 
 	private List<String> getVarNames(CollectionOperationCallExp self) {

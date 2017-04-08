@@ -20,10 +20,15 @@ import anatlyzer.atl.witness.IWitnessModel;
 public abstract class ExplanationWithWitness extends AbstractAtlExplanation {
 
 	@Override
+	public IWitnessModel getWitness() {
+		return AnalyserUtils.getProblemWitnessModel(getProblem());
+	}
+	
+	@Override
 	public void setAdditionalInfo(Composite composite) {
 		Label l = new Label(composite, SWT.NONE);
 		
-		IWitnessModel witness = AnalyserUtils.getProblemWitnessModel(getProblem());
+		IWitnessModel witness = getWitness();
 		if (witness == null ) {
 			l.setText("No witness is available.");
 			return;

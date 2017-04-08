@@ -40,6 +40,11 @@ public class ExplanationComposite extends Composite {
 
 	}
 
+	public void setExplanationText(String text) {
+		styledTextExplanation.setText(text);
+	}
+
+	
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
@@ -69,4 +74,5 @@ public class ExplanationComposite extends Composite {
         Font boldFont = boldDescriptor.createFont(Display.getCurrent());
         return boldFont;		
 	}
+
 }

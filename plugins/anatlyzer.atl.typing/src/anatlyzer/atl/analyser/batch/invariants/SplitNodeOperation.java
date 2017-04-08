@@ -55,14 +55,19 @@ public class SplitNodeOperation extends AbstractInvariantReplacerNode {
 		Assert.isTrue(paths.size() > 1);
 		
 		// Asume the operation is a boolean expression
-		
+		String value = "and";
+		if ( expr.getOperationName().equals("not")) {
+			value = "or";
+		}
+			
 		OclExpression result = gen.apply(paths.get(0));
 		for(int i = 1; i < paths.size(); i++) {
 			IInvariantNode node = paths.get(i);
 			
 			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
 			// op.setOperationName("or");
-			op.setOperationName("and"); // Every possible path must be true
+
+			op.setOperationName(value); // Every possible path must be true
 
 			op.setSource(result);
 			op.getArguments().add(gen.apply(node));

@@ -32,6 +32,7 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
@@ -154,6 +155,21 @@ public class ATLSerializer extends AbstractVisitor {
 		return s;
 	}
 
+	@Override
+	public void inQuery(Query self) {
+		String s = commentsBefore(self);
+		s += "query " + self.getName() + " = " + g(self.getBody()) + ";" + cr(2);
+		
+		for(ModuleElement r : self.getHelpers()) {
+			if ( ExtendTransformation.isAddedEOperation(r) )
+				continue;
+			
+			s += g(r) + cr(2);
+		}
+
+		s(s);		
+	}
+	
 
 	@Override
 	public void inModule(Module self) {

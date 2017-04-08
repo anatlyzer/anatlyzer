@@ -27,5 +27,7 @@ public interface IScopeCalculator {
 		public int getMax() { return max; }
 	}
 
+	boolean incrementScope();
+
 	
 }

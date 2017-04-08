@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface,
  org.eclipse.swt,
  org.eclipse.m2m.atl.core.emf,
- anatlyzer.use.witness
+ anatlyzer.use.witness,
+ org.eclipse.ui.workbench
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: anatlyzer.atl.analysisext,

@@ -48,4 +48,10 @@ public class ReferenceNavigationTargetAssignmentNode extends ReferenceNavigation
 		return src;
 	}
 
+	@Override
+	public OclExpression genExprNormalized(CSPModel2 builder) {
+		return genExpr(builder);
+	}
+	
+	
 }

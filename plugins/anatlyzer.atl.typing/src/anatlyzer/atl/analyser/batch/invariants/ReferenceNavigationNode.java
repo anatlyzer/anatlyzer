@@ -100,7 +100,7 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			Function<OclExpression, OclExpression> generator,
 			Supplier<OclExpression> falsePart) {
 
-		return ((IGenChaining) source).genExprChaining(builder, (src) -> {
+		return ((IGenChaining) source).genExprChainingNorm(builder, (src) -> {
 			// System.out.println("genExpr2: " + this.context.getRule().getName());
 			return genExpr2_aux(builder, src, generator, falsePart, (node) -> node.genExprNormalized(builder));
 		}, falsePart);		

@@ -503,7 +503,7 @@ public class InvariantGraphGenerator {
 		// Is it a true navigation, not a helper call
 		if ( self.getUsedFeature() != null ) {
 
-			IInvariantNode source = analyse(self.getSource(), env, 
+			IInvariantNode result = analyse(self.getSource(), env, 
 					(src) -> checkNavMapper(self, env, src), 
 					// I need a flatMap!
 					(nodes) -> {
@@ -522,19 +522,20 @@ public class InvariantGraphGenerator {
 						}
 						// new SplitNavigationExpNode(nodes, self)	
 					});
-					// (nodes) -> new SplitNavigationExpNode(nodes, self));
-					// (nodes) -> new MultiNode(nodes));
-					
-//			IInvariantNode src = analyse(self.getSource(), env);
-//			if ( src instanceof MultiNode ) {
-//				((MultiNode) src).getNodes()
-//			} else {
-//				return checkNavMapper(self, env, src);
-//			}
+
+			// This ensures that for aconstraint like: t.target = s1, in which t.target is resolved by two rules,
+			// the result is a SplitNavigationNode instead of a MultiNode.
+			// Otherwise, the generated tree is incorrect because the different resolving paths will not be chained
+			// properly via nested ifs
+			if ( result instanceof MultiNode ) {
+				if ( self.eContainer() instanceof NavigationOrAttributeCallExp || self.eContainer() instanceof IteratorExp ) {
+					// Keep the multinode
+				} else {
+					result = new SplitNavigationExpNode(((MultiNode) result).getNodes(), self);
+				}
+			}
 			
-			// p.net.capacity
-			// 
-			return source;
+			return result;
 			
 		} else {
 			throw new UnsupportedOperationException();

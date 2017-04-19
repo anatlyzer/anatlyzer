@@ -3,6 +3,9 @@ package anatlyzer.atl.analyser.batch.invariants;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
@@ -13,9 +16,11 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
@@ -25,6 +30,8 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
+import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 import anatlyzer.atlext.processing.AbstractVisitor.VisitingActions;
@@ -35,8 +42,8 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 	public static final String EXTRA_CLASS = "http://extra_class";
 
 
-	public DenormalizeInvariantToUse(OclExpression preNorm) {
-		super(preNorm);
+	public DenormalizeInvariantToUse(OclExpression preNorm, ATLModel model) {
+		super(preNorm, model);
 	}
 
 	public void perform() {
@@ -56,6 +63,56 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 		return eClasses.values();
 	}
 	
+	@Override
+	public void inTupleExp(TupleExp self) {
+		if ( self.getAnnotations().containsKey(LazyRulePathVisitor.TUPLE_FOR_LAZY_CALL) ) {
+			String ruleName = self.getAnnotations().get(LazyRulePathVisitor.TUPLE_FOR_LAZY_CALL);
+			List<OclModelElement> types = getLazyRuleTypes(self, ruleName);
+			
+			OclModelElement newElement = OCLFactory.eINSTANCE.createOclModelElement();
+			newElement.setName(getLazyTupleClassName(self, ruleName));
+			newElement.setModel((OclModel) copy(types.get(0).getModel()));
+			newElement.setInferredType(createMetaclass(self, (e) -> getLazyTupleClassName(e, ruleName), (e) -> getLazyRuleTypes(e, ruleName), (mm, i) -> self.getTuplePart().get(i).getVarName() ));
+			
+			OperationCallExp allInstances = OCLFactory.eINSTANCE.createOperationCallExp();
+			allInstances.setOperationName("allInstances");
+			allInstances.setSource(newElement);
+			
+			// T.allInstances()->any(o | o.prop1 = v1 and o.prop2 = v2...)
+			
+			IteratorExp any = OCLFactory.eINSTANCE.createIteratorExp();
+			Iterator it = OCLFactory.eINSTANCE.createIterator();
+			it.setVarName("o_");
+			any.getIterators().add(it);
+			any.setName("any");
+			any.setSource(allInstances);
+						
+			Optional<OperatorCallExp> body = self.getTuplePart().stream().map(p -> {
+				NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+				VariableExp vexp = OCLFactory.eINSTANCE.createVariableExp();
+				vexp.setReferredVariable(it);
+				nav.setSource(vexp);
+				nav.setName(p.getVarName());
+				
+				OperatorCallExp eq = OCLFactory.eINSTANCE.createOperatorCallExp();
+				eq.setOperationName("=");
+				eq.setSource(nav);
+				eq.getArguments().add(p.getInitExpression());
+
+				return eq;
+			}).collect(Collectors.reducing((l, r) -> {
+				OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+				op.setOperationName("and");
+				op.setSource(l);
+				op.getArguments().add(r);
+				return op;
+			}));
+			
+			any.setBody(body.orElseThrow(() -> new IllegalStateException()));
+			
+			EcoreUtil.replace(self, any);			
+		}
+	}
 	
 	@Override
 	public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
@@ -63,7 +120,7 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 			OclModelElement newElement = OCLFactory.eINSTANCE.createOclModelElement();
 			newElement.setName(getProductClassName(self));
 			newElement.setModel((OclModel) copy(getTypes(self).get(0).getModel()));
-			newElement.setInferredType(createMetaclass(self));
+			newElement.setInferredType(createMetaclass(self, this::getProductClassName, this::getTypes, this::createRefName));
 			
 			OperationCallExp allInstances = OCLFactory.eINSTANCE.createOperationCallExp();
 			allInstances.setOperationName("allInstances");
@@ -108,17 +165,18 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 		}
 	}
 	
-	private Type createMetaclass(CollectionOperationCallExp self) {
+	private <T extends OclExpression> Type createMetaclass(T self, Function<T, String> classNameGetter, Function<T, List<OclModelElement>> typeGetter, BiFunction<Metaclass, Integer, String> refNameGetter) {
 		Metaclass mm = TypesFactory.eINSTANCE.createMetaclass();
-		mm.setKlass(getOrCreateEClass(self));
+		mm.setKlass(getOrCreateEClass(self, classNameGetter, typeGetter, refNameGetter));
 		mm.setName(mm.getKlass().getName());
 		return mm;
 	}
 
 	protected HashMap<String, EClass> eClasses = new HashMap<String, EClass>();
 	
-	private EClass getOrCreateEClass(CollectionOperationCallExp self) {
-		String name = getProductClassName(self);
+	private <T extends OclExpression> EClass getOrCreateEClass(T self, Function<T, String> classNameGetter, Function<T, List<OclModelElement>> typeGetter, BiFunction<Metaclass, Integer, String> refNameGetter) {
+	//private EClass getOrCreateEClass(CollectionOperationCallExp self) {
+		String name = classNameGetter.apply(self); //getProductClassName(self);
 		if ( eClasses.containsKey(name) ) 
 			return eClasses.get(name);
 		
@@ -128,11 +186,12 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 		c.getEAnnotations().add(ann);
 		c.setName(name);
 		
-		for (int i = 0; i < getTypes(self).size(); i++) {
-			OclModelElement m = getTypes(self).get(i);
+		List<OclModelElement> types = typeGetter.apply(self);
+		for (int i = 0; i < types.size(); i++) {
+			OclModelElement m = types.get(i);
 
 			EReference ref = EcoreFactory.eINSTANCE.createEReference();
-			ref.setName(createRefName((Metaclass) m.getInferredType(), i));
+			ref.setName(refNameGetter.apply((Metaclass) m.getInferredType(), i));
 			ref.setEType(((Metaclass) m.getInferredType()).getKlass());
 			// ref.setContainment(true);
 			ref.setContainment(false);

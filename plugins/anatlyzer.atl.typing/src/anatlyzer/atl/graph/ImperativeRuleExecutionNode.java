@@ -48,7 +48,10 @@ public class ImperativeRuleExecutionNode extends RuleBase {
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
 		if ( rule instanceof LazyRule ) {
-			slice.addExplicitMetaclass(ATLUtils.getInPatternType((RuleWithPattern) rule));
+			// slice.addExplicitMetaclass(ATLUtils.getInPatternType((RuleWithPattern) rule));			
+			for (Metaclass metaclass : ATLUtils.getAllPatternTypes((RuleWithPattern) rule)) {
+				slice.addExplicitMetaclass(metaclass);
+			}
 		} else if ( rule instanceof CalledRule ) {
 			EList<CallableParameter> params = rule.getCallableParameters();
 			for (CallableParameter p : params) {

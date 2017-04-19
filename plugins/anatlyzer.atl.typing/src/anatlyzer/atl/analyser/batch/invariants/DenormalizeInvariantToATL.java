@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
@@ -29,8 +30,8 @@ import anatlyzer.atlext.processing.AbstractVisitor;
 public class DenormalizeInvariantToATL extends Denormalizer  { 
 
 
-	public DenormalizeInvariantToATL(OclExpression preNorm) {
-		super(preNorm);
+	public DenormalizeInvariantToATL(OclExpression preNorm, ATLModel model) {
+		super(preNorm, model);
 	}
 
 	public OclExpression perform() {

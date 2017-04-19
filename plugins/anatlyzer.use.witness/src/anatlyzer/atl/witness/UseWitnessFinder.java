@@ -166,8 +166,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		} else {
 //			preconditions = Collections.emptyList();
 //		}
-		
-		
+				
 		OclExpression constraint = null;
 		try {
 			constraint = problem.getWitnessCondition();
@@ -331,7 +330,13 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		if ( scopeCalculator == null ) {		
 			// The generator will do the iteration internally... at least for the moment
-			return tryResolve(useConstraint, generator, srcMetamodels, false);
+		     long start = System.nanoTime();
+
+			ProblemStatus r = tryResolve(useConstraint, generator, srcMetamodels, false);
+			long end = System.nanoTime();
+			// return end-start;
+			System.out.println("Total solving time: " + (end-start) / 1000000000d);
+			return r;
 		} else {
 			ProblemStatus result = tryResolve(useConstraint, generator, srcMetamodels, false);
 			while ( AnalyserUtils.isDiscarded(result) && scopeCalculator.incrementScope() ) {
@@ -389,7 +394,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			} else if ( result.isSatisfiable() ){
 				this.foundScope = generator.getFoundScope();
 				this.foundModel = result.getModel();
-				this.foundModel.setMetamodelRewritingData(srcMetamodels);
+				if ( this.foundModel != null )
+					this.foundModel.setMetamodelRewritingData(srcMetamodels);
 				if ( useConstraint.isSpeculative() ) 
 					return ProblemStatus.ERROR_CONFIRMED_SPECULATIVE;
 				return ProblemStatus.ERROR_CONFIRMED;

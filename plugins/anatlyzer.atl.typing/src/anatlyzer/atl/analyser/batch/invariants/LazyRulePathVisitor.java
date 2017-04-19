@@ -18,6 +18,7 @@ import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IterateExp;
@@ -27,10 +28,14 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.SequenceExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class LazyRulePathVisitor extends AbstractPathVisitor  {
 
+	public static final String TUPLE_FOR_LAZY_CALL = "TUPLE_FOR_LAZY_CALL";
+	public static final String LAZY_RULE_CALL = "LAZY_RULE_CALL";
 	private CSPModel2 builder;
 
 	public LazyRulePathVisitor(CSPModel2 builder) {
@@ -39,13 +44,13 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 	
 	HashMap<GraphNode, OclExpression> map = new HashMap<>();
 
-	public static OclExpression genCondition(ProblemPath path, CSPModel2 builder) {
+	public static OclExpression genCondition(ProblemPath path, LazyRule rule, CSPModel2 builder) {
 		LazyRulePathVisitor visitor = new LazyRulePathVisitor(builder);
 		visitor.bottomUp(path);
 		
 		List<? extends ExecutionNode> exec = path.getExecutionNodes();
 		if ( exec.size() == 1 ) {
-			return visitor.get(exec.get(0));			
+			return markAsNrule(flatten(visitor.get(exec.get(0))), rule );			
 		}
 		
 		SequenceExp seq = OCLFactory.eINSTANCE.createSequenceExp();
@@ -54,8 +59,28 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		}
 		
 		CollectionOperationCallExp r = builder.createCollectionOperationCall(seq, "flatten");
-		ATLSerializer.serialize(r);
-		return r;
+		
+		return markAsNrule(flatten(r), rule);
+	}
+
+	private static OclExpression flatten(OclExpression exp) {
+		// The original expression is flattened to make sure that all objects created by the lazy rule
+		// are within a single collection (e.g., in case the lazy rule is invoked within nested collects).
+		if  ( exp instanceof IteratorExp || ! ((CollectionOperationCallExp) exp).getOperationName().equals("flatten") ) {
+			CollectionOperationCallExp flatten = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			flatten.setOperationName("flatten");
+			flatten.setSource(exp);
+			return flatten;
+		}
+		return exp;
+	}
+
+	private static OclExpression markAsNrule(OclExpression exp, LazyRule rule) {
+		if ( exp instanceof IteratorExp || exp instanceof CollectionOperationCallExp ) {
+			exp.getAnnotations().put(LAZY_RULE_CALL, rule.getName());					
+			return exp;
+		}
+		throw new UnsupportedTranslation("Lazy rule calls with more than one parameter are only supported if enclosed in iterator expressions");
 	}
 
 	@Override
@@ -157,14 +182,34 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		}
 		
 		// There are two cases.
-		// (1) if the rule execution ends in a MockNode (i.e., the final node) then we just get the first argument (more arguments are unsupported)
+		// (1) if the rule execution ends in a MockNode (i.e., the final node) then we just get the first argument
+        //     or generate a tuple if there are more arguments
 		if ( dep.getDepending() instanceof MockNode ) {
 			OperationCallExp opCall = (OperationCallExp) node.getCall();
+			OclExpression expr = null;
 			if ( opCall.getArguments().size() > 1 ) {
-				throw new UnsupportedTranslation("Lazy rules with more than one input element are not suppported");
+				// A tuple is generated to gather each parameter
+				TupleExp tuple = OCLFactory.eINSTANCE.createTupleExp();
+				LazyRule lazy = (LazyRule) opCall.getStaticResolver();
+				
+				for (int i = 0; i < lazy.getInPattern().getElements().size(); i++) {
+					InPatternElement e = lazy.getInPattern().getElements().get(i);
+					OclExpression arg  = opCall.getArguments().get(i);
+
+					TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
+					part.setVarName(e.getVarName());
+					part.setInitExpression( builder.gen(arg) );
+					
+					tuple.getTuplePart().add(part);
+				}
+				
+				tuple.getAnnotations().put(TUPLE_FOR_LAZY_CALL, lazy.getName());
+				
+				expr = tuple;
+			} else {
+				expr = builder.gen(opCall.getArguments().get(0));				
 			}
 			
-			OclExpression expr = builder.gen(opCall.getArguments().get(0));
 			put(node, expr);
 			return false; 
 		} else {

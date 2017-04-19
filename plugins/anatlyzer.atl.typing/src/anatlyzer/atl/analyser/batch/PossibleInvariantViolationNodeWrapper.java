@@ -1,5 +1,8 @@
 package anatlyzer.atl.analyser.batch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToUse;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.graph.GraphNode;
@@ -29,12 +32,17 @@ public class PossibleInvariantViolationNodeWrapper extends PossibleInvariantViol
 			
 			OclExpression preNorm = getPreconditionNorm((pre) -> pre);
 			
-			useDenormalizer = new DenormalizeInvariantToUse(preNorm);
+			useDenormalizer = new DenormalizeInvariantToUse(preNorm, this.model);
 			useDenormalizer.perform();
 			return useDenormalizer.getResult();			
 		} else {
 			return getPrecondition((pre) -> pre);
 		}
+	}
+
+	@Override
+	public List<OclExpression> getFrameConditions() {
+		return new ArrayList<OclExpression>();
 	}
 	
 }

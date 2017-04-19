@@ -22,6 +22,7 @@ import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
+import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -30,6 +31,7 @@ import anatlyzer.atl.graph.GraphNode;
 import anatlyzer.atl.graph.IPathVisitor;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atlext.ATL.OutPatternElement;
@@ -83,8 +85,8 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 				return negate;
 			});
 			
-			
-			useDenormalizer = new DenormalizeInvariantToUse(preNorm);
+			System.out.println("ATL: " + ATLSerializer.serialize(preNorm)); 
+			useDenormalizer = new DenormalizeInvariantToUse(preNorm, this.model);
 			useDenormalizer.perform();
 			return useDenormalizer.getResult();			
 		} else {
@@ -98,7 +100,7 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	}
 
 	public OclExpression getPreconditionATL() {
-		return new DenormalizeInvariantToATL(getPreconditionNorm()).perform();
+		return new DenormalizeInvariantToATL(getPreconditionNorm(), this.model).perform();
 	}
 	
 	public OclExpression getPrecondition() {
@@ -257,6 +259,9 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	public List<OclExpression> getFrameConditions() {
 		Set<String> srcNames = ATLUtils.getModelInfo(model).stream().filter(info -> info.isInput()).map(i -> i.getMetamodelName()).collect(Collectors.toSet());
 		List<MetamodelNamespace> srcMetamodels = result.getNamespaces().getMetamodels().stream().filter(m -> srcNames.contains(m.getName())).collect(Collectors.toList());
+
+		// TODO: add
+		// TGT_ERAttribute_Entity.allInstances()->size() = Entity.allInstances()->size() * ERAttribute.allInstances()->size()
 		
 		ArrayList<OclExpression> conds = new ArrayList<OclExpression>();
 		for (EStructuralFeature f : getErrorSlice(result).getFeatures()) {

@@ -437,7 +437,7 @@ public class AllInstancesNode extends AbstractInvariantReplacerNode {
 
 	private OclExpression createPathCondition(LazyRule rule, CSPModel2 builder) {
 		ProblemPath path = genLazyRulePath(rule);		
-		return LazyRulePathVisitor.genCondition(path, builder);
+		return LazyRulePathVisitor.genCondition(path, rule, builder);
 	}
 
 	private ProblemPath genLazyRulePath(LazyRule rule) {

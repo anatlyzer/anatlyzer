@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>anATLyzer by Miso</title>
+
+    <link rel="stylesheet" href="stylesheets/custom.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+	 <h1><a class="title" href="index.html">anATLyzer</a></h1>
+         <p>Advanced analysis of ATL transformations</p>
+
+        <ul>
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/binaries/anatlyzer.zip">Download <strong>anATLyzer</strong></a></li>
+
+          <li><a href="http://sanchezcuadrado.es/projects/anatlyzer/sites/anatlyzer.updatesite">or use the<strong>Update site</strong></a></li>
+
+          <li><a href="https://github.com/jesusc/anatlyzer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+
+      <section>
+	
+      <h2>Analysis of target constraints</h2>
+       
+      An<span class="atlyzer">atl</span>yzer supports the analysis
+      of target constraints based on rewriting the constraints
+      as source constraints.
+
+      </section>
+
+      <section>
+        <h3><a name="screencast" class="anchor" href="#screencast"><span class="octicon octicon-link"></span></a>Screencast</h3>
+        
+	<p>       </p>
+ 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/VmMiOujxk0M" frameborder="0" allowfullscreen></iframe>
+
+ 
+      </section>
+
+      <section>
+        <h3>
+
+<a name="specifiying_constraints" class="anchor" href="#specifiying_constraints"><span class="octicon octicon-link"></span></a>Specifying constraints</h3>
+	<p>
+        Constraints can be written directly in the ATL transformation
+        file as helpers specially annotated. There are three kinds of
+        annotations for pre-conditions, target constraints (e.g., invariants
+        or post-conditions) and transformations contracts.
+
+<ul>
+<li>
+   <strong>Pre-conditions.</strong> 
+   <p>A pre-condition is indicated annotating a helper with 
+   the <code>@precondition</code> tag. A pre-condition can only
+   access source elements. The following is pre-condition
+   for a class-to-table transformation.
+   </p> 
+   <pre>
+-- Every class must have at least one key attribute
+-- @precondition
+helper def : attrKeys : Boolean = 
+CLASS!Class.allInstances()->forAll(t | 
+   t.attrs->select(a | a.isKey)->size() >= 1) </pre>
+
+</li>
+<li>
+   <strong>Target constraints.</strong>
+   <p>A target constraint is indicated annotating a helper with 
+   the <code>@target_constraint</code> tag. It can only access
+   target elements. 
+   </p>
+   <pre>
+-- All tables have at lest one primary key
+-- @target_constraint
+helper def : hasPkeys : Boolean = 
+   TABLE!Table.allInstances()->forAll(t | 
+      t.pkeys->size() >= 1
+   );  </pre>
+
+</li>
+
+<li><strong>Contracts.</strong>
+   <p>A transformation contract establishes a relationship between
+   source and target elements. It is indicated annotating a heper with 
+   the <code>@contract</code> tag. 
+   </p>
+   <pre>
+-- @contract
+helper def : enoughColumns : Boolean = 
+   CLASS!Attribute.allInstances()->size() <= 
+   TABLE!Column.allInstances()->size();</pre>
+</li>
+
+</ul>
+
+
+	To enable quick fixes in the ATL editor, an<span class="atlyzer">atl</span>yzer must be activated. Please, follow the <a href="installation.html">installation instructions</a> and the <a href="usage.html">user guide</a>.
+	</p>
+	
+	<p>
+	  Given a problem reported in the Problem View or in the Analysis View, the quick fix proposals can be generated in three ways.
+	</p>
+
+<ul>
+<li>From the editor, press CTRL+1. This shows all quick fixes for the problems of the current line (may be more than one)</li>
+<li>From the Problem view, select the problem and press CTRL+1. A dialog with the proposals will be shown.</li>
+<li>From the Analysis view, select the problem, right-click and select Quickfix. A dialog with the proposals will be shown.</li>
+<li>From the Analysis view, select the problem, right-click and select Quickfix (speculative). This launches our speculative analysis and show information about the quick fixes.</li>
+</ul>
+
+
+    </section>
+
+    <section>
+        <h3>
+<a name="evaluation" class="anchor" href="#evaluation"><span class="octicon octicon-link"></span></a>Experimental results</h3>
+	<p>
+          We have evaluated our method to infer advanced constraints
+          using mutation techniques. We have used four transformations
+          as seeds and we have mutated them to obtain variants with which
+          tests the precision and recall of the infered advanced constraints.
+        </p>
+        <p>
+          The raw experimetal data is available here:
+        </p>
+<ul>
+<li><a href="data/models2017/evaluation_project.zip">Project with the seed transformations</a></li></li>
+<li><a href="data/models2017/evaluation_summary.zip">Excel files with the detailed results</a></li>
+<li><a href="data/models2017/evaluation_mutants.zip">Generated mutants (very large file)</a></li>
+</ul>
+        <p>
+          The experiment shows an almost perfect precision and perfect recall.
+          The evaluation uncovered one kind of false positive (FP)
+        </p>
+
+</section>
+
+
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jesusc">jesusc</a></p>
+        <p><small>Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11389533-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

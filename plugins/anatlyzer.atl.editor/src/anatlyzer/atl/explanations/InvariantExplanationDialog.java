@@ -86,9 +86,9 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 	protected void createButtonsForButtonBar(Composite parent) {
 		super.createButtonsForButtonBar(parent);
 		createButton(parent, SHOW_REWRITING_TREE,
-				"Show rewriting tree", false);
-		createButton(parent, SHOW_NORMALIZED_PRECONDITION,
-				"Show normalized", false);
+				"Show CTT", false);
+//		createButton(parent, SHOW_NORMALIZED_PRECONDITION,
+//				"Show normalized", false);
 	}
 	
 	@Override

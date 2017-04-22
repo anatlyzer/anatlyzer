@@ -360,7 +360,7 @@ public class AnalyserUtils {
 	}
 
 	public static boolean isTargetInvariant(Helper h) {
-		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@target_invariant"));
+		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@target_invariant") || c.contains("@target_constraint"));
 	}
 
 	public static boolean isContract(Helper h) {

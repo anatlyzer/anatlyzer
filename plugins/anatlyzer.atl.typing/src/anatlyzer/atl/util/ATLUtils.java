@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 
+import anatlyzer.atl.analyser.generators.Retyping;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
@@ -892,6 +893,14 @@ public class ATLUtils {
 	public static void setStaticResolverBidirectional(PropertyCallExp self, Callable h) {
 		self.setStaticResolver(h);
 		h.getCalledBy().add(self);
+	}
+
+	public static boolean isBuiltinOperation(OperationCallExp self) {
+		String ann = self.getAnnotations().get(Retyping.IS_BUILTIN_OPERATION);
+		if ( ann == null ) 
+			return self.getStaticResolver() == null; 
+		
+		return Boolean.parseBoolean(ann);
 	}
 
 	

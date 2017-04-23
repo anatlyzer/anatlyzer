@@ -214,11 +214,22 @@ public class InvariantGraphGenerator {
 	private void converHelper(ContextHelper h, OperationCallExp caller, SourceContext<? extends RuleWithPattern> sourceContext) {
 		OclExpression body = ATLUtils.getBody(h);
 		
+		// Normalize the helper so that there is a unique object representing the self variable
+		// This is needed to facilite variable binding
+		List<VariableExp> selfVars = ATLUtils.findAllVarExp(body).stream().filter(vexp -> vexp.getReferredVariable().getVarName().equals("self")).collect(Collectors.toList());
+		VariableExp firstSelf = selfVars.get(0);
+		for (int i = 1; i < selfVars.size(); i++) {
+			VariableExp v = selfVars.get(i);
+			v.setReferredVariable(firstSelf.getReferredVariable());
+		}
+		
+				
 		if ( ATLUtils.getArgumentTypes(h).length > 0 ) {
 			throw new UnsupportedOperationException("Only helpers with 0 args supported. Not clear how to translate arguments if there is more than one corresponding rule for an argument type");
 		}
 		
-		Env env = new Env(sourceContext).putAll(ATLUtils.findSelfReferences(h), sourceContext);		
+		// Env env = new Env(sourceContext).putAll(ATLUtils.findSelfReferences(h), sourceContext);
+		Env env = new Env(sourceContext).put(selfVars.get(0).getReferredVariable(), sourceContext);
 		IInvariantNode result = analyse(body, env);
 		result.setParent(new NullParent());
 
@@ -435,7 +446,7 @@ public class InvariantGraphGenerator {
 	}
 
 	private boolean isBuiltinOperation(OperationCallExp self) {
-		return self.getStaticResolver() == null;
+		return OperationCallExpNode.isBuiltinOperation(self);
 	}
 
 	private IInvariantNode createKindOfNode(OperationCallExp self, IInvariantNode src) {
@@ -834,12 +845,13 @@ public class InvariantGraphGenerator {
 			OclType ctxType = (OclType) ATLCopier.copySingleElement(ipe.getType());
 			OclType retType = (OclType) ATLCopier.copySingleElement(ATLUtils.getHelperReturnType(helper)); // ... This needs to be back-translated if it is not primitive!
 
-			ATLUtils.findSelfReferences(helper).forEach(v -> builder.addToScope(ipe, v));
+			new HashSet<>(ATLUtils.findSelfReferences(helper)).forEach(v -> builder.addToScope(ipe, v, v));
 
 			OclExpression body = this.body.genExpr(builder);
 			
 			ContextHelper newHelper = BuildUtils.createContextOperationHelper(name, ctxType, body, retType);
-			newHelper.getAnnotations().put("DO_NOT_ADD_THIS_MODULE", "true");
+			// newHelper.getAnnotations().put("DO_NOT_ADD_THIS_MODULE", "true");
+			
 			return newHelper;
 		}
 

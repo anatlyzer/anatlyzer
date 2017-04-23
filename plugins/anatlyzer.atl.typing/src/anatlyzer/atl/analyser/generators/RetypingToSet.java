@@ -460,7 +460,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		// It is not a built-in function, and thus it is helper defined in the transformation 
 		// (unless it is an error, that has not been automatically fixed)
 
-		if ( self.getStaticResolver() != null ) { 
+		if ( ! ATLUtils.isBuiltinOperation(self) ) { 
 			VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
 			thisModuleRef.setReferredVariable(getThisModuleVar());
 			self.getArguments().add(0, thisModuleRef);

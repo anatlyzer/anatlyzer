@@ -34,6 +34,7 @@ import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.TupleType;
@@ -446,6 +447,30 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 					attr.linkExprType( thenPart );					
 					return;
 				}
+			} else if ( thenPart instanceof MapType && elsePart instanceof MapType ) {
+				MapType ctThen = (MapType) thenPart;
+				MapType ctElse = (MapType) elsePart;
+				
+				Type keyType = null;
+				Type valueType = null;
+				
+				if ( ctThen.getKeyType() instanceof EmptyCollectionType && ! (ctElse.getKeyType() instanceof EmptyCollectionType) ) {
+					keyType = ctElse.getKeyType();
+				} else if ( ctElse.getKeyType() instanceof EmptyCollectionType && ! (ctThen.getKeyType() instanceof EmptyCollectionType) ) {
+					keyType = ctThen.getKeyType();					
+				}
+
+				if ( ctThen.getValueType() instanceof EmptyCollectionType && ! (ctElse.getValueType() instanceof EmptyCollectionType) ) {
+					valueType = ctElse.getValueType();
+				} else if ( ctElse.getValueType() instanceof EmptyCollectionType && ! (ctThen.getValueType() instanceof EmptyCollectionType) ) {
+					valueType = ctThen.getValueType();
+				}
+
+				if ( keyType != null && valueType != null ) {
+					attr.linkExprType( typ().newMapType(keyType, valueType) );
+					return;
+				}
+				
 			} else if ( thenPart instanceof TypeError ) {
 				attr.linkExprType( elsePart );					
 				return;
@@ -1291,7 +1316,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			Type commonType = typ().getCommonType(keys);
 			attr.linkExprType( typ().newMapType( commonType, typ().getCommonType(values)) );
 		} else {
-			attr.linkExprType( typ().newMapType( typ().newUnknownType(), typ().newUnknownType()) );
+			attr.linkExprType( typ().newMapType( typ().newEmptyCollectionType(), typ().newEmptyCollectionType()) );
 		}
 	}
 	

@@ -1,0 +1,36 @@
+-- @atlcompiler atl2006
+-- @path XML=/anatlyzer.atl.tests.unit/metamodels/xml2dsl/XML.ecore
+-- @path DSL=/anatlyzer.atl.tests.unit/metamodels/xml2dsl/DSL.ecore
+
+-- DSL to Ecore
+-- first transformation : XML to DSL
+
+module XML2DSL;
+create OUT : DSL from IN : XML;
+
+-------------------------------------------------------------------------------
+-- HELPERS --------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+-- This helper produce a Map of XML!Element corresponding to concept,relationship,enumeration
+-- by identity to help majing references
+-- CONTEXT: thisModule
+-- RETURN:  Map(String, XML!Element)
+helper def: dslElementsById : Map(String, XML!Element) =
+    XML!Element.allInstances()->iterate(e; acc : Map(String,XML!Element) = Map {} |
+        if ((e.name='concept' or e.name='relationship' or e.name ='enumeration') and e.hasAttr('id')) then
+             acc->including( e.getAttrVal('id'), e)
+        else
+             acc
+        endif
+    );
+
+-- This helper gets the Attribute who has value name = name
+-- CONTEXT: XML!Element
+-- RETURN:  String
+helper context XML!Element def: getAttrVal(name : String) : String =
+    self.children->select(c | c.oclIsTypeOf(XML!Attribute) and c.name = name)->first().value;
+
+-- ANATLYZER:
+-- This is a just relevant excerpt of XML2DSL to test the problem getting proper common
+-- types in a map datatype

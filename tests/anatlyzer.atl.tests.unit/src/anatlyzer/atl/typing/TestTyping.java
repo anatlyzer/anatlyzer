@@ -6,18 +6,27 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
+import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
+import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.unit.UnitTest;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.OclExpression;
 
 public class TestTyping extends UnitTest {
 	String ABCD = metamodel("ABCD");
 	String WXYZ = metamodel("WXYZ");
 	
+	String XML = metamodel("xml2dsl/XML");
+	String DSL = metamodel("xml2dsl/DSL");
 	
 	@Test
 	public void testOclAnyDeclared() throws Exception {
@@ -61,7 +70,23 @@ public class TestTyping extends UnitTest {
 		
 		assertEquals(1, problems().size());
 		assertTrue(problems().get(0) instanceof OperationFoundInSubtype);
-		
 	}
 
+	@Test
+	public void testMapCommonType() throws Exception {
+		String T = trafo("test_map_common_type");
+		typing(T, new Object[] { XML, DSL }, new String[] { "XML", "DSL" });
+		
+		StaticHelper helper = getModel().allObjectsOf(StaticHelper.class).get(0);
+		OclExpression body = ATLUtils.getBody(helper);
+		System.out.println(TypeUtils.typeToString(body.getInferredType()));
+		
+		// We want to make sure that the analysis of the iterate expression
+		// yields a proper return type in the form of a map type, instead
+		// of a union of maps
+		assertTrue(body.getInferredType() instanceof MapType);
+		MapType mapType = (MapType) body.getInferredType();
+		assertTrue(mapType.getKeyType() instanceof StringType);
+		assertTrue(mapType.getValueType() instanceof Metaclass);
+	}
 }

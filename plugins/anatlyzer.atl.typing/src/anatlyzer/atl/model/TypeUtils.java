@@ -20,6 +20,7 @@ import anatlyzer.atl.types.EmptyCollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.PrimitiveType;
@@ -90,6 +91,10 @@ public class TypeUtils {
 			return name + "(" + typeToString( ((CollectionType) t).getContainedType() ) + ")";
 		}
 		
+		if ( t instanceof MapType ) {
+			return "Map (" + typeToString(((MapType) t).getKeyType()) + ", " + typeToString(((MapType) t).getValueType())+ ")";
+		}
+
 		if ( t instanceof PrimitiveType ) 
 			return t.getClass().getSimpleName().replace("TypeImpl", "");
 		

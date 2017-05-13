@@ -5,3 +5,5 @@
 /typing_feature_found_in_all_subtypes_except_one.asm
 /typing_operation_found_in_all_subtypes.asm
 /typing_operation_found_in_all_subtypes_except_one.asm
+/test_iterate.asm
+/test_map_common_type.asm

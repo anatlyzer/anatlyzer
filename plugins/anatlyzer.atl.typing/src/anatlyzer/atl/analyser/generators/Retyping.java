@@ -9,6 +9,7 @@ import anatlyzer.atlext.processing.AbstractVisitor;
 
 public class Retyping extends AbstractVisitor {
 
+	public static final String IS_BUILTIN_OPERATION = "IS_BULTIN_OPERATION";
 	private RetypingStrategy strategy;
 	
 	public Retyping(EObject root) {

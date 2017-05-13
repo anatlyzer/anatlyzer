@@ -40,9 +40,9 @@ public class PossibleInvariantViolationNodeWrapper extends PossibleInvariantViol
 		}
 	}
 
-	@Override
-	public List<OclExpression> getFrameConditions() {
-		return new ArrayList<OclExpression>();
-	}
+//	@Override
+//	public List<OclExpression> getFrameConditions() {
+//		return new ArrayList<OclExpression>();
+//	}
 	
 }

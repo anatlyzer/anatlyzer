@@ -7,6 +7,8 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
+import anatlyzer.atl.analyser.generators.Retyping;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -48,6 +50,8 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 			op.getArguments().add(node.genExpr(builder));
 		}
 
+		op.getAnnotations().put(Retyping.IS_BUILTIN_OPERATION, Boolean.toString(isBuiltinOperation(exp)));
+		
 		return op;
 	}
 	
@@ -63,6 +67,8 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 		for (IInvariantNode node : args) {
 			op.getArguments().add(node.genExprNormalized(builder));
 		}
+
+		op.getAnnotations().put(Retyping.IS_BUILTIN_OPERATION, Boolean.toString(isBuiltinOperation(exp)));
 
 		return op;
 	}
@@ -87,6 +93,10 @@ public class OperationCallExpNode extends AbstractInvariantReplacerNode {
 	@Override
 	public boolean isUsed(InPatternElement e) {
 		return source.isUsed(e) || args.stream().anyMatch(a -> a.isUsed(e));
+	}
+
+	public static boolean isBuiltinOperation(OperationCallExp self) {
+		return ATLUtils.isBuiltinOperation(self);		
 	}
 
 

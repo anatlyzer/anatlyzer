@@ -33,9 +33,15 @@
 	
       <h2>Analysis of target constraints</h2>
        
-      An<span class="atlyzer">atl</span>yzer supports the analysis
-      of target constraints based on rewriting the constraints
-      as source constraints.
+      An<span class="atlyzer">ATL</span>yzer has a feature to support the analysis
+      of target constraints based on rewriting them
+      as source constraints. Source constraints obtained from a target
+      constraint are called <em>advanced constraints</em>. This method has many applications like
+      ensuring strong executability of a model-to-model transformation
+      (i.e., checking if there exists a source model satifying the
+      transformation pre-conditions which could violate a target constraint),
+      characterizing classes of target models and checking transformation
+      contracts. 
 
       </section>
 
@@ -106,22 +112,6 @@ helper def : enoughColumns : Boolean =
 
 </ul>
 
-
-	To enable quick fixes in the ATL editor, an<span class="atlyzer">atl</span>yzer must be activated. Please, follow the <a href="installation.html">installation instructions</a> and the <a href="usage.html">user guide</a>.
-	</p>
-	
-	<p>
-	  Given a problem reported in the Problem View or in the Analysis View, the quick fix proposals can be generated in three ways.
-	</p>
-
-<ul>
-<li>From the editor, press CTRL+1. This shows all quick fixes for the problems of the current line (may be more than one)</li>
-<li>From the Problem view, select the problem and press CTRL+1. A dialog with the proposals will be shown.</li>
-<li>From the Analysis view, select the problem, right-click and select Quickfix. A dialog with the proposals will be shown.</li>
-<li>From the Analysis view, select the problem, right-click and select Quickfix (speculative). This launches our speculative analysis and show information about the quick fixes.</li>
-</ul>
-
-
     </section>
 
     <section>
@@ -131,15 +121,16 @@ helper def : enoughColumns : Boolean =
           We have evaluated our method to infer advanced constraints
           using mutation techniques. We have used four transformations
           as seeds and we have mutated them to obtain variants with which
-          tests the precision and recall of the infered advanced constraints.
+          test the precision and recall of the infered advanced constraints.
         </p>
         <p>
           The raw experimetal data is available here:
         </p>
 <ul>
 <li><a href="data/models2017/evaluation_project.zip">Project with the seed transformations</a></li></li>
-<li><a href="data/models2017/evaluation_summary.zip">Excel files with the detailed results</a></li>
-<li><a href="data/models2017/evaluation_mutants.zip">Generated mutants (very large file)</a></li>
+<li><a href="data/models2017/evaluation-summary.zip">Excel files with the detailed results</a></li>
+<li><a href="data/models2017/evaluation-full.zip">Complete results of the experiment</a>. Includes the generated mutants, the input models and the output models. Around 1GB uncompressed.</li>
+<li><a href="data/models2017/pos2pre.evaluation.zip">Experiment script</a>. This is an Eclipse project with a (Java) script to run the experiment. You need to have anATLyzer installed (or the sources available). Import the project and run a new Eclipse instance. Import the <a href="data/models2017/evaluation_project.zip">project with the seed transformations</a> and righ-click the ATL transformation to evaluate -> EVALUATE pre-conditions. The process will generate a temp directory with all the mutants and xls files summarizing the result. Beware that the process may take several hours.</li>
 </ul>
         <p>
           The experiment shows an almost perfect precision and perfect

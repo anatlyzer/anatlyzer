@@ -2,7 +2,7 @@
 <feature
       id="anatlyzer.feature.experiments"
       label="anATLyzer Experiments"
-      version="0.5.1.qualifier"
+      version="0.6.0.qualifier"
       provider-name="Miso Team">
 
    <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
@@ -25,7 +25,7 @@
          id="anatlyzer.experiments"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
 </feature>

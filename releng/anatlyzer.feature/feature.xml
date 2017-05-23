@@ -2,7 +2,7 @@
 <feature
       id="anatlyzer.feature"
       label="anATLyzer Feature"
-      version="0.5.1.qualifier">
+      version="0.6.0.qualifier">
 
    <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
       anATLyzer is a tool to statically analyse ATL transformations.
@@ -110,63 +110,49 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="anatlyzer.atl.editor"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.editor.quickfix"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.typing"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.use.witness"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="anatlyzer.atl.optimizer"
-         download-size="0"
-         install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.editor.quickfix.visualization"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.explanations"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.standalone.api"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="anatlyzer.atl.refactorings"
-         download-size="0"
-         install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
 </feature>

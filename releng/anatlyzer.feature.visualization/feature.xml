@@ -2,7 +2,7 @@
 <feature
       id="anatlyzer.feature.visualization"
       label="anATLyzer Visualization"
-      version="0.5.1.qualifier"
+      version="0.6.0.qualifier"
       provider-name="Miso Team">
 
    <description url="http://sanchezcuadrado.es/projects/anatlyzer/index.html">
@@ -25,14 +25,14 @@
          id="anatlyzer.visualizer"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="anatlyzer.atl.editor.quickfix.visualization"
          download-size="0"
          install-size="0"
-         version="0.5.1.qualifier"
+         version="0.6.0.qualifier"
          unpack="false"/>
 
 </feature>

@@ -82,6 +82,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 
 		if ( operationName.equals("asSequence") ) return typ.newSequenceType(nested);
 		if ( operationName.equals("asSet") ) return typ.newSetType(nested);
+		if ( operationName.equals("asOrderedSet") ) return typ.newOrderedSetType(nested);
 		
 		if ( operationName.equals("isEmpty") || operationName.equals("notEmpty")) return typ.newBooleanType();
 		if ( operationName.equals("includes") || operationName.equals("excludes") ) return typ.newBooleanType();

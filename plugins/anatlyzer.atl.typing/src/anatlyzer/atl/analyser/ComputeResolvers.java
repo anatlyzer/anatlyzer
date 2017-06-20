@@ -13,6 +13,7 @@ import anatlyzer.atl.analyser.namespaces.PrimitiveTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.ThisModuleType;
@@ -24,10 +25,12 @@ import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.StaticHelper;
@@ -122,7 +125,7 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		Type srcType = self.getValue().getInferredType();
 		
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
-		Type targetVar = self.getOutPatternElement().getInferredType();
+		Type targetVar = TypeUtils.getNormalizedOpeType(self.getOutPatternElement());
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
 		

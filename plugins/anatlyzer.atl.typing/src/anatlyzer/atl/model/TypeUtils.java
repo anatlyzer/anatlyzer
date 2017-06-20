@@ -32,6 +32,8 @@ import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 
 public class TypeUtils {
@@ -258,6 +260,13 @@ public class TypeUtils {
 		return t;
 	}
 
+	public static Type getNormalizedOpeType(OutPatternElement ope) {
+		if ( ope instanceof ForEachOutPatternElement ) {
+			CollectionType t = (CollectionType) ope.getInferredType();
+			return t.getContainedType();
+		}
+		return ope.getInferredType();
+	}
 
 	
 }

@@ -11,6 +11,7 @@ import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -328,7 +329,8 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 	
 	@Override
 	public void inForEachOutPatternElement(ForEachOutPatternElement self) {
-		attr.linkExprType( attr.typeOf(self.getType()) );
+		SequenceType seq = typ().newSequenceType(attr.typeOf(self.getType()));
+		attr.linkExprType( seq );
 	
 		// Deal only with the case of iterators defined for ForEachOutPatternElement,
 		// which type is given by the enclosing foreach

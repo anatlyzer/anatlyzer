@@ -122,7 +122,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 			return;
 		
 		ATLUtils.getAllOutputPatterns(self, (t -> {
-			Metaclass mc = (Metaclass) t.getType().getInferredType();
+			Metaclass mc = (Metaclass) TypeUtils.getNormalizedOpeType(t);
 			if ( mc instanceof UnresolvedTypeError ) 
 				return;
 
@@ -189,7 +189,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	@Override
 	public void beforeForEachOutPatternElement(ForEachOutPatternElement self) {
 		// Metaclass mc = (Metaclass) attr.typeOf( self.getType() );
-		Metaclass mc = (Metaclass) self.getType().getInferredType();
+		Metaclass mc = (Metaclass) TypeUtils.getNormalizedOpeType(self);
 		if ( mc instanceof UnresolvedTypeError ) 
 			return;
 
@@ -228,7 +228,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 
 	protected void checkCompulsoryFeature(OutPatternElement self, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern rule) {		
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
-		Type targetVar = self.getInferredType();
+		Type targetVar = TypeUtils.getNormalizedOpeType(self);
 		if ( ! (targetVar instanceof Metaclass ) )
 			return;
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
@@ -267,7 +267,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		Type rightType = self.getValue().getInferredType();
 
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
-		Type targetVar =self.getOutPatternElement().getInferredType();
+		Type targetVar = TypeUtils.getNormalizedOpeType(self.getOutPatternElement());
 		if ( ! (targetVar instanceof Metaclass ) )
 			return;		
 		

@@ -92,7 +92,8 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 		Display.getDefault().asyncExec(new Runnable() {			
 			@Override
 			public void run() {
-				messageWindow.append(txt);
+				if ( messageWindow != null )
+					messageWindow.append(txt);
 			}
 		});
 	}

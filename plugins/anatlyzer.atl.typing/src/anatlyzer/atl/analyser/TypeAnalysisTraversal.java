@@ -313,13 +313,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 		// Not sure if in the paper
 		// Check that every OPE can be instantiated
-		ATLUtils.getAllOutputPatterns(self, (t -> {
-			Metaclass mc = (Metaclass) t.getType().getInferredType();
+		ATLUtils.getAllOutputPatterns(self, (ope -> {
+			if ( ! (ope.getType().getInferredType() instanceof Metaclass) )
+				return;
+			
+			Metaclass mc = (Metaclass) ope.getType().getInferredType();
 			if ( mc instanceof UnresolvedTypeError ) 
 				return;
 
 			if ( mc.getKlass().isAbstract() && ! self.isIsAbstract() ) {
-				errors().signalCannonInstantiateAbstractClass(mc, t);
+				errors().signalCannonInstantiateAbstractClass(mc, ope);
 			}
 		}));	
 	}

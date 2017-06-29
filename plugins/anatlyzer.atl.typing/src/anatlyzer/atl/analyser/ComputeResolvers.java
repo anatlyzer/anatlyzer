@@ -123,6 +123,9 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
 		Type targetVar = self.getOutPatternElement().getInferredType();
+		if ( ! (targetVar instanceof Metaclass ) )
+			return;
+		
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
 		

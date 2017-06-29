@@ -56,6 +56,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private boolean doUnfolding = true;
 	private ErrorSlice slice;
 	private Set<EStructuralFeature> targetClassesFeatures = new HashSet<EStructuralFeature>();
+	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
@@ -129,6 +130,8 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		List<Helper> helpersAddedByRetyping = new ArrayList<Helper>();
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(mapping, slice);
 		for (Helper helper : helperSet) {
+			statsCollector.withHelper(helper);
+			
 			problems.perform(helper);
 			
 			Retyping retyping = new Retyping(helper);
@@ -272,6 +275,10 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 					+ ")";
 		}
 		throw new UnsupportedOperationException(t.getClass().getName());
+	}
+
+	public void setStatsCollector(IFinderStatsCollector statsCollector) {
+		this.statsCollector  = statsCollector;
 	}
 
 	/*

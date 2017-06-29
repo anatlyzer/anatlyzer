@@ -28,8 +28,10 @@ public interface IWitnessFinder {
 	public IWitnessFinder setTimeOut(long millis);
 	public IWitnessFinder setCheckAllCompositeConstraints(boolean b);
 	
+	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector);
 	
 	public IWitnessModel getFoundWitnessModel();
+	
 	
 	public static enum WitnessGenerationMode {
 		ERROR_PATH,

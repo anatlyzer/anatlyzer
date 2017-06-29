@@ -78,7 +78,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IScopeCalculator scopeCalculator;
 	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
 	private IWitnessModel foundModel;
-
+	private IFinderStatsCollector statsCollector = new NullStatsCollector();
+	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
 		ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) problem, r, checkProblemsInPath);
@@ -141,6 +142,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		this.scopeCalculator = calculator;
 		return this;
 	}
+
+	@Override
+	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector) {
+		this.statsCollector = collector;
+		return this;
+	}
 	
 	@Override
 	public ProblemStatus find(IDetectedProblem problem, AnalysisResult r) {
@@ -157,7 +164,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 	
 	protected ProblemStatus findAux(IDetectedProblem problem, AnalysisResult r) {
-	
 		this.analyser = r.getAnalyser();
 
 //		List<String> preconditions;
@@ -166,7 +172,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		} else {
 //			preconditions = Collections.emptyList();
 //		}
-				
+
 		OclExpression constraint = null;
 		try {
 			constraint = problem.getWitnessCondition();
@@ -179,6 +185,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
 			return ProblemStatus.CANNOT_DETERMINE;
 		}
+
+		statsCollector.withMainConstraint(constraint);
 		
 		ProblemStatus result = applyUSE(problem, constraint, false, getMetamodelStrategy()); 
 		if ( checkDiscardCause && result == ProblemStatus.ERROR_DISCARDED ) {			
@@ -250,6 +258,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// Frame conditions are added as preconditions
 		for (int i = 0; i < problem.getFrameConditions().size(); i++) {
 			OclExpression exp = problem.getFrameConditions().get(i);
+			statsCollector.withFrameCondition(exp);
 			
 			StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
 			OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
@@ -273,6 +282,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			List<StaticHelper> helpers = analyser.getATLModel().getInlinedPreconditions().
 					stream().map(h -> (StaticHelper) h).collect(Collectors.toList());
 			for (StaticHelper originalPre : helpers) {
+				statsCollector.withPrecondition(ATLUtils.getBody(originalPre));
+				
 				StaticHelper hpre = (StaticHelper) ATLCopier.copySingleElement(originalPre);
 				
 				// Enclose into a thisModule to allow calls to existing helpers
@@ -342,6 +353,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			while ( AnalyserUtils.isDiscarded(result) && scopeCalculator.incrementScope() ) {
 				result = tryResolve(useConstraint, generator, srcMetamodels, true);
 			}
+			// TODO: Record scope calculator info
+			// statsCollector
 			return result;
 		}
 	}
@@ -467,6 +480,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
 		wrapper.setDoUnfolding(doUnfolding);
+		wrapper.setStatsCollector(statsCollector);
 		
 		this.errorSliceMM = new EffectiveMetamodelBuilder(wrapper).extractSource(r, "error", "http://error", "error", "error");
 		return errorSliceMM;

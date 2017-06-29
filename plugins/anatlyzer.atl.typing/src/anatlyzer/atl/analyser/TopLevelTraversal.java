@@ -71,6 +71,9 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 
 	@Override
 	public void inBinding(Binding self) {
+		if ( ! (attr.typeOf( self.getOutPatternElement().getType()) instanceof Metaclass) ) 
+			return; // This happens when there is a type error in the OPE
+		
 		Metaclass targetVar = (Metaclass) attr.typeOf( self.getOutPatternElement().getType() );
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		

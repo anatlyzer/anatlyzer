@@ -229,7 +229,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	protected void checkCompulsoryFeature(OutPatternElement self, NoBindingForCompulsoryFeatureKind kind, RuleWithPattern rule) {		
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
 		Type targetVar = self.getInferredType();
-		if ( targetVar instanceof UnresolvedTypeError ) 
+		if ( ! (targetVar instanceof Metaclass ) )
 			return;
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		
@@ -268,6 +268,9 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 
 		// Type targetVar = attr.typeOf( self.getOutPatternElement() );
 		Type targetVar =self.getOutPatternElement().getInferredType();
+		if ( ! (targetVar instanceof Metaclass ) )
+			return;		
+		
 		IClassNamespace ns = (IClassNamespace) targetVar.getMetamodelRef();
 		EStructuralFeature f = ns.getStructuralFeatureInfo(self.getPropertyName());
 		

@@ -5,7 +5,9 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IModel;
@@ -53,6 +55,11 @@ public class AtlEngineUtils {
 
 					String fname = file == null ? "<no-file>" : file.getName();
 					SyntaxError d = new SyntaxError(fname, description + ", " + location, eObject);
+					if ( atlEMFModel.getResource() == null ) {
+						// Create a dummy element to get the resource initialized
+						Object metaclass = atlEMFModel.getReferenceModel().getMetaElementByName("Module"); 
+						atlEMFModel.newElement(metaclass);
+					}
 					atlEMFModel.getResource().getErrors().add(d);
 				}
 			} else {

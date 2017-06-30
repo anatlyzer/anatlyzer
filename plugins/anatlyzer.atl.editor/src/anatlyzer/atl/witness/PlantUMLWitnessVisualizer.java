@@ -44,7 +44,7 @@ public class PlantUMLWitnessVisualizer implements IWitnessVisualizer {
 			if ( serializer == null ) {
 				serializer = adaptRewrittenModel();			
 			}
-			File f = File.createTempFile("witness_model", "png");
+			File f = File.createTempFile("witness_model", ".png");
 			f.deleteOnExit();
 			serializer.generatePNG(f.getAbsolutePath());
 

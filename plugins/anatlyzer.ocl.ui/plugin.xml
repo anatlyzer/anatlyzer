@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="anatlyzer.ocl.ui.ConstraintCheckerLanguage" name="Constraint checker language" schema="schema/anatlyzer.ocl.ui.ConstraintCheckerLanguage.exsd"/>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            id="org.eclipse.emf.ecore.editor.CreateDynamicInstance"
+            objectClass="org.eclipse.emf.ecore.EObject">
+         <action
+               id="anatlyzer.ocl.ui.CheckConstraints"
+               label="Check constraints"
+               menubarPath="additions"
+               class="anatlyzer.ocl.ui.CheckConstraintsAction"
+               enablesFor="1"/>
+      </objectContribution>
+   </extension>
+   <extension
+         point="anatlyzer.ocl.ui.ConstraintCheckerLanguage">
+      <language
+            bridge="anatlyzer.ocl.ui.OCLinATL"
+            name="anatlyzer.ocl.ui.atlocl">
+      </language>
+   </extension>
+</plugin>

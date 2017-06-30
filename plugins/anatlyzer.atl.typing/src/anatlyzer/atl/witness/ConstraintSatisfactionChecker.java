@@ -1,5 +1,6 @@
 package anatlyzer.atl.witness;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +21,15 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
+import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 
@@ -37,19 +42,23 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
  */
 public class ConstraintSatisfactionChecker {
 
-	private List<OclExpression> expressions;
-	private Library module;
+	private List<OclExpression> expressions = new ArrayList<OclExpression>();
 	private HashMap<String, Resource> namesToResources = new HashMap<String, Resource>();
 	private IWitnessFinder finder;
 	private ProblemStatus finderResult;
+	private ATLModel model;
 	
 	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
-		this.expressions = expressions;
+		this.expressions.addAll(expressions);
 	}
 	
+	public static ConstraintSatisfactionChecker withExpr(OclExpression expr) {
+		return new ConstraintSatisfactionChecker(Collections.singletonList(expr));
+	}
 	
-	public void configureMetamodel(String mmName, Resource mmResource) {
+	public ConstraintSatisfactionChecker configureMetamodel(String mmName, Resource mmResource) {
 		namesToResources.put(mmName, mmResource);
+		return this;
 	}
 	
 	public ConstraintSatisfactionChecker withFinder(IWitnessFinder finder) {
@@ -61,12 +70,13 @@ public class ConstraintSatisfactionChecker {
 		if ( this.finder == null )
 			throw new IllegalStateException();
 		
-		constructTransformation();
+		Unit unit = constructTransformation();
 		
 		// Configure the analysis
 		GlobalNamespace mm = new GlobalNamespace(namesToResources.values(), namesToResources);
 		ATLModel model = new ATLModel();
-		model.add(this.module);
+		model.add(unit);
+		this.model = model;
 		
 		Analyser analyser = new Analyser(mm, model);
 		analyser.perform();
@@ -85,9 +95,17 @@ public class ConstraintSatisfactionChecker {
 		return finder.getFoundWitnessModel();
 	}
 	
-	private void constructTransformation() {
-		Library module = ATLFactory.eINSTANCE.createLibrary();
+	private Unit constructTransformation() {
+		// Library module = ATLFactory.eINSTANCE.createLibrary();
+		Module module = ATLFactory.eINSTANCE.createModule();
 		module.setName("inMemoryModule");
+		
+		OclModel inModel = OCLFactory.eINSTANCE.createOclModel();
+		inModel.setName("IN");
+		OclModel mmModel = OCLFactory.eINSTANCE.createOclModel();
+		mmModel.setName("MM");
+		inModel.setMetamodel(mmModel);
+		module.getInModels().add(inModel);
 		
 		List<StaticHelper> helpers = expressions.stream().map(e -> {
 			return createOperation("exp" + expressions.indexOf(e), (op) -> {
@@ -96,16 +114,18 @@ public class ConstraintSatisfactionChecker {
 		}).collect(Collectors.toList());
 		
 		
-		module.getHelpers().addAll(helpers);
-		
-		this.module = module;
+		// module.getHelpers().addAll(helpers);
+		module.getElements().addAll(helpers);
+
+		return module;
 	}
 
 	private StaticHelper createOperation(String opName, Consumer<Operation> consumer) {
 		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
-		OclFeatureDefinition f = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+		OclFeatureDefinition f = OCLFactory.eINSTANCE.createOclFeatureDefinition();		
 		Operation op = OCLFactory.eINSTANCE.createOperation();
 		op.setName(opName);
+		op.setReturnType(OCLFactory.eINSTANCE.createBooleanType());
 		f.setFeature(op);
 		h.setDefinition(f);
 		consumer.accept(op);
@@ -113,7 +133,8 @@ public class ConstraintSatisfactionChecker {
 	}
 
 	private List<OclExpression> getExpressionsToBeChecked() {
-		return this.module.getHelpers().stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
+		List<Helper> helpers = ATLUtils.getAllHelpers(model);
+		return helpers.stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
 	}
 	
 	public class ConstraintSatisfactionProblem implements IDetectedProblem {

@@ -206,6 +206,8 @@ public class CheckConstraintDialog extends Dialog {
 			if ( AnalyserUtils.isConfirmed(checker.getFinderResult()) ) {
 				drawWitness(checker.getWitnessModel());
 				//checker.getWitnessModel();
+			} else {
+				showError("Constraint NOT satisfiable.");
 			}
 		} catch ( Exception e ) {
 			e.printStackTrace();

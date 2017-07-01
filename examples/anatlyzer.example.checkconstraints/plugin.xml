@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SimpleConstraintLanguage -->
+      <package
+            uri="http://anatlyzer/example/SimpleConstraintLanguage"
+            class="anatlyzer.example.sconstraints.SimpleConstraintsPackage"
+            genModel="model/SimpleConstraintLanguage.genmodel"/>
+   </extension>
+   <extension
+         point="anatlyzer.ocl.ui.constraint_checker_language">
+      <language
+            bridge="anatlyzer.example.checkconstraints.SimpleConstraintsBridge"
+            name="Simple Constraints">
+      </language>
+   </extension>
+
+</plugin>

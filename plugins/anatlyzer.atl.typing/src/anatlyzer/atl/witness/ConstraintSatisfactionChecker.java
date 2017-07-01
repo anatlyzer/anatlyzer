@@ -20,6 +20,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
@@ -56,6 +57,11 @@ public class ConstraintSatisfactionChecker {
 		return new ConstraintSatisfactionChecker(Collections.singletonList(expr));
 	}
 	
+
+	public static ConstraintSatisfactionChecker withExpr(List<OclExpression> expr) {
+		return new ConstraintSatisfactionChecker(expr);
+	}
+	
 	public ConstraintSatisfactionChecker configureMetamodel(String mmName, Resource mmResource) {
 		namesToResources.put(mmName, mmResource);
 		return this;
@@ -82,6 +88,7 @@ public class ConstraintSatisfactionChecker {
 		analyser.perform();
 		
 		// Configure the finder
+		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL);
 		this.finderResult = finder.find(new ConstraintSatisfactionProblem(), new AnalysisResult(analyser));
 
 		return this;
@@ -154,14 +161,16 @@ public class ConstraintSatisfactionChecker {
 			if ( exprs.size() == 1 ) 
 				return exprs.get(0);
 			
-			OclExpression result = exprs.get(0);
+			OclExpression result = (OclExpression) ATLCopier.copySingleElement(exprs.get(0));
 			for(int i = 1; i < exprs.size(); i++) {
 				OclExpression exp = exprs.get(i);
 				
 				OperatorCallExp andOp = OCLFactory.eINSTANCE.createOperatorCallExp();
 				andOp.setOperationName("and");
 				andOp.setSource(result);
-				andOp.getArguments().add(exp);
+				// Needs to be copied because there will be other calls to getExpressionsToBeChecked
+				// and adding exp to the "and" will change the helper body
+				andOp.getArguments().add( (OclExpression) ATLCopier.copySingleElement(exp) );
 				
 				result = andOp;
 			}
@@ -180,5 +189,6 @@ public class ConstraintSatisfactionChecker {
 		}
 		
 	}
+
 	
 }

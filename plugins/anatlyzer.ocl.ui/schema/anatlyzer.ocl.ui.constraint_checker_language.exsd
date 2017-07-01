@@ -3,7 +3,7 @@
 <schema targetNamespace="anatlyzer.ocl.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="anatlyzer.ocl.ui" id="anatlyzer.ocl.ui.ConstraintCheckerLanguage" name="Constraint checker language"/>
+         <meta.schema plugin="anatlyzer.ocl.ui" id="anatlyzer.ocl.ui.constraint_checker_language" name="Constraint checker language"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="anatlyzer.ocl.ui.ConstraintCheckerLanguage" name="Constraint checker language" schema="schema/anatlyzer.ocl.ui.ConstraintCheckerLanguage.exsd"/>
+   <extension-point id="anatlyzer.ocl.ui.constraint_checker_language" name="Constraint checker language" schema="schema/anatlyzer.ocl.ui.constraint_checker_language.exsd"/>
    <extension point="org.eclipse.ui.popupMenus">
       <objectContribution
             id="org.eclipse.emf.ecore.editor.CreateDynamicInstance"
@@ -15,7 +15,7 @@
       </objectContribution>
    </extension>
    <extension
-         point="anatlyzer.ocl.ui.ConstraintCheckerLanguage">
+         point="anatlyzer.ocl.ui.constraint_checker_language">
       <language
             bridge="anatlyzer.ocl.ui.OCLinATL"
             name="anatlyzer.ocl.ui.atlocl">

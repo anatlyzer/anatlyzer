@@ -17,7 +17,7 @@ public class OCLinATL implements IConstraintCheckerBridge {
 		EMFModel libModel = AtlEngineUtils.loadATLText(aQuery);
 		if ( libModel.getResource().getErrors().size() > 0 ) {
 			System.out.println(libModel.getResource().getErrors());
-			return new TranslationResult(libModel.getResource().getErrors().stream().map(o -> o.toString()).collect(Collectors.toList()));
+			return TranslationResult.error(libModel.getResource().getErrors().stream().map(o -> o.toString()).collect(Collectors.toList()));
 		}
 		ATLModel model = new ATLModel(libModel.getResource());
 		Query q = (Query) model.getRoot();

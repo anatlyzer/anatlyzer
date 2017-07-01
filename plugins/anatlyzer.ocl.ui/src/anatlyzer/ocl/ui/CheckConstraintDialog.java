@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker;
@@ -69,7 +70,7 @@ public class CheckConstraintDialog extends Dialog {
 		composite.setLayout(new GridLayout(1, false));
 		
 		oclText = new StyledText(composite, SWT.BORDER);
-		// styledText.setFont(SWTResourceManager.getFont("Monospace", 10, SWT.NORMAL));
+		oclText.setFont(SWTResourceManager.getFont("Monospace", 10, SWT.NORMAL));
 		oclText.setSize(472, 129);
 		oclText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
@@ -193,7 +194,7 @@ public class CheckConstraintDialog extends Dialog {
 			showError(result.getErrors().stream().collect(Collectors.joining("\n")));
 		}
 		
-		OclExpression expr = result.getExpression();
+		List<OclExpression> expr = result.getExpressions();
 		
 		try {
 			ConstraintSatisfactionChecker checker = ConstraintSatisfactionChecker.

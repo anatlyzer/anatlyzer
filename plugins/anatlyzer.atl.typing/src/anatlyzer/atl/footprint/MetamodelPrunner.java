@@ -53,6 +53,7 @@ public class MetamodelPrunner extends FootprintComputation {
 
 	public MetamodelPrunner(ATLModel atlModel, MetamodelNamespace mm) {
 		super(atlModel, mm);
+		setCheckTargetTypes(true);
 	}
 	
 	public EPackage extractSource(Resource r, String name, String conceptURI, String conceptPrefix) {

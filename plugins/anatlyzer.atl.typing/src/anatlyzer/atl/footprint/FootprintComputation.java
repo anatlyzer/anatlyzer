@@ -36,12 +36,17 @@ public abstract class FootprintComputation {
 	protected HashSet<CallSite> callSites = new HashSet<CallSite>();
 	protected ATLModel	atlModel;
 
+	private boolean checkTargetTypes = false;
+
 	public FootprintComputation(ATLModel atlModel, MetamodelNamespace mm) {
 		// this.atlTransformation = atlTransformation;
 		this.mm = mm;
 		this.atlModel = atlModel;
 	}
 	
+	public void setCheckTargetTypes(boolean b) {
+		this.checkTargetTypes = b;
+	}
 	
 	public ATLModel getATL() {
 		return atlModel;
@@ -75,12 +80,14 @@ public abstract class FootprintComputation {
 				}
 			}
 		}		
-		
-		// Compute features used in the target model
-		for (Binding b: atlModel.allObjectsOf(Binding.class)) {
-			EStructuralFeature f = (EStructuralFeature) b.getWrittenFeature();
-			if ( f != null ) {
-				classifyFeature(f);
+
+		if ( checkTargetTypes  ) {
+			// Compute features used in the target model
+			for (Binding b: atlModel.allObjectsOf(Binding.class)) {
+				EStructuralFeature f = (EStructuralFeature) b.getWrittenFeature();
+				if ( f != null ) {
+					classifyFeature(f);
+				}
 			}
 		}
 	}

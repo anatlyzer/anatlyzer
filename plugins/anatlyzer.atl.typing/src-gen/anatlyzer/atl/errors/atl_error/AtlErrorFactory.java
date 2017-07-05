@@ -346,6 +346,15 @@ public interface AtlErrorFactory extends EFactory {
 	IteratorOverEmptySequence createIteratorOverEmptySequence();
 
 	/**
+	 * Returns a new object of class '<em>Invalid Operator Usage</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Operator Usage</em>'.
+	 * @generated
+	 */
+	InvalidOperatorUsage createInvalidOperatorUsage();
+
+	/**
 	 * Returns a new object of class '<em>Reading Target Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

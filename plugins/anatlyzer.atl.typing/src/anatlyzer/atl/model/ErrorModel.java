@@ -53,6 +53,7 @@ import anatlyzer.atl.errors.atl_error.InvalidArgument;
 import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidOperatorUsage;
 import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
 import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
@@ -113,6 +114,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeature;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 /**
@@ -384,6 +386,14 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+
+	public void signalInvalidOperatorUsage(String message, OperatorCallExp node) {
+		InvalidOperatorUsage error = AtlErrorFactory.eINSTANCE.createInvalidOperatorUsage();
+		initProblem(error, node);
+	
+		signalError(error, message, node);
+	}
+	
 	public void initProblem(LocalProblem p, LocatedElement element) {
 		initProblem(p, element, ProblemStatus.STATICALLY_CONFIRMED, true);
 	}
@@ -1010,11 +1020,8 @@ public class ErrorModel {
 		p.setStatus(ProblemStatus.WITNESS_REQUIRED);
 
 		// Not sure if I should mark the problem...
-		// element.getProblems().add(p);
-		
+		// element.getProblems().add(p);		
 	}
-
-	
 
 	
 }

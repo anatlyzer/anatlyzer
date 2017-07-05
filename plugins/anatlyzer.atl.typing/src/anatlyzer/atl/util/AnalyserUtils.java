@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.ExtendTransformation;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -37,6 +38,7 @@ import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.Iterator;
@@ -419,5 +421,7 @@ public class AnalyserUtils {
 		return h;
 	}
 	
-	
+	public static boolean isAddedEOperation(ModuleElement r) {
+		return ExtendTransformation.isAddedEOperation(r);
+	}
 }

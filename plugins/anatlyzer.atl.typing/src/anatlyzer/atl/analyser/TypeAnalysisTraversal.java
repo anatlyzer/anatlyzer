@@ -1191,7 +1191,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			return;
 		}
 		
-		// if ( ! AtlTypes.oclAny().hasOperation(self.getOperationName()) ) {
+		
 		
 		// Optional attributes of type integer, float and boolean will never provide a null
 		if ( !(t instanceof IntegerType) && !(t instanceof FloatType) && !(t instanceof BooleanType) &&
@@ -1200,6 +1200,8 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		}
 		
 		addToOclUndefinedScope(self);
+		
+		SmellDetection.checkOperatorSmell(errors(), attr, self);
 		
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		attr.linkExprType(tspace.getOperatorType(self.getOperationName(), optional, self));

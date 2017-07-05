@@ -630,7 +630,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getReadingTargetModel()
 	 * @generated
 	 */
-	int READING_TARGET_MODEL = 56;
+	int READING_TARGET_MODEL = 57;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AmbiguousTargetModelReferenceImpl <em>Ambiguous Target Model Reference</em>}' class.
@@ -640,7 +640,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAmbiguousTargetModelReference()
 	 * @generated
 	 */
-	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 60;
+	int AMBIGUOUS_TARGET_MODEL_REFERENCE = 61;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoModelFoundImpl <em>No Model Found</em>}' class.
@@ -650,7 +650,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoModelFound()
 	 * @generated
 	 */
-	int NO_MODEL_FOUND = 61;
+	int NO_MODEL_FOUND = 62;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.WrongTypeImpl <em>Wrong Type</em>}' class.
@@ -660,7 +660,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWrongType()
 	 * @generated
 	 */
-	int WRONG_TYPE = 63;
+	int WRONG_TYPE = 64;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorBodyWrongTypeImpl <em>Iterator Body Wrong Type</em>}' class.
@@ -670,7 +670,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorBodyWrongType()
 	 * @generated
 	 */
-	int ITERATOR_BODY_WRONG_TYPE = 64;
+	int ITERATOR_BODY_WRONG_TYPE = 65;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.MatchedRuleWithoutOutputPatternImpl <em>Matched Rule Without Output Pattern</em>}' class.
@@ -680,7 +680,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleWithoutOutputPattern()
 	 * @generated
 	 */
-	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 65;
+	int MATCHED_RULE_WITHOUT_OUTPUT_PATTERN = 66;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.ExpectedCollectionInForEachImpl <em>Expected Collection In For Each</em>}' class.
@@ -690,7 +690,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getExpectedCollectionInForEach()
 	 * @generated
 	 */
-	int EXPECTED_COLLECTION_IN_FOR_EACH = 67;
+	int EXPECTED_COLLECTION_IN_FOR_EACH = 68;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.NoClassFoundInMetamodelImpl <em>No Class Found In Metamodel</em>}' class.
@@ -700,7 +700,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoClassFoundInMetamodel()
 	 * @generated
 	 */
-	int NO_CLASS_FOUND_IN_METAMODEL = 68;
+	int NO_CLASS_FOUND_IN_METAMODEL = 69;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidArgumentImpl <em>Invalid Argument</em>}' class.
@@ -710,7 +710,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidArgument()
 	 * @generated
 	 */
-	int INVALID_ARGUMENT = 69;
+	int INVALID_ARGUMENT = 70;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.CollectionOperationNotFoundImpl <em>Collection Operation Not Found</em>}' class.
@@ -720,7 +720,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCollectionOperationNotFound()
 	 * @generated
 	 */
-	int COLLECTION_OPERATION_NOT_FOUND = 70;
+	int COLLECTION_OPERATION_NOT_FOUND = 71;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IteratorOverNoCollectionTypeImpl <em>Iterator Over No Collection Type</em>}' class.
@@ -730,7 +730,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIteratorOverNoCollectionType()
 	 * @generated
 	 */
-	int ITERATOR_OVER_NO_COLLECTION_TYPE = 71;
+	int ITERATOR_OVER_NO_COLLECTION_TYPE = 72;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OclComplianceImpl <em>Ocl Compliance</em>}' class.
@@ -1418,7 +1418,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getLazyRuleWithFilter()
 	 * @generated
 	 */
-	int LAZY_RULE_WITH_FILTER = 58;
+	int LAZY_RULE_WITH_FILTER = 59;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AbstractIncoherentVariableDeclarationImpl <em>Abstract Incoherent Variable Declaration</em>}' class.
@@ -1428,7 +1428,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAbstractIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 72;
+	int ABSTRACT_INCOHERENT_VARIABLE_DECLARATION = 73;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentVariableDeclarationImpl <em>Incoherent Variable Declaration</em>}' class.
@@ -1438,7 +1438,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentVariableDeclaration()
 	 * @generated
 	 */
-	int INCOHERENT_VARIABLE_DECLARATION = 73;
+	int INCOHERENT_VARIABLE_DECLARATION = 74;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.IncoherentHelperReturnTypeImpl <em>Incoherent Helper Return Type</em>}' class.
@@ -1448,7 +1448,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getIncoherentHelperReturnType()
 	 * @generated
 	 */
-	int INCOHERENT_HELPER_RETURN_TYPE = 74;
+	int INCOHERENT_HELPER_RETURN_TYPE = 75;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.OperationOverCollectionTypeImpl <em>Operation Over Collection Type</em>}' class.
@@ -3568,7 +3568,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoEnumLiteral()
 	 * @generated
 	 */
-	int NO_ENUM_LITERAL = 62;
+	int NO_ENUM_LITERAL = 63;
 
 	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AccessToUndefinedValueImpl <em>Access To Undefined Value</em>}' class.
@@ -8052,6 +8052,151 @@ public interface AtlErrorPackage extends EPackage {
 	int ITERATOR_OVER_EMPTY_SEQUENCE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperatorUsageImpl <em>Invalid Operator Usage</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.InvalidOperatorUsageImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperatorUsage()
+	 * @generated
+	 */
+	int INVALID_OPERATOR_USAGE = 56;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ignored By User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__MISSING = LOCAL_PROBLEM__MISSING;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The number of structural features of the '<em>Invalid Operator Usage</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Invalid Operator Usage</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_OPERATOR_USAGE_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8203,7 +8348,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getWritingSourceModel()
 	 * @generated
 	 */
-	int WRITING_SOURCE_MODEL = 57;
+	int WRITING_SOURCE_MODEL = 58;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -8492,7 +8637,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidRuleInheritance()
 	 * @generated
 	 */
-	int INVALID_RULE_INHERITANCE = 59;
+	int INVALID_RULE_INHERITANCE = 60;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -9483,7 +9628,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getMatchedRuleFilterNonBoolean()
 	 * @generated
 	 */
-	int MATCHED_RULE_FILTER_NON_BOOLEAN = 66;
+	int MATCHED_RULE_FILTER_NON_BOOLEAN = 67;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -10790,7 +10935,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getBindingInplaceInvalid()
 	 * @generated
 	 */
-	int BINDING_INPLACE_INVALID = 75;
+	int BINDING_INPLACE_INVALID = 76;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -10963,7 +11108,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getCannotInstantiateAbstractClass()
 	 * @generated
 	 */
-	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 76;
+	int CANNOT_INSTANTIATE_ABSTRACT_CLASS = 77;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -11118,7 +11263,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getGenericLocalProblem()
 	 * @generated
 	 */
-	int GENERIC_LOCAL_PROBLEM = 77;
+	int GENERIC_LOCAL_PROBLEM = 78;
 
 	/**
 	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
@@ -11272,7 +11417,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 78;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 79;
 
 
 	/**
@@ -11283,7 +11428,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidRuleInheritanceKind()
 	 * @generated
 	 */
-	int INVALID_RULE_INHERITANCE_KIND = 79;
+	int INVALID_RULE_INHERITANCE_KIND = 80;
 
 
 	/**
@@ -12467,6 +12612,16 @@ public interface AtlErrorPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIteratorOverEmptySequence();
+
+	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.InvalidOperatorUsage <em>Invalid Operator Usage</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invalid Operator Usage</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperatorUsage
+	 * @generated
+	 */
+	EClass getInvalidOperatorUsage();
 
 	/**
 	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.ReadingTargetModel <em>Reading Target Model</em>}'.
@@ -13951,6 +14106,16 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ITERATOR_OVER_EMPTY_SEQUENCE = eINSTANCE.getIteratorOverEmptySequence();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.InvalidOperatorUsageImpl <em>Invalid Operator Usage</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.InvalidOperatorUsageImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidOperatorUsage()
+		 * @generated
+		 */
+		EClass INVALID_OPERATOR_USAGE = eINSTANCE.getInvalidOperatorUsage();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.ReadingTargetModelImpl <em>Reading Target Model</em>}' class.

@@ -65,7 +65,7 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 					allClasses.add((EClass) c);
 				} else if ( c instanceof EEnum ) {
 					// EnumNamespace enumNs = (EnumNamespace) getTypingModel().createEEnum((EEnum) c).getMetamodelRef(); 
-					classifiers.put(c.getName(), new EnumNamespace((EEnum) c));
+					classifiers.put(c.getName(), new EnumNamespace(this, (EEnum) c));
 					allEnums.add((EEnum) c);
 				} else {
 					// System.out.println("MetamodelNamespace: Type " + c.getName() + " not supported ");

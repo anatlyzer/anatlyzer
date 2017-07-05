@@ -62,6 +62,8 @@ projects in the `plugins` folder.
 	+ anatlyzer.atl.uml
 		- Requires UML2
 		- Extension to support UML profiles
+	+ anatlyzer.ocl.ui
+		- UI facilities to handle OCL constraints 
 	+ anatlyzer.ocl.emf
 		- Integration of OCL invariants embedded into Ecore meta-models 
 	+ anatlyzer.use.witness

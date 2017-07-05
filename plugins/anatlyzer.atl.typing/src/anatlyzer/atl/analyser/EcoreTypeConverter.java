@@ -66,7 +66,7 @@ public class EcoreTypeConverter {
 		if ( c instanceof EClass ) {
 			return convertEClass((EClass) c, mspace.getClass((EClass) c));
 		} else if ( c instanceof EDataType ){
-			return convertEDataType((EDataType) c );	
+			return convertEDataType((EDataType) c, mspace);	
 		}
 		throw new UnsupportedOperationException("Type " + c.getName() + " not supported");
 	}
@@ -80,10 +80,10 @@ public class EcoreTypeConverter {
 		return typ.newSequenceType( convertEClass(eclass, cspace) );
 	}
 	
-	private Type convertEDataType(EDataType c) {
+	private Type convertEDataType(EDataType c, IMetamodelNamespace mspace) {
 		String instance = c.getInstanceClassName() == null ? "" : c.getInstanceClassName();
 		if ( c instanceof EEnum ) {
-			return convertEEnum((EEnum) c);
+			return convertEEnum((EEnum) c, (EnumNamespace) mspace.getClassifier(c.getName()));
 		} else if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {
 			return typ.newStringType();
 		} else if ( c.getName().endsWith("Boolean") || c.getName().equals("EBooleanObject")) {
@@ -105,8 +105,8 @@ public class EcoreTypeConverter {
 		// throw new UnsupportedOperationException(getClass().getSimpleName() + ":" + "Type [" + c.getName() + "] not supported");
 	}
 
-	private Type convertEEnum(EEnum c) {
-		EnumType e = (EnumType) typ.createEEnum(c, new EnumNamespace(c));
+	private Type convertEEnum(EEnum c, EnumNamespace enumNamespace) {
+		EnumType e = (EnumType) typ.createEEnum(c, enumNamespace);
 		e.setEenum(c);
 		e.setName(c.getName());
 		// TODO: Add literals

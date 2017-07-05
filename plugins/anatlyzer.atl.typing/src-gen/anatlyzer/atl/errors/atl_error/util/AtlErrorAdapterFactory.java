@@ -296,6 +296,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createIteratorOverEmptySequenceAdapter();
 			}
 			@Override
+			public Adapter caseInvalidOperatorUsage(InvalidOperatorUsage object) {
+				return createInvalidOperatorUsageAdapter();
+			}
+			@Override
 			public Adapter caseReadingTargetModel(ReadingTargetModel object) {
 				return createReadingTargetModelAdapter();
 			}
@@ -1112,6 +1116,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIteratorOverEmptySequenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.InvalidOperatorUsage <em>Invalid Operator Usage</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.InvalidOperatorUsage
+	 * @generated
+	 */
+	public Adapter createInvalidOperatorUsageAdapter() {
 		return null;
 	}
 

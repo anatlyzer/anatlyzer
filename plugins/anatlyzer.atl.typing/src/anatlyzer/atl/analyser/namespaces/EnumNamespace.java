@@ -14,11 +14,17 @@ import anatlyzer.atlext.OCL.Operation;
 public class EnumNamespace extends AbstractTypeNamespace {
 
 	private EEnum eenum;
+	private MetamodelNamespace metamodel;
 
-	public EnumNamespace(EEnum eenum) {
+	public EnumNamespace(MetamodelNamespace metamodelNamespace, EEnum eenum) {
 		this.eenum = eenum;
+		this.metamodel = metamodelNamespace;
 	}
 
+	public String getMetamodelName() {
+		return this.metamodel.getName();
+	}
+	
 	@Override
 	public Type getFeatureType(String featureName, LocatedElement node) {
 		throw new UnsupportedOperationException();

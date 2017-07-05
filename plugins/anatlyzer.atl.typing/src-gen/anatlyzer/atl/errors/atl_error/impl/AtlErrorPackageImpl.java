@@ -40,6 +40,7 @@ import anatlyzer.atl.errors.atl_error.InvalidArgumentProblem;
 import anatlyzer.atl.errors.atl_error.InvalidAssignmentImperativeBinding;
 import anatlyzer.atl.errors.atl_error.InvalidOperand;
 import anatlyzer.atl.errors.atl_error.InvalidOperator;
+import anatlyzer.atl.errors.atl_error.InvalidOperatorUsage;
 import anatlyzer.atl.errors.atl_error.InvalidRuleInheritance;
 import anatlyzer.atl.errors.atl_error.InvalidRuleInheritanceKind;
 import anatlyzer.atl.errors.atl_error.IteratorBodyWrongType;
@@ -454,6 +455,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass iteratorOverEmptySequenceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invalidOperatorUsageEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1753,6 +1761,15 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getInvalidOperatorUsage() {
+		return invalidOperatorUsageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getReadingTargetModel() {
 		return readingTargetModelEClass;
 	}
@@ -2356,6 +2373,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		iteratorOverEmptySequenceEClass = createEClass(ITERATOR_OVER_EMPTY_SEQUENCE);
 
+		invalidOperatorUsageEClass = createEClass(INVALID_OPERATOR_USAGE);
+
 		readingTargetModelEClass = createEClass(READING_TARGET_MODEL);
 		createEAttribute(readingTargetModelEClass, READING_TARGET_MODEL__MODEL_NAME);
 
@@ -2520,6 +2539,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		flattenOverNonNestedCollectionEClass.getESuperTypes().add(this.getLocalProblem());
 		changeSelectFirstForAnyEClass.getESuperTypes().add(this.getLocalProblem());
 		iteratorOverEmptySequenceEClass.getESuperTypes().add(this.getLocalProblem());
+		invalidOperatorUsageEClass.getESuperTypes().add(this.getLocalProblem());
 		readingTargetModelEClass.getESuperTypes().add(this.getLocalProblem());
 		writingSourceModelEClass.getESuperTypes().add(this.getLocalProblem());
 		lazyRuleWithFilterEClass.getESuperTypes().add(this.getLocalProblem());
@@ -2719,6 +2739,8 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(changeSelectFirstForAnyEClass, ChangeSelectFirstForAny.class, "ChangeSelectFirstForAny", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(iteratorOverEmptySequenceEClass, IteratorOverEmptySequence.class, "IteratorOverEmptySequence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(invalidOperatorUsageEClass, InvalidOperatorUsage.class, "InvalidOperatorUsage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(readingTargetModelEClass, ReadingTargetModel.class, "ReadingTargetModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getReadingTargetModel_ModelName(), ecorePackage.getEString(), "modelName", null, 1, 1, ReadingTargetModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -3055,6 +3077,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   new String[] {
 			 "name", "Iterator over empty collection",
 			 "text", "Example: Sequence { }->select(...)"
+		   });	
+		addAnnotation
+		  (invalidOperatorUsageEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Invalid operator usage",
+			 "text", "Example: attr.visibility = \'public\'"
 		   });	
 		addAnnotation
 		  (readingTargetModelEClass, 
@@ -3615,6 +3644,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   });	
 		addAnnotation
 		  (iteratorOverEmptySequenceEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "navigation",
+			 "phase", "typing",
+			 "source", "none"
+		   });	
+		addAnnotation
+		  (invalidOperatorUsageEClass, 
 		   source, 
 		   new String[] {
 			 "prec", "static",

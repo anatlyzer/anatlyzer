@@ -233,6 +233,7 @@
       <genClasses ecoreClass="errors.ecore#//atl_error/FlattenOverNonNestedCollection"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ChangeSelectFirstForAny"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/IteratorOverEmptySequence"/>
+      <genClasses ecoreClass="errors.ecore#//atl_error/InvalidOperatorUsage"/>
       <genClasses ecoreClass="errors.ecore#//atl_error/ReadingTargetModel">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/ReadingTargetModel/modelName"/>
       </genClasses>

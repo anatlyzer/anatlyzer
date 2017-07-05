@@ -215,6 +215,9 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	}
 
 	private HashSet<EStructuralFeature> getCurrentCompulsoryFeatures(Metaclass mc) {
+		if ( mc instanceof UnresolvedTypeError ) {
+			return new HashSet<EStructuralFeature>();
+		}
 		HashSet<EStructuralFeature> compulsoryFeatures = new HashSet<EStructuralFeature>();
 		
 		for(EStructuralFeature f : mc.getKlass().getEAllStructuralFeatures() ) {			

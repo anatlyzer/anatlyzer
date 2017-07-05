@@ -12,6 +12,7 @@ import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.UnknownFeature;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.footprint.CallSite;
 
@@ -63,16 +64,8 @@ public abstract class FootprintComputation {
 			if ( pcall.getUsedFeature() != null && classInMM(((EStructuralFeature) pcall.getUsedFeature()).getEContainingClass()) ) {
 
 				EStructuralFeature f = (EStructuralFeature) pcall.getUsedFeature();
-				if ( f instanceof EReference ) {
-					usedReferences.add((EReference) f);
-					indirectUsedTypes.add((EClass) f.getEType());
-				}
-				else if ( f instanceof EAttribute) {  
-					usedAttributes.add((EAttribute) f);
-				} else {
-					// TODO: Unknown features will be replicated if accessed several times!
-					unknownFeatures.add((UnknownFeature) f);
-				}
+				if ( f != null )
+					classifyFeature(f);
 				
 				if ( pcall.getReceptorType() instanceof Metaclass ) {
 					Metaclass receptor = (Metaclass) pcall.getReceptorType();
@@ -82,6 +75,28 @@ public abstract class FootprintComputation {
 				}
 			}
 		}		
+		
+		// Compute features used in the target model
+		for (Binding b: atlModel.allObjectsOf(Binding.class)) {
+			EStructuralFeature f = (EStructuralFeature) b.getWrittenFeature();
+			if ( f != null ) {
+				classifyFeature(f);
+			}
+		}
+	}
+
+
+	private void classifyFeature(EStructuralFeature f) {
+		if ( f instanceof EReference ) {
+			usedReferences.add((EReference) f);
+			indirectUsedTypes.add((EClass) f.getEType());
+		}
+		else if ( f instanceof EAttribute) {  
+			usedAttributes.add((EAttribute) f);
+		} else {
+			// TODO: Unknown features will be replicated if accessed several times!
+			unknownFeatures.add((UnknownFeature) f);
+		}
 	}
 	
 

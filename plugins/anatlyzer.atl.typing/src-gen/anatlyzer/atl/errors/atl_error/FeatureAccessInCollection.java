@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.FeatureAccessInCollection#getFeatureName <em>Feature Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getFeatureAccessInCollection()
  * @model annotation="description name='Feature access in collection' text='Collections do not have features. Dot-notation cannot be used over them' example='Sequence { }.length'"

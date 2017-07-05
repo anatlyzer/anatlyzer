@@ -787,6 +787,21 @@
         <details key="source" value="none"/>
       </eAnnotations>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidOperatorUsage" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Invalid operator usage"/>
+        <details key="text" value="Example: attr.visibility = 'public'"/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="warning-behaviour"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="navigation"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value="none"/>
+      </eAnnotations>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ReadingTargetModel" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="description">
         <details key="name" value="Read access to target model"/>

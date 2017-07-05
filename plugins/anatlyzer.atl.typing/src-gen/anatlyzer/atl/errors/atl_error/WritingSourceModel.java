@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.WritingSourceModel#getModelName <em>Model Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getWritingSourceModel()
  * @model annotation="description name='Creation of source elements' text='Source elements should not appear in the \'to\' part of rules\''"

@@ -51,7 +51,7 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -595,6 +595,15 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 				if (result == null) result = caseLocalProblem(iteratorOverEmptySequence);
 				if (result == null) result = caseProblem(iteratorOverEmptySequence);
 				if (result == null) result = caseAnalysisInfo(iteratorOverEmptySequence);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case AtlErrorPackage.INVALID_OPERATOR_USAGE: {
+				InvalidOperatorUsage invalidOperatorUsage = (InvalidOperatorUsage)theEObject;
+				T result = caseInvalidOperatorUsage(invalidOperatorUsage);
+				if (result == null) result = caseLocalProblem(invalidOperatorUsage);
+				if (result == null) result = caseProblem(invalidOperatorUsage);
+				if (result == null) result = caseAnalysisInfo(invalidOperatorUsage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -1554,6 +1563,21 @@ public class AtlErrorSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIteratorOverEmptySequence(IteratorOverEmptySequence object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Operator Usage</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Operator Usage</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidOperatorUsage(InvalidOperatorUsage object) {
 		return null;
 	}
 

@@ -393,6 +393,11 @@ package atl_error {
 	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="none")			
 	class IteratorOverEmptySequence extends LocalProblem {
 	}
+
+	@description(name="Invalid operator usage", text="Example: attr.visibility = 'public'")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="navigation", phase="typing", source="none")			
+	class InvalidOperatorUsage  extends LocalProblem {
+	}
 	
 	@description(name="Read access to target model", text="[DISABLE?] False positives when the same meta-model is used as source and target")	 
 	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="trafo-integrity", phase="typing", source="none")			

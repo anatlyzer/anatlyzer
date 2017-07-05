@@ -261,6 +261,15 @@
                   mnemonic="C">
             </command>
       </menuContribution>
+
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.sliceMetamodels"
+                  id="anatlyzer.commands.sliceTransformationMetamodels.menu"
+                  mnemonic="S">
+            </command>
+      </menuContribution>
       
    </extension>
    
@@ -296,6 +305,12 @@
             name="Generate target constraint checker">
       </command>
 
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.sliceMetamodels"
+            name="Slice transformation meta-models">
+      </command>
+
    </extension>
      
    <extension
@@ -308,6 +323,11 @@
       <handler
             class="anatlyzer.atl.commands.CreateTargetConstraintCheckerHandler"
             commandId="anatlyzer.commands.createTargetConstraintChecker">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.SliceTransformationMetmodelsHandler"
+            commandId="anatlyzer.commands.sliceMetamodels">
       </handler>
       
    </extension>

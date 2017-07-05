@@ -97,6 +97,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.FLATTEN_OVER_NON_NESTED_COLLECTION: return createFlattenOverNonNestedCollection();
 			case AtlErrorPackage.CHANGE_SELECT_FIRST_FOR_ANY: return createChangeSelectFirstForAny();
 			case AtlErrorPackage.ITERATOR_OVER_EMPTY_SEQUENCE: return createIteratorOverEmptySequence();
+			case AtlErrorPackage.INVALID_OPERATOR_USAGE: return createInvalidOperatorUsage();
 			case AtlErrorPackage.READING_TARGET_MODEL: return createReadingTargetModel();
 			case AtlErrorPackage.WRITING_SOURCE_MODEL: return createWritingSourceModel();
 			case AtlErrorPackage.LAZY_RULE_WITH_FILTER: return createLazyRuleWithFilter();
@@ -514,6 +515,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public IteratorOverEmptySequence createIteratorOverEmptySequence() {
 		IteratorOverEmptySequenceImpl iteratorOverEmptySequence = new IteratorOverEmptySequenceImpl();
 		return iteratorOverEmptySequence;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InvalidOperatorUsage createInvalidOperatorUsage() {
+		InvalidOperatorUsageImpl invalidOperatorUsage = new InvalidOperatorUsageImpl();
+		return invalidOperatorUsage;
 	}
 
 	/**

@@ -1036,7 +1036,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPropertyCallExp_ReceptorType() {
+	public EReference getPropertyCallExp_SubtypeFeatures() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -1045,8 +1045,17 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getPropertyCallExp_ReceptorType() {
+		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getPropertyCallExp_IsStaticCall() {
-		return (EAttribute)propertyCallExpEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)propertyCallExpEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -1055,7 +1064,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * @generated
 	 */
 	public EReference getPropertyCallExp_StaticResolver() {
-		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(4);
+		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -1064,7 +1073,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * @generated
 	 */
 	public EReference getPropertyCallExp_DynamicResolvers() {
-		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(5);
+		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -2038,6 +2047,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		propertyCallExpEClass = createEClass(PROPERTY_CALL_EXP);
 		createEReference(propertyCallExpEClass, PROPERTY_CALL_EXP__SOURCE);
 		createEReference(propertyCallExpEClass, PROPERTY_CALL_EXP__USED_FEATURE);
+		createEReference(propertyCallExpEClass, PROPERTY_CALL_EXP__SUBTYPE_FEATURES);
 		createEReference(propertyCallExpEClass, PROPERTY_CALL_EXP__RECEPTOR_TYPE);
 		createEAttribute(propertyCallExpEClass, PROPERTY_CALL_EXP__IS_STATIC_CALL);
 		createEReference(propertyCallExpEClass, PROPERTY_CALL_EXP__STATIC_RESOLVER);
@@ -2346,6 +2356,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		initEClass(propertyCallExpEClass, PropertyCallExp.class, "PropertyCallExp", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getPropertyCallExp_Source(), this.getOclExpression(), this.getOclExpression_AppliedProperty(), "source", null, 1, 1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getPropertyCallExp_UsedFeature(), ecorePackage.getEObject(), null, "usedFeature", null, 0, 1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPropertyCallExp_SubtypeFeatures(), ecorePackage.getEObject(), null, "subtypeFeatures", null, 0, -1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyCallExp_ReceptorType(), ecorePackage.getEObject(), null, "receptorType", null, 0, 1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPropertyCallExp_IsStaticCall(), ecorePackage.getEBoolean(), "isStaticCall", "false", 1, 1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPropertyCallExp_StaticResolver(), theATLPackage.getCallable(), null, "staticResolver", null, 1, 1, PropertyCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

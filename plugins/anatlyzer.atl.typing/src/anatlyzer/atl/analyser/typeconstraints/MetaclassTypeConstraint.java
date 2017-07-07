@@ -71,9 +71,15 @@ public class MetaclassTypeConstraint extends AbstractTypeConstraint {
 			}
 		} else if ( isNotType.size() > 0 ) {
 			addNotTypes((ClassNamespace) ns, isNotType, selectedTypes);
-//			if ( selectedTypes.size() == 0 ) {
+			if ( selectedTypes.size() == 0 ) {
+				// This may happen in cases like:
+				// 		if objA.oclIsTypeOf(A) then ... else objA.feature endif
+				// when there is no subclasses of A, and thus the else branch is impossible,
+				// but still we need to assign it a type. The most sensible one is A
+				// Null is returned to leave the decision to the caller
+				return null;
 //				selectedTypes.add(m);
-//			}
+			}
 		} else {
 			throw new IllegalStateException("isType: " + isType + " - " + "isNotType: " + isNotType);
 		}

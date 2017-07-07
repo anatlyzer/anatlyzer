@@ -4941,13 +4941,22 @@ public interface OCLPackage extends EPackage {
 	int PROPERTY_CALL_EXP__USED_FEATURE = OCL_EXPRESSION_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROPERTY_CALL_EXP__SUBTYPE_FEATURES = OCL_EXPRESSION_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_CALL_EXP__RECEPTOR_TYPE = OCL_EXPRESSION_FEATURE_COUNT + 2;
+	int PROPERTY_CALL_EXP__RECEPTOR_TYPE = OCL_EXPRESSION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Is Static Call</b></em>' attribute.
@@ -4956,7 +4965,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_CALL_EXP__IS_STATIC_CALL = OCL_EXPRESSION_FEATURE_COUNT + 3;
+	int PROPERTY_CALL_EXP__IS_STATIC_CALL = OCL_EXPRESSION_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Static Resolver</b></em>' reference.
@@ -4965,7 +4974,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_CALL_EXP__STATIC_RESOLVER = OCL_EXPRESSION_FEATURE_COUNT + 4;
+	int PROPERTY_CALL_EXP__STATIC_RESOLVER = OCL_EXPRESSION_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Dynamic Resolvers</b></em>' reference list.
@@ -4974,7 +4983,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS = OCL_EXPRESSION_FEATURE_COUNT + 5;
+	int PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS = OCL_EXPRESSION_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Property Call Exp</em>' class.
@@ -4983,7 +4992,7 @@ public interface OCLPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PROPERTY_CALL_EXP_FEATURE_COUNT = OCL_EXPRESSION_FEATURE_COUNT + 6;
+	int PROPERTY_CALL_EXP_FEATURE_COUNT = OCL_EXPRESSION_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Property Call Exp</em>' class.
@@ -5219,6 +5228,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__USED_FEATURE = PROPERTY_CALL_EXP__USED_FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAVIGATION_OR_ATTRIBUTE_CALL_EXP__SUBTYPE_FEATURES = PROPERTY_CALL_EXP__SUBTYPE_FEATURES;
 
 	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
@@ -5508,6 +5526,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int OPERATION_CALL_EXP__USED_FEATURE = PROPERTY_CALL_EXP__USED_FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CALL_EXP__SUBTYPE_FEATURES = PROPERTY_CALL_EXP__SUBTYPE_FEATURES;
 
 	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
@@ -5817,6 +5844,15 @@ public interface OCLPackage extends EPackage {
 	int OPERATOR_CALL_EXP__USED_FEATURE = OPERATION_CALL_EXP__USED_FEATURE;
 
 	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATOR_CALL_EXP__SUBTYPE_FEATURES = OPERATION_CALL_EXP__SUBTYPE_FEATURES;
+
+	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6122,6 +6158,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int COLLECTION_OPERATION_CALL_EXP__USED_FEATURE = OPERATION_CALL_EXP__USED_FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTION_OPERATION_CALL_EXP__SUBTYPE_FEATURES = OPERATION_CALL_EXP__SUBTYPE_FEATURES;
 
 	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
@@ -6431,6 +6476,15 @@ public interface OCLPackage extends EPackage {
 	int LOOP_EXP__USED_FEATURE = PROPERTY_CALL_EXP__USED_FEATURE;
 
 	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_EXP__SUBTYPE_FEATURES = PROPERTY_CALL_EXP__SUBTYPE_FEATURES;
+
+	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6727,6 +6781,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_EXP__USED_FEATURE = LOOP_EXP__USED_FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATE_EXP__SUBTYPE_FEATURES = LOOP_EXP__SUBTYPE_FEATURES;
 
 	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
@@ -7034,6 +7097,15 @@ public interface OCLPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATOR_EXP__USED_FEATURE = LOOP_EXP__USED_FEATURE;
+
+	/**
+	 * The feature id for the '<em><b>Subtype Features</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITERATOR_EXP__SUBTYPE_FEATURES = LOOP_EXP__SUBTYPE_FEATURES;
 
 	/**
 	 * The feature id for the '<em><b>Receptor Type</b></em>' reference.
@@ -15006,6 +15078,17 @@ public interface OCLPackage extends EPackage {
 	EReference getPropertyCallExp_UsedFeature();
 
 	/**
+	 * Returns the meta object for the reference list '{@link anatlyzer.atlext.OCL.PropertyCallExp#getSubtypeFeatures <em>Subtype Features</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Subtype Features</em>'.
+	 * @see anatlyzer.atlext.OCL.PropertyCallExp#getSubtypeFeatures()
+	 * @see #getPropertyCallExp()
+	 * @generated
+	 */
+	EReference getPropertyCallExp_SubtypeFeatures();
+
+	/**
 	 * Returns the meta object for the reference '{@link anatlyzer.atlext.OCL.PropertyCallExp#getReceptorType <em>Receptor Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -16541,6 +16624,14 @@ public interface OCLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROPERTY_CALL_EXP__USED_FEATURE = eINSTANCE.getPropertyCallExp_UsedFeature();
+
+		/**
+		 * The meta object literal for the '<em><b>Subtype Features</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROPERTY_CALL_EXP__SUBTYPE_FEATURES = eINSTANCE.getPropertyCallExp_SubtypeFeatures();
 
 		/**
 		 * The meta object literal for the '<em><b>Receptor Type</b></em>' reference feature.

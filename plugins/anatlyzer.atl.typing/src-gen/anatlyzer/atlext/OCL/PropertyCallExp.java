@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getUsedFeature <em>Used Feature</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getSubtypeFeatures <em>Subtype Features</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getReceptorType <em>Receptor Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#isIsStaticCall <em>Is Static Call</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getStaticResolver <em>Static Resolver</em>}</li>
@@ -83,6 +84,22 @@ public interface PropertyCallExp extends OclExpression {
 	 * @generated
 	 */
 	void setUsedFeature(EObject value);
+
+	/**
+	 * Returns the value of the '<em><b>Subtype Features</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Subtype Features</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Subtype Features</em>' reference list.
+	 * @see anatlyzer.atlext.OCL.OCLPackage#getPropertyCallExp_SubtypeFeatures()
+	 * @model
+	 * @generated
+	 */
+	EList<EObject> getSubtypeFeatures();
 
 	/**
 	 * Returns the value of the '<em><b>Receptor Type</b></em>' reference.

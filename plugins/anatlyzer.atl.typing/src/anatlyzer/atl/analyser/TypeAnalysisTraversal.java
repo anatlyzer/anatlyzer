@@ -601,7 +601,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 	public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
 		checkAccessToUndefined(self);
 		checkAccessToEmptyCollection(self);
-		
+
 		Type t = attr.typeOf( self.getSource() );
 		ITypeNamespace tspace = (ITypeNamespace) t.getMetamodelRef();
 		Type t2 = tspace.getFeatureType(self.getName(), self, (casted) -> {

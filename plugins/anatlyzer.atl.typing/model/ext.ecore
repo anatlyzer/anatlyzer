@@ -78,6 +78,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="PropertyCallExp">
       <eStructuralFeatures xsi:type="ecore:EReference" name="usedFeature" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subtypeFeatures" upperBound="-1"
+          eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="receptorType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isStaticCall" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"

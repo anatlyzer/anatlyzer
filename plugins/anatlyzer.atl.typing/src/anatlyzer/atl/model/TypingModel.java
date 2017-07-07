@@ -144,6 +144,8 @@ public class TypingModel {
 	}
 
 	public EnumType createEEnum(EEnum c, EnumNamespace ns) {
+		if ( ns == null )
+			throw new IllegalArgumentException();
 		EnumType enumT = add(TypesFactory.eINSTANCE.createEnumType());
 		enumT.setEenum(c);
 		enumT.setName(c.getName());

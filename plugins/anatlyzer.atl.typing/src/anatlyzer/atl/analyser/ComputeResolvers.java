@@ -13,6 +13,7 @@ import anatlyzer.atl.analyser.namespaces.PrimitiveTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.PrimitiveType;
@@ -205,7 +206,11 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 			if ( t instanceof Metaclass ) {
 				setMetaclassResolvers(self, (Metaclass) t);
 			} else {
-				System.err.println("TODO: How to deal with this in createannotations... setUsedFeature...");
+				for (Metaclass metaclass : TypingModel.getInvolvedMetaclassesOfType(t)) {
+					EStructuralFeature f = metaclass.getKlass().getEStructuralFeature(self.getName());
+					if ( f != null )
+						self.getSubtypeFeatures().add(f);
+				}				
 			}
 		} 
 		

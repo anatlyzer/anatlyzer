@@ -94,6 +94,7 @@ public class ConfigurationReader {
 		String[] parts = line.split("\\s+");
 		if ( parts.length == 2 ) {
 			if ( parts[1].equals("continuous") ) configuration.setContinousWitnessFinder(true);
+			if ( parts[1].equals("batch") )      configuration.setContinousWitnessFinder(false);
 		}
 	}
 

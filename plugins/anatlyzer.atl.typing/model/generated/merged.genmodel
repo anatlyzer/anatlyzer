@@ -252,6 +252,8 @@
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/usedFeature"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/subtypeFeatures"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//OCL/PropertyCallExp/receptorType"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//OCL/PropertyCallExp/isStaticCall"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"

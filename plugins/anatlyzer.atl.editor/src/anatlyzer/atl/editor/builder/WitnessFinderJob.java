@@ -20,7 +20,7 @@ public class WitnessFinderJob extends Job {
 	private IResource resource;
 	
 	public WitnessFinderJob(IResource resource, AnalyserData data) {
-		super("Witness finder");
+		super("Checking problems with model finder for " + resource.getName());
 		this.data = data;
 		this.resource = resource;
 	}

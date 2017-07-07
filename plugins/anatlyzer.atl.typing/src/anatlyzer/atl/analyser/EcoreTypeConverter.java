@@ -48,6 +48,7 @@ public class EcoreTypeConverter {
 		// The second condition deals with the case that c is an already resolved proxy,
 		// and therefore c does not belong to the meta-model of its pointing reference
 		if ( c.eIsProxy() || (c instanceof EClass && mspace.getClass((EClass) c) == null) ) {
+			// This is to handle cross-references
 			Pair<EClassifier, MetamodelNamespace> actual = AnalyserContext.getGlobalNamespace().resolve(c);
 			if ( actual == null ) {
 				// Should be reported as warnings at the beginning of the transformation
@@ -83,7 +84,20 @@ public class EcoreTypeConverter {
 	private Type convertEDataType(EDataType c, IMetamodelNamespace mspace) {
 		String instance = c.getInstanceClassName() == null ? "" : c.getInstanceClassName();
 		if ( c instanceof EEnum ) {
-			return convertEEnum((EEnum) c, (EnumNamespace) mspace.getClassifier(c.getName()));
+			EnumNamespace en = (EnumNamespace) mspace.getClassifier(c.getName());
+			if ( en == null ) {
+				// This is to handle cross-references
+				Pair<EClassifier, MetamodelNamespace> actual = AnalyserContext.getGlobalNamespace().resolve(c);
+				if ( actual == null ) {
+					// Should be reported as warnings at the beginning of the transformation
+					System.out.println("EcoreTypeConverter: Cannot find " + c);
+					return typ.newUnknownType();
+				}
+				return convertNoProxy(actual._1, actual._2);
+			} else { 				
+				return convertEEnum((EEnum) c, (EnumNamespace) mspace.getClassifier(c.getName()));
+			}	
+			
 		} else if ( c.getName().endsWith("String") || instance.equals("java.lang.String")) {
 			return typ.newStringType();
 		} else if ( c.getName().endsWith("Boolean") || c.getName().equals("EBooleanObject")) {

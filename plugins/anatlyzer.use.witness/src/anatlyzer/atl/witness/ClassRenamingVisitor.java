@@ -197,7 +197,8 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 			EnumType enumt = TypesFactory.eINSTANCE.createEnumType();
 			enumt.setEenum(m.getEenum());
 			enumt.setName(newEEnum.getName());
-		
+			enumt.setMetamodelRef(m.getMetamodelRef());
+			
 			copy = enumt;
 			
 			self.setInferredType(enumt);

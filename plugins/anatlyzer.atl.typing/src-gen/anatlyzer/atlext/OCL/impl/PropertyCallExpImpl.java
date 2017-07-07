@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getUsedFeature <em>Used Feature</em>}</li>
+ *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getSubtypeFeatures <em>Subtype Features</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getReceptorType <em>Receptor Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#isIsStaticCall <em>Is Static Call</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getStaticResolver <em>Static Resolver</em>}</li>
@@ -57,6 +59,16 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * @ordered
 	 */
 	protected EObject usedFeature;
+	/**
+	 * The cached value of the '{@link #getSubtypeFeatures() <em>Subtype Features</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSubtypeFeatures()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<EObject> subtypeFeatures;
+
 	/**
 	 * The cached value of the '{@link #getReceptorType() <em>Receptor Type</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -205,6 +217,18 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 		usedFeature = newUsedFeature;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OCLPackage.PROPERTY_CALL_EXP__USED_FEATURE, oldUsedFeature, usedFeature));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<EObject> getSubtypeFeatures() {
+		if (subtypeFeatures == null) {
+			subtypeFeatures = new EObjectResolvingEList<EObject>(EObject.class, this, OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES);
+		}
+		return subtypeFeatures;
 	}
 
 	/**
@@ -364,6 +388,8 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 			case OCLPackage.PROPERTY_CALL_EXP__USED_FEATURE:
 				if (resolve) return getUsedFeature();
 				return basicGetUsedFeature();
+			case OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES:
+				return getSubtypeFeatures();
 			case OCLPackage.PROPERTY_CALL_EXP__RECEPTOR_TYPE:
 				if (resolve) return getReceptorType();
 				return basicGetReceptorType();
@@ -392,6 +418,10 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 				return;
 			case OCLPackage.PROPERTY_CALL_EXP__USED_FEATURE:
 				setUsedFeature((EObject)newValue);
+				return;
+			case OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES:
+				getSubtypeFeatures().clear();
+				getSubtypeFeatures().addAll((Collection<? extends EObject>)newValue);
 				return;
 			case OCLPackage.PROPERTY_CALL_EXP__RECEPTOR_TYPE:
 				setReceptorType((EObject)newValue);
@@ -424,6 +454,9 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 			case OCLPackage.PROPERTY_CALL_EXP__USED_FEATURE:
 				setUsedFeature((EObject)null);
 				return;
+			case OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES:
+				getSubtypeFeatures().clear();
+				return;
 			case OCLPackage.PROPERTY_CALL_EXP__RECEPTOR_TYPE:
 				setReceptorType((EObject)null);
 				return;
@@ -452,6 +485,8 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 				return source != null;
 			case OCLPackage.PROPERTY_CALL_EXP__USED_FEATURE:
 				return usedFeature != null;
+			case OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES:
+				return subtypeFeatures != null && !subtypeFeatures.isEmpty();
 			case OCLPackage.PROPERTY_CALL_EXP__RECEPTOR_TYPE:
 				return receptorType != null;
 			case OCLPackage.PROPERTY_CALL_EXP__IS_STATIC_CALL:

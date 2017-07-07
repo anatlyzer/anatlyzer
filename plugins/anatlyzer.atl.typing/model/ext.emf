@@ -87,6 +87,7 @@ package OCL {
   class PropertyCallExp {  	
 	// Reference to EStructuralFeature and the type of the static receptor
 	ref EObject[0..1] usedFeature;
+	ref EObject[0..*] subtypeFeatures;
 	ref EObject[0..1] receptorType;
 	
 	attr boolean[1] isStaticCall = false;

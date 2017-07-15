@@ -16,8 +16,6 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 import anatlyzer.atl.witness.IScopeCalculator;
 
-import com.sun.javafx.geom.transform.BaseTransform.Degree;
-
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;

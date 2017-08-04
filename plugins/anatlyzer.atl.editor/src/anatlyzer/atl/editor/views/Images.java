@@ -32,6 +32,7 @@ public class Images {
 	public static final ImageDescriptor explanation_16x16;
 	public static final ImageDescriptor rule_child_stealing_16x16;
 	public static final ImageDescriptor target_invariant_analysis_16x16;
+	public static final ImageDescriptor delayed_analysis_16x16;
 
 	
 	static {
@@ -58,11 +59,14 @@ public class Images {
 		visualize_problem_16x16 = Activator.getImageDescriptor("icons/visualize_problem.png");	
 
 		ignore_problem_16x16 = Activator.getImageDescriptor("icons/jdt/warning_alt_obj.gif");
-		timeout_16x16 = Activator.getImageDescriptor("icons/timeout_16x16.gif");		
+		timeout_16x16 = Activator.getImageDescriptor("icons/timeout_16x16.png");		
 
 		explanation_16x16 = Activator.getImageDescriptor("icons/explanation_16x16.png");		
 
 		rule_child_stealing_16x16 = Activator.getImageDescriptor("icons/child_stealing_16x16.png");		
 		target_invariant_analysis_16x16 = Activator.getImageDescriptor("icons/target_invariants_analysis_16x16.png");	
+
+		delayed_analysis_16x16 = Activator.getImageDescriptor("icons/delayed_analysis.png");	
+
 	}
 }

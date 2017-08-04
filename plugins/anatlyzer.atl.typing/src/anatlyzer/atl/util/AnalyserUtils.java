@@ -264,6 +264,8 @@ public class AnalyserUtils {
 
 	public static String getProblemDescription(EClass eclass) {
 		EAnnotation ann = eclass.getEAnnotation("description");
+		if ( ann == null )
+			throw new IllegalArgumentException("No description for: " + eclass.getName());
 		return ann.getDetails().get("name");
 	}
 	

@@ -25,9 +25,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.m2m.atl.engine.Messages;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -42,6 +47,7 @@ import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.ui.configuration.ConfigurationReader;
 import anatlyzer.ui.configuration.TransformationConfiguration;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 import anatlyzer.ui.util.WorkspaceLogger;
 
 public class AnATLyzerBuilder extends IncrementalProjectBuilder {
@@ -104,18 +110,15 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
-				// handle added resource
 				checkATL(resource);
 				break;
 			case IResourceDelta.REMOVED:
-				// handle removed resource
 				break;
 			case IResourceDelta.CHANGED:
-				// handle changed resource
 				checkATL(resource);
 				break;
 			}
-			//return true to continue visiting children.
+
 			return true;
 		}
 	}
@@ -152,6 +155,12 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 	}
 
 	public void checkATL(IResource resource) {
+		if ( AnATLyzerPreferenceInitializer.getBuilderAnalyseOnlyOpened() ) {
+			if ( ! isOpenedResource(resource) ) {
+				return ;
+			}
+		}
+		
 		TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);			
 
 		Supplier<AtlNbCharFile> helperCreator = () -> {
@@ -187,6 +196,22 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 			}
 			return null;
 		});
+	}
+
+	private boolean isOpenedResource(IResource resource) {
+		for (IWorkbenchWindow w : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+			for (IWorkbenchPage p : w.getPages()) {
+				IEditorPart part = p.getActiveEditor();
+				if ( part instanceof AtlEditorExt ) {
+					AtlEditorExt editor = ((AtlEditorExt) part);						
+					if ( editor.getUnderlyingResource().equals(resource) ) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	/**
@@ -255,6 +280,8 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 					return; // if there are syntax errors!
 				}
 				
+				data.configureProblems(c.getAvailableProblems());
+				
 				for (Problem problem : data.getNonIgnoredProblems()) {
 					IFile problemFile = file;
 					if ( problem instanceof LocalProblem ) {
@@ -318,6 +345,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		}
 		
 		WitnessFinderJob job = new WitnessFinderJob(f, data);
+		job.setPriority(Job.LONG);
 		job.schedule();		
 	}
 

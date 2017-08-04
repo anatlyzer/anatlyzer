@@ -1,5 +1,6 @@
 package anatlyzer.atl.analyser;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,8 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.util.IgnoredProblems;
+import anatlyzer.atl.util.ProblemSets;
 
 /**
  * This class wraps the result of an analysis.
@@ -21,6 +24,8 @@ import anatlyzer.atl.util.AnalyserUtils;
 public class AnalysisResult {
 	protected Analyser analyser;
 	protected GlobalNamespace namespace;
+	
+	protected ArrayList<LocalProblem> batchProblems = new ArrayList<>();
 	
 	public AnalysisResult(Analyser analyser) {
 		this.analyser = analyser;
@@ -38,6 +43,15 @@ public class AnalysisResult {
 	public List<Problem> getProblems() {
 		return analyser.getErrors().getProblems();
 	}
+	
+	public List<LocalProblem> getBatchProblems() {
+		return Collections.unmodifiableList(batchProblems);
+	}
+	
+
+	public List<Problem> getNonIgnoredProblems() {
+		return IgnoredProblems.getNonIgnoredProblems(analyser);
+	}	
 	
 	/**
 	 * This method is intended to extend the analysis result with additional problems
@@ -77,4 +91,17 @@ public class AnalysisResult {
 			analyser.getErrors().addRuleConflicts(rc);
 		}				
 	}
+	
+	public void configureProblems(ProblemSets problems) {
+		for (LocalProblem p : new ArrayList<>(analyser.getErrors().getLocalProblems()) ) {
+			if ( problems.getIgnored().contains( p.eClass() )  ) {
+				analyser.getErrors().getProblems().remove(p);
+			} else if ( problems.getBatch().contains( p.eClass() ) ) {
+				batchProblems.add(p);
+				analyser.getErrors().getProblems().remove(p);				
+			}
+		}
+	}
+
+	
 }

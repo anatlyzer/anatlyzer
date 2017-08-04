@@ -381,6 +381,21 @@
             visualizer="anatlyzer.atl.witness.PlantUMLWitnessVisualizer">
       </visualizer>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="anatlyzer.ui.preferences.AnATLyzerPreferencesPage"
+            id="anatlyzer.atl.editor.preferencePage"
+            name="AnATLyzer">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.preferences.preferences">
+      <initializer
+            class="anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer">
+      </initializer>
+   </extension>
 
 
 </plugin>

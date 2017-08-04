@@ -35,6 +35,8 @@ public class ConfigurationWriter {
 			ps.println("witness-generation-graphics "  + configuration.getWitnessGenerationGraphics());
 		}
 		
+		ps.println("witness-timeout " + (configuration.getTimeOut() == -1 ? "off" : (configuration.getTimeOut() + " millis") ));
+		
 		String mode = "error-path";
 		switch (configuration.getWitnessMode()) {
 		case ERROR_PATH: mode = "error-path"; break;

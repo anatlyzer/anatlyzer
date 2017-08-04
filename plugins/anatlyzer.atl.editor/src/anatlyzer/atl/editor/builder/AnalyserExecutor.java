@@ -29,6 +29,7 @@ import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.util.IgnoredProblems;
+import anatlyzer.atl.util.ProblemSets;
 import anatlyzer.ui.util.AtlEngineUtils;
 
 public class AnalyserExecutor {
@@ -127,10 +128,6 @@ public class AnalyserExecutor {
 
 		public Analyser getAnalyser() {
 			return analyser;
-		}
-
-		public List<Problem> getNonIgnoredProblems() {
-			return IgnoredProblems.getNonIgnoredProblems(analyser);
 		}
 
 	}

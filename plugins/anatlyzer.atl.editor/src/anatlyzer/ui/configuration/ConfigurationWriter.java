@@ -51,7 +51,7 @@ public class ConfigurationWriter {
 		
 		if ( configuration.getAvailableProblems().isDifferentFromDefault() ) {
 			ps.println("# Configuration of problems");
-			writeProblemSet(ps, "continous-problems", configuration.getAvailableProblems().getContinous());
+			writeProblemSet(ps, "continuous-problems", configuration.getAvailableProblems().getContinous());
 			writeProblemSet(ps, "batch-problems", configuration.getAvailableProblems().getBatch());
 			writeProblemSet(ps, "ignored-problems", configuration.getAvailableProblems().getIgnored());
 			ps.println();

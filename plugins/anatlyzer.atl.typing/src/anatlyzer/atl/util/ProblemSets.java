@@ -44,8 +44,9 @@ public class ProblemSets {
 	}
 
 	private boolean isBatchByDefault(EClass c) {
-		return 	c == AtlErrorPackage.Literals.BINDING_POSSIBLY_UNRESOLVED ||
-				c == AtlErrorPackage.Literals.BINDING_WITHOUT_RULE;
+//		return 	c == AtlErrorPackage.Literals.BINDING_POSSIBLY_UNRESOLVED ||
+//				c == AtlErrorPackage.Literals.BINDING_WITHOUT_RULE;
+		return false;
 	}
 
 	private boolean isIgnoredByDefault(EClass eClass) {

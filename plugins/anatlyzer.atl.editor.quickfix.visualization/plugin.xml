@@ -3,6 +3,7 @@
 <plugin>
 
 	<!-- Extension to add the option of automatic fix -->
+<!-- THIS IS EXPERIMENTAL AND IT IS REMOVED FOR COMMON USE	
 	<extension
           point="org.eclipse.ui.editorActions">
        <editorContribution
@@ -11,7 +12,7 @@
 
              <menu
                 id="AnATLyzerEditorMenu"
-                label="anATLyzer">
+                label="AnATLyzer">
              <groupMarker
                    name="AnATLyzerGroup">
              </groupMarker>
@@ -26,6 +27,7 @@
           </action>
       </editorContribution>
    	</extension>
+   	
 	<extension point="org.eclipse.ui.commands">
     	<command
              categoryId="anatlyzerCategory"
@@ -38,7 +40,7 @@
          point="org.eclipse.ui.views">
       <category
             id="anatlyzer.view.category"
-            name="anATLyzer">
+            name="AnATLyzer">
       </category>
       <view
             category="anatlyzer.view.category"
@@ -48,7 +50,7 @@
             name="ATL Repair View">
       </view>
    	</extension>
-   	
+-->   	  	
    	
    	 <extension
            point="org.eclipse.compare.contentViewers">

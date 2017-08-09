@@ -43,8 +43,8 @@ public class ConfigurationReader {
 				checkWitnessGenerationGraphics(line);				
 			} else if ( line.startsWith("witness-timeout") ) {
 				checkWitnessTimeOut(line);				
-			} else if ( line.startsWith("continous-problems") ) {
-				checkProblemsSet(line.substring("continous-problems".length()), configuration.getAvailableProblems()::moveToContinous);
+			} else if ( line.startsWith("continuous-problems") ) {
+				checkProblemsSet(line.substring("continuous-problems".length()), configuration.getAvailableProblems()::moveToContinous);
 			}  else if ( line.startsWith("batch-problems") ) {
 				checkProblemsSet(line.substring("batch-problems".length()), configuration.getAvailableProblems()::moveToBatch);
 			}  else if ( line.startsWith("ignored-problems") ) {

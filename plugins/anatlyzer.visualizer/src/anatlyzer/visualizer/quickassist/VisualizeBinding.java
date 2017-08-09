@@ -22,10 +22,6 @@ public class VisualizeBinding implements AtlQuickAssist {
 	private LocatedElement element;
 	private AnalysisResult result;
 
-	public VisualizeBinding() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public boolean requiresUserIntervention() {
 		return true;
@@ -37,27 +33,16 @@ public class VisualizeBinding implements AtlQuickAssist {
 	}
 
 	@Override
-	public void resetCache() {
-
-	}
+	public void resetCache() { }
 
 	@Override
-	public boolean isMetamodelChanging() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean isMetamodelChanging() { return false; }
 
 	@Override
-	public String getChangedMetamodel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public String getChangedMetamodel() { return null; }
 
 	@Override
-	public void setCanExpectUserInteraction(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
+	public void setCanExpectUserInteraction(boolean b) { }
 
 	@Override
 	public void setElement(LocatedElement elem, AnalysisResult result) {

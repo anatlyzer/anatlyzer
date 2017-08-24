@@ -260,7 +260,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			}			
 		}
 		
-		if ( self.getUsedFeature() == null && isTupleAccess(self) ) {
+		if ( self.getUsedFeature() == null && !isTupleAccess(self) ) {
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 			navT.setOperationName(self.getName());
 		

@@ -89,6 +89,7 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 						
 			Optional<OperatorCallExp> body = self.getTuplePart().stream().map(p -> {
 				NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+				nav.getAnnotations().put("TUPLE_ACCESS", "true");
 				VariableExp vexp = OCLFactory.eINSTANCE.createVariableExp();
 				vexp.setReferredVariable(it);
 				nav.setSource(vexp);
@@ -155,6 +156,7 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 				throw new IllegalStateException();
 			
 			NavigationOrAttributeCallExp nav = OCLFactory.eINSTANCE.createNavigationOrAttributeCallExp();
+			nav.getAnnotations().put("TUPLE_ACCESS", "true");
 			nav.setName(refName);
 			
 			VariableExp vExp = OCLFactory.eINSTANCE.createVariableExp();

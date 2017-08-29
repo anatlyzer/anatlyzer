@@ -293,7 +293,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 	}
 	
 	private boolean isTupleAccess(NavigationOrAttributeCallExp self) {
-		return self.getAnnotations().contains("TUPLE_ACCESS");
+		return self.getAnnotations().containsKey("TUPLE_ACCESS");
 	}
 
 	private Metaclass createMetaclass(EClass klass) {

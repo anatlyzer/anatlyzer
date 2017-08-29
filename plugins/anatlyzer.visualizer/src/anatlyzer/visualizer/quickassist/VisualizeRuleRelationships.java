@@ -4,6 +4,8 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.quickfix.AtlQuickAssist;
@@ -12,6 +14,11 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.visualizer.views.ResolveBindingContentProvider;
+import anatlyzer.visualizer.views.ResolveBindingLabelProvider;
+import anatlyzer.visualizer.views.ResolveBindingView;
+import anatlyzer.visualizer.views.RuleRelationshipsContentProvider;
+import anatlyzer.visualizer.views.RuleRelationshipsLabelProvider;
 
 public class VisualizeRuleRelationships implements AtlQuickAssist {
 
@@ -34,8 +41,17 @@ public class VisualizeRuleRelationships implements AtlQuickAssist {
 
 	@Override
 	public void apply(IDocument document) {
-		// TODO Auto-generated method stub
-
+		ResolveBindingView view;
+		try {
+			view = (ResolveBindingView) PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage().showView(ResolveBindingView.ID);
+			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
+			view.setViewData(new RuleRelationshipsContentProvider(), new RuleRelationshipsLabelProvider(), ATLUtils.getContainer(getElement(), MatchedRule.class));
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

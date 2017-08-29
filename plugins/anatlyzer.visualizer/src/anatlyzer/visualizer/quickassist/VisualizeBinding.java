@@ -79,7 +79,6 @@ public class VisualizeBinding implements AtlQuickAssist {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

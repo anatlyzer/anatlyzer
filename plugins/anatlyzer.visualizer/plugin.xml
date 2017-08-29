@@ -35,7 +35,7 @@
             class="anatlyzer.visualizer.views.ResolveBindingView"
             icon="icons/visualize.png"
             id="anatlyzer.visualizer.views.ResolveBindingView"
-            name="Binding resolution">
+            name="Rule relationships">
       </view>
       
    </extension>

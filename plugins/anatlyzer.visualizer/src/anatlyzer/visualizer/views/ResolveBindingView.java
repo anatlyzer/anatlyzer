@@ -90,9 +90,14 @@ public class ResolveBindingView extends ViewPart {
 		this.contentProvider = contentProvider;
 		this.labelProvider   = labelProvider;
 		this.inputElement    = inputElement;
+		
+		// First time the view is used
+		if ( graph.getContentProvider() == null ) {
+			graph.setContentProvider(contentProvider);			
+		}
+		graph.setInput(inputElement);
 		graph.setContentProvider(contentProvider);
 		graph.setLabelProvider(labelProvider);
-		graph.setInput(inputElement);
 		graph.refresh();
 	}
 	

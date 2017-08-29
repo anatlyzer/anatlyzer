@@ -608,7 +608,7 @@ public class ErrorModel {
 		}
 		s = s.replaceFirst(",", "");
 		
-		signalWarning(error, "Possibly unresolved resolveTemp (" + sourceType.getName() + "): "  + s, resolveTempOperation);
+		signalWarning(error, "Unresolved resolveTemp (" + sourceType.getName() + "): "  + s, resolveTempOperation);
 	}
 
 
@@ -733,7 +733,7 @@ public class ErrorModel {
 		}
 		s = s.replaceFirst(",", "");
 		
-		signalWarning(error, "Possibly unresolved binding (" + rightMetaclass.getName() + "): "  + s, b);
+		signalWarning(error, "Unresolved binding (" + rightMetaclass.getName() + "): "  + s, b);
 	}
 	
 	public void signalInvalidAssignmentInBindingStatement(Type left, Type right, BindingStat b) {
@@ -929,7 +929,7 @@ public class ErrorModel {
 			featName = ((OperationCallExp) node).getOperationName();
 		}
 		
-		error.setDescription("Possible access to undefined value: " + featName);
+		error.setDescription("Access to undefined value: " + featName);
 		error.setSeverity(SeverityKind.ERROR);
 
 		return new Pair<AccessToUndefinedValue, String>(error, error.getDescription());

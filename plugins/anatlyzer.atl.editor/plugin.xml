@@ -350,6 +350,7 @@
       </menuContribution>
    </extension>
    
+   <!-- REMOVED UNTIL IT IS COMPLETELY IMPLEMENTED
    <extension point="org.eclipse.ui.commands">
       <category
             id="anatlyzer.commands"
@@ -369,6 +370,8 @@
             commandId="anatlyzer.commands.createATLHOTPiece">
       </handler>
    </extension>
+   -->
+   
    <extension
          point="anatlyzer.atl.editor.views.additionalactions">
       <viewaction
@@ -397,6 +400,18 @@
             class="anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer">
       </initializer>
    </extension>
+
+	<!-- Templates -->
+ <extension
+       point="org.eclipse.ui.editors.templates">
+    <contextTypeRegistry
+          id="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+    </contextTypeRegistry>
+    <include
+          file="templates/structure.xml"
+          translations="templates/structure.properties">
+    </include>
+ </extension>
 
 
 </plugin>

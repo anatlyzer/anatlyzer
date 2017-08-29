@@ -291,7 +291,7 @@ public class EditConfiguration extends Dialog {
 		btnCheckDiscardCause.setSelection(configuration.getCheckDiscardCause());
 		btnContinousWitnessFinder.setSelection(configuration.isContinousWitnessFinder());
 		btnDoRecursionUnfolding.setSelection(configuration.getDoRecursionUnfolding());
-		
+		txtTimeOut.setText(configuration.getTimeOut() == -1 ? "" : configuration.getTimeOut() + "");
 		
 		ProblemSets problems = configuration.getAvailableProblems();
 		tableViewerContinous.setContentProvider(new ArrayContentProvider());
@@ -325,6 +325,13 @@ public class EditConfiguration extends Dialog {
 		configuration.setContinousWitnessFinder(btnContinousWitnessFinder.getSelection());
 		configuration.setDoRecursionUnfolding(btnDoRecursionUnfolding.getSelection());
 				
+		String txt = txtTimeOut.getText().trim();
+		if ( txt.isEmpty() ) {
+			configuration.setTimeOut(-1);
+		} else {
+			configuration.setTimeOut(Long.parseLong(txt));
+		}
+		
 		super.okPressed();
 	}
 	

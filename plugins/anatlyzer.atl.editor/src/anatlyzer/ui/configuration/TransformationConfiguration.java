@@ -16,7 +16,7 @@ public class TransformationConfiguration implements Cloneable {
 	private WitnessGenerationMode witnessMode = WitnessGenerationMode.ERROR_PATH;
 	private String graphicsType;
 	private boolean doRecursionUnfolding = false;
-	private long timeOut = -1;
+	private long timeOut = 5000; // default 5 seconds
 	private ProblemSets availableProblems;
 	
 	public TransformationConfiguration() {

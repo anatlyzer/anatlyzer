@@ -287,8 +287,9 @@
     <!-- END-OF Constraint solving and slicing -->
    
    
-	
 	<!-- Extension to add the option of automatic fix -->
+<!-- THIS IS EXPERIMENTAL AND IT IS REMOVED FOR COMMON USE	
+	
 	<extension
           point="org.eclipse.ui.editorActions">
        <editorContribution
@@ -297,7 +298,7 @@
 
              <menu
                 id="AnATLyzerEditorMenu"
-                label="anATLyzer">
+                label="AnATLyzer">
              <groupMarker
                    name="AnATLyzerGroup">
              </groupMarker>
@@ -312,6 +313,7 @@
           </action>
       </editorContribution>
    	</extension>
+-->
    	
    	<!--
    	<extension point="org.eclipse.ui.bindings">
@@ -393,6 +395,17 @@
           apply="anatlyzer.atl.editor.quickfix.IgnoreProblemQuickfix">
     </quickfix>
  </extension>
+
+ <extension
+       id="anatlyzer.atl.MoveToBatchProblemQuickfix"
+       name="Move problem to batch"
+       point="anatlyzer.atl.editor.quickfix">
+    <quickfix
+          apply="anatlyzer.atl.editor.quickfix.MoveToBatchProblemQuickfix">
+    </quickfix>
+ </extension>
+ 
+ 
  <extension
        point="anatlyzer.atl.editor.explanation_fixdialog">
     <dialog

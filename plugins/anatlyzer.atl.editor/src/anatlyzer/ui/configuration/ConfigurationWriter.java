@@ -35,6 +35,8 @@ public class ConfigurationWriter {
 			ps.println("witness-generation-graphics "  + configuration.getWitnessGenerationGraphics());
 		}
 		
+		ps.println("witness-timeout " + (configuration.getTimeOut() == -1 ? "off" : (configuration.getTimeOut() + " millis") ));
+		
 		String mode = "error-path";
 		switch (configuration.getWitnessMode()) {
 		case ERROR_PATH: mode = "error-path"; break;
@@ -49,7 +51,7 @@ public class ConfigurationWriter {
 		
 		if ( configuration.getAvailableProblems().isDifferentFromDefault() ) {
 			ps.println("# Configuration of problems");
-			writeProblemSet(ps, "continous-problems", configuration.getAvailableProblems().getContinous());
+			writeProblemSet(ps, "continuous-problems", configuration.getAvailableProblems().getContinous());
 			writeProblemSet(ps, "batch-problems", configuration.getAvailableProblems().getBatch());
 			writeProblemSet(ps, "ignored-problems", configuration.getAvailableProblems().getIgnored());
 			ps.println();

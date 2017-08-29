@@ -14,7 +14,7 @@
          point="org.eclipse.ui.views">
       <category
             id="anatlyzer.view.category"
-            name="anATLyzer">
+            name="AnATLyzer">
       </category>
       <view
             category="anatlyzer.view.category"
@@ -26,16 +26,16 @@
       <view
             category="anatlyzer.view.category"
             class="anatlyzer.visualizer.views.BindingResolutionInfoView"
-            icon="icons/sample.gif"
+            icon="icons/visualize.png"
             id="anatlyzer.visualizer.views.BindingResolutionInfoView"
             name="Problematic Binding View">
       </view>
             <view
             category="anatlyzer.view.category"
             class="anatlyzer.visualizer.views.ResolveBindingView"
-            icon="icons/sample.gif"
+            icon="icons/visualize.png"
             id="anatlyzer.visualizer.views.ResolveBindingView"
-            name="Binding resolution">
+            name="Rule relationships">
       </view>
       
    </extension>
@@ -59,6 +59,9 @@
          point="anatlyzer.atl.editor.quickassist">
       <quickassist
             apply="anatlyzer.visualizer.quickassist.VisualizeBinding">
+      </quickassist>
+      <quickassist
+            apply="anatlyzer.visualizer.quickassist.VisualizeRuleRelationships">
       </quickassist>
    </extension>
 

@@ -196,12 +196,15 @@ public class USESolverMemory extends Solver_use {
 		
         IModel kodkodModel = PluginModelFactory.INSTANCE.getModel(system.model());        
 		ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher();
+		
 		enricher.enrichModel(system, kodkodModel);
 		
 		// configure
 		org.apache.commons.configuration.Configuration config = extractConfigFromFile(metamodelBounds);
 		
 		kodkodModel.reset(); 
+
+
 		PropertyConfigurationVisitor newConfigurationVisitor = new PropertyConfigurationVisitor(config, fLogWriter);
 		kodkodModel.accept(newConfigurationVisitor);
 		
@@ -222,7 +225,9 @@ public class USESolverMemory extends Solver_use {
 		
         fSession.system().registerPPCHandlerOverride(Shell.getInstance());
 		MSystemState result = system.state();	
-//		KodkodModelValidatorConfiguration.INSTANCE.setBitwidth(bitwidth);
+//		KodkodModelValidatorConfiguration.INSTANCE.setBitwidth(8);
+//		KodkodModelValidatorConfiguration.INSTANCE.setSatFactory("DefaultSAT4J");
+		
 //		.put("defaultsat4j", "DefaultSAT4J")
 //		.put("lightsat4j", "LightSAT4J")
 //		.put("lingeling", "Lingeling")

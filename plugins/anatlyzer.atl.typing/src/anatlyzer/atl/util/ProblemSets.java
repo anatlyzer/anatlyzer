@@ -25,6 +25,8 @@ public class ProblemSets {
 				filter(c -> ! c.isAbstract() ).
 				filter(c -> AnalysisResultPackage.Literals.PROBLEM.isSuperTypeOf(c)).
 				filter(c -> c != AtlErrorPackage.Literals.CONFLICTING_RULE_SET).
+				filter(c -> c != AtlErrorPackage.Literals.TARGET_INVARIANT_VIOLATION).
+				filter(c -> c != AtlErrorPackage.Literals.GENERIC_LOCAL_PROBLEM).				
 				collect(Collectors.toList());
 		
 		for (EClass eClass : allProblems) {
@@ -42,8 +44,9 @@ public class ProblemSets {
 	}
 
 	private boolean isBatchByDefault(EClass c) {
-		return 	c == AtlErrorPackage.Literals.BINDING_POSSIBLY_UNRESOLVED ||
-				c == AtlErrorPackage.Literals.BINDING_WITHOUT_RULE;
+//		return 	c == AtlErrorPackage.Literals.BINDING_POSSIBLY_UNRESOLVED ||
+//				c == AtlErrorPackage.Literals.BINDING_WITHOUT_RULE;
+		return false;
 	}
 
 	private boolean isIgnoredByDefault(EClass eClass) {

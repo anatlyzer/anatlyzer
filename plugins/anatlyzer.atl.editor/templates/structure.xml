@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+<template name="%pattern.pre_condition.name" description="%pattern.pre_condition.desc" 
+	context="module_context" 
+	id="pattern.module.pre_condition" 
+	enabled="true">
+-- @precondition
+helper def : ${name}() : Boolean = true;
+</template>
+
+<template name="%pattern.target_constraint.name" description="%pattern.target_constraint.desc" 
+	context="module_context" 
+	id="pattern.module.target_constraint" 
+	enabled="true">
+-- @target_constraint
+helper def : ${name}() : Boolean = true;
+</template>
+
+
+</templates>

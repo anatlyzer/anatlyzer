@@ -13,15 +13,22 @@ import anatlyzer.atl.editor.views.Images;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.visualizer.views.ResolveBindingContentProvider;
 import anatlyzer.visualizer.views.ResolveBindingLabelProvider;
 import anatlyzer.visualizer.views.ResolveBindingView;
+import anatlyzer.visualizer.views.RuleRelationshipsContentProvider;
+import anatlyzer.visualizer.views.RuleRelationshipsLabelProvider;
 
-public class VisualizeBinding implements AtlQuickAssist {
+public class VisualizeRuleRelationships implements AtlQuickAssist {
 
 	private LocatedElement element;
 	private AnalysisResult result;
 
+	public VisualizeRuleRelationships() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public boolean requiresUserIntervention() {
 		return true;
@@ -33,10 +40,51 @@ public class VisualizeBinding implements AtlQuickAssist {
 	}
 
 	@Override
+	public void apply(IDocument document) {
+		ResolveBindingView view;
+		try {
+			view = (ResolveBindingView) PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage().showView(ResolveBindingView.ID);
+			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
+			view.setViewData(new RuleRelationshipsContentProvider(), new RuleRelationshipsLabelProvider(), ATLUtils.getContainer(getElement(), MatchedRule.class));
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Point getSelection(IDocument document) {
+		return null;
+	}
+
+	@Override
+	public String getAdditionalProposalInfo() {
+		return "Visualize rule relationships";
+	}
+
+	@Override
+	public String getDisplayString() {
+		return "Visualize rule relationships";
+	}
+	
+	@Override
+	public Image getImage() {
+		return Images.visualize_16x16.createImage();
+	}
+
+	@Override
+	public IContextInformation getContextInformation() {
+		return null;
+	}
+
+	@Override
 	public void resetCache() { }
 
 	@Override
 	public boolean isMetamodelChanging() { return false; }
+
 
 	@Override
 	public String getChangedMetamodel() { return null; }
@@ -52,8 +100,7 @@ public class VisualizeBinding implements AtlQuickAssist {
 
 	@Override
 	public boolean isApplicable() {
-		 Binding container = ATLUtils.getContainer(getElement(), Binding.class);
-		 return container != null;
+		return getElement() instanceof MatchedRule;
 	}
 
 	@Override
@@ -63,48 +110,7 @@ public class VisualizeBinding implements AtlQuickAssist {
 
 	@Override
 	public AnalysisResult getAnalysisResult() {
-		return this.result;
-	}
-
-	@Override
-	public void apply(IDocument document) {
-		ResolveBindingView view;
-		try {
-			view = (ResolveBindingView) PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage().showView(ResolveBindingView.ID);
-			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
-			view.setViewData(new ResolveBindingContentProvider(), new ResolveBindingLabelProvider(), ATLUtils.getContainer(getElement(), Binding.class));
-		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public Point getSelection(IDocument document) {
-		return null;
-	}
-
-	@Override
-	public String getAdditionalProposalInfo() {
-		return "Visualize binding";
-	}
-
-	@Override
-	public String getDisplayString() {
-		return "Visualize binding";
-	}
-	
-	@Override
-	public Image getImage() {
-		return Images.visualize_16x16.createImage();
-	}
-
-	@Override
-	public IContextInformation getContextInformation() {
-		// TODO Auto-generated method stub
-		return null;
+		return result;
 	}
 
 }

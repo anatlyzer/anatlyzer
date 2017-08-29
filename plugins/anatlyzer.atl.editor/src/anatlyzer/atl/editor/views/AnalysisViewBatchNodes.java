@@ -1,5 +1,7 @@
 package anatlyzer.atl.editor.views;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -19,15 +21,22 @@ import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Node;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Result;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
+import anatlyzer.atl.editor.builder.WitnessFinderJob;
 import anatlyzer.atl.editor.views.AnalysisView.IBatchAnalysisNode;
 import anatlyzer.atl.editor.views.AnalysisView.IWithCodeLocation;
+import anatlyzer.atl.editor.views.AnalysisView.LocalProblemNode;
 import anatlyzer.atl.editor.views.AnalysisView.TreeNode;
+import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.explanations.InvariantExplanationDialog;
+import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.ui.actions.CheckChildStealing;
@@ -56,12 +65,26 @@ public class AnalysisViewBatchNodes {
 	
 	class BatchAnalysisNodeGroup extends TreeNode {
 		private TreeNode[] children;
-
+		
 		public BatchAnalysisNodeGroup(TreeNode parent) {
 			super(parent);
-			this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent), new UnconnectedComponentsAnalysis(this), 
-					new TargetInvariantAnalysisBatchNode(this) };
-			// this.children = new TreeNode[] { new RuleConflictAnalysisNode(this), new ChildStealingAnalysisBatchNode(parent) };
+			TreeNode[] nodes = new TreeNode[] { 
+					new RuleConflictAnalysisNode(this), 
+					new ChildStealingAnalysisBatchNode(parent), 
+					new UnconnectedComponentsAnalysis(this), 
+					new TargetInvariantAnalysisBatchNode(this),
+					new DelayedAnalysisBatchNode(this)
+			};
+			
+//			if ( view.getCurrentAnalysis() != null ) {
+//				List<LocalProblem> batchProblems = view.getCurrentAnalysis().getBatchProblems();
+//				if ( batchProblems.size() > 0 ) {
+//					nodes = Arrays.copyOf(nodes, nodes.length + 1);
+//					nodes[nodes.length - 1] = new DelayedAnalysisBatchNode(this);
+//				}
+//			}
+		
+			this.children = nodes;
 		}
 
 		@Override
@@ -682,7 +705,99 @@ public class AnalysisViewBatchNodes {
 
 	}
 	
+
+	//
+	// Delayed nodes
+	//
 	
+	class DelayedAnalysisBatchNode extends TreeNode implements IBatchAnalysisNode {
+		private LocalProblemNode[] elements;
+		
+		public DelayedAnalysisBatchNode(TreeNode parent) {
+			super(parent);
+		}
+
+		class DelayedAnalysisBatchJob extends WitnessFinderJob {
+			List<LocalProblem> result = null;
+			public DelayedAnalysisBatchJob(String name) {
+				super(view.getCurrentResource(), view.getCurrentAnalysis());
+			}
+
+			@Override
+			protected List<? extends Problem> getProblems() {
+				return view.getCurrentAnalysis().getBatchProblems();
+			}
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				result = view.getCurrentAnalysis().getBatchProblems();
+				return super.run(monitor);
+			}
+		}
+		
+		@Override
+		public void perform() {
+			final DelayedAnalysisBatchJob job = new DelayedAnalysisBatchJob("Delayed analysis");
+			
+			job.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+					if ( job.result != null ) {
+						List<LocalProblem> result = job.result;	
+						elements = new LocalProblemNode[result.size()];
+						
+						int i = 0;
+						for (LocalProblem possibleNode : result) {
+							elements[i] = new LocalProblemNode(DelayedAnalysisBatchNode.this, possibleNode);
+//							if ( AnalyserUtils.isConfirmed(possibleNode.getAnalysisResult()) ) {
+//								numberOfIssues++;
+//							}
+							i++;
+						}
+
+						view.refreshFromNonUI();
+					}
+				}
+			});
+			
+			job.schedule();
+
+		}
+
+		@Override
+		public Object[] getChildren() {
+			return elements;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return elements != null && elements.length > 0;
+		}
+		
+		@Override
+		public String toString() {
+			return "Delayed analysis";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return Images.delayed_analysis_16x16;
+		}
+		
+		@Override
+		public String toColumn1() {			
+			if ( view.getCurrentAnalysis() != null ) {
+				List<LocalProblem> batchProblems = view.getCurrentAnalysis().getBatchProblems();
+				if ( batchProblems.size() == 0 ) {
+					return "Nothing delayed";
+				} else {
+					return batchProblems.size() + " problems delayed";
+				}
+			}
+			return "";
+		}
+	}
+
 	
 }
 

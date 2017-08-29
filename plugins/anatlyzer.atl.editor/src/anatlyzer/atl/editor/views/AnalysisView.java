@@ -202,7 +202,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		}
 	}
 	
-	class LocalProblemNode extends TreeNode implements IWithCodeLocation {
+	static class LocalProblemNode extends TreeNode implements IWithCodeLocation {
 
 		protected LocalProblem p;
 

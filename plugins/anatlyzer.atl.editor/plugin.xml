@@ -103,12 +103,13 @@
 
              <menu
                 id="AnATLyzerEditorMenu"
-                label="anATLyzer">
+                label="AnATLyzer">
              <groupMarker
                    name="AnATLyzerGroup">
              </groupMarker>
           </menu>
-	
+
+<!--	
           <action
                 class="anatlyzer.ui.actions.CheckRuleConflicts"
                 definitionId="anatlyzer.ui.commands.CheckRuleConflicts"
@@ -132,7 +133,7 @@
                 label="Clean all markers"
                 menubarPath="AnATLyzerEditorMenu/AnATLyzerGroup">
           </action>
-          
+-->         
 		</editorContribution>
 
    </extension>
@@ -163,7 +164,7 @@
        point="org.eclipse.ui.views">
     <category
           id="anatlyzer.view.category"
-          name="anATLyzer">
+          name="AnATLyzer">
     </category>
     <view
           category="anatlyzer.view.category"
@@ -209,7 +210,7 @@
             objectClass="org.eclipse.core.resources.IFile"
             id="anatlyzer.ui.contribution.showConfigurationDialog">
          <menu
-               label="anATLyzer"
+               label="AnATLyzer"
                path="additions"
                id="anatlyzer.menu">
             <separator
@@ -234,7 +235,7 @@
             locationURI="popup:#TextEditorContext?after=additions">
          <menu
                id="anatlyzer.atl.editor.popup"
-               label="anATLyzer"
+               label="AnATLyzer"
                mnemonic="A">
          </menu>	
       </menuContribution>
@@ -291,7 +292,7 @@
    <extension point="org.eclipse.ui.commands">
       <category
             id="anatlyzer.commands"
-            name="anATLyzer">
+            name="AnATLyzer">
       </category>
       <command
             categoryId="anatlyzer.commands"
@@ -349,10 +350,11 @@
       </menuContribution>
    </extension>
    
+   <!-- REMOVED UNTIL IT IS COMPLETELY IMPLEMENTED
    <extension point="org.eclipse.ui.commands">
       <category
             id="anatlyzer.commands"
-            name="anATLyzer">
+            name="AnATLyzer">
       </category>
       <command
             categoryId="anatlyzer.commands"
@@ -368,6 +370,8 @@
             commandId="anatlyzer.commands.createATLHOTPiece">
       </handler>
    </extension>
+   -->
+   
    <extension
          point="anatlyzer.atl.editor.views.additionalactions">
       <viewaction
@@ -381,6 +385,33 @@
             visualizer="anatlyzer.atl.witness.PlantUMLWitnessVisualizer">
       </visualizer>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="anatlyzer.ui.preferences.AnATLyzerPreferencesPage"
+            id="anatlyzer.atl.editor.preferencePage"
+            name="AnATLyzer">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.preferences.preferences">
+      <initializer
+            class="anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer">
+      </initializer>
+   </extension>
+
+	<!-- Templates -->
+ <extension
+       point="org.eclipse.ui.editors.templates">
+    <contextTypeRegistry
+          id="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+    </contextTypeRegistry>
+    <include
+          file="templates/structure.xml"
+          translations="templates/structure.properties">
+    </include>
+ </extension>
 
 
 </plugin>

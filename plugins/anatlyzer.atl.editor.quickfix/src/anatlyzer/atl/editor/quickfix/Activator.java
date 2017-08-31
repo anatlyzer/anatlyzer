@@ -17,6 +17,12 @@ import org.osgi.framework.BundleContext;
 
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.editor.quickfix.dialog.SpeculativeQuickfixDialog;
+import anatlyzer.atl.editor.views.IAnalysisView.Kind;
+import anatlyzer.atl.errors.Problem;
+import anatlyzer.atl.explanations.AtlProblemExplanation;
+import anatlyzer.atl.explanations.ExplanationFinder;
+import anatlyzer.atl.explanations.SimpleExplanationDialog;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -47,25 +53,27 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	private void configureProposalCategory() {
-		ProposalCategory.proposalCallback = (p, analysis) -> {
-			ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysis) );
-			List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
-			for (ICompletionProposal prop : quickfixes) {
-				quickfixesList.add((AtlProblemQuickfix) prop);
-			}
-			
-			// analysisView.getAssociatedEditor().getSite().getShell()
-			Shell shell = Display.getCurrent().getActiveShell();
-			SpeculativeQuickfixDialog dialog = new SpeculativeQuickfixDialog(shell, 
-					analysis,
-					p,
-					quickfixesList);			
+			ProposalCategory.proposalCallback = (p, analysis) -> {
+				ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysis) );
+				List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+				for (ICompletionProposal prop : quickfixes) {
+					quickfixesList.add((AtlProblemQuickfix) prop);
+				}
+				
+				// analysisView.getAssociatedEditor().getSite().getShell()
+				Shell shell = Display.getCurrent().getActiveShell();
+				SpeculativeQuickfixDialog dialog = new SpeculativeQuickfixDialog(shell, 
+						analysis,
+						p,
+						quickfixesList);			
+				
+				if ( dialog.open() == Window.OK ) {
+					return dialog.getQuickfix();
+				} 
+				return null;
+			};
+
 		
-			if ( dialog.open() == Window.OK ) {
-				return dialog.getQuickfix();
-			} 
-			return null;
-		};
 	}
 
 	

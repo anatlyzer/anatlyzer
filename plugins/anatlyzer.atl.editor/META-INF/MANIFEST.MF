@@ -34,4 +34,5 @@ Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.atl.witness,
  anatlyzer.ui.actions,
  anatlyzer.ui.configuration,
+ anatlyzer.ui.preferences,
  anatlyzer.ui.util

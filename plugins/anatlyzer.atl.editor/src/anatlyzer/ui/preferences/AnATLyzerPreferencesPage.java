@@ -40,6 +40,8 @@ public class AnATLyzerPreferencesPage extends FieldEditorPreferencePage implemen
 
     	addField(new IntegerFieldEditor(AnATLyzerPreferenceInitializer.TIMEOUT_PREFERENCE, "Default time out", getFieldEditorParent()));
     	
+    	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.SPECULATIVE_QUICKFIXES_ENABLED, "Enabled speculative quick fixes", getFieldEditorParent()));
+    	
     }
 
     @Override

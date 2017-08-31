@@ -171,7 +171,9 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 				filter(entry -> entry.getValue() instanceof EStructuralFeature).
 				filter(entry -> {
 					EStructuralFeature fTgt = (EStructuralFeature) entry.getValue();
-					return 
+
+					return 							
+						fTgt.getEContainingClass() != null && // Not sure why this constraint is required to avoid a NPE in some cases
 						fTgt.getName().equals(f.getName()) && 
 						fTgt.getEContainingClass().getName().equals(f.getEContainingClass().getName());
 				}).findAny().map(e -> (EStructuralFeature) e.getKey()).orElse(null);

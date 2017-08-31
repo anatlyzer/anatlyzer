@@ -32,6 +32,8 @@ import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.explanations.AtlProblemExplanation;
 import anatlyzer.atl.explanations.ExplanationFinder;
 import anatlyzer.atl.explanations.ExplanationWithFixesDialog;
+import anatlyzer.atl.explanations.SimpleExplanationDialog;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 
 public class ProposalCategory implements ICompletionProposal, ICompletionProposalExtension6 {
 
@@ -55,26 +57,32 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 			AtlProblemExplanation exp = ExplanationFinder.find(p, analysisData);
 			
 			if ( exp != null ) {
-				ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysisData) );
-				List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
-				for (ICompletionProposal prop : quickfixes) {
-					quickfixesList.add((AtlProblemQuickfix) prop);
-				}
-				
-				Shell shell = Display.getCurrent().getActiveShell();
-				ExplanationWithFixesDialog dialog = new ExplanationWithFixesDialog(shell, exp, p, analysisData, quickfixesList);
-				int result = dialog.open();
-				if ( result == Dialog.OK ) {
-					AtlProblemQuickfix qfx = dialog.getSelectedQuickfix();
-					if ( qfx != null ) {
-						if ( MessageDialog.openConfirm(shell, "Confirm quick fix application", "Apply quick fix '" + qfx.getDisplayString() + "'?") ) { 
-							qfx.apply(document);
+				if ( AnATLyzerPreferenceInitializer.getSpeculativeQuickfixesEnabled() ) {
+					ICompletionProposal[] quickfixes = (ICompletionProposal[]) AnalysisQuickfixProcessor.getQuickfixes(new MockMarker(p, analysisData) );
+					List<AtlProblemQuickfix> quickfixesList = new ArrayList<AtlProblemQuickfix>();
+					for (ICompletionProposal prop : quickfixes) {
+						quickfixesList.add((AtlProblemQuickfix) prop);
+					}
+					
+					Shell shell = Display.getCurrent().getActiveShell();
+					ExplanationWithFixesDialog dialog = new ExplanationWithFixesDialog(shell, exp, p, analysisData, quickfixesList);
+					int result = dialog.open();
+					if ( result == Dialog.OK ) {
+						AtlProblemQuickfix qfx = dialog.getSelectedQuickfix();
+						if ( qfx != null ) {
+							if ( MessageDialog.openConfirm(shell, "Confirm quick fix application", "Apply quick fix '" + qfx.getDisplayString() + "'?") ) { 
+								qfx.apply(document);
+							}
 						}
 					}
+
+				} else {
+					SimpleExplanationDialog dialog = new SimpleExplanationDialog(null, exp);
+					dialog.open();
 				}
 				
 			} else {
-				if ( proposalCallback != null ) {
+				if ( proposalCallback != null && AnATLyzerPreferenceInitializer.getSpeculativeQuickfixesEnabled() ) {
 					AtlProblemQuickfix qfx = proposalCallback.apply(p, analysisData);
 					if ( qfx != null )
 						qfx.apply(document);

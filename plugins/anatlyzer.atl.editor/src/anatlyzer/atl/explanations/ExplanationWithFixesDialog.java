@@ -22,14 +22,15 @@ import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
 import anatlyzer.atl.errors.Problem;
 
 public class ExplanationWithFixesDialog extends Dialog {
-
-	public static final int APPLY_QUICKFIX_CODE = 100;
+	public static final int SAVE_WITNESS = 1024;
+	
 	private AtlProblemExplanation explanation;
 	private Problem problem;
 	private AnalysisResult result;
 	private List<AtlProblemQuickfix> quickfixes;
 	private IExplanationFixDialog fixPart;
-
+	private ExplanationComposite explanationComposite;
+	
 	/**
 	 * Create the dialog.
 	 * @param parentShell
@@ -64,20 +65,20 @@ public class ExplanationWithFixesDialog extends Dialog {
 		sashForm.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_GRAY));
 		sashForm.setSashWidth(5);
 		
-		Group explanationComposite = new Group(sashForm, SWT.BORDER);
-		explanationComposite.setText(" Problem explanation ");
+		Group explanationCompositeSash = new Group(sashForm, SWT.BORDER);
+		explanationCompositeSash.setText(" Problem explanation ");
 		// explanationComposite.setLayout(new GridLayout(1, false));
-		explanationComposite.setLayout(new FillLayout(SWT.VERTICAL));
+		explanationCompositeSash.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		Group fixComposite = new Group(sashForm, SWT.BORDER);
 		fixComposite.setText(" Possible fixes ");
 		//fixComposite.setLayout(new GridLayout(1, false));
 		fixComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		
-		ExplanationComposite composite = new ExplanationComposite(explanationComposite, SWT.NONE);
+		explanationComposite = new ExplanationComposite(explanationCompositeSash, SWT.NONE);
 //		// composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 //		
-		composite.setExplanation(explanation);
+		explanationComposite.setExplanation(explanation);
 		
 		initFixComposite(fixComposite);
 //		Composite c = new Composite(fixComposite, SWT.NONE);
@@ -105,21 +106,22 @@ public class ExplanationWithFixesDialog extends Dialog {
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
 				true);
 
-//		createButton(parent, APPLY_QUICKFIX_CODE, " Apply quick fix ", false);
-
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
-	}
 	
-//	protected void buttonPressed(int buttonId) {
-//		if ( buttonId == APPLY_QUICKFIX_CODE ) {
-//			setReturnCode(APPLY_QUICKFIX_CODE);
-//			close();
-//		} else {
-//			super.buttonPressed(buttonId);
-//		}
-//	}
 
+		createButton(parent, SAVE_WITNESS,
+			"Save witness", false);		
+	}
+
+	@Override
+	protected void buttonPressed(int buttonId) {
+		if ( buttonId == SAVE_WITNESS ) { 
+			explanationComposite.saveWitness(explanation);
+		}
+		super.buttonPressed(buttonId);
+	}	
+	
 	/**
 	 * Return the initial size of the dialog.
 	 */

@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridData;
 
 public class SpeculativeQuickfixDialog extends Dialog {
+
 	private List<AtlProblemQuickfix> quickfixes;	
 	private AnalysisResult analysisResult;
 	private Problem problem;
@@ -74,8 +75,10 @@ public class SpeculativeQuickfixDialog extends Dialog {
 				true);
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
+		
 	}
-
+	
+	
 	/**
 	 * Return the initial size of the dialog.
 	 */

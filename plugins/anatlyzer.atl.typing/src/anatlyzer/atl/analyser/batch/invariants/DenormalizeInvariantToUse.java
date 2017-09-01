@@ -24,6 +24,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
+import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -79,12 +80,16 @@ public class DenormalizeInvariantToUse extends Denormalizer  {
 			allInstances.setSource(newElement);
 			
 			// T.allInstances()->any(o | o.prop1 = v1 and o.prop2 = v2...)
+			// * For USE we cannot use "any" safely, so when possible we use "select"
+			// * We check if the tuple is in a position in which the select may work
+			String iteratorName = self.eContainer() instanceof LoopExp ? "select" : "any";
 			
 			IteratorExp any = OCLFactory.eINSTANCE.createIteratorExp();
 			Iterator it = OCLFactory.eINSTANCE.createIterator();
 			it.setVarName("o_");
 			any.getIterators().add(it);
-			any.setName("any");
+			// any.setName("any");
+			any.setName( iteratorName );
 			any.setSource(allInstances);
 						
 			Optional<OperatorCallExp> body = self.getTuplePart().stream().map(p -> {

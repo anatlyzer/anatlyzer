@@ -49,10 +49,8 @@ import anatlyzer.atlext.OCL.VariableExp;
  */
 public class OclGeneratorAST {
 
-	private ATLModel atlModel;
-	private LazyRuleCallTransformationStrategy lazyRuleStrategy = new LazyRuleNotSupported();
-	
-	
+	protected ATLModel atlModel;
+	protected LazyRuleCallTransformationStrategy lazyRuleStrategy = new LazyRuleNotSupported();
 	
 	public OclGeneratorAST(ATLModel atlModel) {
 		this.atlModel = atlModel;
@@ -138,10 +136,7 @@ public class OclGeneratorAST {
 			
 			return tgt;
 		} else if ( expr instanceof EnumLiteralExp ) {
-			EnumLiteralExp enuml = (EnumLiteralExp) expr;
-			EnumLiteralExp tgt = OCLFactory.eINSTANCE.createEnumLiteralExp();
-			tgt.setName(enuml.getName());
-			return tgt;
+			return translateEnumLiteral((EnumLiteralExp) expr);
 		} else if ( expr instanceof OclUndefinedExp ) {
 			return OCLFactory.eINSTANCE.createOclUndefinedExp();
 		} else if ( expr instanceof OclType ) {
@@ -155,6 +150,13 @@ public class OclGeneratorAST {
 			
 			throw new UnsupportedOperationException(expr.toString());
 		}
+	}
+
+	protected OclExpression translateEnumLiteral(EnumLiteralExp expr) {
+		EnumLiteralExp enuml = (EnumLiteralExp) expr;
+		EnumLiteralExp tgt = OCLFactory.eINSTANCE.createEnumLiteralExp();
+		tgt.setName(enuml.getName());
+		return tgt;
 	}
 
 	protected OclExpression resolveVariableExp(VariableExp expr,

@@ -1,10 +1,15 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
+
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.types.BooleanType;
+import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.Metaclass;
@@ -101,7 +106,19 @@ public class DefaultValueNode extends AbstractInvariantReplacerNode {
 		else if ( t instanceof SetType ) {
 			SetExp exp = OCLFactory.eINSTANCE.createSetExp();
 			return exp;
+		} else if ( t instanceof EnumType ) {
+			EEnum enum_ = (EEnum) ((EnumType) t).getEenum();
+			
+			//IntegerExp exp = OCLFactory.eINSTANCE.createIntegerExp();
+ 			// exp.setIntegerSymbol( ((EEnumLiteral) enum_.getDefaultValue()).getValue() );
+			
+			StringExp sexp = OCLFactory.eINSTANCE.createStringExp();
+			sexp.setStringSymbol(enum_.getName() + "_" + ((EEnumLiteral) enum_.getDefaultValue()).getLiteral());
+			
+ 			return sexp;
+			
 		}
+		
 //		else if ( t instanceof TupleType ) {
 //			TupleExp exp = OCLFactory.eINSTANCE.createTupleExp();
 //			for (TupleAttribute att : ((TupleType)t).getAttributes()) {

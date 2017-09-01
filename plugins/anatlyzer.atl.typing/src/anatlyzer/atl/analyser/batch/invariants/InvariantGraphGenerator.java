@@ -43,6 +43,7 @@ import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.OCL.CollectionExp;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -187,6 +188,7 @@ public class InvariantGraphGenerator {
 		else if ( expr instanceof PrimitiveExp ) return new GenericExpNode(null, expr);
 		else if ( expr instanceof OclUndefinedExp ) return new GenericExpNode(null, expr);
 		else if ( expr instanceof CollectionExp ) return checkCollectionExp((CollectionExp) expr, env);
+		else if ( expr instanceof EnumLiteralExp ) return new EnumLiteralExpNode(null, (EnumLiteralExp) expr);
 		
 		throw new UnsupportedOperationException(expr.toString());
 	}
@@ -233,7 +235,7 @@ public class InvariantGraphGenerator {
 		IInvariantNode result = analyse(body, env);
 		result.setParent(new NullParent());
 
-		translatedHelpers.add( new TranslatedHelper(h, result, sourceContext) );
+		translatedHelpers.add( new TranslatedHelper(h, result, sourceContext, this.result) );
 	}
 	
 	private IInvariantNode checkVariableExp(VariableExp expr, Env env) {
@@ -815,11 +817,13 @@ public class InvariantGraphGenerator {
 		private ContextHelper helper;
 		private IInvariantNode body;
 		private SourceContext<? extends RuleWithPattern> sourceContext;
+		private IAnalyserResult result;
 
-		public TranslatedHelper(ContextHelper h, IInvariantNode body, SourceContext<? extends RuleWithPattern> sourceContext) {
+		public TranslatedHelper(ContextHelper h, IInvariantNode body, SourceContext<? extends RuleWithPattern> sourceContext, IAnalyserResult result) {
 			this.helper = h;
 			this.body = body;
 			this.sourceContext = sourceContext;
+			this.result = result;
 		}
 		
 		public ContextHelper getHelper() {
@@ -831,7 +835,7 @@ public class InvariantGraphGenerator {
 		}
 
 		public ContextHelper genSourceHelper() {
-			CSPModel2 builder = new CSPModel2();
+			CSPModel2 builder = new CSPModel2(result);
 			builder.initWithoutThisModuleContext();
 			
 			

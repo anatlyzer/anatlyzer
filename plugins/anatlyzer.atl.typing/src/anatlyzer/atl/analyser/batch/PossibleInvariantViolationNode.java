@@ -112,13 +112,13 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 	}
 
 	protected OclExpression getPreconditionNorm(Function<OclExpression, OclExpression> negator) {
-		CSPModel2 cspmodel = new CSPModel2();
+		CSPModel2 cspmodel = new CSPModel2(result);
 		cspmodel.initWithoutThisModuleContext();
 		return negator.apply( getInvariantNode().genExprNormalized(cspmodel) );		
 	}
 	
 	protected OclExpression getPrecondition(Function<OclExpression, OclExpression> negator) {
-		CSPModel2 cspmodel = new CSPModel2();
+		CSPModel2 cspmodel = new CSPModel2(result);
 		cspmodel.initWithoutThisModuleContext();
 
 		HashSet<OutPatternElement> targets = new HashSet<OutPatternElement>();

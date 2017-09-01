@@ -655,10 +655,10 @@ public class AnalysisViewBatchNodes {
 			switch ( element.getAnalysisResult() ) {
 			case WITNESS_REQUIRED: s = "Not analysed!"; break;
 			case ERROR_CONFIRMED_SPECULATIVE:
-			case ERROR_CONFIRMED: s = "Confirmed (by solver)"; break;
-			case ERROR_DISCARDED: s = "Discarded (by solver)"; break;
-			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Discarded (by solver)"; break;
-			case STATICALLY_CONFIRMED: s = "Confirmed (statically)";break;		
+			case ERROR_CONFIRMED: s = "Unsatisfied constraint"; break;
+			case ERROR_DISCARDED: s = "Satisfied constraint"; break;
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Satisfied constraint"; break;
+			case STATICALLY_CONFIRMED: s = "Unsatisfied constraint";break;		
 			case CANNOT_DETERMINE:
 				s = "Cannot determine (e.g., no path to rule)";break;				
 			case NOT_SUPPORTED_BY_USE:

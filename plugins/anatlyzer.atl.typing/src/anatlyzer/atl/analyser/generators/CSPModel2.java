@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
@@ -18,6 +19,8 @@ import anatlyzer.atlext.OCL.VariableExp;
 
 public class CSPModel2 extends CSPModel {
 
+	protected IAnalyserResult result;
+
 //	HashMap<VariableDeclaration, HashMap<VariableDeclaration, CSPModelScope>> disambiguations = new HashMap<>();
 //	
 //	public void addToScope(VariableDeclaration varDcl, VariableDeclaration newVar, VariableDeclaration disambiguation) {
@@ -29,8 +32,9 @@ public class CSPModel2 extends CSPModel {
 //		disambiguations.get(varDcl).put(disambiguation,  new CSPModelScope(scope.getThisModuleVar(), scope));
 //	}
 
-	public CSPModel2() {
-		this.generator = new OclGeneratorAST2(atlModel);
+	public CSPModel2(IAnalyserResult result) {
+		this.result = result;
+		this.generator = new OclGeneratorAST2(atlModel, result);
 		this.generator.setLazyRuleStrategy(new LazyRuleToParameter());
 	}
 	
@@ -153,7 +157,7 @@ public class CSPModel2 extends CSPModel {
 	public OclExpression gen2(OclExpression expr, VariableDeclaration vd) {
 		return generator.gen(expr, ((CSPModelScope2) scope).getDisambiguation(vd));
 	}
-
+	
 	public static class LazyRuleToParameter extends LazyRuleCallTransformationStrategy {
 		@Override
 		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {

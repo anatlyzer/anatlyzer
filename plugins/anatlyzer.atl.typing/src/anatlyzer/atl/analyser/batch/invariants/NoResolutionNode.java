@@ -1,9 +1,14 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+
+import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.LazyRuleContext;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
@@ -36,7 +41,7 @@ import anatlyzer.atlext.OCL.VariableExp;
  * @author jesus
  *
  */
-public class NoResolutionNode implements IInvariantNode {
+public class NoResolutionNode extends AbstractInvariantReplacerNode implements IInvariantNode {
 
 	private IInvariantNode source;
 	private NavigationOrAttributeCallExp nav;
@@ -44,6 +49,7 @@ public class NoResolutionNode implements IInvariantNode {
 	private IInvariantNode parent;
 
 	public NoResolutionNode(IInvariantNode source, NavigationOrAttributeCallExp nav, Binding b) {
+		super(null);
 		this.source = source;
 		this.nav = nav;
 		this.binding = b;
@@ -51,6 +57,12 @@ public class NoResolutionNode implements IInvariantNode {
 
 	@Override
 	public SourceContext<? extends RuleWithPattern> getContext() {
+		// Check here is there are lazy rules and then use the lazy rule context sa context
+		if ( hasLazyRules() ) {
+			LazyRule rule = (LazyRule) ((OperationCallExp) getLazyRule().get()).getStaticResolver();
+			return new LazyRuleContext(rule.getOutPattern().getElements().get(0), (LazyRule) rule);	
+		}
+		
 		if ( evaluateSubsequentNodes() )
 			// TODO: Check if the context must be changed to reflect the new output pattern element
 			return this.source.getContext();
@@ -86,7 +98,12 @@ public class NoResolutionNode implements IInvariantNode {
 		}
 		
 		if ( hasLazyRules() ) {
-			return builder.gen(binding.getValue());
+			LazyRule rule = (LazyRule) ((OperationCallExp) getLazyRule().get()).getStaticResolver();
+			if ( rule.getInPattern().getElements().size() == 1 ) {		
+				return builder.gen(binding.getValue());
+			} else {
+				return LazyRulePathVisitor.markAsNrule(builder.gen(binding.getValue()), rule);
+			}
 		}
 		
 		// TODO: This is sometimes not enough, for instance:
@@ -113,7 +130,21 @@ public class NoResolutionNode implements IInvariantNode {
 	
 	@Override
 	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
-		throw new IllegalStateException();
+		if ( hasLazyRules() ) {
+			LazyRule rule = (LazyRule) ((OperationCallExp) getLazyRule().get()).getStaticResolver();
+			
+			List<Iterator> result = new ArrayList<Iterator>();
+			
+			for (int i = 0; i < rule.getInPattern().getElements().size(); i++) {
+				InPatternElement e = rule.getInPattern().getElements().get(i);
+				Iterator it = createIterator(builder, e, optTargetVar);
+
+				result.add(it);
+			}		
+			
+			return result;
+		}
+		throw new IllegalStateException("No resolution for " + nav.getName() + " " + nav.getLocation());
 	}
 	
 	
@@ -138,14 +169,20 @@ public class NoResolutionNode implements IInvariantNode {
 	}
 	
 	public boolean hasLazyRules() {
-		return ATLUtils.findElement(binding.getValue(), (o) -> {
+		return getLazyRule().isPresent();
+	}
+
+	public Optional<EObject> getLazyRule() {
+		Optional<EObject> lazyRuleResult = ATLUtils.findElement(binding.getValue(), (o) -> {
 			if ( o instanceof OperationCallExp ) {
 				return ((OperationCallExp) o).getStaticResolver() instanceof LazyRule;
 			}
 			return false;
-		}).isPresent();
+		});
+		return lazyRuleResult;
 	}
-
+	
+	
 	@Override
 	public Pair<LetExp, LetExp> genIteratorBindings(CSPModel2 builder, Iterator it, Iterator targetIt) {
 		throw new IllegalStateException();

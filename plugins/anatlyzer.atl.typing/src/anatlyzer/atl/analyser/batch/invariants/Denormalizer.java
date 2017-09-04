@@ -127,7 +127,7 @@ public class Denormalizer extends AbstractVisitor {
 				} else if ( self.getSource() instanceof IteratorExp ) {
 					List<Iterator> srcIterators = ((IteratorExp) self.getSource()).getIterators();
 					if ( srcIterators.size() != self.getIterators().size() ) 
-						throw new IllegalStateException();
+						throw new IllegalStateException("Source iterators != size from exp. iterators: " + self.getName() + ": " + srcIterators.size() + " vs. " + self.getIterators().size());
 					
 					for (int i = 0; i < srcIterators.size(); i++) {
 						Iterator srcIterator = srcIterators.get(i);

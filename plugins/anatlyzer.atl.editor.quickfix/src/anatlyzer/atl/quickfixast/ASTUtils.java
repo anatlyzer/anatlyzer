@@ -278,7 +278,7 @@ public class ASTUtils {
 		return helper;
 	}
 
-	public static StaticHelper buildNewThisModuleOperation(String name, Type returnType, EList<OclExpression> arguments) {
+	public static StaticHelper buildNewThisModuleOperation(String name, Type returnType, List<OclExpression> arguments) {
 		Operation operation = OCLFactory.eINSTANCE.createOperation();
 		operation.setName(name);
 		operation.setReturnType( ATLUtils.getOclType   (returnType) );

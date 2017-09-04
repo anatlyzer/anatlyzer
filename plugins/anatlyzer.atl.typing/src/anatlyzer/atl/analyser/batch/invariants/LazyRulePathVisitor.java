@@ -75,7 +75,7 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		return exp;
 	}
 
-	private static OclExpression markAsNrule(OclExpression exp, LazyRule rule) {
+	public static OclExpression markAsNrule(OclExpression exp, LazyRule rule) {
 		if ( exp instanceof IteratorExp || exp instanceof CollectionOperationCallExp ) {
 			exp.getAnnotations().put(LAZY_RULE_CALL, rule.getName());					
 			return exp;
@@ -187,6 +187,7 @@ public class LazyRulePathVisitor extends AbstractPathVisitor  {
 		if ( dep.getDepending() instanceof MockNode ) {
 			OperationCallExp opCall = (OperationCallExp) node.getCall();
 			OclExpression expr = null;
+			// See CSPModel2::LazyRuleToParameter class
 			if ( opCall.getArguments().size() > 1 ) {
 				// A tuple is generated to gather each parameter
 				TupleExp tuple = OCLFactory.eINSTANCE.createTupleExp();

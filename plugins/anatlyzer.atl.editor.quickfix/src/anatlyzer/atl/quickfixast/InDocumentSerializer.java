@@ -20,6 +20,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.Action;
 import anatlyzer.atl.quickfixast.QuickfixApplication.AddCommentBefore;
 import anatlyzer.atl.quickfixast.QuickfixApplication.DeleteAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
+import anatlyzer.atl.quickfixast.QuickfixApplication.InsertBeforeAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.util.ATLSerializer;
@@ -94,6 +95,16 @@ public class InDocumentSerializer extends ATLSerializer {
 					length = offsets[1] - offsets[0];
 				} else if ( a instanceof InsertAfterAction ) {
 					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
+					start  = offsets[1];
+					length = 0;
+					if ( a.getTgt() instanceof Binding ) {
+						// For bindings do nothing, inBinding overriding takes care
+					} else {
+						// By default, add a carriage return to other elements
+						s = "\n\n" + s;
+					}
+				}  else if ( a instanceof InsertBeforeAction ) {
+					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertBeforeAction) a).getAnchor()).getLocation());
 					start  = offsets[1];
 					length = 0;
 					if ( a.getTgt() instanceof Binding ) {

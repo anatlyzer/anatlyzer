@@ -60,7 +60,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 		List<PossibleInvariantViolationNode> result = new ArrayList<PossibleInvariantViolationNode>();
 		for (PossibleInvariantViolationNode node : toBeChecked) {
 			// if ( processOverlap(overlap, data) ) {
-			
+			System.out.println("Analysing: " + node.getInvName());
 			if ( monitor != null ) {
 				if ( monitor.isCanceled() ) {
 					monitor.done();

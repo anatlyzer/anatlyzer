@@ -1,5 +1,7 @@
 package anatlyzer.atl.editor.quickfix;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -10,10 +12,21 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.ATLPackage;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.Operation;
 
 public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 
@@ -61,12 +74,47 @@ public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 			new QuickfixApplication(this); // does nothing
 		}
 		
-		QuickfixApplication qfa = new QuickfixApplication(this);
-		qfa.addCommentBefore(getATLModel().getRoot(), () -> {
-			String pre = ATLSerializer.serialize(expr);
-			pre = pre.replace("\n", "\n-- ");			
-			return "-- @pre " + pre + "\n";
-		});
+		boolean insertAsComment = false;
+		
+		if ( insertAsComment ) {
+			QuickfixApplication qfa = new QuickfixApplication(this);
+			qfa.addCommentBefore(getATLModel().getRoot(), () -> {
+				String pre = ATLSerializer.serialize(expr);
+				pre = pre.replace("\n", "\n-- ");			
+				return "-- @pre " + pre + "\n";
+			});
+			
+			return qfa;
+		} else {
+			ModuleElement anchor = null;
+			List<Helper> helpers = ATLUtils.getAllHelpers(getATLModel());
+			for (Helper helper : helpers) {
+				if ( AnalyserUtils.isPrecondition(helper) ) {
+					anchor = helper;
+				}
+			}
+			
+			if ( anchor == null && getATLModel().getRoot() instanceof Module ) {
+				anchor = getATLModel().getModule().getElements().stream().filter(e -> e instanceof Rule).findFirst().orElse(null);
+			}
+			
+			
+			String preName = "genPrecondition";
+			StaticHelper helper = ASTUtils.buildNewThisModuleOperation(preName, anatlyzer.atl.types.TypesFactory.eINSTANCE.createBooleanType(), java.util.Collections.emptyList());
+			Operation op = (Operation) helper.getDefinition().getFeature();
+			helper.getCommentsBefore().add("@precondition");
+			
+			op.setBody(expr);
+			
+			// ModuleElement anchor = ATLUtils.getContainer(res, ModuleElement.class);
+		
+			QuickfixApplication qfa = new QuickfixApplication(this);
+			// qfa.putIn(getATLModel().getRoot(), ATLPackage.Literals.MODULE__ELEMENTS, () -> helper);			
+			qfa.insertAfter(anchor, () -> helper);
+			return qfa;
+		}
+		
+		// ASTUtils.buildNewThisModuleOperation(name, returnType, arguments)
 		
 		// This code was used to generate the pre-condition in USE format
 		/*
@@ -82,7 +130,6 @@ public abstract class GeneratePrecondition extends AbstractAtlQuickfix {
 		});
 		*/
 		
-		return qfa;
 	}
 	
 	@Override

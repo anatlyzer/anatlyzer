@@ -676,7 +676,7 @@ public class InvariantGraphGenerator {
 		}
 		
 		if ( resolutions.size() == 0 ) {
-			// Beaware that no resolutions node also handles the case of having only lazy rules
+			// Beware that no resolutions node also handles the case of having only lazy rules
 			// in the RHS.
 			return new NoResolutionNode(source, self, allBindings.get(0));
 		}

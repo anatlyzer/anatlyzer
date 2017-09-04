@@ -43,12 +43,12 @@ public class TargetInvariantAnalysis_SourceBased {
 		
 		List<StaticHelper> invariants = model.allObjectsOf(StaticHelper.class).stream().filter(AnalyserUtils::isTargetInvariant).collect(Collectors.toList());
 				
-//		List<ContextHelper> contextInvariants = model.allObjectsOf(ContextHelper.class).stream().filter(AnalyserUtils::isTargetInvariant).collect(Collectors.toList());
-//		for (ContextHelper contextHelper : contextInvariants) {
-//			StaticHelper h = AnalyserUtils.convertContextInvariant(contextHelper);
-//			System.out.println("CONVERTED: " + ATLSerializer.serialize(h));
-//			invariants.add(h);
-//		}
+		List<ContextHelper> contextInvariants = model.allObjectsOf(ContextHelper.class).stream().filter(AnalyserUtils::isTargetInvariant).collect(Collectors.toList());
+		for (ContextHelper contextHelper : contextInvariants) {
+			StaticHelper h = AnalyserUtils.convertContextInvariant(contextHelper);
+			System.out.println("CONVERTED: " + ATLSerializer.serialize(h));
+			invariants.add(h);
+		}
 		
 		for (StaticHelper staticHelper : invariants) {
 			nodes.add(new PossibleInvariantViolationNode(staticHelper, model, analyser));

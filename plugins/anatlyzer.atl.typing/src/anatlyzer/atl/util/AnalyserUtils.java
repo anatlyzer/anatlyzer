@@ -363,6 +363,10 @@ public class AnalyserUtils {
 		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@force-declared-return-type"));
 	}
 
+	public static boolean isPrecondition(Helper h) {
+		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@precondition"));
+	}
+	
 	public static boolean isTargetInvariant(Helper h) {
 		return h.getCommentsBefore().stream().anyMatch(c -> c.contains("@target_invariant") || c.contains("@target_constraint"));
 	}

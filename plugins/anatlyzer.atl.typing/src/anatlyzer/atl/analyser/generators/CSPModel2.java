@@ -6,14 +6,18 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.analyser.batch.invariants.LazyRulePathVisitor;
 import anatlyzer.atl.analyser.generators.CSPModel.CSPModelScope;
 import anatlyzer.atl.analyser.generators.OclGeneratorAST.LazyRuleCallTransformationStrategy;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -161,11 +165,32 @@ public class CSPModel2 extends CSPModel {
 	public static class LazyRuleToParameter extends LazyRuleCallTransformationStrategy {
 		@Override
 		public OclExpression gen(ATLModel model, OperationCallExp opCall, Function<OclExpression, OclExpression> generator) {
-			if ( opCall.getArguments().size() > 1 )  
-				throw new UnsupportedTranslation("Cannot translate lazy rule calls with size(args) > 1", opCall);
+			if ( opCall.getArguments().size() > 1 ) {
+				// See LazyRulePathVisitor, which implements a similar strategy
+				// throw new UnsupportedTranslation("Cannot translate lazy rule calls with size(args) > 1", opCall);
 			
-			OclExpression sourceElem = opCall.getArguments().get(0);
-			return generator.apply(sourceElem);			
+				// A tuple is generated to gather each parameter
+				TupleExp tuple = OCLFactory.eINSTANCE.createTupleExp();
+				LazyRule lazy = (LazyRule) opCall.getStaticResolver();
+				
+				for (int i = 0; i < lazy.getInPattern().getElements().size(); i++) {
+					InPatternElement e = lazy.getInPattern().getElements().get(i);
+					OclExpression arg  = opCall.getArguments().get(i);
+
+					TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
+					part.setVarName(e.getVarName());
+					part.setInitExpression( generator.apply(arg) );
+					
+					tuple.getTuplePart().add(part);
+				}
+				
+				tuple.getAnnotations().put(LazyRulePathVisitor.TUPLE_FOR_LAZY_CALL, lazy.getName());
+				
+				return tuple;
+			} else {
+				OclExpression sourceElem = opCall.getArguments().get(0);
+				return generator.apply(sourceElem);			
+			}
 		}
 	}
 

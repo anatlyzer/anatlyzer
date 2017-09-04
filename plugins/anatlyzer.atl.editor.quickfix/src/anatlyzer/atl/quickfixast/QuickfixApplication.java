@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
@@ -123,15 +124,39 @@ public class QuickfixApplication {
 		actions.add(new InsertAfterAction(anchor, element));
 	}
 
+	public <A extends LocatedElement, B extends LocatedElement> void insertBefore(A anchor, Supplier<B> supplier) {
+		B element = supplier.get();
+		
+		// Add the creted element following the the anchor element
+		EStructuralFeature feature = anchor.eContainingFeature();
+		if ( ! (feature instanceof EReference) || ! feature.isMany() ) {
+			throw new IllegalArgumentException();
+		}
+		EObject parent = anchor.eContainer();
+		@SuppressWarnings("unchecked")
+		EList<EObject> list = (EList<EObject>) parent.eGet(feature);
+		list.add(list.indexOf(anchor) - 1, element);
+		
+		actions.add(new InsertBeforeAction(anchor, element));
+	}
+
 	@SuppressWarnings("unchecked")
 	public void putIn(EObject receptor, EReference feature, Supplier<? extends EObject> creator) {
 		EObject newObj = creator.get();
 		EObject anchor = null;
 		if ( feature.isMany() ) {
 			List<EObject> list = ((List<EObject>) receptor.eGet(feature));
-			if ( list.size() > 0 ) {
-				anchor = list.get(list.size() - 1);
+			for (int i = list.size() - 1; i >= 0; i--) {
+				EObject obj = list.get(i);
+				// This is to skip automatically generated elements from the pre-processor
+				if ( obj instanceof LocatedElement && ((LocatedElement) obj).getLocation() != null ) {
+					anchor = obj;
+					break;
+				}
 			}
+//			if ( list.size() > 0 ) {
+//				anchor = list.get(list.size() - 1);
+//			}
 			list.add(newObj);
 		} else {
 			receptor.eSet(feature, newObj);
@@ -292,6 +317,33 @@ public class QuickfixApplication {
 		private EObject anchor;
 
 		public InsertAfterAction(EObject anchor, EObject tgt) {
+			super(tgt, new Trace());
+			this.anchor = anchor;
+		}
+		
+		public EObject getAnchor() {
+			return anchor;
+		}		
+
+		public String getText() {
+			return ATLSerializer.serialize(tgt);
+		}
+		
+		@Override
+		public void fillImpact(ChangeImpact impact) throws UnknownImpact {
+			// TODO: Need a way to indicate that this is pre-condition
+			throw new UnknownImpact();
+		}
+		
+		public void updateSpeculativeTrace(ITracedATLModel speculativeTrace) { 
+			// nothing, it is an insertion			
+		}
+	}
+
+	public static class InsertBeforeAction extends Action {
+		private EObject anchor;
+
+		public InsertBeforeAction(EObject anchor, EObject tgt) {
 			super(tgt, new Trace());
 			this.anchor = anchor;
 		}

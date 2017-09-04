@@ -63,7 +63,7 @@ public class DefaultValueNode extends AbstractInvariantReplacerNode {
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer<IInvariantNode> gv) {				
-		gv.addNode(this, "Generic node: " + ATLSerializer.serialize(exp), true);		
+		gv.addNode(this, "Default value: " + ATLSerializer.serialize(exp), true);		
 	}
 	
 	@Override

@@ -305,6 +305,14 @@ public class PossibleInvariantViolationNode extends AbstractDependencyNode imple
 		this.witness = iWitnessModel;
 	}
 
+	private Exception error;
+	public void setAnalysisError(Exception e) {
+		this.status = ProblemStatus.IMPL_INTERNAL_ERROR;
+		this.error = e;
+	}
+	
+	public Exception getAnalysisError() { return error; }
+	
 	public IWitnessModel getWitness() {
 		return witness;
 	}

@@ -385,6 +385,7 @@ public class AnalyserUtils {
 
 	public static StaticHelper convertContextInvariant(ContextHelper contextHelper) {
 		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
+		h.getCommentsBefore().addAll(contextHelper.getCommentsBefore());
 		
 		IteratorExp forAll = OCLFactory.eINSTANCE.createIteratorExp();
 		forAll.setName("forAll");

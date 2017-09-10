@@ -70,7 +70,12 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 				monitor.subTask("Running " + ++i + " of " + toBeChecked.size());
 			}
 			
-			processNode(node, data, resource);
+			try {
+				processNode(node, data, resource);
+			} catch ( Exception e ) {
+				node.setAnalysisError(e);
+			}
+			
 			result.add(node);
 
 			if ( monitor != null )

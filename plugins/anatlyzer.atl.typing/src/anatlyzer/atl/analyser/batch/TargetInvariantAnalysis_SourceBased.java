@@ -51,7 +51,14 @@ public class TargetInvariantAnalysis_SourceBased {
 		}
 		
 		for (StaticHelper staticHelper : invariants) {
-			nodes.add(new PossibleInvariantViolationNode(staticHelper, model, analyser));
+			// nodes.add(new PossibleInvariantViolationNode(staticHelper, model, analyser));
+			PossibleInvariantViolationNode node = new PossibleInvariantViolationNode(staticHelper, model, analyser);
+			boolean negate = true;
+			System.out.println(ATLUtils.getHelperName(staticHelper));
+			if ( staticHelper.getCommentsBefore().stream().anyMatch(c -> c.contains("@class_of_models"))) {
+				negate = false;
+			}
+			nodes.add(new PossibleInvariantViolationNodeWrapper(node, negate));
 		}
 		
 		// Not the best idea to mix both analysis, but for the moment is the easiest way to share the UI

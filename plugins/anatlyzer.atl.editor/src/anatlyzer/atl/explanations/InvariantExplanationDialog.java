@@ -1,7 +1,9 @@
 package anatlyzer.atl.explanations;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -56,9 +58,19 @@ public class InvariantExplanationDialog extends SimpleExplanationDialog {
 		@Override
 		public void setDetailedProblemDescription(StyledText text) {
 			// text.setText("This is the generated pre-condition: \n\n" + ATLSerializer.serialize(node.getPrecondition()));
-			System.out.println("Original pre-condition:");
-			System.out.println(ATLSerializer.serialize(node.getPreconditionNorm()));
-			text.setText("This is the generated pre-condition (in ATL): \n\n" + ATLSerializer.serialize(node.getPreconditionATL()));
+			if ( node.getAnalysisError() != null ) {
+				
+				node.getAnalysisError().printStackTrace();
+				ByteArrayOutputStream os = new ByteArrayOutputStream();
+				
+				node.getAnalysisError().printStackTrace(new PrintStream(os));
+				
+				text.setText( "There was an internal error processing the invariant: \n" + new String(os.toByteArray()) );
+			} else {			
+				System.out.println("Original pre-condition:");
+				System.out.println(ATLSerializer.serialize(node.getPreconditionNorm()));
+				text.setText("This is the generated pre-condition (in ATL): \n\n" + ATLSerializer.serialize(node.getPreconditionATL()));
+			}
 		}
 
 		@Override

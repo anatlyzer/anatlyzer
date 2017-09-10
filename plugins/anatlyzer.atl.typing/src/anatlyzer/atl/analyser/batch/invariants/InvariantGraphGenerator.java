@@ -290,9 +290,7 @@ public class InvariantGraphGenerator {
 //	}
 	
 	private IInvariantNode checkColExp(CollectionOperationCallExp expr, Env env) {
-		
-		
-		return analyse(expr.getSource(), env, 
+		IInvariantNode result = analyse(expr.getSource(), env, 
 				(src) -> {
 					List<IInvariantNode> args = expr.getArguments().stream().map(a -> analyse(a, env)).collect(Collectors.toList());					
 					CollectionOperationCallExpNode node = new CollectionOperationCallExpNode(src, expr, args);					
@@ -316,10 +314,19 @@ public class InvariantGraphGenerator {
 					} else {						
 						return new SplitCollectionOperationNode(nodes, expr);
 					}
-					// new SplitNavigationExpNode(nodes, self)	
+					// new SplitNavigationExpNode(nodes, self)
 				});
 
-
+		if ( result instanceof MultiNode ) {
+			if ( expr.eContainer() instanceof OperatorCallExp  ) {
+				// This is to make sure that "	self.people->size() = 1;" when people is resolved by
+				// two rules creates a proper tree
+				result = new SplitCollectionOperationNode(((MultiNode) result).getNodes(), expr);
+			}
+		}
+		
+		return result;
+		
 //		// Depending on the kind of operation, we need to continue with a split path or to merge it.
 //		// This depends on whether the operation returns another collection or not, e.g., flatten
 //		if ( colRetOps.contains(expr.getOperationName()) ) {
@@ -541,8 +548,11 @@ public class InvariantGraphGenerator {
 			// Otherwise, the generated tree is incorrect because the different resolving paths will not be chained
 			// properly via nested ifs
 			if ( result instanceof MultiNode ) {
-				if ( self.eContainer() instanceof NavigationOrAttributeCallExp || self.eContainer() instanceof IteratorExp ) {
-					// Keep the multinode
+				if ( self.eContainer() instanceof NavigationOrAttributeCallExp || 
+					 self.eContainer() instanceof IteratorExp || 
+					 self.eContainer() instanceof CollectionOperationCallExp ) {
+					// Keep the multinode, to make sure that the specific IteratorSplit or CollectionSplit is created
+					// instead of the split navigation node
 				} else {
 					result = new SplitNavigationExpNode(((MultiNode) result).getNodes(), self);
 				}

@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Display;
 
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 import anatlyzer.ui.util.WorkbenchUtil;
 import anatlyzer.ui.util.WorkspaceLogger;
 
@@ -41,4 +42,16 @@ public class EclipseUseWitnessFinder extends UseWitnessFinder implements IWitnes
 		return tempDirectory;
 	}
 
+	@Override
+	protected int getMinScope() {
+		int minBounds = AnATLyzerPreferenceInitializer.getMinBounds();
+		return minBounds < 0 ? super.getMinScope() : minBounds;
+	}
+	
+	@Override
+	protected int getMaxScope() {
+		int maxBounds = AnATLyzerPreferenceInitializer.getMaxBounds();
+		return maxBounds <= 0 ? super.getMaxScope() : maxBounds;
+	}
+	
 }

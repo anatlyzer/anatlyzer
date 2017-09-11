@@ -10,6 +10,8 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 	public static final String TIMEOUT_PREFERENCE = "TIMEOUT";
 	public static final String BUILDER_ANALYSE_OPEN_ONLY = "BUILDER_ANALYSE_ONLY_OPEN";
 	public static final String SPECULATIVE_QUICKFIXES_ENABLED = "SPECULATIVE_QUICKFIXES_ENABLED";
+	public static final String MIN_BOUNDS = "MIN_BOUNDS";
+	public static final String MAX_BOUNDS = "MAX_BOUNDS";
 
 	@Override
 	public void initializeDefaultPreferences() {
@@ -18,6 +20,9 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 		store.setDefault(TIMEOUT_PREFERENCE, 25000L);
 		store.setDefault(BUILDER_ANALYSE_OPEN_ONLY, true);
 		store.setDefault(SPECULATIVE_QUICKFIXES_ENABLED, true);
+
+		store.setDefault(MIN_BOUNDS, 0);
+		store.setDefault(MAX_BOUNDS, 5);
 	}
 	
 	public static long getTimeOut() {
@@ -33,5 +38,15 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 	public static boolean getSpeculativeQuickfixesEnabled() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		return store.getBoolean(SPECULATIVE_QUICKFIXES_ENABLED);
+	}
+	
+	public static int getMinBounds() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		return store.getInt(MIN_BOUNDS);
+	}
+	
+	public static int getMaxBounds() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		return store.getInt(MAX_BOUNDS);
 	}
 }

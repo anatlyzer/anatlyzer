@@ -367,8 +367,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			EPackage language, String projectPath) {
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
 		generator.setDebugModel(debugMode);
-		generator.setMinScope(1);
-		generator.setMaxScope(5);
+		generator.setMinScope(getMinScope());
+		generator.setMaxScope(getMaxScope());
 		generator.setScopeCalculator(this.scopeCalculator);
 		generator.setTimeOut(timeOut);
 		
@@ -395,6 +395,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		generator.setMetamodelExtensionStrategy(strategy);
 		generator.setTempDirectoryPath(projectPath);
 		return generator;
+	}
+
+
+	protected int getMinScope() {
+		return 1;
+	}
+
+	protected int getMaxScope() {
+		return 5;
 	}
 
 	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, SourceMetamodelsData srcMetamodels, boolean isRetry) {

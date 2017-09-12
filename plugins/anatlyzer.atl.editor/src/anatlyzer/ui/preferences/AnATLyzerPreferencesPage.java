@@ -11,8 +11,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import anatlyzer.atl.editor.Activator;
 
-//import de.vogella.preferences.page.Activator;
-
 public class AnATLyzerPreferencesPage extends FieldEditorPreferencePage implements
         IWorkbenchPreferencePage {
 	
@@ -39,7 +37,10 @@ public class AnATLyzerPreferencesPage extends FieldEditorPreferencePage implemen
     	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.BUILDER_ANALYSE_OPEN_ONLY, "&Analyse only open files", getFieldEditorParent()));
 
     	addField(new IntegerFieldEditor(AnATLyzerPreferenceInitializer.TIMEOUT_PREFERENCE, "Default time out", getFieldEditorParent()));
+    	addField(new IntegerFieldEditor(AnATLyzerPreferenceInitializer.MIN_BOUNDS, "Min. bounds", getFieldEditorParent()));
+    	addField(new IntegerFieldEditor(AnATLyzerPreferenceInitializer.MAX_BOUNDS, "Max. bounds", getFieldEditorParent()));
     	
+
     	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.SPECULATIVE_QUICKFIXES_ENABLED, "Enable speculative quick fixes", getFieldEditorParent()));
     	
     }

@@ -271,8 +271,9 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 						}
 					}
 				}
-			} catch (CoreException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				Activator.logError("Cannot retrieve quick fix", e);
+				e.printStackTrace();				
 			}
 		}
 

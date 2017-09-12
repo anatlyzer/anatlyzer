@@ -47,6 +47,7 @@ import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.errors.atl_error.FeatureNotFoundInUnionType;
 import anatlyzer.atl.errors.atl_error.FlattenOverNonNestedCollection;
+import anatlyzer.atl.errors.atl_error.GenericLocalProblem;
 import anatlyzer.atl.errors.atl_error.IncoherentHelperReturnType;
 import anatlyzer.atl.errors.atl_error.IncoherentVariableDeclaration;
 import anatlyzer.atl.errors.atl_error.InvalidArgument;
@@ -982,6 +983,14 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void signalGenericProblem(String message, String kind, LocatedElement element) {
+		GenericLocalProblem error = AtlErrorFactory.eINSTANCE.createGenericLocalProblem();
+		initProblem(error, element);
+		
+		error.setGenericKind(kind);
+		signalError(error, message, element);
+	}
+	
 	public ModelElement newElement(Metaclass metaclass) {
 		ModelElement me = AtlErrorFactory.eINSTANCE.createModelElement();
 		me.setKlass(metaclass.getKlass());
@@ -1022,6 +1031,8 @@ public class ErrorModel {
 		// Not sure if I should mark the problem...
 		// element.getProblems().add(p);		
 	}
+
+	
 
 	
 }

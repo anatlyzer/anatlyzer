@@ -313,6 +313,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 		// Not sure if in the paper
 		// Check that every OPE can be instantiated
+		checkInstantiation(self);
+		
+	}
+	
+	@Override
+	public void inLazyRule(LazyRule self) {
+		checkInstantiation(self);
+	}
+	
+	private void checkInstantiation(RuleWithPattern self) {
 		ATLUtils.getAllOutputPatterns(self, (ope -> {
 			if ( ! (ope.getType().getInferredType() instanceof Metaclass) )
 				return;
@@ -968,6 +978,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 								return true;
 							});					
 				} else {
+					compatibleRules = new ArrayList<MatchedRule>(rules);
 					errorType = errors().signalResolveTempOutputPatternElementNotFound(self, type_, expectedVarName, compatibleRules);					
 				}
 			}

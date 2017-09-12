@@ -48,6 +48,7 @@ import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IntegerExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
@@ -528,5 +529,6 @@ public class ASTUtils {
 		return cond instanceof OperationCallExp && 
 				((OperationCallExp) cond).getOperationName().equals(name);
 	}
+
 	
 }

@@ -1,7 +1,11 @@
 package anatlyzer.atl.editor;
 
+import org.eclipse.core.runtime.ILog;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -68,5 +72,11 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	public static void logError(String text, Exception e) {
+	    Bundle bundle = Platform.getBundle(PLUGIN_ID);
+	    ILog log = Platform.getLog(bundle);
+        log.log(new Status(Status.ERROR, PLUGIN_ID, text, e));
 	}
 }

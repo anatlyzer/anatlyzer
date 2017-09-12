@@ -72,13 +72,13 @@ public abstract class AbstractAtlQuickfix extends QuickfixUtil implements AtlPro
 	public abstract QuickfixApplication getQuickfixApplication() throws CoreException;
 	
 	
-	private QuickfixApplication qfa = null;
+	private QuickfixApplication cachedQfa = null;
 	private HashMap<Object, Object> data;
 	
 	public QuickfixApplication getCachedQuickfixApplication() throws CoreException {
-		if ( qfa == null )
-			qfa = getQuickfixApplication();
-		return qfa;
+		if ( cachedQfa == null )
+			cachedQfa = getQuickfixApplication();
+		return cachedQfa;
 	}
 	
 	public void setErrorMarker(IMarker marker) {		

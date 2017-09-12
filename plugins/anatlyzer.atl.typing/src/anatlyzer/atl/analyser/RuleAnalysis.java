@@ -373,7 +373,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 	 * @param f
 	 */
 	protected void analyseRuleResolution(Binding self, Type rightType, EReference f) {
-		if ( rightType instanceof Metaclass ) {			
+		if ( rightType instanceof Metaclass && !(rightType instanceof UnresolvedTypeError)) {			
 			Metaclass rightMetaclass = (Metaclass) rightType;
 			IClassNamespace ns = (IClassNamespace) rightType.getMetamodelRef();			
 			

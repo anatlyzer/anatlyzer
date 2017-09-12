@@ -18,6 +18,7 @@ public class TransformationConfiguration implements Cloneable {
 	private boolean doRecursionUnfolding = false;
 	private long timeOut = 5000; // default 5 seconds
 	private ProblemSets availableProblems;
+	private boolean enforceContainmentSemantics;
 	
 	public TransformationConfiguration() {
 //		wantedMarkers.add(ProblemStatus.STATICALLY_CONFIRMED);
@@ -101,6 +102,14 @@ public class TransformationConfiguration implements Cloneable {
 	public void setDoRecursionUnfolding(boolean b) {
 		this.doRecursionUnfolding = b;
 	}	
+
+	public void setEnforceContainmentSemantics(boolean b) {
+		this.enforceContainmentSemantics = b;
+	}
+
+	public boolean getEnforceContainmentSemantics() {
+		return this.enforceContainmentSemantics;
+	}
 	
 	public boolean getDoRecursionUnfolding() {
 		return this.doRecursionUnfolding;
@@ -120,4 +129,5 @@ public class TransformationConfiguration implements Cloneable {
 			throw new IllegalStateException();
 		}
 	}
+
 }

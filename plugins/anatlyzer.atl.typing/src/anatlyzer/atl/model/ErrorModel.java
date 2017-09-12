@@ -447,7 +447,7 @@ public class ErrorModel {
 		initProblem(error, node);
 		error.setDeclared(declared);
 		error.setInferred(exprType);
-		signalError(error, "Incoherent declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(exprType) + ")" , node);
+		signalError(error, "Incoherent declared type " + TypeUtils.typeToString(declared) + " and inferred " + TypeUtils.typeToString(exprType) + "" , node);
 	}
 	
 	public void warningIncoherentHelperReturnType(OclFeature feature, Type inferred, Type declared) {
@@ -455,7 +455,7 @@ public class ErrorModel {
 		initProblem(error, feature);
 		error.setDeclared(declared);
 		error.setInferred(inferred);
-		signalError(error, "Incoherent return type. Declared type (" + TypeUtils.typeToString(declared) + ") and inferred (" + TypeUtils.typeToString(inferred) + ")" , feature);		
+		signalError(error, "Incoherent return type. Declared type " + TypeUtils.typeToString(declared) + " and inferred " + TypeUtils.typeToString(inferred) + "" , feature);		
 		
 	}
 	

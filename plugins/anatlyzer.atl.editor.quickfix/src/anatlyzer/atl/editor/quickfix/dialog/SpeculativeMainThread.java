@@ -30,6 +30,14 @@ public class SpeculativeMainThread extends Thread {
 	public void run() {
 		System.out.println("==> Started main thread");
 
+		// parallelExecution();
+		sequentialExecution();
+		
+		
+		System.out.println("==> Finished main thread");
+	}
+
+	private void parallelExecution() {
 		List<SpeculativeThread> allThreads = new ArrayList<SpeculativeThread>();
 		threads = Collections.synchronizedMap(new HashMap<AtlProblemQuickfix, SpeculativeThread>());
 		for (AtlProblemQuickfix qfx : quickfixes) {
@@ -44,19 +52,54 @@ public class SpeculativeMainThread extends Thread {
 		}
 		
 		
+//		while ( ! allThreads.isEmpty() ) {
+//			SpeculativeThread t = allThreads.get(0);
+//			if ( ! t.isAlive() ) {
+//				if ( listener != null ) {
+//					listener.finished(problem, t.qfx, t.getNewAnalysis());
+//				}
+//				allThreads.remove(0);
+//			}
+//		}
+		
+		ArrayList<SpeculativeThread> toRemove = new ArrayList<SpeculativeThread>();
 		while ( ! allThreads.isEmpty() ) {
-			SpeculativeThread t = allThreads.get(0);
-			if ( ! t.isAlive() ) {
-				if ( listener != null ) {
-					listener.finished(problem, t.qfx, t.getNewAnalysis());
-				}
-				allThreads.remove(0);
+			for(SpeculativeThread t : allThreads) {
+				if ( ! t.isAlive() ) {
+					if ( listener != null ) {
+						listener.finished(problem, t.qfx, t.getNewAnalysis());
+					}
+					toRemove.add(t);
+				}				
 			}
+			
+			allThreads.removeAll(toRemove);
+			toRemove.clear();
 		}
-		
-		
-		System.out.println("==> Finished main thread");
 	}
+
+	private void sequentialExecution() {
+		List<SpeculativeThread> allThreads = new ArrayList<SpeculativeThread>();
+		threads = Collections.synchronizedMap(new HashMap<AtlProblemQuickfix, SpeculativeThread>());
+		for (AtlProblemQuickfix qfx : quickfixes) {
+			SpeculativeThread t = new SpeculativeThread(analysis, problem, qfx);
+			allThreads.add(t);
+			threads.put(qfx, t);
+		}
+
+		for (SpeculativeThread t : allThreads) {
+			t.start();
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+			}
+			
+			if ( listener != null ) {
+				listener.finished(problem, t.qfx, t.getNewAnalysis());
+			}			
+		}
+	}
+
 	
 	public boolean isFinished(AtlProblemQuickfix qfx) {
 		SpeculativeThread t = threads.get(qfx);

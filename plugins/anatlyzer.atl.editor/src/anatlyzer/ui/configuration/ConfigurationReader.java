@@ -29,6 +29,8 @@ public class ConfigurationReader {
 			
 			if ( line.startsWith("debug-witness-finder") ) {
 				checkDebug(line);				
+			} else if ( line.startsWith("enforce-containment-semantics") ) {
+				checkEnforceContainmentSemantics(line);				
 			} else if ( line.startsWith("witness-finder") ) {
 				checkContinuous(line);
 			} else if ( line.startsWith("show-marker") ) {
@@ -113,6 +115,23 @@ public class ConfigurationReader {
 		}
 	}
 
+	/**
+	 * <pre>
+	 *   enforce-containment-semantics on
+	 * </pre>
+	 * 
+	 * @param line
+	 */
+	private void checkEnforceContainmentSemantics(String line) {
+		String[] parts = line.split("\\s+");
+		if ( parts.length == 2 ) {
+			if ( parts[1].equals("on") ) configuration.setEnforceContainmentSemantics(true);
+			else if ( parts[1].equals("off") ) configuration.setEnforceContainmentSemantics(false);
+		}
+	}
+
+	
+	
 	/**
 	 * <pre>
 	 *   witness-recursion-unfolding on

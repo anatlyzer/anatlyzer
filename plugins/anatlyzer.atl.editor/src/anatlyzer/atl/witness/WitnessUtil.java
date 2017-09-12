@@ -29,12 +29,19 @@ public class WitnessUtil {
 
 	public static IWitnessFinder getFirstWitnessFinder(TransformationConfiguration analysisConfiguration) {
 		IWitnessFinder finder = getFirstWitnessFinder();
+		configureFinder(analysisConfiguration, finder);
+		return finder;
+	}
+
+	public static void configureFinder(
+			TransformationConfiguration analysisConfiguration,
+			IWitnessFinder finder) {
 		finder.setDebugMode(analysisConfiguration.isWitnessFinderDebugMode());
 		finder.checkDiscardCause(analysisConfiguration.getCheckDiscardCause());
 		finder.setWitnessGenerationModel(analysisConfiguration.getWitnessMode());
 		finder.setDoUnfolding(analysisConfiguration.getDoRecursionUnfolding());
 		finder.setTimeOut(analysisConfiguration.getTimeOut());
-		return finder;
+		finder.setCheckAllCompositeConstraints(analysisConfiguration.getEnforceContainmentSemantics());
 	}
 
 

@@ -66,12 +66,14 @@ public class ExplanationComposite extends Composite {
 			explanation.setDetailedProblemDescription(styledTextExplanation);
 		} catch ( Exception e ) {
 			styledTextExplanation.setText("Oops. We had an internal error: " + e.getMessage());
+			e.printStackTrace();
 		}
 		
 		try {
 			explanation.setAdditionalInfo(composite);
 		} catch ( Exception e ) {
 			styledTextExplanation.setText("Oops. We had an internal error: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 	}

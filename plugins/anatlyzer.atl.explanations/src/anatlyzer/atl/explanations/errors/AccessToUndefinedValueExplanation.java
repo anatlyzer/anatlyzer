@@ -7,7 +7,10 @@ import org.eclipse.swt.widgets.Composite;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.explanations.ExplanationWithWitness;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 
 public class AccessToUndefinedValueExplanation extends ExplanationWithWitness {
@@ -34,8 +37,24 @@ public class AccessToUndefinedValueExplanation extends ExplanationWithWitness {
 	
 		EStructuralFeature f = (EStructuralFeature) source.getUsedFeature();
 	    
-		String mmName = ((Metaclass) source.getInferredType()).getModel().getName();
-	    createMetamodelViewer(composite, mmName, f);		
+		
+		String mmName = findMetamodelName(source);
+	    if ( mmName != null )
+	    	createMetamodelViewer(composite, mmName, f);		
+	}
+
+	private String findMetamodelName(OclExpression source) {
+		Type t = source.getInferredType();
+		if ( t instanceof Metaclass ) {
+			return ((Metaclass) t).getModel().getName();
+		}
+
+		if ( source instanceof PropertyCallExp ) {
+			return findMetamodelName( ((PropertyCallExp) source).getSource() );
+		}
+		
+		// ATLUtils.findStartingVarExp(src)
+		return null;
 	}
 
 

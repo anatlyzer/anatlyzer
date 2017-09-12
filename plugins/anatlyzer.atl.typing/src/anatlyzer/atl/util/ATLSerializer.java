@@ -575,7 +575,7 @@ public class ATLSerializer extends AbstractVisitor {
 	
 	@Override
 	public void inIfExp(IfExp self) {
-		String s = "if ( " + g(self.getCondition()) + " ) then" + inctab() + g(self.getThenExpression()) +  
+		String s = "if " + g(self.getCondition()) + " then" + inctab() + g(self.getThenExpression()) +  
 				dectab() + "else" + inctab() + g(self.getElseExpression()) + dectab() + "endif";
 		s(s);
 	}

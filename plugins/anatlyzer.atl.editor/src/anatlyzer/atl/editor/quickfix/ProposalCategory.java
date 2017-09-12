@@ -76,8 +76,9 @@ public class ProposalCategory implements ICompletionProposal, ICompletionProposa
 						}
 					}
 
-				} else {
-					SimpleExplanationDialog dialog = new SimpleExplanationDialog(null, exp);
+				} else {					
+					Shell shell = Display.getCurrent().getActiveShell();
+					SimpleExplanationDialog dialog = new SimpleExplanationDialog(shell, exp);
 					dialog.open();
 				}
 				

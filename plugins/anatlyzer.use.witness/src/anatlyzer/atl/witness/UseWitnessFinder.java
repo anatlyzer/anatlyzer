@@ -572,7 +572,9 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				constraints += "\n\ncontext " + entry.getKey() + " inv single_container_only_one_instance:\n";
 				for (EReference ref : entry.getValue()) 
 					constraints += "\t" + ref.getEContainingClass().getName() + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
-				constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "<= 1";
+				// constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "<= 1";
+				// It must be in one container only!
+				constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "= 1";
 			//}
 		}
 		if (!constraints.isEmpty()) constraints += "\n";

@@ -357,4 +357,6 @@ public class SpeculativeQuickfixComposite extends Composite implements  Speculat
 //		}
 //		return null;
 	}
+	
+	
 }

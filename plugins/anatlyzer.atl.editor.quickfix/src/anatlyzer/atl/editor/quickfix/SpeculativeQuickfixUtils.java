@@ -30,6 +30,7 @@ import anatlyzer.atl.util.AnalyserUtils.IAtlFileLoader;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.util.AtlEngineUtils;
@@ -248,7 +249,8 @@ public class SpeculativeQuickfixUtils {
 		};
 
 		TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(atlResource);
-		finder.setDebugMode(conf.isWitnessFinderDebugMode());
+		// finder.setDebugMode(conf.isWitnessFinderDebugMode());
+		WitnessUtil.configureFinder(conf, finder);
 
 		return finder;
 	}

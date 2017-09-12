@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.Env;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceContext;
@@ -118,6 +119,10 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			OclModelElement type = (OclModelElement) elem.getType();
 			
 			builder.copyScope();
+			
+			// Get all refs to OPEs in the right part and map it to the source variable
+			addOPEToScope(builder, rule, src);
+			
 			// builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue()));
 			builder.addToScope(rule.getInPattern().getElements().get(0), () -> copy(src) );
 
@@ -137,6 +142,10 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			
 			builder.copyScope();
 			builder.addToScope(rule.getInPattern().getElements().get(0), () -> builder.gen(binding.getValue() ) );
+
+			// Get all refs to OPEs in the right part and map it to the source variable
+			addOPEToScope(builder, rule, src);
+			
 			
 			if ( rule.getInPattern().getFilter() != null ) {
 				IfExp ifexp2 = OCLFactory.eINSTANCE.createIfExp();
@@ -164,6 +173,13 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 			return ifexp;
 		}
 		
+	}
+
+	private void addOPEToScope(CSPModel2 builder, RuleWithPattern rule, OclExpression expr) {
+		List<VariableExp> opeRefs = ATLUtils.findAllVarExp(binding.getValue()).stream().filter(v -> v.getReferredVariable() instanceof OutPatternElement).collect(Collectors.toList());
+		for (VariableExp ve : opeRefs) {
+			builder.addToScope(ve.getReferredVariable(), () -> copy(expr));				
+		}
 	}	
 	
 	@Override

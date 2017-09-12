@@ -1,6 +1,7 @@
 package anatlyzer.ui.preferences;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -42,7 +43,16 @@ public class AnATLyzerPreferencesPage extends FieldEditorPreferencePage implemen
     	
 
     	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.SPECULATIVE_QUICKFIXES_ENABLED, "Enable speculative quick fixes", getFieldEditorParent()));
+
     	
+    	addField(new ComboFieldEditor(AnATLyzerPreferenceInitializer.DEFAULT_ANALYSIS_CONFIGURATION, "Default batch configuration",
+    			new String[][] { 
+    				{ "Model finding on errors", DefaultAnalysisConfiguration.MODEL_FINDING_ON_ERRORS.name() },
+    				{ "All errors in continous mode", DefaultAnalysisConfiguration.ALL_CONTINOUS.name() },
+    				{ "No model finding", DefaultAnalysisConfiguration.NO_MODEL_FINDING.name() }    				
+    			},     			
+    			getFieldEditorParent()));
+
     }
 
     @Override

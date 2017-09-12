@@ -5,7 +5,9 @@ import java.util.Set;
 
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.ProblemSets;
+import anatlyzer.atl.util.ProblemSets.IProblemSelector;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 
 public class TransformationConfiguration implements Cloneable {
 
@@ -26,7 +28,9 @@ public class TransformationConfiguration implements Cloneable {
 //		wantedMarkers.add(ProblemStatus.ERROR_CONFIRMED_SPECULATIVE);		
 //		wantedMarkers.add(ProblemStatus.WITNESS_REQUIRED);		
 	
-		availableProblems = new ProblemSets();
+		IProblemSelector selector = AnATLyzerPreferenceInitializer.getDefaultAnalysisConfiguration().getSelector();
+		
+		availableProblems = new ProblemSets(selector);
 		for (ProblemStatus problemStatus : ProblemStatus.values()) {
 			if ( problemStatus == ProblemStatus.ERROR_DISCARDED || problemStatus == ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL )
 				continue;

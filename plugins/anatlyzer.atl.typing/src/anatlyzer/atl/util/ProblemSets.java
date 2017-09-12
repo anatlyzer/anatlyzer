@@ -17,8 +17,11 @@ public class ProblemSets {
 	private Set<EClass> batch     = new HashSet<EClass>();
 	private Set<EClass> ignored   = new HashSet<EClass>();
 	private boolean isDifferentFromDefault = false;
+	private IProblemSelector selector;
 	
-	public ProblemSets() {
+	public ProblemSets(IProblemSelector selector) {
+		this.selector = selector;
+		
 		List<EClass> allProblems = AtlErrorPackage.eINSTANCE.getEClassifiers().stream().
 				filter(c -> c instanceof EClass).
 				map(c -> (EClass) c).
@@ -44,12 +47,14 @@ public class ProblemSets {
 	}
 
 	private boolean isBatchByDefault(EClass c) {
-//		return 	c == AtlErrorPackage.Literals.BINDING_POSSIBLY_UNRESOLVED ||
-//				c == AtlErrorPackage.Literals.BINDING_WITHOUT_RULE;
+		if ( selector != null )
+			return selector.isBatchByDefault(c);
 		return false;
 	}
 
-	private boolean isIgnoredByDefault(EClass eClass) {
+	private boolean isIgnoredByDefault(EClass c) {
+		if ( selector != null )
+			return selector.isIgnoredByDefault(c);
 		return false;
 	}
 
@@ -91,5 +96,10 @@ public class ProblemSets {
 		batch.remove(c);
 		ignored.remove(c);
 		ignored.add(c);		
+	}
+	
+	public static interface IProblemSelector {
+		boolean isBatchByDefault(EClass eClass);
+		boolean isIgnoredByDefault(EClass eClass);
 	}
 }

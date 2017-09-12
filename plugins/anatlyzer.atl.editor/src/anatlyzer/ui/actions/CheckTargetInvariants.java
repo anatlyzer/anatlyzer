@@ -73,6 +73,7 @@ public class CheckTargetInvariants implements IEditorActionDelegate {
 			try {
 				processNode(node, data, resource);
 			} catch ( Exception e ) {
+				e.printStackTrace();
 				node.setAnalysisError(e);
 			}
 			

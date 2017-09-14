@@ -36,6 +36,9 @@ public class TransformationConfiguration implements Cloneable {
 				continue;
 			this.wantedMarkers.add(problemStatus);
 		}
+		
+		long prefTimeOut = AnATLyzerPreferenceInitializer.getTimeOut();
+		this.timeOut = prefTimeOut;
 	}
 	
 	public void setWitnessMode(WitnessGenerationMode mode) {

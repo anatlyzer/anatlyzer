@@ -261,6 +261,17 @@ public class AnalysisViewBatchNodes {
 		}
 
 		@Override
+		public String toColumn1() {
+			switch ( element.getAnalysisResult() ) {
+			case ERROR_CONFIRMED: 
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case STATICALLY_CONFIRMED: 
+				return "Rule conflict!";
+			}
+			return super.toColumn1();
+		}
+		
+		@Override
 		public ImageDescriptor getImage() {
 			switch ( element.getAnalysisResult() ) {
 			case ERROR_DISCARDED: 

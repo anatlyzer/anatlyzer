@@ -53,6 +53,11 @@ public class EffectiveMetamodelDataWrapper implements IEffectiveMetamodelData {
 		return tgt;
 	}
 
+	protected boolean hasTarget(EClass c) {
+		EClass tgt = mapping.getTarget(c);
+		return tgt != null;
+	}
+
 	protected EStructuralFeature getTarget(EStructuralFeature f) {
 		EStructuralFeature tgt = mapping.getTarget(f);
 		if ( tgt == null ) 

@@ -101,6 +101,7 @@ import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.processing.AbstractVisitor.VisitingActions;
 
 public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
@@ -440,7 +441,19 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				"elseExpression",
 				method("closeIfElseScope", self));
 	}	
-	
+
+	@Override
+	public VisitingActions preOperatorCallExp(OperatorCallExp self) {
+		if ( "implies".equals(self.getOperationName()) ) {
+			return actions("type", 
+				method("openImpliesScope", self),
+				"source", 
+				"arguments" , 
+				method("closeImpliesScope", self));
+		} else {
+			return super.preOperatorCallExp(self);
+		}
+	}
 	
 	@Override
 	public void inIfExp(IfExp self) {
@@ -865,7 +878,10 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			}  else if ( parent instanceof IfStat && ((IfStat) parent).getCondition() == child ) {
 				inConditionPosition = true;
 				break;
-			} 
+			}  else if ( parent instanceof OperatorCallExp && ((OperationCallExp) parent).getOperationName().equals("implies")) {
+				inConditionPosition = true;
+				break;				
+			}
 			
 			child  = (OclExpression) parent;
 			parent = parent.eContainer();				
@@ -1392,12 +1408,20 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		attr.getVarScope().openScope();
 	}
 
+	public void openImpliesScope(OperatorCallExp self) {
+		attr.getVarScope().openScope();
+	}
+
 	public void openElseScope(IfExp self) {
 		attr.getVarScope().negateCurrentScope();
 	}
 
 
 	public void closeIfElseScope(IfExp self) {
+		attr.getVarScope().closeScope();
+	}
+
+	public void closeImpliesScope(OperatorCallExp self) {
 		attr.getVarScope().closeScope();
 	}
 

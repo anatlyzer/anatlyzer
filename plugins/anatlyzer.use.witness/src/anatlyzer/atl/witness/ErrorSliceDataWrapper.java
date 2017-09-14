@@ -79,7 +79,8 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		classes.addAll(problems.getExtraClasses().stream().map(c -> getTarget(c)).collect(Collectors.toSet()));
 		
 		// classes.addAll(slice.getTargetMetaclassesNeededInError());
-		slice.getTargetMetaclassesNeededInError().forEach(c -> {
+		Collection<? extends EClass> targetMetaclassesNeededInError = slice.getTargetMetaclassesNeededInError();
+		targetMetaclassesNeededInError.forEach(c -> {
 			// There may be naming conflicts... so a copy is created with a special name
 			// Method getPackageAnnotations perform the renaming at the expression level
 			
@@ -87,7 +88,9 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 			newClass.setName("TGT_" + c.getName());
 
 			for(EStructuralFeature f : c.getEStructuralFeatures()) {
-				if ( f instanceof EReference ) {
+				// if ( f instanceof EReference && (classes.contains(f.getEType()) || targetMetaclassesNeededInError.contains(f.getEType()) ) ) {
+				// if ( f instanceof EReference  ) {
+				if ( f instanceof EReference && hasTarget((EClass) f.getEType()) ) {
 					EReference ref = EcoreFactory.eINSTANCE.createEReference();
 					ref.setName(f.getName());
 					ref.setContainment(((EReference) f).isContainment());

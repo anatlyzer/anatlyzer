@@ -36,4 +36,13 @@
             apply="anatlyzer.atl.explanations.errors.BindingInvalidTargetExplanation">
       </explanation>
    </extension>
+   
+   <extension
+         id="anatlyzer.atl.explanations.errors.LazyRuleWithFilter"
+         name="Lazy rule with filter"
+         point="anatlyzer.atl.editor.problemexplanation">
+      <explanation
+            apply="anatlyzer.atl.explanations.errors.LazyRuleWithFilterExplanation">
+      </explanation>
+   </extension>
 </plugin>

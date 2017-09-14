@@ -164,6 +164,14 @@
             apply="anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_AssignInferredType">
       </quickfix>
    </extension>
+
+   <extension
+         point="anatlyzer.atl.editor.quickfix">
+      <quickfix
+            apply="anatlyzer.atl.editor.quickfix.errors.IncoherentHelperReturnTypeQuickfix_ForceDeclaredReturnType">
+      </quickfix>
+   </extension>
+
    <extension
          point="anatlyzer.atl.editor.quickfix">
       <quickfixset

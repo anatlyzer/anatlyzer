@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EmptyCollectionType;
@@ -266,6 +268,17 @@ public class TypeUtils {
 			return t.getContainedType();
 		}
 		return ope.getInferredType();
+	}
+
+	public static Metaclass findMetaclass(GlobalNamespace namespace, EClass c) {
+		for (MetamodelNamespace mNs : namespace.getMetamodels()) {
+			for (EClass eClass : mNs.getAllClasses()) {
+				if ( eClass == c ) {
+					return mNs.getMetaclass(c); 
+				}
+			}
+		}
+		return null;
 	}
 
 	

@@ -36,6 +36,7 @@ import anatlyzer.atlext.ATL.CallableParameter;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -306,6 +307,28 @@ public class ASTUtils {
 		completeRule(r, sourceType, targetType, null);
 	}
 
+	public static void completeRule(RuleWithPattern r, Metaclass[] sourceTypes, Metaclass targetType, String targetPatternName) {
+		completeRule(r, sourceTypes[0], targetType);
+		for(int i = 1; i < sourceTypes.length; i++) {
+			Metaclass sourceType = sourceTypes[i];
+			
+			SimpleInPatternElement ipe = ATLFactory.eINSTANCE.createSimpleInPatternElement();			
+			
+			OclModelElement ome = ASTUtils.createOclModelElement(sourceType);
+			ipe.setType(ome);
+			
+			String srcPatternName = sourceType.getName().substring(0, 1).toLowerCase();
+			// Avoid duplicate names
+			for (InPatternElement existingIpe : r.getInPattern().getElements()) {
+				if ( existingIpe.getVarName().equals(srcPatternName)) {
+					srcPatternName = srcPatternName + i;
+				}
+			}
+			
+			r.getInPattern().getElements().add(ipe);
+			ipe.setVarName(srcPatternName);
+		}
+	}
 	
 	public static void completeRule(RuleWithPattern r, Metaclass sourceType, Metaclass targetType, String targetPatternName) {
 		// source pattern

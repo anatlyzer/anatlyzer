@@ -122,6 +122,9 @@ public class InDocumentSerializer extends ATLSerializer {
 //				MyATLCodeFormatter formatter = new MyATLCodeFormatter();
 //				s = formatter.format(new ByteArrayInputStream(s.getBytes()));
 				
+				//String s1 = document.get(start, length);
+				//String s2 = document.get(start, length + 2);
+				
 				document.replace(start, length, s);
 	
 				/*
@@ -195,7 +198,9 @@ public class InDocumentSerializer extends ATLSerializer {
 				String indent = getIndent(previousBinding);
 				s(", " + cr() + indent + self.getPropertyName() + " <- " + g(self.getValue()));
 			} else 
-				s(cr() + genTab() + self.getPropertyName() + " <- " + g(self.getValue()) + ", ");
+				// s(cr() + genTab() + self.getPropertyName() + " <- " + g(self.getValue()) + ", ");
+				// It seems that the last "," is not needed because it already exists
+				s(cr() + genTab() + self.getPropertyName() + " <- " + g(self.getValue()) + "");
 		} else {
 			super.inBinding(self);
 		}

@@ -18,9 +18,10 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 	public void initializeDefaultPreferences() {
 		// TODO Auto-generated method stub
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setDefault(TIMEOUT_PREFERENCE, 25000L);
+		// store.setDefault(TIMEOUT_PREFERENCE, 25000L);
+		store.setDefault(TIMEOUT_PREFERENCE, 7500L);
 		store.setDefault(BUILDER_ANALYSE_OPEN_ONLY, true);
-		store.setDefault(SPECULATIVE_QUICKFIXES_ENABLED, true);
+		store.setDefault(SPECULATIVE_QUICKFIXES_ENABLED, false);
 		store.setDefault(DEFAULT_ANALYSIS_CONFIGURATION, DefaultAnalysisConfiguration.MODEL_FINDING_ON_ERRORS.name());
 
 		store.setDefault(MIN_BOUNDS, 0);

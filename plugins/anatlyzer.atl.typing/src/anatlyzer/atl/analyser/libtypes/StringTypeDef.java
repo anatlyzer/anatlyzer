@@ -33,6 +33,9 @@ public class StringTypeDef extends AtlTypeDef {
 		operation("toUpper").returnType(string());
 		operation("toSequence").returnType(seq(string()));
 		operation("trim").returnType(AtlTypes.string());
+		operation("compareTo").
+			param("other", string()).
+			returnType(integer());
 		operation("startsWith").
 			param("s", string()).
 			returnType(boolean_());

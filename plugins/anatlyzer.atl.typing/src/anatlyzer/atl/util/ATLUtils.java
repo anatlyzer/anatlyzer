@@ -59,6 +59,7 @@ import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.ATL.StaticRule;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.OCLFactory;
@@ -901,6 +902,10 @@ public class ATLUtils {
 			return self.getStaticResolver() == null; 
 		
 		return Boolean.parseBoolean(ann);
+	}
+
+	public static Type getRuleReturnType(Rule r) {
+		return r.getOutPattern().getElements().get(0).getInferredType();
 	}
 
 	

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import anatlyzer.atl.util.Pair;
 
 public class GlobalNamespace {
+	private static final String META_METAMODEL_KEY = "_ECORE_";
 	private HashSet<Resource> resources = new HashSet<Resource>();
 	private HashMap<String, MetamodelNamespace> namesToMetamodels = new HashMap<String, MetamodelNamespace>();
 	
@@ -26,25 +28,35 @@ public class GlobalNamespace {
 	private Map<String, Resource>	logicalNamesToMetamodels;
 	private ResourceSet rs;
 	
+	private MetamodelNamespace metaMetamodel;
+	
+	
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels) {
+		this.metaMetamodel = new MetamodelNamespace(META_METAMODEL_KEY, EcorePackage.eINSTANCE.eResource(), null);
+
 		for (Resource resource : r) {
 			resources.add(resource);
 		}
 				
 		for (String key : logicalNamesToMetamodels.keySet()) {
-			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key)));
+			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key), metaMetamodel));
 		}
 		
 		this.logicalNamesToMetamodels = Collections.unmodifiableMap(logicalNamesToMetamodels);
+		
 	}
 
+	public MetamodelNamespace getMetaMetamodel() {
+		return metaMetamodel;
+	}
+	
 	/** 
 	 * Forces a reload of all cached information.
 	 * TODO: Do this more fine-grained
 	 */
 	public void invalidate() {
 		for (String key : logicalNamesToMetamodels.keySet()) {
-			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key)));
+			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key), metaMetamodel));
 		}
 		this.subtypes = new HashMap<EClass, ArrayList<ClassNamespace>>();
 	}

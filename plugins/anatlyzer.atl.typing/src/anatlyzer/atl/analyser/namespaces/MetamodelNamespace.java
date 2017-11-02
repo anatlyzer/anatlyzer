@@ -47,7 +47,7 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 	// protected ResourceSet resourceSet;
 	
 	
-	public MetamodelNamespace(String name, Resource resource) {
+	public MetamodelNamespace(String name, Resource resource, MetamodelNamespace metaMetamodel) {
 		if ( resource == null ) 
 			throw new IllegalArgumentException("No resource for " + name);
 
@@ -88,6 +88,17 @@ public class MetamodelNamespace implements IMetamodelNamespace {
 				
 				classifiers.put(sup.getName(), new ClassNamespace(this, (EClass) sup));				
 				allClasses.add(sup);
+			}
+		}
+		
+		if ( metaMetamodel != null ) {
+			for(EClass eClass : metaMetamodel.getAllClasses()) {
+				if ( classifiers.containsKey(eClass.getName() )) 
+					continue;		
+	
+				classifiers.put(eClass.getName(), new ClassNamespace(this, (EClass) eClass));				
+				allClasses.add(eClass);
+	
 			}
 		}
 		

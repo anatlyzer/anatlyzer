@@ -798,11 +798,16 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			if ( numberOfNegations != -1 ) {
 				numberOfNegations += oclUndefinedStyle;
 				VariableExp ve = VariableScope.findStartingVarExp(self);
-				boolean hasNegation = numberOfNegations % 2 == 1;
-				if ( ! hasNegation ) {
-					attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
-				} else {
-					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+				// Undefined checking only works if the expression starts with a variable.
+				// Thinks like Type.allInstances()->first() <> Undefined do not work
+				if ( ve != null )  {
+					boolean hasNegation = numberOfNegations % 2 == 1;
+					if ( ! hasNegation ) {
+						attr.getVarScope().putIsUndefined(ve.getReferredVariable(), self.getSource());
+					} else {
+						System.out.println(self);
+						attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
+					}
 				}
 			}
 		}

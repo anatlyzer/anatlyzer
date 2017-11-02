@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
@@ -11,6 +12,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.PrimitiveTypeNamespace;
 import anatlyzer.atl.analyser.namespaces.TransformationNamespace;
+import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
@@ -223,6 +225,22 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 		if ( f != null  ) {
 			self.setUsedFeature(f);
 		} else {
+			// Check if it is the case that the property is resolved by subtypes.
+			// The easiest way at this point is to check if there is a problem of this type pointing
+			// to the feature
+			errors().getLocalProblems().stream().
+				filter(p -> p instanceof FeatureFoundInSubtype ).
+				filter(p -> p.getElement() == self).
+				map(p -> (FeatureFoundInSubtype) p).findAny().ifPresent(p -> {
+				
+				for(EClass c : p.getPossibleClasses()) {
+					EStructuralFeature feat = c.getEStructuralFeature(self.getName());
+					if ( feat != null && ! self.getSubtypeFeatures().contains(feat) ) {
+						self.getSubtypeFeatures().add(feat);
+					}
+				}
+			});
+			
 			computeResolvers(srcType, self, self.getName());				
 		}
 	}

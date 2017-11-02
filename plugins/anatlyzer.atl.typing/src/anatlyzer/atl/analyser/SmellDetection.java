@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser;
 import anatlyzer.atl.model.ErrorModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
+import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.OCL.OperatorCallExp;
@@ -19,6 +21,9 @@ public class SmellDetection {
 		if ( (left instanceof StringType && right instanceof EnumType) || 
 			 (right instanceof StringType && left instanceof EnumType)) {
 			error.signalInvalidOperatorUsage("Invalid comparison between string and enumerate", operator);
+		} if ( (left instanceof Metaclass && right instanceof PrimitiveType) || 
+			 (right instanceof Metaclass && left instanceof PrimitiveType)) {
+			error.signalInvalidOperatorUsage("Invalid comparison between object and primitive type", operator);
 		} else if ( ( "=".equals(operator.getOperationName()) || "!=".equals(operator.getOperationName()) ) && 
 				    ((left instanceof CollectionType && !(right instanceof CollectionType) ) || 
 				    (right instanceof CollectionType && !(left instanceof CollectionType) )) ) {

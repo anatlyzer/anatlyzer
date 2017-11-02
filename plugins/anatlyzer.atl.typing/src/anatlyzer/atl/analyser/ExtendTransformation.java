@@ -158,6 +158,12 @@ public class ExtendTransformation {
 			}
 		}
 
+		// If it is part of the meta-model, which is always implicitly available
+		if ( mm.getMetaMetamodel().belongsTo(c) ) {
+			// Any source model is fine
+			return models.values().iterator().next();
+		}
+		
 		throw new CannotFindClassForOperation("Could not find type: " + c.getName());		
 	}
 

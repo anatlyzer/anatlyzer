@@ -47,15 +47,16 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 		Copier copier = new EcoreUtil.Copier();
 		Resource r = new ResourceImpl();
 		
-		for (ModelInfo mInfo : srcModels) {			
-			MetamodelNamespace ns = analyser.getNamespaces().getNamespace(mInfo.getMetamodelName());
-			
-			copier.copyAll(ns.getResource().getContents());
-			copier.copyReferences();
 		
-			EPackage newRoot = getRoot(mInfo.getMetamodelName(), ns.getResource(), copier);
-			r.getContents().add(newRoot);
+		
+		for (ModelInfo mInfo : srcModels) {			
+			MetamodelNamespace ns = analyser.getNamespaces().getNamespace(mInfo.getMetamodelName());		
+			addToCopier(copier, r, mInfo.getMetamodelName(), ns);
 		}
+		
+		MetamodelNamespace mmm = analyser.getNamespaces().getMetaMetamodel();		
+		addToCopier(copier, r, mmm.getName(), mmm);
+		
 		
 		EPackage newRoot = null;
 		if ( r.getContents().size() == 1 ) {
@@ -83,6 +84,15 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 		});
 		
 		return new SourceMetamodelsData(analyser, newRoot, copier);
+	}
+
+	private static void addToCopier(Copier copier, Resource r, String metamodelName,
+			MetamodelNamespace ns) {
+		copier.copyAll(ns.getResource().getContents());
+		copier.copyReferences();
+
+		EPackage newRoot = getRoot(metamodelName, ns.getResource(), copier);
+		r.getContents().add(newRoot);
 	}
 	
 	private static void checkRenaming(EStructuralFeature src, EStructuralFeature tgt) {

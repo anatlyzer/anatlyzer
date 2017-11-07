@@ -68,7 +68,9 @@ public class GlobalNamespace {
 	}
 
 	public Map<String, Resource> getLogicalNamesToMetamodels() {
-		return logicalNamesToMetamodels;
+		HashMap<String, Resource> res = new HashMap<String, Resource>(logicalNamesToMetamodels);
+		res.put(metaMetamodel.getName(), metaMetamodel.getResource());
+		return res;
 	}
 	
 	public TransformationNamespace getTransformationNamespace() {

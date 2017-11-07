@@ -54,9 +54,13 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 			addToCopier(copier, r, mInfo.getMetamodelName(), ns);
 		}
 		
-		MetamodelNamespace mmm = analyser.getNamespaces().getMetaMetamodel();		
-		addToCopier(copier, r, mmm.getName(), mmm);
-		
+		// The copy procedure for the meta-model needs to be separated to avoid the copier to redirect
+		// references to the Ecore meta-model (in particular, data types) to the the copied ecore
+		MetamodelNamespace mmm = analyser.getNamespaces().getMetaMetamodel();
+		Copier mmCopier = new EcoreUtil.Copier();
+		addToCopier(mmCopier, r, mmm.getName(), mmm);
+
+		copier.putAll(mmCopier);
 		
 		EPackage newRoot = null;
 		if ( r.getContents().size() == 1 ) {
@@ -85,6 +89,7 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 		
 		return new SourceMetamodelsData(analyser, newRoot, copier);
 	}
+
 
 	private static void addToCopier(Copier copier, Resource r, String metamodelName,
 			MetamodelNamespace ns) {

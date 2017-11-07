@@ -29,6 +29,7 @@ import anatlyzer.atl.types.PrimitiveType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
 import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.TupleAttribute;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
@@ -76,7 +77,10 @@ public class TypeUtils {
  			EnumType et = (EnumType) t; 
  			return et.getName() + " [Enum]";
  		}
-		
+		if ( t instanceof ThisModuleType ) {
+			return "thisModule";
+		}
+ 		
 		if ( t instanceof UnionType ) {
 			return "Union {" +  typesToString(((UnionType) t).getPossibleTypes()) + "}";
 		}

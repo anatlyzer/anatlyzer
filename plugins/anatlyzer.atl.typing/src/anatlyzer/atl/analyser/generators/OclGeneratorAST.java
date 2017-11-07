@@ -216,6 +216,9 @@ public class OclGeneratorAST {
 						
 			for(OclExpression arg: genArgs(navS.getArguments(), vars )) navT.getArguments().add(arg);
 		
+			// This is needed because in ATL it is valid to use "->" for normal operations
+			navT.setStaticResolver(((PropertyCallExp) expr).getStaticResolver());
+			
 			return navT;
 		} else if (expr instanceof OperationCallExp) {
 			OperationCallExp navS = (OperationCallExp) expr;

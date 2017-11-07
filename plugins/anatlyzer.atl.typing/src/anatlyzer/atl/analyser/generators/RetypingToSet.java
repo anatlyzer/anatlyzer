@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.errors.atl_error.CollectionOperationOverNoCollectionError;
 import anatlyzer.atl.errors.atl_error.FeatureFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationFoundInSubtype;
 import anatlyzer.atl.errors.atl_error.OperationOverCollectionType;
@@ -81,7 +82,6 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		OclFeature feat = h.getDefinition().getFeature();
 		if ( feat instanceof Operation ) {
 			((Operation) feat).getParameters().forEach(p -> startVisiting(p));
-			System.out.println(((Operation) feat).getParameters());
 		}
 	}
 	
@@ -460,6 +460,19 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		// It is not a built-in function, and thus it is helper defined in the transformation 
 		// (unless it is an error, that has not been automatically fixed)
 
+		passThisModuleAsArgumentIfNeeded(self);
+		
+		// if ( self.getSource().getInferredType() instanceof CollectionType ) {
+		if ( AnalyserUtils.hasProblem(self, OperationOverCollectionType.class) != null ) {			
+			CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
+			colOp.setOperationName( self.getOperationName() );
+			colOp.setSource( self.getSource() );
+			colOp.getArguments().addAll(self.getArguments());
+			EcoreUtil.replace(self, colOp);
+		}
+	}
+
+	private void passThisModuleAsArgumentIfNeeded(OperationCallExp self) {
 		if ( ! ATLUtils.isBuiltinOperation(self) ) { 
 			VariableExp thisModuleRef =  OCLFactory.eINSTANCE.createVariableExp();			
 			thisModuleRef.setReferredVariable(getThisModuleVar());
@@ -476,15 +489,6 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 				self.getArguments().add(self.getSource());
 				self.setSource(thisModuleRef2);
 			}
-		}
-		
-		// if ( self.getSource().getInferredType() instanceof CollectionType ) {
-		if ( AnalyserUtils.hasProblem(self, OperationOverCollectionType.class) != null ) {			
-			CollectionOperationCallExp colOp = OCLFactory.eINSTANCE.createCollectionOperationCallExp();
-			colOp.setOperationName( self.getOperationName() );
-			colOp.setSource( self.getSource() );
-			colOp.getArguments().addAll(self.getArguments());
-			EcoreUtil.replace(self, colOp);
 		}
 	}
 	
@@ -584,7 +588,18 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 //				self.setSource(colOp);
 //			}
 //		}
-	
+
+
+		if ( AnalyserUtils.hasProblem(self, CollectionOperationOverNoCollectionError.class) != null ) {			
+			passThisModuleAsArgumentIfNeeded(self);
+			OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+			op.setOperationName( self.getOperationName() );
+			op.setSource( self.getSource() );
+			op.getArguments().addAll(self.getArguments());
+			EcoreUtil.replace(self, op);
+			
+		}		
+		
 	}
 	
 	

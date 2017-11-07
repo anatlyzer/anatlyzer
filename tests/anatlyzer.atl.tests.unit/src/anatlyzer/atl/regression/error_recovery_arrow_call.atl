@@ -1,0 +1,22 @@
+module "error recovery invalid arrow call";
+create OUT : WXYZ from IN : ABCD;
+
+helper def : getAllInstances(str : String) : Set(ABCD!A) = ABCD!A.allInstances()->asSet();
+
+
+rule model {
+	from src : ABCD!Model
+    to   tgt : WXYZ!Model (
+    	name <- 'tests that even with an invalid "-> call" the solver is going to work',
+		elements <- thisModule->getAllInstances('dummy')
+	)
+}
+
+rule a2other {
+	from
+		a : ABCD!A
+	to 
+		tgt : WXYZ!Other (
+			name <- 'aname'
+		)
+}

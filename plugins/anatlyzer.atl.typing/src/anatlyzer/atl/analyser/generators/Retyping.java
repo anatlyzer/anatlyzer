@@ -28,11 +28,11 @@ public class Retyping extends AbstractVisitor {
 	}
 
 	public boolean usesSeqApproximation() {
-		return ! strategy.usesSeqApproximation();
+		return strategy.usesSeqApproximation();
 	}
 	
 	public boolean usesSubtypeSelectionOnFeatureAccess() {
-		return ! strategy.usesSubtypeSelectionOnFeatureAccess();
+		return strategy.usesSubtypeSelectionOnFeatureAccess();
 	}
 
 	public List<Helper> getNewHelpers() {

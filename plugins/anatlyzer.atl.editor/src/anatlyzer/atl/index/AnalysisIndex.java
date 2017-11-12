@@ -1,16 +1,22 @@
 package anatlyzer.atl.index;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.problemtracking.ProblemTracker;
+import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
+import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 
 /**
@@ -84,6 +90,20 @@ public class AnalysisIndex {
 		return getAnalysis(getFileId(file));
 	}
 
+	public synchronized AnalysisResult getAnalysisOrLoad(IResource file) {
+		AnalysisResult analysis = getAnalysis(file);
+		if ( analysis == null ) {
+			// If it is not available yet, execute the analyser
+			try {
+				analysis = new AnalyserExecutor().exec(file);
+			} catch (IOException | CoreException | CannotLoadMetamodel | PreconditionParseError e1) {
+				e1.printStackTrace();
+				return null;
+			}
+		}
+		return analysis;
+	}
+	
 	
 	public TransformationConfiguration getConfiguration(IResource resource) {
 		TransformationConfiguration r = confs.get(getFileId(resource));		

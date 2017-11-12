@@ -281,14 +281,14 @@
             </command>
       </menuContribution>
       
-      <extension point="org.eclipse.ui.bindings">
+   </extension>
+      
+   <extension point="org.eclipse.ui.bindings">
 		<key sequence="Ctrl+O"
 			commandId="anatlyzer.commands.showTransformationOutline"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			contextId="org.eclipse.m2m.atl.adt.editor"/>
 	</extension>
-      
-   </extension>
    
 
    <extension

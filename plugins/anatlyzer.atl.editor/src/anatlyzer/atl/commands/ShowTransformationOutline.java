@@ -10,11 +10,14 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
+import anatlyzer.atl.dialogs.TransformationContentProvider;
+import anatlyzer.atl.dialogs.TransformationOutlineDialog;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.footprint.MetamodelPrunner;
 import anatlyzer.atl.index.AnalysisIndex;
@@ -28,9 +31,14 @@ public class ShowTransformationOutline extends AbstractHandler {
 			AtlEditorExt atlEditor = (AtlEditorExt) editor;
 			IFile file = (IFile) atlEditor.getUnderlyingResource();
 			
-			AnalysisResult r = AnalysisIndex.getInstance().getAnalysis(file);
-
+			AnalysisResult r = AnalysisIndex.getInstance().getAnalysisOrLoad(file);
+			if ( r == null )
+				return null;
 			
+			TransformationContentProvider provider = new TransformationContentProvider(r);
+			
+			TransformationOutlineDialog dialog = new TransformationOutlineDialog(HandlerUtil.getActiveShell(event), SWT.NONE, provider);
+			dialog.open();
 			
 		}
 		

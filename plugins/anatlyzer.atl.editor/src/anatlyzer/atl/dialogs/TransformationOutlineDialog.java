@@ -28,7 +28,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 
 	private IOutlineContentCreator fOutlineContentCreator;
 
-	private IOutlineSelectionHandler fOutlineSelectionHandler;
+//	private IOutlineSelectionHandler fOutlineSelectionHandler;
 
 	private Text fFilterText;
 
@@ -36,7 +36,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 
 	private QuickOutlineNamePatternFilter fNamePatternFilter;
 
-	private SortAction fSortAction;
+//	private SortAction fSortAction;
 
 	private ITreeContentProvider fTreeContentProvider;
 
@@ -46,27 +46,40 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 
 	private ViewerComparator fTreeViewerDefaultComparator;
 
-	public TransformationOutlineDialog(Shell parent, int shellStyle, IOutlineContentCreator creator, IOutlineSelectionHandler handler) {
+//	public TransformationOutlineDialog(Shell parent, int shellStyle, IOutlineContentCreator creator, IOutlineSelectionHandler handler) {
+//		super(parent, shellStyle, true, true, true, true, null, null);
+//		// Set outline creator
+//		fOutlineContentCreator = creator;
+//		// Set outline handler
+//		fOutlineSelectionHandler = handler;
+//		// Initialize the other fields
+//		initialize();
+//		// Create all controls early to preserve the life cycle of the original 
+//		// implementation.
+//		create();
+//	}
+
+	public TransformationOutlineDialog(Shell parent, int shellStyle, IOutlineContentCreator creator) {
 		super(parent, shellStyle, true, true, true, true, null, null);
-		// Set outline creator
-		fOutlineContentCreator = creator;
-		// Set outline handler
-		fOutlineSelectionHandler = handler;
+		this.fOutlineContentCreator = creator;
+		
 		// Initialize the other fields
 		initialize();
 		// Create all controls early to preserve the life cycle of the original 
 		// implementation.
 		create();
 	}
-
+	
+	
 	private void initialize() {
-		setInfoText(PDEUIMessages.QuickOutlinePopupDialog_infoTextPressEscToExit);
-
+		//setInfoText(PDEUIMessages.QuickOutlinePopupDialog_infoTextPressEscToExit);
+		setInfoText("Press Esc to exit");
+		
 		fFilterText = null;
 		fTreeViewer = null;
 		fStringMatcher = null;
 		fNamePatternFilter = null;
-		fSortAction = null;
+		// fSortAction = null;
 		fTreeContentProvider = null;
 		fTreeLabelProvider = null;
 		fTreeViewerComparator = null;
@@ -79,9 +92,11 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 	protected Control createDialogArea(Composite parent) {
 		// Applies only to dialog body - not title.  See createTitleControl
 		// Create an empty dialog area, if the source page is not defined
-		if ((fOutlineContentCreator == null) || (fOutlineSelectionHandler == null)) {
-			return super.createDialogArea(parent);
-		}
+		// if ((fOutlineContentCreator == null) || (fOutlineSelectionHandler == null)) {
+//		if ( true ) {
+//			return super.createDialogArea(parent);
+//		}
+		
 		// Create the tree viewer
 		createUIWidgetTreeViewer(parent);
 		// Add listeners to the tree viewer
@@ -96,7 +111,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 
 	private void createUIActions() {
 		// Add sort action to dialog menu
-		fSortAction = new SortAction(fTreeViewer, PDEUIMessages.PDEMultiPageContentOutline_SortingAction_tooltip, fTreeViewerComparator, fTreeViewerDefaultComparator, null);
+		// fSortAction = new SortAction(fTreeViewer, PDEUIMessages.PDEMultiPageContentOutline_SortingAction_tooltip, fTreeViewerComparator, fTreeViewerDefaultComparator, null);
 	}
 
 	/* (non-Javadoc)
@@ -104,7 +119,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 	 */
 	protected void fillDialogMenu(IMenuManager dialogMenu) {
 		// Add the sort action
-		dialogMenu.add(fSortAction);
+		// dialogMenu.add(fSortAction);
 		// Separator
 		dialogMenu.add(new Separator());
 		// Add the default actions
@@ -140,12 +155,12 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 		fTreeLabelProvider = fOutlineContentCreator.createOutlineLabelProvider();
 		fTreeViewer.setLabelProvider(fTreeLabelProvider);
 		// Create the outline sorter (to be set on the sort action)
-		fTreeViewerComparator = fOutlineContentCreator.createOutlineComparator();
+//		fTreeViewerComparator = fOutlineContentCreator.createOutlineComparator();
 		// Set the comparator to null (sort action will be disabled initially 
 		// because of this)
 		// Create the default outline sorter (Most like this will just return
 		// null to indicate sorting disabled
-		fTreeViewerDefaultComparator = fOutlineContentCreator.createDefaultOutlineComparator();
+//		fTreeViewerDefaultComparator = fOutlineContentCreator.createDefaultOutlineComparator();
 		fTreeViewer.setComparator(fTreeViewerDefaultComparator);
 		fTreeViewer.setAutoExpandLevel(AbstractTreeViewer.ALL_LEVELS);
 		fTreeViewer.setUseHashlookup(true);
@@ -175,7 +190,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 			}
 		});
 		// Handle mouse move events
-		tree.addMouseMoveListener(new QuickOutlineMouseMoveListener(fTreeViewer));
+//		tree.addMouseMoveListener(new QuickOutlineMouseMoveListener(fTreeViewer));
 		// Handle widget selection events
 		tree.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
@@ -408,7 +423,9 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 		// Get the content outline page within the content outline view
 		// and select the item there to keep the quick outline in sync with the
 		// main outline and prevent duplicate selection events from occurring
-		fOutlineSelectionHandler.getContentOutline().setSelection(new StructuredSelection(selectedElement));
+//		fOutlineSelectionHandler.getContentOutline().setSelection(new StructuredSelection(selectedElement));
+	
+		fOutlineContentCreator.goToElement(selectedElement);
 	}
 
 	private void createUIListenersFilterText() {
@@ -522,7 +539,7 @@ public class TransformationOutlineDialog extends PopupDialog implements IInforma
 			// Return the element if it matches the pattern
 			if (element != null) {
 				String label = labelProvider.getText(element);
-				if (fStringMatcher.match(label)) {
+				if (fStringMatcher.match(element, label)) {
 					return element;
 				}
 			}

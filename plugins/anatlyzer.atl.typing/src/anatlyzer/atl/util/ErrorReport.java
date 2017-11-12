@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.ExtendTransformation;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
@@ -45,7 +46,7 @@ public class ErrorReport {
 		printStatistics(analyser, new String[] { atlTransformationFile }, System.out);
 	}
 	
-	public static void printStatistics(Analyser analyser, String[] fileLocations, OutputStream stream) {
+	public static void printStatistics(IAnalyserResult analyser, String[] fileLocations, OutputStream stream) {
 		Report r = computeStatistics(analyser, fileLocations);
 		printStatistics(r, stream);
 	}
@@ -78,7 +79,7 @@ public class ErrorReport {
 		return computeStatistics(analyser, new String[] { atlTransformationFile });
 	}
 
-	public static Report computeStatistics(Analyser analyser, String[] fileLocations) {
+	public static Report computeStatistics(IAnalyserResult analyser, String[] fileLocations) {
 		Report r = new Report();
 		
 		ATLModel atlTransformation = analyser.getATLModel();
@@ -146,7 +147,7 @@ public class ErrorReport {
 		printErrorsByType(analyser, System.out);
 	}
 	
-	public static void printErrorsByType(Analyser analyser, OutputStream stream) {
+	public static void printErrorsByType(IAnalyserResult analyser, OutputStream stream) {
 		PrintStream out = new PrintStream(stream);
 		
 		SortedMap<Integer, List<Problem>> problemsByType = new TreeMap<Integer, List<Problem>>();

@@ -6,6 +6,7 @@ import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -26,11 +27,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getAllInvolvedRules <em>All Involved Rules</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getStatus <em>Status</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -54,6 +56,26 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * @ordered
 	 */
 	protected EList<MatchedRule> allInvolvedRules;
+
+	/**
+	 * The default value of the '{@link #getStatus() <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final RuleResolutionStatus STATUS_EDEFAULT = RuleResolutionStatus.RESOLUTION_UNKNOWN;
+
+	/**
+	 * The cached value of the '{@link #getStatus() <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected RuleResolutionStatus status = STATUS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -129,6 +151,27 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public RuleResolutionStatus getStatus() {
+		return status;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStatus(RuleResolutionStatus newStatus) {
+		RuleResolutionStatus oldStatus = status;
+		status = newStatus == null ? STATUS_EDEFAULT : newStatus;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ATLPackage.RULE_RESOLUTION_INFO__STATUS, oldStatus, status));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -137,6 +180,8 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 				return basicGetRule();
 			case ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES:
 				return getAllInvolvedRules();
+			case ATLPackage.RULE_RESOLUTION_INFO__STATUS:
+				return getStatus();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -157,6 +202,9 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 				getAllInvolvedRules().clear();
 				getAllInvolvedRules().addAll((Collection<? extends MatchedRule>)newValue);
 				return;
+			case ATLPackage.RULE_RESOLUTION_INFO__STATUS:
+				setStatus((RuleResolutionStatus)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -175,6 +223,9 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 			case ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES:
 				getAllInvolvedRules().clear();
 				return;
+			case ATLPackage.RULE_RESOLUTION_INFO__STATUS:
+				setStatus(STATUS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -191,8 +242,26 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 				return rule != null;
 			case ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES:
 				return allInvolvedRules != null && !allInvolvedRules.isEmpty();
+			case ATLPackage.RULE_RESOLUTION_INFO__STATUS:
+				return status != STATUS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (status: ");
+		result.append(status);
+		result.append(')');
+		return result.toString();
 	}
 
 } //RuleResolutionInfoImpl

@@ -62,6 +62,13 @@
           eType="#//ATL/MatchedRule"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="allInvolvedRules" lowerBound="1"
           upperBound="-1" eType="#//ATL/MatchedRule"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="status" lowerBound="1"
+          eType="#//ATL/RuleResolutionStatus"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RuleResolutionStatus">
+      <eLiterals name="RESOLUTION_UNKNOWN"/>
+      <eLiterals name="RESOLUTION_CONFIRMED" value="1"/>
+      <eLiterals name="RESOLUTION_DISCARDED" value="2"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="OCL" nsURI="http://anatlyzer/atl/ext/OCL" nsPrefix="atl_ext_ocl">

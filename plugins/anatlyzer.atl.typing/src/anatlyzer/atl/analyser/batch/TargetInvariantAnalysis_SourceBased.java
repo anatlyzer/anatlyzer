@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
@@ -31,9 +32,9 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 public class TargetInvariantAnalysis_SourceBased {
 
 	private ATLModel model;
-	private Analyser analyser;
+	private IAnalyserResult analyser;
 
-	public TargetInvariantAnalysis_SourceBased(ATLModel model, Analyser analyser) {
+	public TargetInvariantAnalysis_SourceBased(ATLModel model, IAnalyserResult analyser) {
 		this.model = model;
 		this.analyser = analyser;
 	}

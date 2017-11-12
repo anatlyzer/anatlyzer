@@ -13,13 +13,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OclModel#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclModel#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclModel#getElements <em>Elements</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclModel#getModel <em>Model</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOclModel()
  * @model

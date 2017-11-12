@@ -142,7 +142,7 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 	private boolean checkSubsumption(ConflictingRuleSet rs, MatchedRule r1, MatchedRule r2) {
 		OverlappingRules overlap = new OverlappingRules(rs);
 		
-		Analyser analyser = getAnalysisResult().getAnalyser();
+		IAnalyserResult analyser = getAnalysisResult().getAnalyser();
 		ATLModel atlModel = analyser.getATLModel();
 		
 		SubsumptionNode node = new SubsumptionNode(overlap.getType(), r1, r2);

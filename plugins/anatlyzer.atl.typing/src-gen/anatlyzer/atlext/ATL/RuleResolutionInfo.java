@@ -13,11 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getAllInvolvedRules <em>All Involved Rules</em>}</li>
+ *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getStatus <em>Status</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getRuleResolutionInfo()
  * @model
@@ -65,5 +66,34 @@ public interface RuleResolutionInfo extends EObject {
 	 * @generated
 	 */
 	EList<MatchedRule> getAllInvolvedRules();
+
+	/**
+	 * Returns the value of the '<em><b>Status</b></em>' attribute.
+	 * The literals are from the enumeration {@link anatlyzer.atlext.ATL.RuleResolutionStatus}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Status</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Status</em>' attribute.
+	 * @see anatlyzer.atlext.ATL.RuleResolutionStatus
+	 * @see #setStatus(RuleResolutionStatus)
+	 * @see anatlyzer.atlext.ATL.ATLPackage#getRuleResolutionInfo_Status()
+	 * @model required="true"
+	 * @generated
+	 */
+	RuleResolutionStatus getStatus();
+
+	/**
+	 * Sets the value of the '{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getStatus <em>Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Status</em>' attribute.
+	 * @see anatlyzer.atlext.ATL.RuleResolutionStatus
+	 * @see #getStatus()
+	 * @generated
+	 */
+	void setStatus(RuleResolutionStatus value);
 
 } // RuleResolutionInfo

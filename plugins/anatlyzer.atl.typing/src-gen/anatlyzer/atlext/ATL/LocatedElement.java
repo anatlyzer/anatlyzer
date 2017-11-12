@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getCommentsBefore <em>Comments Before</em>}</li>
@@ -24,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getProblems <em>Problems</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.LocatedElement#getAnnotations <em>Annotations</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getLocatedElement()
  * @model abstract="true"

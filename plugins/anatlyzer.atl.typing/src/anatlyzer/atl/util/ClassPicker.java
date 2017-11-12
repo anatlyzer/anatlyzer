@@ -53,7 +53,6 @@ public class ClassPicker {
 	 * @return 
      */
 	public static Set<EClass> treatOclIsKindOf_pickSubclassSibling(BindingResolution problem, GlobalNamespace namespace) {
-		Set<EClass> result = new HashSet<EClass>();
 		
 		// Find class uses in the filters. If found, go to the superclass and pick a sibling.
 		// TODO: Extend this idea to possibly invoked helpers
@@ -71,6 +70,13 @@ public class ClassPicker {
 			}
 		}
 		
+		Set<EClass> result = pickSubclasses(namespace, usages);	
+		
+		return result;
+	}
+
+	public static Set<EClass> pickSubclasses(GlobalNamespace namespace, Set<Metaclass> usages) {
+		Set<EClass> result = new HashSet<EClass>();
 		Set<EClass> usageEclasses = usages.stream().map(m -> m.getKlass()).collect(Collectors.toSet());
 		GlobalNamespace global = namespace;
 		for (Metaclass metaclass : usages) {
@@ -92,8 +98,7 @@ public class ClassPicker {
 				if ( picked ) 
 					break;
 			}			
-		}	
-		
+		}
 		return result;
 	}
 

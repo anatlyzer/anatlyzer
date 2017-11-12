@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TuplePartImpl#getTuple <em>Tuple</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

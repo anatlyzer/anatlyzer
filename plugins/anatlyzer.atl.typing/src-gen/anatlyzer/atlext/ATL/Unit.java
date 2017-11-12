@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Unit#getLibraries <em>Libraries</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Unit#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getUnit()
  * @model

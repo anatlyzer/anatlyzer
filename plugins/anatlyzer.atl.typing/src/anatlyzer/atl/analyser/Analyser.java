@@ -77,7 +77,7 @@ public class Analyser implements IAnalyserResult {
 					for(AnalyserExtension pass : additional) {
 						if ( pass.isPreparationTask() ) {
 							try {
-								pass.perform(trafo, mm, unit);
+								pass.perform(Analyser.this, unit);
 							} catch ( Exception e ) {
 								System.err.println("Extension " + pass + " failed!");
 								e.printStackTrace();								
@@ -92,13 +92,19 @@ public class Analyser implements IAnalyserResult {
 					}
 				
 					for(AnalyserExtension pass : additional) {
-						if ( ! pass.isPreparationTask() ) {
+						if ( ! pass.isPreparationTask() && ! pass.isPostProcessingTask() ) {
 							try {
-								pass.perform(trafo, mm, unit);
+								pass.perform(Analyser.this, unit);
 							} catch ( Exception e ) {
 								System.err.println("Extension " + pass + " failed!");
 								e.printStackTrace();								
 							}
+						}
+					}
+					
+					for(AnalyserExtension pass : additional) {
+						if ( pass.isPostProcessingTask() ) {
+							pass.perform(Analyser.this, unit);
 						}
 					}
 				}	

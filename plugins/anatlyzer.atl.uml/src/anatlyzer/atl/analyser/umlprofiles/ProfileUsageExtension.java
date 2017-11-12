@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPlugin;
 
 import anatlyzer.atl.analyser.AnalyserExtension;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.ATLModel;
@@ -25,7 +26,16 @@ public class ProfileUsageExtension implements AnalyserExtension {
 		return false;
 	}
 
-	public void perform(ATLModel model, GlobalNamespace mm, Unit root) {
+	@Override
+	public boolean isPostProcessingTask() {
+		return false;
+	}
+	
+	@Override
+	public void perform(IAnalyserResult result, Unit root) {
+		ATLModel model = result.getATLModel();
+		GlobalNamespace mm = result.getNamespaces();
+
 		HashMap<String, Profile> profiles = loadProfiles(model, mm);
 		new ProfileUsageAnalysis(model, mm, root, profiles).perform();
 	}

@@ -20,13 +20,14 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.reveng.VerticalTrafoChecker;
 import anatlyzer.atl.reveng.VerticalTrafoChecker.Result;
 import anatlyzer.atl.util.ErrorReport;
 
 public class StatisticResult extends Dialog {
 
-	private Analyser analyser;
+	private IAnalyserResult analyser;
 	private StyledText txtStatistics;
 	private StyledText txtTrafoType;
 
@@ -35,7 +36,7 @@ public class StatisticResult extends Dialog {
 	 * @param parentShell
 	 * @param analyser 
 	 */
-	public StatisticResult(Shell parentShell, Analyser analyser) {
+	public StatisticResult(Shell parentShell, IAnalyserResult analyser) {
 		super(parentShell);
 		setShellStyle(SWT.RESIZE);
 		this.analyser = analyser;

@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForEachOutPatternElementImpl#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForEachOutPatternElementImpl#getIterator <em>Iterator</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

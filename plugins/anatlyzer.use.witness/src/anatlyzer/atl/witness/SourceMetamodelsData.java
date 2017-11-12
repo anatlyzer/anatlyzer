@@ -41,7 +41,7 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 		return result;
 	}
 
-	public static SourceMetamodelsData get(Analyser analyser) {
+	public static SourceMetamodelsData get(IAnalyserResult analyser) {
 		List<ModelInfo> srcModels = ATLUtils.getModelInfo(analyser.getATLModel()).stream().filter(i -> i.isInput()).collect(Collectors.toList());
 		
 		Copier copier = new EcoreUtil.Copier();

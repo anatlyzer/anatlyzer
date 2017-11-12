@@ -32,7 +32,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getCommentsBefore <em>Comments Before</em>}</li>
@@ -42,6 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getProblems <em>Problems</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

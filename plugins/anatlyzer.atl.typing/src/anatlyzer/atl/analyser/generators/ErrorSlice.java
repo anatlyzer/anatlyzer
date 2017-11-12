@@ -97,7 +97,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 			// The metaclass object could also include the information whether
 			// it is
 			// a target object or not
-			explicitTypes.add(type.getKlass());
+			explicitTypes.add(type.getKlass());			
 		}
 	}
 

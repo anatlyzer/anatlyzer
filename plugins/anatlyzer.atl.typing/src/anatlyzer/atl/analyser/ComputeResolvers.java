@@ -35,6 +35,7 @@ import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
@@ -158,6 +159,12 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 					alreadyAdded.add(r);
 					
 					RuleResolutionInfo ruleResolution = createRuleResolutionInfo(r, ATLUtils.allSuperRules(r));
+					if ( r.getInPattern().getFilter() == null ) {
+						ruleResolution.setStatus(RuleResolutionStatus.RESOLUTION_CONFIRMED);
+					} else {
+						ruleResolution.setStatus(RuleResolutionStatus.RESOLUTION_UNKNOWN);
+					}
+					
 					self.getResolvedBy().add( ruleResolution ) ;					
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IFontProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -13,6 +14,9 @@ import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.zest.core.viewers.EntityConnectionData;
+import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
+import org.eclipse.zest.core.widgets.ZestStyles;
 
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -25,8 +29,9 @@ import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 
-public class ResolveBindingLabelProvider implements ILabelProvider, IColorProvider, IFontProvider {
+public class ResolveBindingLabelProvider implements ILabelProvider, IColorProvider, IFontProvider, IConnectionStyleProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -127,6 +132,58 @@ public class ResolveBindingLabelProvider implements ILabelProvider, IColorProvid
 		
 		
 		return s;
+	}
+
+	// IConnectionStyleProvider
+	
+	
+	@Override
+	public int getConnectionStyle(Object rel) {
+		if ( rel instanceof EntityConnectionData ) {
+			EntityConnectionData d = (EntityConnectionData) rel;
+			RuleResolutionInfo rri = (RuleResolutionInfo) d.dest;
+
+			switch ( rri.getStatus() ) {
+			case RESOLUTION_DISCARDED: return ZestStyles.CONNECTIONS_DASH_DOT;
+			case RESOLUTION_UNKNOWN: return ZestStyles.CONNECTIONS_DOT;
+			case RESOLUTION_CONFIRMED: return ZestStyles.CONNECTIONS_SOLID;			
+			}			
+		}
+
+		return 0;
+	}
+
+	@Override
+	public Color getColor(Object rel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Color getHighlightColor(Object rel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getLineWidth(Object rel) {
+		if ( rel instanceof EntityConnectionData ) {
+			EntityConnectionData d = (EntityConnectionData) rel;
+			RuleResolutionInfo rri = (RuleResolutionInfo) d.dest;
+
+			switch ( rri.getStatus() ) {
+			case RESOLUTION_DISCARDED: return 0;
+			case RESOLUTION_UNKNOWN: return 0;
+			case RESOLUTION_CONFIRMED: return 1;			
+			}			
+		}
+
+		return 0;
+	}
+
+	@Override
+	public IFigure getTooltip(Object entity) {
+		return null;
 	}
 
 }

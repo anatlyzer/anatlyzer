@@ -11,11 +11,11 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OclFeatureDefinition#getFeature <em>Feature</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclFeatureDefinition#getContext_ <em>Context </em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOclFeatureDefinition()
  * @model

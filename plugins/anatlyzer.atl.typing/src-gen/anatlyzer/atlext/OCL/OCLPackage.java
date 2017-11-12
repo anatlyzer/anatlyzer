@@ -14069,6 +14069,15 @@ public interface OCLPackage extends EPackage {
 	int RESOLVE_TEMP_RESOLUTION__ALL_INVOLVED_RULES = ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOLVE_TEMP_RESOLUTION__STATUS = ATLPackage.RULE_RESOLUTION_INFO__STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

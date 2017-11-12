@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getIterator <em>Iterator</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getStatements <em>Statements</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

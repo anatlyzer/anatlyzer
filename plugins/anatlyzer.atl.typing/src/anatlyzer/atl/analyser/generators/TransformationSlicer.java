@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.generators;
 import java.util.List;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.DependencyNode;
 import anatlyzer.atl.graph.ProblemGraph;
@@ -38,7 +39,7 @@ public class TransformationSlicer {
 		return s;
 	}
 	
-	public String generateSlice(ProblemPath path, Analyser analyser) {
+	public String generateSlice(ProblemPath path, IAnalyserResult analyser) {
 		DependencyNode errorNode = path.getErrorNode();
 
 		TransformationSlice slice = new TransformationSlice(analyser.getATLModel());

@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getActionBlock <em>Action Block</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

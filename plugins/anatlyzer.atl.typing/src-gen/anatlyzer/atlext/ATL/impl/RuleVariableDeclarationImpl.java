@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleVariableDeclarationImpl#getRule <em>Rule</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

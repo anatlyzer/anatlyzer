@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getCallableParameters <em>Callable Parameters</em>}</li>
@@ -41,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getInferredReturnType <em>Inferred Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getStaticReturnType <em>Static Return Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

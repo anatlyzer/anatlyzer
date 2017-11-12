@@ -271,6 +271,22 @@
                   mnemonic="S">
             </command>
       </menuContribution>
+
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+            <command
+                  commandId="anatlyzer.commands.showTransformationOutline"
+                  id="anatlyzer.commands.showTransformationOutline.menu"
+                  mnemonic="O">
+            </command>
+      </menuContribution>
+      
+      <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+O"
+			commandId="anatlyzer.commands.showTransformationOutline"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="org.eclipse.m2m.atl.adt.editor"/>
+	</extension>
       
    </extension>
    
@@ -312,6 +328,12 @@
             name="Slice transformation meta-models">
       </command>
 
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.showTransformationOutline"
+            name="Show transformation outline">
+      </command>
+
    </extension>
      
    <extension
@@ -329,6 +351,11 @@
       <handler
             class="anatlyzer.atl.commands.SliceTransformationMetmodelsHandler"
             commandId="anatlyzer.commands.sliceMetamodels">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.ShowTransformationOutline"
+            commandId="anatlyzer.commands.showTransformationOutline">
       </handler>
       
    </extension>

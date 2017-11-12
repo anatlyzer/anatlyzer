@@ -73,8 +73,9 @@ public class VisualizeBinding implements AtlQuickAssist {
 			view = (ResolveBindingView) PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().showView(ResolveBindingView.ID);
+			
 			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
-			view.setViewData(new ResolveBindingContentProvider(), new ResolveBindingLabelProvider(), ATLUtils.getContainer(getElement(), Binding.class));
+			view.setViewData(new ResolveBindingContentProvider(), new ResolveBindingLabelProvider(), ATLUtils.getContainer(getElement(), Binding.class), getAnalysisResult().getAnalyser());
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -17,6 +17,7 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalyserExtension;
 import anatlyzer.atl.analyser.AnalyserInternalError;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analysisext.AnalysisProvider;
 import anatlyzer.atl.editor.Activator;
@@ -118,16 +119,12 @@ public class AnalyserExecutor {
 	public static class AnalyserData extends AnalysisResult {
 		private ProblemPath path;
 
-		public AnalyserData(Analyser analyser) {
+		public AnalyserData(IAnalyserResult analyser) {
 			super(analyser);
 		}
 			
 		public ProblemPath getPath() {
 			return path;
-		}
-
-		public Analyser getAnalyser() {
-			return analyser;
 		}
 
 	}

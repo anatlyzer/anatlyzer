@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StringToStringMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StringToStringMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

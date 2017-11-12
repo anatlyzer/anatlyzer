@@ -11,13 +11,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Rule#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Rule#getActionBlock <em>Action Block</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Rule#getVariables <em>Variables</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Rule#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getRule()
  * @model abstract="true"

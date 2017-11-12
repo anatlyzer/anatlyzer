@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.ExtendTransformation;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -57,8 +58,8 @@ public class AnalyserUtils {
 		return g;
 	}
 	
-	public static ProblemPath computeProblemPath(LocalProblem problem, AnalysisResult r, boolean checkProblemsInPath) {
-		ErrorPathGenerator pathgen = new ErrorPathGenerator(r.getAnalyser());		
+	public static ProblemPath computeProblemPath(LocalProblem problem, IAnalyserResult r, boolean checkProblemsInPath) {
+		ErrorPathGenerator pathgen = new ErrorPathGenerator(r);		
 		ProblemPath path;
 		if ( checkProblemsInPath ) {
 			ProblemGraph g = pathgen.perform();

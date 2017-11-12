@@ -6,6 +6,7 @@ import anatlyzer.atlext.OCL.OCLPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -5164,13 +5165,22 @@ public interface ATLPackage extends EPackage {
 	int RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RULE_RESOLUTION_INFO__STATUS = 2;
+
+	/**
 	 * The number of structural features of the '<em>Rule Resolution Info</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RULE_RESOLUTION_INFO_FEATURE_COUNT = 2;
+	int RULE_RESOLUTION_INFO_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Rule Resolution Info</em>' class.
@@ -5180,6 +5190,17 @@ public interface ATLPackage extends EPackage {
 	 * @ordered
 	 */
 	int RULE_RESOLUTION_INFO_OPERATION_COUNT = 0;
+
+
+	/**
+	 * The meta object id for the '{@link anatlyzer.atlext.ATL.RuleResolutionStatus <em>Rule Resolution Status</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atlext.ATL.RuleResolutionStatus
+	 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getRuleResolutionStatus()
+	 * @generated
+	 */
+	int RULE_RESOLUTION_STATUS = 38;
 
 
 	/**
@@ -6522,6 +6543,27 @@ public interface ATLPackage extends EPackage {
 	EReference getRuleResolutionInfo_AllInvolvedRules();
 
 	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getStatus <em>Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Status</em>'.
+	 * @see anatlyzer.atlext.ATL.RuleResolutionInfo#getStatus()
+	 * @see #getRuleResolutionInfo()
+	 * @generated
+	 */
+	EAttribute getRuleResolutionInfo_Status();
+
+	/**
+	 * Returns the meta object for enum '{@link anatlyzer.atlext.ATL.RuleResolutionStatus <em>Rule Resolution Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Rule Resolution Status</em>'.
+	 * @see anatlyzer.atlext.ATL.RuleResolutionStatus
+	 * @generated
+	 */
+	EEnum getRuleResolutionStatus();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7619,6 +7661,24 @@ public interface ATLPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES = eINSTANCE.getRuleResolutionInfo_AllInvolvedRules();
+
+		/**
+		 * The meta object literal for the '<em><b>Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RULE_RESOLUTION_INFO__STATUS = eINSTANCE.getRuleResolutionInfo_Status();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atlext.ATL.RuleResolutionStatus <em>Rule Resolution Status</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atlext.ATL.RuleResolutionStatus
+		 * @see anatlyzer.atlext.ATL.impl.ATLPackageImpl#getRuleResolutionStatus()
+		 * @generated
+		 */
+		EEnum RULE_RESOLUTION_STATUS = eINSTANCE.getRuleResolutionStatus();
 
 	}
 

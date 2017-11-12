@@ -9,6 +9,11 @@
       ecorePackage="merged.ecore#/">
     <nestedGenPackages prefix="ATL" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
         ecorePackage="merged.ecore#//ATL">
+      <genEnums typeSafeEnumCompatible="false" ecoreEnum="merged.ecore#//ATL/RuleResolutionStatus">
+        <genEnumLiterals ecoreEnumLiteral="merged.ecore#//ATL/RuleResolutionStatus/RESOLUTION_UNKNOWN"/>
+        <genEnumLiterals ecoreEnumLiteral="merged.ecore#//ATL/RuleResolutionStatus/RESOLUTION_CONFIRMED"/>
+        <genEnumLiterals ecoreEnumLiteral="merged.ecore#//ATL/RuleResolutionStatus/RESOLUTION_DISCARDED"/>
+      </genEnums>
       <genClasses image="false" ecoreClass="merged.ecore#//ATL/LocatedElement">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/location"/>
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/LocatedElement/commentsBefore"/>
@@ -182,6 +187,7 @@
             ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleResolutionInfo/rule"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
             ecoreFeature="ecore:EReference merged.ecore#//ATL/RuleResolutionInfo/allInvolvedRules"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute merged.ecore#//ATL/RuleResolutionInfo/status"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="OCL" basePackage="anatlyzer.atlext" disposableProviderFactory="true"

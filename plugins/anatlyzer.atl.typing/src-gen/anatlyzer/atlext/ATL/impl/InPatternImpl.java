@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternImpl#getElements <em>Elements</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternImpl#getFilter <em>Filter</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

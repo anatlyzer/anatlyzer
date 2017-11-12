@@ -34,7 +34,7 @@ public class VisualizeUnresolvedBindingErrorQuickfix extends AbstractAtlQuickfix
 					.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().showView(ResolveBindingView.ID);
 			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
-			view.setViewData(new BindingResolutionInfoContentProvider(), new BindingResolutionInfoLabelProvider(), getProblem());
+			view.setViewData(new BindingResolutionInfoContentProvider(), new BindingResolutionInfoLabelProvider(), getProblem(), getAnalysisResult().getAnalyser());
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

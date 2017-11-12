@@ -8,6 +8,7 @@ import java.util.ListIterator;
 import java.util.Set;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -54,7 +55,7 @@ public class IgnoredProblems {
 		categories.get(category).add(class1.getSimpleName());
 	}
 	
-	public static List<Problem> getNonIgnoredProblems(Analyser analyser) {
+	public static List<Problem> getNonIgnoredProblems(IAnalyserResult analyser) {
 		ArrayList<Problem> result = new ArrayList<Problem>( analyser.getErrors().getAnalysis().getProblems() );
 		Unit unit = analyser.getATLModel().getRoot();
 		List<String> ignored = findIgnoredProblems(unit);

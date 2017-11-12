@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.Analyser;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -39,9 +40,9 @@ import anatlyzer.atlext.processing.AbstractVisitor;
  */
 public class UnconnectedElementsAnalysis {
 
-	private Analyser analyser;
+	private IAnalyserResult analyser;
 
-	public UnconnectedElementsAnalysis(ATLModel model, Analyser analyser) {
+	public UnconnectedElementsAnalysis(ATLModel model, IAnalyserResult analyser) {
 		this.analyser = analyser;
 	}
 	

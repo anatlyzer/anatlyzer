@@ -62,9 +62,16 @@ package ATL {
   
   class RuleResolutionInfo {
 	ref MatchedRule[1] rule; // Assumes rules with one input pattern
-	ref MatchedRule[1..*] allInvolvedRules;  	
+	ref MatchedRule[1..*] allInvolvedRules;
+	
+	attr RuleResolutionStatus[1] status;
   }
   
+  enum RuleResolutionStatus {
+  	RESOLUTION_UNKNOWN = 0;
+  	RESOLUTION_CONFIRMED = 1;
+  	RESOLUTION_DISCARDED = 2;
+  }
   
   
 }

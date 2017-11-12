@@ -1,7 +1,9 @@
 package anatlyzer.atl.graph;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +23,7 @@ import anatlyzer.atl.errors.atl_error.FoundInSubtype;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.NavigationProblem;
 import anatlyzer.atl.errors.atl_error.ResolveTempPossiblyUnresolved;
+import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -213,7 +216,7 @@ public class ErrorPathGenerator {
 		
 		pathToOutPatternElement(atlBinding.getOutPatternElement(), node, new TraversedSet(), false);
 		
-		pathToBinding(atlBinding, node, new TraversedSet());
+		pathToBindingWithProblematicRules(atlBinding, node, new TraversedSet(), p.getRules());
 	}
 
 	//
@@ -369,6 +372,17 @@ public class ErrorPathGenerator {
 		node.addConstraint(resolutionNode);
 		for(RuleResolutionInfo rr : atlBinding.getResolvedBy()) {
 			pathToRule(rr.getRule(), resolutionNode, traversed, true);
+		}
+	}
+	
+	private void pathToBindingWithProblematicRules(Binding atlBinding , ProblemNode node, TraversedSet traversed, List<ResolvedRuleInfo> problematicRules) {
+		Set<MatchedRule> rules = problematicRules.stream().map(rri -> (MatchedRule) rri.getElement()).collect(Collectors.toSet()); 
+		
+		RuleResolutionNode resolutionNode = new RuleResolutionNode(atlBinding);
+		node.addConstraint(resolutionNode);
+		for(RuleResolutionInfo rr : atlBinding.getResolvedBy()) {
+			if ( rules.contains(rr.getRule()))
+				pathToRule(rr.getRule(), resolutionNode, traversed, true);
 		}
 	}
 	

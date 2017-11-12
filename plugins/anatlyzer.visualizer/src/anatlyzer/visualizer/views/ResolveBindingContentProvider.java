@@ -8,6 +8,7 @@ import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 
 public class ResolveBindingContentProvider implements IGraphEntityContentProvider {
 
@@ -67,6 +68,9 @@ public class ResolveBindingContentProvider implements IGraphEntityContentProvide
 		
 		// Not sure if this is needed
 		for(RuleResolutionInfo rri : b.getResolvedBy()) {
+			if ( rri.getStatus() == RuleResolutionStatus.RESOLUTION_DISCARDED  )
+				continue;
+			
 			result.add(rri);
 			/*
 			boolean alreadyConsidered = false;

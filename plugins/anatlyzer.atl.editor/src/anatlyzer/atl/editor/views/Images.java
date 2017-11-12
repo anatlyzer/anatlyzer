@@ -34,6 +34,8 @@ public class Images {
 	public static final ImageDescriptor target_invariant_analysis_16x16;
 	public static final ImageDescriptor delayed_analysis_16x16;
 
+	public static final ImageDescriptor refresh_16x16;
+	
 	
 	static {
 		rule_conflict_confirmed = Activator.getImageDescriptor("icons/rule_conflict_confirmed_16x16.png");
@@ -67,6 +69,8 @@ public class Images {
 		target_invariant_analysis_16x16 = Activator.getImageDescriptor("icons/target_invariants_analysis_16x16.png");	
 
 		delayed_analysis_16x16 = Activator.getImageDescriptor("icons/delayed_analysis.png");	
+		
+		refresh_16x16 = Activator.getImageDescriptor("icons/refresh.gif");
 
 	}
 }

@@ -35,6 +35,7 @@ import anatlyzer.atlext.ATL.PatternElement;
 import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 import anatlyzer.atlext.ATL.RuleVariableDeclaration;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
@@ -55,6 +56,7 @@ import anatlyzer.atlext.PrimitiveTypes.impl.PrimitiveTypesPackageImpl;
 import java.util.Map;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -332,6 +334,13 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * @generated
 	 */
 	private EClass ruleResolutionInfoEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum ruleResolutionStatusEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1535,6 +1544,24 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRuleResolutionInfo_Status() {
+		return (EAttribute)ruleResolutionInfoEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getRuleResolutionStatus() {
+		return ruleResolutionStatusEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ATLFactory getATLFactory() {
 		return (ATLFactory)getEFactoryInstance();
 	}
@@ -1720,6 +1747,10 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		ruleResolutionInfoEClass = createEClass(RULE_RESOLUTION_INFO);
 		createEReference(ruleResolutionInfoEClass, RULE_RESOLUTION_INFO__RULE);
 		createEReference(ruleResolutionInfoEClass, RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES);
+		createEAttribute(ruleResolutionInfoEClass, RULE_RESOLUTION_INFO__STATUS);
+
+		// Create enums
+		ruleResolutionStatusEEnum = createEEnum(RULE_RESOLUTION_STATUS);
 	}
 
 	/**
@@ -1956,6 +1987,13 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEClass(ruleResolutionInfoEClass, RuleResolutionInfo.class, "RuleResolutionInfo", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getRuleResolutionInfo_Rule(), this.getMatchedRule(), null, "rule", null, 1, 1, RuleResolutionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRuleResolutionInfo_AllInvolvedRules(), this.getMatchedRule(), null, "allInvolvedRules", null, 1, -1, RuleResolutionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRuleResolutionInfo_Status(), this.getRuleResolutionStatus(), "status", null, 1, 1, RuleResolutionInfo.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(ruleResolutionStatusEEnum, RuleResolutionStatus.class, "RuleResolutionStatus");
+		addEEnumLiteral(ruleResolutionStatusEEnum, RuleResolutionStatus.RESOLUTION_UNKNOWN);
+		addEEnumLiteral(ruleResolutionStatusEEnum, RuleResolutionStatus.RESOLUTION_CONFIRMED);
+		addEEnumLiteral(ruleResolutionStatusEEnum, RuleResolutionStatus.RESOLUTION_DISCARDED);
 
 		// Create resource
 		createResource(eNS_URI);

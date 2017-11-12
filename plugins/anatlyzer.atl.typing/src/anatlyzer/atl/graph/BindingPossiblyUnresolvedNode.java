@@ -304,45 +304,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 				
 		OclExpression lastExpr = null;
 		for (RuleResolutionInfo info : rules) {
-			MatchedRule r = info.getRule();
-			
-			// => _problem_.oclIsKindOf(ruleFrom)
-			VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
-			v.setReferredVariable(varDcl);				
-			OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, ATLUtils.getInPatternType(info.getRule()));			
-			
-			// Generate the filter
-			OclExpression filter = null;
-			if ( r.getInPattern().getFilter() != null ) {
-				model.openEmptyScope();
-
-				SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
-				
-				// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>	
-				OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), bindingValue.getNoCastedType());				
-				LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
-					
-				// Map the iterator var to the rule variable
-				model.addToScope(simpleElement, let.getVariable());
-				let.setIn_(model.gen(r.getInPattern().getFilter()));
-				
-				filter = let;
-
-				model.closeScope();
-			} else {
-				filter = model.createBooleanLiteral(true);
-			}
-						
-			// Originally it was enough with false
-			// BooleanExp lastIfResult = model.createBooleanLiteral(false);
-			// But there may be problems with undefined values, so it is better to check that if its undefined 
-			// it will become false after the negation of the "if"
-			// The alternative is to stick to "false" but check with the regular oclIsKindOf (instead of the AllInstancesStyle)
-			VariableExp refToProblem = OCLFactory.eINSTANCE.createVariableExp();
-			refToProblem.setReferredVariable(varDcl);
-			OclExpression lastIfResult = model.createOperationCall(refToProblem, "oclIsUndefined");
-			
-			IfExp ifexpr = model.createIfExpression(kindOfCondition, filter, lastIfResult);
+			OclExpression ifexpr = genRuleResolutionCondition(model, bindingValue, varDcl, info.getRule());
 			OperatorCallExp negatedIf = model.negateExpression(ifexpr);
 			
 			if ( lastExpr == null ) {
@@ -352,6 +314,50 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			}
 		}
 		return lastExpr;
+	}
+
+	public static OclExpression genRuleResolutionCondition(CSPModel model,
+			OclExpression bindingValue, VariableDeclaration varDcl,
+			MatchedRule r) {
+		
+		// => _problem_.oclIsKindOf(ruleFrom)
+		VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
+		v.setReferredVariable(varDcl);				
+		OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, ATLUtils.getInPatternType(r));			
+		
+		// Generate the filter
+		OclExpression filter = null;
+		if ( r.getInPattern().getFilter() != null ) {
+			model.openEmptyScope();
+
+			SimpleInPatternElement simpleElement = (SimpleInPatternElement) r.getInPattern().getElements().get(0);
+			
+			// => let newVar = _problem_.oclAsType(RuleFrom) in <filter>	
+			OclExpression casting = model.createCastTo(varDcl, (Metaclass) simpleElement.getInferredType(), bindingValue.getNoCastedType());				
+			LetExp let = model.createLetScope(casting, null, simpleElement.getVarName());
+				
+			// Map the iterator var to the rule variable
+			model.addToScope(simpleElement, let.getVariable());
+			let.setIn_(model.gen(r.getInPattern().getFilter()));
+			
+			filter = let;
+
+			model.closeScope();
+		} else {
+			filter = model.createBooleanLiteral(true);
+		}
+					
+		// Originally it was enough with false
+		// BooleanExp lastIfResult = model.createBooleanLiteral(false);
+		// But there may be problems with undefined values, so it is better to check that if its undefined 
+		// it will become false after the negation of the "if"
+		// The alternative is to stick to "false" but check with the regular oclIsKindOf (instead of the AllInstancesStyle)
+		VariableExp refToProblem = OCLFactory.eINSTANCE.createVariableExp();
+		refToProblem.setReferredVariable(varDcl);
+		OclExpression lastIfResult = model.createOperationCall(refToProblem, "oclIsUndefined");
+		
+		IfExp ifexpr = model.createIfExpression(kindOfCondition, filter, lastIfResult);
+		return ifexpr;
 	}
 
 	public static OclExpression genAndRules_Precondition(CSPModel model, List<RuleResolutionInfo> rules, VariableDeclaration varDcl, String operator) {

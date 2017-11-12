@@ -602,7 +602,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		manager.add(transformationInformationAction);
 		manager.add(new Separator());
 		// addExtensionActions(manager);
-		drillDownAdapter.addNavigationActions(manager);
+
 		// drillDownAdapter.addNavigationActions(manager);
 	}
 
@@ -627,8 +627,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		};
 		runAnalyserAction.setText("Run analyser");
 		runAnalyserAction.setToolTipText("Run analyser");
-		runAnalyserAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_ELCL_SYNCED));
+		runAnalyserAction.setImageDescriptor(Images.refresh_16x16);
 		
 		// 
 		

@@ -11,13 +11,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.Operation#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.Operation#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.Operation#getReturnType <em>Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.Operation#getBody <em>Body</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOperation()
  * @model

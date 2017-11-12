@@ -17,6 +17,7 @@ import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.OCL.Helper;
 
 import anatlyzer.atl.analyser.AnalyserExtension;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.analysisext.AnalysisProvider;
@@ -44,12 +45,20 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 	}
 	
 	@Override
+	public boolean isPostProcessingTask() {
+		return false;
+	}
+	
+	@Override
 	public List<AnalyserExtension> getExtensions(ATLModel m, GlobalNamespace ns) {
 		return Collections.singletonList(this);
 	}
 
 	@Override
-	public void perform(ATLModel model, GlobalNamespace mm, Unit root) {
+	public void perform(IAnalyserResult result, Unit root) {
+		ATLModel model = result.getATLModel();
+		GlobalNamespace mm = result.getNamespaces();
+		
 		if ( ! (root instanceof Module) ) {
 			return;
 		}

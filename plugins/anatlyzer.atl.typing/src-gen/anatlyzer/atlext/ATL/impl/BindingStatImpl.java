@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getPropertyName <em>Property Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#isIsAssignment <em>Is Assignment</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getValue <em>Value</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

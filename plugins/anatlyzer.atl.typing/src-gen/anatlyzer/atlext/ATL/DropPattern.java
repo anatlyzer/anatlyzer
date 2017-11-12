@@ -10,10 +10,10 @@ package anatlyzer.atlext.ATL;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.DropPattern#getOutPattern <em>Out Pattern</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getDropPattern()
  * @model

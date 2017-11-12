@@ -32,13 +32,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getSourceElement <em>Source Element</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getBindings <em>Bindings</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getModel <em>Model</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

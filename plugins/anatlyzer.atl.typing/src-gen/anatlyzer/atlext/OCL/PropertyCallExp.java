@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getUsedFeature <em>Used Feature</em>}</li>
@@ -25,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getStaticResolver <em>Static Resolver</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.PropertyCallExp#getDynamicResolvers <em>Dynamic Resolvers</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getPropertyCallExp()
  * @model abstract="true"

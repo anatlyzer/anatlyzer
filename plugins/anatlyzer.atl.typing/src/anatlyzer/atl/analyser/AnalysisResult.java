@@ -22,17 +22,17 @@ import anatlyzer.atl.util.ProblemSets;
  *
  */
 public class AnalysisResult {
-	protected Analyser analyser;
+	protected IAnalyserResult analyser;
 	protected GlobalNamespace namespace;
 	
 	protected ArrayList<LocalProblem> batchProblems = new ArrayList<>();
 	
-	public AnalysisResult(Analyser analyser) {
+	public AnalysisResult(IAnalyserResult analyser) {
 		this.analyser = analyser;
 		this.namespace = analyser.getNamespaces();
 	}
 	
-	public Analyser getAnalyser() {
+	public IAnalyserResult getAnalyser() {
 		return analyser;
 	}
 	

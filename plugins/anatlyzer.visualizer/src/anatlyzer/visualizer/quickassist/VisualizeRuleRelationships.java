@@ -47,7 +47,7 @@ public class VisualizeRuleRelationships implements AtlQuickAssist {
 					.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().showView(ResolveBindingView.ID);
 			// view.setBinding((Binding) ATLUtils.getContainer(getElement(), Binding.class));
-			view.setViewData(new RuleRelationshipsContentProvider(), new RuleRelationshipsLabelProvider(), ATLUtils.getContainer(getElement(), MatchedRule.class));
+			view.setViewData(new RuleRelationshipsContentProvider(), new RuleRelationshipsLabelProvider(), ATLUtils.getContainer(getElement(), MatchedRule.class), getAnalysisResult().getAnalyser());
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

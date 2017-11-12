@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
@@ -30,6 +31,7 @@ import witness.generator.mmext.MandatoryFullMetamodelStrategy;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
@@ -63,7 +65,7 @@ import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
 public abstract class UseWitnessFinder implements IWitnessFinder {
 
-	private Analyser analyser;
+	private IAnalyserResult analyser;
 	private EPackage effective;
 	private EPackage errorSliceMM;
 	private boolean checkDiscardCause = false;
@@ -82,7 +84,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
-		ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) problem, r, checkProblemsInPath);
+		ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) problem, r.getAnalyser(), checkProblemsInPath);
 		if ( path == null ) {
 			return ProblemStatus.PROBLEMS_IN_PATH;
 		}
@@ -316,6 +318,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		EPackage errorSliceMM = generateErrorSliceMetamodel(slice, srcMetamodels, problems);
 		EPackage effective    = generateEffectiveMetamodel(srcMetamodels);
 		EPackage language     = srcMetamodels.getSinglePackage(); // getSourceMetamodel();
+		
+		// Print the error slice to debug
+//		System.out.println("Error slice: ");
+//		for(EClassifier c : errorSliceMM.getEClassifiers()) {
+//			System.out.println("   - " + c.getName());
+//		}
 		
 		String projectPath = getTempDirectory();
 		

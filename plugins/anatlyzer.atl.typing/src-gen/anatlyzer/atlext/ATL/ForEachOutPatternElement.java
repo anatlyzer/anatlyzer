@@ -12,11 +12,11 @@ import anatlyzer.atlext.OCL.OclExpression;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.ForEachOutPatternElement#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.ForEachOutPatternElement#getIterator <em>Iterator</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getForEachOutPatternElement()
  * @model

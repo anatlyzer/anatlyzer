@@ -13,11 +13,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.Callable#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.Callable#getCallableParameters <em>Callable Parameters</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getCallable()
  * @model abstract="true"

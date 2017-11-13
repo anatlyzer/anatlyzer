@@ -43,9 +43,11 @@ import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.index.AnalysisIndex;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.ui.util.WorkbenchUtil;
 
 
 public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
@@ -163,23 +165,9 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 				return new ICompletionProposal[0];
 			}
 		}
-		AtlNbCharFile helper = new AtlNbCharFile(new ByteArrayInputStream(invocationContext.getSourceViewer().getDocument().get().getBytes()));
 		
-		// Poor's man way of obtaining the element associated to the offset...
-		int closest = Integer.MAX_VALUE;
-		LocatedElement found = null;
-		for (LocatedElement e : analysis.getATLModel().allObjectsOf(LocatedElement.class)) {
-			if ( e.getLocation() != null ) {
-				int indexChar[] = helper.getIndexChar(e.getLocation());
-				if ( indexChar[0] <= offset && indexChar[1] >= offset ) {
-					int dist = (offset - indexChar[0]) + (indexChar[1] - offset);
-					if ( dist < closest ) {
-						found   = e;
-						closest = dist;
-					}
-				}
-			}
-		}
+		IDocument document = invocationContext.getSourceViewer().getDocument();
+		LocatedElement found = WorkbenchUtil.getElementFromOffset(offset, analysis.getATLModel(), document);
 		
 		if ( found != null ) {
 			return getQuickAssists(found, analysis);
@@ -219,6 +207,8 @@ public class AnalysisQuickfixProcessor implements IQuickAssistProcessor {
 		}
 		*/
 	}
+
+
 	
 	public AtlSourceManager getSourceManager() {
 		if (manager == null) {

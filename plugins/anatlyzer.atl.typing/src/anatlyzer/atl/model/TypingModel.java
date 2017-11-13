@@ -464,6 +464,8 @@ public class TypingModel {
 					return false;
 			}			
 			return true;
+		} else if ( t1 instanceof ReflectiveClass  ) {			
+			return false;
 		}
 		
 		throw new UnsupportedOperationException("EqualTypes: " + t1 + " - " + t2);

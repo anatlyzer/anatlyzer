@@ -14,6 +14,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LazyRule;
@@ -71,7 +72,6 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 				elems = elems.stream().filter(e -> ! AnalyserUtils.isAddedEOperation(e)).collect(Collectors.toList());
 				return elems.toArray(new Object[elems.size()]);				
 			}
-			System.out.println("===> " + inputElement);
 			return null;
 		}
 
@@ -93,7 +93,7 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 		
 	}
 
-	public class LabelProvider implements ILabelProvider {
+	public static class LabelProvider implements ILabelProvider {
 
 		@Override
 		public void addListener(ILabelProviderListener listener) {
@@ -116,6 +116,7 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 		private Image matchedRuleImg =  AtlUIPlugin.getImageDescriptor("matchedRule.gif").createImage();
 		private Image lazyRuleImg =  AtlUIPlugin.getImageDescriptor("lazyRule.gif").createImage();
 		private Image calledRuleImg =  AtlUIPlugin.getImageDescriptor("calledRule.gif").createImage();
+		private Image binding = AtlUIPlugin.getImageDescriptor("binding.gif").createImage();
 		
 		@Override
 		public Image getImage(Object element) {
@@ -127,6 +128,8 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 				return lazyRuleImg;
 			}  else if ( element instanceof CalledRule ) {
 				return calledRuleImg;
+			} else if ( element instanceof Binding ) {
+				return binding;
 			}
 
 			return null;
@@ -154,8 +157,11 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 				return ATLUtils.getHelperName((Helper) element);
 			} else if ( element instanceof Rule ) {
 				return ((Rule) element).getName();
+			} else if ( element instanceof Binding ) {
+				Binding b = (Binding) element;
+				return ATLUtils.getRule(b).getName() + "::" + b.getPropertyName() + " <- ...";
 			}
-			return null;
+			return element.toString();
 		}
 		
 	}

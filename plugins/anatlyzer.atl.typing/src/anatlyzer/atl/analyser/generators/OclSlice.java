@@ -86,6 +86,9 @@ public class OclSlice {
 				pce = (PropertyCallExp) expr;
 			} else if ( expr instanceof OperationCallExp ) {			
 				OperationCallExp op = (OperationCallExp) expr;
+				
+				if ( op.getOperationName().equals("getRealType") ) 
+					System.out.println(op);
 				for(OclExpression arg : op.getArguments()) {
 					slice(slice, arg, isExternalDependency);
 				}

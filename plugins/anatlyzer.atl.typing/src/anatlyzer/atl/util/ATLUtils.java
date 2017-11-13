@@ -1,6 +1,7 @@
 package anatlyzer.atl.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,6 +57,8 @@ import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.Query;
 import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
 import anatlyzer.atlext.ATL.StaticHelper;
@@ -906,6 +909,12 @@ public class ATLUtils {
 
 	public static Type getRuleReturnType(Rule r) {
 		return r.getOutPattern().getElements().get(0).getInferredType();
+	}
+
+	public static List<RuleResolutionInfo> getPossibleResolutions(Binding b) {
+		return b.getResolvedBy().stream().
+				filter(rri -> rri.getStatus() != RuleResolutionStatus.RESOLUTION_DISCARDED).
+				collect(Collectors.toList());
 	}
 
 	

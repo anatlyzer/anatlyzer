@@ -1,5 +1,6 @@
 package anatlyzer.ui.util;
 
+import java.io.ByteArrayInputStream;
 import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IFile;
@@ -9,6 +10,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.m2m.atl.adt.ui.editor.AtlEditor;
 import org.eclipse.m2m.atl.common.AtlNbCharFile;
 import org.eclipse.ui.IEditorDescriptor;
@@ -20,6 +22,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+
+import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atlext.ATL.LocatedElement;
 
 public class WorkbenchUtil {
 	public static IFile getATLFile() {
@@ -95,4 +100,24 @@ public class WorkbenchUtil {
 	     return v;
 	}
 
+	public static LocatedElement getElementFromOffset(int offset, ATLModel model, IDocument document) {
+		AtlNbCharFile helper = new AtlNbCharFile(new ByteArrayInputStream(document.get().getBytes()));
+		
+		// Poor's man way of obtaining the element associated to the offset...
+		int closest = Integer.MAX_VALUE;
+		LocatedElement found = null;
+		for (LocatedElement e : model.allObjectsOf(LocatedElement.class)) {
+			if ( e.getLocation() != null ) {
+				int indexChar[] = helper.getIndexChar(e.getLocation());
+				if ( indexChar[0] <= offset && indexChar[1] >= offset ) {
+					int dist = (offset - indexChar[0]) + (indexChar[1] - offset);
+					if ( dist < closest ) {
+						found   = e;
+						closest = dist;
+					}
+				}
+			}
+		}
+		return found;
+	}
 }

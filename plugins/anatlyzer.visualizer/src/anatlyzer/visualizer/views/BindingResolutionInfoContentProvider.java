@@ -10,6 +10,7 @@ import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 
@@ -74,8 +75,9 @@ public class BindingResolutionInfoContentProvider implements IGraphEntityContent
 		LocalProblem p = (LocalProblem) r;
 		Binding b = (Binding) p.getElement();
 
+		List<RuleResolutionInfo> possibleResolutions = ATLUtils.getPossibleResolutions(b);
 		if ( p instanceof BindingPossiblyUnresolved ) {
-			for(RuleResolutionInfo rri : b.getResolvedBy()) {
+			for(RuleResolutionInfo rri : possibleResolutions) {
 				result.add(rri);
 			}			
 			return;
@@ -83,9 +85,10 @@ public class BindingResolutionInfoContentProvider implements IGraphEntityContent
 		
 		for(int i = 0; i < r.getRules().size(); i++) {
 			ResolvedRuleInfo ri = r.getRules().get(i);
-			result.add(ri);
+			if ( possibleResolutions.stream().anyMatch(res -> res.getRule() == ri.getElement()) )
+				result.add(ri);
 		}
-		for(RuleResolutionInfo rri : b.getResolvedBy()) {
+		for(RuleResolutionInfo rri : possibleResolutions) {
 			boolean alreadyConsidered = false;
 			for(int i = 0; i < r.getRules().size(); i++) {
 				ResolvedRuleInfo ri = r.getRules().get(i);

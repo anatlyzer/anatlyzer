@@ -3,6 +3,7 @@ package anatlyzer.atl.analyser.namespaces;
 import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BooleanType;
@@ -229,6 +230,9 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 	}
 
 	private void checkSelectFirstProblem(IteratorExp node) {
+		if ( ! AnalyserContext.check(ChangeSelectFirstForAny.class) )
+			return;
+		
 		EObject container = node.eContainer();
 		if ( container instanceof CollectionOperationCallExp  && ((CollectionOperationCallExp) container).getOperationName().equals("first")) {
 			AnalyserContext.getErrorModel().signalSelectFirstAny((CollectionOperationCallExp) container);

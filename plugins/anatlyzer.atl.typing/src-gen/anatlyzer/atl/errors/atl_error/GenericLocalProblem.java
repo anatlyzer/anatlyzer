@@ -10,13 +10,14 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.GenericLocalProblem#getGenericKind <em>Generic Kind</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getGenericLocalProblem()
- * @model
+ * @model annotation="description name='Generic local problem' text='' example=''"
+ *        annotation="info prec='static' path='no' severity='warning-behaviour' when='model-dep' kind='src-typing' phase='typing' source=''"
  * @generated
  */
 public interface GenericLocalProblem extends LocalProblem {

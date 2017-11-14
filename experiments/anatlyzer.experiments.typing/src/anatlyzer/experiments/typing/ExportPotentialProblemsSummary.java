@@ -110,34 +110,37 @@ public class ExportPotentialProblemsSummary implements IExperimentAction {
 
 		st.cell(sheet, startRow, startCol + 0, "Id");
 		st.cell(sheet, startRow, startCol + 1, "Description");
-		st.cell(sheet, startRow, startCol + 2, "Occ.");
-		st.cell(sheet, startRow, startCol + 3, "ST");
-		st.cell(sheet, startRow, startCol + 4, "C");
-		st.cell(sheet, startRow, startCol + 5, "D");
-		st.cell(sheet, startRow, startCol + 6, "DM");
-		st.cell(sheet, startRow, startCol + 7, "E1 - USE");
-		st.cell(sheet, startRow, startCol + 8, "E2 - Impl.");
-		st.cell(sheet, startRow, startCol + 9, "E3 - Unsupp.");
-		st.cell(sheet, startRow, startCol + 10, "Path prob.");
-		st.cell(sheet, startRow, startCol + 11, "Path rec.");
+		st.cell(sheet, startRow, startCol + 2, "Kind");
+		st.cell(sheet, startRow, startCol + 3, "Occ.");
+		st.cell(sheet, startRow, startCol + 4, "ST");
+		st.cell(sheet, startRow, startCol + 5, "C");
+		st.cell(sheet, startRow, startCol + 6, "D");
+		st.cell(sheet, startRow, startCol + 7, "DM");
+		st.cell(sheet, startRow, startCol + 8, "E1 - USE");
+		st.cell(sheet, startRow, startCol + 9, "E2 - Impl.");
+		st.cell(sheet, startRow, startCol + 10, "E3 - Unsupp.");
+		st.cell(sheet, startRow, startCol + 11, "Path prob.");
+		st.cell(sheet, startRow, startCol + 12, "Path rec.");
 
 		startRow++;
 		for(int i = 0; i < allIds.size(); i++) {
 			int id = allIds.get(i);
 			ErrorCount count = errorOcurrences.get(id);
+			String kind = count.kind;
 						
 			st.cell(sheet, startRow + i, startCol + 0, (long) id);
 			st.cell(sheet, startRow + i, startCol + 1, count.desc);
-			st.cell(sheet, startRow + i, startCol + 2, count.ocurrences);
-			st.cell(sheet, startRow + i, startCol + 3, count.staticallyConfirmed);
-			st.cell(sheet, startRow + i, startCol + 4, count.witnessConfirmed);
-			st.cell(sheet, startRow + i, startCol + 5, count.witnessDiscarded);
-			st.cell(sheet, startRow + i, startCol + 6, count.witnessDiscardedMetamodel);
-			st.cell(sheet, startRow + i, startCol + 7, count.e1_use);
-			st.cell(sheet, startRow + i, startCol + 8, count.e2_impl);
-			st.cell(sheet, startRow + i, startCol + 9, count.e3_unsupp);
-			st.cell(sheet, startRow + i, startCol + 10, count.problemsInPath);
-			st.cell(sheet, startRow + i, startCol + 11, count.problemsInPathRecovered);
+			st.cell(sheet, startRow + i, startCol + 2, kind);
+			st.cell(sheet, startRow + i, startCol + 3, count.ocurrences);
+			st.cell(sheet, startRow + i, startCol + 4, count.staticallyConfirmed);
+			st.cell(sheet, startRow + i, startCol + 5, count.witnessConfirmed);
+			st.cell(sheet, startRow + i, startCol + 6, count.witnessDiscarded);
+			st.cell(sheet, startRow + i, startCol + 7, count.witnessDiscardedMetamodel);
+			st.cell(sheet, startRow + i, startCol + 8, count.e1_use);
+			st.cell(sheet, startRow + i, startCol + 9, count.e2_impl);
+			st.cell(sheet, startRow + i, startCol + 10, count.e3_unsupp);
+			st.cell(sheet, startRow + i, startCol + 11, count.problemsInPath);
+			st.cell(sheet, startRow + i, startCol + 12, count.problemsInPathRecovered);
 			
 			// TODO: Count the number of problems with errors in the paths
 			//       How many are recovered

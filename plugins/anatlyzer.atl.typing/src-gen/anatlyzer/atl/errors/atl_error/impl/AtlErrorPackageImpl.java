@@ -3222,6 +3222,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "name", "Abstract class instantiation",
 			 "text", "",
 			 "example", ""
+		   });	
+		addAnnotation
+		  (genericLocalProblemEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Generic local problem",
+			 "text", "",
+			 "example", ""
 		   });
 	}
 
@@ -3891,6 +3899,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "severity", "runtime-error",
 			 "when", "model-dep",
 			 "kind", "trafo-integrity",
+			 "phase", "typing",
+			 "source", ""
+		   });	
+		addAnnotation
+		  (genericLocalProblemEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "warning-behaviour",
+			 "when", "model-dep",
+			 "kind", "src-typing",
 			 "phase", "typing",
 			 "source", ""
 		   });

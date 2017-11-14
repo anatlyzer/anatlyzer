@@ -528,6 +528,8 @@ package atl_error {
 		ref types.Metaclass[1] type;
 	}	
 
+	@description(name="Generic local problem", text="", example="")	 
+	@info(prec="static", path="no", severity="warning-behaviour", when="model-dep", kind="src-typing", phase="typing", source="")
 	class GenericLocalProblem extends LocalProblem {
 		attr String[1] genericKind;
 	}

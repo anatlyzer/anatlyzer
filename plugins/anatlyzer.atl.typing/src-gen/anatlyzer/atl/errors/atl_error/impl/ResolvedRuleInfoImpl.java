@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl#getElement <em>Element</em>}</li>
@@ -35,6 +34,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl#getInputType <em>Input Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ResolvedRuleInfoImpl#getOutputType <em>Output Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

@@ -205,11 +205,12 @@ public class ExportToExcel {
 		st.cell(sheet, startRow, startCol + 7, "DM");
 		st.cell(sheet, startRow, startCol + 8, "Unknown");
 		
-		st.cell(sheet, startRow, startCol + 9, "E1 - USE");
-		st.cell(sheet, startRow, startCol + 10, "E2 - Impl.");
-		st.cell(sheet, startRow, startCol + 11, "E3 - Unsupp.");
-		st.cell(sheet, startRow, startCol + 12, "Path prob.");
-		st.cell(sheet, startRow, startCol + 13, "Path rec.");
+		st.cell(sheet, startRow, startCol + 9, "Timout");
+		st.cell(sheet, startRow, startCol + 10, "E1 - USE");
+		st.cell(sheet, startRow, startCol + 11, "E2 - Impl.");
+		st.cell(sheet, startRow, startCol + 12, "E3 - Unsupp.");
+		st.cell(sheet, startRow, startCol + 13, "Path prob.");
+		st.cell(sheet, startRow, startCol + 14, "Path rec.");
 
 		startRow++;
 		for(int i = 0; i < allIds.size(); i++) {
@@ -228,11 +229,12 @@ public class ExportToExcel {
 			st.cell(sheet, startRow + i, startCol + 8, 
 					(count.ocurrences - count.staticallyConfirmed) - (count.witnessConfirmed + count.witnessDiscarded + count.witnessDiscardedMetamodel));
 
-			st.cell(sheet, startRow + i, startCol + 9, count.e1_use);
-			st.cell(sheet, startRow + i, startCol + 10, count.e2_impl);
-			st.cell(sheet, startRow + i, startCol + 11, count.e3_unsupp);
-			st.cell(sheet, startRow + i, startCol + 12, count.problemsInPath);
-			st.cell(sheet, startRow + i, startCol + 13, count.problemsInPathRecovered);
+			st.cell(sheet, startRow + i, startCol + 9, count.timeout);
+			st.cell(sheet, startRow + i, startCol + 10, count.e1_use);
+			st.cell(sheet, startRow + i, startCol + 11, count.e2_impl);
+			st.cell(sheet, startRow + i, startCol + 12, count.e3_unsupp);
+			st.cell(sheet, startRow + i, startCol + 13, count.problemsInPath);
+			st.cell(sheet, startRow + i, startCol + 14, count.problemsInPathRecovered);
 			
 			// TODO: Count the number of problems with errors in the paths
 			//       How many are recovered
@@ -327,6 +329,9 @@ public class ExportToExcel {
 		case NOT_SUPPORTED_BY_USE:
 			c.e3_unsupp++;
 			break;
+		case USE_TIME_OUT:
+			c.timeout++;
+			break;
 		case WITNESS_REQUIRED:
 			//if ( useCSP() ) 
 				throw new IllegalStateException();
@@ -353,6 +358,7 @@ public class ExportToExcel {
 		int witnessConfirmed;
 		int witnessDiscarded;
 		int witnessDiscardedMetamodel;
+		int timeout;
 		int e1_use;
 		int e2_impl;
 		int e3_unsupp;

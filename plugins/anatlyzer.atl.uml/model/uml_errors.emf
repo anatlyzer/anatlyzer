@@ -2,7 +2,9 @@
 package umlerrors;
 
 import "platform:/resource/anatlyzer.atl.typing/model/errors.ecore";
-	
+
+@description(name="UML Stereotype not found", text="", example="")	 
+@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="src-typing", phase="typing", source="")
 class StereotypeNotFound extends errors.atl_error.LocalProblem {
 	attr String[1] stereotypeName;
 }

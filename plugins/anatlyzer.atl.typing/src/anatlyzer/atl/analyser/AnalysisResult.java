@@ -60,7 +60,7 @@ public class AnalysisResult {
 	 * @param problems
 	 */
 	public void extendProblems(Collection<Problem> problems) {
-		analyser.getErrors().getProblems().addAll(problems);
+		analyser.getErrors().addProblems(problems);
 	}
 	
 	public List<Problem> getConfirmedProblems() {
@@ -95,10 +95,10 @@ public class AnalysisResult {
 	public void configureProblems(ProblemSets problems) {
 		for (LocalProblem p : new ArrayList<>(analyser.getErrors().getLocalProblems()) ) {
 			if ( problems.getIgnored().contains( p.eClass() )  ) {
-				analyser.getErrors().getProblems().remove(p);
+				analyser.getErrors().removeProblem(p);
 			} else if ( problems.getBatch().contains( p.eClass() ) ) {
 				batchProblems.add(p);
-				analyser.getErrors().getProblems().remove(p);				
+				analyser.getErrors().removeProblem(p);				
 			}
 		}
 	}

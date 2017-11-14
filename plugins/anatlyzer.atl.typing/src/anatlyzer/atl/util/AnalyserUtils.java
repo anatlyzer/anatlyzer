@@ -26,6 +26,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
+import anatlyzer.atl.errors.atl_error.GenericLocalProblem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.ide_error.CouldNotLoadMetamodel;
 import anatlyzer.atl.errors.ide_error.IdeErrorFactory;
@@ -264,7 +265,7 @@ public class AnalyserUtils {
 
 
 	public static String getProblemDescription(EClass eclass) {
-		EAnnotation ann = eclass.getEAnnotation("description");
+ 		EAnnotation ann = eclass.getEAnnotation("description");
 		if ( ann == null )
 			throw new IllegalArgumentException("No description for: " + eclass.getName());
 		return ann.getDetails().get("name");

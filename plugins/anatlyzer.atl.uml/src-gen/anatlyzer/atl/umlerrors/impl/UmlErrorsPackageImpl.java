@@ -183,6 +183,52 @@ public class UmlErrorsPackageImpl extends EPackageImpl implements UmlErrorsPacka
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// description
+		createDescriptionAnnotations();
+		// info
+		createInfoAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>description</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createDescriptionAnnotations() {
+		String source = "description";	
+		addAnnotation
+		  (stereotypeNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "name", "UML Stereotype not found",
+			 "text", "",
+			 "example", ""
+		   });
+	}
+
+	/**
+	 * Initializes the annotations for <b>info</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createInfoAnnotations() {
+		String source = "info";	
+		addAnnotation
+		  (stereotypeNotFoundEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "runtime-error",
+			 "when", "model-dep",
+			 "kind", "src-typing",
+			 "phase", "typing",
+			 "source", ""
+		   });
 	}
 
 } //UmlErrorsPackageImpl

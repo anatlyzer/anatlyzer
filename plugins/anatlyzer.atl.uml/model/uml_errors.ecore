@@ -2,6 +2,20 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="umlerrors" nsURI="http://anatlyzer/atl/uml_errors" nsPrefix="uml_errors">
   <eClassifiers xsi:type="ecore:EClass" name="StereotypeNotFound" eSuperTypes="../../anatlyzer.atl.typing/model/errors.ecore#//atl_error/LocalProblem">
+    <eAnnotations source="description">
+      <details key="name" value="UML Stereotype not found"/>
+      <details key="text" value=""/>
+      <details key="example" value=""/>
+    </eAnnotations>
+    <eAnnotations source="info">
+      <details key="prec" value="static"/>
+      <details key="path" value="no"/>
+      <details key="severity" value="runtime-error"/>
+      <details key="when" value="model-dep"/>
+      <details key="kind" value="src-typing"/>
+      <details key="phase" value="typing"/>
+      <details key="source" value=""/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stereotypeName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

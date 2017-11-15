@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.IteratorOverNoCollectionType#getIteratorName <em>Iterator Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getIteratorOverNoCollectionType()
  * @model annotation="description name='Iterator over no collection type' text='' example='anObject->select(...)'"

@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl#getRightType <em>Right Type</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl#getTargetType <em>Target Type</em>}</li>
@@ -37,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl#getLeft <em>Left</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.BindingWithResolvedByIncompatibleRuleImpl#getRules <em>Rules</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

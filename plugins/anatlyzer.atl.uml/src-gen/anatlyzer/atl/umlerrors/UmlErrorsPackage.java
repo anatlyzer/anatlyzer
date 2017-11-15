@@ -104,6 +104,33 @@ public interface UmlErrorsPackage extends EPackage {
 	int STEREOTYPE_NOT_FOUND__NEEDS_CSP = AtlErrorPackage.LOCAL_PROBLEM__NEEDS_CSP;
 
 	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__STATUS = AtlErrorPackage.LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ignored By User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__IGNORED_BY_USER = AtlErrorPackage.LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__DATA = AtlErrorPackage.LOCAL_PROBLEM__DATA;
+
+	/**
 	 * The feature id for the '<em><b>Location</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -113,6 +140,15 @@ public interface UmlErrorsPackage extends EPackage {
 	int STEREOTYPE_NOT_FOUND__LOCATION = AtlErrorPackage.LOCAL_PROBLEM__LOCATION;
 
 	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__FILE_LOCATION = AtlErrorPackage.LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
 	 * The feature id for the '<em><b>Element</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -120,6 +156,24 @@ public interface UmlErrorsPackage extends EPackage {
 	 * @ordered
 	 */
 	int STEREOTYPE_NOT_FOUND__ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__DISPLAYED_ELEMENT = AtlErrorPackage.LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STEREOTYPE_NOT_FOUND__MISSING = AtlErrorPackage.LOCAL_PROBLEM__MISSING;
 
 	/**
 	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.

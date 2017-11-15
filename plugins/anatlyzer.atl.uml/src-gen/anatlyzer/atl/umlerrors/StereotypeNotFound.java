@@ -17,7 +17,8 @@ import anatlyzer.atl.errors.atl_error.LocalProblem;
  * </p>
  *
  * @see anatlyzer.atl.umlerrors.UmlErrorsPackage#getStereotypeNotFound()
- * @model
+ * @model annotation="description name='UML Stereotype not found' text='' example=''"
+ *        annotation="info prec='static' path='no' severity='runtime-error' when='model-dep' kind='src-typing' phase='typing' source=''"
  * @generated
  */
 public interface StereotypeNotFound extends LocalProblem {

@@ -152,7 +152,7 @@ public class ErrorModel {
 	}
 
 	public List<Problem> getProblems() {
-		return result.getProblems();
+		return new ArrayList<Problem>(result.getProblems());
 	}
 
 	public void removeRuleConflicts() {
@@ -1030,6 +1030,14 @@ public class ErrorModel {
 
 		// Not sure if I should mark the problem...
 		// element.getProblems().add(p);		
+	}
+
+	public boolean removeProblem(LocalProblem p) {
+		return result.getProblems().remove(p);		
+	}
+
+	public void addProblems(Collection<Problem> problems) {
+		result.getProblems().addAll(problems);		
 	}
 
 	

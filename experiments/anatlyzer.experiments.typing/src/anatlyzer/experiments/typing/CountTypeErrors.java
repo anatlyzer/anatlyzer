@@ -124,7 +124,9 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	protected void summarizeError(Problem p, int errorCode, String desc, ProblemPath path) {
 		boolean hasProblemsInPath = path == null;
 
-		errorOcurrences.putIfAbsent(errorCode, new ErrorCount(errorCode, desc));
+		String kind = AnalyserUtils.getProblemKind(p);
+				
+		errorOcurrences.putIfAbsent(errorCode, new ErrorCount(errorCode, desc, kind));
 		ErrorCount c = errorOcurrences.get(errorCode);
 		c.ocurrences++;
 		
@@ -340,9 +342,11 @@ public class CountTypeErrors extends AbstractATLExperiment implements IExperimen
 	public class ErrorCount {
 		int id;
 		String desc;
-		public ErrorCount(int id, String desc) {
+		String kind;
+		public ErrorCount(int id, String desc, String kind) {
 			this.id = id;
 			this.desc = desc;
+			this.kind = kind;
 		}
 		
 		int problemsInPath;

@@ -1129,6 +1129,20 @@
           eType="ecore:EClass types.ecore#//Metaclass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="GenericLocalProblem" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Generic local problem"/>
+        <details key="text" value=""/>
+        <details key="example" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="warning-behaviour"/>
+        <details key="when" value="model-dep"/>
+        <details key="kind" value="src-typing"/>
+        <details key="phase" value="typing"/>
+        <details key="source" value=""/>
+      </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="genericKind" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>

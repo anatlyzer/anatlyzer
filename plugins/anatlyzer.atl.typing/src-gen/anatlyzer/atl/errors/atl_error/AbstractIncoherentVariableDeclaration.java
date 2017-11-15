@@ -11,11 +11,11 @@ import anatlyzer.atl.types.Type;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getInferred <em>Inferred</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.AbstractIncoherentVariableDeclaration#getDeclared <em>Declared</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getAbstractIncoherentVariableDeclaration()
  * @model abstract="true"

@@ -1,5 +1,7 @@
 package anatlyzer.atl.analyser;
 
+import java.util.HashSet;
+
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.OclAnyInheritedNamespace;
 import anatlyzer.atl.model.ErrorModel;
@@ -60,6 +62,15 @@ public class AnalyserContext {
 
 	public static boolean debugMode() {
 		return true;
+	}
+
+	
+	public static HashSet<Class<?>> ignoreInAnalysisPass = new HashSet<>();
+	static {
+		ignoreInAnalysisPass.add(anatlyzer.atl.errors.atl_error.ChangeSelectFirstForAny.class);
+	}
+	public static boolean check(Class<?> class1) {
+		return ! ignoreInAnalysisPass.contains(class1);
 	}
 
 	

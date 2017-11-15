@@ -50,7 +50,8 @@ public class ExportDetailTypeErrors implements IExperimentAction {
 			
 //		IProject project = confFile.getProject();
 //		IFolder folder = project.getFolder("details");
-		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("details"));
+		// IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().append("details"));
+		IFolder folder = confFile.getProject().getFolder(confFile.getFullPath().removeFirstSegments(1).removeLastSegments(1).append("details"));
 		if ( ! folder.exists() ) {
 			try {
 				folder.create(true, true, null);

@@ -10,10 +10,10 @@ package anatlyzer.atl.errors.atl_error;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getAttributeNotFoundInThisModule()
  * @model annotation="description name='Attribute not found in ThisModule' text='Attribute defined in the transformation scope cannot be found (i.e., invoked with thisModule.operation()).'"

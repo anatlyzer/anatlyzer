@@ -154,8 +154,9 @@ public class AnalysisViewBatchNodes {
 						elements = new ConflictingRules[result.size()];
 						for (OverlappingRules overlappingRules : result) {
 							elements[i] = new ConflictingRules(RuleConflictAnalysisNode.this, overlappingRules);
-							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
-								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
+//							if ( overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED && 
+//								 overlappingRules.getAnalysisResult() != ProblemStatus.ERROR_DISCARDED_DUE_TO_METAMODEL ) {
+							if ( AnalyserUtils.isConfirmed(overlappingRules.getAnalysisResult()) ) {
 								// It has not been discarded
 								numberOfConflicts++;
 							}

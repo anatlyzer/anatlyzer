@@ -5,6 +5,7 @@ import java.util.HashSet;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
@@ -156,8 +157,9 @@ public class OclSlice {
 			// I should all only source ones, but weird conditions such as measureLevel for UML22Measure
 			// suggest that it could be a good idea to consider all of them
 			slice.addExplicitEnum((EnumType) expr.getInferredType());
-			
-			
+		} else if ( expr instanceof anatlyzer.atlext.OCL.CollectionType ) {
+			// Ignore or add the contained type when it is a metaclass?
+			// slice(slice, ((CollectionType) expr).getContainedType(), isExternalDependency);
 		} else if ( ignore.contains(expr.getClass()) ) {
 			// Ignore
 		} else {

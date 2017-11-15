@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.batch.PossibleStealingNode;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
 import anatlyzer.atl.editor.builder.AnalyserExecutor.AnalyserData;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atl.witness.IWitnessFinder;
@@ -110,11 +111,13 @@ public class CheckChildStealing implements IEditorActionDelegate {
 		}
 		//wf.setDebugMode(true);
 		wf.setCheckAllCompositeConstraints(true);
-		ProblemStatus result = wf.find(node, data);
-		node.setAnalysisResult(result);
-		if ( node.getAnalysisResult() == ProblemStatus.STATICALLY_CONFIRMED || 
-			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED || 
-			 node.getAnalysisResult() == ProblemStatus.ERROR_CONFIRMED_SPECULATIVE ) {
+		try {
+			ProblemStatus result = wf.find(node, data);
+			node.setAnalysisResult(result);
+		} catch ( Exception e ) {
+			node.setAnalysisResult(ProblemStatus.IMPL_INTERNAL_ERROR);
+		}
+		if ( AnalyserUtils.isConfirmed(node.getAnalysisResult()) ) {
 			return true;
 		}
 		

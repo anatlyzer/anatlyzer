@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AnATLyzer IDE facilities
+Bundle-SymbolicName: anatlyzer.ide;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.ide.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.nebula.widgets.treemapper,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.edit,
+ org.eclipse.emf.ecore.edit,
+ org.eclipse.emf.edit.ui,
+ anatlyzer.atl.typing,
+ anatlyzer.atl.editor
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy

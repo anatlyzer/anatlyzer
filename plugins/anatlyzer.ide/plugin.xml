@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            name="Show Mapping"
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.ide.commands.ShowMapping">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="anatlyzer.ide.commands.ShowMapping"
+            class="anatlyzer.ide.handlers.ShowMappingHandler">
+         <activeWhen>
+            <with
+                  variable="activeEditorId">
+               <equals
+                     value="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+               </equals>
+            </with>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="anatlyzer.ide.commands.ShowMapping"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+M3+M"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
+
+			<!-- To place the command directly on AnATLyzer menu, not in a new submenu -->
+            <command
+                  commandId="anatlyzer.ide.commands.ShowMapping"
+                  mnemonic="S"
+                  id="anatlyzer.ide.commands.ShowMapping">
+            </command>
+
+		<!--
+         <menu
+               label="Show mapping"
+               mnemonic="M"
+               id="anatlyzer.ide.menus.ShowMapping">
+            <command
+                  commandId="anatlyzer.ide.commands.ShowMapping"
+                  mnemonic="S"
+                  id="anatlyzer.ide.commands.ShowMapping">
+            </command>
+         </menu>
+         -->
+      </menuContribution>
+   </extension>
+
+</plugin>

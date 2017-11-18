@@ -5,15 +5,16 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.editor.AtlEditorExt;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.ide.dialogs.AtlTransformationMapping;
-import anatlyzer.ide.dialogs.MappingDialog;
+import anatlyzer.ide.views.MappingView;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -47,10 +48,24 @@ public class ShowMappingHandler extends AbstractHandler {
 			if ( r == null )
 				return null;
 			
-			MappingDialog dialog = new MappingDialog(HandlerUtil.getActiveShell(event), new AtlTransformationMapping(r.getAnalyser()));
-			dialog.open();
+			//MappingDialog dialog = new MappingDialog(HandlerUtil.getActiveShell(event), new AtlTransformationMapping(r.getAnalyser()));
+			//dialog.open();
+			showView(r.getAnalyser());
 		}
 		
 		return null;
+	}
+
+	private void showView(IAnalyserResult analysis) {
+		MappingView view;
+		try {
+			view = (MappingView) PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow()
+					.getActivePage().showView(MappingView.ID);
+			view.setViewData(new AtlTransformationMapping(analysis));
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

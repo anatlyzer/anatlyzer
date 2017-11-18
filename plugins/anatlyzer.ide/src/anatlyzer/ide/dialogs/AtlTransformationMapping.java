@@ -109,14 +109,14 @@ public class AtlTransformationMapping implements ITransformationMapping {
 				Metaclass srcType = (Metaclass) src.getInferredType();
 				Metaclass tgtType = (Metaclass) ope.getInferredType();
 				
-				addMapping(mappings, srcType.getKlass(), tgtType.getKlass());
+				addMapping(mappings, r, srcType.getKlass(), tgtType.getKlass());
 			}
 		}
 	}
 
 	
-	private void addMapping(List<MetamodelElementMapping> mappings, EClass src, EClass tgt) {
-		mappings.add(new MetamodelElementMapping(src, tgt));
+	private void addMapping(List<MetamodelElementMapping> mappings, RuleWithPattern r, EClass src, EClass tgt) {
+		mappings.add(new MetamodelElementMapping(r, src, tgt));
 		srcUses.add(src);
 		tgtUses.add(tgt);
 	}

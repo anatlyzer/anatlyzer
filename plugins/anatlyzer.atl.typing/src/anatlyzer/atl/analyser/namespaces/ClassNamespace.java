@@ -540,9 +540,10 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	public void attachRule(String ruleName, Type returnType, Rule rule) {
 		if ( ! (rule instanceof MatchedRule) ) throw new IllegalArgumentException();
 		
-		attachedRules.add((MatchedRule) rule);	
-		if ( ATLUtils.isOneOneRule((MatchedRule) rule))
+		if ( ATLUtils.isOneOneRule((MatchedRule) rule)) {
+			attachedRules.add((MatchedRule) rule);	
 			attachResolvingRule(ruleName, returnType, (MatchedRule) rule);
+		}
 	}
 	
 	/* (non-Javadoc)

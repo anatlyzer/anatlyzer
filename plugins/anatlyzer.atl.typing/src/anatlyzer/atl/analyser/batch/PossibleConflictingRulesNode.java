@@ -15,6 +15,7 @@ import anatlyzer.atl.graph.RuleFilterNode;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -23,11 +24,11 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 
-	private Metaclass type;
+	private Metaclass[] types;
 	private ArrayList<InternalRuleExecution> nodes = new ArrayList<InternalRuleExecution>();
 
-	public PossibleConflictingRulesNode(Metaclass type, Collection<MatchedRule> rules) {
-		this.type = type;
+	public PossibleConflictingRulesNode(Metaclass[] types, Collection<MatchedRule> rules) {
+		this.types = types;
 
 		for (MatchedRule r : rules) {
 			nodes.add(new InternalRuleExecution(r));
@@ -53,16 +54,31 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 	}
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
-
-		OperationCallExp allInstances = model.createAllInstances(type);
-		IteratorExp exists = model.createIterator(allInstances, "exists");
-		anatlyzer.atlext.OCL.Iterator it = exists.getIterators().get(0);
+		Iterator[] iterators = new Iterator[types.length];
 		
+		IteratorExp outerExists = null;
+		IteratorExp innnerExists = null;
+		for(int i = 0; i < types.length; i++) {
+			OperationCallExp allInstances = model.createAllInstances(types[i]);
+			IteratorExp exists = model.createIterator(allInstances, "exists");
+			anatlyzer.atlext.OCL.Iterator it = exists.getIterators().get(0);
+			
+			if ( innnerExists != null ) {
+				innnerExists.setBody(exists);
+			} else {
+				outerExists = exists;
+			}
+			innnerExists = exists;
+			
+			iterators[i] = it;
+		}
 		
 		OclExpression orOp = null;
 		for (InternalRuleExecution node : nodes) {
 			if ( node.hasGuard() ) {
-				model.addToScope(node.getRule().getInPattern().getElements().get(0), it);
+				for(int i = 0; i < iterators.length; i++) {
+					model.addToScope(node.getRule().getInPattern().getElements().get(i), iterators[i]);
+				}
 				OclExpression exp = node.genCSP(model, this);
 				if ( orOp == null ) {
 					orOp = exp;
@@ -76,9 +92,9 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 			orOp = model.createBooleanLiteral(true);
 		}
 		
-		exists.setBody(orOp);
+		innnerExists.setBody(orOp);
 		
-		return exists;
+		return outerExists;
 	}
 
 	/**
@@ -93,7 +109,9 @@ public class PossibleConflictingRulesNode extends AbstractDependencyNode {
 	 */
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
-		slice.addMetaclassNeededInError(type.getKlass());
+		for(Metaclass t : types) 
+			slice.addMetaclassNeededInError(t.getKlass());
+		
 		for (InternalRuleExecution node : nodes) {
 			node.genErrorSlice(slice);
 		}

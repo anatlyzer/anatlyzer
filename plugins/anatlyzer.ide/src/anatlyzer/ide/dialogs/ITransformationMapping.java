@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.nebula.widgets.treemapper.IMappingFilter;
 
+import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.ide.dialogs.ITransformationMapping.MetamodelElementMapping;
 
 public interface ITransformationMapping {
@@ -19,9 +20,11 @@ public interface ITransformationMapping {
 	public static class MetamodelElementMapping {
 		public EModelElement left;
 		public EModelElement right;
+		public RuleWithPattern rule;
 		
 
-		public MetamodelElementMapping(EModelElement leftItem, EModelElement rightItem) {
+		public MetamodelElementMapping(RuleWithPattern rule, EModelElement leftItem, EModelElement rightItem) {
+			this.rule = rule;
 			this.left = leftItem;
 			this.right = rightItem;
 		}

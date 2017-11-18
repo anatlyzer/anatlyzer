@@ -3961,13 +3961,13 @@ public interface AtlErrorPackage extends EPackage {
 	int CONFLICTING_RULE_SET__DATA = AnalysisResultPackage.PROBLEM__DATA;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * The feature id for the '<em><b>Types</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONFLICTING_RULE_SET__TYPE = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
+	int CONFLICTING_RULE_SET__TYPES = AnalysisResultPackage.PROBLEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Rules</b></em>' reference list.
@@ -11620,15 +11620,15 @@ public interface AtlErrorPackage extends EPackage {
 	EClass getConflictingRuleSet();
 
 	/**
-	 * Returns the meta object for the reference '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType <em>Type</em>}'.
+	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getTypes <em>Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Type</em>'.
-	 * @see anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getType()
+	 * @return the meta object for the reference list '<em>Types</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getTypes()
 	 * @see #getConflictingRuleSet()
 	 * @generated
 	 */
-	EReference getConflictingRuleSet_Type();
+	EReference getConflictingRuleSet_Types();
 
 	/**
 	 * Returns the meta object for the reference list '{@link anatlyzer.atl.errors.atl_error.ConflictingRuleSet#getRules <em>Rules</em>}'.
@@ -13276,12 +13276,12 @@ public interface AtlErrorPackage extends EPackage {
 		EClass CONFLICTING_RULE_SET = eINSTANCE.getConflictingRuleSet();
 
 		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Types</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONFLICTING_RULE_SET__TYPE = eINSTANCE.getConflictingRuleSet_Type();
+		EReference CONFLICTING_RULE_SET__TYPES = eINSTANCE.getConflictingRuleSet_Types();
 
 		/**
 		 * The meta object literal for the '<em><b>Rules</b></em>' reference list feature.

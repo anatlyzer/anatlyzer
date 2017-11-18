@@ -1,11 +1,13 @@
 package anatlyzer.atl.analyser.batch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import analyser.atl.problems.IDetectedProblem;
@@ -65,10 +67,10 @@ public class RuleConflictAnalysis {
 			
 		
 		for (MatchedRule r : rules) {
-			if ( ! ATLUtils.isOneOneRule(r) || r.isIsAbstract() )
+			if ( r.isIsAbstract() )
 				continue;
-			Metaclass type = ATLUtils.getInPatternType(r);
-			overlapping.add(new OverlappingRules(type, r));
+			Metaclass[] types = ATLUtils.getAllPatternTypes(r);
+			overlapping.add(new OverlappingRules(types, r));
 		}
 		
 		//while ( true ) {
@@ -108,7 +110,7 @@ public class RuleConflictAnalysis {
 			if ( overlap.rules.size() <= 1 ) 
 				continue;
 
-			PossibleConflictingRulesNode node = new PossibleConflictingRulesNode(overlap.type, overlap.rules);
+			PossibleConflictingRulesNode node = new PossibleConflictingRulesNode(overlap.types, overlap.rules);
 		
 			// Compute error slice
 			ErrorSlice slice = new ErrorSlice(analyser, ATLUtils.getSourceMetamodelNames(this.model), overlap);
@@ -137,42 +139,58 @@ public class RuleConflictAnalysis {
 		if ( overlap1 == overlap2 )
 			throw new IllegalArgumentException();
 		
-		IClassNamespace type1 = (IClassNamespace) overlap1.type.getMetamodelRef();
-		IClassNamespace type2 = (IClassNamespace) overlap2.type.getMetamodelRef();
-
-		if ( type1.getKlass() == type2.getKlass() ) {
-			return new OverlappingRules(overlap1.type, overlap1, overlap2);
-		} else if ( type1.getAllSuperClasses().contains(type2) ) {
-			return new OverlappingRules(overlap1.type, overlap1, overlap2);
-		} else if ( type2.getAllSuperClasses().contains(type1) ) {
-			return new OverlappingRules(overlap2.type, overlap1, overlap2);
-		} else {
-			Set<ClassNamespace> intersection = new HashSet<ClassNamespace>(type1.getAllSubclasses());
-			intersection.retainAll(type2.getAllSubclasses());
+		if ( overlap1.types.length != overlap2.types.length ) {
+			return null;
+		}
 		
-			// If intersection is not empty, there is at least one or more common descendants.
-			if ( ! intersection.isEmpty() ) {
-				// Remove those that have supertype in the list
-				LinkedList<ClassNamespace> intersectionTop = new LinkedList<ClassNamespace>(intersection);
-				for (ClassNamespace cn1 : intersection) {
-					intersectionTop.removeAll(cn1.getAllSubclasses());
+		Metaclass[] result = new Metaclass[overlap1.types.length]; 
+		for(int i = 0; i < overlap1.types.length; i++) {
+			IClassNamespace type1 = (IClassNamespace) overlap1.types[i].getMetamodelRef();
+			IClassNamespace type2 = (IClassNamespace) overlap2.types[i].getMetamodelRef();
+
+			if ( type1.getKlass() == type2.getKlass() ) {
+				// return new OverlappingRules(overlap1.types[i], overlap1, overlap2);
+				result[i] = overlap1.types[i];
+			} else if ( type1.getAllSuperClasses().contains(type2) ) {
+				result[i] = overlap1.types[i];
+				// return new OverlappingRules(overlap1.types[i], overlap1, overlap2);
+			} else if ( type2.getAllSuperClasses().contains(type1) ) {
+				result[i] = overlap2.types[i];
+				// return new OverlappingRules(overlap2.types[i], overlap1, overlap2);
+			} else {
+				Set<ClassNamespace> intersection = new HashSet<ClassNamespace>(type1.getAllSubclasses());
+				intersection.retainAll(type2.getAllSubclasses());
+			
+				// If intersection is not empty, there is at least one or more common descendants.
+				if ( ! intersection.isEmpty() ) {
+					// Remove those that have supertype in the list
+					LinkedList<ClassNamespace> intersectionTop = new LinkedList<ClassNamespace>(intersection);
+					for (ClassNamespace cn1 : intersection) {
+						intersectionTop.removeAll(cn1.getAllSubclasses());
+					}
+					
+					if ( intersectionTop.size() == 0 )
+						throw new IllegalStateException();
+					if ( intersectionTop.size() > 1) 
+						throw new UnsupportedOperationException();
+					
+					ClassNamespace common = intersectionTop.getFirst();
+					// return new OverlappingRules(common.getType(), overlap1, overlap2);
+					result[i] = common.getType();
+				} else {
+					// There is no common type, so there is no rule conflict
+					return null;
 				}
-				
-				if ( intersectionTop.size() == 0 )
-					throw new IllegalStateException();
-				if ( intersectionTop.size() > 1) 
-					throw new UnsupportedOperationException();
-				
-				ClassNamespace common = intersectionTop.getFirst();
-				return new OverlappingRules(common.getType(), overlap1, overlap2);				
 			}
 		}
-		return null;
+		
+		return new OverlappingRules(result, overlap1, overlap2);
+		
 			
 	}
 
 	public static class OverlappingRules implements IDetectedProblem {
-		protected Metaclass type;
+		protected Metaclass[] types;
 		protected HashSet<MatchedRule> rules = new HashSet<MatchedRule>();
 		
 		//protected int analysisResult = ANALYSIS_NOT_PERFORMED;
@@ -181,20 +199,13 @@ public class RuleConflictAnalysis {
 		private ErrorSlice errorSlice;
 		private OclExpression condition;
 		
-//		public static final int ANALYSIS_NOT_PERFORMED    = 0;
-//		public static final int ANALYSIS_STATIC_CONFIRMED = 1;
-//		public static final int ANALYSIS_SOLVER_CONFIRMED = 2;
-//		public static final int ANALYSIS_SOLVER_DISCARDED = 3;
-//		public static final int ANALYSIS_SOLVER_FAILED = 4;
-//		public static final int ANALYSIS_SOLVER_DISCARDED_DUE_TO_METAMODEL = 5;
-		
-		public OverlappingRules(Metaclass type, MatchedRule r) {
-			this.type = type;
+		public OverlappingRules(Metaclass[] types, MatchedRule r) {
+			this.types = types;
 			this.rules.add(r);
 		}
 
 		public OverlappingRules(ConflictingRuleSet rs) {
-			this.type = rs.getType();
+			this.types = rs.getTypes().toArray(new Metaclass[rs.getTypes().size()]);
 			rs.getRules().forEach(r -> this.rules.add((MatchedRule) r));
 		}
 		
@@ -212,14 +223,14 @@ public class RuleConflictAnalysis {
 		 * @param overlap1
 		 * @param overlap2
 		 */
-		public OverlappingRules(Metaclass t, OverlappingRules overlap1, OverlappingRules overlap2) {
-			this.type = t;
+		public OverlappingRules(Metaclass[] t, OverlappingRules overlap1, OverlappingRules overlap2) {
+			this.types = t;
 			this.rules.addAll(overlap1.rules);
 			this.rules.addAll(overlap2.rules);			
 		}
 		
-		public Metaclass getType() {
-			return type;
+		public Metaclass[] getTypes() {
+			return types;
 		}		
 		
 		@Override
@@ -253,7 +264,7 @@ public class RuleConflictAnalysis {
 		
 		@Override
 		public String toString() {
-			String str = TypeUtils.typeToString(type) + ": [";
+			String str = Arrays.stream(types).map(type -> TypeUtils.typeToString(type)).collect(Collectors.joining(", ")) + ": [";
 			int i = 0;
 			for (MatchedRule matchedRule : rules) {
 				str += " " + matchedRule.getName();
@@ -286,7 +297,7 @@ public class RuleConflictAnalysis {
 		public ConflictingRuleSet createRuleSet() {
 			ConflictingRuleSet set = AtlErrorFactory.eINSTANCE.createConflictingRuleSet();
 			set.setStatus(getAnalysisResult());
-			set.setType(type);
+			set.getTypes().addAll(Arrays.asList(types));
 			set.getRules().addAll(this.getRules());
 			set.setAnalyserInfo(this);
 			set.setDescription("Rule conflict: " + this.getRules().stream().map(r -> r.getName()).collect(Collectors.joining(", ")));

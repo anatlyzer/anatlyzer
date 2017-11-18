@@ -191,7 +191,7 @@ package atl_error {
 	@description(name="Rule conflict", example="")	 
 	@info(prec="sometimes-solver", path="yes", severity="runtime-error", when="model-dep", kind="trafo-rules", phase="analysis (separate)", source="")
 	class ConflictingRuleSet extends Problem {
-	    ref types.Metaclass[1] type;
+	    ref types.Metaclass[1..*] types;
 		ref EObject[*] rules;
 		attr Object[0..1] analyserInfo;
 	}

@@ -297,6 +297,12 @@
 			contextId="org.eclipse.m2m.atl.adt.editor"/>
 	</extension>
      
+   <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+Alt+R"
+			commandId="anatlyzer.commands.runAnalyser"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			contextId="org.eclipse.m2m.atl.adt.editor"/>
+	</extension>
 
    <extension
          point="org.eclipse.ui.menus">
@@ -347,6 +353,11 @@
             name="Show binding resolution outline">
       </command>
 
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.runAnalyser"
+            name="Run AnATLyzer">
+      </command>
    </extension>
      
    <extension
@@ -374,6 +385,11 @@
       <handler
             class="anatlyzer.atl.commands.ShowBindingResolutionOutline"
             commandId="anatlyzer.commands.showBindingResolutionOutline">
+      </handler>
+
+      <handler
+            class="anatlyzer.atl.commands.RunAnalyser"
+            commandId="anatlyzer.commands.runAnalyser">
       </handler>
       
    </extension>

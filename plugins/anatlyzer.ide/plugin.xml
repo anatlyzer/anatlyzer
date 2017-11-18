@@ -60,5 +60,25 @@
          -->
       </menuContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="anatlyzer.ide.mappingview"
+            name="AnATLyzer">
+      </category>
+      <view
+            category="anatlyzer.ide.mappingview"
+            class="anatlyzer.ide.views.MappingView"
+            icon="icons/mappingview_16.png"
+            id="anatlyzer.ide.views.MappingView"
+            name="Mapping View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
 
 </plugin>

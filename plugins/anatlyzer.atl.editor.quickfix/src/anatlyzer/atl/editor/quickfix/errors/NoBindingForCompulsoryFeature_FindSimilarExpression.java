@@ -82,11 +82,13 @@ public class NoBindingForCompulsoryFeature_FindSimilarExpression extends Abstrac
 			
 			Optional<Binding> result = candidates.stream().filter(b -> {		
 				List<VariableExp> vexps = ATLUtils.findAllVarExp(b.getValue());
-				Metaclass containingType = ATLUtils.getInPatternType(containingRule);
+				// Metaclass containingType = ATLUtils.getInPatternType(containingRule);
 
 				return vexps.stream().allMatch(vexp -> {				
 					// The expression starts with an element matched by the rule
 					if ( vexp.getReferredVariable() instanceof InPatternElement ) {
+						Metaclass containingType = (Metaclass) vexp.getReferredVariable().getInferredType(); 
+						
 						EObject container = vexp.eContainer();
 						if ( container instanceof NavigationOrAttributeCallExp && ((NavigationOrAttributeCallExp) container).getUsedFeature() != null ) {
 							NavigationOrAttributeCallExp nav = (NavigationOrAttributeCallExp) container;

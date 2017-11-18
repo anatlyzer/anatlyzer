@@ -145,7 +145,7 @@ public class RuleConflictQuickfix_ModifyRuleFilter extends BindingInvalidTargetI
 		IAnalyserResult analyser = getAnalysisResult().getAnalyser();
 		ATLModel atlModel = analyser.getATLModel();
 		
-		SubsumptionNode node = new SubsumptionNode(overlap.getType(), r1, r2);
+		SubsumptionNode node = new SubsumptionNode(overlap.getTypes(), r1, r2);
 		
 		// SAME AS OVERLAPPINGRULES
 		

@@ -915,7 +915,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getConflictingRuleSet_Type() {
+	public EReference getConflictingRuleSet_Types() {
 		return (EReference)conflictingRuleSetEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -2266,7 +2266,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		createEReference(ruleConflictsEClass, RULE_CONFLICTS__CONFLICTS);
 
 		conflictingRuleSetEClass = createEClass(CONFLICTING_RULE_SET);
-		createEReference(conflictingRuleSetEClass, CONFLICTING_RULE_SET__TYPE);
+		createEReference(conflictingRuleSetEClass, CONFLICTING_RULE_SET__TYPES);
 		createEReference(conflictingRuleSetEClass, CONFLICTING_RULE_SET__RULES);
 		createEAttribute(conflictingRuleSetEClass, CONFLICTING_RULE_SET__ANALYSER_INFO);
 
@@ -2633,7 +2633,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEReference(getRuleConflicts_Conflicts(), this.getConflictingRuleSet(), null, "conflicts", null, 0, -1, RuleConflicts.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conflictingRuleSetEClass, ConflictingRuleSet.class, "ConflictingRuleSet", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getConflictingRuleSet_Type(), theTypesPackage.getMetaclass(), null, "type", null, 1, 1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getConflictingRuleSet_Types(), theTypesPackage.getMetaclass(), null, "types", null, 1, -1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getConflictingRuleSet_Rules(), ecorePackage.getEObject(), null, "rules", null, 0, -1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConflictingRuleSet_AnalyserInfo(), ecorePackage.getEJavaObject(), "analyserInfo", null, 0, 1, ConflictingRuleSet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

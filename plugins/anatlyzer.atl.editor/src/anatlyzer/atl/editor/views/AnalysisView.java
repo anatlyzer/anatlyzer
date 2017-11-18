@@ -628,6 +628,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		runAnalyserAction.setText("Run analyser");
 		runAnalyserAction.setToolTipText("Run analyser");
 		runAnalyserAction.setImageDescriptor(Images.refresh_16x16);
+		runAnalyserAction.setAccelerator(SWT.CTRL | 'R');
 		
 		// 
 		

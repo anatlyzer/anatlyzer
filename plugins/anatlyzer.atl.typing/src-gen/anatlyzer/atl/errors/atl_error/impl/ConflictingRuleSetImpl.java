@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
@@ -22,7 +21,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getType <em>Type</em>}</li>
+ *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getTypes <em>Types</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getRules <em>Rules</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.atl_error.impl.ConflictingRuleSetImpl#getAnalyserInfo <em>Analyser Info</em>}</li>
  * </ul>
@@ -32,14 +31,14 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  */
 public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRuleSet {
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+	 * The cached value of the '{@link #getTypes() <em>Types</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected Metaclass type;
+	protected EList<Metaclass> types;
 
 	/**
 	 * The cached value of the '{@link #getRules() <em>Rules</em>}' reference list.
@@ -95,37 +94,11 @@ public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Metaclass getType() {
-		if (type != null && type.eIsProxy()) {
-			InternalEObject oldType = (InternalEObject)type;
-			type = (Metaclass)eResolveProxy(oldType);
-			if (type != oldType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, AtlErrorPackage.CONFLICTING_RULE_SET__TYPE, oldType, type));
-			}
+	public EList<Metaclass> getTypes() {
+		if (types == null) {
+			types = new EObjectResolvingEList<Metaclass>(Metaclass.class, this, AtlErrorPackage.CONFLICTING_RULE_SET__TYPES);
 		}
-		return type;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Metaclass basicGetType() {
-		return type;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setType(Metaclass newType) {
-		Metaclass oldType = type;
-		type = newType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, AtlErrorPackage.CONFLICTING_RULE_SET__TYPE, oldType, type));
+		return types;
 	}
 
 	/**
@@ -169,9 +142,8 @@ public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRu
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
-				if (resolve) return getType();
-				return basicGetType();
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPES:
+				return getTypes();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				return getRules();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__ANALYSER_INFO:
@@ -189,8 +161,9 @@ public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRu
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
-				setType((Metaclass)newValue);
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPES:
+				getTypes().clear();
+				getTypes().addAll((Collection<? extends Metaclass>)newValue);
 				return;
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				getRules().clear();
@@ -211,8 +184,8 @@ public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRu
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
-				setType((Metaclass)null);
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPES:
+				getTypes().clear();
 				return;
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				getRules().clear();
@@ -232,8 +205,8 @@ public class ConflictingRuleSetImpl extends ProblemImpl implements ConflictingRu
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPE:
-				return type != null;
+			case AtlErrorPackage.CONFLICTING_RULE_SET__TYPES:
+				return types != null && !types.isEmpty();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__RULES:
 				return rules != null && !rules.isEmpty();
 			case AtlErrorPackage.CONFLICTING_RULE_SET__ANALYSER_INFO:

@@ -14,6 +14,7 @@ import anatlyzer.atl.graph.RuleFilterNode;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -23,13 +24,13 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class SubsumptionNode extends AbstractDependencyNode {
 
-	private Metaclass type;
+	private Metaclass[] types;
 	private ArrayList<InternalRuleExecution> nodes = new ArrayList<InternalRuleExecution>();
 	private MatchedRule r1;
 	private MatchedRule r2;
 
-	public SubsumptionNode(Metaclass type, MatchedRule r1, MatchedRule r2) {
-		this.type = type;
+	public SubsumptionNode(Metaclass[] types, MatchedRule r1, MatchedRule r2) {
+		this.types = types;
 		this.r1 = r1;
 		this.r2 = r2;
 		
@@ -56,16 +57,35 @@ public class SubsumptionNode extends AbstractDependencyNode {
 	}
 	@Override
 	public OclExpression genCSP(CSPModel model, GraphNode previous) {
-
-		OperationCallExp allInstances = model.createAllInstances(type);
-		IteratorExp exists = model.createIterator(allInstances, "exists");
-		anatlyzer.atlext.OCL.Iterator it = exists.getIterators().get(0);
+		// Similar to rule conflict
+		Iterator[] iterators = new Iterator[types.length];
+		
+		IteratorExp outerExists = null;
+		IteratorExp innnerExists = null;
+		for(int i = 0; i < types.length; i++) {
+			OperationCallExp allInstances = model.createAllInstances(types[i]);
+			IteratorExp exists = model.createIterator(allInstances, "exists");
+			anatlyzer.atlext.OCL.Iterator it = exists.getIterators().get(0);
+			
+			if ( innnerExists != null ) {
+				innnerExists.setBody(exists);
+			} else {
+				outerExists = exists;
+			}
+			innnerExists = exists;
+			
+			iterators[i] = it;
+		}
+		
 		
 		OclExpression r1_filter = null;
 		if ( r1.getInPattern().getFilter() == null ) {
 			r1_filter = model.createBooleanLiteral(true);
 		} else {
-			model.addToScope(r1.getInPattern().getElements().get(0), it);
+			for(int i = 0; i < iterators.length; i++) {
+				model.addToScope(r1.getInPattern().getElements().get(i), iterators[i]);
+			}
+			// model.addToScope(r1.getInPattern().getElements().get(0), it);
 			r1_filter = model.gen(r1.getInPattern().getFilter());
 		}
 		
@@ -73,16 +93,19 @@ public class SubsumptionNode extends AbstractDependencyNode {
 		if ( r2.getInPattern().getFilter() == null ) {
 			r2_filter = model.createBooleanLiteral(true);
 		} else {
-			model.addToScope(r2.getInPattern().getElements().get(0), it);
+			// model.addToScope(r2.getInPattern().getElements().get(0), it);
+			for(int i = 0; i < iterators.length; i++) {
+				model.addToScope(r2.getInPattern().getElements().get(i), iterators[i]);
+			}
 			r2_filter = model.gen(r2.getInPattern().getFilter());
 		}
 
 		// check r2 /\ ~r1
 		OperatorCallExp toCheck = model.createBinaryOperator(r2_filter, model.negateExpression(r1_filter), "and");
 		
-		exists.setBody(toCheck);
+		innnerExists.setBody(toCheck);
 		
-		return exists;
+		return outerExists;
 	}
 
 	/**
@@ -97,7 +120,8 @@ public class SubsumptionNode extends AbstractDependencyNode {
 	 */
 	@Override
 	public void genErrorSlice(ErrorSlice slice) {
-		slice.addMetaclassNeededInError(type.getKlass());
+		for(Metaclass type : types) 
+			slice.addMetaclassNeededInError(type.getKlass());
 		for (InternalRuleExecution node : nodes) {
 			node.genErrorSlice(slice);
 		}

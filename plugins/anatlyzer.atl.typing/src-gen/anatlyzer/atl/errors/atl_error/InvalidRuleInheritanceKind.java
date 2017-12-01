@@ -29,6 +29,14 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	DIFFERENT_NUMBER_OF_IPE(0, "DIFFERENT_NUMBER_OF_IPE", "DIFFERENT_NUMBER_OF_IPE"),
 
 	/**
+	 * The '<em><b>DIFFERENT IPE NAMES</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DIFFERENT_IPE_NAMES_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DIFFERENT_IPE_NAMES(1, "DIFFERENT_IPE_NAMES", "DIFFERENT_IPE_NAMES"), /**
 	 * The '<em><b>OTHER</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -36,7 +44,7 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OTHER(1, "OTHER", "OTHER");
+	OTHER(2, "OTHER", "OTHER");
 
 	/**
 	 * The '<em><b>DIFFERENT NUMBER OF IPE</b></em>' literal value.
@@ -54,6 +62,21 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	public static final int DIFFERENT_NUMBER_OF_IPE_VALUE = 0;
 
 	/**
+	 * The '<em><b>DIFFERENT IPE NAMES</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>DIFFERENT IPE NAMES</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DIFFERENT_IPE_NAMES
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DIFFERENT_IPE_NAMES_VALUE = 1;
+
+	/**
 	 * The '<em><b>OTHER</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -66,7 +89,7 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int OTHER_VALUE = 1;
+	public static final int OTHER_VALUE = 2;
 
 	/**
 	 * An array of all the '<em><b>Invalid Rule Inheritance Kind</b></em>' enumerators.
@@ -77,6 +100,7 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	private static final InvalidRuleInheritanceKind[] VALUES_ARRAY =
 		new InvalidRuleInheritanceKind[] {
 			DIFFERENT_NUMBER_OF_IPE,
+			DIFFERENT_IPE_NAMES,
 			OTHER,
 		};
 
@@ -92,6 +116,8 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static InvalidRuleInheritanceKind get(String literal) {
@@ -108,6 +134,8 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static InvalidRuleInheritanceKind getByName(String name) {
@@ -124,11 +152,14 @@ public enum InvalidRuleInheritanceKind implements Enumerator {
 	 * Returns the '<em><b>Invalid Rule Inheritance Kind</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static InvalidRuleInheritanceKind get(int value) {
 		switch (value) {
 			case DIFFERENT_NUMBER_OF_IPE_VALUE: return DIFFERENT_NUMBER_OF_IPE;
+			case DIFFERENT_IPE_NAMES_VALUE: return DIFFERENT_IPE_NAMES;
 			case OTHER_VALUE: return OTHER;
 		}
 		return null;

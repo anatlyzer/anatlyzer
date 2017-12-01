@@ -571,6 +571,15 @@ public interface AtlErrorFactory extends EFactory {
 	GenericLocalProblem createGenericLocalProblem();
 
 	/**
+	 * Returns a new object of class '<em>Atl Parse Error</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Atl Parse Error</em>'.
+	 * @generated
+	 */
+	AtlParseError createAtlParseError();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

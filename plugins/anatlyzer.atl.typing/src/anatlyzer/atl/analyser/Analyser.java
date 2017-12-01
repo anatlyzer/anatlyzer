@@ -43,7 +43,7 @@ public class Analyser implements IAnalyserResult {
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
 	protected int stage = 0;
-	protected boolean doErrorRefinement = true;
+	protected boolean doErrorRefinement = false;
 
 	protected ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	

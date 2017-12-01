@@ -29,6 +29,7 @@ import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollect
 import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
+import anatlyzer.atl.errors.atl_error.AtlParseError;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingInplaceInvalid;
@@ -966,6 +967,19 @@ public class ErrorModel {
 		return AnalyserContext.getTypingModel().newTypeErrorType(error);
 	}
 
+	public void signalParseError(String fileName, String message, String location) {
+		AtlParseError error = AtlErrorFactory.eINSTANCE.createAtlParseError();
+		error.setLocation(location);
+		error.setElement(null);
+		error.setFileLocation(fileName);
+		error.setStatus(ProblemStatus.ERROR_CONFIRMED);
+		
+		result.getProblems().add(error);
+		
+		error.setDescription(message);
+	}
+
+	
 	public void signalCannonInstantiateAbstractClass(Metaclass m, LocatedElement node) {
 		CannotInstantiateAbstractClass error = AtlErrorFactory.eINSTANCE.createCannotInstantiateAbstractClass();
 		initProblem(error, node);

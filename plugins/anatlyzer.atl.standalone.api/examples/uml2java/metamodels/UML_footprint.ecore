@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="ASCII"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="uml_footprint" nsURI="http://uml_footprint" nsPrefix="uml_footprint">
   <eAnnotations source="UML Footprint"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="//EncapsulatedClassifier //BehavioredClassifier"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="//PackageableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EReference" eSuperTypes="//EStructuralFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EDataType" eSuperTypes="//EClassifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EClassifier" abstract="true" eSuperTypes="//ENamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EGenericType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EFactory" eSuperTypes="//EModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EEnum" eSuperTypes="//EDataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EModelElement" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EOperation" eSuperTypes="//ETypedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Property" eSuperTypes="//StructuralFeature //ConnectableElement //DeploymentTarget"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="//Type"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="//Namespace //RedefinableElement //Type //TemplateableElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1" eType="//Property"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EEnumLiteral" eSuperTypes="//ENamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="//PackageableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EAnnotation" eSuperTypes="//EModelElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EClass" eSuperTypes="//EClassifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EStructuralFeature" abstract="true" eSuperTypes="//ETypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Class" eSuperTypes="//EncapsulatedClassifier //BehavioredClassifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EPackage" eSuperTypes="//ENamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true" eSuperTypes="//Element">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
-  <eClassifiers xsi:type="ecore:EClass" name="EncapsulatedClassifier" abstract="true" eSuperTypes="//StructuredClassifier"/>
-  <eClassifiers xsi:type="ecore:EClass" name="StructuredClassifier" abstract="true" eSuperTypes="//Classifier"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Namespace" abstract="true" eSuperTypes="//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Classifier" abstract="true" eSuperTypes="//Namespace //RedefinableElement //Type //TemplateableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1" eType="//Property"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true" eSuperTypes="//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ETypedElement" abstract="true" eSuperTypes="//ENamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ENamedElement" abstract="true" eSuperTypes="//EModelElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Element" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Namespace" abstract="true" eSuperTypes="//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="RedefinableElement" abstract="true" eSuperTypes="//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="PackageableElement" abstract="true" eSuperTypes="//NamedElement //ParameterableElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ParameterableElement" abstract="true" eSuperTypes="//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="TemplateableElement" abstract="true" eSuperTypes="//Element"/>
-  <eClassifiers xsi:type="ecore:EClass" name="BehavioredClassifier" abstract="true" eSuperTypes="//Classifier"/>
   <eClassifiers xsi:type="ecore:EClass" name="StructuralFeature" abstract="true" eSuperTypes="//Feature //TypedElement //MultiplicityElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Feature" abstract="true" eSuperTypes="//RedefinableElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="MultiplicityElement" abstract="true" eSuperTypes="//Element"/>
   <eClassifiers xsi:type="ecore:EClass" name="ConnectableElement" abstract="true" eSuperTypes="//TypedElement //ParameterableElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="DeploymentTarget" abstract="true" eSuperTypes="//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EncapsulatedClassifier" abstract="true" eSuperTypes="//StructuredClassifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuredClassifier" abstract="true" eSuperTypes="//Classifier"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BehavioredClassifier" abstract="true" eSuperTypes="//Classifier"/>
 </ecore:EPackage>

@@ -425,6 +425,7 @@ package atl_error {
 	
 	enum InvalidRuleInheritanceKind {
 		DIFFERENT_NUMBER_OF_IPE;
+		DIFFERENT_IPE_NAMES;
 		OTHER;
 	}
 	
@@ -533,6 +534,13 @@ package atl_error {
 	class GenericLocalProblem extends LocalProblem {
 		attr String[1] genericKind;
 	}
+
+	@description(name="Parse error", text="", example="")	 
+	@info(prec="static", path="no", severity="error-load", when="always", kind="trafo-integrity", phase="parsing", source="")
+	class AtlParseError extends LocalProblem {
+		attr String[1] genericKind;
+	}
+	
 }
 
 @namespace(uri="http://bento/analysis/atl/analysis/recovery", prefix="atl_recovery")

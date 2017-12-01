@@ -380,9 +380,17 @@ public class AnalysisViewBatchNodes {
 			HashSet<Node> nodes = element.getRootNodes();
 			Node first = nodes.iterator().next();
 			
+			System.out.println("Generated nodes: ");
+			first.getGeneratedNodes().forEach(o -> System.out.println(o.getOut().getOutPattern().getRule().getName()));
+			
 			WorkbenchUtil.goToEditorLocation(first.getOut().getFileLocation(), first.getOut().getLocation());   
 		}
 
+		@Override
+		public ImageDescriptor getImage() {
+			return Images.unconnected_cluster_16x16;
+		}
+		
 	}
 
 	

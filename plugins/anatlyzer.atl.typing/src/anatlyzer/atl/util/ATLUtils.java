@@ -383,6 +383,10 @@ public class ATLUtils {
 			map(o -> (SimpleOutPatternElement) o).collect(Collectors.toList());
 	}
 	
+	public static OutPatternElement getMainOutputPatternElement(RuleWithPattern r) {
+		return getAllOutputPatternElement(r).get(0);
+	}
+	
 	public static List<OutPatternElement> getAllOutputPatternElement(RuleWithPattern r) {
 		if ( r == null )
 			throw new IllegalArgumentException();

@@ -55,7 +55,7 @@ public class AnalyserExecutor {
 	
 	public AnalyserData exec(IResource resource, InputStream stream, boolean addToIndex) throws IOException, CoreException, CannotLoadMetamodel, PreconditionParseError  {
 		IFile file = (IFile) resource;
-		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file, stream, false);
+		EMFModel atlEMFModel = AtlEngineUtils.loadATLFile(file, stream, true);
 		if ( atlEMFModel == null )
 			return null;
 		

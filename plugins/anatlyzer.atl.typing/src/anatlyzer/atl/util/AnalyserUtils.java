@@ -23,6 +23,7 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.ExtendTransformation;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
@@ -432,5 +433,19 @@ public class AnalyserUtils {
 	
 	public static boolean isAddedEOperation(ModuleElement r) {
 		return ExtendTransformation.isAddedEOperation(r);
+	}
+
+	public static List<MetamodelNamespace> getInputNamespaces(IAnalyserResult analysis) {
+		return ATLUtils.getModelInfo(analysis.getATLModel()).stream().
+			filter(m -> m.isInput()).
+			map(m -> analysis.getNamespaces().getNamespace(m.getMetamodelName())).
+			collect(Collectors.toList());		
+	}
+	
+	public static List<MetamodelNamespace> getOutputNamespaces(IAnalyserResult analysis) {
+		return ATLUtils.getModelInfo(analysis.getATLModel()).stream().
+			filter(m -> m.isOutput()).
+			map(m -> analysis.getNamespaces().getNamespace(m.getMetamodelName())).
+			collect(Collectors.toList());		
 	}
 }

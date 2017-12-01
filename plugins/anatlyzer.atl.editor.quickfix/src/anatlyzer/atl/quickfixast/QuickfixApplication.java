@@ -482,13 +482,15 @@ public class QuickfixApplication {
 
 //
 // 		This is without incremental analysis (safer...)
-//
-		AnalysisResult result = this.qfx.getAnalysisResult();
-		String loc = result.getATLModel().getMainFileLocation();
-		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(loc));
-		AnalysisIndex.getInstance().clean(f);
-		new AnATLyzerBuilder().checkFromText(f, doc.get());
+//	
 		
+		if ( this.qfx != null ) {
+			AnalysisResult result = this.qfx.getAnalysisResult();
+			String loc = result.getATLModel().getMainFileLocation();
+			IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(loc));
+			AnalysisIndex.getInstance().clean(f);
+			new AnATLyzerBuilder().checkFromText(f, doc.get());
+		}
 		
 //		AnalysisResult result = this.qfx.getAnalysisResult();
 //

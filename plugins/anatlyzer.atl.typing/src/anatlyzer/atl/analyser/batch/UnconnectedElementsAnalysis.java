@@ -200,6 +200,9 @@ public class UnconnectedElementsAnalysis {
 		
 		@Override
 		public void inMatchedRule(MatchedRule self) {
+			if ( self.isIsAbstract() )
+				return;
+			
 			OutPatternElement output1 = getMainOutputElement(self);
 			if ( output1 == null )
 				return;
@@ -322,7 +325,22 @@ public class UnconnectedElementsAnalysis {
 			return links;
 		}
 
+		public HashSet<Node> getGeneratedNodes() {
+			return computeGeneratedNodes(new HashSet<UnconnectedElementsAnalysis.Node>());
+		}
 
+		protected HashSet<Node> computeGeneratedNodes(HashSet<Node> n) {
+			if ( n.contains(this) )
+				return n;
+			
+			n.add(this);
+			for (Link l : links) {
+				n = l.tgt.computeGeneratedNodes(n);
+			}
+			
+			return n;
+		}
+		
 		public void setRootNode(boolean isClusterBeginning) {
 			this.isRootNode = isClusterBeginning;
 		}
@@ -376,8 +394,7 @@ public class UnconnectedElementsAnalysis {
 	private OutPatternElement getMainOutputElement(MatchedRule self) {
 		if ( self.getOutPattern() == null || self.getOutPattern().getElements().isEmpty() )
 			return null;
-		
-		OutPatternElement output = self.getOutPattern().getElements().get(0);
-		return output;
+
+		return ATLUtils.getMainOutputPatternElement(self);
 	}	
 }

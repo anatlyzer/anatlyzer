@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.dialogs.Dialog;
@@ -40,9 +41,12 @@ import org.eclipse.swt.layout.GridData;
 import org.w3c.dom.Node;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
+import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 import anatlyzer.ide.dialogs.ITransformationMapping.MetamodelElementMapping;
 import anatlyzer.ide.utils.UiUtils;
@@ -70,6 +74,7 @@ public class MappingComposite extends Composite {
 	private Button btnClassClassMapping;
 	private Button btnFeatureClassMapping;
 	private StyledText styledTextInfo;
+	private MetamodelMappingViewSupport mappingViewSupport;
 
 	public MappingComposite(Composite parent) {
 		super(parent, SWT.NONE);
@@ -150,7 +155,8 @@ public class MappingComposite extends Composite {
 		Color defaultColor = new Color(parent.getShell().getDisplay(), new RGB(247, 206, 206));
 		Color selectedColor = new Color(parent.getShell().getDisplay(), new RGB(147, 86, 111));
 		TreeMapperUIConfigProvider uiConfig = new TreeMapperUIConfigProvider(defaultColor, 1, selectedColor, 3);
-		mapper = new TreeMapper<MetamodelElementMapping, EModelElement, EModelElement>(parent, new MetamodelMappingViewSupport(), uiConfig);
+		mappingViewSupport = new MetamodelMappingViewSupport();
+		mapper = new TreeMapper<MetamodelElementMapping, EModelElement, EModelElement>(parent, mappingViewSupport, uiConfig);
 		
 		mapper.getControl().setWeights(new int[] { 3, 1, 3 });
 		
@@ -207,7 +213,8 @@ public class MappingComposite extends Composite {
 
 	public void setTransformationMapping(ITransformationMapping tm) {
 		this.tm = tm;
-
+		this.mappingViewSupport.setTransformationMapping(tm);
+		
 		IContentProvider srcContent = UiUtils.getContentProviderForMetamodelViewer(tm.getInputMetamodel());
 		IContentProvider tgtContent = UiUtils.getContentProviderForMetamodelViewer(tm.getInputMetamodel());
 
@@ -271,9 +278,23 @@ public class MappingComposite extends Composite {
 	
 	public static class MetamodelMappingViewSupport implements ISemanticTreeMapperSupport<MetamodelElementMapping, EModelElement, EModelElement> {
 
+		private ITransformationMapping tm;
+
 		@Override
 		public MetamodelElementMapping createSemanticMappingObject(EModelElement leftItem, EModelElement rightItem) {
-			return new MetamodelElementMapping(null, leftItem, rightItem);
+			if ( tm == null )
+				return null;
+			
+			if ( ! (leftItem instanceof EClass && rightItem instanceof EClass) ) {
+				return null;
+			}
+			
+			return tm.addMapping((EClass) leftItem, (EClass) rightItem); 
+			// return new MetamodelElementMapping(null, leftItem, rightItem);
+		}
+
+		public void setTransformationMapping(ITransformationMapping tm) {
+			this.tm = tm;
 		}
 
 		@Override

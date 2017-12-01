@@ -4,11 +4,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.handlers.HandlerUtil;
-
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.editor.AtlEditorExt;
@@ -50,19 +52,22 @@ public class ShowMappingHandler extends AbstractHandler {
 			
 			//MappingDialog dialog = new MappingDialog(HandlerUtil.getActiveShell(event), new AtlTransformationMapping(r.getAnalyser()));
 			//dialog.open();
-			showView(r.getAnalyser());
+			
+			IDocument doc = ((TextEditor) atlEditor).getDocumentProvider().getDocument(atlEditor.getEditorInput());
+			
+			showView(r.getAnalyser(), doc);
 		}
 		
 		return null;
 	}
 
-	private void showView(IAnalyserResult analysis) {
+	private void showView(IAnalyserResult analysis, IDocument doc) {
 		MappingView view;
 		try {
 			view = (MappingView) PlatformUI
 					.getWorkbench().getActiveWorkbenchWindow()
 					.getActivePage().showView(MappingView.ID);
-			view.setViewData(new AtlTransformationMapping(analysis));
+			view.setViewData(new AtlTransformationMapping(analysis, doc));
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}

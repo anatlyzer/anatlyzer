@@ -14,6 +14,7 @@ import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
+import anatlyzer.atl.errors.atl_error.AtlParseError;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
 import anatlyzer.atl.errors.atl_error.BindingPossiblyUnresolved;
 import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
@@ -107,8 +108,9 @@ public class ErrorPathGenerator {
 			generatePath_AccessToUndefinedValue((AccessToUndefinedValue) p);
 		} else if ( p instanceof AccessToUndefinedValue_ThroughEmptyCollection ) {
 			generatePath_AccessToUndefinedValue_ThroughEmptyCollection((AccessToUndefinedValue_ThroughEmptyCollection) p);
-		} else {
-			generatePath_GenericError((LocalProblem) p);
+		} else {			
+			if ( ! (p instanceof AtlParseError) )
+				generatePath_GenericError((LocalProblem) p);
 		}
 	
 		return currentPath;

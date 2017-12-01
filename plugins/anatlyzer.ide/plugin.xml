@@ -19,7 +19,7 @@
             <with
                   variable="activeEditorId">
                <equals
-                     value="org.eclipse.m2m.atl.adt.editor.AtlEditor">
+                     value="anatlyzer.atl.editor.AtlEditorExt">
                </equals>
             </with>
          </activeWhen>
@@ -29,7 +29,7 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="anatlyzer.ide.commands.ShowMapping"
-            contextId="org.eclipse.ui.contexts.window"
+            
             sequence="M1+M3+M"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>

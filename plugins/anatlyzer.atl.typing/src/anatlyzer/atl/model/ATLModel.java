@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -76,7 +77,13 @@ public class ATLModel {
 		
 		errors = new ErrorModel(resource);
 		typing = new TypingModel(resource);
-		hasSyntaxErrors = resource.getErrors().size() > 0;
+		
+		hasSyntaxErrors = original.getErrors().size() > 0;
+		if ( hasSyntaxErrors ) {
+			for (Diagnostic diagnostic : original.getErrors()) {
+				errors.signalParseError(diagnostic.getLocation(), diagnostic.getMessage(), diagnostic.getLine() + ":" + diagnostic.getColumn());
+			}
+		}
 	}
 
 

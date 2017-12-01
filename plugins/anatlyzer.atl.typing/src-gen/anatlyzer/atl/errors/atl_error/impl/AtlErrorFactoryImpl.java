@@ -118,6 +118,7 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 			case AtlErrorPackage.BINDING_INPLACE_INVALID: return createBindingInplaceInvalid();
 			case AtlErrorPackage.CANNOT_INSTANTIATE_ABSTRACT_CLASS: return createCannotInstantiateAbstractClass();
 			case AtlErrorPackage.GENERIC_LOCAL_PROBLEM: return createGenericLocalProblem();
+			case AtlErrorPackage.ATL_PARSE_ERROR: return createAtlParseError();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -765,6 +766,16 @@ public class AtlErrorFactoryImpl extends EFactoryImpl implements AtlErrorFactory
 	public GenericLocalProblem createGenericLocalProblem() {
 		GenericLocalProblemImpl genericLocalProblem = new GenericLocalProblemImpl();
 		return genericLocalProblem;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AtlParseError createAtlParseError() {
+		AtlParseErrorImpl atlParseError = new AtlParseErrorImpl();
+		return atlParseError;
 	}
 
 	/**

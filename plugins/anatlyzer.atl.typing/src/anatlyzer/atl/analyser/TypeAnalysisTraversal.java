@@ -54,6 +54,7 @@ import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
@@ -291,6 +292,24 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				errors().signalInvalidRuleInheritance(self.getInPattern(), 
 						InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE,
 						"Different number of input elements in the super rule");
+			} else {
+				// Check that all IPE's has the same name
+				for (InPatternElement supIPE : sup.getInPattern().getElements()) {
+					boolean notFound = true;
+					for (InPatternElement ipe : self.getInPattern().getElements()) {
+						if ( supIPE.getVarName().equals(ipe.getVarName()) ) {
+							notFound = false;
+							break;
+						}
+					}
+					
+					if ( notFound ) {
+						errors().signalInvalidRuleInheritance(self.getInPattern(), 
+								InvalidRuleInheritanceKind.DIFFERENT_IPE_NAMES,
+								"No input variable " + supIPE.getVarName() + " found in sub-rule: " + self.getName());						
+					}
+				}
+				
 			}
 			
 			// 2. Invariant to Check Co-Variance of Input Elements

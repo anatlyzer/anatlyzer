@@ -12,6 +12,7 @@ import org.eclipse.emf.common.util.EMap;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getDescription <em>Description</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.common.util.EMap;
  *   <li>{@link anatlyzer.atl.errors.Problem#getIgnoredByUser <em>Ignored By User</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.Problem#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem()
  * @model abstract="true"
@@ -194,7 +194,7 @@ public interface Problem extends AnalysisInfo {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Data</em>' map.
 	 * @see anatlyzer.atl.errors.AnalysisResultPackage#getProblem_Data()
-	 * @model mapType="anatlyzer.atl.errors.StringToObjectMap<org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EJavaObject>" transient="true"
+	 * @model mapType="anatlyzer.atl.errors.StringToObjectMap&lt;org.eclipse.emf.ecore.EString, org.eclipse.emf.ecore.EJavaObject&gt;" transient="true"
 	 * @generated
 	 */
 	EMap<String, Object> getData();

@@ -10,6 +10,7 @@ import anatlyzer.atl.errors.atl_error.AmbiguousTargetModelReference;
 import anatlyzer.atl.errors.atl_error.AssignmentToReadonlyFeature;
 import anatlyzer.atl.errors.atl_error.AtlErrorFactory;
 import anatlyzer.atl.errors.atl_error.AtlErrorPackage;
+import anatlyzer.atl.errors.atl_error.AtlParseError;
 import anatlyzer.atl.errors.atl_error.AttributeNotFoundInThisModule;
 import anatlyzer.atl.errors.atl_error.BatchTargetConformanceIssue;
 import anatlyzer.atl.errors.atl_error.BindingExpectedOneAssignedMany;
@@ -658,6 +659,13 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * @generated
 	 */
 	private EClass genericLocalProblemEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass atlParseErrorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -2157,6 +2165,24 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAtlParseError() {
+		return atlParseErrorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAtlParseError_GenericKind() {
+		return (EAttribute)atlParseErrorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getNoBindingForCompulsoryFeatureKind() {
 		return noBindingForCompulsoryFeatureKindEEnum;
 	}
@@ -2433,6 +2459,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		genericLocalProblemEClass = createEClass(GENERIC_LOCAL_PROBLEM);
 		createEAttribute(genericLocalProblemEClass, GENERIC_LOCAL_PROBLEM__GENERIC_KIND);
 
+		atlParseErrorEClass = createEClass(ATL_PARSE_ERROR);
+		createEAttribute(atlParseErrorEClass, ATL_PARSE_ERROR__GENERIC_KIND);
+
 		// Create enums
 		noBindingForCompulsoryFeatureKindEEnum = createEEnum(NO_BINDING_FOR_COMPULSORY_FEATURE_KIND);
 		invalidRuleInheritanceKindEEnum = createEEnum(INVALID_RULE_INHERITANCE_KIND);
@@ -2563,6 +2592,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		bindingInplaceInvalidEClass.getESuperTypes().add(this.getBindingProblem());
 		cannotInstantiateAbstractClassEClass.getESuperTypes().add(this.getLocalProblem());
 		genericLocalProblemEClass.getESuperTypes().add(this.getLocalProblem());
+		atlParseErrorEClass.getESuperTypes().add(this.getLocalProblem());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(localProblemEClass, LocalProblem.class, "LocalProblem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2800,6 +2830,9 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		initEClass(genericLocalProblemEClass, GenericLocalProblem.class, "GenericLocalProblem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getGenericLocalProblem_GenericKind(), ecorePackage.getEString(), "genericKind", null, 1, 1, GenericLocalProblem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(atlParseErrorEClass, AtlParseError.class, "AtlParseError", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAtlParseError_GenericKind(), ecorePackage.getEString(), "genericKind", null, 1, 1, AtlParseError.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.class, "NoBindingForCompulsoryFeatureKind");
 		addEEnumLiteral(noBindingForCompulsoryFeatureKindEEnum, NoBindingForCompulsoryFeatureKind.IN_NORMAL_RULE);
@@ -2807,6 +2840,7 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 
 		initEEnum(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.class, "InvalidRuleInheritanceKind");
 		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.DIFFERENT_NUMBER_OF_IPE);
+		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.DIFFERENT_IPE_NAMES);
 		addEEnumLiteral(invalidRuleInheritanceKindEEnum, InvalidRuleInheritanceKind.OTHER);
 
 		// Create annotations
@@ -3228,6 +3262,14 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 		   source, 
 		   new String[] {
 			 "name", "Generic local problem",
+			 "text", "",
+			 "example", ""
+		   });	
+		addAnnotation
+		  (atlParseErrorEClass, 
+		   source, 
+		   new String[] {
+			 "name", "Parse error",
 			 "text", "",
 			 "example", ""
 		   });
@@ -3912,6 +3954,18 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "when", "model-dep",
 			 "kind", "src-typing",
 			 "phase", "typing",
+			 "source", ""
+		   });	
+		addAnnotation
+		  (atlParseErrorEClass, 
+		   source, 
+		   new String[] {
+			 "prec", "static",
+			 "path", "no",
+			 "severity", "error-load",
+			 "when", "always",
+			 "kind", "trafo-integrity",
+			 "phase", "parsing",
 			 "source", ""
 		   });
 	}

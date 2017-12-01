@@ -56,6 +56,7 @@
       </genEnums>
       <genEnums typeSafeEnumCompatible="false" ecoreEnum="errors.ecore#//atl_error/InvalidRuleInheritanceKind">
         <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_NUMBER_OF_IPE"/>
+        <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/DIFFERENT_IPE_NAMES"/>
         <genEnumLiterals ecoreEnumLiteral="errors.ecore#//atl_error/InvalidRuleInheritanceKind/OTHER"/>
       </genEnums>
       <genClasses image="false" ecoreClass="errors.ecore#//atl_error/LocalProblem">
@@ -286,6 +287,9 @@
       </genClasses>
       <genClasses ecoreClass="errors.ecore#//atl_error/GenericLocalProblem">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/GenericLocalProblem/genericKind"/>
+      </genClasses>
+      <genClasses ecoreClass="errors.ecore#//atl_error/AtlParseError">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute errors.ecore#//atl_error/AtlParseError/genericKind"/>
       </genClasses>
     </nestedGenPackages>
     <nestedGenPackages prefix="AtlRecovery" basePackage="anatlyzer.atl.errors" disposableProviderFactory="true"

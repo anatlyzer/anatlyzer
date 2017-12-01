@@ -10,14 +10,22 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.nebula.widgets.treemapper.IMappingFilter;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.quickfixast.ASTUtils;
+import anatlyzer.atl.quickfixast.InDocumentSerializer;
+import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
 
@@ -28,9 +36,11 @@ public class AtlTransformationMapping implements ITransformationMapping {
 	private Resource tgtResource;
 	private List<MetamodelElementMapping> mappings;
 	private boolean removeNotUsed = true;
+	private IDocument document;
 
-	public AtlTransformationMapping(IAnalyserResult analysis) {
+	public AtlTransformationMapping(IAnalyserResult analysis, IDocument doc) {
 		this.analysis = analysis;
+		this.document = doc;
 		
 		ModelInfo src = ATLUtils.getModelInfo(analysis.getATLModel()).stream().filter(m -> m.isInput()).findAny().get();
 		ModelInfo tgt = ATLUtils.getModelInfo(analysis.getATLModel()).stream().filter(m -> m.isOutput()).findAny().get();
@@ -115,11 +125,40 @@ public class AtlTransformationMapping implements ITransformationMapping {
 	}
 
 	
-	private void addMapping(List<MetamodelElementMapping> mappings, RuleWithPattern r, EClass src, EClass tgt) {
-		mappings.add(new MetamodelElementMapping(r, src, tgt));
+	private MetamodelElementMapping addMapping(List<MetamodelElementMapping> mappings, RuleWithPattern r, EClass src, EClass tgt) {
+		MetamodelElementMapping newMapping = new MetamodelElementMapping(r, src, tgt);
+		mappings.add(newMapping);
 		srcUses.add(src);
 		tgtUses.add(tgt);
+		return newMapping;
 	}
-	
+
+	@Override
+	public MetamodelElementMapping addMapping(EClass src, EClass tgt) {		
+		MatchedRule mr =  ATLFactory.eINSTANCE.createMatchedRule();
+		String ruleName = src.getName() + "2" + tgt.getName();
+		mr.setName(ruleName);
+						
+		Metaclass srcMetaclass = AnalyserUtils.getInputNamespaces(analysis).stream().
+			filter(ns -> ns.hasClass(src)).
+			findFirst().
+			map(ns -> ns.getMetaclassCached(src)).orElseThrow(IllegalStateException::new);
+		
+		Metaclass tgtMetaclass = AnalyserUtils.getOutputNamespaces(analysis).stream().
+				filter(ns -> ns.hasClass(tgt)).
+				findFirst().
+				map(ns -> ns.getMetaclassCached(tgt)).orElseThrow(IllegalStateException::new);
+			
+		ASTUtils.completeRule(mr, srcMetaclass, tgtMetaclass, null);
+
+		QuickfixApplication qfa = new QuickfixApplication(null);
+		qfa.putIn(analysis.getATLModel().getRoot(), ATLPackage.Literals.MODULE__ELEMENTS, () -> {
+			return mr;
+		});
+
+		new InDocumentSerializer(qfa, document).serialize();
+		
+		return addMapping(this.mappings, mr, src, tgt);
+	}
 	
 }

@@ -35,6 +35,7 @@ public class Images {
 	public static final ImageDescriptor delayed_analysis_16x16;
 
 	public static final ImageDescriptor refresh_16x16;
+	public static final ImageDescriptor unconnected_cluster_16x16;
 	
 	
 	static {
@@ -54,6 +55,7 @@ public class Images {
 		local_problem_16x16 = Activator.getImageDescriptor("icons/local_problem_16x16.png");	
 		local_problem_warning_16x16 = Activator.getImageDescriptor("icons/local_problem_warning_16x16.png");	
 		unconnected_16x16 = Activator.getImageDescriptor("icons/unconnected_16x16.png");	
+		unconnected_cluster_16x16 = Activator.getImageDescriptor("icons/unconnected_cluster_16x16.png");	
 
 		find_witness_16x16 = Activator.getImageDescriptor("icons/find_witness_16x16.png");	
 

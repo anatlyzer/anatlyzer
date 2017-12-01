@@ -263,7 +263,7 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 				c = initConfigurationForAtl(file);
 			}
 			
-			deleteMarkers(file);
+			// deleteMarkers(file);
 
 			AtlNbCharFile help = null;
 			try {				

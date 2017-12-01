@@ -870,7 +870,8 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="InvalidRuleInheritanceKind">
       <eLiterals name="DIFFERENT_NUMBER_OF_IPE"/>
-      <eLiterals name="OTHER" value="1"/>
+      <eLiterals name="DIFFERENT_IPE_NAMES" value="1"/>
+      <eLiterals name="OTHER" value="2"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AmbiguousTargetModelReference" eSuperTypes="#//atl_error/LocalProblem">
       <eAnnotations source="disabled"/>
@@ -1141,6 +1142,24 @@
         <details key="when" value="model-dep"/>
         <details key="kind" value="src-typing"/>
         <details key="phase" value="typing"/>
+        <details key="source" value=""/>
+      </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="genericKind" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AtlParseError" eSuperTypes="#//atl_error/LocalProblem">
+      <eAnnotations source="description">
+        <details key="name" value="Parse error"/>
+        <details key="text" value=""/>
+        <details key="example" value=""/>
+      </eAnnotations>
+      <eAnnotations source="info">
+        <details key="prec" value="static"/>
+        <details key="path" value="no"/>
+        <details key="severity" value="error-load"/>
+        <details key="when" value="always"/>
+        <details key="kind" value="trafo-integrity"/>
+        <details key="phase" value="parsing"/>
         <details key="source" value=""/>
       </eAnnotations>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="genericKind" lowerBound="1"

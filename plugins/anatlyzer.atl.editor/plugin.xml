@@ -85,13 +85,12 @@
             contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
             default="true"
             extensions="atl"
+            id="anatlyzer.atl.editor.AtlEditorExt"
             icon="icons/atl_file.gif"
-            id="org.eclipse.m2m.atl.adt.editor.AtlEditor"
             name="anATLyzer ATL Editor">
-			<!--
-			class="org.eclipse.m2m.atl.adt.ui.editor.AtlEditor"
+            <!--
             id="org.eclipse.m2m.atl.adt.editor.AtlEditor"
-			-->
+            -->
       </editor>
    </extension>
 
@@ -204,6 +203,7 @@
  </extension>
  
  
+ 
     <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -282,26 +282,39 @@
       </menuContribution>
       
    </extension>
+
+    <extension
+          point="org.eclipse.ui.contexts">
+       <context
+             id="anatlyzer.atl.editor"
+             name="AnATLyzer/ATL editing context"
+             parentId="org.eclipse.ui.textEditorScope">
+       </context>
+    </extension>      
       
    <extension point="org.eclipse.ui.bindings">
 		<key sequence="Ctrl+O"
 			commandId="anatlyzer.commands.showTransformationOutline"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-			contextId="org.eclipse.m2m.atl.adt.editor"/>
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
+			
 	</extension>
 
    <extension point="org.eclipse.ui.bindings">
 		<key sequence="Ctrl+B"
 			commandId="anatlyzer.commands.showBindingResolutionOutline"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-			contextId="org.eclipse.m2m.atl.adt.editor"/>
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
 	</extension>
      
    <extension point="org.eclipse.ui.bindings">
 		<key sequence="Ctrl+Alt+R"
 			commandId="anatlyzer.commands.runAnalyser"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-			contextId="org.eclipse.m2m.atl.adt.editor"/>
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
 	</extension>
 
    <extension

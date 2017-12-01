@@ -11410,6 +11410,160 @@ public interface AtlErrorPackage extends EPackage {
 	int GENERIC_LOCAL_PROBLEM_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.impl.AtlParseErrorImpl <em>Atl Parse Error</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlParseErrorImpl
+	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAtlParseError()
+	 * @generated
+	 */
+	int ATL_PARSE_ERROR = 79;
+
+	/**
+	 * The feature id for the '<em><b>Dependents</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__DEPENDENTS = LOCAL_PROBLEM__DEPENDENTS;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__DESCRIPTION = LOCAL_PROBLEM__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__SEVERITY = LOCAL_PROBLEM__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Needs CSP</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__NEEDS_CSP = LOCAL_PROBLEM__NEEDS_CSP;
+
+	/**
+	 * The feature id for the '<em><b>Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__STATUS = LOCAL_PROBLEM__STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ignored By User</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__IGNORED_BY_USER = LOCAL_PROBLEM__IGNORED_BY_USER;
+
+	/**
+	 * The feature id for the '<em><b>Data</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__DATA = LOCAL_PROBLEM__DATA;
+
+	/**
+	 * The feature id for the '<em><b>Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__LOCATION = LOCAL_PROBLEM__LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>File Location</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__FILE_LOCATION = LOCAL_PROBLEM__FILE_LOCATION;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__ELEMENT = LOCAL_PROBLEM__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Displayed Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__DISPLAYED_ELEMENT = LOCAL_PROBLEM__DISPLAYED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Missing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__MISSING = LOCAL_PROBLEM__MISSING;
+
+	/**
+	 * The feature id for the '<em><b>Recovery</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__RECOVERY = LOCAL_PROBLEM__RECOVERY;
+
+	/**
+	 * The feature id for the '<em><b>Generic Kind</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR__GENERIC_KIND = LOCAL_PROBLEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Atl Parse Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR_FEATURE_COUNT = LOCAL_PROBLEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Atl Parse Error</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATL_PARSE_ERROR_OPERATION_COUNT = LOCAL_PROBLEM_OPERATION_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11417,7 +11571,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getNoBindingForCompulsoryFeatureKind()
 	 * @generated
 	 */
-	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 79;
+	int NO_BINDING_FOR_COMPULSORY_FEATURE_KIND = 80;
 
 
 	/**
@@ -11428,7 +11582,7 @@ public interface AtlErrorPackage extends EPackage {
 	 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getInvalidRuleInheritanceKind()
 	 * @generated
 	 */
-	int INVALID_RULE_INHERITANCE_KIND = 80;
+	int INVALID_RULE_INHERITANCE_KIND = 81;
 
 
 	/**
@@ -13069,6 +13223,27 @@ public interface AtlErrorPackage extends EPackage {
 	EAttribute getGenericLocalProblem_GenericKind();
 
 	/**
+	 * Returns the meta object for class '{@link anatlyzer.atl.errors.atl_error.AtlParseError <em>Atl Parse Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Atl Parse Error</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.AtlParseError
+	 * @generated
+	 */
+	EClass getAtlParseError();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atl.errors.atl_error.AtlParseError#getGenericKind <em>Generic Kind</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Generic Kind</em>'.
+	 * @see anatlyzer.atl.errors.atl_error.AtlParseError#getGenericKind()
+	 * @see #getAtlParseError()
+	 * @generated
+	 */
+	EAttribute getAtlParseError_GenericKind();
+
+	/**
 	 * Returns the meta object for enum '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -14516,6 +14691,24 @@ public interface AtlErrorPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute GENERIC_LOCAL_PROBLEM__GENERIC_KIND = eINSTANCE.getGenericLocalProblem_GenericKind();
+
+		/**
+		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.impl.AtlParseErrorImpl <em>Atl Parse Error</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlParseErrorImpl
+		 * @see anatlyzer.atl.errors.atl_error.impl.AtlErrorPackageImpl#getAtlParseError()
+		 * @generated
+		 */
+		EClass ATL_PARSE_ERROR = eINSTANCE.getAtlParseError();
+
+		/**
+		 * The meta object literal for the '<em><b>Generic Kind</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ATL_PARSE_ERROR__GENERIC_KIND = eINSTANCE.getAtlParseError_GenericKind();
 
 		/**
 		 * The meta object literal for the '{@link anatlyzer.atl.errors.atl_error.NoBindingForCompulsoryFeatureKind <em>No Binding For Compulsory Feature Kind</em>}' enum.

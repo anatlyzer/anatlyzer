@@ -53,8 +53,8 @@ public class AtlEngineUtils {
 					String location = (String) eObject.eGet(eObject.eClass().getEStructuralFeature("location"));
 					String description = (String) eObject.eGet(eObject.eClass().getEStructuralFeature("description"));
 
-					String fname = file == null ? "<no-file>" : file.getName();
-					SyntaxError d = new SyntaxError(fname, description + ", " + location, eObject);
+					String fname = file == null ? "<no-file>" : file.getFullPath().toPortableString();
+					SyntaxError d = new SyntaxError(fname, location, description, eObject);
 					if ( atlEMFModel.getResource() == null ) {
 						// Create a dummy element to get the resource initialized
 						Object metaclass = atlEMFModel.getReferenceModel().getMetaElementByName("Module"); 
@@ -85,11 +85,22 @@ public class AtlEngineUtils {
 		private String fileName;
 		private String message;
 		private EObject problem;
+		private String location;
+		private int row;
+		private int col;
 
-		public SyntaxError(String name, String message, EObject p) {
+		public SyntaxError(String name, String location, String message, EObject p) {
 			this.fileName = name;
 			this.message  = message;
 			this.problem = p;
+			
+			String[] pair = location.split(":");
+			if ( pair.length == 2 ) {
+				try {
+					this.row = Integer.parseInt(pair[0]);
+					this.col = Integer.parseInt(pair[1]);
+				} catch ( NumberFormatException e ) { }
+			}
 		}
 
 		@Override
@@ -104,12 +115,12 @@ public class AtlEngineUtils {
 
 		@Override
 		public int getLine() {
-			return 0;
+			return row;
 		}
 
 		@Override
 		public int getColumn() {
-			return 0;
+			return col;
 		}
 
 		@Override

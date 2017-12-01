@@ -388,6 +388,10 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 				return createGenericLocalProblemAdapter();
 			}
 			@Override
+			public Adapter caseAtlParseError(AtlParseError object) {
+				return createAtlParseErrorAdapter();
+			}
+			@Override
 			public Adapter caseAnalysisInfo(AnalysisInfo object) {
 				return createAnalysisInfoAdapter();
 			}
@@ -1522,6 +1526,20 @@ public class AtlErrorAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createGenericLocalProblemAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link anatlyzer.atl.errors.atl_error.AtlParseError <em>Atl Parse Error</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see anatlyzer.atl.errors.atl_error.AtlParseError
+	 * @generated
+	 */
+	public Adapter createAtlParseErrorAdapter() {
 		return null;
 	}
 

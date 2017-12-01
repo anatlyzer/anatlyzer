@@ -10,7 +10,7 @@ package anatlyzer.atl.errors.atl_error;
  *
  *
  * @see anatlyzer.atl.errors.atl_error.AtlErrorPackage#getCollectionOperationOverNoCollectionError()
- * @model annotation="description name='Collection operation over no collection (``$\\rightarrow$\'\' vs. ``.\'\')' example='aClassInstance->select(...)'"
+ * @model annotation="description name='Collection operation over no collection (``$\\rightarrow$\'\' vs. ``.\'\')' example='aClassInstance-&gt;select(...)'"
  *        annotation="info prec='static' path='no' severity='warning-style' when='model-dep' kind='navigation' phase='typing' source='OCL spec, tests'"
  * @generated
  */

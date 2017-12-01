@@ -5,6 +5,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IFileEditorMapping;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.registry.EditorDescriptor;
+import org.eclipse.ui.internal.registry.EditorRegistry;
+import org.eclipse.ui.internal.registry.FileEditorMapping;
 
 public class AnATLyzerNature implements IProjectNature {
 
@@ -37,6 +43,41 @@ public class AnATLyzerNature implements IProjectNature {
 		newCommands[newCommands.length - 1] = command;
 		desc.setBuildSpec(newCommands);
 		project.setDescription(desc, null);
+		
+		try {
+			setAnATLyzerDefaultEditor();
+		} catch ( Exception e ) {
+			System.out.println("This do not work in Luna");
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void setAnATLyzerDefaultEditor() {
+		String extension = "atl";
+	    String editorId = "org.eclipse.m2m.atl.adt.editor.AtlEditor";
+
+	    EditorRegistry editorReg = (EditorRegistry)PlatformUI.getWorkbench().getEditorRegistry();
+	    //EditorDescriptor editor = (EditorDescriptor) editorReg.findEditor(editorId);
+	    //editor.
+	    IFileEditorMapping[] mappings = editorReg.getFileEditorMappings();
+	    for (IFileEditorMapping mapping : mappings) {
+	    	if ( "atl".equals(mapping.getExtension()) ) {
+	    	   	IEditorDescriptor[] descriptors = mapping.getEditors();
+	    	   	IEditorDescriptor anatlyzerEditor = null;
+	    	   	for (IEditorDescriptor editorDesc : descriptors) {
+					if ( "anatlyzer.atl.editor.AtlEditorExt".equals( ((EditorDescriptor) editorDesc).getClassName()) ) {
+						anatlyzerEditor = editorDesc;
+						break;
+					}
+				}
+	    	   	
+	    	   	if ( anatlyzerEditor != null ) {
+	    	   		((FileEditorMapping) mapping).setDefaultEditor((EditorDescriptor) anatlyzerEditor);
+	    	   		break;
+	    	   	}
+	    	}
+		}
 	}
 
 	/*

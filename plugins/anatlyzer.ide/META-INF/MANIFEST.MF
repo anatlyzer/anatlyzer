@@ -12,6 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.edit,
  org.eclipse.emf.edit.ui,
  anatlyzer.atl.typing,
- anatlyzer.atl.editor
+ anatlyzer.atl.editor,
+ anatlyzer.atl.editor.quickfix,
+ org.eclipse.ui.editors
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

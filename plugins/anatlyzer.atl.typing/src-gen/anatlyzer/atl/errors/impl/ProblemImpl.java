@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getDependents <em>Dependents</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getDescription <em>Description</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getIgnoredByUser <em>Ignored By User</em>}</li>
  *   <li>{@link anatlyzer.atl.errors.impl.ProblemImpl#getData <em>Data</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

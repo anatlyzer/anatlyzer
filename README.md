@@ -12,12 +12,14 @@ You can find installation instructions at:
  * Website: <http://sanchezcuadrado.es/projects/anatlyzer/>
  * Update site: <http://sanchezcuadrado.es/projects/anatlyzer/sites/anatlyzer.updatesite/>
 
-The following presentation provides a quick overview:
+The following presentations provides a quick overview:
 
- * <https://github.com/jesusc/atl-tutorial/blob/master/pdfs/02-anatlyzer.pdf>
+ * Slides of the MoDELS'17 tutorial: <https://github.com/jesusc/anatlyzer-models17> 
+ * Older presentation: <https://github.com/jesusc/atl-tutorial/blob/master/pdfs/02-anatlyzer.pdf>
 
 The following is the list of publications describing the technical details of anATLyzer:
  * [Static analysis of model transformations](http://miso.es/pubs/tse2016.pdf). Jesús Sánchez Cuadrado, Esther Guerra and Juan de Lara. IEEE Transactions on Software Engineering, 2016 
+ * [Translating target to source constraints in model-to-model transformations](http://miso.es/pubs/MODELS_2017.pdf). Jesús Sánchez Cuadrado, Esther Guerra, Juan de Lara, Robert Clarisó, Jordi Cabot. MODELS'2017.
  * [Quick fixing ATL transformations with speculative analysis](http://www.miso.es/pubs/sosym_qfx.pdf). Jesús Sánchez Cuadrado, Esther Guerra and Juan de Lara. Software and Systems Modeling, 2016
 
 The wiki provides technical documentation:

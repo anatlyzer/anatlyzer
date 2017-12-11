@@ -474,16 +474,8 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	}
 
 
-	/**
-	 * Implements the algorithm to find the container(s) that may hold
-	 * the an object of the class when invoking "refImmediateComposite".
-	 * 
-	 * @param node
-	 * @return
-	 */
-	private Type findTypeOfContainer(LocatedElement node) {
-		ArrayList<EClass> possibleContainers = new ArrayList<EClass>();
-		
+	public List<EReference> getContainerReferences() {
+		ArrayList<EReference> result = new ArrayList<EReference>();
 		List<EClass> classes = metamodel.getAllClasses();
 		for (EClass c : classes) {
 			for(EReference r : c.getEReferences()) {
@@ -493,11 +485,42 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 						 r.getEReferenceType().isSuperTypeOf(eClass)    // This is the normaly polymorphic checking
 					) {
 						
-						possibleContainers.add(r.getEContainingClass());
+						result.add(r);
 					}
 				}
 			}
 		}
+		return result;
+	}
+	
+	/**
+	 * Implements the algorithm to find the container(s) that may hold
+	 * the an object of the class when invoking "refImmediateComposite".
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private Type findTypeOfContainer(LocatedElement node) {
+//		ArrayList<EClass> possibleContainers = new ArrayList<EClass>();
+//		
+//		List<EClass> classes = metamodel.getAllClasses();
+//		for (EClass c : classes) {
+//			for(EReference r : c.getEReferences()) {
+//				if ( r.isContainment() ) {
+//					if ( r.getEReferenceType() == eClass || 
+//						 eClass.isSuperTypeOf(r.getEReferenceType()) || // This is to select every possible "pointed" subclass
+//						 r.getEReferenceType().isSuperTypeOf(eClass)    // This is the normaly polymorphic checking
+//					) {
+//						
+//						possibleContainers.add(r.getEContainingClass());
+//					}
+//				}
+//			}
+//		}
+		
+		List<EClass> possibleContainers = getContainerReferences().stream().
+				map(EReference::getEContainingClass).
+				collect(Collectors.toList());
 		
 		if ( possibleContainers.size() == 0 ) {
 			// TODO: How to recover from a not having a container???

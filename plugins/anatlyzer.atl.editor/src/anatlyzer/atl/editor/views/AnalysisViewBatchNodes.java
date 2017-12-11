@@ -13,8 +13,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.PossibleInvariantViolationNode;
 import anatlyzer.atl.analyser.batch.PossibleStealingNode;
+import anatlyzer.atl.analyser.batch.PreconditionAnalysis;
+import anatlyzer.atl.analyser.batch.PreconditionAnalysis.PreconditionIssue;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis;
 import anatlyzer.atl.analyser.batch.UnconnectedElementsAnalysis.Cluster;
@@ -40,6 +43,7 @@ import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.ui.actions.CheckChildStealing;
+import anatlyzer.ui.actions.CheckPreconditions;
 import anatlyzer.ui.actions.CheckRuleConflicts;
 import anatlyzer.ui.actions.CheckTargetInvariants;
 import anatlyzer.ui.util.WorkbenchUtil;
@@ -73,7 +77,8 @@ public class AnalysisViewBatchNodes {
 					new ChildStealingAnalysisBatchNode(parent), 
 					new UnconnectedComponentsAnalysis(this), 
 					new TargetInvariantAnalysisBatchNode(this),
-					new DelayedAnalysisBatchNode(this)
+					new DelayedAnalysisBatchNode(this),
+					new PreconditionAnalysisBatchNode(this)
 			};
 			
 //			if ( view.getCurrentAnalysis() != null ) {
@@ -300,7 +305,7 @@ public class AnalysisViewBatchNodes {
 	}
 	
 	
-	class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
+	public class UnconnectedComponentsAnalysis extends TreeNode implements IBatchAnalysisNode {
 		private UnconnectedElement[] elements;
 		public UnconnectedComponentsAnalysis(TreeNode parent) {
 			super(parent);
@@ -350,13 +355,17 @@ public class AnalysisViewBatchNodes {
 		}
 	}
 	
-	class UnconnectedElement extends TreeNode implements IWithCodeLocation {
+	public class UnconnectedElement extends TreeNode implements IWithCodeLocation {
 		private Cluster element;
 
 		public UnconnectedElement(TreeNode parent, Cluster c) {
 			super(parent);
 			this.element = c;
 		}		
+		
+		public Cluster getCluster() {
+			return element;
+		}
 		
 		@Override
 		public Object[] getChildren() { return null; }
@@ -379,10 +388,7 @@ public class AnalysisViewBatchNodes {
 			// TODO: Expand the tree with possible locations
 			HashSet<Node> nodes = element.getRootNodes();
 			Node first = nodes.iterator().next();
-			
-			System.out.println("Generated nodes: ");
-			first.getGeneratedNodes().forEach(o -> System.out.println(o.getOut().getOutPattern().getRule().getName()));
-			
+						
 			WorkbenchUtil.goToEditorLocation(first.getOut().getFileLocation(), first.getOut().getLocation());   
 		}
 
@@ -818,6 +824,161 @@ public class AnalysisViewBatchNodes {
 		}
 	}
 
+
+	//
+	// Pre-condition analysis
+	//
+	
+	class PreconditionAnalysisBatchNode extends TreeNode implements IBatchAnalysisNode {
+		private PreconditionIssueNode[] elements;
+		
+		public PreconditionAnalysisBatchNode (TreeNode parent) {
+			super(parent);
+		}
+
+		class PreconditionAnalysisJob extends Job {
+			List<PreconditionIssue> result = null;
+			public PreconditionAnalysisJob(String name) {
+				super(name);
+			}
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				// final CheckChildStealing = new CheckChildStealing();
+				final AnalyserData data = new AnalyserData(view.getCurrentAnalysis().getAnalyser());
+
+				CheckPreconditions action = new CheckPreconditions();
+				result = action.performAction(data, view.getCurrentResource() , monitor);	
+				if ( monitor.isCanceled() )
+					return Status.CANCEL_STATUS;
+				return Status.OK_STATUS;
+			}		
+		}
+		
+		@Override
+		public void perform() {
+			final PreconditionAnalysisJob job = new PreconditionAnalysisJob("Precondition analysis");
+			
+			job.addJobChangeListener(new JobChangeAdapter() {
+				@Override
+				public void done(IJobChangeEvent event) {
+					if ( job.result != null ) {
+						List<PreconditionIssue> result = job.result;	
+						elements = new PreconditionIssueNode[result.size()];
+						
+						int i = 0;
+						for (PreconditionIssue possibleNode : result) {
+							elements[i] = new PreconditionIssueNode(PreconditionAnalysisBatchNode.this, possibleNode);
+//							if ( AnalyserUtils.isConfirmed(possibleNode.getAnalysisResult()) ) {
+//								numberOfIssues++;
+//							}
+							i++;
+						}
+
+						view.refreshFromNonUI();
+					}
+				}
+			});
+			
+			job.schedule();
+
+		}
+
+		@Override
+		public Object[] getChildren() {
+			return elements;
+		}
+
+		@Override
+		public boolean hasChildren() {
+			return elements != null && elements.length > 0;
+		}
+		
+		@Override
+		public String toString() {
+			return "Precondition analysis";
+		}
+		
+		@Override
+		public ImageDescriptor getImage() {
+	    	return null;
+		}
+		
+		@Override
+		public String toColumn1() {			
+			return "";
+		}
+	}
+
+	class PreconditionIssueNode extends TreeNode implements IWithCodeLocation {
+		protected PreconditionIssue element;
+		// private ConflictingRuleSet problem;
+
+		public PreconditionIssueNode(TreeNode parent, PreconditionIssue node) {
+			super(parent);
+			this.element = node;
+		}		
+				
+		@Override
+		public Object[] getChildren() { return null; }
+		@Override
+		public boolean hasChildren()  { return false; }
+		
+		@Override
+		public String toString() {
+			String s = null;
+			switch ( element.getAnalysisResult() ) {
+			case WITNESS_REQUIRED: s = "Not analysed!"; break;
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case ERROR_CONFIRMED: s = "Unsatisfied constraint"; break;
+			case ERROR_DISCARDED: s = "Satisfied constraint"; break;
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: s = "[Metamodel problem] Satisfied constraint"; break;
+			case STATICALLY_CONFIRMED: s = "Unsatisfied constraint";break;		
+			case CANNOT_DETERMINE:
+				s = "Cannot determine (e.g., no path to rule)";break;				
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+				s = "Cannot determine (solver failed)";break;		
+			case IMPL_INTERNAL_ERROR:
+				s = "Cannot determine (impl. error)";break;		
+			case USE_TIME_OUT:
+				s = "Cannot determine (time out)";break;						
+			case PROBLEMS_IN_PATH:
+				throw new IllegalStateException();
+			}
+			
+			String r = "Sat. of pre-conditions";
+			return r + " : " + s;
+		}
+
+		@Override
+		public ImageDescriptor getImage() {
+			switch ( element.getAnalysisResult() ) {
+			case ERROR_DISCARDED: 
+			case ERROR_DISCARDED_DUE_TO_METAMODEL: 
+				return Images.rule_conflict_discarded;
+			case ERROR_CONFIRMED: 
+			case ERROR_CONFIRMED_SPECULATIVE:
+			case STATICALLY_CONFIRMED: 
+				return Images.rule_conflict_confirmed;
+			case CANNOT_DETERMINE:
+			case NOT_SUPPORTED_BY_USE:
+			case USE_INTERNAL_ERROR: 
+			case IMPL_INTERNAL_ERROR:
+				return Images.uknown_problems_16x16;
+			}
+			return null;
+		}
+		
+		@Override
+		public void goToLocation() {
+			//Binding r = element.getBinding1();			
+			// WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
+			// throw new UnsupportedOperationException();
+			//int result = new InvariantExplanationDialog(null, this.element).open();
+		}
+
+	}
 	
 }
 

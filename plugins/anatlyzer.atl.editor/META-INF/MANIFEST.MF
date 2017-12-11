@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: anATLyzer ATL Editor Extension
 Bundle-SymbolicName: anatlyzer.atl.editor;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.7.1.qualifier
 Bundle-Activator: anatlyzer.atl.editor.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

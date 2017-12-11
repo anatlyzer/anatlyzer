@@ -137,7 +137,7 @@ public class NoResolutionNode extends AbstractInvariantReplacerNode implements I
 			
 			for (int i = 0; i < rule.getInPattern().getElements().size(); i++) {
 				InPatternElement e = rule.getInPattern().getElements().get(i);
-				Iterator it = createIterator(builder, e, optTargetVar);
+				Iterator it = createIterator(builder, e, getSuperVars(rule, e.getVarName()), optTargetVar);
 
 				result.add(it);
 			}		

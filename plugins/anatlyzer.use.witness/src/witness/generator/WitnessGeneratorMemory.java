@@ -40,6 +40,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	private IScopeCalculator scopeCalculator;
 	
 	private IMetamodelExtensionStrategy metamodelExtension = new MandatoryFullMetamodelStrategy();
+	private long initialTime;
 	
 	private static Integer index = 0;
 	
@@ -78,6 +79,20 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		} catch ( Exception e ) {
 			throw new AdaptationInternalError(e);
 		}
+		
+		if ( initialTime == -1) {
+			this.initialTime = System.currentTimeMillis();
+		}
+		
+		if ( isRetry ) {
+			long current   = System.currentTimeMillis();
+			long remaining = timeOut - (current - initialTime);
+			if ( remaining <= 0 ) {
+				throw new TimeOutException();
+			} 
+			initialTime = current;
+			timeOut = remaining;
+		} 
 		
 		if ( debugMode ) {		
 			String witness = generateWitness(getTempDirectoryPath(), errorMM, oclConstraint, index);
@@ -367,6 +382,30 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return currentTimeOut;
 	}
 
+//	protected static class TimerThread extends Thread {
+//		private long timeOut;
+//		private Thread t;
+//
+//		public TimerThread(long timeOut, Thread t) {
+//			super("Timer thread");
+//			this.timeOut = timeOut;
+//			this.t = t;
+//		}
+//		
+//		@Override
+//		public void run() {
+//			try {
+//				System.out.println("Waiting for timeout: " + timeOut);
+//				sleep(timeOut);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//			System.out.println("Stopping for timeout: " + timeOut);
+//			if ( t.isAlive() )
+//				t.interrupt();			
+//		}
+//	}
+		
 	protected static class TimedOutSolverExecution extends Thread {
 		private USEResult model;
 		private int scope;
@@ -374,6 +413,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		private transException exception;
 		private OutOfMemoryError outOfMemory = null;
 		private TimedOutSolverExecution(USESolverMemory solver, int scope) {
+			super("USE Validator thread");
 			this.solver = solver;
 			this.scope  = scope;
 		}
@@ -397,6 +437,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		public static USEResult find(USESolverMemory solver, int scope, long timeout) throws transException {
 			TimedOutSolverExecution t = new TimedOutSolverExecution(solver, scope);
 			t.start();
+			//new TimerThread(timeout, t).start();;
 			
 			long totalTime = -1;
 			try {
@@ -405,8 +446,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				if ( timeout == -1 ) {
 					t.join();
 				} else {
+					System.out.println("Waiting: " + timeout);
 					t.join(timeout);
+					System.out.println("Done: " + timeout);
 				}
+				
+				// t.join(); // We wait until the t is interrupted by the TimerThread
 				
 				totalTime = System.currentTimeMillis() - init;				
 			} catch (InterruptedException e) {
@@ -424,11 +469,18 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				return t.model;
 			} else {
 				// Kill the thread...
-				t.stop();
+				// t.stop();
+				t.interrupt();
 				// Wait a bit until it finishes...
+				int i = 0;
 				while ( t.isAlive() ) { 
 					try {
-						Thread.sleep(10);
+						System.out.println("Is interrupted: " + t.isInterrupted());
+						Thread.sleep(50);
+						i++;
+						if ( i > 10 ) {
+							t.stop();
+						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} 

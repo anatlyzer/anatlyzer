@@ -17,9 +17,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.generators.Retyping;
 import anatlyzer.atl.model.ATLModel;
@@ -420,6 +422,65 @@ public class ATLUtils {
 		return result;
 	}
 
+	/**
+	 * Returns the set of bindings assigned in an output pattern element, taking
+	 * rule inheritance into account. For primitive bindings, only the last assigned
+	 * binding in the hierarchy is returned. For reference bindings, all bindings are
+	 * returned since the ATL semantics is element addition.
+	 *  
+	 * @param ope The output pattern element
+	 * @return 
+	 */
+	public static List<Binding> getAllBindings(OutPatternElement ope) {
+		Rule r = ope.getOutPattern().getRule();
+		List<Binding> currentBindings = ope.getBindings();
+		if ( r instanceof RuleWithPattern ) {
+			RuleWithPattern superRule = ((RuleWithPattern) r).getSuperRule();
+			if ( superRule != null && superRule.getOutPattern() != null ) {
+				List<Binding> superBindings = superRule.getOutPattern().getElements().stream().
+					filter(e -> e.getVarName().equals( ope.getVarName() ) ).
+					findAny().
+					map(e -> getAllBindings(e)).
+					orElse(Collections.emptyList());
+				
+				currentBindings = mergeBindings(currentBindings, superBindings);
+			}
+		}
+		
+		return currentBindings;
+	}
+
+	
+	private static List<Binding> mergeBindings(List<Binding> currentBindings, List<Binding> superBindings) {
+		List<Binding> result = new ArrayList<Binding>();
+		for (Binding superBinding : superBindings) {
+			if ( result.contains(superBinding)  )
+				continue;
+
+			boolean addBinding = true;
+			for (Binding current : currentBindings) {
+				EStructuralFeature feature = (EStructuralFeature) current.getWrittenFeature();
+				
+				// If is the same feature, then check if its primitive or reference
+				if ( superBinding.getWrittenFeature() != null && feature != null && superBinding.getWrittenFeature() == feature ) {
+					if ( feature instanceof EAttribute ) {
+						addBinding = false;
+					} else {
+						addBinding = true;
+					}					
+					break;
+				}
+			}
+
+			if ( addBinding ) {
+				result.add(superBinding);
+			}
+		}
+
+		result.addAll(currentBindings);
+		return result;
+	}
+
 	public static void getAllOutputPatterns(RuleWithPattern self, Consumer<OutPatternElement> f) {
 		getAllOutputPatternElement(self).forEach(f);
 		
@@ -683,6 +744,10 @@ public class ATLUtils {
 		return result;
 	}
 	
+	public static List<Helper> getPreconditionHelpers(ATLModel model) {
+		return ATLUtils.getAllHelpers(model).stream().filter(h -> AnalyserUtils.isPrecondition(h)).collect(Collectors.toList());
+	}
+	
 	public static List<MatchedRule> getAllMatchedRules(ATLModel model) {
 		ArrayList<MatchedRule> rules = new ArrayList<MatchedRule>();
 		for(ModuleElement r : model.getModule().getElements()) {
@@ -920,6 +985,7 @@ public class ATLUtils {
 				filter(rri -> rri.getStatus() != RuleResolutionStatus.RESOLUTION_DISCARDED).
 				collect(Collectors.toList());
 	}
+
 
 	
 	

@@ -1,10 +1,14 @@
 package anatlyzer.atl.analyser.generators;
 
 import java.util.HashSet;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
@@ -88,8 +92,6 @@ public class OclSlice {
 			} else if ( expr instanceof OperationCallExp ) {			
 				OperationCallExp op = (OperationCallExp) expr;
 				
-				if ( op.getOperationName().equals("getRealType") ) 
-					System.out.println(op);
 				for(OclExpression arg : op.getArguments()) {
 					slice(slice, arg, isExternalDependency);
 				}
@@ -98,6 +100,9 @@ public class OclSlice {
 					 op.getOperationName().equals("oclIsTypeOf") && 
 					 op.getArguments().size() > 0 && op.getArguments().get(0).getInferredType() instanceof Metaclass ) {
 					slice.addSubtypeOf((Metaclass) op.getSource().getInferredType(), (Metaclass) op.getArguments().get(0).getInferredType());
+				} 
+				else if ( op.getOperationName().equals("refImmediateComposite") ) {
+					slice.addContainerReferences(op.getInferredType());
 				}
 				
 				pce = op;

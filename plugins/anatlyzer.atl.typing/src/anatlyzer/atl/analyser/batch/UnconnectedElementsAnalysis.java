@@ -13,8 +13,10 @@ import java.util.Stack;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
+import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
@@ -24,6 +26,7 @@ import anatlyzer.atlext.ATL.OutPattern;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.ATL.RuleResolutionInfo;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.ResolveTempResolution;
 import anatlyzer.atlext.OCL.VariableExp;
@@ -85,7 +88,7 @@ public class UnconnectedElementsAnalysis {
 	 * @author jesus
 	 *
 	 */
-	public static class Cluster {
+	public static class Cluster implements IDetectedProblem {
 		private HashSet<Node> nodes = new HashSet<UnconnectedElementsAnalysis.Node>();
 		private int id;
 		
@@ -107,6 +110,28 @@ public class UnconnectedElementsAnalysis {
 
 		public int getId() {
 			return id;
+		}
+
+		// IDetectedProblem
+		
+		@Override
+		public ErrorSlice getErrorSlice(IAnalyserResult result) {
+			return null;
+		}
+
+		@Override
+		public OclExpression getWitnessCondition() {
+			return null;
+		}
+
+		@Override
+		public boolean isExpressionInPath(OclExpression expr) {
+			return false;
+		}
+
+		@Override
+		public List<OclExpression> getFrameConditions() {
+			return null;
 		}
 		
 	}

@@ -1,15 +1,20 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.OutPatternElement;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
+import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.VariableDeclaration;
 
 public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNode {
 
@@ -73,6 +78,21 @@ public class CollectionOperationCallExpNode extends AbstractInvariantReplacerNod
 			copy.getArguments().add(node.genExprNormalized(builder));
 		}
 		return copy;
+	}
+	
+	@Override
+	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
+		MatchedRule rule = (MatchedRule) context.getRule();
+		if ( rule.getInPattern().getElements().size() == 1 ) {
+			InPatternElement firstElem = context.getRule().getInPattern().getElements().get(0);
+			return Collections.singletonList( createIterator(builder, 
+					firstElem, 
+					getSuperVars(rule, firstElem.getVarName()),
+					optTargetVar));
+		} else {
+			// See if the code of IteratorExp could be factorized somehow
+			throw new IllegalStateException("Multiple iterator propagation for collection operations not supported yet");
+		}		
 	}
 	
 	@Override

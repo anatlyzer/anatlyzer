@@ -23,6 +23,7 @@ import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
@@ -127,6 +128,19 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 	
 	public void addExplicitFeature(EStructuralFeature f) {
 		explicitFeatures.add(f);
+	}
+
+	/**
+	 * Adds the references needed to correctly simulate "objectOfC.refImmediateComposite"
+	 * @param type Needs to Type because a refImmediateComposite may return an Union
+	 */
+	public void addContainerReferences(Type type) {		
+		List<Metaclass> metaclasses = TypingModel.getInvolvedMetaclassesOfType(type);
+		for (Metaclass metaclass : metaclasses) {						
+			ClassNamespace ns = (ClassNamespace) metaclass.getMetamodelRef();
+			
+			ns.getContainerReferences().forEach(r -> explicitFeatures.add(r));
+		}		
 	}
 
 	@Override
@@ -313,6 +327,7 @@ public class ErrorSlice implements IEffectiveMetamodelData {
 		}
 		return result;
 	}
+
 
 
 }

@@ -116,11 +116,12 @@ public class IteratorExpNode extends AbstractInvariantReplacerNode {
 	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 		MatchedRule rule = (MatchedRule) context.getRule();
 		if ( rule.getInPattern().getElements().size() == 1 ) {
-			return Collections.singletonList( createIterator(builder, context.getRule().getInPattern().getElements().get(0), optTargetVar));
+			InPatternElement firstElem = context.getRule().getInPattern().getElements().get(0);
+			return Collections.singletonList( createIterator(builder, firstElem, getSuperVars(rule, firstElem.getVarName()), optTargetVar));
 		} else {
 			if ( ! exp.getName().equals("collect") ) {
 				return rule.getInPattern().getElements().stream().
-						map(e -> createIterator(builder, e, optTargetVar)).
+						map(e -> createIterator(builder, e, getSuperVars(rule, e.getVarName()), optTargetVar)).
 						collect(Collectors.toList());
 			} else {
 				throw new IllegalStateException("Multiple iterator propagation for collect cannot be supported");

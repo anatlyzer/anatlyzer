@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.batch.invariants;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -9,6 +10,7 @@ import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.SourceCon
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.Pair;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -68,16 +70,26 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 		throw new IllegalStateException();
 	}
 
-	protected Iterator createIterator(CSPModel2 builder, VariableDeclaration sourceVar, VariableDeclaration optTargetVar) {
+	/**
+	 * 
+	 * @param builder
+	 * @param sourceVar
+	 * @param aliasVars This represents other variables which point to the same object. This is needed for rule inheritance
+	 * @param optTargetVar
+	 * @return
+	 */
+	protected Iterator createIterator(CSPModel2 builder, VariableDeclaration sourceVar, List<VariableDeclaration> aliasVars, VariableDeclaration optTargetVar) {
 		Iterator it = OCLFactory.eINSTANCE.createIterator();
 		it.setInferredType(sourceVar.getInferredType());			
 		
 		if (optTargetVar == null) { 
 			it.setVarName(builder.genNiceVarName(sourceVar.getVarName()));
 			builder.addToScope(sourceVar, it); 
+			aliasVars.forEach(v -> builder.addToScope(v, it));
 		} else {
 			it.setVarName(builder.genNiceVarName(optTargetVar.getVarName()));
 			builder.addToScope(sourceVar, it, optTargetVar);
+			aliasVars.forEach(v -> builder.addToScope(v, it, optTargetVar));
 			// I also bind the target to enable its resolution by VariableExpNode
 			// Not sure this makes sense, but it solves the problem of rebinding the same target iterator
 			// when the mapped rule has more than on input pattern
@@ -85,6 +97,14 @@ public abstract class AbstractInvariantReplacerNode implements IInvariantNode {
 		}
 		return it;
 	}
+	
+	protected List<VariableDeclaration> getSuperVars(RuleWithPattern rule2, String varName) {
+		return ATLUtils.allSuperRules(rule2).stream().
+			flatMap(r -> r.getInPattern().getElements().stream().filter(e -> e.getVarName().contentEquals(varName))).
+			collect(Collectors.toList());
+	}
+
+	
 	// Utils
 	
 	protected String gvText(String str, LocatedElement e) {

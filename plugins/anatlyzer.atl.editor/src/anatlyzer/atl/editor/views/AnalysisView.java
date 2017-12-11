@@ -61,6 +61,7 @@ import anatlyzer.atl.editor.quickfix.QuickfixAction;
 import anatlyzer.atl.editor.quickfix.QuickfixDialog;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.ConflictingRules;
 import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedComponentsAnalysis;
+import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedElement;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.CategoryNode;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.ConfirmedListNode;
 import anatlyzer.atl.editor.views.AnalysisViewNodes.DiscardedListNode;
@@ -996,7 +997,7 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 				return Kind.PROBLEM;
 			} else if ( s instanceof GenericProblemNode ) {
 				return Kind.PROBLEM;				
-			} else if ( s instanceof UnconnectedComponentsAnalysis ) {
+			} else if ( s instanceof UnconnectedComponentsAnalysis || s instanceof UnconnectedElement ) {
 				return Kind.UNCONNECTED_ELEMENTS;
 			}
 			

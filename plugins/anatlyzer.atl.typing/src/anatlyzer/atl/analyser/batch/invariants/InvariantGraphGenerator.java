@@ -481,11 +481,12 @@ public class InvariantGraphGenerator {
 	private List<SourceContext<? extends RuleWithPattern>> findTargetOcurrences(OclModelElement targetType) {
 		// TODO: Consider subtyping relationships
 		return model.allObjectsOf(RuleWithPattern.class).stream().
+			filter(r -> ! r.isIsAbstract()).
 			filter(r -> r.getOutPattern() != null).
 			// filter(r -> r.getOutPattern().getElements().stream().anyMatch(ope -> TypingModel.equalTypes(ope.getInferredType(), targetType.getInferredType()))).
 			
 			// We ask, is OPE a subtype of the T.allInstances() in the postcondition?
-			flatMap(r -> r.getOutPattern().getElements().stream()).
+			flatMap(r -> ATLUtils.getAllOutputPatternElement(r).stream()).
 			filter(ope -> TypingModel.assignableTypesStatic(targetType.getInferredType(), ope.getInferredType())).
 			map(ope -> {
 				Rule rule = ope.getOutPattern().getRule();
@@ -566,20 +567,21 @@ public class InvariantGraphGenerator {
 	protected IInvariantNode checkNavMapper(NavigationOrAttributeCallExp self,
 			Env env, IInvariantNode source) {
 		
-		List<Binding> allBindings = source.getContext().getOutputPatternElement().
-				getBindings().stream().filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
+		List<Binding> allBindings = ATLUtils.getAllBindings(source.getContext().getOutputPatternElement());
+		List<Binding> bindingsForFeature = allBindings.stream().
+				filter(b -> b.getWrittenFeature() == self.getUsedFeature()).
 				collect(Collectors.toList());
 
 		
-		if ( allBindings.size() == 0 ) {
+		if ( bindingsForFeature.size() == 0 ) {
 			EReference opposite = getOpposite((EStructuralFeature) self.getUsedFeature());
 			if ( opposite != null ) {
 				// Find any binding writing the opposite
-				allBindings = model.allObjectsOf(Binding.class).stream().
+				bindingsForFeature = model.allObjectsOf(Binding.class).stream().
 						filter(b -> b.getWrittenFeature() == opposite).
 						collect(Collectors.toList());
 				
-				if ( allBindings.size() == 0 ) {
+				if ( bindingsForFeature.size() == 0 ) {
 					throw new UnsupportedOperationException("TODO: Compute default values: " + self.getName() + ":" + self.getLocation());
 				} else {
 					// CSPModel builder = new CSPModel();
@@ -637,11 +639,11 @@ public class InvariantGraphGenerator {
 		}
 					
 		
-		Binding b = allBindings.get(0);
+		Binding b = bindingsForFeature.get(0);
 		if ( isPrimitiveBinding(b) ) {
 			return new AttributeNavigationNode(source, self, b);
 		} else {						
-			return handleReferenceBinding(self, env, source, allBindings);
+			return handleReferenceBinding(self, env, source, bindingsForFeature);
 		}
 	}
 

@@ -2,6 +2,8 @@ package anatlyzer.atl.explanations;
 
 import org.eclipse.jface.action.Action;
 
+import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedComponentsAnalysis;
+import anatlyzer.atl.editor.views.AnalysisViewBatchNodes.UnconnectedElement;
 import anatlyzer.atl.editor.views.IAnalysisView;
 import anatlyzer.atl.editor.views.IAnalysisView.Kind;
 import anatlyzer.atl.editor.views.IAnalysisViewAction;
@@ -34,6 +36,16 @@ public class ShowExplanationDialog extends Action implements IAnalysisViewAction
 				SimpleExplanationDialog dialog = new SimpleExplanationDialog(null, exp);
 				dialog.open();
 			}
+		} else if ( kind == Kind.UNCONNECTED_ELEMENTS ) {
+			Object e = view.getSelection().getFirstElement();
+			if ( e instanceof UnconnectedComponentsAnalysis ) {
+				// do something
+			} else if ( e instanceof UnconnectedElement ) {
+				UnconnectedElementExplanation exp = new UnconnectedElementExplanation(((UnconnectedElement) e).getCluster());
+				SimpleExplanationDialog dialog = new SimpleExplanationDialog(null, exp);
+				dialog.open();				
+			}
+			
 		}
 	}
 	

@@ -401,7 +401,8 @@ public class ReferenceNavigationNode extends AbstractInvariantReplacerNode imple
 	@Override
 	public List<Iterator> genIterators(CSPModel2 builder, VariableDeclaration optTargetVar) {
 		if ( context.getRule().getInPattern().getElements().size() == 1 ) {
-			return Collections.singletonList( createIterator(builder, context.getRule().getInPattern().getElements().get(0), optTargetVar));
+			InPatternElement firstElem = context.getRule().getInPattern().getElements().get(0);
+			return Collections.singletonList( createIterator(builder, firstElem, getSuperVars(context.getRule(), firstElem.getVarName()), optTargetVar));
 		} else {
 			throw new IllegalStateException();			
 		}

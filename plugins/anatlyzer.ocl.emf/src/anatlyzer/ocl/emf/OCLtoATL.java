@@ -27,13 +27,11 @@ import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.types.CollectionType;
 
-import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.IntegerExp;
-import anatlyzer.atlext.OCL.IntegerType;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -51,7 +49,6 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
  * Converts invariants in Ecore/OCL into ATL format.
  * 
  * @author jesus
- *
  */
 public class OCLtoATL {
 

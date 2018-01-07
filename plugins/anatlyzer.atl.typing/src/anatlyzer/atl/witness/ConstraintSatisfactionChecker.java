@@ -20,6 +20,7 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.Helper;
@@ -48,15 +49,24 @@ public class ConstraintSatisfactionChecker {
 	private IWitnessFinder finder;
 	private ProblemStatus finderResult;
 	private ATLModel model;
+	private Library library;
 	
 	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
 		this.expressions.addAll(expressions);
 	}
 	
+	public ConstraintSatisfactionChecker(Library lib) {
+		this.library = lib;
+	}
+
 	public static ConstraintSatisfactionChecker withExpr(OclExpression expr) {
 		return new ConstraintSatisfactionChecker(Collections.singletonList(expr));
 	}
 	
+
+	public static ConstraintSatisfactionChecker withLibrary(Library lib) {
+		return new ConstraintSatisfactionChecker(lib);
+	}
 
 	public static ConstraintSatisfactionChecker withExpr(List<OclExpression> expr) {
 		return new ConstraintSatisfactionChecker(expr);
@@ -124,6 +134,9 @@ public class ConstraintSatisfactionChecker {
 		// module.getHelpers().addAll(helpers);
 		module.getElements().addAll(helpers);
 
+		if ( library != null )
+			module.getElements().addAll(library.getHelpers());
+		
 		return module;
 	}
 
@@ -140,7 +153,8 @@ public class ConstraintSatisfactionChecker {
 	}
 
 	private List<OclExpression> getExpressionsToBeChecked() {
-		List<Helper> helpers = ATLUtils.getAllHelpers(model);
+		List<Helper> helpers = ATLUtils.getAllHelpers(model).stream().
+				filter(h -> ! AnalyserUtils.isAddedEOperation(h)).collect(Collectors.toList());
 		return helpers.stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
 	}
 	
@@ -189,6 +203,7 @@ public class ConstraintSatisfactionChecker {
 		}
 		
 	}
+
 
 	
 }

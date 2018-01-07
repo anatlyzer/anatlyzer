@@ -20,7 +20,7 @@
          point="org.eclipse.ui.menus">
    
          <menuContribution
-            locationURI="popup:anatlyzer.popup.menu?after=additions">
+            locationURI="popup:anatlyzer.atl.editor.popup?after=additions">
             <command
                   commandId="anatlyzer.commands.genInvariantLibrary"
                   id="anatlyzer.commands.genInvariantLibrary"
@@ -36,5 +36,61 @@
             commandId="anatlyzer.commands.genInvariantLibrary">
       </handler>
    </extension>
+   
+   
+   <!-- OCL editor extensions -->
+
+
+   <!-- Definition of "anATLyzer" menu in the ATL text editor -->
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+      		locationURI="popup:org.eclipse.ocl.examples.xtext.completeocl.CompleteOCL.EditorContext?after=additions">
+         <menu
+               id="anatlyzer.ocl.modelvalidator.popup"
+               label="Model Validator"
+               mnemonic="M">
+         </menu>	
+      </menuContribution>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <command
+            categoryId="anatlyzer.useocl.commands"
+            id="anatlyzer.useocl.commands.modelValidatorDialog"
+            name="Model validator...">
+      </command>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.useocl.commands.ModelValidatorDialog"
+            commandId="anatlyzer.useocl.commands.modelValidatorDialog">
+      </handler>
+   </extension>
+      
+   <extension
+         point="org.eclipse.ui.menus">
+   
+         <menuContribution
+            locationURI="popup:anatlyzer.ocl.modelvalidator.popup?after=additions">
+            <command
+                  commandId="anatlyzer.useocl.commands.modelValidatorDialog"
+                  id="anatlyzer.useocl.commands.modelValidatorDialog"
+                  mnemonic="D">
+            </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.ocl.emf.views.OclAnalysisView"
+            icon="icons/sample.gif"
+            id="anatlyzer.ocl.emf.views.OclAnalysisView"
+            name="OCL Analysis View">
+      </view>
+ 	</extension>
    
 </plugin>

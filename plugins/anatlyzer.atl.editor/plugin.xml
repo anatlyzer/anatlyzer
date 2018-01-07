@@ -232,7 +232,10 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+      		locationURI="popup:org.eclipse.m2m.atl.adt.editor.AtlEditor.EditorContext?after=additions">
+         <!--
             locationURI="popup:#TextEditorContext?after=additions">
+         -->
          <menu
                id="anatlyzer.atl.editor.popup"
                label="AnATLyzer"

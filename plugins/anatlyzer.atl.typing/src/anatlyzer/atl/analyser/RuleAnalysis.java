@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -452,10 +453,15 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 		LinkedList<ClassNamespace> notResolved = new LinkedList<ClassNamespace>();
 		LinkedList<ClassNamespace> notResolvedImplicit = new LinkedList<ClassNamespace>();
 		
+		if ( rightMetaclass.getName().equals("Node")) {
+			System.out.println(rightMetaclass);
+		}
+		
 		while ( ! pending.isEmpty() ) {
 			ClassNamespace ns = pending.pop();
+			Collection<MatchedRule> rules = ns.getRules().stream().filter(r -> !r.isIsAbstract()).collect(Collectors.toList());
 			
-			if ( ns.getRules().isEmpty() ) {
+			if ( rules.isEmpty() ) {
 				Collection<ClassNamespace> direct = ns.getDirectSubclasses();
 				if ( direct.size() > 0 ) {
 					pending.addAll(direct);
@@ -465,7 +471,7 @@ public class RuleAnalysis extends AbstractAnalyserVisitor {
 				}
 			} else {
 				// There are rules but we don't know if the filters are complete
-				for(MatchedRule r : ns.getRules()) {
+				for(MatchedRule r : rules) {
 					if ( r.getInPattern().getFilter() != null ) {
 						notResolved.add(ns);
 						break;

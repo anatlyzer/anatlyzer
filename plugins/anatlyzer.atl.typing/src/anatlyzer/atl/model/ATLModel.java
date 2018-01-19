@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -57,6 +58,14 @@ public class ATLModel {
 	
 	public ATLModelTrace getCopierTrace() {
 		return copierTrace;
+	}
+	
+	public EObject target(EObject object) {
+		return copierTrace.getTarget(object);
+	}
+	
+	public EObject source(EObject object) {
+		return copierTrace.getOriginalATLObject(object);
 	}
 	
 	public ATLModel(Resource original, String fileLocation, boolean keepCopier) { 
@@ -363,5 +372,6 @@ public class ATLModel {
 			map(h -> (StaticHelper) h).
 			collect(Collectors.toList());
 	}
+
 
 }

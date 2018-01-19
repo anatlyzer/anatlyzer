@@ -68,11 +68,16 @@ public class GlobalNamespace {
 	}
 
 	public Map<String, Resource> getLogicalNamesToMetamodels() {
+		return getLogicalNamesToMetamodels(true);
+	}
+
+	public Map<String, Resource> getLogicalNamesToMetamodels(boolean includeDeps) {
 		HashMap<String, Resource> res = new HashMap<String, Resource>(logicalNamesToMetamodels);
-		res.put(metaMetamodel.getName(), metaMetamodel.getResource());
+		if ( includeDeps )
+			res.put(metaMetamodel.getName(), metaMetamodel.getResource());
 		return res;
 	}
-	
+
 	public TransformationNamespace getTransformationNamespace() {
 		if ( tspace == null ) {
 			tspace  = new TransformationNamespace(); // Lazy initialization to ensure it is created in the thread's context

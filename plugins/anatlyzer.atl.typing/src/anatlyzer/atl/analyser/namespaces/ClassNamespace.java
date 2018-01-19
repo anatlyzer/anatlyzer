@@ -580,19 +580,7 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		
 		resolvingRules.add(rule);		
 
-		// For any supertype, the rule *may* resolve the object 
-
-// Not doing this recursively because it interfieres with the handling of subtypes
-//		for(EClass c : eClass.getESuperTypes()) {
-//			if ( c.eIsProxy() ) { 
-//				// TODO: Handle this: System.out.println("WARNING: Ignoring proxy (extendType, ClassNamespace)"); 
-//				continue; 
-//			}
-//			
-//			IClassNamespace ns = (IClassNamespace) metamodel.getClassifier(c.getName());
-//			ns.attachResolvingRule(ruleName, returnType, rule);
-//		}
-		
+		// For any supertype, the rule *may* resolve the object 	
 		for(EClass c : eClass.getEAllSuperTypes()) {
 			if ( c.eIsProxy() ) { 
 				// TODO: Handle this: System.out.println("WARNING: Ignoring proxy (extendType, ClassNamespace)"); 

@@ -173,6 +173,10 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 		if ( self.getActionBlock() == null ) 
 			return null;
 		List<Statement> statements = self.getActionBlock().getStatements();
+		if ( statements.isEmpty() ) {
+			return null;
+		}
+		
 		Statement last = statements.get(statements.size() - 1);
 				
 		if ( last instanceof ExpressionStat ) {

@@ -832,7 +832,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 	}
 
 	// Similar to the method in the editor...
-	public List<AtlProblemQuickfix> getQuickfixes(Problem p, AnalysisResult r) {
+	public static List<AtlProblemQuickfix> getQuickfixes(Problem p, AnalysisResult r) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_QUICKFIX_EXTENSION_POINT);
 		ArrayList<AtlProblemQuickfix> quickfixes = new ArrayList<AtlProblemQuickfix>();
@@ -872,7 +872,7 @@ public class QuickfixEvaluationAbstract extends AbstractATLExperiment implements
 		return quickfixes;
 	}
 
-	protected boolean checkIsApplicable(AtlProblemQuickfix qf, MockMarker iMarker) throws CoreException {
+	protected static boolean checkIsApplicable(AtlProblemQuickfix qf, MockMarker iMarker) throws CoreException {
 		try {
 			return qf.isApplicable(iMarker);
 		} catch ( Exception e ) {

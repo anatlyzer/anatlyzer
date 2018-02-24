@@ -43,7 +43,7 @@ public class AnATLyzerPreferencesPage extends FieldEditorPreferencePage implemen
     	
 
     	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.SPECULATIVE_QUICKFIXES_ENABLED, "Enable speculative quick fixes", getFieldEditorParent()));
-
+    	addField(new BooleanFieldEditor(AnATLyzerPreferenceInitializer.USE_OCL_SIMPLIFIER, "Simplify auto-generated OCL expressions", getFieldEditorParent()));
     	
     	addField(new ComboFieldEditor(AnATLyzerPreferenceInitializer.DEFAULT_ANALYSIS_CONFIGURATION, "Default batch configuration",
     			new String[][] { 

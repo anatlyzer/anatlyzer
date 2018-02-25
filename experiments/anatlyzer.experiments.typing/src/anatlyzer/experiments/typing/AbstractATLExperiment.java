@@ -220,6 +220,14 @@ public abstract class AbstractATLExperiment  implements IExperiment {
 	protected String createDataFileName(IFile expFile, String folderName, String extension) {
 		IProject project = expFile.getProject();
 		IFolder folder = project.getFolder(folderName);
+		if ( ! folder.exists() ) {
+			try {
+				folder.create(true, true, null);
+			} catch (CoreException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 		return folder.getFile(expFile.getFullPath().removeFileExtension().addFileExtension(extension).lastSegment()).getLocation().toOSString();		
 	}
 	

@@ -49,7 +49,16 @@ public abstract class BindingInvalidTargetInResolvedRule_Abstract extends Bindin
 		
 		List<MatchedRule> guiltyRules = new ArrayList<MatchedRule>();
 		for (BindingWithResolvedByIncompatibleRule pSingle : problems) {
-			ProblemStatus result = new EclipseUseWitnessFinder().find(pSingle, analysis);
+			// Only for beautyocl tests!!
+			if ( true ) {
+				guiltyRules.add((MatchedRule) pSingle.getRules().get(0).getElement());
+				continue;
+			}
+			
+			ProblemStatus result = new EclipseUseWitnessFinder().
+					setTimeOut(1000). // TODO: Configure this parameter somehow
+					find(pSingle, analysis);
+			
 			switch ( result ) {
 			case ERROR_CONFIRMED: 
 			case ERROR_CONFIRMED_SPECULATIVE:

@@ -108,6 +108,7 @@ package atl_error {
 	
 	@description(name="Invalid assignment in imperative binding", text="Left and right types of a binding statement are not compatible")	 
 	@info(prec="static", path="no", severity="runtime-error", when="model-dep", kind="tgt-typing", phase="typing", source="none")	
+	@ignorestring(name="invalid-assignment-imperative-binding")
 	class InvalidAssignmentImperativeBinding extends BindingProblem {	   
 	}
 	

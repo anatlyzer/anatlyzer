@@ -3985,6 +3985,12 @@ public class AtlErrorPackageImpl extends EPackageImpl implements AtlErrorPackage
 			 "name", "no-binding-compulsory-feature"
 		   });	
 		addAnnotation
+		  (invalidAssignmentImperativeBindingEClass, 
+		   source, 
+		   new String[] {
+			 "name", "invalid-assignment-imperative-binding"
+		   });	
+		addAnnotation
 		  (bindingPossiblyUnresolvedEClass, 
 		   source, 
 		   new String[] {

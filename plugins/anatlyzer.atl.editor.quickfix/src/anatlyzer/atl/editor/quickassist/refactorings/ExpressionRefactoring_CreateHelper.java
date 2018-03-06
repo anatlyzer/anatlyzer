@@ -58,7 +58,7 @@ public class ExpressionRefactoring_CreateHelper extends AbstractAtlQuickAssist {
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(exp, (e_, trace) -> {
 			// TODO: What about preservation
-			EObject newExp = simp.simplify(getATLModel(), exp);
+			EObject newExp = simp.simplify(getAnalysisResult().getAnalyser(), exp);
 			System.out.println( ATLSerializer.serialize(newExp) );
 			return newExp;
 		});

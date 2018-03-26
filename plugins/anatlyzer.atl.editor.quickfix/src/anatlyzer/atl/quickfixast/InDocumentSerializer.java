@@ -23,10 +23,14 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.InsertAfterAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.InsertBeforeAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
+import anatlyzer.atl.simplifier.IOclSimplifier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
+import anatlyzer.ui.util.ExtensionPointUtils;
 
 public class InDocumentSerializer extends ATLSerializer {
 
@@ -50,15 +54,7 @@ public class InDocumentSerializer extends ATLSerializer {
 		final DocumentRewriteSession session = ext4.startRewriteSession(DocumentRewriteSessionType.SEQUENTIAL);
 		try {
 			for(Action original : qfa.getActions()) {
-				Action a = null;
-				if ( original instanceof PutInAction ) {
-					a = ((PutInAction) original).toMockReplacement();
-				} else if ( original instanceof DeleteAction ) {
-					// This is only an easy way to do this, but it is not able to preserve the layout
-					a = ((DeleteAction) original).toMockReplacement();					
-				} else {
-					a = original;
-				}
+				Action a = getActualAction(original);
 	
 				this.currentAction = a;
 				
@@ -70,8 +66,7 @@ public class InDocumentSerializer extends ATLSerializer {
 
 					int start = offsets[0];
 					int length = 0;
-					String s = comment + "\n";
-					
+					String s = comment + "\n";									
 					document.replace(start, length, s);
 
 					qfa.updateWorkbench(document);
@@ -79,11 +74,23 @@ public class InDocumentSerializer extends ATLSerializer {
 					return;
 				}
 				
-		
-				setInitialIndent(a.getTgt());
+				EObject targetExpression = a.getTgt();
+
+				if ( AnATLyzerPreferenceInitializer.getUseOclSimplifier() ) {
+					IOclSimplifier simplifier = ExtensionPointUtils.getOclSimplifier();
+					if ( simplifier != null ) {
+						EObject result = simplifier.simplify(null, targetExpression);
+						if ( result != null ) {
+							targetExpression = result;
+						}
+					}					
+				}
+
 				
-				startVisiting(a.getTgt());
-				String s = g(a.getTgt());
+				setInitialIndent(targetExpression);
+				
+				startVisiting(targetExpression);
+				String s = g(targetExpression);
 				
 				int start  = -1;
 				int length = -1;
@@ -97,7 +104,7 @@ public class InDocumentSerializer extends ATLSerializer {
 					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertAfterAction) a).getAnchor()).getLocation());
 					start  = offsets[1];
 					length = 0;
-					if ( a.getTgt() instanceof Binding ) {
+					if ( targetExpression instanceof Binding ) {
 						// For bindings do nothing, inBinding overriding takes care
 					} else {
 						// By default, add a carriage return to other elements
@@ -107,7 +114,7 @@ public class InDocumentSerializer extends ATLSerializer {
 					int[] offsets = help.getIndexChar(((LocatedElement) ((InsertBeforeAction) a).getAnchor()).getLocation());
 					start  = offsets[1];
 					length = 0;
-					if ( a.getTgt() instanceof Binding ) {
+					if ( targetExpression instanceof Binding ) {
 						// For bindings do nothing, inBinding overriding takes care
 					} else {
 						// By default, add a carriage return to other elements
@@ -162,6 +169,19 @@ public class InDocumentSerializer extends ATLSerializer {
 		}
 
 		
+	}
+
+	public static Action getActualAction(Action original) {
+		Action a;
+		if ( original instanceof PutInAction ) {
+			a = ((PutInAction) original).toMockReplacement();
+		} else if ( original instanceof DeleteAction ) {
+			// This is only an easy way to do this, but it is not able to preserve the layout
+			a = ((DeleteAction) original).toMockReplacement();					
+		} else {
+			a = original;
+		}
+		return a;
 	}
 
 	@Override

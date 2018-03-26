@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -47,6 +49,38 @@ public class SpeculativeQuickfixUtils {
 	 * @return
 	 */
 	public static IncrementalCopyBasedAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx) {
+		return createIncrementalAnalyser(baseAnalysis, problem, qfx, (inc, qfa) -> {
+			qfa.apply();
+			
+			ITracedATLModel trace = (ITracedATLModel) inc.getATLModel();
+			qfa.updateSpeculativeTrace(trace);
+
+			// What happen if the qfx is meta-model changing?
+			// For the moment I always copy the meta-model
+			
+			List<String> preconditions = ATLUtils.getPreconditions(inc.getNewModel());
+			try {
+				AnalyserUtils.extendWithPreconditions(inc.getNewModel(), preconditions, new IAtlFileLoader() {			
+					@Override
+					public Resource load(IFile f) {	throw new IllegalStateException(); }
+					
+					@Override
+					public Resource load(String text) {
+						EMFModel libModel = AtlEngineUtils.loadATLText(text);
+						return libModel.getResource();
+					}
+				});
+			} catch (PreconditionParseError e) {
+				e.printStackTrace();
+			}
+
+			
+			// The analysis is not executed, delegated to the client
+			// inc.perform();			
+		});
+	}
+	
+	public static IncrementalCopyBasedAnalyser createIncrementalAnalyser(AnalysisResult baseAnalysis, Problem problem, AtlProblemQuickfix qfx, BiConsumer<IncrementalCopyBasedAnalyser, QuickfixApplication> consumer) {
 		IncrementalCopyBasedAnalyser inc = null;
 
 		boolean copyMetamodelsOnDemand = true;
@@ -95,33 +129,7 @@ public class SpeculativeQuickfixUtils {
 			if ( qfa == null ) {
 				throw new IllegalStateException("No actual implementation for quick fix: " + qfx);
 			}
-			qfa.apply();
-			
-			ITracedATLModel trace = (ITracedATLModel) inc.getATLModel();
-			qfa.updateSpeculativeTrace(trace);
-
-			// What happen if the qfx is meta-model changing?
-			// For the moment I always copy the meta-model
-			
-			List<String> preconditions = ATLUtils.getPreconditions(inc.getNewModel());
-			try {
-				AnalyserUtils.extendWithPreconditions(inc.getNewModel(), preconditions, new IAtlFileLoader() {			
-					@Override
-					public Resource load(IFile f) {	throw new IllegalStateException(); }
-					
-					@Override
-					public Resource load(String text) {
-						EMFModel libModel = AtlEngineUtils.loadATLText(text);
-						return libModel.getResource();
-					}
-				});
-			} catch (PreconditionParseError e) {
-				e.printStackTrace();
-			}
-
-			
-			// The analysis is not executed, delegated to the client
-			// inc.perform();
+			consumer.accept(inc, qfa);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} finally {

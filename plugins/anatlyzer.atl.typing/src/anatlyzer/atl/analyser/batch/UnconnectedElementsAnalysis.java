@@ -38,6 +38,8 @@ import anatlyzer.atlext.processing.AbstractVisitor;
  * there are objects that will not be connected to the others.
  * (i.e., determine connected components).
  *
+ * TODO: This does not work for lazy rules!
+ * 
  * @author jesus
  *
  */

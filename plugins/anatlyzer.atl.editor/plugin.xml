@@ -9,6 +9,7 @@
    <extension-point id="anatlyzer.atl.editor.views.additionalactions" name="Additional actions" schema="schema/anatlyzer.atl.editor.views.additionalactions.exsd"/>
    <extension-point id="anatlyzer.atl.editor.explanation_fixdialog" name="anATLyzer Fix for the Explanation Dialog " schema="schema/anatlyzer.atl.editor.explanation_fixdialog.exsd"/>
    <extension-point id="anatlyzer.atl.editor.witnessvisualizer" name="anATLyzer witness visualizer" schema="schema/anatlyzer.atl.editor.witnessvisualizer.exsd"/>
+   <extension-point id="anatlyzer.atl.editor.simplifier" name="anatlyzer.atl.editor.simplifier" schema="schema/anatlyzer.atl.editor.simplifier.exsd"/>
 
    <extension
          point="anatlyzer.atl.editor.witnessfinder">

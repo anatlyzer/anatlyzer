@@ -13,6 +13,7 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 	public static final String MIN_BOUNDS = "MIN_BOUNDS";
 	public static final String MAX_BOUNDS = "MAX_BOUNDS";
 	public static final String DEFAULT_ANALYSIS_CONFIGURATION = "DEFAULT_ANALYSIS_CONFIGURATION";
+	public static final String USE_OCL_SIMPLIFIER = "USE_OCL_SIMPLIFIER";
 
 	@Override
 	public void initializeDefaultPreferences() {
@@ -22,10 +23,16 @@ public class AnATLyzerPreferenceInitializer extends AbstractPreferenceInitialize
 		store.setDefault(TIMEOUT_PREFERENCE, 7500L);
 		store.setDefault(BUILDER_ANALYSE_OPEN_ONLY, true);
 		store.setDefault(SPECULATIVE_QUICKFIXES_ENABLED, false);
+		store.setDefault(USE_OCL_SIMPLIFIER, false);
 		store.setDefault(DEFAULT_ANALYSIS_CONFIGURATION, DefaultAnalysisConfiguration.MODEL_FINDING_ON_ERRORS.name());
 
 		store.setDefault(MIN_BOUNDS, 0);
 		store.setDefault(MAX_BOUNDS, 5);
+	}
+	
+	public static boolean getUseOclSimplifier() {
+		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+		return store.getBoolean(USE_OCL_SIMPLIFIER);
 	}
 	
 	public static long getTimeOut() {

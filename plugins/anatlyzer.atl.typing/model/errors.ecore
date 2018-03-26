@@ -119,6 +119,9 @@
         <details key="phase" value="typing"/>
         <details key="source" value="none"/>
       </eAnnotations>
+      <eAnnotations source="ignorestring">
+        <details key="name" value="invalid-assignment-imperative-binding"/>
+      </eAnnotations>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EEnum" name="NoBindingForCompulsoryFeatureKind">
       <eLiterals name="IN_NORMAL_RULE"/>

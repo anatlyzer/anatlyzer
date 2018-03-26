@@ -1,5 +1,7 @@
 package anatlyzer.atl.model;
 
+import java.util.Map.Entry;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -34,6 +36,15 @@ public class DynamicToStaticCopier extends AbstractDynamicToStaticCopier {
 		if ( target instanceof LocatedElement ) {
 			((LocatedElement) target).setFileLocation(this.fileLocation);
 		}
+	}
+
+	public EObject getOriginalATLObject(EObject tgt) {
+		for (Entry<EObject, EObject> entry : trace.entrySet()) {
+			if ( entry.getValue() == tgt ) {
+				return entry.getKey();
+			}
+		}
+		return null;
 	}
 	
 	

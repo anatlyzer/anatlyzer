@@ -475,11 +475,12 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 				int i = 0;
 				while ( t.isAlive() ) { 
 					try {
-						System.out.println("Is interrupted: " + t.isInterrupted());
 						Thread.sleep(50);
 						i++;
 						if ( i > 10 ) {
+							System.out.println("Called stop: " + t.isInterrupted());
 							t.stop();
+							break;
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();

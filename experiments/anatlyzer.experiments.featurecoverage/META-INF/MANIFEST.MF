@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ATL Feature Coverage
+Bundle-SymbolicName: anatlyzer.experiments.featurecoverage;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.core.runtime,
+ anatlyzer.atl.typing;bundle-version="0.3.0",
+ anatlyzer.experiments;bundle-version="0.3.0",
+ anatlyzer.atl.editor,
+ org.eclipse.swt,
+ org.eclipse.core.resources,
+ org.eclipse.jface.text
+Import-Package: org.eclipse.m2m.atl.core.emf
+Bundle-ClassPath: .,
+ lib/simple-xml-2.7.1/simple-xml-2.7.1.jar,
+ lib/simple-xml-2.7.1/stax-1.2.0.jar,
+ lib/simple-xml-2.7.1/stax-api-1.0.1.jar,
+ lib/simple-xml-2.7.1/xpp3-1.1.3_8.jar,
+ lib/commons-io-2.4.jar

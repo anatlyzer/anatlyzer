@@ -265,7 +265,7 @@ public class ConstraintsComposite extends Composite {
 				witnessFoundList.createModel(result.getWitnessModel());
 				this.tblViewerModel.setInput(witnessFoundList);
 				this.tblViewerModel.refresh();
-				UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModel(), null);
+				UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
 			} else if ( result.unsat() ) {
 				showMessage("UNSAT!");
 			} else {
@@ -285,7 +285,7 @@ public class ConstraintsComposite extends Composite {
 		IResource r = UIUtils.showChooseNewFileDialog(getShell());
 		if ( r != null ) {		
 			try {
-				m.getModel().getModel().save(new FileOutputStream(r.getLocation().toOSString()), null);
+				m.getModel().getModelAsOriginal().save(new FileOutputStream(r.getFullPath().toOSString()), null);
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new RuntimeException(e);

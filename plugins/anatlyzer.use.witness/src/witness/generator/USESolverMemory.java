@@ -33,6 +33,7 @@ import org.tzi.kodkod.KodkodModelValidatorConfiguration;
 import org.tzi.kodkod.model.config.impl.PropertyConfigurationVisitor;
 import org.tzi.kodkod.model.iface.IInvariant;
 import org.tzi.kodkod.model.iface.IModel;
+import org.tzi.use.api.UseModelApi;
 import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.PluginModelFactory;
 import org.tzi.use.kodkod.transform.enrich.ModelEnricher;
@@ -193,6 +194,14 @@ public class USESolverMemory extends Solver_use {
 		PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null); // new in USE 4.1.1 (enforce model reload)
 		InternalUseValidator modelValidator = new InternalUseValidator(fSession);
         
+//        UseModelApi api = new UseModelApi("test");
+//        api.getClass(arg0)
+//        MClass c1 = api.createClass("C1", false);
+//        MClass c2 = api.createClass("C2", false);
+//        MClass c3 = api.createClass("C3", false);
+//        
+//        UseSystemApi sysApi = UseSystemApi.create(api.getModel(), false);
+
 		
         IModel kodkodModel = PluginModelFactory.INSTANCE.getModel(system.model());        
 		ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher();

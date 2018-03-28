@@ -106,5 +106,15 @@ public class UIUtils {
 		}		
 		return null;
 	}
+
+	public static IResource showChooseChooseFileDialog(Shell shell) {
+		FileDialog fd = new FileDialog(shell);
+		String f = fd.open();
+		if ( f != null ) {
+			return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(f));
+		    //return (IResource) dialog.getFirstResult();
+		}		
+		return null;
+	}
 	
 }

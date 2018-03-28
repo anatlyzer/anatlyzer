@@ -183,6 +183,15 @@ public class ConstraintsComposite extends Composite {
 		});
 		btnGenExample.setText("Generate example");
 		
+		Button btnComplete = new Button(composite, SWT.NONE);
+		btnComplete.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				completeModel();
+			}
+		});
+		btnComplete.setText("Complete model");
+		
 		Button btnSaveToXmi = new Button(composite, SWT.NONE);
 		btnSaveToXmi.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -293,6 +302,11 @@ public class ConstraintsComposite extends Composite {
 		}
 	}
 
+	protected void completeModel() {
+		IResource r = UIUtils.showChooseChooseFileDialog(getShell());
+		
+		
+	}
 
 	private void showMessage(String message) {
 		txtInfo.setText(message);

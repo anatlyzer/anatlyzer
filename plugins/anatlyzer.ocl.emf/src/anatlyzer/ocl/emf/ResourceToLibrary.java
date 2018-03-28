@@ -4,26 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.ocl.ParserException;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
-import org.eclipse.ocl.ecore.ExpressionInOCL;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.OCL.Helper;
-import org.eclipse.ocl.ecore.parser.OCLFactoryWithHistory;
-import org.eclipse.ocl.examples.pivot.internal.impl.ConstraintImpl;
-import org.eclipse.ocl.examples.xtext.base.basecs.ConstraintCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.ClassifierContextDeclCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.CompleteOCLDocumentCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.ContextDeclCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.PackageDeclarationCS;
-import org.eclipse.ocl.helper.OCLHelper;
+import org.eclipse.ocl.xtext.basecs.ConstraintCS;
+import org.eclipse.ocl.xtext.completeoclcs.ClassifierContextDeclCS;
+import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
+import org.eclipse.ocl.xtext.completeoclcs.ContextDeclCS;
+import org.eclipse.ocl.xtext.completeoclcs.PackageDeclarationCS;
 
-import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Library;
@@ -43,11 +35,11 @@ public class ResourceToLibrary {
 			// Parse again but with Ecore
 			OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);			
 			Helper helper = ocl.createOCLHelper();
-			helper.setContext((EClassifier) ((ClassifierContextDeclCS) inv.eContainer()).getClassifier().getETarget());
+			helper.setContext((EClassifier) ((ClassifierContextDeclCS) inv.eContainer()).getReferredClass().getESObject());
 
 			Constraint constraint;
 			try {
-				constraint = helper.createInvariant(inv.getSpecification().toString());
+				constraint = helper.createInvariant(inv.getOwnedSpecification().toString());
 				constraint.setName(inv.getName());
 			} catch (ParserException e) {
 				e.printStackTrace();
@@ -70,14 +62,14 @@ public class ResourceToLibrary {
 	
 	public Library translate(String metamodelName, CompleteOCLDocumentCS doc) {
 		ArrayList<ConstraintCS> invs = new ArrayList<>();
-		for (PackageDeclarationCS pkg : doc.getPackages()) {
+		for (PackageDeclarationCS pkg : doc.getOwnedPackages()) {
 //			String pkgName = pkg.getPackage().getName();
 //			
 //			System.out.println(pkg.getPivot());			
-			for (ContextDeclCS ctx : pkg.getContexts()) {
+			for (ContextDeclCS ctx : pkg.getOwnedContexts()) {
 				if ( ctx instanceof ClassifierContextDeclCS ) {
 					ClassifierContextDeclCS cctx = (ClassifierContextDeclCS) ctx;
-					invs.addAll(cctx.getInvariants());
+					invs.addAll(cctx.getOwnedInvariants());
 				}
 			}
 		}

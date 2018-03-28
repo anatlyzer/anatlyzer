@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.ocl.examples.xtext.base.basecs.ConstraintCS;
+import org.eclipse.ocl.xtext.basecs.ConstraintCS;
 
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils;

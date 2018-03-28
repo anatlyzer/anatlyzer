@@ -79,7 +79,7 @@ public class InDocumentSerializer extends ATLSerializer {
 				if ( AnATLyzerPreferenceInitializer.getUseOclSimplifier() ) {
 					IOclSimplifier simplifier = ExtensionPointUtils.getOclSimplifier();
 					if ( simplifier != null ) {
-						EObject result = simplifier.simplify(null, targetExpression);
+						EObject result = simplifier.simplify(qfa.getAnalysis(), targetExpression);
 						if ( result != null ) {
 							targetExpression = result;
 						}

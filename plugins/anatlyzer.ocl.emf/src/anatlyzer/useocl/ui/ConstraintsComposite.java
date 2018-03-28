@@ -2,51 +2,38 @@ package anatlyzer.useocl.ui;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import org.eclipse.ocl.examples.xtext.base.basecs.ConstraintCS;
-import org.eclipse.ocl.examples.xtext.base.basecs.ImportCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.CompleteOCLDocumentCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.PackageDeclarationCS;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
+import org.eclipse.ocl.xtext.completeoclcs.PackageDeclarationCS;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.custom.TableTree;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.widgets.Text;
 
 import anatlyzer.ocl.emf.OclValidator;
 import anatlyzer.ocl.emf.OclValidator.ValidationResult;
-import anatlyzer.ocl.emf.ResourceToLibrary;
 import anatlyzer.useocl.ui.ConstraintsContentProvider.InvariantData;
 import anatlyzer.useocl.ui.WitnessProvider.WitnessModel;
 import anatlyzer.useocl.ui.WitnessProvider.WitnessModelList;
-
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.custom.StyledText;
 
 public class ConstraintsComposite extends Composite {
 	private Text txtOclModel;
@@ -256,8 +243,8 @@ public class ConstraintsComposite extends Composite {
     	
     	// Add the meta-models
 		CompleteOCLDocumentCS doc = data.getDoc();
-		for(PackageDeclarationCS i : doc.getPackages()) {
-			validator.addMetamodel(i.getPackage().getEPackage());
+		for(PackageDeclarationCS i : doc.getOwnedPackages()) {
+			validator.addMetamodel(i.getReferredPackage().getEPackage());
 		}
 
 		// Add the constraints

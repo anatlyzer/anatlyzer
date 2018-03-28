@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
 
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.editor.builder.AnATLyzerBuilder;
 import anatlyzer.atl.editor.quickfix.AtlCompletionProposal;
 import anatlyzer.atl.editor.quickfix.AtlProblemQuickfix;
@@ -57,6 +58,10 @@ public class QuickfixApplication {
 		this.qfx = qfx;
 	}
 
+	public IAnalyserResult getAnalysis() {
+		return qfx.getAnalysisResult().getAnalyser();
+	}
+	
 	public List<Action> getActions() {
 		return actions;
 	}

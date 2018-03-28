@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.editor.quickfix.AbstractAtlQuickfix;
 import anatlyzer.atl.errors.atl_error.BindingProblem;
 import anatlyzer.atl.errors.atl_error.BindingResolution;
+import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.CollectionType;
@@ -240,6 +241,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 			op.getArguments().add( ATLUtils.getOclType( srcType ) );	
 			VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 			varRef.setReferredVariable(bindingValueVar);
+			varRef.setInferredType(TypeUtils.getUnderlyingType(bindingValueVar.getInferredType()));
 			op.setSource(varRef);
 			return op;
 		};

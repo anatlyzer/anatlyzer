@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ocl.examples.xtext.base.basecs.ConstraintCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.ClassifierContextDeclCS;
-import org.eclipse.ocl.examples.xtext.completeocl.completeoclcs.CompleteOCLDocumentCS;
+import org.eclipse.ocl.xtext.basecs.ConstraintCS;
+import org.eclipse.ocl.xtext.completeoclcs.ClassifierContextDeclCS;
+import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
 
 import anatlyzer.ocl.emf.OclEMFUtils;
 
@@ -54,7 +54,7 @@ public class ConstraintsContentProvider implements IStructuredContentProvider {
 		}
 
 		public String getClassName() {
-			return ((ClassifierContextDeclCS) constraint.eContainer()).getClassifier().getName();
+			return ((ClassifierContextDeclCS) constraint.eContainer()).getReferredClass().getName();
 		}
 	}
 

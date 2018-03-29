@@ -3,6 +3,9 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
@@ -110,8 +113,29 @@ public class SourceMetamodelsData implements IMetamodelRewrite {
 		return root;
 	}
 
+	@Override
 	public EClass getTarget(EClass c) {
 		return (EClass) trace.get(c);
+	}
+
+	@Override
+	public EObject getTarget(EObject orig, BiFunction<EObject, EObject, Boolean> comparator) {
+		for (Entry<EObject, EObject> entry : trace.entrySet()) {
+			if ( comparator.apply(entry.getKey(), orig) ) {
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public EObject getOriginal(EObject orig, BiFunction<EObject, EObject, Boolean> comparator) {
+		for (Entry<EObject, EObject> entry : trace.entrySet()) {
+			if ( comparator.apply(entry.getKey(), orig) ) {
+				return entry.getKey();
+			}
+		}
+		return null;
 	}
 
 	public EEnum getTarget(EEnum c) {

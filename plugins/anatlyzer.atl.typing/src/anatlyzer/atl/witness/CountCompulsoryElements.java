@@ -29,6 +29,11 @@ public class CountCompulsoryElements implements IScopeCalculator {
 		System.out.println(klass.getName());
 		return new Interval(minClassBounds.getOrDefault(klass, 0), max);
 	}
+	
+	@Override
+	public void setMetamodelRewrite(IMetamodelRewrite rewrite) {
+		// IGNORED, NOT NEEDED IN THIS STRATEGY
+	}
 
 	@Override
 	public Interval getScope(EReference feature) {

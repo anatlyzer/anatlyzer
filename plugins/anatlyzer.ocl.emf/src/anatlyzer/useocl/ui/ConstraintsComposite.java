@@ -1,9 +1,17 @@
 package anatlyzer.useocl.ui;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -29,11 +37,14 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import anatlyzer.atl.witness.XMIPartialModel;
 import anatlyzer.ocl.emf.OclValidator;
 import anatlyzer.ocl.emf.OclValidator.ValidationResult;
 import anatlyzer.useocl.ui.ConstraintsContentProvider.InvariantData;
 import anatlyzer.useocl.ui.WitnessProvider.WitnessModel;
 import anatlyzer.useocl.ui.WitnessProvider.WitnessModelList;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 public class ConstraintsComposite extends Composite {
 	private Text txtOclModel;
@@ -149,6 +160,11 @@ public class ConstraintsComposite extends Composite {
 		tbtmModels.setControl(sashForm);
 		
 		tblViewerModel = new TableViewer(sashForm, SWT.BORDER | SWT.FULL_SELECTION);
+		tblViewerModel.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				showSelectedModel();
+			}
+		});
 		Table tblModels = tblViewerModel.getTable();
 		
 		cmpModelView = new Composite(sashForm, SWT.NONE);
@@ -204,6 +220,11 @@ public class ConstraintsComposite extends Composite {
 		tblViewerModel.setLabelProvider(wp);
 	}
 
+	protected void showSelectedModel() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//Creates the column
     private TableViewerColumn createTableViewerColumn(String header, int idx, TableViewer tableViewer2) 
     {
@@ -235,7 +256,11 @@ public class ConstraintsComposite extends Composite {
 	//
 	// Button actions
 	// 
-    protected void generateExample() {    
+    protected void generateExample() {
+    	generateExample(null);
+    }
+
+    protected void generateExample(XMIPartialModel partialModel) {
     	ConstraintsContentProvider.OclDocumentData data = (ConstraintsContentProvider.OclDocumentData) tableViewer.getInput();
     	// List<ConstraintCS> constraints = data.getInvariants().stream().map(i -> i.getConstraint()).collect(Collectors.toList());
     	
@@ -247,12 +272,21 @@ public class ConstraintsComposite extends Composite {
 			validator.addMetamodel(i.getReferredPackage().getEPackage());
 		}
 
+		// Add the bounds after having configured the packages, so that the bounds can be checked against real classes
+		for(PackageDeclarationCS i : doc.getOwnedPackages()) {
+			extractBounds(i, validator);
+		}
+		
 		// Add the constraints
 		for (InvariantData i : data.getInvariants()) {
 			if ( i.isSelected() )
 				validator.addConstraint(i.getConstraint());
 		}
 	
+		if ( partialModel != null ) {
+			validator.setPartialModel(partialModel);
+		}
+		
 		try {
 			validator.invoke();
 			ValidationResult result = validator.getResult();
@@ -274,6 +308,35 @@ public class ConstraintsComposite extends Composite {
 	}
 
 
+	protected void completeModel() {
+		IResource r = UIUtils.showChooseChooseFileDialog(getShell());
+		if ( r != null ) {
+			ResourceSet rs = new ResourceSetImpl();
+			Resource model = rs.getResource(URI.createFileURI(r.getFullPath().toOSString()), true);
+			XMIPartialModel partialModel = new XMIPartialModel(model);
+			generateExample(partialModel);
+		}		
+	}
+    
+	private void extractBounds(PackageDeclarationCS pkg, OclValidator validator) {
+		String text = pkg.toString();
+		BufferedReader reader = new BufferedReader(new StringReader(text));
+		reader.lines().
+			filter(l -> l.contains("@bounds")).
+			forEach(l -> extractBounds(l, validator));			
+	}
+
+	private void extractBounds(String l, OclValidator validator) {
+		Pattern regexp = Pattern.compile("bounds\\s+(\\w+)\\s+([0-9]+)\\.\\.([0-9]+)");
+		Matcher matcher = regexp.matcher(l);
+		if ( matcher.find() ) {
+			String className = matcher.group(1);
+			int min = Integer.parseInt(matcher.group(2));
+			int max = Integer.parseInt(matcher.group(3));
+			validator.addBounds(className, min, max);
+		}
+	}
+
 	protected void saveToXmi() {
 		IStructuredSelection s = (IStructuredSelection) this.tblViewerModel.getSelection();
 		WitnessModel m = (WitnessModel) s.getFirstElement();
@@ -287,12 +350,6 @@ public class ConstraintsComposite extends Composite {
 				throw new RuntimeException(e);
 			}
 		}
-	}
-
-	protected void completeModel() {
-		IResource r = UIUtils.showChooseChooseFileDialog(getShell());
-		
-		
 	}
 
 	private void showMessage(String message) {

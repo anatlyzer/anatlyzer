@@ -30,6 +30,8 @@ public interface IWitnessFinder {
 	
 	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector);
 	
+	public IWitnessFinder setInputPartialModel(IInputPartialModel iim);
+	
 	public IWitnessModel getFoundWitnessModel();
 	
 	

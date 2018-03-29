@@ -1,10 +1,14 @@
 package analyser.atl.problems;
 
+import java.util.HashMap;
 import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
 
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.OCL.OclExpression;
 
 /**
@@ -42,5 +46,5 @@ public interface IDetectedProblem {
 	 * @return
 	 */
 	public List<OclExpression> getFrameConditions();
-	
+
 }

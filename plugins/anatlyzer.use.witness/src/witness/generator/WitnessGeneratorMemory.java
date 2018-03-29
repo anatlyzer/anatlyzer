@@ -41,6 +41,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	
 	private IMetamodelExtensionStrategy metamodelExtension = new MandatoryFullMetamodelStrategy();
 	private long initialTime;
+	private UseInputPartialModel partialModel;
 	
 	private static Integer index = 0;
 	
@@ -58,6 +59,10 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		this.scopeCalculator = scopeCalculator;
 	}
 
+	public void setInputPartialModel(UseInputPartialModel partialModel) {
+		this.partialModel = partialModel;
+	}
+	
 	public void setMetamodelExtensionStrategy(IMetamodelExtensionStrategy strategy) {
 		if ( strategy == null )
 			throw new IllegalArgumentException();
@@ -104,10 +109,15 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			return new USEResult(outcome, true, null, -1);
 		} else {
 			USEResult r = null;
+			USESolverMemory solver = configureUseSolver(getTempDirectoryPath(), errorMM, oclConstraint, this.additionalConstraints);
+			if ( partialModel != null ) {
+				solver.setPartialModel(partialModel);
+			}
+			
 			if ( scopeCalculator == null )
-				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, minScope, maxScope, timeOut, this.additionalConstraints);
+				r = generateWitnessStaticInMemory(solver, index, minScope, maxScope, timeOut);
 			else 
-				r = generateWitnessStaticInMemory(getTempDirectoryPath(), errorMM, oclConstraint, index, scopeCalculator, timeOut, this.additionalConstraints); 
+				r = generateWitnessStaticInMemory(solver, index, scopeCalculator, timeOut); 
 			
 			return r;
 //			if ( r == null ) {
@@ -278,17 +288,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 
 
-	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, IScopeCalculator calculator, long timeOut, List<String> additionalConstraints) throws transException {
-		// I need to invoke this because otherwise transML will try to use some internal
-		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
-		transMLProperties.loadPropertiesFile(path);
-
-		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
-		for (String string : additionalConstraints) {
-			ocl_constraints.add(string);
-		}
-
-		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
+	public static USEResult generateWitnessStaticInMemory(USESolverMemory solver, int index, IScopeCalculator calculator, long timeOut) throws transException {
 		
 		USEResult  model = null;
 		
@@ -316,18 +316,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		return model;				
 	}
 	
-	public static USEResult generateWitnessStaticInMemory(String path, EPackage metamodel, String ocl_constraint, int index, int minScope, int maxScope, long timeOut, List<String> additionalConstraints) throws transException {
-		// I need to invoke this because otherwise transML will try to use some internal
-		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
-		transMLProperties.loadPropertiesFile(path);
-
-		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
-		for (String string : additionalConstraints) {
-			ocl_constraints.add(string);
-		}
-
-		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
-		
+	public static USEResult generateWitnessStaticInMemory(USESolverMemory solver, int index, int minScope, int maxScope, long timeOut) throws transException {
 		USEResult  model = null;
 		transException conformanceError = null;		
 			
@@ -359,6 +348,21 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			if   (conformanceError == null) return null;
 			else throw conformanceError;
 		return model;		
+	}
+
+	private static USESolverMemory configureUseSolver(String path, EPackage metamodel, String ocl_constraint,
+			List<String> additionalConstraints) throws transException {
+		// I need to invoke this because otherwise transML will try to use some internal
+		// mechanism based on Eclipse and thus this won't work in standalone mode (ClassNotFound error)
+		transMLProperties.loadPropertiesFile(path);
+
+		List<String> ocl_constraints = new ArrayList<String>(Arrays.asList(ocl_constraint));
+		for (String string : additionalConstraints) {
+			ocl_constraints.add(string);
+		}
+
+		USESolverMemory solver = new USESolverMemory(metamodel, ocl_constraints);
+		return solver;
 	}
 	
 	/**
@@ -569,6 +573,5 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 			super(e);
 		}
 	}
-
 
 }

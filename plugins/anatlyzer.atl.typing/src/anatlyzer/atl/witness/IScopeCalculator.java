@@ -28,6 +28,7 @@ public interface IScopeCalculator {
 	}
 
 	boolean incrementScope();
+	void setMetamodelRewrite(IMetamodelRewrite rewrite);
 
 	
 }

@@ -23,6 +23,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
@@ -154,7 +155,15 @@ public class ConstraintSatisfactionChecker {
 
 	private List<OclExpression> getExpressionsToBeChecked() {
 		List<Helper> helpers = ATLUtils.getAllHelpers(model).stream().
-				filter(h -> ! AnalyserUtils.isAddedEOperation(h)).collect(Collectors.toList());
+				filter(h -> ! AnalyserUtils.isAddedEOperation(h)).
+				map(h -> {
+					if ( h instanceof ContextHelper ) {
+						return AnalyserUtils.convertContextInvariant((ContextHelper) h);
+					} else {
+						return h;
+					}
+				}).
+				collect(Collectors.toList());
 		return helpers.stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
 	}
 	

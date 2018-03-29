@@ -19,9 +19,11 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.tzi.use.parser.SrcPos;
 
 import witness.generator.TimeOutException;
 import witness.generator.USEResult;
+import witness.generator.UseInputPartialModel;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.FullMetamodelStrategy;
@@ -81,6 +83,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
 	private IWitnessModel foundModel;
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
+	private IInputPartialModel partialModel;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -148,6 +151,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector) {
 		this.statsCollector = collector;
+		return this;
+	}
+	
+	@Override
+	public IWitnessFinder setInputPartialModel(IInputPartialModel iim) {
+		this.partialModel = iim;
 		return this;
 	}
 	
@@ -242,10 +251,16 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, IMetamodelExtensionStrategy strategy) { 
 		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
+		scopeCalculator.setMetamodelRewrite(srcMetamodels);
 		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
 		// other helpers within preconditions
 		ErrorSlice slice = problem.getErrorSlice(analyser);
-
+		if ( this.partialModel != null ) {
+			// Extend the error slice with the classes of the objects appearing in the slice
+			// We should be clever enough to avoid creating new objects of this type (e.g., setting bounds to 0?)
+			this.partialModel.extendSlice(slice, srcMetamodels);
+		}
+		
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels, slice);
 		ProblemInPathVisitor problems = new ProblemInPathVisitor();
 		problems.perform(originalConstraint);
@@ -339,7 +354,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// Setting up the generator
 		WitnessGeneratorMemory generator = setUpWitnessGenerator(
 				forceOnceInstanceOfConcreteClasses, strategy, preconditions,
-				strConstraint, errorSliceMM, effective, language, projectPath);
+				strConstraint, errorSliceMM, effective, language, projectPath, srcMetamodels);
 		
 		// This won't work for rule conflicts which are not "problem path".
 //		scopeCalculator = new CountCompulsoryElements(2, (ProblemPath) problem, slice);
@@ -372,13 +387,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			IMetamodelExtensionStrategy strategy,
 			List<Pair<StaticHelper, USEConstraint>> preconditions,
 			String strConstraint, EPackage errorSliceMM, EPackage effective,
-			EPackage language, String projectPath) {
+			EPackage language, String projectPath, SourceMetamodelsData src) {
 		WitnessGeneratorMemory generator = createWitnessGenerator(errorSliceMM, effective, language, strConstraint);
 		generator.setDebugModel(debugMode);
 		generator.setMinScope(getMinScope());
 		generator.setMaxScope(getMaxScope());
 		generator.setScopeCalculator(this.scopeCalculator);
 		generator.setTimeOut(timeOut);
+		if ( this.partialModel != null )
+			generator.setInputPartialModel(new UseInputPartialModel(this.partialModel, src));
 		
 		for(String s : genTwoValuedLogicConstraints(errorSliceMM)) {
 			generator.addAdditionaConstraint(s);			

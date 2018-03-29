@@ -33,13 +33,17 @@ import org.tzi.kodkod.KodkodModelValidatorConfiguration;
 import org.tzi.kodkod.model.config.impl.PropertyConfigurationVisitor;
 import org.tzi.kodkod.model.iface.IInvariant;
 import org.tzi.kodkod.model.iface.IModel;
+import org.tzi.use.api.UseApiException;
 import org.tzi.use.api.UseModelApi;
+import org.tzi.use.api.UseSystemApi;
 import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.PluginModelFactory;
 import org.tzi.use.kodkod.transform.enrich.ModelEnricher;
+import org.tzi.use.kodkod.transform.enrich.ObjectDiagramModelEnricher;
 import org.tzi.use.main.Session;
 import org.tzi.use.main.shell.Shell;
 import org.tzi.use.parser.use.USECompiler;
+import org.tzi.use.uml.mm.MClass;
 import org.tzi.use.uml.mm.MClassInvariant;
 import org.tzi.use.uml.mm.MModel;
 import org.tzi.use.uml.mm.ModelFactory;
@@ -55,7 +59,7 @@ import anatlyzer.atl.util.Pair;
 import anatlyzer.atl.witness.IScopeCalculator;
 import anatlyzer.atl.witness.IScopeCalculator.Interval;
 
-public class USESolverMemory extends Solver_use {
+public class USESolverMemory extends Solver_use_Transition {
 
     protected Session fSession;
 	protected String generatedMetamodelName = null;
@@ -63,6 +67,9 @@ public class USESolverMemory extends Solver_use {
 	private String useSpecification;
 	private EClass root;
 	private IScopeCalculator scopeCalculator;
+
+	private boolean debug = true;
+	private UseInputPartialModel partialModel;
 	
 	public USESolverMemory(EPackage metamodel, List<String> constraints) throws transException {
 		super();
@@ -86,6 +93,7 @@ public class USESolverMemory extends Solver_use {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}			
 	}
 	
@@ -105,6 +113,11 @@ public class USESolverMemory extends Solver_use {
 	}
 		
 
+	public void setPartialModel(UseInputPartialModel partialModel) {
+		this.partialModel = partialModel;
+	}
+
+	
 	protected static Object globalLock = new Object();
 	
 	
@@ -125,7 +138,11 @@ public class USESolverMemory extends Solver_use {
 			writer2.close();
 //			writer2.close();
 			//System.out.println(useSpecification);
-		
+
+			if ( debug ) {
+				System.out.println(useSpecification);
+				System.out.println(writer2.toString());
+			}
 			
 			InputStream useMetamodelAndInvariants = new ByteArrayInputStream(useSpecification.getBytes());
 			StringReader metamodelBounds = new StringReader(writer2.toString());
@@ -138,7 +155,6 @@ public class USESolverMemory extends Solver_use {
 			synchronized (globalLock) {
 				outcomePair = handleUSECall(useMetamodelAndInvariants, metamodelBounds);				
 			}
-	
 			
 			if ( outcomePair != null && USEResult.isSatisfiable(outcomePair._1, outcomePair._2)) {
 				ResourceSet resourceSet = new ResourceSetImpl();
@@ -178,7 +194,7 @@ public class USESolverMemory extends Solver_use {
 		// PrintWriter fLogWriter = new NullPrintWriter();
         model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
         
-        final MSystem system;
+        MSystem system;
         if (model != null) {
             // fLogWriter.println(model.getStats());
             // create system
@@ -194,26 +210,21 @@ public class USESolverMemory extends Solver_use {
 		PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null); // new in USE 4.1.1 (enforce model reload)
 		InternalUseValidator modelValidator = new InternalUseValidator(fSession);
         
-//        UseModelApi api = new UseModelApi("test");
-//        api.getClass(arg0)
-//        MClass c1 = api.createClass("C1", false);
-//        MClass c2 = api.createClass("C2", false);
-//        MClass c3 = api.createClass("C3", false);
-//        
-//        UseSystemApi sysApi = UseSystemApi.create(api.getModel(), false);
-
+		if ( partialModel != null ) {
+			partialModel.init(fSession);
+		}		
 		
         IModel kodkodModel = PluginModelFactory.INSTANCE.getModel(system.model());        
-		ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher();
+		// ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher(); ==> Returns a NullModelEnricher
+		ModelEnricher enricher = new ObjectDiagramModelEnricher();
 		
-		enricher.enrichModel(system, kodkodModel);
-		
+        kodkodModel.reset(); 		
 		// configure
 		org.apache.commons.configuration.Configuration config = extractConfigFromFile(metamodelBounds);
 		
-		kodkodModel.reset(); 
-
-
+		//UseKodkodModelValidator validator = new UseKodkodModelValidator(fSession);
+		
+		
 		PropertyConfigurationVisitor newConfigurationVisitor = new PropertyConfigurationVisitor(config, fLogWriter);
 		kodkodModel.accept(newConfigurationVisitor);
 		
@@ -229,6 +240,7 @@ public class USESolverMemory extends Solver_use {
 		// Log.setDebug(true);
 		configureInvariantSettingsFromGenerator(kodkodModel, model);		
 		
+		enricher.enrichModel(system, kodkodModel);
 
 		modelValidator.validate(kodkodModel);
 		
@@ -344,9 +356,7 @@ public class USESolverMemory extends Solver_use {
 					lowerBound = interval.getMin();
 					upperBound = interval.getMax();
 				}
-				// This is too loose coupled: the naming algorithm for roles is imitating the one done by Solver_user...
-				String src_role = ref.getEOpposite()==null? "xxx"+(++index) : ref.getEOpposite().getName();
-				String assoc    = src_role + "_" + ref.getName();
+				String assoc = computeAssociationName(ref);
 				writer.write(assoc + "_min = " + lowerBound + "\n");
 				writer.write(assoc + "_max = " + upperBound + "\n");
 			}
@@ -367,5 +377,6 @@ public class USESolverMemory extends Solver_use {
 		} 
 		catch (IOException e1) { throw new RuntimeException(e1); }
 	}
+
 
 }

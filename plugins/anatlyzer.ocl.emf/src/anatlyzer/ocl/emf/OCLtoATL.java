@@ -27,6 +27,7 @@ import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.expressions.Variable;
 import org.eclipse.ocl.types.CollectionType;
 
+import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.OCL.Attribute;
@@ -264,7 +265,7 @@ public class OCLtoATL {
 			return OCLFactory.eINSTANCE.createOclUndefinedExp(); 
 		}
 		
-		throw new IllegalStateException("Not handled yet: " + exp + " : " + exp.eClass());
+		throw new UnsupportedTranslation("Not handled yet: " + exp + " : " + exp.eClass(), exp);
 	}
 
 	private OclType createType(EClassifier refType) {

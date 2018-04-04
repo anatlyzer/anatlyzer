@@ -7,7 +7,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.xtext.basecs.ConstraintCS;
+import org.eclipse.ocl.xtext.completeoclcs.DefCS;
 
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -31,9 +33,12 @@ public class OclValidator {
 
 	protected List<EPackage> packages = new ArrayList<>();
 	private List<ConstraintCS> constraints = new ArrayList<>();
+	private List<Constraint> constraintsEcore = new ArrayList<>();
 	private ValidationResult result;
 	private List<Bounds> bounds = new ArrayList<Bounds>();
 	private IInputPartialModel partialModel;
+	private IWitnessFinder wf;
+	private List<DefCS> operations = new ArrayList<DefCS>();
 	
 	public OclValidator addMetamodel(EPackage metamodel) {
 		packages.add(metamodel);
@@ -45,17 +50,27 @@ public class OclValidator {
 		return this;
 	}
 
+	public OclValidator addConstraint(Constraint constraint) {
+		constraintsEcore.add(constraint);
+		return this;
+	}
+
+	public OclValidator withWitnessFinder(IWitnessFinder wf) {
+		this.wf = wf;
+		return this;
+	}
+	
 	public void setPartialModel(IInputPartialModel partialModel) {
 		this.partialModel = partialModel;
 	}
 
 	public OclValidator invoke() {
-		Library lib = new ResourceToLibrary().translate("MM", constraints);
+		Library lib = new ResourceToLibrary().translate("MM", constraints, constraintsEcore, operations);
 		
 		if ( packages.size() != 1 )
 			throw new UnsupportedOperationException();
 		
-		IWitnessFinder finder = WitnessUtil.getFirstWitnessFinder();
+		IWitnessFinder finder = this.wf != null ? this.wf : WitnessUtil.getFirstWitnessFinder();
 		finder.setScopeCalculator(new ExplicitScopeCalculator().withBounds(bounds));
 		finder.setInputPartialModel(partialModel);
 		finder.setCheckAllCompositeConstraints(true);
@@ -118,6 +133,10 @@ public class OclValidator {
 			return AnalyserUtils.isErrorStatus(status);
 		}
 		
+	}
+
+	public void addOperation(DefCS defCS) {
+		this.operations .add(defCS);
 	}
 
 }

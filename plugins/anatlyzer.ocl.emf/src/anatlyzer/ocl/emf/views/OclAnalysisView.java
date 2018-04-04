@@ -23,6 +23,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
@@ -32,31 +33,22 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.ui.editor.XtextEditor;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.utils.EditorUtils;
 import org.eclipse.xtext.util.concurrent.IUnitOfWork;
 
+import anatlyzer.atl.editor.views.Images;
 import anatlyzer.useocl.ui.ConstraintsComposite;
 
 
 /**
- * This sample class demonstrates how to plug-in a new
- * workbench view. The view shows data obtained from the
- * model. The sample creates a dummy model on the fly,
- * but a real implementation would connect to the model
- * available either in this or another plug-in (e.g. the workspace).
- * The view is connected to the model using a content provider.
- * <p>
- * The view uses a label provider to define how model
- * objects should be presented in the view. Each
- * view can present the same model objects using
- * different labels and icons, if needed. Alternatively,
- * a single label provider can be shared between views
- * in order to ensure that objects of the same type are
- * presented in the same way everywhere.
- * <p>
+ * This view summarizes the invariants available in an OCL document
+ * and allows the user to perform validation operations.
+ * 
+ * @author jesus
+ *
  */
-
 public class OclAnalysisView extends ViewPart {
 
 	/**
@@ -65,49 +57,14 @@ public class OclAnalysisView extends ViewPart {
 	public static final String ID = "anatlyzer.ocl.emf.views.OclAnalysisView";
 
 	private TableViewer viewer;
-	private Action action1;
+	private Action refreshAction;
 	private Action action2;
 	private Action doubleClickAction;
 
 	private ConstraintsComposite constraintsComposite;
 
-	/*
-	 * The content provider class is responsible for
-	 * providing objects to the view. It can wrap
-	 * existing objects in adapters or simply return
-	 * objects as-is. These objects may be sensitive
-	 * to the current input of the view, or ignore
-	 * it and always show the same content 
-	 * (like Task List, for example).
-	 */
-	 
-	class ViewContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-		public void dispose() {
-		}
-		public Object[] getElements(Object parent) {
-			return new String[] { "One", "Two", "Three" };
-		}
-	}
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
-		}
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
-		}
-		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().
-					getSharedImages().getImage(ISharedImages.IMG_OBJ_ELEMENT);
-		}
-	}
-	class NameSorter extends ViewerSorter {
-	}
+	private PartListener partListener;
 
-	/**
-	 * The constructor.
-	 */
 	public OclAnalysisView() {
 	}
 
@@ -125,17 +82,26 @@ public class OclAnalysisView extends ViewPart {
 //		viewer.setInput(getViewSite());
 
 		IWorkbenchPage page = this.getSite().getPage();
-		page.addPartListener(new PartListener());
+		this.partListener = new PartListener();
+		page.addPartListener(partListener);
 
+		syncAndRefresh();		
 		
 		// Create the help context id for the viewer's control
 		// PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "anatlyzer.ocl.emf.viewer");
-//		makeActions();
+		makeActions();
 //		hookContextMenu();
 //		hookDoubleClickAction();
-//		contributeToActionBars();
+		contributeToActionBars();
 	}
 
+	@Override
+	public void dispose() {
+		IWorkbenchPage page = this.getSite().getPage();
+		page.removePartListener(partListener);
+
+	}
+	
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
@@ -151,55 +117,55 @@ public class OclAnalysisView extends ViewPart {
 
 	private void contributeToActionBars() {
 		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
+		//fillLocalPullDown(bars.getMenuManager());
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
+		manager.add(refreshAction);
 		manager.add(new Separator());
 		manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
+		manager.add(refreshAction);
 		manager.add(action2);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		manager.add(refreshAction);
+		//manager.add(action2);
 	}
 
 	private void makeActions() {
-		action1 = new Action() {
+		refreshAction = new Action() {
 			public void run() {
-				// showMessage("Action 1 executed");
+				syncAndRefresh();
 			}
 		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				// showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-//				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
+		refreshAction.setText("Refresh");
+		refreshAction.setToolTipText("Refresh and synchronize with the current editor");
+		refreshAction.setImageDescriptor(Images.refresh_16x16);
+		refreshAction.setAccelerator(SWT.CTRL | 'R');
+//		
+//		action2 = new Action() {
+//			public void run() {
+//				// showMessage("Action 2 executed");
+//			}
+//		};
+//		action2.setText("Action 2");
+//		action2.setToolTipText("Action 2 tooltip");
+//		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+//				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+//		doubleClickAction = new Action() {
+//			public void run() {
+//				ISelection selection = viewer.getSelection();
+//				Object obj = ((IStructuredSelection)selection).getFirstElement();
+////				showMessage("Double-click detected on "+obj.toString());
+//			}
+//		};
 	}
 
 	private void hookDoubleClickAction() {
@@ -242,16 +208,8 @@ public class OclAnalysisView extends ViewPart {
 		@Override
 		public void partVisible(IWorkbenchPartReference partRef) { 
 			IWorkbenchPart p = partRef.getPart(false);
-			if ( p instanceof CompleteOCLEditor ) {
-				IXtextDocument xtextDocument = EditorUtils.getActiveXtextEditor().getDocument();
-				xtextDocument.readOnly(new IUnitOfWork<Void, XtextResource>() {
-					@Override
-					public java.lang.Void exec(XtextResource r) throws Exception {
-						setOclResource(r);
-						return null;
-					}
-				 });	
-			}
+			if ( p instanceof IEditorPart )
+				loadFromPart((IEditorPart) p);
 		}
 
 		@Override
@@ -259,9 +217,34 @@ public class OclAnalysisView extends ViewPart {
 		
 	}
 
+	protected void syncAndRefresh() {
+		IWorkbenchPage page = this.getSite().getPage();
+		IEditorPart editor = page.getActiveEditor();
+		if ( editor != null ) {
+			loadFromPart(editor);
+		}	
+	}
+	
 	protected void setOclResource(XtextResource r) {
 		CompleteOCLDocumentCS doc = (CompleteOCLDocumentCS) r.getContents().get(0);
 		constraintsComposite.setInput(doc);
+	}
+
+	public void loadFromPart(IEditorPart p) {
+		if ( p instanceof CompleteOCLEditor ) {
+			//IXtextDocument xtextDocument = EditorUtils.getActiveXtextEditor().getDocument();
+			XtextEditor xtextEditor = EditorUtils.getXtextEditor(p);
+			if ( xtextEditor != null ) {
+				IXtextDocument xtextDocument = xtextEditor.getDocument();			
+				xtextDocument.readOnly(new IUnitOfWork<Void, XtextResource>() {
+					@Override
+					public java.lang.Void exec(XtextResource r) throws Exception {
+						setOclResource(r);
+						return null;
+					}
+				 });	
+			}			
+		}	
 	}
 
 }

@@ -34,7 +34,7 @@ public class WitnessProvider implements IStructuredContentProvider, ILabelProvid
 		private ArrayList<WitnessModel> models = new ArrayList<>();
 		
 		public WitnessModel createModel(IWitnessModel m) {
-			WitnessModel wm = new WitnessModel("Result " + models.size() + 1, m);			
+			WitnessModel wm = new WitnessModel("Result " + (models.size() + 1), m);			
 			models.add(wm);
 			return wm;
 		}

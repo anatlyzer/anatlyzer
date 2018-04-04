@@ -9,6 +9,11 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EcorePackage;
+
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -39,6 +44,10 @@ public class ErrorReport {
 		public int nSourceClasses;
 		public int nTargetClasses;
 		public int nLOC;
+		public long nSourceReferences;
+		public long nSourceAttributes;
+		public long nTargetReferences;
+		public long nTargetAttributes;
 		
 	}
 	
@@ -69,8 +78,13 @@ public class ErrorReport {
 
 
 		out.println("Metamodel statistics");
-		out.println(" * Source meta-model(s) : " + r.nSourceClasses);
+		out.println(" * Source meta-model(s) classes : " + r.nSourceClasses);
+		out.println(" * Source meta-model(s) attrs: " + r.nSourceAttributes);
+		out.println(" * Source meta-model(s) refs: " + r.nSourceReferences);
+		
 		out.println(" * Target meta-model(s) : " + r.nTargetClasses);
+		out.println(" * Target meta-model(s) attrs: " + r.nTargetAttributes);
+		out.println(" * Target meta-model(s) refs: " + r.nTargetReferences);
 
 		out.println();
 	}
@@ -105,13 +119,26 @@ public class ErrorReport {
 		for (OclModel model : module.getInModels()) {
 			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
 					.getName());
-			r.nSourceClasses += ns.getAllClasses().size();
+			
+			List<EClass> classes = ns.getAllClasses().stream().filter(c -> c.getEPackage() != EcorePackage.eINSTANCE).collect(Collectors.toList());
+			r.nSourceClasses += classes.size();
+			
+			r.nSourceReferences = classes.stream().flatMap(c -> c.getEReferences().stream()).count();
+			r.nSourceAttributes = classes.stream().flatMap(c -> c.getEAttributes().stream()).count();
+			
 		}
 
 		for (OclModel model : module.getOutModels()) {
 			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
 					.getName());
-			r.nTargetClasses += ns.getAllClasses().size();
+			
+			List<EClass> classes = ns.getAllClasses().stream().filter(c -> c.getEPackage() != EcorePackage.eINSTANCE).collect(Collectors.toList());
+			
+			r.nTargetClasses += classes.size();
+
+			r.nTargetReferences = classes.stream().flatMap(c -> c.getEReferences().stream()).count();
+			r.nTargetAttributes = classes.stream().flatMap(c -> c.getEAttributes().stream()).count();
+
 		}
 
 		r.nLOC = 0;

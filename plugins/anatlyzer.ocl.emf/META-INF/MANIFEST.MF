@@ -19,3 +19,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ocl.xtext.completeocl.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Export-Package: anatlyzer.ocl.emf,
+ anatlyzer.ocl.emf.editor

@@ -15,8 +15,10 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -32,31 +34,40 @@ import org.eclipse.ui.wizards.newresource.BasicNewFileResourceWizard;
 import anatlyzer.ui.util.WorkbenchUtil;
 
 public class UIUtils {
-	public static void createModelViewer(Composite composite, Resource r, EObject revealedElement) {
-		TreeViewer selectionViewer = new TreeViewer(composite);
-		
-		configure(selectionViewer);
-		
-		// From EcoreEditor
-	    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-
-	    adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-	    adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
-	    adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
-	    
-	    selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-	    selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-	    //selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), null));
-	    		// new DiagnosticDecorator(editingDomain, selectionViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
-	    //  selectionViewer.setInput(editingDomain.getResourceSet());
-	    //  selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+	public static TreeViewer createModelViewer(Composite composite, Resource r, EObject revealedElement, TreeViewer selectionViewer) {
+		if ( selectionViewer == null ) {
+			selectionViewer = new TreeViewer(composite);
+			
+			configure(selectionViewer);
+			
+			// From EcoreEditor
+		    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+	
+		    adapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+		    adapterFactory.addAdapterFactory(new EcoreItemProviderAdapterFactory());
+		    adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+		    
+		    selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+		    selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+		    //selectionViewer.setLabelProvider(new DecoratingColumLabelProvider(new AdapterFactoryLabelProvider(adapterFactory), null));
+		    		// new DiagnosticDecorator(editingDomain, selectionViewer, EcoreEditorPlugin.getPlugin().getDialogSettings())));
+		    //  selectionViewer.setInput(editingDomain.getResourceSet());
+		    //  selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+		}
 
 	    selectionViewer.setInput(r);
-
+	    selectionViewer.refresh(true);
+	    
 	    if ( revealedElement != null ) {
 	    	// Reveal the problematic meta-model element
 	    	selectionViewer.setSelection(new StructuredSelection(revealedElement), true);
 	    }
+
+//		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+//	    composite.layout();
+//	    composite.pack();
+
+	    return selectionViewer;
 	}
 
 	private static void configure(TreeViewer viewer) {

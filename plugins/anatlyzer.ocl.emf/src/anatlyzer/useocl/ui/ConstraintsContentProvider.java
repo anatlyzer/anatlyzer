@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ocl.xtext.basecs.ConstraintCS;
 import org.eclipse.ocl.xtext.completeoclcs.ClassifierContextDeclCS;
 import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
+import org.eclipse.ocl.xtext.completeoclcs.DefCS;
 
 import anatlyzer.ocl.emf.OclEMFUtils;
 
@@ -61,16 +62,22 @@ public class ConstraintsContentProvider implements IStructuredContentProvider {
 	public static class OclDocumentData {
 		private CompleteOCLDocumentCS doc;
 		private List<InvariantData> invs;
+		private List<DefCS> operations;
 
 		public OclDocumentData(CompleteOCLDocumentCS doc) {
 			this.doc = doc;
 			this.invs = OclEMFUtils.getInvariants(doc).stream().map(InvariantData::new).collect(Collectors.toList());
+			this.operations = OclEMFUtils.getOperations(doc);
 		}
 		
 		public List<InvariantData> getInvariants() {
 			return invs;
 		}
 
+		public List<DefCS> getOperations() {
+			return operations;
+		}
+		
 		public CompleteOCLDocumentCS getDoc() {
 			return doc;
 		}

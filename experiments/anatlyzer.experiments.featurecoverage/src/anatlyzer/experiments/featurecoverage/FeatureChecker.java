@@ -27,17 +27,46 @@ public class FeatureChecker {
 
 	private CTransformation data;
 	private List<EObject> allObjects = new ArrayList<>();	
+	private Set<EObject> ignored = new HashSet<EObject>();
+	
 	
 	public FeatureChecker(String trafoName, String trafoPath, ATLModel model) {
 		this.data  = new CTransformation(trafoName, trafoPath);
 		this.allObjects = model.allObjectsOf(EObject.class);
+	
+		setUpIgnored();
 	}
 	
+	
+	private void setUpIgnored() {
+		// This is to ignore in-place
+		ignored.add(ATLPackage.Literals.DROP_PATTERN);
+		ignored.add(ATLPackage.Literals.OUT_PATTERN__DROP_PATTERN);
+		ignored.add(ATLPackage.Literals.RULE_WITH_PATTERN__IS_REFINING);
+		
+		// ANATLYZER-SPECIFIC
+		ignored.add(ATLPackage.Literals.STRING_TO_STRING_MAP);
+		
+		ignored.add(OCLPackage.Literals.PROPERTY_CALL_EXP__SUBTYPE_FEATURES);
+		
+		
+		ignored.add(ATLPackage.Literals.IN_PATTERN_ELEMENT__MAPS_TO);
+		
+		ignored.add(OCLPackage.Literals.JAVA_BODY);
+		ignored.add(OCLPackage.Literals.OCL_TYPE__OCL_EXPRESSION);
+		ignored.add(OCLPackage.Literals.OCL_TYPE__TUPLE_TYPE_ATTRIBUTE);
+		
+		
+		//ignored.add(ATLPackage.Literals.LIBRARY_REF);
+	}
+
 	public CTransformation countFeatures() {
 		List<EClass> allClasses = getPkgClasses(ATLPackage.eINSTANCE);
 		allClasses.addAll(getPkgClasses(OCLPackage.eINSTANCE));
 		
 		for (EClass eClass : allClasses) {
+			if ( ignored.contains(eClass) ) 
+				continue;
 			
 			List<EObject> objs = allObjects.stream().filter(obj -> obj.eClass() == eClass).collect(Collectors.toList());
 			
@@ -48,10 +77,14 @@ public class FeatureChecker {
 			addFilteredFeature(data, feature);
 			
 			for(EStructuralFeature f : eClass.getEAllStructuralFeatures()) {				
+				if ( ignored.contains(f) ) 
+					continue;
+
+				
 				for(EObject obj : objs) {
 					int count = obj.eIsSet(f) ? 1 : 0;
 					
-					String featureId = f.getEContainingClass().getName() + "." + f.getName();
+					String featureId = getFeatureId(f);
 					CFeature fFeature = data.getFeatures().stream().filter(fdata -> fdata.getFeatureName().equals(featureId)).findFirst().orElseGet(() -> {
 						CFeature initFeature = new CFeature();
 						initFeature.setFeatureName(featureId);
@@ -62,12 +95,25 @@ public class FeatureChecker {
 					fFeature.setOccurences(fFeature.getOccurences() + count);				
 				}				
 			}
-			
-			
 		}
 		
 		
 		return data;
+	}
+
+	private String getFeatureId(EStructuralFeature f) {
+		String specialId = checkSpecialId(f);
+		if ( specialId != null ) {
+			return specialId;
+		}			
+		return f.getEContainingClass().getName() + "." + f.getName();
+	}
+
+	private String checkSpecialId(EStructuralFeature f) {
+		// if ( f == OCLPackage.Literals.OPERATION_CALL_EXP__OPERATION_NAME ) {
+		// if ( ... check obj name... 
+		//}
+		return null;
 	}
 
 	private void addFilteredFeature(CTransformation data, CFeature feature) {		

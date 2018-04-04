@@ -12,11 +12,17 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.ocl.pivot.resource.ASResource;
+import org.eclipse.ocl.xtext.completeocl.utilities.CompleteOCLCSResource;
 import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
+import org.eclipse.ocl.xtext.completeoclcs.DefCS;
 import org.eclipse.ocl.xtext.completeoclcs.PackageDeclarationCS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -45,6 +51,7 @@ import anatlyzer.useocl.ui.WitnessProvider.WitnessModel;
 import anatlyzer.useocl.ui.WitnessProvider.WitnessModelList;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 
 public class ConstraintsComposite extends Composite {
 	private Text txtOclModel;
@@ -56,6 +63,7 @@ public class ConstraintsComposite extends Composite {
 	private TableViewer tblViewerModel;
 
 	private WitnessModelList witnessFoundList = new WitnessModelList();
+	private TreeViewer treeViewer;
 	
 	
 	/**
@@ -221,7 +229,12 @@ public class ConstraintsComposite extends Composite {
 	}
 
 	protected void showSelectedModel() {
-		// TODO Auto-generated method stub
+		ISelection s = tblViewerModel.getSelection();
+		if ( s instanceof StructuredSelection ) {
+			WitnessModel m = (WitnessModel) ((StructuredSelection) s).getFirstElement();
+			this.treeViewer = UIUtils.createModelViewer(cmpModelView, m.getModel().getModelAsOriginal(), null, this.treeViewer);			
+			// UIUtils.createModelViewer(cmpModelView, m.getModel().getModelAsOriginal(), null);
+		}
 		
 	}
 
@@ -266,8 +279,21 @@ public class ConstraintsComposite extends Composite {
     	
     	OclValidator validator = new OclValidator();
     	
+    	
     	// Add the meta-models
 		CompleteOCLDocumentCS doc = data.getDoc();
+//		CompleteOCLCSResource r = (CompleteOCLCSResource) doc.eResource();
+//		@NonNull
+//		ASResource r2 = r.getCS2AS().getASResource();
+//		System.out.println("ORIGINAL R:");
+//		System.out.println(r.getContents());
+//		
+//		System.out.println("R2:");
+//		System.out.println(r2.getContents());
+//		
+//		System.out.println("R2 MODEL:");
+//		System.out.println(r2.getModel());
+		
 		for(PackageDeclarationCS i : doc.getOwnedPackages()) {
 			validator.addMetamodel(i.getReferredPackage().getEPackage());
 		}
@@ -283,6 +309,10 @@ public class ConstraintsComposite extends Composite {
 				validator.addConstraint(i.getConstraint());
 		}
 	
+		for (DefCS defCS : data.getOperations()) {
+			validator.addOperation(defCS);
+		}
+		
 		if ( partialModel != null ) {
 			validator.setPartialModel(partialModel);
 		}
@@ -295,7 +325,8 @@ public class ConstraintsComposite extends Composite {
 				witnessFoundList.createModel(result.getWitnessModel());
 				this.tblViewerModel.setInput(witnessFoundList);
 				this.tblViewerModel.refresh();
-				UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
+				this.treeViewer = UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null, this.treeViewer);
+				// UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
 			} else if ( result.unsat() ) {
 				showMessage("UNSAT!");
 			} else {

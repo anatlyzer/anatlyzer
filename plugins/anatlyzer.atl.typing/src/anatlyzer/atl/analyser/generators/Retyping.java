@@ -15,6 +15,14 @@ public class Retyping extends AbstractVisitor {
 	public Retyping(EObject root) {
 		strategy = new RetypingToSet(root);
 	}	
+
+	public Retyping(EObject root, RetypingStrategy strategy) {
+		if ( strategy == null ) {
+			strategy = new RetypingToSet();
+		}
+		strategy.setRoot(root);
+		this.strategy = strategy;
+	}	
 	
 	public Retyping perform() {
 		strategy.perform();

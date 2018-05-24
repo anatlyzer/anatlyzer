@@ -71,7 +71,16 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 	public RetypingToSet(EObject root) {
 		this.root    = root;
 	}	
+
+	public RetypingToSet() {
+		
+	}
 	
+	@Override
+	public void setRoot(EObject root) {
+		this.root = root;
+	}
+
 	public void perform() {
 		startVisiting(root);
 	}

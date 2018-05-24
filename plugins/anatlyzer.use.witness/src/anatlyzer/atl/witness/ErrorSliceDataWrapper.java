@@ -2,7 +2,6 @@ package anatlyzer.atl.witness;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +10,14 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.Retyping;
+import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.UnfoldRecursion;
 import anatlyzer.atl.model.TypeUtils;
@@ -28,6 +26,7 @@ import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.OCL.BooleanType;
@@ -57,6 +56,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private ErrorSlice slice;
 	private Set<EStructuralFeature> targetClassesFeatures = new HashSet<EStructuralFeature>();
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
+	private RetypingStrategy retypingStrategy;
 	
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
@@ -137,7 +137,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 			
 			problems.perform(helper);
 			
-			Retyping retyping = new Retyping(helper);
+			Retyping retyping = new Retyping(helper, this.retypingStrategy);
 			retyping.perform();		
 			retyping.getNewHelpers().forEach(h -> renaming.perform(h));
 			helpersAddedByRetyping.addAll(retyping.getNewHelpers());
@@ -174,15 +174,30 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		Map<String, List<Helper>> helpers = organizeHelpers(helperSet);
 		ArrayList<EAnnotation>    result = new ArrayList<EAnnotation>();
 		for(String className : helpers.keySet()) {
-			EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
-			ann.setSource("operations: " + className);
+			List<Helper> helpersForClass = helpers.get(className);
+			List<Helper> derivedProps = helpersForClass.stream().filter(AnalyserUtils::isHelperRepresentingDerivedProperty).collect(Collectors.toList());
+			List<Helper> operations   = helpersForClass.stream().filter(h -> !AnalyserUtils.isHelperRepresentingDerivedProperty(h)).collect(Collectors.toList());
 			
-			ann.getDetails().put("class", className);
-			
-			for(Helper ctx : helpers.get(className)) {
-				ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className));
+			if ( operations.size() > 0 ) {
+				EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();	
+				ann.setSource("operations: " + className);				
+				ann.getDetails().put("class", className);				
+				for(Helper ctx : operations) {
+					ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className, true));
+				}
+				result.add(ann);
 			}
-			result.add(ann);
+
+			if ( derivedProps.size() > 0 ) {
+				EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();	
+				ann.setSource("properties: " + className);			
+				ann.getDetails().put("class", className);				
+				for(Helper ctx : derivedProps) {
+					ann.getDetails().put("def " + ATLUtils.getHelperName(ctx), genUSEOperation(ctx, className, false));
+				}
+				result.add(ann);
+			}
+
 		}
 		
 		return result;
@@ -203,22 +218,24 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		return Analyser.USE_THIS_MODULE_CLASS;
 	}
 
-	private String genUSEOperation(Helper ctx, String className) {
-		String s = ATLUtils.getHelperName(ctx) + "(";
+	private String genUSEOperation(Helper ctx, String className, boolean isOperation) {
+		String s = ATLUtils.getHelperName(ctx) + (isOperation ? "(" : "");
 		
-		// The first parameter is *by default* the ThisModule object 
-		// if the helper is not marked as no rewrite
-		if ( ! ctx.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE") ) {		
-			s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
+		if ( isOperation ) {
+			// The first parameter is *by default* the ThisModule object 
+			// if the helper is not marked as no rewrite
+			if ( ! ctx.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE") ) {		
+				s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
+			}
+			
+			String[] argNames = ATLUtils.getArgumentNames(ctx);
+			Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
+			for(int i = 0; i < argNames.length; i++) {
+				// s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
+				s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
+			}
+			s += ")";
 		}
-		
-		String[] argNames = ATLUtils.getArgumentNames(ctx);
-		Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
-		for(int i = 0; i < argNames.length; i++) {
-			// s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
-			s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
-		}
-		s += ")";
 		
 		/* if ( ctx.getStaticReturnType() instanceof EnumType ) {
 			s += " : " + "Integer" + " = ";
@@ -226,10 +243,18 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		}*/
 		if ( hasTooSpecificType(ctx.getInferredReturnType()) ) {
-			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
+			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) ;
 		} else {
-			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType()) + " = ";			
+			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType());			
 		}
+
+		if ( isOperation ) {
+			s += " = ";
+		} else {
+			// derived property
+			s += " derived: ";
+		}
+		
 		OclExpression body = ATLUtils.getBody(ctx);
 
 		s += USESerializer.gen(body); 
@@ -282,6 +307,10 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 
 	public void setStatsCollector(IFinderStatsCollector statsCollector) {
 		this.statsCollector  = statsCollector;
+	}
+
+	public void setRetypingStrategy(RetypingStrategy retypingStrategy) {
+		this.retypingStrategy = retypingStrategy;
 	}
 
 	/*

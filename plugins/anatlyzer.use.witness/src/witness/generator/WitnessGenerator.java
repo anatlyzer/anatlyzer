@@ -754,6 +754,21 @@ public class WitnessGenerator extends AbstractHandler {
 							classifier.getEAnnotations().add(classAnnotation);
 						}
 			}
+			else if (mmAnnotation.getSource().startsWith("properties")) {				
+				// entry "class" contains the class that defines the operation
+				// rest of entries contain operations for that class
+				EMap<String,String> details = mmAnnotation.getDetails();
+				EClassifier      classifier = metamodel.getEClassifier(details.get("class"));
+				if (classifier!=null)
+					for (String operation : details.keySet()) 
+						if (!operation.equals("class")) {
+							EAnnotation classAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+							// add "operation: " at the beginning, to identify that it is an operation
+							classAnnotation.setSource("dproperty: "+details.get(operation)+"\n"); 
+							classifier.getEAnnotations().add(classAnnotation);
+						}
+			}
+			
 		}
 		
 		// add "refImmediateComposite" operation to each classifier (supported by ATL, but not by USE).

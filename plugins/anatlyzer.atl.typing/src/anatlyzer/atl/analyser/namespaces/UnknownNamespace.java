@@ -35,7 +35,8 @@ public class UnknownNamespace extends AbstractTypeNamespace {
 		if ( operatorSymbol.equals("=") ) return AnalyserContext.getTypingModel().newBooleanType();
 		if ( operatorSymbol.equals("<>") ) return AnalyserContext.getTypingModel().newBooleanType();
 		
-		throw new UnsupportedOperationException(this.getClass().getSimpleName() + " not support " + operatorSymbol + " in line" + node.getLocation());
+		AnalyserContext.getErrorModel().signalInvalidOperator(operatorSymbol, optionalArgument, node);
+		return AnalyserContext.getTypingModel().newBooleanType();
 	}
 
 	@Override

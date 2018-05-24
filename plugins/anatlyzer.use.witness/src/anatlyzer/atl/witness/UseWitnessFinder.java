@@ -36,7 +36,10 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
+import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.RetypingStrategy;
+import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
@@ -84,6 +87,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IWitnessModel foundModel;
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
+	private RetypingStrategy retypingStrategy = new RetypingToSet();
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -173,6 +177,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			return findAux(problem, r);
 		}		
 	}
+
+	// This option is specific to USE
+	public UseWitnessFinder withRetyingStrategy(RetypingStrategy retyping) {
+		this.retypingStrategy = retyping;
+		return this;
+	}
 	
 	protected ProblemStatus findAux(IDetectedProblem problem, AnalysisResult r) {
 		this.analyser = r.getAnalyser();
@@ -251,7 +261,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	
 	protected ProblemStatus applyUSE(IDetectedProblem problem, OclExpression originalConstraint, boolean forceOnceInstanceOfConcreteClasses, IMetamodelExtensionStrategy strategy) { 
 		SourceMetamodelsData srcMetamodels = SourceMetamodelsData.get(analyser);
-		scopeCalculator.setMetamodelRewrite(srcMetamodels);
+		if ( scopeCalculator != null )
+			scopeCalculator.setMetamodelRewrite(srcMetamodels);
 		// Add precondition helpers to the error slice to compute the footprint, but also to allow calling
 		// other helpers within preconditions
 		ErrorSlice slice = problem.getErrorSlice(analyser);
@@ -264,7 +275,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ClassRenamingVisitor renaming = new ClassRenamingVisitor(srcMetamodels, slice);
 		ProblemInPathVisitor problems = new ProblemInPathVisitor();
 		problems.perform(originalConstraint);
-		USEConstraint useConstraint = USESerializer.retypeAndGenerate(originalConstraint, problem, renaming);	
+		
+		USEConstraint useConstraint = USESerializer.retypeAndGenerate(originalConstraint, this.retypingStrategy, renaming);	
 		if ( useConstraint.useNotSupported() ) {
 			return ProblemStatus.NOT_SUPPORTED_BY_USE;
 		}
@@ -286,7 +298,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			att.setInitExpression(exp);
 			
 			
-			USEConstraint c = USESerializer.retypeAndGenerate(exp, problem, renaming);	
+			USEConstraint c = USESerializer.retypeAndGenerate(exp, renaming);	
 			if ( c.useNotSupported() ) {
 				return ProblemStatus.NOT_SUPPORTED_BY_USE;
 			}
@@ -316,7 +328,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 				OclExpression copiedPrecondition = ATLUtils.getBody(hpre);
 				ctx.setBody(copiedPrecondition);
 				
-				USEConstraint c = USESerializer.retypeAndGenerate(ctx, problem, renaming);	
+				USEConstraint c = USESerializer.retypeAndGenerate(ctx, renaming);	
 				if ( c.useNotSupported() ) {
 					return ProblemStatus.NOT_SUPPORTED_BY_USE;
 				}
@@ -515,6 +527,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
 		wrapper.setDoUnfolding(doUnfolding);
 		wrapper.setStatsCollector(statsCollector);
+		wrapper.setRetypingStrategy(this.retypingStrategy);
 		
 		this.errorSliceMM = new EffectiveMetamodelBuilder(wrapper).extractSource(r, "error", "http://error", "error", "error");
 		return errorSliceMM;

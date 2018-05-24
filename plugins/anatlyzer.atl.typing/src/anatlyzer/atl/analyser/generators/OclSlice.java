@@ -1,15 +1,10 @@
 package anatlyzer.atl.analyser.generators;
 
 import java.util.HashSet;
-import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import anatlyzer.atl.analyser.namespaces.ClassNamespace;
-import anatlyzer.atl.model.TypingModel;
-import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.util.ATLUtils;
@@ -59,6 +54,8 @@ public class OclSlice {
 		ignore.add(anatlyzer.atlext.OCL.impl.IntegerTypeImpl.class);
 		ignore.add(anatlyzer.atlext.OCL.impl.BooleanTypeImpl.class);
 		ignore.add(anatlyzer.atlext.OCL.impl.RealTypeImpl.class);
+		
+		ignore.add(anatlyzer.atlext.OCL.impl.JavaBodyImpl.class);
 	}
 
 	public static void slice(ErrorSlice slice, OclExpression expr) {

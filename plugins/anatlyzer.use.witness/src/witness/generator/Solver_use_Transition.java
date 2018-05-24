@@ -4,10 +4,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -63,8 +68,10 @@ public abstract class Solver_use_Transition extends Solver_use {
 				EEnum e = (EEnum)cf;
 				out.write("enum " + e.getName() + " {");
 				String literals = "";
-				for (EEnumLiteral literal : e.getELiterals()) 
-					literals += literal.getLiteral()+", ";
+				for (EEnumLiteral literal : e.getELiterals()) { 
+					// literals += literal.getLiteral()+", ";
+					literals += literal.getName()+", "; // getLiteral() refers to the value to be persisted
+				}
 				out.write(literals.substring(0,literals.lastIndexOf(',')) + "}\n\n");
 			}
 		}
@@ -84,10 +91,16 @@ public abstract class Solver_use_Transition extends Solver_use {
 				    }						
 				}
 				out.write("\n");
+
+				Set<String> implementedDerivedProperties = getImplementedDerivedProperties(c); 
+				
 				// attributes
 				if (c.getEAttributes().size()>0) {
 					out.write("attributes\n");
 					for (EAttribute att : c.getEAttributes()) {
+						if ( implementedDerivedProperties.contains(att.getName()) )
+							continue;
+						
 						String type = "String";
 						if      (EMFUtils.isInteger(att.getEType().getName()))  type = "Integer";
 						else if (EMFUtils.isBoolean(att.getEType().getName()))  type = "Boolean";
@@ -98,19 +111,43 @@ public abstract class Solver_use_Transition extends Solver_use {
 				}
 				// operations (defined as class annotations starting by "operation: ")
 				if (c.getEAnnotations().size()>0) {
-					out.write("operations\n");
-					for (EAnnotation ann : c.getEAnnotations()) 
-						if (ann.getSource().startsWith("operation: ")) {
+					
+					List<EAnnotation> operations = c.getEAnnotations().stream().filter(ann -> ann.getSource().startsWith("operation: ")).collect(Collectors.toList());
+					List<EAnnotation> properties = c.getEAnnotations().stream().filter(ann -> ann.getSource().startsWith("dproperty: ")).collect(Collectors.toList());
+					
+					// first the attributes, to reuse the previous tag if possible
+					if ( properties.size() > 0 ) {
+						if ( c.getEAttributes().size() == 0 ) {
+							out.write("attributes\n");
+						}
+
+						for (EAnnotation ann : properties) {  
 							String opDefinition = ann.getSource().substring(11);
 							adapter.addToMapping(Collections.singletonList(opDefinition));
 							out.write("  " + adapter.adapt_ocl_expression(opDefinition) + "\n");
 						}
+						
+					}
+					
+					if ( operations.size() > 0 ) {
+						out.write("operations\n");
+						for (EAnnotation ann : operations) {  
+							String opDefinition = ann.getSource().substring(11);
+							adapter.addToMapping(Collections.singletonList(opDefinition));
+							out.write("  " + adapter.adapt_ocl_expression(opDefinition) + "\n");
+						}
+					}
+					
 				}
 				out.write("end\n\n");
 				// references
-				for (EReference ref : c.getEReferences()) 
+				for (EReference ref : c.getEReferences()) {
+					if ( implementedDerivedProperties.contains(ref.getName()) )
+						continue;
+					
 					if (!references.contains(ref.getEOpposite()))
 						references.add(ref);
+				}
 			}
 		}
 		
@@ -118,7 +155,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 			//String src_role = ref.getEOpposite()==null? "xxx"+(++index) : ref.getEOpposite().getName();
 			
 			String assocName = computeAssociationName(ref);
-			String src_role = assocName + "_src";
+			String src_role = ref.getEOpposite() == null ? assocName + "_src" : ref.getEOpposite().getName();
 			String src_card = ref.getEOpposite()==null? (ref.isContainment()? "[0..1]" : "[*]") : cardinalityToString(ref.getEOpposite()); 
 			//out.write("association " + src_role + "_" + ref.getName() + " between\n");
 			out.write("association " + assocName + " between\n");
@@ -140,6 +177,22 @@ public abstract class Solver_use_Transition extends Solver_use {
 
 	
 	
+	private Set<String> getImplementedDerivedProperties(EClass c) {
+		// dproperty: propName : Type ... 
+		Pattern p = Pattern.compile("dproperty:(.+):.*derived:");
+		return c.getEAnnotations().stream().
+				filter(ann -> ann.getSource().startsWith("dproperty: ")).
+				map(ann -> {
+					Matcher m = p.matcher(ann.getSource());
+					if ( m.find() ) {
+						return m.group(1).trim();
+					} else {
+						throw new IllegalStateException();
+					}
+				}).
+				collect(Collectors.toSet());
+	}
+
 	public static String computeAssociationName(EReference ref) {
 		// The xxx is added because it is historically used by parseOutput2EmfIntoResource to detect references
 		String src_role = ref.getEOpposite()==null ? "xxx" : ref.getEOpposite().getName();

@@ -282,17 +282,6 @@ public class ConstraintsComposite extends Composite {
     	
     	// Add the meta-models
 		CompleteOCLDocumentCS doc = data.getDoc();
-//		CompleteOCLCSResource r = (CompleteOCLCSResource) doc.eResource();
-//		@NonNull
-//		ASResource r2 = r.getCS2AS().getASResource();
-//		System.out.println("ORIGINAL R:");
-//		System.out.println(r.getContents());
-//		
-//		System.out.println("R2:");
-//		System.out.println(r2.getContents());
-//		
-//		System.out.println("R2 MODEL:");
-//		System.out.println(r2.getModel());
 		
 		for(PackageDeclarationCS i : doc.getOwnedPackages()) {
 			validator.addMetamodel(i.getReferredPackage().getEPackage());
@@ -302,16 +291,17 @@ public class ConstraintsComposite extends Composite {
 		for(PackageDeclarationCS i : doc.getOwnedPackages()) {
 			extractBounds(i, validator);
 		}
+
+		CompleteOCLCSResource r = (CompleteOCLCSResource) doc.eResource();
+		//@NonNull ASResource pivotResource = r.getCS2AS().getASResource();
+		validator.addOclDefinition(r);
 		
-		// Add the constraints
-		for (InvariantData i : data.getInvariants()) {
-			if ( i.isSelected() )
-				validator.addConstraint(i.getConstraint());
-		}
-	
-		for (DefCS defCS : data.getOperations()) {
-			validator.addOperation(defCS);
-		}
+//		// Add the constraints
+//		for (InvariantData i : data.getInvariants()) {
+//			if ( i.isSelected() )
+//				validator.addConstraint(i.getConstraint());
+//		}
+
 		
 		if ( partialModel != null ) {
 			validator.setPartialModel(partialModel);

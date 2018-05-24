@@ -47,11 +47,17 @@ public class ExtendTransformation {
 	private GlobalNamespace mm;
 	private ATLModel trafo;
 	private HashMap<MetamodelNamespace, OclModel> models= new HashMap<MetamodelNamespace, OclModel>();
+	private IEOperationHandler eOperationHandler = null;
 
 	public ExtendTransformation(ATLModel trafo, GlobalNamespace mm, Unit unit) {
 		this.trafo = trafo;
 		this.mm = mm;
 		this.unit = unit;
+	}
+	
+	public ExtendTransformation withEOperationHandler(IEOperationHandler eOperationHandler) {
+		this.eOperationHandler = eOperationHandler;
+		return this;
 	}
 	
 	public void perform() {
@@ -92,6 +98,12 @@ public class ExtendTransformation {
 	}
 
 	private void extendWith(EClass c, EOperation op) {
+		if ( eOperationHandler != null && eOperationHandler.canHandle(c, op) ) {
+			if ( eOperationHandler.handle(unit, c, op) ) {
+				return ;
+			}			
+		}
+		
 		if ( op.getEType() == null ) {
 			// Operations without return type cannot be invoked in ATL
 			return;
@@ -208,6 +220,11 @@ public class ExtendTransformation {
 
 	public static boolean isAddedEOperation(ModuleElement r) {
 		return r.getCommentsBefore().contains(ExtendTransformation.EOPERATION_TAG);
+	}
+	
+	public static interface IEOperationHandler {
+		public boolean canHandle(EClass c, EOperation op);
+		public boolean handle(Unit unit, EClass c, EOperation op);
 	}
 	
 }

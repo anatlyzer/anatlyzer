@@ -3,15 +3,20 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
+import anatlyzer.atl.analyser.ExtendTransformation.IEOperationHandler;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
@@ -96,10 +101,17 @@ public class ConstraintSatisfactionChecker {
 		this.model = model;
 		
 		Analyser analyser = new Analyser(mm, model);
+		// This is to make sure that we do not inline eOperations which have already been handled by the OCL translator
+		analyser.withEOperationHandler(new IEOperationHandler() {			
+			@Override
+			public boolean handle(Unit unit, EClass c, EOperation op) { return true; }		
+			@Override
+			public boolean canHandle(EClass c, EOperation op) { return true; }
+		});
+		
 		analyser.perform();
 		
 		// Configure the finder
-		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_EFFECTIVE_METAMODEL);
 		this.finderResult = finder.find(new ConstraintSatisfactionProblem(), new AnalysisResult(analyser));
 
 		return this;
@@ -156,6 +168,7 @@ public class ConstraintSatisfactionChecker {
 	private List<OclExpression> getExpressionsToBeChecked() {
 		List<Helper> helpers = ATLUtils.getAllHelpers(model).stream().
 				filter(h -> ! AnalyserUtils.isAddedEOperation(h)).
+				filter(h -> ! isPropertyRepresentation(h)).
 				map(h -> {
 					if ( h instanceof ContextHelper ) {
 						return AnalyserUtils.convertContextInvariant((ContextHelper) h);
@@ -167,6 +180,23 @@ public class ConstraintSatisfactionChecker {
 		return helpers.stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
 	}
 	
+
+	private List<ContextHelper> getDerivedPropertiesOrOperations() {
+		return ATLUtils.getAllHelpers(model).stream().			
+				filter(h -> isPropertyRepresentation(h) || isOperationImplementation(h)).
+				map(h -> (ContextHelper) h).
+				collect(Collectors.toList());
+	}
+	
+	
+	private boolean isPropertyRepresentation(Helper h) {
+		return h.getAnnotations().containsKey("DERIVED_PROPERTY");
+	}
+
+	private boolean isOperationImplementation(Helper h) {
+		return h.getAnnotations().containsKey("OPERATION_IMPLEMENTATION");
+	}
+
 	public class ConstraintSatisfactionProblem implements IDetectedProblem {
 
 		@Override
@@ -174,7 +204,12 @@ public class ConstraintSatisfactionChecker {
 			ErrorSlice slice = new ErrorSlice(result, namesToResources.keySet(), this);
 			
 			getExpressionsToBeChecked().forEach(e -> OclSlice.slice(slice, e));
-
+			getDerivedPropertiesOrOperations().forEach(h -> {
+				System.out.println("====> " + ATLUtils.getHelperName(h));
+				OclSlice.slice(slice, ATLUtils.getHelperBody(h));
+				slice.addHelper(h);	
+			});
+			
 			return slice;
 		}
 

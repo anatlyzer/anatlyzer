@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionExp;
@@ -82,8 +83,12 @@ public class USESerializer {
 	}
 	
 	// Before: GlobalNamespace globalNamespace,  was a parameter, but it seems it is not needed
-	public static USEConstraint retypeAndGenerate(OclExpression expr, IDetectedProblem problem, IObjectVisitor... visitors) {
-		Retyping retyping = new Retyping(expr).perform();		
+	public static USEConstraint retypeAndGenerate(OclExpression expr, IObjectVisitor... visitors) {
+		return retypeAndGenerate(expr, new RetypingToSet(), visitors);
+	}
+	
+	public static USEConstraint retypeAndGenerate(OclExpression expr, RetypingStrategy strategy, IObjectVisitor... visitors) {
+		Retyping retyping = new Retyping(expr, strategy).perform();		
 		
 		TranslationState state = TranslationState.CORRECT;
 		
@@ -158,6 +163,7 @@ public class USESerializer {
 			if ( expr instanceof SequenceExp ) type = "Sequence";
 			else if ( expr instanceof SetExp ) type = "Set";
 			else if ( expr instanceof OrderedSetExp ) type = "OrderedSet";
+			else if ( expr instanceof BagExp ) type = "Bag";
 			else throw new UnsupportedOperationException(expr.toString());
 			
 			return type + " { " + elems + " }";
@@ -219,11 +225,12 @@ public class USESerializer {
 	}
 
 	private static String genPropertyCall(OclExpression expr) {
-		if ( ((PropertyCallExp) expr).getSource() == null ) {
+		OclExpression source = ((PropertyCallExp) expr).getSource();
+		if ( source == null ) {
 			System.out.println(((PropertyCallExp) expr));
 		}
 		
-		String receptor = genAux(((PropertyCallExp) expr).getSource());
+		String receptor = genAux(source);
 		String casting = "";
 
 		if (expr instanceof OperatorCallExp) {
@@ -266,6 +273,10 @@ public class USESerializer {
 				// adaptation = "->asSequence()";
 				prefix = "Sequence { ";
 				postfix = "}->flatten";
+			}
+			
+			if ( source instanceof OperatorCallExp ) {
+				receptor = "(" + receptor + ")";
 			}
 			
 			return prefix + receptor + postfix + "(" + genArgs(call.getArguments() )+ ")" + casting;

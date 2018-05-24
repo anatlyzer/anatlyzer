@@ -448,4 +448,9 @@ public class AnalyserUtils {
 			map(m -> analysis.getNamespaces().getNamespace(m.getMetamodelName())).
 			collect(Collectors.toList());		
 	}
+	
+	// This perhaps should go into a TranslationUtils class
+	public static boolean isHelperRepresentingDerivedProperty(Helper h) {
+		return h.getAnnotations().containsKey("DERIVED_PROPERTY");
+	}
 }

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 
+import anatlyzer.atl.analyser.ExtendTransformation.IEOperationHandler;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
@@ -45,6 +46,7 @@ public class Analyser implements IAnalyserResult {
 	protected int stage = 0;
 	protected boolean doErrorRefinement = false;
 
+	private IEOperationHandler eOperationHandler;
 	protected ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
 	
 	public Analyser(GlobalNamespace mm, ATLModel atlModel) {
@@ -54,6 +56,11 @@ public class Analyser implements IAnalyserResult {
 		this.errors = atlModel.getErrors();
 	}
 
+	public Analyser withEOperationHandler(IEOperationHandler eOperationHandler) {
+		this.eOperationHandler = eOperationHandler;
+		return this;
+	}
+	
 	public GlobalNamespace getNamespaces() {
 		return mm;
 	}
@@ -72,7 +79,9 @@ public class Analyser implements IAnalyserResult {
 				
 				List<? extends Unit> units = trafo.allObjectsOf(Unit.class);
 				for (Unit unit : units) {
-					new ExtendTransformation(trafo, mm, unit).perform();
+					new ExtendTransformation(trafo, mm, unit).
+						withEOperationHandler(eOperationHandler).
+						perform();
 					
 					for(AnalyserExtension pass : additional) {
 						if ( pass.isPreparationTask() ) {

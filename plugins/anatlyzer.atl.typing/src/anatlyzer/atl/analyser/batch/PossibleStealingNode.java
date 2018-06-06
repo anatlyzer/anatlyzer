@@ -33,6 +33,7 @@ import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.IfExp;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LetExp;
@@ -175,10 +176,37 @@ public class PossibleStealingNode extends AbstractDependencyNode implements IDet
 
 			OclExpression result = null;
 			if ( TypeUtils.isReference(srcType) || TypeUtils.isReference(srcType2) ) {
-				// result = createReferenceConstraint(model, rules, genValue, operator);
-				// throw new UnsupportedOperationException();
-				// Generate problem to 
-				return model.createOperationCall(b1Value, "todoImplementReference");
+				// TODO: This is the same as the multivalued-case but wrapping (possible) mono-valued
+				// expressions into a collection. Perhaps both pieces of code can be merged.
+				
+				VariableExp refE1 = model.createVarRef(let1.getVariable());
+				// Wrap into a collection and flatten
+				CollectionOperationCallExp colE1 = model.liftToCollection(refE1);
+				
+				IteratorExp exists = model.createExists(colE1, "_problem_1");
+				VariableDeclaration varDcl = exists.getIterators().get(0);
+				
+				OclExpression firstIf = genCheckFilter(model, b1Value, resolved, varDcl, () -> {
+					VariableExp refE2 = model.createVarRef(let2.getVariable());
+					CollectionOperationCallExp colE2 = model.liftToCollection(refE2);
+					IteratorExp exists2 = model.createExists(colE2, "_problem_2");
+					VariableDeclaration varDcl2 = exists2.getIterators().get(0);
+
+					OclExpression secondIf = genCheckFilter(model, b2Value, resolved, varDcl2, () -> {
+						VariableExp refe1_inner = model.createVarRef(varDcl);
+						VariableExp refe2_inner = model.createVarRef(varDcl2);
+						return model.createBinaryOperator(refe1_inner, refe2_inner, "=");
+					});
+					
+					exists2.setBody(secondIf);
+					
+					return exists2;
+				});
+				
+				exists.setBody(firstIf);
+				
+				result = exists;
+
 			} else if ( TypeUtils.isCollection(srcType) ) {
 				// I have to consider also the second binding... when checking if collection or mono-valued
 				VariableExp refE1 = model.createVarRef(let1.getVariable());

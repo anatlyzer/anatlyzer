@@ -115,7 +115,7 @@ public class TransformationContentProvider implements IOutlineContentCreator {
 		private Image helperImg =  AtlUIPlugin.getImageDescriptor("helper.gif").createImage();
 		private Image matchedRuleImg =  AtlUIPlugin.getImageDescriptor("matchedRule.gif").createImage();
 		private Image lazyRuleImg =  AtlUIPlugin.getImageDescriptor("lazyRule.gif").createImage();
-		private Image calledRuleImg =  AtlUIPlugin.getImageDescriptor("calledRule.gif").createImage();
+		private Image calledRuleImg =  AtlUIPlugin.getImageDescriptor("lazyRule.gif").createImage(); // calledRule doesn't work
 		private Image binding = AtlUIPlugin.getImageDescriptor("binding.gif").createImage();
 		
 		@Override

@@ -3,6 +3,7 @@ package anatlyzer.atl.editor.quickfix.errors;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -198,6 +199,7 @@ public class FeatureNotFoundQuickFix_ChangeMetamodel extends AbstractMetamodelCh
 				EStructuralFeature feat = null;
 				if ( actualFeatureType instanceof EClass ) {
 					feat = EcoreFactory.eINSTANCE.createEReference();										
+					((EReference) feat).setContainment(a.isContainment());
 				} else {
 					feat = EcoreFactory.eINSTANCE.createEAttribute();					
 				}

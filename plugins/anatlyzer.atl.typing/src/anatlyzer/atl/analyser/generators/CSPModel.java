@@ -30,6 +30,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.Parameter;
+import anatlyzer.atlext.OCL.SetExp;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
@@ -291,7 +292,18 @@ public class CSPModel {
 		
 		return colOp;
 	}
-	
+
+	/**
+	 * Wraps an OCL expression into a collection and flattens it
+	 * @param refE1
+	 * @return
+	 */
+	public CollectionOperationCallExp liftToCollection(OclExpression exp) {
+		SetExp set = OCLFactory.eINSTANCE.createSetExp();
+		set.getElements().add(exp);
+		return createCollectionOperationCall(set, "flatten");
+	}
+
 	public OclExpression gen(OclExpression expr) {
 		return generator.gen(expr, scope);
 	}
@@ -492,6 +504,7 @@ public class CSPModel {
 		}
 		return varName;
 	}
+
 
 	
 }

@@ -45,13 +45,11 @@ public class ShowBindingResolutionOutline extends AbstractHandler {
 			
 			
 			ISelection s = HandlerUtil.getCurrentSelection(event);
-			
 			if ( s instanceof TextSelection ) {
 				TextSelection ts = (TextSelection) s;
 				int offset = ts.getOffset();
 				
-				IDocument doc = atlEditor.getViewer().getDocument();
-				
+				IDocument doc = atlEditor.getViewer().getDocument();				
 				LocatedElement found = WorkbenchUtil.getElementFromOffset(offset, r.getATLModel(), doc);
 				if ( found != null ) {
 					Binding binding = ATLUtils.getContainer(found, Binding.class);
@@ -63,6 +61,8 @@ public class ShowBindingResolutionOutline extends AbstractHandler {
 					}
 				}				
 			}
+			
+			
 			
 		}
 		

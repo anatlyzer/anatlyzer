@@ -76,9 +76,10 @@ public class AnalysisViewBatchNodes {
 					new RuleConflictAnalysisNode(this), 
 					new ChildStealingAnalysisBatchNode(parent), 
 					new UnconnectedComponentsAnalysis(this), 
-					new TargetInvariantAnalysisBatchNode(this),
-					new DelayedAnalysisBatchNode(this),
-					new PreconditionAnalysisBatchNode(this)
+				new TargetInvariantAnalysisBatchNode(this),
+					new DelayedAnalysisBatchNode(this)
+					//,
+					//new PreconditionAnalysisBatchNode(this)
 			};
 			
 //			if ( view.getCurrentAnalysis() != null ) {

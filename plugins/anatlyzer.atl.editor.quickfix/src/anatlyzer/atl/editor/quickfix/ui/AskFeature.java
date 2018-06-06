@@ -31,8 +31,10 @@ public class AskFeature extends Dialog {
 	private Type featureType;
 	private int lowerBound = 0;
 	private int upperBound = 1;
+	private boolean isContainment;
 	private Combo cmbTypes;
 	private String featureTypeStr;
+	private Button chkContainment;
 
 	/**
 	 * Create the dialog.
@@ -85,7 +87,7 @@ public class AskFeature extends Dialog {
 		cmbTypes.setText("cmbTypes");
 		new Label(container, SWT.NONE);
 		
-		Button chkContainment = new Button(container, SWT.CHECK);
+		chkContainment = new Button(container, SWT.CHECK);
 		chkContainment.setText("Containment (only for references)");
 		new Label(container, SWT.NONE);
 
@@ -162,6 +164,7 @@ public class AskFeature extends Dialog {
 				this.upperBound = up.equals("*") ? -1 : Integer.parseInt(up);
 			}
 			this.featureTypeStr = cmbTypes.getText();
+			this.isContainment = chkContainment.getSelection();
 		}
 		super.buttonPressed(buttonId);
 	}
@@ -181,6 +184,10 @@ public class AskFeature extends Dialog {
 	
 	public String getFeatureType() {
 		return featureTypeStr;
+	}
+	
+	public boolean isContainment() {
+		return isContainment;
 	}
 	
 }

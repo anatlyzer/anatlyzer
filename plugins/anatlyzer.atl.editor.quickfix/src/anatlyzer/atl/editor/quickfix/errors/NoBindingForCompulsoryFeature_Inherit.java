@@ -72,10 +72,9 @@ public class NoBindingForCompulsoryFeature_Inherit extends AbstractAtlQuickfix {
 			
 			if ( bindings.size() > 0 ) {
 				this.selectedRule = (MatchedRule) ATLUtils.getRule(bindings.get(0));
-				return true;
 			}
 			
-			return true;
+			return this.selectedRule != null;
 		} catch (CoreException e) {
 			e.printStackTrace();
 			return false;

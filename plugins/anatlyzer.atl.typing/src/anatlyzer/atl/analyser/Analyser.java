@@ -44,7 +44,7 @@ public class Analyser implements IAnalyserResult {
 	
 	public static final String USE_THIS_MODULE_CLASS = "ThisModule";
 	protected int stage = 0;
-	protected boolean doErrorRefinement = false;
+	protected boolean doErrorRefinement = true;
 
 	private IEOperationHandler eOperationHandler;
 	protected ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();

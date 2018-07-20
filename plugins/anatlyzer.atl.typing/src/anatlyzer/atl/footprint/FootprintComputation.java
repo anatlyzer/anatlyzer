@@ -11,8 +11,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnknownFeature;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.footprint.CallSite;
 
@@ -54,8 +59,22 @@ public abstract class FootprintComputation {
 	
 	protected void computeFootprint() {
 		// Compute direct used types
-		List<Metaclass> metaclasses = atlModel.allObjectsOf(Metaclass.class);
-		for (Metaclass m : metaclasses) {
+		for(OclModelElement me : atlModel.allObjectsOf(OclModelElement.class)) {
+			
+			// This is a hack to avoid considering inlined eoperations which are not actually being used
+			Helper h = ATLUtils.getContainer(me, Helper.class);
+			if ( h != null && AnalyserUtils.isAddedEOperation(h) && h.getCalledBy().isEmpty() ) {
+				continue;
+			}
+			
+			Type t = me.getInferredType();
+			if ( !(t instanceof Metaclass))
+				continue;
+			
+			
+			Metaclass m = (Metaclass) t;
+			if ( m.getKlass().getName().equals("EObject"))
+				System.out.println(m);
 			if ( m.isExplicitOcurrence() && classInMM(m.getKlass()) ) {
 				directUsedTypes.add(m.getKlass());
 			} else {

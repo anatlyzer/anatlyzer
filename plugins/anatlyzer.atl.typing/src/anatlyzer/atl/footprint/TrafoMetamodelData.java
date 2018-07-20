@@ -29,6 +29,10 @@ public class TrafoMetamodelData extends FootprintComputation implements IEffecti
 		return result;
 	}
 
+	public Set<EClass> getDirectUsedClasses() {
+		return directUsedTypes;
+	}
+	
 	@Override
 	public Set<EEnum> getEnums() {
 		HashSet<EEnum> result = new HashSet<EEnum>();

@@ -16,6 +16,7 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -772,6 +773,11 @@ public class AnalysisView extends ViewPart implements IPartListener, IndexChange
 		
 		batchModeAction = new Action("Batch mode", IAction.AS_CHECK_BOX) {
 			public void run() {
+				if ( currentResource == null ) {
+					MessageDialog.openError(null, "Error", "Can't analyse yet. Please open the transformation file again (possibly using the AnATLyzer editor: Open with... -> AnATLyzer editor)");
+					return ;
+				}
+				
 				TransformationConfiguration conf = AnalysisIndex.getInstance().getConfiguration(currentResource);
 				if (! conf.isContinousWitnessFinder() ) {
 					AnalysisView.this.batchMode = true;				

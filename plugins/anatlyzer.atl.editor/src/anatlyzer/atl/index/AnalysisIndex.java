@@ -105,7 +105,7 @@ public class AnalysisIndex {
 	}
 	
 	
-	public TransformationConfiguration getConfiguration(IResource resource) {
+	public TransformationConfiguration getConfiguration(IResource resource) {		
 		TransformationConfiguration r = confs.get(getFileId(resource));		
 //		if ( r == null )
 //			r = TransformationConfiguration.getDefault();

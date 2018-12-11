@@ -21,6 +21,12 @@ public class TrafoMetamodelData extends FootprintComputation implements IEffecti
 		computeFootprint();
 	}
 
+	public TrafoMetamodelData(ATLModel atlModel, MetamodelNamespace mm, boolean checkTargetTypes) {
+		super(atlModel, mm);
+		setCheckTargetTypes(checkTargetTypes);
+		computeFootprint();
+	}
+	
 	@Override
 	public Set<EClass> getClasses() {
 		HashSet<EClass> result = new HashSet<EClass>();

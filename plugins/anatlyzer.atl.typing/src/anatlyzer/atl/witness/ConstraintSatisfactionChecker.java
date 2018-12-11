@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -95,7 +96,7 @@ public class ConstraintSatisfactionChecker {
 		Unit unit = constructTransformation();
 		
 		// Configure the analysis
-		GlobalNamespace mm = new GlobalNamespace(namesToResources.values(), namesToResources);
+		GlobalNamespace mm = new GlobalNamespace(namesToResources.values(), namesToResources, false);
 		ATLModel model = new ATLModel();
 		model.add(unit);
 		this.model = model;
@@ -130,12 +131,16 @@ public class ConstraintSatisfactionChecker {
 		Module module = ATLFactory.eINSTANCE.createModule();
 		module.setName("inMemoryModule");
 		
-		OclModel inModel = OCLFactory.eINSTANCE.createOclModel();
-		inModel.setName("IN");
-		OclModel mmModel = OCLFactory.eINSTANCE.createOclModel();
-		mmModel.setName("MM");
-		inModel.setMetamodel(mmModel);
-		module.getInModels().add(inModel);
+		int i = 0;
+		for (Entry<String, Resource> entry : namesToResources.entrySet()) {
+			OclModel inModel = OCLFactory.eINSTANCE.createOclModel();
+			inModel.setName("IN" + i);
+			OclModel mmModel = OCLFactory.eINSTANCE.createOclModel();
+			mmModel.setName(entry.getKey());
+			inModel.setMetamodel(mmModel);
+			module.getInModels().add(inModel);			
+			i++;
+		}
 		
 		List<StaticHelper> helpers = expressions.stream().map(e -> {
 			return createOperation("exp" + expressions.indexOf(e), (op) -> {

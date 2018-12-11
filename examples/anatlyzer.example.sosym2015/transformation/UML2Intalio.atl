@@ -7,6 +7,8 @@
 --         v.oclIsKindOf(UML!OpaqueAction) or ( v.oclIsKindOf(UML!InitialNode) and (v.oclIsKindOf(UML!InitialNode) implies v.incoming->isEmpty())  )))
 --
 
+-- @pre UML!Action.allInstances()->forAll(v | not v.name.oclIsUndefined())
+
 module UML2Intalio;
 create OUT : Intalio from IN : UML;
 

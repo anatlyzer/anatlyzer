@@ -1,12 +1,9 @@
 package anatlyzer.atl.witness;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 
 /**
  * An interface for witness finders, typically using a constraint solving.

@@ -159,6 +159,10 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 	}
 	
 	private Type tryRecovery(String featureName, LocatedElement node, Consumer<Type> onImplicitCasting) {			
+		if ( ! this.getKlass().isAbstract() ) {
+			return AnalyserContext.getErrorModel().signalNoFeature(eClass, featureName, node);
+		}
+		
 		HashSet<Metaclass> foundClasses = new HashSet<Metaclass>();
 		Type returnedType = null;
 		

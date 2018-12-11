@@ -30,9 +30,14 @@ public class GlobalNamespace {
 	
 	private MetamodelNamespace metaMetamodel;
 	
-	
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels) {
-		this.metaMetamodel = new MetamodelNamespace(META_METAMODEL_KEY, EcorePackage.eINSTANCE.eResource(), null);
+		this(r, logicalNamesToMetamodels, true);
+	}
+	
+	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels, boolean useMetaModel) {
+		this.metaMetamodel = useMetaModel ? 
+				new MetamodelNamespace(META_METAMODEL_KEY, EcorePackage.eINSTANCE.eResource(), null) :
+				null;
 
 		for (Resource resource : r) {
 			resources.add(resource);
@@ -44,6 +49,11 @@ public class GlobalNamespace {
 		
 		this.logicalNamesToMetamodels = Collections.unmodifiableMap(logicalNamesToMetamodels);
 		
+	}
+
+	public GlobalNamespace(ResourceSet nrs, HashMap<String, Resource> logicalNamesToResources) {
+		this(nrs.getResources(), logicalNamesToResources);
+		this.rs = nrs;
 	}
 
 	public MetamodelNamespace getMetaMetamodel() {
@@ -59,12 +69,6 @@ public class GlobalNamespace {
 			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key), metaMetamodel));
 		}
 		this.subtypes = new HashMap<EClass, ArrayList<ClassNamespace>>();
-	}
-
-	
-	public GlobalNamespace(ResourceSet nrs, HashMap<String, Resource> logicalNamesToResources) {
-		this(nrs.getResources(), logicalNamesToResources);
-		this.rs = nrs;
 	}
 
 	public Map<String, Resource> getLogicalNamesToMetamodels() {

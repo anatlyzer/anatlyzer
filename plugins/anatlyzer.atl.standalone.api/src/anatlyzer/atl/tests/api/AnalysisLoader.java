@@ -1,11 +1,9 @@
 package anatlyzer.atl.tests.api;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -25,6 +23,13 @@ public class AnalysisLoader {
 	public static AnalysisLoader fromResource(Resource trafo, Object[] metamodels, String[] names) {
 		AnalysisLoader result = new AnalysisLoader();
 		
+		result.globalNamespace = createNamespace(metamodels, names);
+		result.atlTransformation = new ATLModel(trafo, trafo.getURI().toFileString(), true);		
+		
+		return result;
+	}
+
+	public static GlobalNamespace createNamespace(Object[] metamodels, String[] names) {
 		ResourceSet rs = new ResourceSetImpl();
 		int i = 0;
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
@@ -40,13 +45,11 @@ public class AnalysisLoader {
 			logicalNamesToResources.put(names[i], r);
 			i++;
 		}
-
-		result.globalNamespace = new GlobalNamespace(resources, logicalNamesToResources);		
-		result.atlTransformation = new ATLModel(trafo, trafo.getURI().toFileString(), true);		
 		
-		return result;
+		return new GlobalNamespace(resources, logicalNamesToResources);
 	}
-
+	
+	
 
 	public static AnalysisLoader fromATLModel(ATLModel trafo, Object[] metamodels, String[] names) {
 		AnalysisLoader result = new AnalysisLoader();
@@ -83,6 +86,10 @@ public class AnalysisLoader {
 		Analyser analyser = new Analyser(globalNamespace, atlTransformation);
 		analyser.perform();
 		return new AnalysisResult(analyser);		
+	}
+	
+	public GlobalNamespace getNamespace() {
+		return globalNamespace;
 	}
 	
 	public ATLModel getAtlTransformation() {

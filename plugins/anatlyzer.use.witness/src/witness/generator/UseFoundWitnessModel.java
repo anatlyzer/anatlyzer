@@ -13,6 +13,8 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -118,6 +120,11 @@ public class UseFoundWitnessModel implements IWitnessModel {
 		
 		this.originalModel = r;
 	}
+	
+	private EEnumLiteral convertEnumLiteral(EEnum original, Object obj) {
+		EEnumLiteral lit = (EEnumLiteral) obj;
+		return original.getEEnumLiteral(lit.getValue());
+	}
 
 	@SuppressWarnings("unchecked")
 	private void setFeature(EObject obj, HashMap<EObject, EObject> targetToSource, EStructuralFeature f, IMetamodelRewrite data) {
@@ -128,11 +135,21 @@ public class UseFoundWitnessModel implements IWitnessModel {
 		}
 		
 		if ( f instanceof EAttribute ) {
-			if ( f.isMany() ) {
-				((EList<EObject>) orig.eGet(origFeature)).addAll((Collection<? extends EObject>) obj.eGet(f));
+			if ( f.getEType() instanceof EEnum ) {
+				if ( f.isMany() ) {
+					Collection<? extends Object> objects = (Collection<? extends Object>) obj.eGet(f);
+					List<EEnumLiteral> literals = objects.stream().map(o -> convertEnumLiteral((EEnum) origFeature.getEType(), o)).collect(Collectors.toList());
+					((EList<Object>) orig.eGet(origFeature)).addAll(literals);
+				} else {
+					orig.eSet(origFeature, convertEnumLiteral((EEnum) origFeature.getEType(), obj.eGet(f)));
+				}	
 			} else {
-				orig.eSet(origFeature, obj.eGet(f));
-			}			
+				if ( f.isMany() ) {
+					((EList<Object>) orig.eGet(origFeature)).addAll((Collection<? extends Object>) obj.eGet(f));
+				} else {
+					orig.eSet(origFeature, obj.eGet(f));
+				}			
+			}
 		} else {
 			if ( f.isMany() ) {
 				for(EObject pointedObj : (Collection<? extends EObject>) obj.eGet(f)) { 

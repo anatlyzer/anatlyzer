@@ -10,16 +10,29 @@ import org.eclipse.m2m.atl.engine.parser.AtlParser;
 
 public class AtlLoader {
 
-	public static Resource load(String fname) throws ATLCoreException {
+	public static Resource load(String fname) throws LoadException {
 		AtlParser atlParser = new AtlParser();
 		ModelFactory modelFactory = new EMFModelFactory();
-		IReferenceModel atlMetamodel = modelFactory.getBuiltInResource("ATL.ecore");
-		EMFModel atlDynModel = (EMFModel) modelFactory.newModel(atlMetamodel);
-		atlParser.inject(atlDynModel, fname);
+		IReferenceModel atlMetamodel;
+		try {
+			atlMetamodel = modelFactory.getBuiltInResource("ATL.ecore");
+			EMFModel atlDynModel = (EMFModel) modelFactory.newModel(atlMetamodel);
+			atlParser.inject(atlDynModel, fname);			
+			
+			Resource originalTrafo = atlDynModel.getResource();
+			return originalTrafo;
+		} catch (ATLCoreException e) {
+			throw new LoadException(e);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	public static class LoadException extends Exception {
+
+		public LoadException(ATLCoreException e) {
+			super(e);
+		}
 		
-		
-		Resource originalTrafo = atlDynModel.getResource();
-		return originalTrafo;
 	}
 	
 }

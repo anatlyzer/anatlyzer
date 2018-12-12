@@ -100,6 +100,15 @@ public class ATLSerializer extends AbstractVisitor {
 		return s.g(obj);
 	}
 	
+
+	public static void serialize(EObject obj, String path) throws IOException {
+		String s = serialize(obj);
+		FileWriter writer = new FileWriter(path);
+		writer.append(s);
+		writer.close();
+	}
+	
+	
 	public static void serialize(ATLModel atlModel, String path) throws IOException {
 		String s = serialize(atlModel);
 		FileWriter writer = new FileWriter(path);

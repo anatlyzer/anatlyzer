@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import java.util.SortedMap;
@@ -25,12 +27,15 @@ import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.InPattern;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 
 public class ErrorReport {
@@ -43,11 +48,18 @@ public class ErrorReport {
 		public int nCalledRules;
 		public int nSourceClasses;
 		public int nTargetClasses;
+		public int numBindings;
 		public int nLOC;
 		public long nSourceReferences;
 		public long nSourceAttributes;
 		public long nTargetReferences;
 		public long nTargetAttributes;
+		public double averageBindingNodes;
+		public double averageFilterNodes;
+		public double averageHelperNodes;
+		public int numFilters;
+		public int numContextHelpers;
+		public int numGlobalHelpers;
 		
 	}
 	
@@ -64,8 +76,11 @@ public class ErrorReport {
 		PrintStream out = new PrintStream(stream);
 		out.println("Transformation statistics");
 		out.println(" * LOC : " + r.nLOC);
-		if (r.nHelpers > 0)
+		if (r.nHelpers > 0) {
 			out.println(" * Helpers : " + r.nHelpers);
+			out.println("   - Context helpers: " + r.numContextHelpers);
+			out.println("   - Global  helpers: " + r.numGlobalHelpers);	
+		}
 		if (r.nMatchedRules > 0)
 			out.println(" * Matched rules : "
 					+ r.nMatchedRules 
@@ -76,7 +91,14 @@ public class ErrorReport {
 		if (r.nCalledRules > 0)
 			out.println(" * Called rules : " + r.nCalledRules);
 
-
+		out.println(" * Num. bindings: " + r.numBindings);
+		out.println(" * Num. filters: " + r.numFilters);
+		
+		out.println(" * Avg. binding expressions: " + String.format( "%.2f", r.averageBindingNodes));
+		out.println(" * Avg. filter  expressions: " + String.format( "%.2f", r.averageFilterNodes));
+		out.println(" * Avg. helper  expressions: " + String.format( "%.2f", r.averageHelperNodes));
+		
+		
 		out.println("Metamodel statistics");
 		out.println(" * Source meta-model(s) classes : " + r.nSourceClasses);
 		out.println(" * Source meta-model(s) attrs: " + r.nSourceAttributes);
@@ -116,6 +138,42 @@ public class ErrorReport {
 				r.nCalledRules++;
 		}
 
+		
+		List<Binding> bindings = atlTransformation.allObjectsOf(Binding.class);
+		int totalNodes = 0;
+		for (Binding binding : bindings) {
+			r.numBindings++;
+			totalNodes += computeNumNodes(binding.getValue());			
+		}
+		r.averageBindingNodes = bindings.size() == 0 ? 0 : (totalNodes / (1.0 * bindings.size()));
+		
+		int totalFilterNodes = 0;
+		List<InPattern> inPatterns = atlTransformation.allObjectsOf(InPattern.class);
+		for (InPattern inPattern : inPatterns) {
+			if ( inPattern.getFilter() != null ) {
+				r.numFilters++;
+				totalFilterNodes += computeNumNodes(inPattern.getFilter());
+			}
+		}
+		r.averageFilterNodes = inPatterns.size() == 0 ? 0 : (totalFilterNodes / (1.0 * r.numFilters));
+
+		int totalHelperNodes = 0;
+		List<Helper> helpers = atlTransformation.allObjectsOf(Helper.class);
+		for (Helper helper : helpers) {
+			if ( AnalyserUtils.isAddedEOperation(helper))
+				continue;
+			OclExpression body = ATLUtils.getHelperBody(helper);
+			totalHelperNodes += computeNumNodes(body);
+			
+			if ( ATLUtils.isContextHelper(helper) ) {
+				r.numContextHelpers++;
+			} else {
+				r.numGlobalHelpers++;
+			}
+		}
+		r.averageHelperNodes = helpers.size() == 0 ? 0 : (totalHelperNodes / (1.0 * r.nHelpers));
+
+		
 		for (OclModel model : module.getInModels()) {
 			MetamodelNamespace ns = mm.getNamespace(model.getMetamodel()
 					.getName());
@@ -146,6 +204,18 @@ public class ErrorReport {
 			r.nLOC += countLOCs(location);
 		}
 		return r;
+	}
+
+	private static int computeNumNodes(OclExpression value) {
+		int numNodes = 1;
+		TreeIterator<EObject> eAllContents = value.eAllContents();
+		while ( eAllContents.hasNext() ) {
+			EObject o = eAllContents.next();
+			if ( o instanceof OclExpression ) {
+				numNodes++;
+			}
+		}
+		return numNodes;
 	}
 
 	protected static int countLOCs(String atlTransformationFile) {

@@ -50,6 +50,7 @@ import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.SequenceExp;
 import anatlyzer.atlext.OCL.SetExp;
@@ -419,6 +420,21 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			return;
 		}
 		*/
+		
+		// This is needed because in USE OclUndefined.oclIsKindOf(OclAny) => true
+		// we need to make sure that this actually produces => false
+		if ( self.getOperationName().equals("oclIsKindOf") ) {
+			OperationCallExp andExp = OCLFactory.eINSTANCE.createOperatorCallExp();
+			andExp.setOperationName("and");
+			EcoreUtil.replace(self, andExp);
+			
+			andExp.getArguments().add(self);
+			
+			OclExpression src = (OclExpression) ATLCopier.copySingleElement(self.getSource());
+			OperatorCallExp notUndefined = builder.negateExpression(builder.createOperationCall(src, "oclIsUndefined"));
+			andExp.setSource(notUndefined);
+			return;
+		}
 		
 		// Same as inFeatureCallExp
 		OperationFoundInSubtype p = (OperationFoundInSubtype) AnalyserUtils.hasProblem(self, OperationFoundInSubtype.class);

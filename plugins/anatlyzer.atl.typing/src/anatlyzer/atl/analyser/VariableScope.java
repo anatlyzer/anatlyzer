@@ -140,8 +140,9 @@ public class VariableScope {
 	}
 	
 	public boolean isEmpty() {
-		assert(currentUndefined.isEmpty() == currentKindOf.isEmpty());
-		return currentKindOf.isEmpty();
+		// assert(currentUndefined.isEmpty() == currentKindOf.isEmpty());
+		// return currentKindOf.isEmpty();
+		return currentKindOf.isEmpty() && currentUndefined.isEmpty();
 	}
 	
 	private class Scope {

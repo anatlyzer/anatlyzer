@@ -10,6 +10,7 @@ import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -179,9 +180,14 @@ public class VariableScope {
 			return allVariables.containsKey(varName);
 		}
 
+		protected String serializeExpr(OclExpression expr) {
+			//return USESerializer.gen(expr).asString();
+			return ATLSerializer.serialize(expr);
+		}
+		 
 		// mustBeInScope is used as a sanity check... probably could be removed
 		public OclKindOfApplication findOclKindOfDefinition(OclExpression expr, boolean mustBeInScope) {
-			OclKindOfApplication r = allApplications.get(USESerializer.gen(expr).asString());			
+			OclKindOfApplication r = allApplications.get(serializeExpr(expr));			
 			if ( r != null ) {
 				VariableExp starting = findStartingVarExp(expr);
 				
@@ -270,7 +276,7 @@ public class VariableScope {
 		}
 
 		private void addOclKindOf(OclExpression expr, OclKindOfApplication app) {
-			String str = USESerializer.gen(expr).asString();
+			String str = serializeExpr(expr);
 			currentApplications.put(str, app);			
 			allApplications.put(str, app);			
 		}

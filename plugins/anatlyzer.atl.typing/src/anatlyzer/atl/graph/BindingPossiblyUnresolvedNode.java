@@ -23,11 +23,13 @@ import anatlyzer.atl.errors.atl_error.BindingResolution;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.ClassPicker;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.MatchedRule;
@@ -249,7 +251,8 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 
 		if ( TypeUtils.isReference(srcType) ) {
 			LetExp let = model.createLetScope(genValue, null,  model.genNiceVarName(originalValue));
-			VariableDeclaration varDcl = let.getVariable();		
+			VariableDeclaration varDcl = let.getVariable();	
+			varDcl.setInferredType(originalValue.getInferredType());
 			varDcl.setType(ATLUtils.getOclType(originalValue.getInferredType()));
 			OclExpression andRules = genAndRules_Precondition(model, rules, varDcl, "or");
 
@@ -258,6 +261,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		} else if ( TypeUtils.isCollection(srcType) ) {		
 			IteratorExp exists = model.createIterator(genValue, "forAll", model.genNiceVarName(originalValue));
 			VariableDeclaration varDcl = exists.getIterators().get(0);
+			varDcl.setInferredType(((CollectionType) srcType).getContainedType());
 			
 			OclExpression lastExpr = genAndRules_Precondition(model, rules, varDcl, "or");
 			
@@ -287,6 +291,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		// to undefined is a trivial solution to the expression
 		VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
 		varRef.setReferredVariable(varDcl);
+		varDcl.setInferredType(varDcl.getInferredType());
 		OperatorCallExp notUndefined = model.negateExpression(model.createOperationCall(varRef, "oclIsUndefined"));
 		
 		let.setIn_( model.createBinaryOperator(notUndefined, andRules, "and") );
@@ -322,7 +327,8 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		
 		// => _problem_.oclIsKindOf(ruleFrom)
 		VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
-		v.setReferredVariable(varDcl);				
+		v.setReferredVariable(varDcl);
+		v.setInferredType(varDcl.getInferredType());
 		OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, ATLUtils.getInPatternType(r));			
 		
 		// Generate the filter
@@ -354,6 +360,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 		// The alternative is to stick to "false" but check with the regular oclIsKindOf (instead of the AllInstancesStyle)
 		VariableExp refToProblem = OCLFactory.eINSTANCE.createVariableExp();
 		refToProblem.setReferredVariable(varDcl);
+		refToProblem.setInferredType(varDcl.getInferredType());
 		OclExpression lastIfResult = model.createOperationCall(refToProblem, "oclIsUndefined");
 		
 		IfExp ifexpr = model.createIfExpression(kindOfCondition, filter, lastIfResult);
@@ -368,6 +375,7 @@ public class BindingPossiblyUnresolvedNode extends AbstractBindingAssignmentNode
 			// => _problem_.oclIsKindOf(ruleFrom)
 			VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
 			v.setReferredVariable(varDcl);				
+			v.setInferredType(varDcl.getInferredType());
 			Metaclass srcType = ATLUtils.getInPatternType(info.getRule());
 			OclExpression kindOfCondition = model.createKindOf(v, srcType.getModel().getName(), srcType.getName(), srcType);			
 

@@ -257,7 +257,8 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 			ResolvedRuleInfo rule, MatchedRule r, OclExpression srcBindingValue) {
 		// => _problem_.oclIsKindOf(ruleFrom)
 		VariableExp v = OCLFactory.eINSTANCE.createVariableExp();
-		v.setReferredVariable(varDcl);				
+		v.setReferredVariable(varDcl);
+		v.setInferredType(varDcl.getInferredType());
 		OclExpression kindOfCondition = model.createKindOf_AllInstancesStyle(v, null, rule.getInputType());
 		
 		// Generate the filter

@@ -192,6 +192,7 @@ public abstract class BindingProblemQuickFix  extends AbstractAtlQuickfix  {
 				OclExpression defaultValueExpr = ASTUtils.defaultValue(original.getInferredType());
 				VariableExp refToVar           = OCLFactory.eINSTANCE.createVariableExp();
 				refToVar.setReferredVariable(varDcl);
+				refToVar.setInferredType(varDcl.getInferredType());
 				
 				OclExpression check = genCheck(varDcl, involvedRules, selectResolvedElements);
 				/*

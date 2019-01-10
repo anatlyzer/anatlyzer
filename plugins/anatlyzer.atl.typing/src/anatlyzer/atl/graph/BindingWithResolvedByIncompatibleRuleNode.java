@@ -25,6 +25,7 @@ import anatlyzer.atl.errors.atl_error.BindingWithResolvedByIncompatibleRule;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.ResolvedRuleInfo;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.CollectionType;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.UnionType;
@@ -194,6 +195,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		if ( TypeUtils.isReference(ATLUtils.getSourceType(binding) )) {
 			LetExp let = model.createLetScope(genValue, null,  model.genNiceVarName(originalValue));
 			VariableDeclaration varDcl = let.getVariable();		
+			varDcl.setInferredType(originalValue.getInferredType());
 			varDcl.setType(ATLUtils.getOclType(originalValue.getInferredType()));
 			OclExpression orRules = BindingPossiblyUnresolvedNode.genAndRules_Precondition(model, rules, varDcl, "or");
 
@@ -202,6 +204,7 @@ public class BindingWithResolvedByIncompatibleRuleNode extends AbstractBindingAs
 		} else if ( TypeUtils.isCollection(ATLUtils.getSourceType(binding)) ) {
 			IteratorExp exists = model.createExists(genValue, model.genNiceVarName(originalValue));
 			VariableDeclaration varDcl = exists.getIterators().get(0);
+			varDcl.setInferredType( ((CollectionType) ATLUtils.getSourceType(binding)).getContainedType());
 			
 			OclExpression orRules = BindingPossiblyUnresolvedNode.genAndRules_Precondition(model, rules, varDcl, "or");
 			

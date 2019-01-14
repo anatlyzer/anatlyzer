@@ -159,7 +159,10 @@ public class ATLSerializer extends AbstractVisitor {
 	private String commentsBefore(LocatedElement self) {
 		String s = "";
 		for(String c : self.getCommentsBefore()) {
-			s += "-- " + c + cr();
+			if ( ! c.trim().startsWith("--") ) {
+				c = "-- " + c;
+			}
+			s += c + cr();
 		}
 		return s;
 	}
@@ -208,10 +211,14 @@ public class ATLSerializer extends AbstractVisitor {
 			if ( ExtendTransformation.isAddedEOperation(r) )
 				continue;
 			
-			s += g(r) + cr(2);
+			s += serializeModuleElement(r) + cr(2);
 		}
 
 		s(s);
+	}
+	
+	protected String serializeModuleElement(ModuleElement r) {
+		return g(r);
 	}
 
 	@Override

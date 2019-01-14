@@ -14,9 +14,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import anatlyzer.atl.editor.quickassist.AbstractAtlQuickAssist;
 import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.simplifier.IOclSimplifier;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.util.ATLCopier;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -30,25 +32,18 @@ import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.ui.util.ExtensionPointUtils;
 
 public class ExpressionRefactoring_Simplify extends AbstractAtlQuickAssist {
 
 	@Override
 	public boolean isApplicable() {
-		return getElement() instanceof OclExpression && checkExpressionPosition() != null;
-	}
-
-	private OclExpression checkExpressionPosition() {
-		Binding b = ATLUtils.getContainer(getElement(), Binding.class);
-		if ( b != null && ATLUtils.findStartingVarExp(b.getValue()) != null) {
-			return b.getValue();
-		}
-		return null;
+		return getElement() instanceof OclExpression;
 	}
 
 	@Override
 	public String getDisplayString() {
-		return "Factorize expression into helper";
+		return "Attempt to simplify expression";
 	}
 
 	@Override
@@ -56,137 +51,19 @@ public class ExpressionRefactoring_Simplify extends AbstractAtlQuickAssist {
 
 	@Override
 	public QuickfixApplication getQuickfixApplication() throws CoreException {
-		OclExpression exp = checkExpressionPosition();
+		OclExpression exp = (OclExpression) getElement();
 
-		VariableExp selfVar = ATLUtils.findStartingVarExp(exp);
-		VariableDeclaration selfVd = selfVar.getReferredVariable();
-		
-		List<VariableExp> refs = getExternalVariableReferences(exp);
-		
-		HashMap<VariableDeclaration, List<VariableExp>> uniqueVars = new HashMap<VariableDeclaration, List<VariableExp>>();
-		List<VariableExp> arguments = new ArrayList<VariableExp>();
-		for (VariableExp ve : refs) {
-			if ( ! uniqueVars.containsKey(ve.getReferredVariable())) {
-				uniqueVars.put(ve.getReferredVariable(), new ArrayList<VariableExp>());
-				
-				// Self is implicit, not passed
-				if ( ve.getReferredVariable() != selfVar.getReferredVariable() )
-					arguments.add(ve);
-			}
-				
-			uniqueVars.get(ve.getReferredVariable()).add(ve);
-		}
-		
-		String opName = inferName("newOperation", exp);
-		
-		ModuleElement anchor = ASTUtils.findHelperPosition(exp, opName);
+		IOclSimplifier simp = ExtensionPointUtils.getOclSimplifier();
 		
 		QuickfixApplication qfa = new QuickfixApplication(this);
 		qfa.replace(exp, (e_, trace) -> {
-			VariableExp startVar = OCLFactory.eINSTANCE.createVariableExp();
-			startVar.setReferredVariable(selfVd);
-			
-			OperationCallExp opCall = OCLFactory.eINSTANCE.createOperationCallExp();
-			opCall.setOperationName(opName);
-			opCall.setSource(startVar);
-			
-			for (VariableExp arg : arguments) {
-				VariableExp argExp = OCLFactory.eINSTANCE.createVariableExp();
-				argExp.setReferredVariable(arg.getReferredVariable());
-				
-				opCall.getArguments().add(argExp);
-			}
-			
-			return opCall;
+			// TODO: What about preservation
+			EObject newExp = simp.simplify(getAnalysisResult().getAnalyser(), exp);
+			System.out.println( ATLSerializer.serialize(newExp) );
+			return newExp;
 		});
-		
-		qfa.insertAfter(anchor, () -> { 
-			ContextHelper helper = ASTUtils.buildNewContextOperation(opName, 
-					selfVar.getInferredType(),
-					exp.getInferredType(),				
-					arguments);
-
-			Operation op = (Operation) helper.getDefinition().getFeature();
-			
-			ATLCopier atlCopier = new ATLCopier(exp);
-			
-			for (int i = 0; i < op.getParameters().size(); i++) {
-				Parameter parameter = op.getParameters().get(i);
-				VariableExp actualParameter = arguments.get(i);
-				
-				atlCopier.bind(actualParameter.getReferredVariable(), parameter);
-			}
-			
-			VariableDeclaration newSelfVarDcl = OCLFactory.eINSTANCE.createVariableDeclaration();
-			newSelfVarDcl.setVarName("self");
-			atlCopier.bind(selfVar.getReferredVariable(), newSelfVarDcl);
-			
-			op.setBody((OclExpression) atlCopier.copy());
-			
-			return helper;
-		});
-
-		
-		
-//		
-//		
-//		
-//		MatchedRule r = (MatchedRule) getElement();
-//		qfa.replace(r, (original, trace) -> {
-//			trace.preserve(original.getInPattern());
-//			trace.preserve(original.getOutPattern());
-//			trace.preserve(original.getActionBlock());
-//			trace.preserve(original.getVariables());
-//			
-//			MatchedRule r2 = (MatchedRule) ATLCopier.copySingleElement(r);
-//			r2.setName(computeRuleName());
-//			
-//			return r2;
-//		});
 		
 		return qfa;
 	}
-
-	private String inferName(String defaultName, OclExpression exp) {
-		boolean hasSelect = false;
-		Metaclass oclIsKindOf = null;
-		
-		if ( exp instanceof IteratorExp && ((IteratorExp) exp).getName().equals("select"))
-			hasSelect = true;
-	
-		TreeIterator<EObject> it = exp.eAllContents();
-		while ( it.hasNext() ) {
-			EObject obj = it.next();
-			if ( obj instanceof IteratorExp && ((IteratorExp) obj).getName().equals("select"))
-				hasSelect = true;
-		
-			if ( obj instanceof OperationCallExp && ((OperationCallExp) obj).getOperationName().equals("oclIsKindOf") ) {
-				EList<OclExpression> args = ((OperationCallExp) obj).getArguments();
-				if ( args.size() > 0 && args.get(0) instanceof OclModelElement ) {
-					oclIsKindOf = (Metaclass) args.get(0).getInferredType();
-				}
-			}
-		}
-		
-		if ( hasSelect && oclIsKindOf != null ) {
-			return "filter" + oclIsKindOf.getName();
-		}
-		
-		return defaultName;
-	}
-
-	private List<VariableExp> getExternalVariableReferences(OclExpression exp) {
-		List<VariableExp> allVars = ATLUtils.findAllVarExp(exp);
-		TreeIterator<EObject> it = exp.eAllContents();
-		while ( it.hasNext() ) {
-			EObject obj = it.next();
-			if ( allVars.contains(obj) ) {
-				allVars.remove(obj);
-			}
-		}
-		
-		return allVars;
-	}
-
 
 }

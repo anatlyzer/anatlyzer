@@ -10,6 +10,7 @@ import anatlyzer.atlext.OCL.OclExpression;
 public interface IFinderStatsCollector {
 
 	void withMainConstraint(OclExpression constraint);
+	void withSolvingTimeNanos(long solvingTime);
 	void withPrecondition(OclExpression body);
 	void withFrameCondition(OclExpression exp);
 	void withHelper(Helper helper);
@@ -19,6 +20,7 @@ public interface IFinderStatsCollector {
 		public List<OclExpression> preconditions = new ArrayList<>();
 		public List<OclExpression> frameConditions = new ArrayList<>();
 		public List<Helper> helpers = new ArrayList<>();
+		private long solvingTimeNanos;
 		
 		@Override
 		public void withMainConstraint(OclExpression constraint) {
@@ -44,6 +46,11 @@ public interface IFinderStatsCollector {
 			this.helpers.add((Helper) ATLCopier.copySingleElement(helper));
 		}
 		
+		@Override
+		public void withSolvingTimeNanos(long solvingTime) {
+			this.solvingTimeNanos = solvingTime;
+		}
+		
 		public OclExpression getMainConstraint() {
 			return mainConstraint;
 		}
@@ -59,6 +66,18 @@ public interface IFinderStatsCollector {
 		public List<Helper> getHelpers() {
 			return helpers;
 		}		
+		
+		@Override
+		public long getSolvingTimeNanos() {
+			return this.solvingTimeNanos;
+		}
+		
 	}
+
+	default double getSolvingTimeSeconds() {
+		return this.getSolvingTimeNanos() / 1000_000_000.0;
+	}
+	
+	long getSolvingTimeNanos();
 	
 }

@@ -17,5 +17,10 @@ public class NullStatsCollector implements IFinderStatsCollector {
 	@Override
 	public void withHelper(Helper helper) { }
 
+	@Override
+	public void withSolvingTimeNanos(long solvingTime) { }
+
+	@Override
+	public long getSolvingTimeNanos() { return 0; }
 	
 }

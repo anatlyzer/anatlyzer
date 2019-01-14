@@ -35,6 +35,8 @@ import anatlyzer.atl.graph.ErrorPathGenerator;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.util.ATLUtils.ModelInfo;
 import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atlext.ATL.ATLFactory;
@@ -47,6 +49,7 @@ import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.Operation;
@@ -453,4 +456,35 @@ public class AnalyserUtils {
 	public static boolean isHelperRepresentingDerivedProperty(Helper h) {
 		return h.getAnnotations().containsKey("DERIVED_PROPERTY");
 	}
+	
+	public static String toTree(LocatedElement element) {
+		EObject exp;
+		if ( element instanceof OclExpression ) {
+			exp = element;
+		} else if ( element instanceof Helper ) {
+			exp = ATLUtils.getHelperBody((Helper) element); 
+		} 
+		else {
+			return element.eClass().getName() + " ... ?";
+		}
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append(element.eClass().getName());
+		toTree((OclExpression) exp, builder, "");
+		return builder.toString();
+	}
+	
+	private static void toTree(OclExpression expression, StringBuilder builder, String indent) {
+		Type type = expression.getInferredType();
+		
+		builder.append(indent + "+ " + expression.eContainingFeature().getName() + "= " + expression.eClass().getName() + " : " + 
+				(type == null ? "<null-in-ast>" : TypeUtils.typeToString(type)) );
+		builder.append("\n");
+		for (EObject eObject : expression.eContents()) {
+			if ( eObject instanceof OclExpression ) {
+				toTree((OclExpression) eObject, builder, indent + "  ");
+			}
+		}
+	}
+	
 }

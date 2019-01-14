@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
@@ -17,6 +18,7 @@ public class TestRuleConflicts extends UnitTest {
 	String BIBTEX = metamodel("bibtex2docbook/BibTeX");
 	String DOCBOOK = metamodel("bibtex2docbook/DocBook");
 	
+	@Ignore
 	@Test
 	public void testRuleConflict_SuperTypes() throws Exception {
 		String T = trafo("rule_conflicts_inheritance");
@@ -30,6 +32,7 @@ public class TestRuleConflicts extends UnitTest {
 		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
 	}
 
+	@Ignore
 	@Test
 	public void testRuleConflict_SuperTypes_Multiple_Input_Elements() throws Exception {
 		String T = trafo("rule_conflicts_inheritance_multi_input");
@@ -59,6 +62,7 @@ public class TestRuleConflicts extends UnitTest {
 		assertEquals(1, count(confirmedOrNot, ProblemStatus.ERROR_CONFIRMED));
 	}
 
+	@Ignore
 	@Test
 	public void testRuleConflict_Bibtex2Docbook() throws Exception {
 		String T = trafo("bibtex2docbook_two_rules");

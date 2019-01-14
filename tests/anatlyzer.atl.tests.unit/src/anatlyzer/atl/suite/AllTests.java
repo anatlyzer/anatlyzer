@@ -10,6 +10,7 @@ import anatlyzer.atl.constraintgen.TestConstraintGeneration;
 import anatlyzer.atl.helpers.TestHelpers;
 import anatlyzer.atl.imperative.TestImperative;
 import anatlyzer.atl.implicitcasting.TestImplicitCasting;
+import anatlyzer.atl.infrastructure.AtlCopierTest;
 import anatlyzer.atl.operators.TestOperators;
 import anatlyzer.atl.resolvetemp.TestResolveTemp;
 import anatlyzer.atl.retyping.TestRetyping;
@@ -22,6 +23,7 @@ import anatlyzer.atl.unions.TestUnions;
 @SuiteClasses({
 	// API tests
 	TestATLModel.class,
+	AtlCopierTest.class,
 	
 	// Basic typing
 	TestImplicitCasting.class, 

@@ -23,6 +23,7 @@ public class ATLCopier extends EcoreUtil.Copier {
 	private EObject root;
 	private boolean copyTypes = false;
 	private HashSet<EObject> ignoredElements = new HashSet<EObject>();
+	private HashMap<EObject, EObject> bindMap = new HashMap<EObject, EObject>();
 	
 	public ATLCopier(EObject object) {
 		this.root = object;
@@ -46,7 +47,7 @@ public class ATLCopier extends EcoreUtil.Copier {
 
 
 	public ATLCopier bind(EObject key, EObject value) {
-		this.put(key, value);
+		bindMap.put(key, value);
 		return this;
 	}
 
@@ -56,7 +57,7 @@ public class ATLCopier extends EcoreUtil.Copier {
 	}
 
 	public ATLCopier bindAll(HashMap<? extends EObject, ? extends EObject> map) {
-		this.putAll(map);
+		bindMap.putAll(map);
 		return this;
 	}
 
@@ -90,6 +91,11 @@ public class ATLCopier extends EcoreUtil.Copier {
 				if (referencedEObject == null) {
 				} else {
 					Object copyReferencedEObject = get(referencedEObject);
+					// Use the elements bound through bind() and bindAll()
+					if ( copyReferencedEObject == null ) {
+						copyReferencedEObject = bindMap.get(referencedEObject);
+					}
+					
 					if (copyReferencedEObject == null) {
 						if (useOriginalReferences
 								&& eReference.getEOpposite() == null) {
@@ -198,6 +204,19 @@ public class ATLCopier extends EcoreUtil.Copier {
       }
     }
 	
+    @Override
+    public EObject get(Object key) {
+    	if ( bindMap.containsKey(key) ) {
+    		return bindMap.get(key);
+    	}
+    	return super.get(key);
+    }
+    
+    @Override
+    public boolean containsKey(Object key) {
+    	return bindMap.containsKey(key) || super.containsKey(key);
+    }
+    
 	/**
 	 * Modification of the original copy
 	 */

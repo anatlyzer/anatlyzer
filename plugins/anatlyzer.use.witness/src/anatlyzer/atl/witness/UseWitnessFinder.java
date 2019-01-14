@@ -381,13 +381,23 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			ProblemStatus r = tryResolve(useConstraint, generator, srcMetamodels, false);
 			long end = System.nanoTime();
 			// return end-start;
-			System.out.println("Total solving time: " + (end-start) / 1000000000d);
+			
+			double solvingTime = (end-start) / 1000_000_000.0;			
+			System.out.println("Total solving time: " + solvingTime);
+			statsCollector.withSolvingTimeNanos(end-start);
 			return r;
 		} else {
+			long start = System.nanoTime();
+
 			ProblemStatus result = tryResolve(useConstraint, generator, srcMetamodels, false);
 			while ( AnalyserUtils.isDiscarded(result) && scopeCalculator.incrementScope() ) {
 				result = tryResolve(useConstraint, generator, srcMetamodels, true);
 			}
+			
+			long end = System.nanoTime();
+			statsCollector.withSolvingTimeNanos(end-start);
+			
+			
 			// TODO: Record scope calculator info
 			// statsCollector
 			return result;

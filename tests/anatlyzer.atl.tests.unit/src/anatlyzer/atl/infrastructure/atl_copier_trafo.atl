@@ -1,0 +1,24 @@
+module trafoexample;
+create OUT : WXYZ from IN : ABCD;
+
+
+rule model {
+	from src : ABCD!Model ( src.oclIsKindOf(ABCD!Model) ) 
+    to   tgt : WXYZ!Model (
+    	name <- ''
+	)
+}
+
+
+
+--
+--rule model {
+--	from src : ABCD!Model
+--    to   tgt : WXYZ!Model (
+--    	name <- src.elements->collect(elem | 
+--    		if elem.oclIsKindOf(ABCD!A) then elem.name else 'X' endif
+--    		or 
+--			if elem.oclIsKindOf(ABCD!A) then elem.name else 'Y' endif)->first()
+--	)
+--}
+--

@@ -497,11 +497,10 @@ public class ATLSerializer extends AbstractVisitor {
 		precedences.put("=", 70);
 		precedences.put("<>", 70);
 		
+		// They have the same precedence, it has been checked
 		precedences.put("and", 60);
-		
-		precedences.put("or", 50);
-		
-		precedences.put("xor", 40);
+		precedences.put("or", 60);
+		precedences.put("xor", 60);
 		
 		precedences.put("implies", 30);
 		
@@ -531,7 +530,7 @@ public class ATLSerializer extends AbstractVisitor {
 			if ( self.getSource() instanceof OperatorCallExp ) {
 				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getSource()).getOperationName(), -1);
 				if ( precedence1 > precedence2 ) {
-					src = "( " + src + " )";
+					src = "(" + src + ")";
 				}
 			} 
 			s(self.getOperationName() + " " + src);
@@ -542,13 +541,21 @@ public class ATLSerializer extends AbstractVisitor {
 			if ( self.getSource() instanceof OperatorCallExp ) {
 				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getSource()).getOperationName(), -1);
 				if ( precedence1 > precedence2 ) {
-					src = "( " + src + " )";
+					src = "(" + src + ")";
+				}
+				// Same precedence but distinct operator
+				else if ( precedence1 == precedence2 && !self.getOperationName().equals(((OperationCallExp) self.getSource()).getOperationName())) {
+					src = "(" + src + ")";
 				}
 			}
 			if ( self.getArguments().get(0) instanceof OperatorCallExp ) {
 				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getArguments().get(0)).getOperationName(), -1);
 				if ( precedence1 > precedence2 ) {
-					arg = "( " + arg + " )";
+					arg = "(" + arg + ")";
+				}
+				// Same precedence but distinct operator
+				else if ( precedence1 == precedence2 && !self.getOperationName().equals(((OperationCallExp) self.getArguments().get(0)).getOperationName())) {
+					arg = "(" + arg + ")";
 				}
 			}
 			

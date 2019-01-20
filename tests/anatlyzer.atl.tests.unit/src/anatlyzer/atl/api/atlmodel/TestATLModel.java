@@ -22,8 +22,13 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModel.CopiedATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.unit.UnitTest;
+import anatlyzer.atl.util.ATLUtils;
+import anatlyzer.atl.util.AnalyserUtils;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
+import anatlyzer.atlext.OCL.OperatorCallExp;
 
 public class TestATLModel extends UnitTest {
 	String ABCD = metamodel("ABCD");
@@ -151,5 +156,29 @@ public class TestATLModel extends UnitTest {
 		MetamodelNamespace nsTgt = inc.getNamespaces().getNamespace("ABCD");
 		
 		assertTrue(nsSrc != nsTgt);	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testOperators() throws Exception {
+		String T = trafo("operators");
+		typing(T, new Object[] { ABCD, WXYZ }, new String[] { "ABCD", "WXYZ" });
+		
+		Helper h = (Helper) this.getModel().allObjectsOf(Helper.class).get(0);
+		OperatorCallExp body = (OperatorCallExp) ATLUtils.getBody(h);
+		
+		System.out.println(AnalyserUtils.toTree(body));
+		
+		
+		assertEquals("or", body.getOperationName());
+		OperatorCallExp left = (OperatorCallExp) body.getSource();
+		OperatorCallExp right = (OperatorCallExp) body.getArguments().get(0);
+		
+		assertEquals("and", left.getOperationName());
+		assertEquals("and", right.getOperationName());
+		
+		
+		
+		
 	}
 }

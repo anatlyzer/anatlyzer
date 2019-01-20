@@ -53,6 +53,7 @@ import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.InPatternElement;
 import anatlyzer.atlext.ATL.LazyRule;
 import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
@@ -575,7 +576,15 @@ public class ATLUtils {
 
 	}
 
-	public static List<String> findCommaTags(Unit root, String tag) {
+	public static List<String> findCommaTags(LocatedElement root, String tag) {
+		return findCommaTags(root, tag, true);
+	}
+
+	public static List<String> findTags(LocatedElement root, String tag) {
+		return findCommaTags(root, tag, false);
+	}
+
+	private static List<String> findCommaTags(LocatedElement root, String tag, boolean splitOnComma) {
 		if ( ! tag.startsWith("@") )
 			tag = "@" + tag;
 		if ( ! tag.endsWith(" ") ) 
@@ -587,14 +596,18 @@ public class ATLUtils {
 			int index   = line.indexOf(tag);
 			if ( index != -1 ) {
 				line = line.substring(index + tag.length());
-				for(String s : line.split(",")) {
-					result.add(s.trim());
+				if ( splitOnComma ) {
+					for(String s : line.split(",")) {
+						result.add(s.trim());
+					}
+				} else {
+					result.add(line);
 				}
 			}			
 		}
 		return result;
 	}
-
+	
 	public static void replacePathTag(ATLModel model, String name, String newPath) {
 		modifyOclModelPathTag(model, name, name, newPath);
 	}

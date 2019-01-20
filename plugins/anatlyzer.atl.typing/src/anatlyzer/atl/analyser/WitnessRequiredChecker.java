@@ -200,9 +200,20 @@ public class WitnessRequiredChecker extends AbstractPathVisitor {
 					invalidate = true;
 				}
 			} else if ( self.getStaticResolver() instanceof ContextHelper && notVisited(self.getStaticResolver()) ) {
-				self.getDynamicResolvers().stream().filter(h -> new OclIsKindOfVisitor(visited, h).search(type, h)).
-					findAny().
-					ifPresent(h -> invalidate = true);
+				for (ContextHelper h : self.getDynamicResolvers()) {
+					if ( notVisited(h) && new OclIsKindOfVisitor(visited, h).search(type, h) ) {
+						this.invalidate = true;
+						break;
+					}
+				}
+				
+//				try {
+//				self.getDynamicResolvers().stream().filter(h -> new OclIsKindOfVisitor(visited, h).search(type, h)).
+//					findAny().
+//					ifPresent(h -> invalidate = true);
+//				} catch ( Throwable e ) {
+//					System.out.println(e.getMessage());
+//				}
 			}			
 		}
 		

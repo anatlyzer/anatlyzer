@@ -477,8 +477,13 @@ public class AnalyserUtils {
 	private static void toTree(OclExpression expression, StringBuilder builder, String indent) {
 		Type type = expression.getInferredType();
 		
+		String additional = "";
+		if ( expression instanceof OperationCallExp ) {
+			additional = ((OperationCallExp) expression).getOperationName();
+		}
+			
 		builder.append(indent + "+ " + expression.eContainingFeature().getName() + "= " + expression.eClass().getName() + " : " + 
-				(type == null ? "<null-in-ast>" : TypeUtils.typeToString(type)) );
+				(type == null ? "<null-in-ast>" : TypeUtils.typeToString(type)) + " " + additional );
 		builder.append("\n");
 		for (EObject eObject : expression.eContents()) {
 			if ( eObject instanceof OclExpression ) {

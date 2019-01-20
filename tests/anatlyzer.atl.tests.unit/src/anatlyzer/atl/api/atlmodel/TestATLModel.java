@@ -28,6 +28,7 @@ import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 
 public class TestATLModel extends UnitTest {
@@ -169,13 +170,12 @@ public class TestATLModel extends UnitTest {
 		
 		System.out.println(AnalyserUtils.toTree(body));
 		
-		
-		assertEquals("or", body.getOperationName());
+		// In ATL there is no operator precedence
+		assertEquals("and", body.getOperationName());
 		OperatorCallExp left = (OperatorCallExp) body.getSource();
-		OperatorCallExp right = (OperatorCallExp) body.getArguments().get(0);
 		
-		assertEquals("and", left.getOperationName());
-		assertEquals("and", right.getOperationName());
+		assertEquals("or", left.getOperationName());		
+		assertEquals("and", ((OperationCallExp) left.getSource()).getOperationName());
 		
 		
 		

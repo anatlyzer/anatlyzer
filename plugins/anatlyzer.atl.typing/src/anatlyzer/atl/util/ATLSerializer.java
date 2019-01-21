@@ -547,7 +547,10 @@ public class ATLSerializer extends AbstractVisitor {
 				else if ( precedence1 == precedence2 && !self.getOperationName().equals(((OperationCallExp) self.getSource()).getOperationName())) {
 					src = "(" + src + ")";
 				}
+			} else if ( self.getSource() instanceof LetExp ) {
+				src = "(" + src + ")";
 			}
+			
 			if ( self.getArguments().get(0) instanceof OperatorCallExp ) {
 				int precedence2 = precedences.getOrDefault(((OperationCallExp) self.getArguments().get(0)).getOperationName(), -1);
 				if ( precedence1 > precedence2 ) {
@@ -557,6 +560,8 @@ public class ATLSerializer extends AbstractVisitor {
 				else if ( precedence1 == precedence2 && !self.getOperationName().equals(((OperationCallExp) self.getArguments().get(0)).getOperationName())) {
 					arg = "(" + arg + ")";
 				}
+			} else if ( self.getArguments().get(0) instanceof LetExp ) {
+				arg = "(" + arg + ")";
 			}
 			
 			s(src + " " + self.getOperationName() + " " + arg);			

@@ -20,7 +20,11 @@ public interface IWitnessFinder {
 	public IWitnessFinder catchInternalErrors(boolean b);
 	public IWitnessFinder setDebugMode(boolean b);
 	public IWitnessFinder setDoUnfolding(boolean b);
+	
 	public IWitnessFinder setScopeCalculator(IScopeCalculator scopeCalculator);
+	public IWitnessFinder setMaxScope(int maxScope);	
+	
+	
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
 	public IWitnessFinder setTimeOut(long millis);
 	public IWitnessFinder setCheckAllCompositeConstraints(boolean b);
@@ -37,7 +41,9 @@ public interface IWitnessFinder {
 		MANDATORY_EFFECTIVE_METAMODEL,
 		MANDATORY_FULL_METAMODEL,
 		FULL_METAMODEL
-	}	
+	}
+
+
 	
 //	public static enum WitnessResult {
 //		ERROR_CONFIRMED,

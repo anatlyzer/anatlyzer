@@ -88,6 +88,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
+	private int maxScope = 5;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -444,13 +445,17 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return generator;
 	}
 
+	public IWitnessFinder setMaxScope(int maxScope) {
+		this.maxScope = maxScope;
+		return this;
+	}
 
 	protected int getMinScope() {
 		return 1;
 	}
 
 	protected int getMaxScope() {
-		return 5;
+		return maxScope;
 	}
 
 	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, SourceMetamodelsData srcMetamodels, boolean isRetry) {

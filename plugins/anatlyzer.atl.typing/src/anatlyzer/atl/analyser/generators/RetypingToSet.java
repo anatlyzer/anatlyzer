@@ -270,7 +270,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			}			
 		}
 		
-		if ( self.getUsedFeature() == null && !isTupleAccess(self) ) {
+		if ( self.getUsedFeature() == null && !isTupleAccess(self) && !isMarkedAsDoNotAdd(self) ) {
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 			navT.setOperationName(self.getName());
 		
@@ -302,6 +302,10 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 	}
 	
+	private boolean isMarkedAsDoNotAdd(NavigationOrAttributeCallExp self) {
+		return self.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE");
+	}
+
 	private boolean isTupleAccess(NavigationOrAttributeCallExp self) {
 		return self.getAnnotations().containsKey("TUPLE_ACCESS");
 	}

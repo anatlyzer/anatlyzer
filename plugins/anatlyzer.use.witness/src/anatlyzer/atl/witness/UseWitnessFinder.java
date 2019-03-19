@@ -433,7 +433,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 		
 		if ( generateAllCompositeConstraints == true ) {
-			generator.addAdditionaConstraint(this.getCompositeConstraints(errorSliceMM));
+			generator.addAdditionaConstraint(this.getCompositeConstraints(strategy, errorSliceMM, effective, language));
 		}
 		
 		if ( forceOnceInstanceOfConcreteClasses ) {
@@ -587,7 +587,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 	
 	// This should be done a bit better because like this there is renaming and so on...
-	private String getCompositeConstraints(EPackage errorSliceMM2) {
+	private String getCompositeConstraints(IMetamodelExtensionStrategy strategy, EPackage errorSliceMM2, EPackage effective2, EPackage language) {
 //		context ValueSpecification inv single_container:
 //	        ActivityEdge.allInstances()->collect(o | o.guard)->count(self) +
 //	        ActivityEdge.allInstances()->collect(o | o.weight)->count(self) <= 1
@@ -596,8 +596,17 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		for (EClass eClass : classes) {
 //			String s = "context " + eClass.getName() 
 //		}
+		
+		// This is not very nice, but let's run with it for now. It is better than the old bug
+		EPackage actualPackage = errorSliceMM2; // default, use the slice
+		if ( strategy instanceof MandatoryFullMetamodelStrategy ) {
+			actualPackage = effective2;
+		} else if ( strategy instanceof FullMetamodelStrategy ) {
+			actualPackage = language;
+		}
+		
 		Set<EClass> classes = new HashSet<EClass>();
-		errorSliceMM2.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
+		actualPackage.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
 		
 		List<EReference> references = classes.stream().flatMap(c -> c.getEReferences().stream()).filter(r -> r.isContainment()).collect(Collectors.toList());
 		String constraints = "";

@@ -3,13 +3,17 @@ package anatlyzer.atl.util;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -43,14 +47,18 @@ import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
+import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
@@ -492,4 +500,90 @@ public class AnalyserUtils {
 		}
 	}
 	
+	public static Module constructTransformation(List<? extends Pair<EClass, OclExpression>> ctxExpressions, List<? extends OclExpression> expressions, Map<String, Resource> namesToResources) {
+		// Library module = ATLFactory.eINSTANCE.createLibrary();
+		Module module = ATLFactory.eINSTANCE.createModule();
+		module.setName("inMemoryModule");
+		
+		Map<EClass, String> metamodelsForClasses = new HashMap<>();
+		
+		int i = 0;
+		for (Entry<String, Resource> entry : namesToResources.entrySet()) {
+			OclModel inModel = OCLFactory.eINSTANCE.createOclModel();
+			inModel.setName("IN" + i);
+			OclModel mmModel = OCLFactory.eINSTANCE.createOclModel();
+			mmModel.setName(entry.getKey());
+			inModel.setMetamodel(mmModel);
+			module.getInModels().add(inModel);			
+			i++;
+
+			
+			for(Pair<EClass, OclExpression> p : ctxExpressions) {
+				EClass eclass = p._1;
+				TreeIterator<EObject> it = entry.getValue().getAllContents();
+				while ( it.hasNext() ) {
+					if ( it.next() == eclass ) {
+						metamodelsForClasses.put(eclass, entry.getKey());
+						break;
+					}
+				}
+			}
+		}
+		
+		List<StaticHelper> helpers = expressions.stream().map(e -> {
+			return createOperation("exp" + expressions.indexOf(e), (op) -> {
+				op.setBody((OclExpression) ATLCopier.copySingleElement(e));
+			});
+		}).collect(Collectors.toList());
+		
+		List<ContextHelper> ctxHelpers = ctxExpressions.stream().map(e -> {
+			String mmName = metamodelsForClasses.get(e._1);
+			if ( mmName == null) 
+				throw new IllegalStateException("Class " + e._1.getName() + " not found in resources");
+			
+			return createCtxOperation("expCtx" + ctxExpressions.indexOf(e), mmName, e._1, (op) -> {
+				op.setBody((OclExpression) ATLCopier.copySingleElement(e._2));
+			});
+		}).collect(Collectors.toList());
+		
+		module.getElements().addAll(helpers);
+		module.getElements().addAll(ctxHelpers);
+
+		return module;
+	}
+	
+	private static StaticHelper createOperation(String opName, Consumer<Operation> consumer) {
+		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
+		OclFeatureDefinition f = OCLFactory.eINSTANCE.createOclFeatureDefinition();		
+		Operation op = OCLFactory.eINSTANCE.createOperation();
+		op.setName(opName);
+		op.setReturnType(OCLFactory.eINSTANCE.createBooleanType());
+		f.setFeature(op);
+		h.setDefinition(f);
+		consumer.accept(op);
+		return h;
+	}
+
+	private static ContextHelper  createCtxOperation(String opName, String mmName, EClass ctx, Consumer<Operation> consumer) {
+		ContextHelper h = ATLFactory.eINSTANCE.createContextHelper();
+		OclFeatureDefinition f = OCLFactory.eINSTANCE.createOclFeatureDefinition();		
+		Operation op = OCLFactory.eINSTANCE.createOperation();
+		
+		OclContextDefinition def = OCLFactory.eINSTANCE.createOclContextDefinition();
+		OclModelElement me = OCLFactory.eINSTANCE.createOclModelElement();
+		me.setName(ctx.getName());
+		OclModel mm = OCLFactory.eINSTANCE.createOclModel();
+		me.setModel(mm);
+		mm.setName(mmName);
+		
+		def.setContext_(me);
+		f.setContext_(def);
+		
+		op.setName(opName);
+		op.setReturnType(OCLFactory.eINSTANCE.createBooleanType());
+		f.setFeature(op);
+		h.setDefinition(f);
+		consumer.accept(op);
+		return h;
+	}
 }

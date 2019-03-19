@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -802,17 +803,21 @@ public class ATLUtils {
 	}
 	
 	public static List<Helper> getAllHelpers(ATLModel model) {
+		return getAllHelpers(model, (h) -> true);
+	}
+	
+	public static List<Helper> getAllHelpers(ATLModel model, Predicate<Helper> predicate) {
 		LinkedList<Helper> result = new LinkedList<Helper>();
 		Unit root = model.getRoot();
 		if ( root instanceof Module ) {
 			for(ModuleElement e : ((Module) root).getElements()) {
-				if ( e instanceof Helper ) 
+				if ( e instanceof Helper && predicate.test((Helper) e) ) 
 					result.add((Helper) e);
 			}
 		} else if ( root instanceof Library ) {
-			result.addAll(((Library) root).getHelpers());
+			result.addAll(((Library) root).getHelpers().stream().filter(predicate).collect(Collectors.toList()));
 		} else if ( root instanceof Query ) {
-			result.addAll(((Query) root).getHelpers());
+			result.addAll(((Query) root).getHelpers().stream().filter(predicate).collect(Collectors.toList()));
 		}
 		return result;
 	}

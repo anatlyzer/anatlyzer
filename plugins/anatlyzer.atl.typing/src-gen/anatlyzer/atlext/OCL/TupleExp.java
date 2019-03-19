@@ -11,10 +11,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.TupleExp#getTuplePart <em>Tuple Part</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getTupleExp()
  * @model

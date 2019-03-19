@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IfExpImpl#getThenExpression <em>Then Expression</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IfExpImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IfExpImpl#getElseExpression <em>Else Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -84,6 +84,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getThenExpression() {
 		return thenExpression;
 	}
@@ -108,6 +109,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setThenExpression(OclExpression newThenExpression) {
 		if (newThenExpression != thenExpression) {
 			NotificationChain msgs = null;
@@ -127,6 +129,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getCondition() {
 		return condition;
 	}
@@ -151,6 +154,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(OclExpression newCondition) {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
@@ -170,6 +174,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getElseExpression() {
 		return elseExpression;
 	}
@@ -194,6 +199,7 @@ public class IfExpImpl extends OclExpressionImpl implements IfExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setElseExpression(OclExpression newElseExpression) {
 		if (newElseExpression != elseExpression) {
 			NotificationChain msgs = null;

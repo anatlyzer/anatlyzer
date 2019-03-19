@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.LoopExpImpl#getBody <em>Body</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.LoopExpImpl#getIterators <em>Iterators</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -81,6 +81,7 @@ public abstract class LoopExpImpl extends PropertyCallExpImpl implements LoopExp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getBody() {
 		return body;
 	}
@@ -105,6 +106,7 @@ public abstract class LoopExpImpl extends PropertyCallExpImpl implements LoopExp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(OclExpression newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
@@ -124,6 +126,7 @@ public abstract class LoopExpImpl extends PropertyCallExpImpl implements LoopExp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Iterator> getIterators() {
 		if (iterators == null) {
 			iterators = new EObjectContainmentWithInverseEList<Iterator>(Iterator.class, this, OCLPackage.LOOP_EXP__ITERATORS, OCLPackage.ITERATOR__LOOP_EXPR);

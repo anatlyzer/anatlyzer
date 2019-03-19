@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getDefinitions <em>Definitions</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getTupleTypeAttribute <em>Tuple Type Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclTypeImpl#getVariableDeclaration <em>Variable Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -90,6 +90,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -99,6 +100,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -111,6 +113,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclContextDefinition getDefinitions() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__DEFINITIONS) return null;
 		return (OclContextDefinition)eInternalContainer();
@@ -131,6 +134,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefinitions(OclContextDefinition newDefinitions) {
 		if (newDefinitions != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__DEFINITIONS && newDefinitions != null)) {
 			if (EcoreUtil.isAncestor(this, newDefinitions))
@@ -152,6 +156,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getOclExpression() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__OCL_EXPRESSION) return null;
 		return (OclExpression)eInternalContainer();
@@ -172,6 +177,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOclExpression(OclExpression newOclExpression) {
 		if (newOclExpression != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__OCL_EXPRESSION && newOclExpression != null)) {
 			if (EcoreUtil.isAncestor(this, newOclExpression))
@@ -193,6 +199,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operation getOperation() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__OPERATION) return null;
 		return (Operation)eInternalContainer();
@@ -213,6 +220,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperation(Operation newOperation) {
 		if (newOperation != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__OPERATION && newOperation != null)) {
 			if (EcoreUtil.isAncestor(this, newOperation))
@@ -234,6 +242,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MapType getMapType2() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__MAP_TYPE2) return null;
 		return (MapType)eInternalContainer();
@@ -254,6 +263,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMapType2(MapType newMapType2) {
 		if (newMapType2 != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__MAP_TYPE2 && newMapType2 != null)) {
 			if (EcoreUtil.isAncestor(this, newMapType2))
@@ -275,6 +285,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getAttribute() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__ATTRIBUTE) return null;
 		return (Attribute)eInternalContainer();
@@ -295,6 +306,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAttribute(Attribute newAttribute) {
 		if (newAttribute != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__ATTRIBUTE && newAttribute != null)) {
 			if (EcoreUtil.isAncestor(this, newAttribute))
@@ -316,6 +328,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MapType getMapType() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__MAP_TYPE) return null;
 		return (MapType)eInternalContainer();
@@ -336,6 +349,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMapType(MapType newMapType) {
 		if (newMapType != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__MAP_TYPE && newMapType != null)) {
 			if (EcoreUtil.isAncestor(this, newMapType))
@@ -357,6 +371,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CollectionType getCollectionTypes() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__COLLECTION_TYPES) return null;
 		return (CollectionType)eInternalContainer();
@@ -377,6 +392,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCollectionTypes(CollectionType newCollectionTypes) {
 		if (newCollectionTypes != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__COLLECTION_TYPES && newCollectionTypes != null)) {
 			if (EcoreUtil.isAncestor(this, newCollectionTypes))
@@ -398,6 +414,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TupleTypeAttribute getTupleTypeAttribute() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__TUPLE_TYPE_ATTRIBUTE) return null;
 		return (TupleTypeAttribute)eInternalContainer();
@@ -418,6 +435,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTupleTypeAttribute(TupleTypeAttribute newTupleTypeAttribute) {
 		if (newTupleTypeAttribute != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__TUPLE_TYPE_ATTRIBUTE && newTupleTypeAttribute != null)) {
 			if (EcoreUtil.isAncestor(this, newTupleTypeAttribute))
@@ -439,6 +457,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableDeclaration getVariableDeclaration() {
 		if (eContainerFeatureID() != OCLPackage.OCL_TYPE__VARIABLE_DECLARATION) return null;
 		return (VariableDeclaration)eInternalContainer();
@@ -459,6 +478,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVariableDeclaration(VariableDeclaration newVariableDeclaration) {
 		if (newVariableDeclaration != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_TYPE__VARIABLE_DECLARATION && newVariableDeclaration != null)) {
 			if (EcoreUtil.isAncestor(this, newVariableDeclaration))
@@ -740,7 +760,7 @@ public class OclTypeImpl extends OclExpressionImpl implements OclType {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

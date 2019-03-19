@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getDropPattern <em>Drop Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -83,6 +83,7 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule getRule() {
 		if (eContainerFeatureID() != ATLPackage.OUT_PATTERN__RULE) return null;
 		return (Rule)eInternalContainer();
@@ -103,6 +104,7 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(Rule newRule) {
 		if (newRule != eInternalContainer() || (eContainerFeatureID() != ATLPackage.OUT_PATTERN__RULE && newRule != null)) {
 			if (EcoreUtil.isAncestor(this, newRule))
@@ -124,6 +126,7 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DropPattern getDropPattern() {
 		return dropPattern;
 	}
@@ -148,6 +151,7 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDropPattern(DropPattern newDropPattern) {
 		if (newDropPattern != dropPattern) {
 			NotificationChain msgs = null;
@@ -167,6 +171,7 @@ public class OutPatternImpl extends LocatedElementImpl implements OutPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OutPatternElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentWithInverseEList<OutPatternElement>(OutPatternElement.class, this, ATLPackage.OUT_PATTERN__ELEMENTS, ATLPackage.OUT_PATTERN_ELEMENT__OUT_PATTERN);

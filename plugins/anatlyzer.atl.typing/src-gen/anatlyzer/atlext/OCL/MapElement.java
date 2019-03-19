@@ -11,12 +11,12 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.MapElement#getMap <em>Map</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.MapElement#getKey <em>Key</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.MapElement#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getMapElement()
  * @model

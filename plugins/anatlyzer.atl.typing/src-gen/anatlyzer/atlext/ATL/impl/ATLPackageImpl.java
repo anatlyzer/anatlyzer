@@ -26,7 +26,6 @@ import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.LibraryRef;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleCallable;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -49,6 +48,8 @@ import anatlyzer.atlext.OCL.OCLPackage;
 
 import anatlyzer.atlext.OCL.impl.OCLPackageImpl;
 
+import anatlyzer.atlext.OCL2.OCL2Package;
+import anatlyzer.atlext.OCL2.impl.OCL2PackageImpl;
 import anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage;
 
 import anatlyzer.atlext.PrimitiveTypes.impl.PrimitiveTypesPackageImpl;
@@ -370,7 +371,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ATLPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -384,7 +385,8 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		if (isInited) return (ATLPackage)EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ATLPackageImpl());
+		Object registeredATLPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ATLPackageImpl theATLPackage = registeredATLPackage instanceof ATLPackageImpl ? (ATLPackageImpl)registeredATLPackage : new ATLPackageImpl();
 
 		isInited = true;
 
@@ -392,23 +394,28 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		TypesPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) instanceof OCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) : OCLPackage.eINSTANCE);
-		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) instanceof PrimitiveTypesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) : PrimitiveTypesPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI);
+		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(registeredPackage instanceof OCLPackageImpl ? registeredPackage : OCLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
+		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(registeredPackage instanceof PrimitiveTypesPackageImpl ? registeredPackage : PrimitiveTypesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI);
+		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(registeredPackage instanceof OCL2PackageImpl ? registeredPackage : OCL2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		theATLPackage.createPackageContents();
 		theOCLPackage.createPackageContents();
 		thePrimitiveTypesPackage.createPackageContents();
+		theOCL2Package.createPackageContents();
 
 		// Initialize created meta-data
 		theATLPackage.initializePackageContents();
 		theOCLPackage.initializePackageContents();
 		thePrimitiveTypesPackage.initializePackageContents();
+		theOCL2Package.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theATLPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ATLPackage.eNS_URI, theATLPackage);
 		return theATLPackage;
@@ -419,6 +426,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLocatedElement() {
 		return locatedElementEClass;
 	}
@@ -428,6 +436,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLocatedElement_Location() {
 		return (EAttribute)locatedElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -437,6 +446,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLocatedElement_CommentsBefore() {
 		return (EAttribute)locatedElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -446,6 +456,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLocatedElement_CommentsAfter() {
 		return (EAttribute)locatedElementEClass.getEStructuralFeatures().get(2);
 	}
@@ -455,6 +466,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLocatedElement_FileLocation() {
 		return (EAttribute)locatedElementEClass.getEStructuralFeatures().get(3);
 	}
@@ -464,6 +476,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLocatedElement_FileObject() {
 		return (EAttribute)locatedElementEClass.getEStructuralFeatures().get(4);
 	}
@@ -473,6 +486,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLocatedElement_Problems() {
 		return (EReference)locatedElementEClass.getEStructuralFeatures().get(5);
 	}
@@ -482,6 +496,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLocatedElement_Annotations() {
 		return (EReference)locatedElementEClass.getEStructuralFeatures().get(6);
 	}
@@ -491,6 +506,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getUnit() {
 		return unitEClass;
 	}
@@ -500,6 +516,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getUnit_Libraries() {
 		return (EReference)unitEClass.getEStructuralFeatures().get(0);
 	}
@@ -509,6 +526,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getUnit_Name() {
 		return (EAttribute)unitEClass.getEStructuralFeatures().get(1);
 	}
@@ -518,6 +536,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLibrary() {
 		return libraryEClass;
 	}
@@ -527,6 +546,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLibrary_Helpers() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(0);
 	}
@@ -536,6 +556,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getQuery() {
 		return queryEClass;
 	}
@@ -545,6 +566,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuery_Body() {
 		return (EReference)queryEClass.getEStructuralFeatures().get(0);
 	}
@@ -554,6 +576,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getQuery_Helpers() {
 		return (EReference)queryEClass.getEStructuralFeatures().get(1);
 	}
@@ -563,6 +586,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModule() {
 		return moduleEClass;
 	}
@@ -572,6 +596,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getModule_IsRefining() {
 		return (EAttribute)moduleEClass.getEStructuralFeatures().get(0);
 	}
@@ -581,6 +606,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_InModels() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(1);
 	}
@@ -590,6 +616,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_OutModels() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(2);
 	}
@@ -599,6 +626,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getModule_Elements() {
 		return (EReference)moduleEClass.getEStructuralFeatures().get(3);
 	}
@@ -608,6 +636,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModuleElement() {
 		return moduleElementEClass;
 	}
@@ -617,6 +646,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getHelper() {
 		return helperEClass;
 	}
@@ -626,6 +656,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getHelper_Query() {
 		return (EReference)helperEClass.getEStructuralFeatures().get(0);
 	}
@@ -635,6 +666,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getHelper_Library() {
 		return (EReference)helperEClass.getEStructuralFeatures().get(1);
 	}
@@ -644,6 +676,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getHelper_Definition() {
 		return (EReference)helperEClass.getEStructuralFeatures().get(2);
 	}
@@ -653,6 +686,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getHelper_HasContext() {
 		return (EAttribute)helperEClass.getEStructuralFeatures().get(3);
 	}
@@ -662,6 +696,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getHelper_IsAttribute() {
 		return (EAttribute)helperEClass.getEStructuralFeatures().get(4);
 	}
@@ -671,6 +706,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getHelper_InferredReturnType() {
 		return (EReference)helperEClass.getEStructuralFeatures().get(5);
 	}
@@ -680,6 +716,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getHelper_StaticReturnType() {
 		return (EReference)helperEClass.getEStructuralFeatures().get(6);
 	}
@@ -689,6 +726,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStaticHelper() {
 		return staticHelperEClass;
 	}
@@ -698,6 +736,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getContextHelper() {
 		return contextHelperEClass;
 	}
@@ -707,6 +746,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContextHelper_ContextType() {
 		return (EReference)contextHelperEClass.getEStructuralFeatures().get(0);
 	}
@@ -716,6 +756,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getContextHelper_PolymorphicCalledBy() {
 		return (EReference)contextHelperEClass.getEStructuralFeatures().get(1);
 	}
@@ -725,6 +766,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRule() {
 		return ruleEClass;
 	}
@@ -734,6 +776,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_OutPattern() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(0);
 	}
@@ -743,6 +786,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_ActionBlock() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(1);
 	}
@@ -752,6 +796,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRule_Variables() {
 		return (EReference)ruleEClass.getEStructuralFeatures().get(2);
 	}
@@ -761,6 +806,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRule_Name() {
 		return (EAttribute)ruleEClass.getEStructuralFeatures().get(3);
 	}
@@ -770,6 +816,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStaticRule() {
 		return staticRuleEClass;
 	}
@@ -779,6 +826,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getModuleCallable() {
 		return moduleCallableEClass;
 	}
@@ -788,6 +836,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCallable() {
 		return callableEClass;
 	}
@@ -797,6 +846,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallable_CalledBy() {
 		return (EReference)callableEClass.getEStructuralFeatures().get(0);
 	}
@@ -806,6 +856,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallable_CallableParameters() {
 		return (EReference)callableEClass.getEStructuralFeatures().get(1);
 	}
@@ -815,6 +866,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRuleWithPattern() {
 		return ruleWithPatternEClass;
 	}
@@ -824,6 +876,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleWithPattern_InPattern() {
 		return (EReference)ruleWithPatternEClass.getEStructuralFeatures().get(0);
 	}
@@ -833,6 +886,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleWithPattern_Children() {
 		return (EReference)ruleWithPatternEClass.getEStructuralFeatures().get(1);
 	}
@@ -842,6 +896,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleWithPattern_SuperRule() {
 		return (EReference)ruleWithPatternEClass.getEStructuralFeatures().get(2);
 	}
@@ -851,6 +906,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRuleWithPattern_IsAbstract() {
 		return (EAttribute)ruleWithPatternEClass.getEStructuralFeatures().get(3);
 	}
@@ -860,6 +916,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRuleWithPattern_IsRefining() {
 		return (EAttribute)ruleWithPatternEClass.getEStructuralFeatures().get(4);
 	}
@@ -869,6 +926,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRuleWithPattern_IsNoDefault() {
 		return (EAttribute)ruleWithPatternEClass.getEStructuralFeatures().get(5);
 	}
@@ -878,6 +936,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMatchedRule() {
 		return matchedRuleEClass;
 	}
@@ -887,6 +946,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLazyRule() {
 		return lazyRuleEClass;
 	}
@@ -896,6 +956,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLazyRule_IsUnique() {
 		return (EAttribute)lazyRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -905,6 +966,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCalledRule() {
 		return calledRuleEClass;
 	}
@@ -914,6 +976,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCalledRule_Parameters() {
 		return (EReference)calledRuleEClass.getEStructuralFeatures().get(0);
 	}
@@ -923,6 +986,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCalledRule_IsEntrypoint() {
 		return (EAttribute)calledRuleEClass.getEStructuralFeatures().get(1);
 	}
@@ -932,6 +996,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCalledRule_IsEndpoint() {
 		return (EAttribute)calledRuleEClass.getEStructuralFeatures().get(2);
 	}
@@ -941,6 +1006,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInPattern() {
 		return inPatternEClass;
 	}
@@ -950,6 +1016,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInPattern_Elements() {
 		return (EReference)inPatternEClass.getEStructuralFeatures().get(0);
 	}
@@ -959,6 +1026,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInPattern_Filter() {
 		return (EReference)inPatternEClass.getEStructuralFeatures().get(1);
 	}
@@ -968,6 +1036,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOutPattern() {
 		return outPatternEClass;
 	}
@@ -977,6 +1046,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPattern_Rule() {
 		return (EReference)outPatternEClass.getEStructuralFeatures().get(0);
 	}
@@ -986,6 +1056,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPattern_DropPattern() {
 		return (EReference)outPatternEClass.getEStructuralFeatures().get(1);
 	}
@@ -995,6 +1066,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPattern_Elements() {
 		return (EReference)outPatternEClass.getEStructuralFeatures().get(2);
 	}
@@ -1004,6 +1076,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getDropPattern() {
 		return dropPatternEClass;
 	}
@@ -1013,6 +1086,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getDropPattern_OutPattern() {
 		return (EReference)dropPatternEClass.getEStructuralFeatures().get(0);
 	}
@@ -1022,6 +1096,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPatternElement() {
 		return patternElementEClass;
 	}
@@ -1031,6 +1106,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getInPatternElement() {
 		return inPatternElementEClass;
 	}
@@ -1040,6 +1116,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInPatternElement_MapsTo() {
 		return (EReference)inPatternElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1049,6 +1126,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInPatternElement_InPattern() {
 		return (EReference)inPatternElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -1058,6 +1136,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getInPatternElement_Models() {
 		return (EReference)inPatternElementEClass.getEStructuralFeatures().get(2);
 	}
@@ -1067,6 +1146,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSimpleInPatternElement() {
 		return simpleInPatternElementEClass;
 	}
@@ -1076,6 +1156,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOutPatternElement() {
 		return outPatternElementEClass;
 	}
@@ -1085,6 +1166,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPatternElement_OutPattern() {
 		return (EReference)outPatternElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1094,6 +1176,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPatternElement_SourceElement() {
 		return (EReference)outPatternElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -1103,6 +1186,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPatternElement_Bindings() {
 		return (EReference)outPatternElementEClass.getEStructuralFeatures().get(2);
 	}
@@ -1112,6 +1196,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOutPatternElement_Model() {
 		return (EReference)outPatternElementEClass.getEStructuralFeatures().get(3);
 	}
@@ -1121,6 +1206,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSimpleOutPatternElement() {
 		return simpleOutPatternElementEClass;
 	}
@@ -1130,6 +1216,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getSimpleOutPatternElement_ReverseBindings() {
 		return (EReference)simpleOutPatternElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1139,6 +1226,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getForEachOutPatternElement() {
 		return forEachOutPatternElementEClass;
 	}
@@ -1148,6 +1236,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForEachOutPatternElement_Collection() {
 		return (EReference)forEachOutPatternElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1157,6 +1246,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForEachOutPatternElement_Iterator() {
 		return (EReference)forEachOutPatternElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -1166,6 +1256,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBinding() {
 		return bindingEClass;
 	}
@@ -1175,6 +1266,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_Value() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(0);
 	}
@@ -1184,6 +1276,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_OutPatternElement() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(1);
 	}
@@ -1193,6 +1286,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBinding_PropertyName() {
 		return (EAttribute)bindingEClass.getEStructuralFeatures().get(2);
 	}
@@ -1202,6 +1296,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBinding_IsAssignment() {
 		return (EAttribute)bindingEClass.getEStructuralFeatures().get(3);
 	}
@@ -1211,6 +1306,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_WrittenFeature() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(4);
 	}
@@ -1220,6 +1316,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_LeftType() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(5);
 	}
@@ -1229,6 +1326,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBinding_ResolvedBy() {
 		return (EReference)bindingEClass.getEStructuralFeatures().get(6);
 	}
@@ -1238,6 +1336,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRuleVariableDeclaration() {
 		return ruleVariableDeclarationEClass;
 	}
@@ -1247,6 +1346,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleVariableDeclaration_Rule() {
 		return (EReference)ruleVariableDeclarationEClass.getEStructuralFeatures().get(0);
 	}
@@ -1256,6 +1356,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLibraryRef() {
 		return libraryRefEClass;
 	}
@@ -1265,6 +1366,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLibraryRef_Unit() {
 		return (EReference)libraryRefEClass.getEStructuralFeatures().get(0);
 	}
@@ -1274,6 +1376,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getLibraryRef_Name() {
 		return (EAttribute)libraryRefEClass.getEStructuralFeatures().get(1);
 	}
@@ -1283,6 +1386,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getActionBlock() {
 		return actionBlockEClass;
 	}
@@ -1292,6 +1396,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getActionBlock_Rule() {
 		return (EReference)actionBlockEClass.getEStructuralFeatures().get(0);
 	}
@@ -1301,6 +1406,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getActionBlock_Statements() {
 		return (EReference)actionBlockEClass.getEStructuralFeatures().get(1);
 	}
@@ -1310,6 +1416,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStatement() {
 		return statementEClass;
 	}
@@ -1319,6 +1426,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getExpressionStat() {
 		return expressionStatEClass;
 	}
@@ -1328,6 +1436,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getExpressionStat_Expression() {
 		return (EReference)expressionStatEClass.getEStructuralFeatures().get(0);
 	}
@@ -1337,6 +1446,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBindingStat() {
 		return bindingStatEClass;
 	}
@@ -1346,6 +1456,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBindingStat_Source() {
 		return (EReference)bindingStatEClass.getEStructuralFeatures().get(0);
 	}
@@ -1355,6 +1466,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBindingStat_PropertyName() {
 		return (EAttribute)bindingStatEClass.getEStructuralFeatures().get(1);
 	}
@@ -1364,6 +1476,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBindingStat_IsAssignment() {
 		return (EAttribute)bindingStatEClass.getEStructuralFeatures().get(2);
 	}
@@ -1373,6 +1486,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getBindingStat_Value() {
 		return (EReference)bindingStatEClass.getEStructuralFeatures().get(3);
 	}
@@ -1382,6 +1496,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIfStat() {
 		return ifStatEClass;
 	}
@@ -1391,6 +1506,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfStat_Condition() {
 		return (EReference)ifStatEClass.getEStructuralFeatures().get(0);
 	}
@@ -1400,6 +1516,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfStat_ThenStatements() {
 		return (EReference)ifStatEClass.getEStructuralFeatures().get(1);
 	}
@@ -1409,6 +1526,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfStat_ElseStatements() {
 		return (EReference)ifStatEClass.getEStructuralFeatures().get(2);
 	}
@@ -1418,6 +1536,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getForStat() {
 		return forStatEClass;
 	}
@@ -1427,6 +1546,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForStat_Iterator() {
 		return (EReference)forStatEClass.getEStructuralFeatures().get(0);
 	}
@@ -1436,6 +1556,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForStat_Collection() {
 		return (EReference)forStatEClass.getEStructuralFeatures().get(1);
 	}
@@ -1445,6 +1566,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getForStat_Statements() {
 		return (EReference)forStatEClass.getEStructuralFeatures().get(2);
 	}
@@ -1454,6 +1576,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStringToStringMap() {
 		return stringToStringMapEClass;
 	}
@@ -1463,6 +1586,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStringToStringMap_Key() {
 		return (EAttribute)stringToStringMapEClass.getEStructuralFeatures().get(0);
 	}
@@ -1472,6 +1596,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStringToStringMap_Value() {
 		return (EAttribute)stringToStringMapEClass.getEStructuralFeatures().get(1);
 	}
@@ -1481,6 +1606,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCallableParameter() {
 		return callableParameterEClass;
 	}
@@ -1490,6 +1616,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getCallableParameter_Name() {
 		return (EAttribute)callableParameterEClass.getEStructuralFeatures().get(0);
 	}
@@ -1499,6 +1626,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallableParameter_StaticType() {
 		return (EReference)callableParameterEClass.getEStructuralFeatures().get(1);
 	}
@@ -1508,6 +1636,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCallableParameter_ParamDeclaration() {
 		return (EReference)callableParameterEClass.getEStructuralFeatures().get(2);
 	}
@@ -1517,6 +1646,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRuleResolutionInfo() {
 		return ruleResolutionInfoEClass;
 	}
@@ -1526,6 +1656,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleResolutionInfo_Rule() {
 		return (EReference)ruleResolutionInfoEClass.getEStructuralFeatures().get(0);
 	}
@@ -1535,6 +1666,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getRuleResolutionInfo_AllInvolvedRules() {
 		return (EReference)ruleResolutionInfoEClass.getEStructuralFeatures().get(1);
 	}
@@ -1544,6 +1676,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRuleResolutionInfo_Status() {
 		return (EAttribute)ruleResolutionInfoEClass.getEStructuralFeatures().get(2);
 	}
@@ -1553,6 +1686,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EEnum getRuleResolutionStatus() {
 		return ruleResolutionStatusEEnum;
 	}
@@ -1562,6 +1696,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ATLFactory getATLFactory() {
 		return (ATLFactory)getEFactoryInstance();
 	}
@@ -1845,11 +1980,11 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEReference(getQuery_Body(), theOCLPackage.getOclExpression(), null, "body", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getQuery_Helpers(), this.getHelper(), this.getHelper_Query(), "helpers", null, 0, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getModule_IsRefining(), thePrimitiveTypesPackage.getBoolean(), "isRefining", null, 1, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getModule_InModels(), theOCLPackage.getOclModel(), null, "inModels", null, 1, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_OutModels(), theOCLPackage.getOclModel(), null, "outModels", null, 1, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getModule_Elements(), this.getModuleElement(), null, "elements", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(moduleEClass, anatlyzer.atlext.ATL.Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModule_IsRefining(), thePrimitiveTypesPackage.getBoolean(), "isRefining", null, 1, 1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getModule_InModels(), theOCLPackage.getOclModel(), null, "inModels", null, 1, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_OutModels(), theOCLPackage.getOclModel(), null, "outModels", null, 1, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getModule_Elements(), this.getModuleElement(), null, "elements", null, 0, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(moduleElementEClass, ModuleElement.class, "ModuleElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

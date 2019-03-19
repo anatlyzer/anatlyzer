@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.CollectionTypeImpl#getElementType <em>Element Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,6 +62,7 @@ public class CollectionTypeImpl extends OclTypeImpl implements CollectionType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getElementType() {
 		return elementType;
 	}
@@ -86,6 +87,7 @@ public class CollectionTypeImpl extends OclTypeImpl implements CollectionType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setElementType(OclType newElementType) {
 		if (newElementType != elementType) {
 			NotificationChain msgs = null;

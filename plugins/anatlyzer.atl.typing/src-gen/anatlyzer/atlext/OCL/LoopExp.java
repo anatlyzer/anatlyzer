@@ -11,11 +11,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.LoopExp#getBody <em>Body</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.LoopExp#getIterators <em>Iterators</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getLoopExp()
  * @model abstract="true"

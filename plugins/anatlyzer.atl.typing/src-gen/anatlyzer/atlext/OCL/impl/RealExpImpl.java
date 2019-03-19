@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.RealExpImpl#getRealSymbol <em>Real Symbol</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -69,6 +69,7 @@ public class RealExpImpl extends NumericExpImpl implements RealExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public double getRealSymbol() {
 		return realSymbol;
 	}
@@ -78,6 +79,7 @@ public class RealExpImpl extends NumericExpImpl implements RealExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRealSymbol(double newRealSymbol) {
 		double oldRealSymbol = realSymbol;
 		realSymbol = newRealSymbol;
@@ -152,7 +154,7 @@ public class RealExpImpl extends NumericExpImpl implements RealExp {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (realSymbol: ");
 		result.append(realSymbol);
 		result.append(')');

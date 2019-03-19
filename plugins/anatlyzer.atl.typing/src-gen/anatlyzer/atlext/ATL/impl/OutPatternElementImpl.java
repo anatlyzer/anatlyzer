@@ -32,13 +32,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getSourceElement <em>Source Element</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getBindings <em>Bindings</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.OutPatternElementImpl#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -97,6 +97,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPattern getOutPattern() {
 		if (eContainerFeatureID() != ATLPackage.OUT_PATTERN_ELEMENT__OUT_PATTERN) return null;
 		return (OutPattern)eInternalContainer();
@@ -117,6 +118,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutPattern(OutPattern newOutPattern) {
 		if (newOutPattern != eInternalContainer() || (eContainerFeatureID() != ATLPackage.OUT_PATTERN_ELEMENT__OUT_PATTERN && newOutPattern != null)) {
 			if (EcoreUtil.isAncestor(this, newOutPattern))
@@ -138,6 +140,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InPatternElement getSourceElement() {
 		if (sourceElement != null && sourceElement.eIsProxy()) {
 			InternalEObject oldSourceElement = (InternalEObject)sourceElement;
@@ -179,6 +182,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSourceElement(InPatternElement newSourceElement) {
 		if (newSourceElement != sourceElement) {
 			NotificationChain msgs = null;
@@ -198,6 +202,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Binding> getBindings() {
 		if (bindings == null) {
 			bindings = new EObjectContainmentWithInverseEList<Binding>(Binding.class, this, ATLPackage.OUT_PATTERN_ELEMENT__BINDINGS, ATLPackage.BINDING__OUT_PATTERN_ELEMENT);
@@ -210,6 +215,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclModel getModel() {
 		if (model != null && model.eIsProxy()) {
 			InternalEObject oldModel = (InternalEObject)model;
@@ -236,6 +242,7 @@ public abstract class OutPatternElementImpl extends PatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModel(OclModel newModel) {
 		OclModel oldModel = model;
 		model = newModel;

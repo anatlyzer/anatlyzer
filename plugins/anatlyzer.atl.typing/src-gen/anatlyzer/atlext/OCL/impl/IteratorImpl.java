@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IteratorImpl#getLoopExpr <em>Loop Expr</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -54,6 +54,7 @@ public class IteratorImpl extends VariableDeclarationImpl implements Iterator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LoopExp getLoopExpr() {
 		if (eContainerFeatureID() != OCLPackage.ITERATOR__LOOP_EXPR) return null;
 		return (LoopExp)eInternalContainer();
@@ -74,6 +75,7 @@ public class IteratorImpl extends VariableDeclarationImpl implements Iterator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLoopExpr(LoopExp newLoopExpr) {
 		if (newLoopExpr != eInternalContainer() || (eContainerFeatureID() != OCLPackage.ITERATOR__LOOP_EXPR && newLoopExpr != null)) {
 			if (EcoreUtil.isAncestor(this, newLoopExpr))

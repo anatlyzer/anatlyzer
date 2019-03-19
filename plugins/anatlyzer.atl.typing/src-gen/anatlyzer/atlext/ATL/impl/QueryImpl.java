@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.QueryImpl#getBody <em>Body</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.QueryImpl#getHelpers <em>Helpers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -82,6 +82,7 @@ public class QueryImpl extends UnitImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getBody() {
 		return body;
 	}
@@ -106,6 +107,7 @@ public class QueryImpl extends UnitImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(OclExpression newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
@@ -125,6 +127,7 @@ public class QueryImpl extends UnitImpl implements Query {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Helper> getHelpers() {
 		if (helpers == null) {
 			helpers = new EObjectContainmentWithInverseEList<Helper>(Helper.class, this, ATLPackage.QUERY__HELPERS, ATLPackage.HELPER__QUERY);

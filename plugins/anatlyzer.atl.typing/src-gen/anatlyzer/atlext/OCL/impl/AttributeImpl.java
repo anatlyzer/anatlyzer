@@ -21,12 +21,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.AttributeImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.AttributeImpl#getInitExpression <em>Init Expression</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.AttributeImpl#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -95,6 +95,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -104,6 +105,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -116,6 +118,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getInitExpression() {
 		return initExpression;
 	}
@@ -140,6 +143,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInitExpression(OclExpression newInitExpression) {
 		if (newInitExpression != initExpression) {
 			NotificationChain msgs = null;
@@ -159,6 +163,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getType() {
 		return type;
 	}
@@ -183,6 +188,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(OclType newType) {
 		if (newType != type) {
 			NotificationChain msgs = null;
@@ -320,7 +326,7 @@ public class AttributeImpl extends OclFeatureImpl implements Attribute {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

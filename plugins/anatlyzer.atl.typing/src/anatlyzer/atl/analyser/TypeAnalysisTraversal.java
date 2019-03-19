@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +37,7 @@ import anatlyzer.atl.types.FloatType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.MapType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.ReflectiveClass;
 import anatlyzer.atl.types.ThisModuleType;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
@@ -102,6 +104,7 @@ import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.OCL2.SelectByKind;
 import anatlyzer.atlext.processing.AbstractVisitor.VisitingActions;
 
 public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
@@ -1138,6 +1141,28 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 
 			
 		}
+	}
+	
+	/* OCL2 - Extensions, not available in ATL */
+	@Override
+	public void inSelectByKind(SelectByKind self) {
+		final Type receptorType = attr.typeOf(self.getSource());
+		final Type[] arguments  = new Type[self.getArguments().size()];
+		for(int i = 0; i < self.getArguments().size(); i++) {
+			arguments[i] = attr.typeOf(self.getArguments().get(i));
+		}
+		if ( self.getArguments().size() != 1 || !(self.getArguments().get(0) instanceof OclModelElement)  ) {
+			ReflectiveClass refType = TypesFactory.eINSTANCE.createReflectiveClass();
+			errors().signalOperationCallInvalidParameter("selectByType", new Type[] { refType }, arguments, 
+					Collections.singletonList("type"), self);
+			
+			attr.linkExprType( receptorType );
+			return;
+		}
+		
+		CollectionNamespace cspace = (CollectionNamespace) receptorType.getMetamodelRef();
+		Type iteratorType = cspace.newCollectionType(arguments[0]);
+		attr.linkExprType( iteratorType );
 	}
 	
 	@Override

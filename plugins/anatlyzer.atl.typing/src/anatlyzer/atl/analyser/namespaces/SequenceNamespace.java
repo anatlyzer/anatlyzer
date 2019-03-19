@@ -15,7 +15,7 @@ public class SequenceNamespace extends CollectionNamespace {
 	}
 
 	@Override
-	protected CollectionType newCollectionType(Type nested) {
+	public CollectionType newCollectionType(Type nested) {
 		return typ.newSequenceType(nested);
 	}
 	

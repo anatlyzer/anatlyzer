@@ -403,5 +403,9 @@
       <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/Integer"/>
       <genDataTypes ecoreDataType="merged.ecore#//PrimitiveTypes/String"/>
     </nestedGenPackages>
+    <nestedGenPackages prefix="OCL2" basePackage="anatlyzer.atlext" disposableProviderFactory="true"
+        ecorePackage="merged.ecore#//OCL2">
+      <genClasses ecoreClass="merged.ecore#//OCL2/SelectByKind"/>
+    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

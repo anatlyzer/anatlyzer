@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ExpressionStatImpl#getExpression <em>Expression</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -63,6 +63,7 @@ public class ExpressionStatImpl extends StatementImpl implements ExpressionStat 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getExpression() {
 		return expression;
 	}
@@ -87,6 +88,7 @@ public class ExpressionStatImpl extends StatementImpl implements ExpressionStat 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setExpression(OclExpression newExpression) {
 		if (newExpression != expression) {
 			NotificationChain msgs = null;

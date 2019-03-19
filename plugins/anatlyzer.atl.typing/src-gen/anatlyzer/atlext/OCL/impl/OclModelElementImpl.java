@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclModelElementImpl#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,6 +62,7 @@ public class OclModelElementImpl extends OclTypeImpl implements OclModelElement 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclModel getModel() {
 		if (model != null && model.eIsProxy()) {
 			InternalEObject oldModel = (InternalEObject)model;
@@ -103,6 +104,7 @@ public class OclModelElementImpl extends OclTypeImpl implements OclModelElement 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setModel(OclModel newModel) {
 		if (newModel != model) {
 			NotificationChain msgs = null;

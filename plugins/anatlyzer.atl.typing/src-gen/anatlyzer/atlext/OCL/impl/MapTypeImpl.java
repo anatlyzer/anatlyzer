@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapTypeImpl#getValueType <em>Value Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapTypeImpl#getKeyType <em>Key Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -73,6 +73,7 @@ public class MapTypeImpl extends OclTypeImpl implements MapType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getValueType() {
 		return valueType;
 	}
@@ -97,6 +98,7 @@ public class MapTypeImpl extends OclTypeImpl implements MapType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValueType(OclType newValueType) {
 		if (newValueType != valueType) {
 			NotificationChain msgs = null;
@@ -116,6 +118,7 @@ public class MapTypeImpl extends OclTypeImpl implements MapType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getKeyType() {
 		return keyType;
 	}
@@ -140,6 +143,7 @@ public class MapTypeImpl extends OclTypeImpl implements MapType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKeyType(OclType newKeyType) {
 		if (newKeyType != keyType) {
 			NotificationChain msgs = null;

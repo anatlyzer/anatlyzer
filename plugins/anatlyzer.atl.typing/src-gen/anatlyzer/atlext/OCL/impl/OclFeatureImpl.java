@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclFeatureImpl#getDefinition <em>Definition</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -56,6 +56,7 @@ public abstract class OclFeatureImpl extends LocatedElementImpl implements OclFe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclFeatureDefinition getDefinition() {
 		if (eContainerFeatureID() != OCLPackage.OCL_FEATURE__DEFINITION) return null;
 		return (OclFeatureDefinition)eInternalContainer();
@@ -76,6 +77,7 @@ public abstract class OclFeatureImpl extends LocatedElementImpl implements OclFe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefinition(OclFeatureDefinition newDefinition) {
 		if (newDefinition != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_FEATURE__DEFINITION && newDefinition != null)) {
 			if (EcoreUtil.isAncestor(this, newDefinition))

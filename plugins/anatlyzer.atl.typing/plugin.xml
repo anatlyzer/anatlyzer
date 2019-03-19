@@ -69,6 +69,14 @@
             class="anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage"
             genModel="model/generated/merged.genmodel"/>
    </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated merged -->
+      <package
+            uri="http://anatlyzer/atl/ext/OCL2"
+            class="anatlyzer.atlext.OCL2.OCL2Package"
+            genModel="model/generated/merged.genmodel"/>
+   </extension>
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated impact -->
       <package

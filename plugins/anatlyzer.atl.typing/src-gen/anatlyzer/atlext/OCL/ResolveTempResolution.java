@@ -12,10 +12,10 @@ import anatlyzer.atlext.ATL.RuleResolutionInfo;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.ResolveTempResolution#getElement <em>Element</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getResolveTempResolution()
  * @model

@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapExpImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +66,7 @@ public class MapExpImpl extends OclExpressionImpl implements MapExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<MapElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentWithInverseEList<MapElement>(MapElement.class, this, OCLPackage.MAP_EXP__ELEMENTS, OCLPackage.MAP_ELEMENT__MAP);

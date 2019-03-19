@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForEachOutPatternElementImpl#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForEachOutPatternElementImpl#getIterator <em>Iterator</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,6 +75,7 @@ public class ForEachOutPatternElementImpl extends OutPatternElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getCollection() {
 		return collection;
 	}
@@ -99,6 +100,7 @@ public class ForEachOutPatternElementImpl extends OutPatternElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCollection(OclExpression newCollection) {
 		if (newCollection != collection) {
 			NotificationChain msgs = null;
@@ -118,6 +120,7 @@ public class ForEachOutPatternElementImpl extends OutPatternElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Iterator getIterator() {
 		return iterator;
 	}
@@ -142,6 +145,7 @@ public class ForEachOutPatternElementImpl extends OutPatternElementImpl implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIterator(Iterator newIterator) {
 		if (newIterator != iterator) {
 			NotificationChain msgs = null;

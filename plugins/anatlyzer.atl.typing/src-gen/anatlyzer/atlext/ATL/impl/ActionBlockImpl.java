@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ActionBlockImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ActionBlockImpl#getStatements <em>Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -72,6 +72,7 @@ public class ActionBlockImpl extends LocatedElementImpl implements ActionBlock {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule getRule() {
 		if (eContainerFeatureID() != ATLPackage.ACTION_BLOCK__RULE) return null;
 		return (Rule)eInternalContainer();
@@ -92,6 +93,7 @@ public class ActionBlockImpl extends LocatedElementImpl implements ActionBlock {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(Rule newRule) {
 		if (newRule != eInternalContainer() || (eContainerFeatureID() != ATLPackage.ACTION_BLOCK__RULE && newRule != null)) {
 			if (EcoreUtil.isAncestor(this, newRule))
@@ -113,6 +115,7 @@ public class ActionBlockImpl extends LocatedElementImpl implements ActionBlock {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getStatements() {
 		if (statements == null) {
 			statements = new EObjectContainmentEList<Statement>(Statement.class, this, ATLPackage.ACTION_BLOCK__STATEMENTS);

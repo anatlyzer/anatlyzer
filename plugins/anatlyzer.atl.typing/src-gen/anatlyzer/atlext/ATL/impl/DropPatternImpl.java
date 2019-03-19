@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.DropPatternImpl#getOutPattern <em>Out Pattern</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -53,6 +53,7 @@ public class DropPatternImpl extends LocatedElementImpl implements DropPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPattern getOutPattern() {
 		if (eContainerFeatureID() != ATLPackage.DROP_PATTERN__OUT_PATTERN) return null;
 		return (OutPattern)eInternalContainer();
@@ -73,6 +74,7 @@ public class DropPatternImpl extends LocatedElementImpl implements DropPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutPattern(OutPattern newOutPattern) {
 		if (newOutPattern != eInternalContainer() || (eContainerFeatureID() != ATLPackage.DROP_PATTERN__OUT_PATTERN && newOutPattern != null)) {
 			if (EcoreUtil.isAncestor(this, newOutPattern))

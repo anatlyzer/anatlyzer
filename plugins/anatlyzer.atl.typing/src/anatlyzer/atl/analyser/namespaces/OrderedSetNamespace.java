@@ -12,7 +12,7 @@ public class OrderedSetNamespace extends CollectionNamespace {
 	}
 
 	@Override
-	protected CollectionType newCollectionType(Type nested) {
+	public CollectionType newCollectionType(Type nested) {
 		return typ.newOrderedSetType(nested);
 	}
 

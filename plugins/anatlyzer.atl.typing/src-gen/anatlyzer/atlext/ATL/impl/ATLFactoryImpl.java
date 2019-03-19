@@ -2,8 +2,33 @@
  */
 package anatlyzer.atlext.ATL.impl;
 
-import anatlyzer.atlext.ATL.*;
-
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ATLPackage;
+import anatlyzer.atlext.ATL.ActionBlock;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
+import anatlyzer.atlext.ATL.CallableParameter;
+import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.DropPattern;
+import anatlyzer.atlext.ATL.ExpressionStat;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.IfStat;
+import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.LibraryRef;
+import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.OutPattern;
+import anatlyzer.atlext.ATL.Query;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleResolutionStatus;
+import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.ATL.Unit;
 import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -124,6 +149,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit createUnit() {
 		UnitImpl unit = new UnitImpl();
 		return unit;
@@ -134,6 +160,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Library createLibrary() {
 		LibraryImpl library = new LibraryImpl();
 		return library;
@@ -144,6 +171,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Query createQuery() {
 		QueryImpl query = new QueryImpl();
 		return query;
@@ -154,7 +182,8 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Module createModule() {
+	@Override
+	public anatlyzer.atlext.ATL.Module createModule() {
 		ModuleImpl module = new ModuleImpl();
 		return module;
 	}
@@ -164,6 +193,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public StaticHelper createStaticHelper() {
 		StaticHelperImpl staticHelper = new StaticHelperImpl();
 		return staticHelper;
@@ -174,6 +204,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ContextHelper createContextHelper() {
 		ContextHelperImpl contextHelper = new ContextHelperImpl();
 		return contextHelper;
@@ -184,6 +215,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MatchedRule createMatchedRule() {
 		MatchedRuleImpl matchedRule = new MatchedRuleImpl();
 		return matchedRule;
@@ -194,6 +226,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LazyRule createLazyRule() {
 		LazyRuleImpl lazyRule = new LazyRuleImpl();
 		return lazyRule;
@@ -204,6 +237,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CalledRule createCalledRule() {
 		CalledRuleImpl calledRule = new CalledRuleImpl();
 		return calledRule;
@@ -214,6 +248,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InPattern createInPattern() {
 		InPatternImpl inPattern = new InPatternImpl();
 		return inPattern;
@@ -224,6 +259,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPattern createOutPattern() {
 		OutPatternImpl outPattern = new OutPatternImpl();
 		return outPattern;
@@ -234,6 +270,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public DropPattern createDropPattern() {
 		DropPatternImpl dropPattern = new DropPatternImpl();
 		return dropPattern;
@@ -244,6 +281,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SimpleInPatternElement createSimpleInPatternElement() {
 		SimpleInPatternElementImpl simpleInPatternElement = new SimpleInPatternElementImpl();
 		return simpleInPatternElement;
@@ -254,6 +292,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public SimpleOutPatternElement createSimpleOutPatternElement() {
 		SimpleOutPatternElementImpl simpleOutPatternElement = new SimpleOutPatternElementImpl();
 		return simpleOutPatternElement;
@@ -264,6 +303,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ForEachOutPatternElement createForEachOutPatternElement() {
 		ForEachOutPatternElementImpl forEachOutPatternElement = new ForEachOutPatternElementImpl();
 		return forEachOutPatternElement;
@@ -274,6 +314,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Binding createBinding() {
 		BindingImpl binding = new BindingImpl();
 		return binding;
@@ -284,6 +325,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleVariableDeclaration createRuleVariableDeclaration() {
 		RuleVariableDeclarationImpl ruleVariableDeclaration = new RuleVariableDeclarationImpl();
 		return ruleVariableDeclaration;
@@ -294,6 +336,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LibraryRef createLibraryRef() {
 		LibraryRefImpl libraryRef = new LibraryRefImpl();
 		return libraryRef;
@@ -304,6 +347,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ActionBlock createActionBlock() {
 		ActionBlockImpl actionBlock = new ActionBlockImpl();
 		return actionBlock;
@@ -314,6 +358,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ExpressionStat createExpressionStat() {
 		ExpressionStatImpl expressionStat = new ExpressionStatImpl();
 		return expressionStat;
@@ -324,6 +369,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public BindingStat createBindingStat() {
 		BindingStatImpl bindingStat = new BindingStatImpl();
 		return bindingStat;
@@ -334,6 +380,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IfStat createIfStat() {
 		IfStatImpl ifStat = new IfStatImpl();
 		return ifStat;
@@ -344,6 +391,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ForStat createForStat() {
 		ForStatImpl forStat = new ForStatImpl();
 		return forStat;
@@ -364,6 +412,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CallableParameter createCallableParameter() {
 		CallableParameterImpl callableParameter = new CallableParameterImpl();
 		return callableParameter;
@@ -374,6 +423,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleResolutionInfo createRuleResolutionInfo() {
 		RuleResolutionInfoImpl ruleResolutionInfo = new RuleResolutionInfoImpl();
 		return ruleResolutionInfo;
@@ -404,6 +454,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ATLPackage getATLPackage() {
 		return (ATLPackage)getEPackage();
 	}

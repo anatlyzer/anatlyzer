@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getInferredType <em>Inferred Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getId <em>Id</em>}</li>
@@ -47,7 +48,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getVariableExp <em>Variable Exp</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableDeclarationImpl#getStaticType <em>Static Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -166,6 +166,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getId() {
 		return id;
 	}
@@ -175,6 +176,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setId(String newId) {
 		String oldId = id;
 		id = newId;
@@ -187,6 +189,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getVarName() {
 		return varName;
 	}
@@ -196,6 +199,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVarName(String newVarName) {
 		String oldVarName = varName;
 		varName = newVarName;
@@ -208,6 +212,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getType() {
 		return type;
 	}
@@ -232,6 +237,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(OclType newType) {
 		if (newType != type) {
 			NotificationChain msgs = null;
@@ -251,6 +257,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getInitExpression() {
 		return initExpression;
 	}
@@ -275,6 +282,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInitExpression(OclExpression newInitExpression) {
 		if (newInitExpression != initExpression) {
 			NotificationChain msgs = null;
@@ -294,6 +302,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LetExp getLetExp() {
 		if (eContainerFeatureID() != OCLPackage.VARIABLE_DECLARATION__LET_EXP) return null;
 		return (LetExp)eInternalContainer();
@@ -314,6 +323,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLetExp(LetExp newLetExp) {
 		if (newLetExp != eInternalContainer() || (eContainerFeatureID() != OCLPackage.VARIABLE_DECLARATION__LET_EXP && newLetExp != null)) {
 			if (EcoreUtil.isAncestor(this, newLetExp))
@@ -335,6 +345,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IterateExp getBaseExp() {
 		if (eContainerFeatureID() != OCLPackage.VARIABLE_DECLARATION__BASE_EXP) return null;
 		return (IterateExp)eInternalContainer();
@@ -355,6 +366,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBaseExp(IterateExp newBaseExp) {
 		if (newBaseExp != eInternalContainer() || (eContainerFeatureID() != OCLPackage.VARIABLE_DECLARATION__BASE_EXP && newBaseExp != null)) {
 			if (EcoreUtil.isAncestor(this, newBaseExp))
@@ -376,6 +388,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<VariableExp> getVariableExp() {
 		if (variableExp == null) {
 			variableExp = new EObjectWithInverseResolvingEList<VariableExp>(VariableExp.class, this, OCLPackage.VARIABLE_DECLARATION__VARIABLE_EXP, OCLPackage.VARIABLE_EXP__REFERRED_VARIABLE);
@@ -388,6 +401,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getInferredType() {
 		if (inferredType != null && inferredType.eIsProxy()) {
 			InternalEObject oldInferredType = (InternalEObject)inferredType;
@@ -414,6 +428,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInferredType(Type newInferredType) {
 		Type oldInferredType = inferredType;
 		inferredType = newInferredType;
@@ -426,6 +441,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getStaticType() {
 		if (staticType != null && staticType.eIsProxy()) {
 			InternalEObject oldStaticType = (InternalEObject)staticType;
@@ -452,6 +468,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStaticType(Type newStaticType) {
 		Type oldStaticType = staticType;
 		staticType = newStaticType;
@@ -711,7 +728,7 @@ public class VariableDeclarationImpl extends LocatedElementImpl implements Varia
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (id: ");
 		result.append(id);
 		result.append(", varName: ");

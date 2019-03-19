@@ -107,6 +107,9 @@ package OCL {
   	val ResolveTempResolution[*] resolveTempResolvedBy;	
   }
   
+  class CollectionOperationCallExp {
+  }
+  
   class ResolveTempResolution extends ATL.RuleResolutionInfo {
 	ref ATL.OutPatternElement[1] element;  	
   }
@@ -128,6 +131,15 @@ package OCL {
 
 }
 
+/* Extensions to cover other OCL features found in other dialects */
+@namespace(uri="http://anatlyzer/atl/ext/OCL2", prefix="atl_ext_ocl2")
+package OCL2 {
+	
+	class SelectByKind extends OCL.CollectionOperationCallExp {
+		// arguments[0] = OclModelElement
+	}
+	
+}
 
 @namespace(uri="http://anatlyzer/atl/ext/PrimitiveTypes", prefix="atl_ext_ptypes")
 package PrimitiveTypes {

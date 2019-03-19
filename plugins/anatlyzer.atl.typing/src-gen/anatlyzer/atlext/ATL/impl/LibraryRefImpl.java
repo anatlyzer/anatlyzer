@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryRefImpl#getUnit <em>Unit</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryRefImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,6 +75,7 @@ public class LibraryRefImpl extends LocatedElementImpl implements LibraryRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Unit getUnit() {
 		if (eContainerFeatureID() != ATLPackage.LIBRARY_REF__UNIT) return null;
 		return (Unit)eInternalContainer();
@@ -95,6 +96,7 @@ public class LibraryRefImpl extends LocatedElementImpl implements LibraryRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUnit(Unit newUnit) {
 		if (newUnit != eInternalContainer() || (eContainerFeatureID() != ATLPackage.LIBRARY_REF__UNIT && newUnit != null)) {
 			if (EcoreUtil.isAncestor(this, newUnit))
@@ -116,6 +118,7 @@ public class LibraryRefImpl extends LocatedElementImpl implements LibraryRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -125,6 +128,7 @@ public class LibraryRefImpl extends LocatedElementImpl implements LibraryRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -253,7 +257,7 @@ public class LibraryRefImpl extends LocatedElementImpl implements LibraryRef {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

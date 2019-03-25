@@ -18,17 +18,18 @@ import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.Retyping;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.UnfoldRecursion;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.OclUndefinedType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.UnionType;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.OCL.BagType;
 import anatlyzer.atlext.OCL.BooleanType;
 import anatlyzer.atlext.OCL.CollectionType;
 import anatlyzer.atlext.OCL.IntegerType;
@@ -36,10 +37,12 @@ import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.OrderedSetType;
 import anatlyzer.atlext.OCL.RealType;
 import anatlyzer.atlext.OCL.SequenceType;
 import anatlyzer.atlext.OCL.SetType;
 import anatlyzer.atlext.OCL.StringType;
+import witness.generator.USESerializer;
 
 /**
  * 
@@ -57,6 +60,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private Set<EStructuralFeature> targetClassesFeatures = new HashSet<EStructuralFeature>();
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private RetypingStrategy retypingStrategy;
+	private boolean preferDeclaredTypes;
 	
 	public ErrorSliceDataWrapper(ErrorSlice slice, SourceMetamodelsData mapping, ProblemInPathVisitor problems) {
 		super(slice, mapping);
@@ -222,19 +226,22 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		String s = ATLUtils.getHelperName(ctx) + (isOperation ? "(" : "");
 		
 		if ( isOperation ) {
+			List<String> allArgs = new ArrayList<String>();
 			// The first parameter is *by default* the ThisModule object 
 			// if the helper is not marked as no rewrite
 			if ( ! ctx.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE") ) {		
-				s += "thisModule : " + Analyser.USE_THIS_MODULE_CLASS;
+				allArgs.add( "thisModule : " + Analyser.USE_THIS_MODULE_CLASS );
 			}
 			
 			String[] argNames = ATLUtils.getArgumentNames(ctx);
 			Type[] argTypes   = ATLUtils.getArgumentTypes(ctx);
 			for(int i = 0; i < argNames.length; i++) {
 				// s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
-				s += "," + argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]);
+				allArgs.add( argNames[i] + " : " + TypeUtils.getNonQualifiedTypeName(argTypes[i]) );
 			}
-			s += ")";
+			
+			String args = allArgs.stream().collect(Collectors.joining(", ")); 
+			s += args + ")";
 		}
 		
 		/* if ( ctx.getStaticReturnType() instanceof EnumType ) {
@@ -242,7 +249,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 		} else {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) + " = ";
 		}*/
-		if ( hasTooSpecificType(ctx.getInferredReturnType()) ) {
+		if ( preferDeclaredTypes || hasTooSpecificType(ctx.getInferredReturnType()) ) {
 			s += " : " + toUSETypeName(ATLUtils.getHelperReturnType(ctx)) ;
 		} else {
 			s += " : " + TypeUtils.getNonQualifiedTypeName(ctx.getInferredReturnType());			
@@ -263,7 +270,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	}
 
 	private boolean hasTooSpecificType(Type t) {
-		if ( t instanceof UnionType || t instanceof OclUndefinedType )
+		if ( t instanceof UnionType || t instanceof OclUndefinedType || t instanceof TypeError )
 			return true;
 		
 		if ( t instanceof anatlyzer.atl.types.CollectionType ) {
@@ -294,8 +301,12 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 				typeName = "Sequence";
 			} else if (t instanceof SetType) {
 				typeName = "Set";
+			} else if (t instanceof OrderedSetType) {
+				typeName = "OrderedSet";			
+			} else if (t instanceof BagType) {
+				typeName = "Bag";
 			} else {
-				throw new UnsupportedOperationException();
+				throw new UnsupportedOperationException("Collection type not supported: " + t) ;
 			}
 
 			return typeName + "("
@@ -311,6 +322,10 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 
 	public void setRetypingStrategy(RetypingStrategy retypingStrategy) {
 		this.retypingStrategy = retypingStrategy;
+	}
+
+	public void setPreferDeclaredTypes(boolean b) {
+		this.preferDeclaredTypes = b;
 	}
 
 	/*

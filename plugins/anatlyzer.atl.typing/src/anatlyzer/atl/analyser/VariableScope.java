@@ -3,11 +3,9 @@ package anatlyzer.atl.analyser;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
-import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLSerializer;

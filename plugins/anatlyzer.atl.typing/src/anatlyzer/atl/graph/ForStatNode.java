@@ -6,8 +6,8 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ForStat;
 import anatlyzer.atlext.OCL.Iterator;
@@ -54,7 +54,7 @@ public class ForStatNode extends AbstractDependencyNode {
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
-		gv.addNode(this, "Loop: " + USESerializer.gen(receptor), leadsToExecution);
+		gv.addNode(this, "Loop: " + ATLSerializer.serialize(	receptor), leadsToExecution);
 		super.genGraphviz(gv);
 	}
 

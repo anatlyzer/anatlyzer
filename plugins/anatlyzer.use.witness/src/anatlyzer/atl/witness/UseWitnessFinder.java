@@ -23,8 +23,10 @@ import org.tzi.use.parser.SrcPos;
 
 import witness.generator.TimeOutException;
 import witness.generator.USEResult;
+import witness.generator.USESerializer;
 import witness.generator.UseInputPartialModel;
 import witness.generator.WitnessGeneratorMemory;
+import witness.generator.USESerializer.USEConstraint;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -40,8 +42,6 @@ import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
-import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -88,6 +88,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
+	private boolean preferDeclaredTypes = false;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -110,6 +111,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 
+	public UseWitnessFinder setPreferDeclaredTypes(boolean preferDeclaredTypes) {
+		this.preferDeclaredTypes = preferDeclaredTypes;
+		return this;
+	}
+	
 	@Override
 	public IWitnessFinder checkDiscardCause(boolean b) {
 		this.checkDiscardCause  = b;
@@ -525,6 +531,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
+		wrapper.setPreferDeclaredTypes(preferDeclaredTypes );
 		wrapper.setDoUnfolding(doUnfolding);
 		wrapper.setStatsCollector(statsCollector);
 		wrapper.setRetypingStrategy(this.retypingStrategy);

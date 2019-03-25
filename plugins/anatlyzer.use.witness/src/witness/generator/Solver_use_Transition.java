@@ -311,12 +311,17 @@ public abstract class Solver_use_Transition extends Solver_use {
 				String value = trim( attributes.get(attribute).toString() );
 				if (!value.equals("Undefined")) {
 					String values[] = {value};
-					if (value.startsWith("Set{")) values = value.substring(4,value.length()-1).split(",");
+					if      (value.startsWith("Set{")) values = value.substring(4,value.length()-1).split(",");
+					else if (value.startsWith("Bag{")) values = value.substring(4,value.length()-1).split(",");
+					
 					if  (EMFUtils.hasAttribute(object, field))
 						for (String v : values) EMFUtils.setAttribute(metamodel, object, field, adapter.adapt_use_string( v ));
 					else for (String v : values) {
 						if (!v.isEmpty()) {
-							EObject object2 = eobjects.get(v.substring(1));
+							// EObject object2 = eobjects.get(v.substring(1));
+							EObject object2 = eobjects.get(v);
+							if ( object2 == null )
+								throw new NullPointerException("Null object for " + v + ". Available: " + eobjects.keySet().stream().collect(Collectors.joining(", ")));
 							EMFUtils.setReference(metamodel, object, field, object2);
 							if (isContainment(object, field)) model.getContents().remove(object2);
 						}

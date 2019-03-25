@@ -39,7 +39,7 @@ public class TestTranslation {
 			System.out.println(constraint.getSpecification().getBodyExpression().eClass());
 			
 			if ( isInvariant(constraint)) {
-				Helper exp = new OCLtoATL().transform("Test", constraint);
+				Helper exp = new OCLtoATL().transform(constraint);
 				
 				System.out.println( ATLSerializer.serialize(exp) );
 				

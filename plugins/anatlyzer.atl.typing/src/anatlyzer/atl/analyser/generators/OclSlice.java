@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.UnresolvedTypeError;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.StaticHelper;
@@ -170,7 +171,7 @@ public class OclSlice {
 	}
 
 	private static void addExprType(ErrorSlice slice, OclExpression expr) {
-		if ( expr.getInferredType() instanceof Metaclass ) {
+		if ( expr.getInferredType() instanceof Metaclass && !(expr.getInferredType() instanceof UnresolvedTypeError) ) {
 			slice.addExplicitMetaclass((Metaclass) expr.getInferredType());
 		}
 	}

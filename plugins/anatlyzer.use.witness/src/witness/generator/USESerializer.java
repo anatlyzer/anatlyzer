@@ -1,4 +1,4 @@
-package anatlyzer.atl.analyser.generators;
+package witness.generator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,14 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.generators.IObjectVisitor;
+import anatlyzer.atl.analyser.generators.Retyping;
+import anatlyzer.atl.analyser.generators.RetypingStrategy;
+import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.witness.USEValidityChecker;
+import anatlyzer.atl.witness.UseReservedWords;
 import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
@@ -185,7 +191,13 @@ public class USESerializer {
 //			}
 			
 			EnumLiteralExp enuml = (EnumLiteralExp) expr;
-			return "#" + enuml.getName();
+			String name = enuml.getName();
+			String replacement = USENameModifyier.invalidLiteralOrNull(name);
+			if ( replacement != null ) {
+				name = replacement;
+			}
+			
+			return "#" + name;
 		} else if ( expr instanceof OclUndefinedExp ) {
 			return "oclUndefined(OclVoid)";
 			// return "OclUndefined";			

@@ -84,6 +84,10 @@ public class FIXOCL {
 		new Visitor(null).visit(m);		
 	}
 	
+	public void tryToFix(Constraint m) {
+		new Visitor(null).visit(m);		
+	}
+	
 	public class Visitor extends AbstractExtendingVisitor<Void, Object> {
 
 		protected Visitor(Object context) {

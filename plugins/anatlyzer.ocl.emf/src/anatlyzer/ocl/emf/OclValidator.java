@@ -10,6 +10,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.pivot.resource.ASResource;
@@ -44,6 +46,9 @@ public class OclValidator {
 	protected List<EPackage> packages = new ArrayList<>();
 	private List<ConstraintCS> constraints = new ArrayList<>();
 	private List<Constraint> constraintsEcore = new ArrayList<>();
+	private List<org.eclipse.ocl.pivot.Constraint> constraintsPivot = new ArrayList<>();
+	
+	
 	private ValidationResult result;
 	private List<Bounds> bounds = new ArrayList<Bounds>();
 	private IInputPartialModel partialModel;
@@ -75,6 +80,12 @@ public class OclValidator {
 		return this;
 	}
 
+	public void addConstraint(org.eclipse.ocl.pivot.Constraint constraint) {
+		constraintsPivot.add(constraint);		
+	}
+
+
+	
 	public OclValidator withWitnessFinder(IWitnessFinder wf) {
 		this.wf = wf;
 		return this;
@@ -102,35 +113,49 @@ public class OclValidator {
 		*/
 		
 		for(CompleteOCLCSResource r : completeResources) {
-			translator.translate("MM", r.getASResource());
+			translator.translate(r.getASResource());
 		}
 		
 		for(ASResource r : pivotResources) {
-			translator.translate("MM", r);
+			translator.translate(r);
 		}
 		
+		translator.translatePivot(constraintsPivot);
 		
 		Library lib = translator.getLibrary();
 		
 		System.out.println(ATLSerializer.serialize(lib));
 		
-		if ( packages.size() != 1 )
-			throw new UnsupportedOperationException();
+		//if ( packages.size() != 1 )
+		//	throw new UnsupportedOperationException();
 		
 		IWitnessFinder finder = this.wf != null ? this.wf : WitnessUtil.getFirstWitnessFinder();
 		finder.setScopeCalculator(new ExplicitScopeCalculator().withBounds(bounds));
 		finder.setInputPartialModel(partialModel);
 		finder.setCheckAllCompositeConstraints(true);
+		// FULL_METAMODEL Works better than MANDATORY_FULL_METAMODEL in the presence of errors: 
 		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_FULL_METAMODEL);
 		if ( finder instanceof UseWitnessFinder ) {
 			((UseWitnessFinder) finder).withRetyingStrategy(RetypingStrategy.NULL);
+			((UseWitnessFinder) finder).setPreferDeclaredTypes(true);
 		}
+		
+		//Resource mmResource = new EcoreResourceFactoryImpl().createResource(URI.createURI("validator:/internal/copy"));
+		//mmResource.getContents().add(EcoreUtil.copy(packages.get(0)));
+		// mmResource = EcoreUtil.packages.get(0).eResource()
 		
 		ConstraintSatisfactionChecker checker = ConstraintSatisfactionChecker.
 				withLibrary(lib).
-				withFinder(finder).
-				configureMetamodel("MM", packages.get(0).eResource()).
-				check();
+				withPreAnalysisAdapter(new EMFOCL2UseFixer.Pre()).
+				withPostAnalysisAdapter(new EMFOCL2UseFixer.Post()).
+				withFinder(finder);
+		
+		for (EPackage ePackage : packages) {
+			// If there are subpackages, it should work...
+			checker.configureMetamodel(ePackage.getName(), ePackage.eResource());		
+		}
+		
+		checker.check();
 		
 		this.result = new ValidationResult(checker.getFinderResult(), checker.getWitnessModel());
 		
@@ -185,6 +210,5 @@ public class OclValidator {
 		}
 		
 	}
-
 
 }

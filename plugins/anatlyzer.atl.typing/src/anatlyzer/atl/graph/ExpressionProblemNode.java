@@ -3,12 +3,12 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.PathId;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.ErrorUtils;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -44,7 +44,7 @@ public abstract class ExpressionProblemNode<P extends LocalProblem> extends Abst
 		super.genGraphviz(gv);
 		String msg = ErrorUtils.getShortError(problem);
 		
-		gv.addNode(this, msg + "\\n" + USESerializer.gen(expr), leadsToExecution);
+		gv.addNode(this, msg + "\\n" + ATLSerializer.serialize(expr), leadsToExecution);
 	}
 
 	@Override

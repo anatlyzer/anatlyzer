@@ -135,47 +135,12 @@ public class ConstraintSatisfactionChecker {
 	}
 	
 	private Unit constructTransformation() {
-		// Library module = ATLFactory.eINSTANCE.createLibrary();
-		Module module = ATLFactory.eINSTANCE.createModule();
-		module.setName("inMemoryModule");
+		Module module = AnalyserUtils.constructTransformation(Collections.emptyList(), expressions, namesToResources);
 		
-		int i = 0;
-		for (Entry<String, Resource> entry : namesToResources.entrySet()) {
-			OclModel inModel = OCLFactory.eINSTANCE.createOclModel();
-			inModel.setName("IN" + i);
-			OclModel mmModel = OCLFactory.eINSTANCE.createOclModel();
-			mmModel.setName(entry.getKey());
-			inModel.setMetamodel(mmModel);
-			module.getInModels().add(inModel);			
-			i++;
-		}
-		
-		List<StaticHelper> helpers = expressions.stream().map(e -> {
-			return createOperation("exp" + expressions.indexOf(e), (op) -> {
-				op.setBody((OclExpression) ATLCopier.copySingleElement(e));
-			});
-		}).collect(Collectors.toList());
-		
-		
-		// module.getHelpers().addAll(helpers);
-		module.getElements().addAll(helpers);
-
 		if ( library != null )
 			module.getElements().addAll(library.getHelpers());
 		
 		return module;
-	}
-
-	private StaticHelper createOperation(String opName, Consumer<Operation> consumer) {
-		StaticHelper h = ATLFactory.eINSTANCE.createStaticHelper();
-		OclFeatureDefinition f = OCLFactory.eINSTANCE.createOclFeatureDefinition();		
-		Operation op = OCLFactory.eINSTANCE.createOperation();
-		op.setName(opName);
-		op.setReturnType(OCLFactory.eINSTANCE.createBooleanType());
-		f.setFeature(op);
-		h.setDefinition(f);
-		consumer.accept(op);
-		return h;
 	}
 
 	private List<OclExpression> getExpressionsToBeChecked() {

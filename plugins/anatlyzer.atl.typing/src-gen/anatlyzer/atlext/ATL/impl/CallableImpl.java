@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableImpl#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableImpl#getCallableParameters <em>Callable Parameters</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,6 +75,7 @@ public abstract class CallableImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PropertyCallExp> getCalledBy() {
 		if (calledBy == null) {
 			calledBy = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.CALLABLE__CALLED_BY);
@@ -87,6 +88,7 @@ public abstract class CallableImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CallableParameter> getCallableParameters() {
 		if (callableParameters == null) {
 			callableParameters = new EObjectContainmentEList<CallableParameter>(CallableParameter.class, this, ATLPackage.CALLABLE__CALLABLE_PARAMETERS);

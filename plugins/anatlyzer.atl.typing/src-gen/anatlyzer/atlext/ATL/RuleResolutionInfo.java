@@ -13,12 +13,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getAllInvolvedRules <em>All Involved Rules</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.RuleResolutionInfo#getStatus <em>Status</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getRuleResolutionInfo()
  * @model

@@ -100,12 +100,16 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="resolveTempResolvedBy"
           upperBound="-1" eType="#//OCL/ResolveTempResolution" containment="true"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CollectionOperationCallExp"/>
     <eClassifiers xsi:type="ecore:EClass" name="ResolveTempResolution" eSuperTypes="#//ATL/RuleResolutionInfo">
       <eStructuralFeatures xsi:type="ecore:EReference" name="element" lowerBound="1"
           eType="#//ATL/OutPatternElement"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="JavaBody" eSuperTypes="#//OCL/OclExpression"/>
     <eClassifiers xsi:type="ecore:EClass" name="GetAppliedStereotypesBody" eSuperTypes="#//OCL/JavaBody"/>
+  </eSubpackages>
+  <eSubpackages name="OCL2" nsURI="http://anatlyzer/atl/ext/OCL2" nsPrefix="atl_ext_ocl2">
+    <eClassifiers xsi:type="ecore:EClass" name="SelectByKind" eSuperTypes="#//OCL/CollectionOperationCallExp"/>
   </eSubpackages>
   <eSubpackages name="PrimitiveTypes" nsURI="http://anatlyzer/atl/ext/PrimitiveTypes"
       nsPrefix="atl_ext_ptypes"/>

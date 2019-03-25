@@ -10,6 +10,7 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.OclType#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclType#getDefinitions <em>Definitions</em>}</li>
@@ -22,7 +23,6 @@ package anatlyzer.atlext.OCL;
  *   <li>{@link anatlyzer.atlext.OCL.OclType#getTupleTypeAttribute <em>Tuple Type Attribute</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.OclType#getVariableDeclaration <em>Variable Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getOclType()
  * @model

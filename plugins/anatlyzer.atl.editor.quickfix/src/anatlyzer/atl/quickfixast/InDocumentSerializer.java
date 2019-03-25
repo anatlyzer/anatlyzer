@@ -25,6 +25,7 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.simplifier.IOclSimplifier;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
@@ -79,6 +80,8 @@ public class InDocumentSerializer extends ATLSerializer {
 				if ( AnATLyzerPreferenceInitializer.getUseOclSimplifier() ) {
 					IOclSimplifier simplifier = ExtensionPointUtils.getOclSimplifier();
 					if ( simplifier != null ) {
+						System.out.println(AnalyserUtils.toTree((LocatedElement) targetExpression));
+						
 						EObject result = simplifier.simplify(qfa.getAnalysis(), targetExpression);
 						if ( result != null ) {
 							targetExpression = result;

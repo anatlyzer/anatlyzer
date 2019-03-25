@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getUsedFeature <em>Used Feature</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getStaticResolver <em>Static Resolver</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.PropertyCallExpImpl#getDynamicResolvers <em>Dynamic Resolvers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -143,6 +143,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getSource() {
 		return source;
 	}
@@ -167,6 +168,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(OclExpression newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -186,6 +188,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getUsedFeature() {
 		if (usedFeature != null && usedFeature.eIsProxy()) {
 			InternalEObject oldUsedFeature = (InternalEObject)usedFeature;
@@ -212,6 +215,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setUsedFeature(EObject newUsedFeature) {
 		EObject oldUsedFeature = usedFeature;
 		usedFeature = newUsedFeature;
@@ -224,6 +228,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getSubtypeFeatures() {
 		if (subtypeFeatures == null) {
 			subtypeFeatures = new EObjectResolvingEList<EObject>(EObject.class, this, OCLPackage.PROPERTY_CALL_EXP__SUBTYPE_FEATURES);
@@ -236,6 +241,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getReceptorType() {
 		if (receptorType != null && receptorType.eIsProxy()) {
 			InternalEObject oldReceptorType = (InternalEObject)receptorType;
@@ -262,6 +268,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setReceptorType(EObject newReceptorType) {
 		EObject oldReceptorType = receptorType;
 		receptorType = newReceptorType;
@@ -274,6 +281,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsStaticCall() {
 		return isStaticCall;
 	}
@@ -283,6 +291,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsStaticCall(boolean newIsStaticCall) {
 		boolean oldIsStaticCall = isStaticCall;
 		isStaticCall = newIsStaticCall;
@@ -295,6 +304,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Callable getStaticResolver() {
 		if (staticResolver != null && staticResolver.eIsProxy()) {
 			InternalEObject oldStaticResolver = (InternalEObject)staticResolver;
@@ -321,6 +331,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStaticResolver(Callable newStaticResolver) {
 		Callable oldStaticResolver = staticResolver;
 		staticResolver = newStaticResolver;
@@ -333,6 +344,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ContextHelper> getDynamicResolvers() {
 		if (dynamicResolvers == null) {
 			dynamicResolvers = new EObjectWithInverseResolvingEList.ManyInverse<ContextHelper>(ContextHelper.class, this, OCLPackage.PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS, ATLPackage.CONTEXT_HELPER__POLYMORPHIC_CALLED_BY);
@@ -508,7 +520,7 @@ public abstract class PropertyCallExpImpl extends OclExpressionImpl implements P
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isStaticCall: ");
 		result.append(isStaticCall);
 		result.append(')');

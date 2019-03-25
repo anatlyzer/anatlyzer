@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleVariableDeclarationImpl#getRule <em>Rule</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -56,6 +56,7 @@ public class RuleVariableDeclarationImpl extends VariableDeclarationImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Rule getRule() {
 		if (eContainerFeatureID() != ATLPackage.RULE_VARIABLE_DECLARATION__RULE) return null;
 		return (Rule)eInternalContainer();
@@ -76,6 +77,7 @@ public class RuleVariableDeclarationImpl extends VariableDeclarationImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(Rule newRule) {
 		if (newRule != eInternalContainer() || (eContainerFeatureID() != ATLPackage.RULE_VARIABLE_DECLARATION__RULE && newRule != null)) {
 			if (EcoreUtil.isAncestor(this, newRule))

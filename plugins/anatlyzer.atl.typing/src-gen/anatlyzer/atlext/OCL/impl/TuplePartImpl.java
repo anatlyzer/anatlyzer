@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TuplePartImpl#getTuple <em>Tuple</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -54,6 +54,7 @@ public class TuplePartImpl extends VariableDeclarationImpl implements TuplePart 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TupleExp getTuple() {
 		if (eContainerFeatureID() != OCLPackage.TUPLE_PART__TUPLE) return null;
 		return (TupleExp)eInternalContainer();
@@ -74,6 +75,7 @@ public class TuplePartImpl extends VariableDeclarationImpl implements TuplePart 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTuple(TupleExp newTuple) {
 		if (newTuple != eInternalContainer() || (eContainerFeatureID() != OCLPackage.TUPLE_PART__TUPLE && newTuple != null)) {
 			if (EcoreUtil.isAncestor(this, newTuple))

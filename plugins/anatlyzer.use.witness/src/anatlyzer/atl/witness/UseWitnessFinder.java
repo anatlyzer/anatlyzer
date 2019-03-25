@@ -89,6 +89,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
 	private boolean preferDeclaredTypes = false;
+	private int maxScope = 5;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -387,13 +388,23 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			ProblemStatus r = tryResolve(useConstraint, generator, srcMetamodels, false);
 			long end = System.nanoTime();
 			// return end-start;
-			System.out.println("Total solving time: " + (end-start) / 1000000000d);
+			
+			double solvingTime = (end-start) / 1000_000_000.0;			
+			System.out.println("Total solving time: " + solvingTime);
+			statsCollector.withSolvingTimeNanos(end-start);
 			return r;
 		} else {
+			long start = System.nanoTime();
+
 			ProblemStatus result = tryResolve(useConstraint, generator, srcMetamodels, false);
 			while ( AnalyserUtils.isDiscarded(result) && scopeCalculator.incrementScope() ) {
 				result = tryResolve(useConstraint, generator, srcMetamodels, true);
 			}
+			
+			long end = System.nanoTime();
+			statsCollector.withSolvingTimeNanos(end-start);
+			
+			
 			// TODO: Record scope calculator info
 			// statsCollector
 			return result;
@@ -428,7 +439,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 		
 		if ( generateAllCompositeConstraints == true ) {
-			generator.addAdditionaConstraint(this.getCompositeConstraints(errorSliceMM));
+			generator.addAdditionaConstraint(this.getCompositeConstraints(strategy, errorSliceMM, effective, language));
 		}
 		
 		if ( forceOnceInstanceOfConcreteClasses ) {
@@ -440,13 +451,17 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return generator;
 	}
 
+	public IWitnessFinder setMaxScope(int maxScope) {
+		this.maxScope = maxScope;
+		return this;
+	}
 
 	protected int getMinScope() {
 		return 1;
 	}
 
 	protected int getMaxScope() {
-		return 5;
+		return maxScope;
 	}
 
 	protected ProblemStatus tryResolve(USEConstraint useConstraint, WitnessGeneratorMemory generator, SourceMetamodelsData srcMetamodels, boolean isRetry) {
@@ -579,7 +594,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 	
 	// This should be done a bit better because like this there is renaming and so on...
-	private String getCompositeConstraints(EPackage errorSliceMM2) {
+	private String getCompositeConstraints(IMetamodelExtensionStrategy strategy, EPackage errorSliceMM2, EPackage effective2, EPackage language) {
 //		context ValueSpecification inv single_container:
 //	        ActivityEdge.allInstances()->collect(o | o.guard)->count(self) +
 //	        ActivityEdge.allInstances()->collect(o | o.weight)->count(self) <= 1
@@ -588,8 +603,17 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		for (EClass eClass : classes) {
 //			String s = "context " + eClass.getName() 
 //		}
+		
+		// This is not very nice, but let's run with it for now. It is better than the old bug
+		EPackage actualPackage = errorSliceMM2; // default, use the slice
+		if ( strategy instanceof MandatoryFullMetamodelStrategy ) {
+			actualPackage = effective2;
+		} else if ( strategy instanceof FullMetamodelStrategy ) {
+			actualPackage = language;
+		}
+		
 		Set<EClass> classes = new HashSet<EClass>();
-		errorSliceMM2.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
+		actualPackage.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
 		
 		List<EReference> references = classes.stream().flatMap(c -> c.getEReferences().stream()).filter(r -> r.isContainment()).collect(Collectors.toList());
 		String constraints = "";

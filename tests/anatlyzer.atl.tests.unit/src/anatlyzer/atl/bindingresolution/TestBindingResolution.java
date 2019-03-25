@@ -3,6 +3,7 @@ package anatlyzer.atl.bindingresolution;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import anatlyzer.atl.errors.ProblemStatus;
@@ -31,6 +32,7 @@ public class TestBindingResolution extends UnitTest {
 		assertConfirmed(confirmOrDiscardProblem(problems().get(0)));
 	}
 	
+	@Ignore
 	@Test
 	public void testBindingResolutionWithUnion() throws Exception {
 		String T = trafo("ant2maven_resolve_union");

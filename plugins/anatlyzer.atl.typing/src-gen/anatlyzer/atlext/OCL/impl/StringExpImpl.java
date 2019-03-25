@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.StringExpImpl#getStringSymbol <em>String Symbol</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -69,6 +69,7 @@ public class StringExpImpl extends PrimitiveExpImpl implements StringExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getStringSymbol() {
 		return stringSymbol;
 	}
@@ -78,6 +79,7 @@ public class StringExpImpl extends PrimitiveExpImpl implements StringExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStringSymbol(String newStringSymbol) {
 		String oldStringSymbol = stringSymbol;
 		stringSymbol = newStringSymbol;
@@ -152,7 +154,7 @@ public class StringExpImpl extends PrimitiveExpImpl implements StringExp {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (stringSymbol: ");
 		result.append(stringSymbol);
 		result.append(')');

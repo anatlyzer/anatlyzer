@@ -26,12 +26,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#getCallableParameters <em>Callable Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LazyRuleImpl#isIsUnique <em>Is Unique</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -100,6 +100,7 @@ public class LazyRuleImpl extends RuleWithPatternImpl implements LazyRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PropertyCallExp> getCalledBy() {
 		if (calledBy == null) {
 			calledBy = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.LAZY_RULE__CALLED_BY);
@@ -112,6 +113,7 @@ public class LazyRuleImpl extends RuleWithPatternImpl implements LazyRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CallableParameter> getCallableParameters() {
 		if (callableParameters == null) {
 			callableParameters = new EObjectContainmentEList<CallableParameter>(CallableParameter.class, this, ATLPackage.LAZY_RULE__CALLABLE_PARAMETERS);
@@ -124,6 +126,7 @@ public class LazyRuleImpl extends RuleWithPatternImpl implements LazyRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsUnique() {
 		return isUnique;
 	}
@@ -133,6 +136,7 @@ public class LazyRuleImpl extends RuleWithPatternImpl implements LazyRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsUnique(boolean newIsUnique) {
 		boolean oldIsUnique = isUnique;
 		isUnique = newIsUnique;
@@ -298,7 +302,7 @@ public class LazyRuleImpl extends RuleWithPatternImpl implements LazyRule {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isUnique: ");
 		result.append(isUnique);
 		result.append(')');

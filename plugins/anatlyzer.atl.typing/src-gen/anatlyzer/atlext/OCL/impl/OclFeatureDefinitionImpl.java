@@ -23,11 +23,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclFeatureDefinitionImpl#getFeature <em>Feature</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclFeatureDefinitionImpl#getContext_ <em>Context </em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -76,6 +76,7 @@ public class OclFeatureDefinitionImpl extends LocatedElementImpl implements OclF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclFeature getFeature() {
 		return feature;
 	}
@@ -100,6 +101,7 @@ public class OclFeatureDefinitionImpl extends LocatedElementImpl implements OclF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFeature(OclFeature newFeature) {
 		if (newFeature != feature) {
 			NotificationChain msgs = null;
@@ -119,6 +121,7 @@ public class OclFeatureDefinitionImpl extends LocatedElementImpl implements OclF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclContextDefinition getContext_() {
 		return context_;
 	}
@@ -143,6 +146,7 @@ public class OclFeatureDefinitionImpl extends LocatedElementImpl implements OclF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContext_(OclContextDefinition newContext_) {
 		if (newContext_ != context_) {
 			NotificationChain msgs = null;

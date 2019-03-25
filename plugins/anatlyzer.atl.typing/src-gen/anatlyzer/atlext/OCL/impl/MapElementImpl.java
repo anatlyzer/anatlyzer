@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getMap <em>Map</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getKey <em>Key</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.MapElementImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -79,6 +79,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MapExp getMap() {
 		if (eContainerFeatureID() != OCLPackage.MAP_ELEMENT__MAP) return null;
 		return (MapExp)eInternalContainer();
@@ -99,6 +100,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMap(MapExp newMap) {
 		if (newMap != eInternalContainer() || (eContainerFeatureID() != OCLPackage.MAP_ELEMENT__MAP && newMap != null)) {
 			if (EcoreUtil.isAncestor(this, newMap))
@@ -120,6 +122,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getKey() {
 		return key;
 	}
@@ -144,6 +147,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setKey(OclExpression newKey) {
 		if (newKey != key) {
 			NotificationChain msgs = null;
@@ -163,6 +167,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getValue() {
 		return value;
 	}
@@ -187,6 +192,7 @@ public class MapElementImpl extends LocatedElementImpl implements MapElement {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(OclExpression newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;

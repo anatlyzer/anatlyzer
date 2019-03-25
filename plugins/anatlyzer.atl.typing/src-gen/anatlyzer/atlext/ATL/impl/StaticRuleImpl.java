@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getCommentsBefore <em>Comments Before</em>}</li>
@@ -51,7 +52,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.StaticRuleImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -230,6 +230,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLocation() {
 		return location;
 	}
@@ -239,6 +240,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
 		location = newLocation;
@@ -251,6 +253,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getCommentsBefore() {
 		if (commentsBefore == null) {
 			commentsBefore = new EDataTypeEList<String>(String.class, this, ATLPackage.STATIC_RULE__COMMENTS_BEFORE);
@@ -263,6 +266,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getCommentsAfter() {
 		if (commentsAfter == null) {
 			commentsAfter = new EDataTypeEList<String>(String.class, this, ATLPackage.STATIC_RULE__COMMENTS_AFTER);
@@ -275,6 +279,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFileLocation() {
 		return fileLocation;
 	}
@@ -284,6 +289,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFileLocation(String newFileLocation) {
 		String oldFileLocation = fileLocation;
 		fileLocation = newFileLocation;
@@ -296,6 +302,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object getFileObject() {
 		return fileObject;
 	}
@@ -305,6 +312,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFileObject(Object newFileObject) {
 		Object oldFileObject = fileObject;
 		fileObject = newFileObject;
@@ -317,6 +325,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getProblems() {
 		if (problems == null) {
 			problems = new EObjectResolvingEList<EObject>(EObject.class, this, ATLPackage.STATIC_RULE__PROBLEMS);
@@ -329,6 +338,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getAnnotations() {
 		if (annotations == null) {
 			annotations = new EcoreEMap<String,String>(ATLPackage.Literals.STRING_TO_STRING_MAP, StringToStringMapImpl.class, this, ATLPackage.STATIC_RULE__ANNOTATIONS);
@@ -341,6 +351,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPattern getOutPattern() {
 		return outPattern;
 	}
@@ -365,6 +376,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutPattern(OutPattern newOutPattern) {
 		if (newOutPattern != outPattern) {
 			NotificationChain msgs = null;
@@ -384,6 +396,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ActionBlock getActionBlock() {
 		return actionBlock;
 	}
@@ -408,6 +421,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActionBlock(ActionBlock newActionBlock) {
 		if (newActionBlock != actionBlock) {
 			NotificationChain msgs = null;
@@ -427,6 +441,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RuleVariableDeclaration> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentWithInverseEList<RuleVariableDeclaration>(RuleVariableDeclaration.class, this, ATLPackage.STATIC_RULE__VARIABLES, ATLPackage.RULE_VARIABLE_DECLARATION__RULE);
@@ -439,6 +454,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -448,6 +464,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -743,7 +760,7 @@ public abstract class StaticRuleImpl extends ModuleCallableImpl implements Stati
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (location: ");
 		result.append(location);
 		result.append(", commentsBefore: ");

@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getMapsTo <em>Maps To</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternElementImpl#getModels <em>Models</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -84,6 +84,7 @@ public abstract class InPatternElementImpl extends PatternElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPatternElement getMapsTo() {
 		if (mapsTo != null && mapsTo.eIsProxy()) {
 			InternalEObject oldMapsTo = (InternalEObject)mapsTo;
@@ -125,6 +126,7 @@ public abstract class InPatternElementImpl extends PatternElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMapsTo(OutPatternElement newMapsTo) {
 		if (newMapsTo != mapsTo) {
 			NotificationChain msgs = null;
@@ -144,6 +146,7 @@ public abstract class InPatternElementImpl extends PatternElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InPattern getInPattern() {
 		if (eContainerFeatureID() != ATLPackage.IN_PATTERN_ELEMENT__IN_PATTERN) return null;
 		return (InPattern)eInternalContainer();
@@ -164,6 +167,7 @@ public abstract class InPatternElementImpl extends PatternElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInPattern(InPattern newInPattern) {
 		if (newInPattern != eInternalContainer() || (eContainerFeatureID() != ATLPackage.IN_PATTERN_ELEMENT__IN_PATTERN && newInPattern != null)) {
 			if (EcoreUtil.isAncestor(this, newInPattern))
@@ -185,6 +189,7 @@ public abstract class InPatternElementImpl extends PatternElementImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclModel> getModels() {
 		if (models == null) {
 			models = new EObjectResolvingEList<OclModel>(OclModel.class, this, ATLPackage.IN_PATTERN_ELEMENT__MODELS);

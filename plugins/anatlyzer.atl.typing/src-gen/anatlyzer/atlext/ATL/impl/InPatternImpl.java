@@ -22,11 +22,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternImpl#getElements <em>Elements</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.InPatternImpl#getFilter <em>Filter</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -75,6 +75,7 @@ public class InPatternImpl extends LocatedElementImpl implements InPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<InPatternElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentWithInverseEList<InPatternElement>(InPatternElement.class, this, ATLPackage.IN_PATTERN__ELEMENTS, ATLPackage.IN_PATTERN_ELEMENT__IN_PATTERN);
@@ -87,6 +88,7 @@ public class InPatternImpl extends LocatedElementImpl implements InPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getFilter() {
 		return filter;
 	}
@@ -111,6 +113,7 @@ public class InPatternImpl extends LocatedElementImpl implements InPattern {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFilter(OclExpression newFilter) {
 		if (newFilter != filter) {
 			NotificationChain msgs = null;

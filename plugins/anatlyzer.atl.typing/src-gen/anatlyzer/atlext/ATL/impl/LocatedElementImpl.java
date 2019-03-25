@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getCommentsBefore <em>Comments Before</em>}</li>
@@ -41,7 +42,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getProblems <em>Problems</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LocatedElementImpl#getAnnotations <em>Annotations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -170,6 +170,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLocation() {
 		return location;
 	}
@@ -179,6 +180,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLocation(String newLocation) {
 		String oldLocation = location;
 		location = newLocation;
@@ -191,6 +193,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getCommentsBefore() {
 		if (commentsBefore == null) {
 			commentsBefore = new EDataTypeEList<String>(String.class, this, ATLPackage.LOCATED_ELEMENT__COMMENTS_BEFORE);
@@ -203,6 +206,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<String> getCommentsAfter() {
 		if (commentsAfter == null) {
 			commentsAfter = new EDataTypeEList<String>(String.class, this, ATLPackage.LOCATED_ELEMENT__COMMENTS_AFTER);
@@ -215,6 +219,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getFileLocation() {
 		return fileLocation;
 	}
@@ -224,6 +229,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFileLocation(String newFileLocation) {
 		String oldFileLocation = fileLocation;
 		fileLocation = newFileLocation;
@@ -236,6 +242,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Object getFileObject() {
 		return fileObject;
 	}
@@ -245,6 +252,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setFileObject(Object newFileObject) {
 		Object oldFileObject = fileObject;
 		fileObject = newFileObject;
@@ -257,6 +265,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<EObject> getProblems() {
 		if (problems == null) {
 			problems = new EObjectResolvingEList<EObject>(EObject.class, this, ATLPackage.LOCATED_ELEMENT__PROBLEMS);
@@ -269,6 +278,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EMap<String, String> getAnnotations() {
 		if (annotations == null) {
 			annotations = new EcoreEMap<String,String>(ATLPackage.Literals.STRING_TO_STRING_MAP, StringToStringMapImpl.class, this, ATLPackage.LOCATED_ELEMENT__ANNOTATIONS);
@@ -422,7 +432,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (location: ");
 		result.append(location);
 		result.append(", commentsBefore: ");

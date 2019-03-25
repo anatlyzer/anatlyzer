@@ -27,11 +27,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.UnitImpl#getLibraries <em>Libraries</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.UnitImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -90,6 +90,7 @@ public class UnitImpl extends LocatedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<LibraryRef> getLibraries() {
 		if (libraries == null) {
 			libraries = new EObjectContainmentWithInverseEList<LibraryRef>(LibraryRef.class, this, ATLPackage.UNIT__LIBRARIES, ATLPackage.LIBRARY_REF__UNIT);
@@ -102,6 +103,7 @@ public class UnitImpl extends LocatedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -111,6 +113,7 @@ public class UnitImpl extends LocatedElementImpl implements Unit {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -226,7 +229,7 @@ public class UnitImpl extends LocatedElementImpl implements Unit {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getReturnType <em>Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationImpl#getBody <em>Body</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -114,6 +114,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -123,6 +124,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -135,6 +137,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
 			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, OCLPackage.OPERATION__PARAMETERS);
@@ -147,6 +150,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getReturnType() {
 		return returnType;
 	}
@@ -171,6 +175,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setReturnType(OclType newReturnType) {
 		if (newReturnType != returnType) {
 			NotificationChain msgs = null;
@@ -190,6 +195,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getBody() {
 		return body;
 	}
@@ -214,6 +220,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBody(OclExpression newBody) {
 		if (newBody != body) {
 			NotificationChain msgs = null;
@@ -365,7 +372,7 @@ public class OperationImpl extends OclFeatureImpl implements Operation {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

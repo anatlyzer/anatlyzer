@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getSource <em>Source</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getPropertyName <em>Property Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#isIsAssignment <em>Is Assignment</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingStatImpl#getValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -116,6 +116,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getSource() {
 		return source;
 	}
@@ -140,6 +141,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSource(OclExpression newSource) {
 		if (newSource != source) {
 			NotificationChain msgs = null;
@@ -159,6 +161,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPropertyName() {
 		return propertyName;
 	}
@@ -168,6 +171,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPropertyName(String newPropertyName) {
 		String oldPropertyName = propertyName;
 		propertyName = newPropertyName;
@@ -180,6 +184,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsAssignment() {
 		return isAssignment;
 	}
@@ -189,6 +194,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsAssignment(boolean newIsAssignment) {
 		boolean oldIsAssignment = isAssignment;
 		isAssignment = newIsAssignment;
@@ -201,6 +207,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getValue() {
 		return value;
 	}
@@ -225,6 +232,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(OclExpression newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -352,7 +360,7 @@ public class BindingStatImpl extends StatementImpl implements BindingStat {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (propertyName: ");
 		result.append(propertyName);
 		result.append(", isAssignment: ");

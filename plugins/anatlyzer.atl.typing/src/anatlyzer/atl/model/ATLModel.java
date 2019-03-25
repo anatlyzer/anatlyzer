@@ -111,6 +111,11 @@ public class ATLModel {
 		typing = new TypingModel(resource);
 	}
 
+	public ATLModel(Module root) {
+		this();
+		resource.getContents().add(root);
+	}
+
 	public static final String PRECONDITIONS_LOCATION = "_preconditions_";
 	
 	public void extendWithPreconditions(Resource r) {

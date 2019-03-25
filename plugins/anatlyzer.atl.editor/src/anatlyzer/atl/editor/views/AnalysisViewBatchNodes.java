@@ -36,6 +36,8 @@ import anatlyzer.atl.errors.atl_error.ConflictingRuleSet;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.errors.atl_error.RuleConflicts;
 import anatlyzer.atl.explanations.InvariantExplanationDialog;
+import anatlyzer.atl.explanations.PreconditionExplanation;
+import anatlyzer.atl.explanations.SimpleExplanationDialog;
 import anatlyzer.atl.index.AnalysisIndex;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.IWitnessFinder;
@@ -76,10 +78,9 @@ public class AnalysisViewBatchNodes {
 					new RuleConflictAnalysisNode(this), 
 					new ChildStealingAnalysisBatchNode(parent), 
 					new UnconnectedComponentsAnalysis(this), 
-				new TargetInvariantAnalysisBatchNode(this),
-					new DelayedAnalysisBatchNode(this)
-					//,
-					//new PreconditionAnalysisBatchNode(this)
+					new TargetInvariantAnalysisBatchNode(this),
+					new DelayedAnalysisBatchNode(this),
+					new PreconditionAnalysisBatchNode(this)
 			};
 			
 //			if ( view.getCurrentAnalysis() != null ) {
@@ -973,6 +974,9 @@ public class AnalysisViewBatchNodes {
 		
 		@Override
 		public void goToLocation() {
+			PreconditionExplanation explanation = new PreconditionExplanation(this.element);
+			new SimpleExplanationDialog(null, explanation).open();
+			
 			//Binding r = element.getBinding1();			
 			// WorkbenchUtil.goToEditorLocation(r.getFileLocation(), r.getLocation());   
 			// throw new UnsupportedOperationException();

@@ -3,7 +3,6 @@
 package anatlyzer.atlext.ATL.impl;
 
 import anatlyzer.atlext.ATL.ATLPackage;
-import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 
 import anatlyzer.atlext.OCL.OclModel;
@@ -29,17 +28,17 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getInModels <em>In Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getOutModels <em>Out Models</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ModuleImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class ModuleImpl extends UnitImpl implements Module {
+public class ModuleImpl extends UnitImpl implements anatlyzer.atlext.ATL.Module {
 	/**
 	 * The default value of the '{@link #isIsRefining() <em>Is Refining</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -114,6 +113,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsRefining() {
 		return isRefining;
 	}
@@ -123,6 +123,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsRefining(boolean newIsRefining) {
 		boolean oldIsRefining = isRefining;
 		isRefining = newIsRefining;
@@ -135,6 +136,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclModel> getInModels() {
 		if (inModels == null) {
 			inModels = new EObjectContainmentEList<OclModel>(OclModel.class, this, ATLPackage.MODULE__IN_MODELS);
@@ -147,6 +149,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclModel> getOutModels() {
 		if (outModels == null) {
 			outModels = new EObjectContainmentEList<OclModel>(OclModel.class, this, ATLPackage.MODULE__OUT_MODELS);
@@ -159,6 +162,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ModuleElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentEList<ModuleElement>(ModuleElement.class, this, ATLPackage.MODULE__ELEMENTS);
@@ -285,7 +289,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isRefining: ");
 		result.append(isRefining);
 		result.append(')');

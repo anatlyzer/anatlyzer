@@ -168,7 +168,7 @@ public abstract class CollectionNamespace extends AbstractTypeNamespace implemen
 		return newCollectionType(nested);
 	}
 	
-	protected abstract CollectionType newCollectionType(Type nested);
+	public abstract CollectionType newCollectionType(Type nested);
 	
 	
 	public Type unwrap() {

@@ -24,11 +24,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ContextHelperImpl#getContextType <em>Context Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ContextHelperImpl#getPolymorphicCalledBy <em>Polymorphic Called By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -76,6 +76,7 @@ public class ContextHelperImpl extends HelperImpl implements ContextHelper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getContextType() {
 		if (contextType != null && contextType.eIsProxy()) {
 			InternalEObject oldContextType = (InternalEObject)contextType;
@@ -102,6 +103,7 @@ public class ContextHelperImpl extends HelperImpl implements ContextHelper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContextType(Type newContextType) {
 		Type oldContextType = contextType;
 		contextType = newContextType;
@@ -114,6 +116,7 @@ public class ContextHelperImpl extends HelperImpl implements ContextHelper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PropertyCallExp> getPolymorphicCalledBy() {
 		if (polymorphicCalledBy == null) {
 			polymorphicCalledBy = new EObjectWithInverseResolvingEList.ManyInverse<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.CONTEXT_HELPER__POLYMORPHIC_CALLED_BY, OCLPackage.PROPERTY_CALL_EXP__DYNAMIC_RESOLVERS);

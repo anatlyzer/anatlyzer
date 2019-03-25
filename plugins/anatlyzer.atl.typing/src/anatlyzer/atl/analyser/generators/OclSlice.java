@@ -23,6 +23,8 @@ import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
 
 /**
  * Computes the effective meta-model of an OCL expression,
@@ -163,6 +165,11 @@ public class OclSlice {
 		} else if ( expr instanceof anatlyzer.atlext.OCL.CollectionType ) {
 			// Ignore or add the contained type when it is a metaclass?
 			// slice(slice, ((CollectionType) expr).getContainedType(), isExternalDependency);
+		} else if ( expr instanceof TupleExp ) {
+			TupleExp t_exp = (TupleExp) expr;
+			for (TuplePart part : t_exp.getTuplePart()) {
+				slice(slice, part.getInitExpression(), isExternalDependency);
+			}
 		} else if ( ignore.contains(expr.getClass()) ) {
 			// Ignore
 		} else {

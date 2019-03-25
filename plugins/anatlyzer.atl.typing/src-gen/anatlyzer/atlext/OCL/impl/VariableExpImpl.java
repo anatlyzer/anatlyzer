@@ -20,10 +20,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.VariableExpImpl#getReferredVariable <em>Referred Variable</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -62,6 +62,7 @@ public class VariableExpImpl extends OclExpressionImpl implements VariableExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableDeclaration getReferredVariable() {
 		if (referredVariable != null && referredVariable.eIsProxy()) {
 			InternalEObject oldReferredVariable = (InternalEObject)referredVariable;
@@ -103,6 +104,7 @@ public class VariableExpImpl extends OclExpressionImpl implements VariableExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setReferredVariable(VariableDeclaration newReferredVariable) {
 		if (newReferredVariable != referredVariable) {
 			NotificationChain msgs = null;

@@ -10,12 +10,12 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.Attribute#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.Attribute#getInitExpression <em>Init Expression</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.Attribute#getType <em>Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getAttribute()
  * @model

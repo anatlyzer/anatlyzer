@@ -13,6 +13,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -147,7 +148,8 @@ public class UseFoundWitnessModel implements IWitnessModel {
 				if ( f.isMany() ) {
 					((EList<Object>) orig.eGet(origFeature)).addAll((Collection<? extends Object>) obj.eGet(f));
 				} else {
-					orig.eSet(origFeature, obj.eGet(f));
+					Object value = obj.eGet(f);
+					orig.eSet(origFeature, value);
 				}			
 			}
 		} else {

@@ -14,12 +14,22 @@ import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.ATLModelTrace;
+import anatlyzer.atl.tests.api.AtlLoader.LoadException;
 
 public class AnalysisLoader {
 
 	private GlobalNamespace globalNamespace;
 	private ATLModel atlTransformation;
 
+	public static AnalysisLoader fromFilename(String trafoFilename, Object[] metamodels, String[] names) throws LoadException {
+		Resource atlTrafo = AtlLoader.load(trafoFilename);
+		AnalysisLoader loader = fromResource(atlTrafo, metamodels, names);
+		return loader;
+	}
+	
+	/**
+	 * You can use AtlLoader to get a resource from a transformation.
+	 */
 	public static AnalysisLoader fromResource(Resource trafo, Object[] metamodels, String[] names) {
 		AnalysisLoader result = new AnalysisLoader();
 		

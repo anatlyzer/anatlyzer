@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.CollectionExpImpl#getElements <em>Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +66,7 @@ public abstract class CollectionExpImpl extends OclExpressionImpl implements Col
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclExpression> getElements() {
 		if (elements == null) {
 			elements = new EObjectContainmentWithInverseEList<OclExpression>(OclExpression.class, this, OCLPackage.COLLECTION_EXP__ELEMENTS, OCLPackage.OCL_EXPRESSION__COLLECTION);

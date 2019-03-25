@@ -118,6 +118,8 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * Returns the '<em><b>Rule Resolution Status</b></em>' literal with the specified literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param literal the literal.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static RuleResolutionStatus get(String literal) {
@@ -134,6 +136,8 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * Returns the '<em><b>Rule Resolution Status</b></em>' literal with the specified name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param name the name.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static RuleResolutionStatus getByName(String name) {
@@ -150,6 +154,8 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * Returns the '<em><b>Rule Resolution Status</b></em>' literal with the specified integer value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @param value the integer value.
+	 * @return the matching enumerator or <code>null</code>.
 	 * @generated
 	 */
 	public static RuleResolutionStatus get(int value) {
@@ -199,6 +205,7 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getValue() {
 	  return value;
 	}
@@ -208,6 +215,7 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 	  return name;
 	}
@@ -217,6 +225,7 @@ public enum RuleResolutionStatus implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getLiteral() {
 	  return literal;
 	}

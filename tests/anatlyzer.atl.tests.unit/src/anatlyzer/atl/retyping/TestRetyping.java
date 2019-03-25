@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import anatlyzer.atl.errors.ProblemStatus;
@@ -22,6 +23,7 @@ public class TestRetyping extends UnitTest {
 		clearState();
 	}
 	
+	@Ignore
 	@Test
 	public void testRetypingSelect() throws Exception {
 		System.out.println("TestRetyping.testRetypingSelect()");
@@ -51,6 +53,7 @@ public class TestRetyping extends UnitTest {
 		assertConfirmed(confirmOrDiscardProblem(problems().get(1)));		
 	}
 
+	@Ignore
 	@Test
 	public void testFeatureFoundInSubtype_nestedError() throws Exception {
 		System.out

@@ -1,0 +1,6 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module operators;
+create OUT : WXYZ from IN : ABCD;
+
+helper def : testOperators() : Boolean = true and false or true and false;

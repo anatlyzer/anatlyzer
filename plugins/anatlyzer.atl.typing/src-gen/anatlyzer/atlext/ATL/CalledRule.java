@@ -13,12 +13,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.CalledRule#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.CalledRule#isIsEntrypoint <em>Is Entrypoint</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.CalledRule#isIsEndpoint <em>Is Endpoint</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getCalledRule()
  * @model

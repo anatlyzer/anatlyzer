@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#isIsEntrypoint <em>Is Entrypoint</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CalledRuleImpl#isIsEndpoint <em>Is Endpoint</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -112,6 +112,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Parameter> getParameters() {
 		if (parameters == null) {
 			parameters = new EObjectContainmentEList<Parameter>(Parameter.class, this, ATLPackage.CALLED_RULE__PARAMETERS);
@@ -124,6 +125,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsEntrypoint() {
 		return isEntrypoint;
 	}
@@ -133,6 +135,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsEntrypoint(boolean newIsEntrypoint) {
 		boolean oldIsEntrypoint = isEntrypoint;
 		isEntrypoint = newIsEntrypoint;
@@ -145,6 +148,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsEndpoint() {
 		return isEndpoint;
 	}
@@ -154,6 +158,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsEndpoint(boolean newIsEndpoint) {
 		boolean oldIsEndpoint = isEndpoint;
 		isEndpoint = newIsEndpoint;
@@ -264,7 +269,7 @@ public class CalledRuleImpl extends StaticRuleImpl implements CalledRule {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isEntrypoint: ");
 		result.append(isEntrypoint);
 		result.append(", isEndpoint: ");

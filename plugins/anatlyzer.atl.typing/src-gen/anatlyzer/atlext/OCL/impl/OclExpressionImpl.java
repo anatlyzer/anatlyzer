@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getInferredType <em>Inferred Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getType <em>Type</em>}</li>
@@ -53,7 +54,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#isImplicitlyCasted <em>Implicitly Casted</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclExpressionImpl#getNoCastedType <em>No Casted Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -132,6 +132,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getType() {
 		return type;
 	}
@@ -156,6 +157,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(OclType newType) {
 		if (newType != type) {
 			NotificationChain msgs = null;
@@ -175,6 +177,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IfExp getIfExp3() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP3) return null;
 		return (IfExp)eInternalContainer();
@@ -195,6 +198,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIfExp3(IfExp newIfExp3) {
 		if (newIfExp3 != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP3 && newIfExp3 != null)) {
 			if (EcoreUtil.isAncestor(this, newIfExp3))
@@ -216,6 +220,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PropertyCallExp getAppliedProperty() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__APPLIED_PROPERTY) return null;
 		return (PropertyCallExp)eInternalContainer();
@@ -236,6 +241,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setAppliedProperty(PropertyCallExp newAppliedProperty) {
 		if (newAppliedProperty != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__APPLIED_PROPERTY && newAppliedProperty != null)) {
 			if (EcoreUtil.isAncestor(this, newAppliedProperty))
@@ -257,6 +263,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public CollectionExp getCollection() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__COLLECTION) return null;
 		return (CollectionExp)eInternalContainer();
@@ -277,6 +284,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCollection(CollectionExp newCollection) {
 		if (newCollection != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__COLLECTION && newCollection != null)) {
 			if (EcoreUtil.isAncestor(this, newCollection))
@@ -298,6 +306,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LetExp getLetExp() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__LET_EXP) return null;
 		return (LetExp)eInternalContainer();
@@ -318,6 +327,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLetExp(LetExp newLetExp) {
 		if (newLetExp != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__LET_EXP && newLetExp != null)) {
 			if (EcoreUtil.isAncestor(this, newLetExp))
@@ -339,6 +349,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public LoopExp getLoopExp() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__LOOP_EXP) return null;
 		return (LoopExp)eInternalContainer();
@@ -359,6 +370,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLoopExp(LoopExp newLoopExp) {
 		if (newLoopExp != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__LOOP_EXP && newLoopExp != null)) {
 			if (EcoreUtil.isAncestor(this, newLoopExp))
@@ -380,6 +392,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OperationCallExp getParentOperation() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__PARENT_OPERATION) return null;
 		return (OperationCallExp)eInternalContainer();
@@ -400,6 +413,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setParentOperation(OperationCallExp newParentOperation) {
 		if (newParentOperation != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__PARENT_OPERATION && newParentOperation != null)) {
 			if (EcoreUtil.isAncestor(this, newParentOperation))
@@ -421,6 +435,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableDeclaration getInitializedVariable() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__INITIALIZED_VARIABLE) return null;
 		return (VariableDeclaration)eInternalContainer();
@@ -441,6 +456,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInitializedVariable(VariableDeclaration newInitializedVariable) {
 		if (newInitializedVariable != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__INITIALIZED_VARIABLE && newInitializedVariable != null)) {
 			if (EcoreUtil.isAncestor(this, newInitializedVariable))
@@ -462,6 +478,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IfExp getIfExp2() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP2) return null;
 		return (IfExp)eInternalContainer();
@@ -482,6 +499,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIfExp2(IfExp newIfExp2) {
 		if (newIfExp2 != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP2 && newIfExp2 != null)) {
 			if (EcoreUtil.isAncestor(this, newIfExp2))
@@ -503,6 +521,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Operation getOwningOperation() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__OWNING_OPERATION) return null;
 		return (Operation)eInternalContainer();
@@ -523,6 +542,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOwningOperation(Operation newOwningOperation) {
 		if (newOwningOperation != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__OWNING_OPERATION && newOwningOperation != null)) {
 			if (EcoreUtil.isAncestor(this, newOwningOperation))
@@ -544,6 +564,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public IfExp getIfExp1() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP1) return null;
 		return (IfExp)eInternalContainer();
@@ -564,6 +585,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIfExp1(IfExp newIfExp1) {
 		if (newIfExp1 != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__IF_EXP1 && newIfExp1 != null)) {
 			if (EcoreUtil.isAncestor(this, newIfExp1))
@@ -585,6 +607,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Attribute getOwningAttribute() {
 		if (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE) return null;
 		return (Attribute)eInternalContainer();
@@ -605,6 +628,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOwningAttribute(Attribute newOwningAttribute) {
 		if (newOwningAttribute != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_EXPRESSION__OWNING_ATTRIBUTE && newOwningAttribute != null)) {
 			if (EcoreUtil.isAncestor(this, newOwningAttribute))
@@ -626,6 +650,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isImplicitlyCasted() {
 		return implicitlyCasted;
 	}
@@ -635,6 +660,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setImplicitlyCasted(boolean newImplicitlyCasted) {
 		boolean oldImplicitlyCasted = implicitlyCasted;
 		implicitlyCasted = newImplicitlyCasted;
@@ -647,6 +673,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getNoCastedType() {
 		if (noCastedType != null && noCastedType.eIsProxy()) {
 			InternalEObject oldNoCastedType = (InternalEObject)noCastedType;
@@ -673,6 +700,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setNoCastedType(Type newNoCastedType) {
 		Type oldNoCastedType = noCastedType;
 		noCastedType = newNoCastedType;
@@ -685,6 +713,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getInferredType() {
 		if (inferredType != null && inferredType.eIsProxy()) {
 			InternalEObject oldInferredType = (InternalEObject)inferredType;
@@ -711,6 +740,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInferredType(Type newInferredType) {
 		Type oldInferredType = inferredType;
 		inferredType = newInferredType;
@@ -1089,7 +1119,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (implicitlyCasted: ");
 		result.append(implicitlyCasted);
 		result.append(')');

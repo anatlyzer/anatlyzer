@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleTypeAttributeImpl#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleTypeAttributeImpl#getTupleType <em>Tuple Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleTypeAttributeImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -89,6 +89,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getType() {
 		return type;
 	}
@@ -113,6 +114,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setType(OclType newType) {
 		if (newType != type) {
 			NotificationChain msgs = null;
@@ -132,6 +134,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public TupleType getTupleType() {
 		if (eContainerFeatureID() != OCLPackage.TUPLE_TYPE_ATTRIBUTE__TUPLE_TYPE) return null;
 		return (TupleType)eInternalContainer();
@@ -152,6 +155,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setTupleType(TupleType newTupleType) {
 		if (newTupleType != eInternalContainer() || (eContainerFeatureID() != OCLPackage.TUPLE_TYPE_ATTRIBUTE__TUPLE_TYPE && newTupleType != null)) {
 			if (EcoreUtil.isAncestor(this, newTupleType))
@@ -173,6 +177,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -182,6 +187,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -326,7 +332,7 @@ public class TupleTypeAttributeImpl extends LocatedElementImpl implements TupleT
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (name: ");
 		result.append(name);
 		result.append(')');

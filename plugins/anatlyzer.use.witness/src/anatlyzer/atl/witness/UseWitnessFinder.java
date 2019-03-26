@@ -23,8 +23,10 @@ import org.tzi.use.parser.SrcPos;
 
 import witness.generator.TimeOutException;
 import witness.generator.USEResult;
+import witness.generator.USESerializer;
 import witness.generator.UseInputPartialModel;
 import witness.generator.WitnessGeneratorMemory;
+import witness.generator.USESerializer.USEConstraint;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -40,8 +42,6 @@ import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
-import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -88,6 +88,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
+	private boolean preferDeclaredTypes = false;
 	private int maxScope = 5;
 	
 	@Override
@@ -111,6 +112,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 
+	public UseWitnessFinder setPreferDeclaredTypes(boolean preferDeclaredTypes) {
+		this.preferDeclaredTypes = preferDeclaredTypes;
+		return this;
+	}
+	
 	@Override
 	public IWitnessFinder checkDiscardCause(boolean b) {
 		this.checkDiscardCause  = b;
@@ -433,7 +439,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 		
 		if ( generateAllCompositeConstraints == true ) {
-			generator.addAdditionaConstraint(this.getCompositeConstraints(errorSliceMM));
+			generator.addAdditionaConstraint(this.getCompositeConstraints(strategy, errorSliceMM, effective, language));
 		}
 		
 		if ( forceOnceInstanceOfConcreteClasses ) {
@@ -540,6 +546,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
+		wrapper.setPreferDeclaredTypes(preferDeclaredTypes );
 		wrapper.setDoUnfolding(doUnfolding);
 		wrapper.setStatsCollector(statsCollector);
 		wrapper.setRetypingStrategy(this.retypingStrategy);
@@ -587,7 +594,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	}
 	
 	// This should be done a bit better because like this there is renaming and so on...
-	private String getCompositeConstraints(EPackage errorSliceMM2) {
+	private String getCompositeConstraints(IMetamodelExtensionStrategy strategy, EPackage errorSliceMM2, EPackage effective2, EPackage language) {
 //		context ValueSpecification inv single_container:
 //	        ActivityEdge.allInstances()->collect(o | o.guard)->count(self) +
 //	        ActivityEdge.allInstances()->collect(o | o.weight)->count(self) <= 1
@@ -596,8 +603,17 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 //		for (EClass eClass : classes) {
 //			String s = "context " + eClass.getName() 
 //		}
+		
+		// This is not very nice, but let's run with it for now. It is better than the old bug
+		EPackage actualPackage = errorSliceMM2; // default, use the slice
+		if ( strategy instanceof MandatoryFullMetamodelStrategy ) {
+			actualPackage = effective2;
+		} else if ( strategy instanceof FullMetamodelStrategy ) {
+			actualPackage = language;
+		}
+		
 		Set<EClass> classes = new HashSet<EClass>();
-		errorSliceMM2.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
+		actualPackage.eAllContents().forEachRemaining(o -> { if ( o instanceof EClass) classes.add((EClass) o); });
 		
 		List<EReference> references = classes.stream().flatMap(c -> c.getEReferences().stream()).filter(r -> r.isContainment()).collect(Collectors.toList());
 		String constraints = "";

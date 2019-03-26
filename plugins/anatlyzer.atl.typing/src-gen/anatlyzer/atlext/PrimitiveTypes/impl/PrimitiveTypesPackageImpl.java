@@ -12,6 +12,8 @@ import anatlyzer.atlext.OCL.OCLPackage;
 
 import anatlyzer.atlext.OCL.impl.OCLPackageImpl;
 
+import anatlyzer.atlext.OCL2.OCL2Package;
+import anatlyzer.atlext.OCL2.impl.OCL2PackageImpl;
 import anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesFactory;
 import anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage;
 
@@ -107,16 +109,19 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 		// Obtain or create and register interdependencies
 		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) : ATLPackage.eINSTANCE);
 		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) instanceof OCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) : OCLPackage.eINSTANCE);
+		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) instanceof OCL2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) : OCL2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		thePrimitiveTypesPackage.createPackageContents();
 		theATLPackage.createPackageContents();
 		theOCLPackage.createPackageContents();
+		theOCL2Package.createPackageContents();
 
 		// Initialize created meta-data
 		thePrimitiveTypesPackage.initializePackageContents();
 		theATLPackage.initializePackageContents();
 		theOCLPackage.initializePackageContents();
+		theOCL2Package.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePrimitiveTypesPackage.freeze();
@@ -132,6 +137,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getBoolean() {
 		return booleanEDataType;
 	}
@@ -141,6 +147,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getDouble() {
 		return doubleEDataType;
 	}
@@ -150,6 +157,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getInteger() {
 		return integerEDataType;
 	}
@@ -159,6 +167,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EDataType getString() {
 		return stringEDataType;
 	}
@@ -168,6 +177,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PrimitiveTypesFactory getPrimitiveTypesFactory() {
 		return (PrimitiveTypesFactory)getEFactoryInstance();
 	}

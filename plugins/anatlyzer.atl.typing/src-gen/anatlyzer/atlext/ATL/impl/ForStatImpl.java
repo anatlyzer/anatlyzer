@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getIterator <em>Iterator</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.ForStatImpl#getStatements <em>Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -94,6 +94,7 @@ public class ForStatImpl extends StatementImpl implements ForStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Iterator getIterator() {
 		return iterator;
 	}
@@ -118,6 +119,7 @@ public class ForStatImpl extends StatementImpl implements ForStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIterator(Iterator newIterator) {
 		if (newIterator != iterator) {
 			NotificationChain msgs = null;
@@ -137,6 +139,7 @@ public class ForStatImpl extends StatementImpl implements ForStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getCollection() {
 		return collection;
 	}
@@ -161,6 +164,7 @@ public class ForStatImpl extends StatementImpl implements ForStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCollection(OclExpression newCollection) {
 		if (newCollection != collection) {
 			NotificationChain msgs = null;
@@ -180,6 +184,7 @@ public class ForStatImpl extends StatementImpl implements ForStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getStatements() {
 		if (statements == null) {
 			statements = new EObjectContainmentEList<Statement>(Statement.class, this, ATLPackage.FOR_STAT__STATEMENTS);

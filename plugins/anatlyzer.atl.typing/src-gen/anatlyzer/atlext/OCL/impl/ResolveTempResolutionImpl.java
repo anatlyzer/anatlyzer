@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.ResolveTempResolutionImpl#getElement <em>Element</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -59,6 +59,7 @@ public class ResolveTempResolutionImpl extends RuleResolutionInfoImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPatternElement getElement() {
 		if (element != null && element.eIsProxy()) {
 			InternalEObject oldElement = (InternalEObject)element;
@@ -85,6 +86,7 @@ public class ResolveTempResolutionImpl extends RuleResolutionInfoImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setElement(OutPatternElement newElement) {
 		OutPatternElement oldElement = element;
 		element = newElement;

@@ -27,12 +27,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getRule <em>Rule</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getAllInvolvedRules <em>All Involved Rules</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleResolutionInfoImpl#getStatus <em>Status</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -101,6 +101,7 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public MatchedRule getRule() {
 		if (rule != null && rule.eIsProxy()) {
 			InternalEObject oldRule = (InternalEObject)rule;
@@ -127,6 +128,7 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setRule(MatchedRule newRule) {
 		MatchedRule oldRule = rule;
 		rule = newRule;
@@ -139,6 +141,7 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<MatchedRule> getAllInvolvedRules() {
 		if (allInvolvedRules == null) {
 			allInvolvedRules = new EObjectResolvingEList<MatchedRule>(MatchedRule.class, this, ATLPackage.RULE_RESOLUTION_INFO__ALL_INVOLVED_RULES);
@@ -151,6 +154,7 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleResolutionStatus getStatus() {
 		return status;
 	}
@@ -160,6 +164,7 @@ public class RuleResolutionInfoImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStatus(RuleResolutionStatus newStatus) {
 		RuleResolutionStatus oldStatus = status;
 		status = newStatus == null ? STATUS_EDEFAULT : newStatus;

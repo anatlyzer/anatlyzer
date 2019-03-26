@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclModelImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclModelImpl#getMetamodel <em>Metamodel</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclModelImpl#getElements <em>Elements</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclModelImpl#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -114,6 +114,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -123,6 +124,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -135,6 +137,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclModel getMetamodel() {
 		if (metamodel != null && metamodel.eIsProxy()) {
 			InternalEObject oldMetamodel = (InternalEObject)metamodel;
@@ -176,6 +179,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setMetamodel(OclModel newMetamodel) {
 		if (newMetamodel != metamodel) {
 			NotificationChain msgs = null;
@@ -195,6 +199,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclModelElement> getElements() {
 		if (elements == null) {
 			elements = new EObjectWithInverseResolvingEList<OclModelElement>(OclModelElement.class, this, OCLPackage.OCL_MODEL__ELEMENTS, OCLPackage.OCL_MODEL_ELEMENT__MODEL);
@@ -207,6 +212,7 @@ public class OclModelImpl extends LocatedElementImpl implements OclModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclModel> getModel() {
 		if (model == null) {
 			model = new EObjectWithInverseResolvingEList<OclModel>(OclModel.class, this, OCLPackage.OCL_MODEL__MODEL, OCLPackage.OCL_MODEL__METAMODEL);

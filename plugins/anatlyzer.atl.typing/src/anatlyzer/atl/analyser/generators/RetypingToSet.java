@@ -270,7 +270,7 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 			}			
 		}
 		
-		if ( self.getUsedFeature() == null && !isTupleAccess(self) ) {
+		if ( self.getUsedFeature() == null && !isTupleAccess(self) && !isMarkedAsDoNotAdd(self) ) {
 			OperationCallExp navT = OCLFactory.eINSTANCE.createOperationCallExp();
 			navT.setOperationName(self.getName());
 		
@@ -302,6 +302,10 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 	}
 	
+	private boolean isMarkedAsDoNotAdd(NavigationOrAttributeCallExp self) {
+		return self.getAnnotations().containsKey("DO_NOT_ADD_THIS_MODULE");
+	}
+
 	private boolean isTupleAccess(NavigationOrAttributeCallExp self) {
 		return self.getAnnotations().containsKey("TUPLE_ACCESS");
 	}
@@ -695,7 +699,8 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 	}
 
-	private OperationCallExp createOclAsType(String className, String modelName, Metaclass metaclass, OclExpression source) {
+	// To be used as an utility method by EMFOCL2UserFixer
+	public static OperationCallExp createOclAsType(String className, String modelName, Metaclass metaclass, OclExpression source) {
 		OclModelElement modelElement = OCLFactory.eINSTANCE.createOclModelElement();
 		modelElement.setName(className);
 

@@ -18,12 +18,12 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getName <em>Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getStaticType <em>Static Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.CallableParameterImpl#getParamDeclaration <em>Param Declaration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -92,6 +92,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -101,6 +102,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;
@@ -113,6 +115,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getStaticType() {
 		if (staticType != null && staticType.eIsProxy()) {
 			InternalEObject oldStaticType = (InternalEObject)staticType;
@@ -139,6 +142,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStaticType(Type newStaticType) {
 		Type oldStaticType = staticType;
 		staticType = newStaticType;
@@ -151,6 +155,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableDeclaration getParamDeclaration() {
 		if (paramDeclaration != null && paramDeclaration.eIsProxy()) {
 			InternalEObject oldParamDeclaration = (InternalEObject)paramDeclaration;
@@ -177,6 +182,7 @@ public class CallableParameterImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setParamDeclaration(VariableDeclaration newParamDeclaration) {
 		VariableDeclaration oldParamDeclaration = paramDeclaration;
 		paramDeclaration = newParamDeclaration;

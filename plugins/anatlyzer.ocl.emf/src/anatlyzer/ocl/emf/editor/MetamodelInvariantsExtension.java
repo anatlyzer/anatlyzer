@@ -72,7 +72,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 
 		for (MetamodelNamespace ns : mm.getMetamodels()) {
 			for (EClass eClass : ns.getAllClasses()) {
-				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOclInvariants(ns.getName(), eClass, false);
+				List<anatlyzer.atlext.ATL.ContextHelper> helpers = extractOclInvariants(eClass, false);
 				for (anatlyzer.atlext.ATL.ContextHelper helper : helpers) {
 
 					// helper.getCommentsBefore().add("@invariant mm=\"" + mmName+ "\"");
@@ -98,8 +98,10 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		}
 	}
 
-	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclInvariants(String mmName, EClass c, boolean extractOperations) {
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclInvariants(EClass c, boolean extractOperations) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
+		
+		String mmName = c.getEPackage().getName();
 		
 		// Extract invariants
 		EAnnotation ann = getOclAnnotation(c);		
@@ -116,7 +118,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 					constraint.setName(invName);
 					
 					try {
-						helpers.add(new OCLtoATL().transform(mmName, constraint));
+						helpers.add(new OCLtoATL().transform(constraint));
 					} catch ( IllegalStateException e ) {
 						// This is only while developing...
 						System.out.println("Cannot handle: " + e.getMessage());
@@ -132,9 +134,11 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 		return helpers;
 	}
 	
-	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclOperations(String mmName, EClass c, boolean extractOperations) {
+	public static List<anatlyzer.atlext.ATL.ContextHelper> extractOclOperations(EClass c, boolean extractOperations) {
 		ArrayList<anatlyzer.atlext.ATL.ContextHelper> helpers = new ArrayList<>();
 
+		String mmName = c.getEPackage().getName();
+		
 		for (EOperation eOperation : c.getEOperations()) {
 				EAnnotation ann = getOclAnnotation(eOperation);
 				if ( ann != null ) {
@@ -148,7 +152,7 @@ public class MetamodelInvariantsExtension implements AnalysisProvider, AnalyserE
 						try {
 							bodyConstraint = helper.createBodyCondition(body);
 							
-							helpers.add(new OCLtoATL().transform(mmName, eOperation, bodyConstraint));
+							helpers.add(new OCLtoATL().transform(eOperation, bodyConstraint));
 							
 							System.out.println(bodyConstraint);
 							System.out.println("-- ok ");

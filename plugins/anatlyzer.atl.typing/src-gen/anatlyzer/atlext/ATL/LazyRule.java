@@ -10,10 +10,10 @@ package anatlyzer.atlext.ATL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.LazyRule#isIsUnique <em>Is Unique</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getLazyRule()
  * @model

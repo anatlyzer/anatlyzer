@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getArguments <em>Arguments</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getOperationName <em>Operation Name</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OperationCallExpImpl#getResolveTempResolvedBy <em>Resolve Temp Resolved By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -103,6 +103,7 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclExpression> getArguments() {
 		if (arguments == null) {
 			arguments = new EObjectContainmentWithInverseEList<OclExpression>(OclExpression.class, this, OCLPackage.OPERATION_CALL_EXP__ARGUMENTS, OCLPackage.OCL_EXPRESSION__PARENT_OPERATION);
@@ -115,6 +116,7 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getOperationName() {
 		return operationName;
 	}
@@ -124,6 +126,7 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOperationName(String newOperationName) {
 		String oldOperationName = operationName;
 		operationName = newOperationName;
@@ -136,6 +139,7 @@ public class OperationCallExpImpl extends PropertyCallExpImpl implements Operati
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<ResolveTempResolution> getResolveTempResolvedBy() {
 		if (resolveTempResolvedBy == null) {
 			resolveTempResolvedBy = new EObjectContainmentEList<ResolveTempResolution>(ResolveTempResolution.class, this, OCLPackage.OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY);

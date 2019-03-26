@@ -3,11 +3,11 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.PathId;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atlext.OCL.OclExpression;
 
 public class RuleFilterNode implements ConstraintNode {
@@ -35,7 +35,7 @@ public class RuleFilterNode implements ConstraintNode {
 	
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
-		gv.addNode(this, USESerializer.gen(expr).asString(), true);
+		gv.addNode(this, ATLSerializer.serialize(expr), true);
 	}
 
 	/**

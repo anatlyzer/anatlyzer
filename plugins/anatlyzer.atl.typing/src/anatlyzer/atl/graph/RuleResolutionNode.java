@@ -4,10 +4,10 @@ import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.PathId;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -57,7 +57,7 @@ public class RuleResolutionNode extends AbstractDependencyNode implements Constr
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, USESerializer.gen(binding.getValue()) + 
+		gv.addNode(this, ATLSerializer.serialize(binding.getValue()) + 
 				": " + TypeUtils.typeToString(ATLUtils.getSourceType(binding)) +"\\nresolvedBy", leadsToExecution);
 	}
 

@@ -68,12 +68,16 @@ public class EnumNamespace extends AbstractTypeNamespace {
 
 	@Override
 	public void extendType(String featureName, Type returnType, Attribute attrDefinition) {
-		throw new UnsupportedOperationException();
+		// Do nothing. 
+		// Attaching an operation to an enumer is not valid in ATL,
+		// but it might be valid in other dialects. At least don't fail.
 	}
 
 	@Override
 	public void extendType(String operationName, Type returnType, Operation opDefinition) {
-		throw new UnsupportedOperationException();
+		// Do nothing. 
+		// Attaching an operation to an enumer is not valid in ATL,
+		// but it might be valid in other dialects. At least don't fail.
 	}
 
 	@Override

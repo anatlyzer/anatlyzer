@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getCalledBy <em>Called By</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getCallableParameters <em>Callable Parameters</em>}</li>
@@ -40,7 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getInferredReturnType <em>Inferred Return Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.HelperImpl#getStaticReturnType <em>Static Return Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -159,6 +159,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Query getQuery() {
 		if (eContainerFeatureID() != ATLPackage.HELPER__QUERY) return null;
 		return (Query)eInternalContainer();
@@ -179,6 +180,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setQuery(Query newQuery) {
 		if (newQuery != eInternalContainer() || (eContainerFeatureID() != ATLPackage.HELPER__QUERY && newQuery != null)) {
 			if (EcoreUtil.isAncestor(this, newQuery))
@@ -200,6 +202,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Library getLibrary() {
 		if (eContainerFeatureID() != ATLPackage.HELPER__LIBRARY) return null;
 		return (Library)eInternalContainer();
@@ -220,6 +223,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLibrary(Library newLibrary) {
 		if (newLibrary != eInternalContainer() || (eContainerFeatureID() != ATLPackage.HELPER__LIBRARY && newLibrary != null)) {
 			if (EcoreUtil.isAncestor(this, newLibrary))
@@ -241,6 +245,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclFeatureDefinition getDefinition() {
 		return definition;
 	}
@@ -265,6 +270,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefinition(OclFeatureDefinition newDefinition) {
 		if (newDefinition != definition) {
 			NotificationChain msgs = null;
@@ -284,6 +290,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isHasContext() {
 		return hasContext;
 	}
@@ -293,6 +300,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setHasContext(boolean newHasContext) {
 		boolean oldHasContext = hasContext;
 		hasContext = newHasContext;
@@ -305,6 +313,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsAttribute() {
 		return isAttribute;
 	}
@@ -314,6 +323,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsAttribute(boolean newIsAttribute) {
 		boolean oldIsAttribute = isAttribute;
 		isAttribute = newIsAttribute;
@@ -326,6 +336,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getInferredReturnType() {
 		if (inferredReturnType != null && inferredReturnType.eIsProxy()) {
 			InternalEObject oldInferredReturnType = (InternalEObject)inferredReturnType;
@@ -352,6 +363,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInferredReturnType(Type newInferredReturnType) {
 		Type oldInferredReturnType = inferredReturnType;
 		inferredReturnType = newInferredReturnType;
@@ -364,6 +376,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getStaticReturnType() {
 		if (staticReturnType != null && staticReturnType.eIsProxy()) {
 			InternalEObject oldStaticReturnType = (InternalEObject)staticReturnType;
@@ -390,6 +403,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setStaticReturnType(Type newStaticReturnType) {
 		Type oldStaticReturnType = staticReturnType;
 		staticReturnType = newStaticReturnType;
@@ -402,6 +416,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<PropertyCallExp> getCalledBy() {
 		if (calledBy == null) {
 			calledBy = new EObjectResolvingEList<PropertyCallExp>(PropertyCallExp.class, this, ATLPackage.HELPER__CALLED_BY);
@@ -414,6 +429,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<CallableParameter> getCallableParameters() {
 		if (callableParameters == null) {
 			callableParameters = new EObjectContainmentEList<CallableParameter>(CallableParameter.class, this, ATLPackage.HELPER__CALLABLE_PARAMETERS);

@@ -21,6 +21,7 @@ import org.eclipse.ocl.xtext.completeoclcs.ClassifierContextDeclCS;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.ocl.emf.editor.MetamodelInvariantsExtension;
 
 /**
@@ -44,11 +45,11 @@ public class ResourceToLibrary {
 	
 	
 	
-	public void translate(String metamodelName, List<ConstraintCS> constraints) {
-		translate(metamodelName, constraints, Collections.emptyList());
+	public void translate(List<ConstraintCS> constraints) {
+		translate(constraints, Collections.emptyList());
 	}
 	
-	public void translate(String metamodelName, List<ConstraintCS> constraints, List<Constraint> constraintsEcore) {
+	public void translate(List<ConstraintCS> constraints, List<Constraint> constraintsEcore) {
 		List<ContextHelper> helpers = new ArrayList<ContextHelper>();
 
 		OCL ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
@@ -68,13 +69,13 @@ public class ResourceToLibrary {
 			}
 			
 			// Translate
-			ContextHelper h = new OCLtoATL().transform(metamodelName, constraint);	
+			ContextHelper h = new OCLtoATL().transform(constraint);	
 			// Save the invariant and the translation
 			helpers.add(h);
 		}
 		
 		for(Constraint c : constraintsEcore) {
-			ContextHelper h = new OCLtoATL().transform(metamodelName, c);	
+			ContextHelper h = new OCLtoATL().transform(c);	
 			helpers.add(h);		
 		}
 		
@@ -83,22 +84,33 @@ public class ResourceToLibrary {
 	}
 	
 
-	public void translateEcoreOcl(String mmName, Resource ecoreResource) {
+	public void translateEcoreOcl(Resource ecoreResource) {
 		for(EClass c : OclEMFUtils.getClasses(ecoreResource)) {
-			lib.getHelpers().addAll( MetamodelInvariantsExtension.extractOclOperations(mmName, c, true) );
-			lib.getHelpers().addAll( MetamodelInvariantsExtension.extractOclInvariants(mmName, c, true) );
+			lib.getHelpers().addAll( MetamodelInvariantsExtension.extractOclOperations(c, true) );
+			lib.getHelpers().addAll( MetamodelInvariantsExtension.extractOclInvariants(c, true) );
 		}
 	}
 
-	public void translate(String metamodelName, @NonNull ASResource asResource) {
+	public void translate(@NonNull ASResource asResource) {
 		Model m = (Model) asResource.getContents().get(0);
 		new FIXOCL().tryToFix(m);
-		List<ContextHelper> helpers = new PivotOCLtoATL().transform(metamodelName, m);
+		List<ContextHelper> helpers = new PivotOCLtoATL().transform(m);
 		
-		lib.getHelpers().addAll(helpers);
-		
+		lib.getHelpers().addAll(helpers);		
 	}
 
+	public void translatePivot(@NonNull List<org.eclipse.ocl.pivot.Constraint> constraints) {
+		List<ContextHelper> helpers = new ArrayList<ContextHelper>();
+		for (org.eclipse.ocl.pivot.Constraint constraint : constraints) {
+			// FIXOCL is only for top-level elements, not for individual constraints?
+			// new FIXOCL().tryToFix(constraint);	
+			helpers.add(new PivotOCLtoATL().transform(constraint));
+		}
+				
+		lib.getHelpers().addAll(helpers);		
+	}
+
+	
 //	private void translate(String metamodelName, EObject o) {	
 //		if ( o instanceof Model ) {
 //			Model m = (Model) o;

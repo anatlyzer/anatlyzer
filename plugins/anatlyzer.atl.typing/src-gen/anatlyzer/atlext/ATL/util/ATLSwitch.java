@@ -3,7 +3,43 @@
 package anatlyzer.atlext.ATL.util;
 
 import anatlyzer.atlext.ATL.*;
-
+import anatlyzer.atlext.ATL.ATLPackage;
+import anatlyzer.atlext.ATL.ActionBlock;
+import anatlyzer.atlext.ATL.Binding;
+import anatlyzer.atlext.ATL.BindingStat;
+import anatlyzer.atlext.ATL.Callable;
+import anatlyzer.atlext.ATL.CallableParameter;
+import anatlyzer.atlext.ATL.CalledRule;
+import anatlyzer.atlext.ATL.ContextHelper;
+import anatlyzer.atlext.ATL.DropPattern;
+import anatlyzer.atlext.ATL.ExpressionStat;
+import anatlyzer.atlext.ATL.ForEachOutPatternElement;
+import anatlyzer.atlext.ATL.ForStat;
+import anatlyzer.atlext.ATL.Helper;
+import anatlyzer.atlext.ATL.IfStat;
+import anatlyzer.atlext.ATL.InPattern;
+import anatlyzer.atlext.ATL.InPatternElement;
+import anatlyzer.atlext.ATL.LazyRule;
+import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.LibraryRef;
+import anatlyzer.atlext.ATL.LocatedElement;
+import anatlyzer.atlext.ATL.MatchedRule;
+import anatlyzer.atlext.ATL.ModuleCallable;
+import anatlyzer.atlext.ATL.ModuleElement;
+import anatlyzer.atlext.ATL.OutPattern;
+import anatlyzer.atlext.ATL.OutPatternElement;
+import anatlyzer.atlext.ATL.PatternElement;
+import anatlyzer.atlext.ATL.Query;
+import anatlyzer.atlext.ATL.Rule;
+import anatlyzer.atlext.ATL.RuleResolutionInfo;
+import anatlyzer.atlext.ATL.RuleVariableDeclaration;
+import anatlyzer.atlext.ATL.RuleWithPattern;
+import anatlyzer.atlext.ATL.SimpleInPatternElement;
+import anatlyzer.atlext.ATL.SimpleOutPatternElement;
+import anatlyzer.atlext.ATL.Statement;
+import anatlyzer.atlext.ATL.StaticHelper;
+import anatlyzer.atlext.ATL.StaticRule;
+import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
@@ -51,7 +87,7 @@ public class ATLSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */

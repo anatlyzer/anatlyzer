@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#getInPattern <em>In Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#getChildren <em>Children</em>}</li>
@@ -35,7 +36,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#isIsRefining <em>Is Refining</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleWithPatternImpl#isIsNoDefault <em>Is No Default</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -154,6 +154,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public InPattern getInPattern() {
 		return inPattern;
 	}
@@ -178,6 +179,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInPattern(InPattern newInPattern) {
 		if (newInPattern != inPattern) {
 			NotificationChain msgs = null;
@@ -197,6 +199,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RuleWithPattern> getChildren() {
 		if (children == null) {
 			children = new EObjectWithInverseResolvingEList<RuleWithPattern>(RuleWithPattern.class, this, ATLPackage.RULE_WITH_PATTERN__CHILDREN, ATLPackage.RULE_WITH_PATTERN__SUPER_RULE);
@@ -209,6 +212,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public RuleWithPattern getSuperRule() {
 		if (superRule != null && superRule.eIsProxy()) {
 			InternalEObject oldSuperRule = (InternalEObject)superRule;
@@ -250,6 +254,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setSuperRule(RuleWithPattern newSuperRule) {
 		if (newSuperRule != superRule) {
 			NotificationChain msgs = null;
@@ -269,6 +274,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsAbstract() {
 		return isAbstract;
 	}
@@ -278,6 +284,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsAbstract(boolean newIsAbstract) {
 		boolean oldIsAbstract = isAbstract;
 		isAbstract = newIsAbstract;
@@ -290,6 +297,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsRefining() {
 		return isRefining;
 	}
@@ -299,6 +307,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsRefining(boolean newIsRefining) {
 		boolean oldIsRefining = isRefining;
 		isRefining = newIsRefining;
@@ -311,6 +320,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsNoDefault() {
 		return isNoDefault;
 	}
@@ -320,6 +330,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsNoDefault(boolean newIsNoDefault) {
 		boolean oldIsNoDefault = isNoDefault;
 		isNoDefault = newIsNoDefault;

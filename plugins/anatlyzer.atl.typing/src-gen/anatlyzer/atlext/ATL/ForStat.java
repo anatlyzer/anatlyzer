@@ -14,12 +14,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.ForStat#getIterator <em>Iterator</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.ForStat#getCollection <em>Collection</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.ForStat#getStatements <em>Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getForStat()
  * @model

@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.LetExpImpl#getVariable <em>Variable</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.LetExpImpl#getIn_ <em>In </em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -74,6 +74,7 @@ public class LetExpImpl extends OclExpressionImpl implements LetExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public VariableDeclaration getVariable() {
 		return variable;
 	}
@@ -98,6 +99,7 @@ public class LetExpImpl extends OclExpressionImpl implements LetExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setVariable(VariableDeclaration newVariable) {
 		if (newVariable != variable) {
 			NotificationChain msgs = null;
@@ -117,6 +119,7 @@ public class LetExpImpl extends OclExpressionImpl implements LetExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getIn_() {
 		return in_;
 	}
@@ -141,6 +144,7 @@ public class LetExpImpl extends OclExpressionImpl implements LetExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIn_(OclExpression newIn_) {
 		if (newIn_ != in_) {
 			NotificationChain msgs = null;

@@ -13,13 +13,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.OutPatternElement#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.OutPatternElement#getSourceElement <em>Source Element</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.OutPatternElement#getBindings <em>Bindings</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.OutPatternElement#getModel <em>Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getOutPatternElement()
  * @model abstract="true"

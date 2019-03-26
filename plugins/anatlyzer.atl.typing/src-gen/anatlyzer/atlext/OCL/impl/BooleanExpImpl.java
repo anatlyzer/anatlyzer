@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.BooleanExpImpl#isBooleanSymbol <em>Boolean Symbol</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -69,6 +69,7 @@ public class BooleanExpImpl extends PrimitiveExpImpl implements BooleanExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isBooleanSymbol() {
 		return booleanSymbol;
 	}
@@ -78,6 +79,7 @@ public class BooleanExpImpl extends PrimitiveExpImpl implements BooleanExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setBooleanSymbol(boolean newBooleanSymbol) {
 		boolean oldBooleanSymbol = booleanSymbol;
 		booleanSymbol = newBooleanSymbol;

@@ -71,6 +71,8 @@ import anatlyzer.atlext.OCL.TypedElement;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 import anatlyzer.atlext.OCL.VariableExp;
 
+import anatlyzer.atlext.OCL2.OCL2Package;
+import anatlyzer.atlext.OCL2.impl.OCL2PackageImpl;
 import anatlyzer.atlext.PrimitiveTypes.PrimitiveTypesPackage;
 
 import anatlyzer.atlext.PrimitiveTypes.impl.PrimitiveTypesPackageImpl;
@@ -561,16 +563,19 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 		// Obtain or create and register interdependencies
 		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) : ATLPackage.eINSTANCE);
 		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) instanceof PrimitiveTypesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) : PrimitiveTypesPackage.eINSTANCE);
+		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) instanceof OCL2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) : OCL2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		theOCLPackage.createPackageContents();
 		theATLPackage.createPackageContents();
 		thePrimitiveTypesPackage.createPackageContents();
+		theOCL2Package.createPackageContents();
 
 		// Initialize created meta-data
 		theOCLPackage.initializePackageContents();
 		theATLPackage.initializePackageContents();
 		thePrimitiveTypesPackage.initializePackageContents();
+		theOCL2Package.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theOCLPackage.freeze();
@@ -586,6 +591,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclExpression() {
 		return oclExpressionEClass;
 	}
@@ -595,6 +601,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_Type() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(0);
 	}
@@ -604,6 +611,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_IfExp3() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(1);
 	}
@@ -613,6 +621,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_AppliedProperty() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(2);
 	}
@@ -622,6 +631,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_Collection() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(3);
 	}
@@ -631,6 +641,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_LetExp() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(4);
 	}
@@ -640,6 +651,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_LoopExp() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(5);
 	}
@@ -649,6 +661,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_ParentOperation() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(6);
 	}
@@ -658,6 +671,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_InitializedVariable() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(7);
 	}
@@ -667,6 +681,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_IfExp2() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(8);
 	}
@@ -676,6 +691,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_OwningOperation() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(9);
 	}
@@ -685,6 +701,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_IfExp1() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(10);
 	}
@@ -694,6 +711,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_OwningAttribute() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(11);
 	}
@@ -703,6 +721,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOclExpression_ImplicitlyCasted() {
 		return (EAttribute)oclExpressionEClass.getEStructuralFeatures().get(12);
 	}
@@ -712,6 +731,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclExpression_NoCastedType() {
 		return (EReference)oclExpressionEClass.getEStructuralFeatures().get(13);
 	}
@@ -721,6 +741,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariableExp() {
 		return variableExpEClass;
 	}
@@ -730,6 +751,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableExp_ReferredVariable() {
 		return (EReference)variableExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -739,6 +761,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSuperExp() {
 		return superExpEClass;
 	}
@@ -748,6 +771,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPrimitiveExp() {
 		return primitiveExpEClass;
 	}
@@ -757,6 +781,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStringExp() {
 		return stringExpEClass;
 	}
@@ -766,6 +791,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getStringExp_StringSymbol() {
 		return (EAttribute)stringExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -775,6 +801,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBooleanExp() {
 		return booleanExpEClass;
 	}
@@ -784,6 +811,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getBooleanExp_BooleanSymbol() {
 		return (EAttribute)booleanExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -793,6 +821,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNumericExp() {
 		return numericExpEClass;
 	}
@@ -802,6 +831,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRealExp() {
 		return realExpEClass;
 	}
@@ -811,6 +841,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getRealExp_RealSymbol() {
 		return (EAttribute)realExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -820,6 +851,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIntegerExp() {
 		return integerExpEClass;
 	}
@@ -829,6 +861,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIntegerExp_IntegerSymbol() {
 		return (EAttribute)integerExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -838,6 +871,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCollectionExp() {
 		return collectionExpEClass;
 	}
@@ -847,6 +881,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCollectionExp_Elements() {
 		return (EReference)collectionExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -856,6 +891,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBagExp() {
 		return bagExpEClass;
 	}
@@ -865,6 +901,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOrderedSetExp() {
 		return orderedSetExpEClass;
 	}
@@ -874,6 +911,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSequenceExp() {
 		return sequenceExpEClass;
 	}
@@ -883,6 +921,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSetExp() {
 		return setExpEClass;
 	}
@@ -892,6 +931,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTupleExp() {
 		return tupleExpEClass;
 	}
@@ -901,6 +941,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTupleExp_TuplePart() {
 		return (EReference)tupleExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -910,6 +951,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTuplePart() {
 		return tuplePartEClass;
 	}
@@ -919,6 +961,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTuplePart_Tuple() {
 		return (EReference)tuplePartEClass.getEStructuralFeatures().get(0);
 	}
@@ -928,6 +971,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMapExp() {
 		return mapExpEClass;
 	}
@@ -937,6 +981,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapExp_Elements() {
 		return (EReference)mapExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -946,6 +991,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMapElement() {
 		return mapElementEClass;
 	}
@@ -955,6 +1001,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapElement_Map() {
 		return (EReference)mapElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -964,6 +1011,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapElement_Key() {
 		return (EReference)mapElementEClass.getEStructuralFeatures().get(1);
 	}
@@ -973,6 +1021,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapElement_Value() {
 		return (EReference)mapElementEClass.getEStructuralFeatures().get(2);
 	}
@@ -982,6 +1031,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getEnumLiteralExp() {
 		return enumLiteralExpEClass;
 	}
@@ -991,6 +1041,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getEnumLiteralExp_Name() {
 		return (EAttribute)enumLiteralExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1000,6 +1051,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclUndefinedExp() {
 		return oclUndefinedExpEClass;
 	}
@@ -1009,6 +1061,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPropertyCallExp() {
 		return propertyCallExpEClass;
 	}
@@ -1018,6 +1071,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_Source() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1027,6 +1081,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_UsedFeature() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(1);
 	}
@@ -1036,6 +1091,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_SubtypeFeatures() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(2);
 	}
@@ -1045,6 +1101,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_ReceptorType() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(3);
 	}
@@ -1054,6 +1111,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getPropertyCallExp_IsStaticCall() {
 		return (EAttribute)propertyCallExpEClass.getEStructuralFeatures().get(4);
 	}
@@ -1063,6 +1121,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_StaticResolver() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(5);
 	}
@@ -1072,6 +1131,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getPropertyCallExp_DynamicResolvers() {
 		return (EReference)propertyCallExpEClass.getEStructuralFeatures().get(6);
 	}
@@ -1081,6 +1141,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNavigationOrAttributeCallExp() {
 		return navigationOrAttributeCallExpEClass;
 	}
@@ -1090,6 +1151,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getNavigationOrAttributeCallExp_Name() {
 		return (EAttribute)navigationOrAttributeCallExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1099,6 +1161,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperationCallExp() {
 		return operationCallExpEClass;
 	}
@@ -1108,6 +1171,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationCallExp_Arguments() {
 		return (EReference)operationCallExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1117,6 +1181,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperationCallExp_OperationName() {
 		return (EAttribute)operationCallExpEClass.getEStructuralFeatures().get(1);
 	}
@@ -1126,6 +1191,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperationCallExp_ResolveTempResolvedBy() {
 		return (EReference)operationCallExpEClass.getEStructuralFeatures().get(2);
 	}
@@ -1135,6 +1201,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperatorCallExp() {
 		return operatorCallExpEClass;
 	}
@@ -1144,6 +1211,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCollectionOperationCallExp() {
 		return collectionOperationCallExpEClass;
 	}
@@ -1153,6 +1221,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLoopExp() {
 		return loopExpEClass;
 	}
@@ -1162,6 +1231,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoopExp_Body() {
 		return (EReference)loopExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1171,6 +1241,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLoopExp_Iterators() {
 		return (EReference)loopExpEClass.getEStructuralFeatures().get(1);
 	}
@@ -1180,6 +1251,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIterateExp() {
 		return iterateExpEClass;
 	}
@@ -1189,6 +1261,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIterateExp_Result() {
 		return (EReference)iterateExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1198,6 +1271,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIteratorExp() {
 		return iteratorExpEClass;
 	}
@@ -1207,6 +1281,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getIteratorExp_Name() {
 		return (EAttribute)iteratorExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1216,6 +1291,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getLetExp() {
 		return letExpEClass;
 	}
@@ -1225,6 +1301,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLetExp_Variable() {
 		return (EReference)letExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1234,6 +1311,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getLetExp_In_() {
 		return (EReference)letExpEClass.getEStructuralFeatures().get(1);
 	}
@@ -1243,6 +1321,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIfExp() {
 		return ifExpEClass;
 	}
@@ -1252,6 +1331,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfExp_ThenExpression() {
 		return (EReference)ifExpEClass.getEStructuralFeatures().get(0);
 	}
@@ -1261,6 +1341,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfExp_Condition() {
 		return (EReference)ifExpEClass.getEStructuralFeatures().get(1);
 	}
@@ -1270,6 +1351,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIfExp_ElseExpression() {
 		return (EReference)ifExpEClass.getEStructuralFeatures().get(2);
 	}
@@ -1279,6 +1361,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getVariableDeclaration() {
 		return variableDeclarationEClass;
 	}
@@ -1288,6 +1371,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVariableDeclaration_Id() {
 		return (EAttribute)variableDeclarationEClass.getEStructuralFeatures().get(0);
 	}
@@ -1297,6 +1381,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getVariableDeclaration_VarName() {
 		return (EAttribute)variableDeclarationEClass.getEStructuralFeatures().get(1);
 	}
@@ -1306,6 +1391,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_Type() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(2);
 	}
@@ -1315,6 +1401,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_InitExpression() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(3);
 	}
@@ -1324,6 +1411,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_LetExp() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(4);
 	}
@@ -1333,6 +1421,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_BaseExp() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(5);
 	}
@@ -1342,6 +1431,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_VariableExp() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(6);
 	}
@@ -1351,6 +1441,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getVariableDeclaration_StaticType() {
 		return (EReference)variableDeclarationEClass.getEStructuralFeatures().get(7);
 	}
@@ -1360,6 +1451,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIterator() {
 		return iteratorEClass;
 	}
@@ -1369,6 +1461,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getIterator_LoopExpr() {
 		return (EReference)iteratorEClass.getEStructuralFeatures().get(0);
 	}
@@ -1378,6 +1471,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getParameter() {
 		return parameterEClass;
 	}
@@ -1387,6 +1481,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getCollectionType() {
 		return collectionTypeEClass;
 	}
@@ -1396,6 +1491,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getCollectionType_ElementType() {
 		return (EReference)collectionTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1405,6 +1501,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclType() {
 		return oclTypeEClass;
 	}
@@ -1414,6 +1511,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOclType_Name() {
 		return (EAttribute)oclTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1423,6 +1521,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_Definitions() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(1);
 	}
@@ -1432,6 +1531,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_OclExpression() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(2);
 	}
@@ -1441,6 +1541,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_Operation() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(3);
 	}
@@ -1450,6 +1551,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_MapType2() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(4);
 	}
@@ -1459,6 +1561,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_Attribute() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(5);
 	}
@@ -1468,6 +1571,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_MapType() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(6);
 	}
@@ -1477,6 +1581,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_CollectionTypes() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(7);
 	}
@@ -1486,6 +1591,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_TupleTypeAttribute() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(8);
 	}
@@ -1495,6 +1601,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclType_VariableDeclaration() {
 		return (EReference)oclTypeEClass.getEStructuralFeatures().get(9);
 	}
@@ -1504,6 +1611,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getPrimitive() {
 		return primitiveEClass;
 	}
@@ -1513,6 +1621,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getStringType() {
 		return stringTypeEClass;
 	}
@@ -1522,6 +1631,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBooleanType() {
 		return booleanTypeEClass;
 	}
@@ -1531,6 +1641,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getNumericType() {
 		return numericTypeEClass;
 	}
@@ -1540,6 +1651,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getIntegerType() {
 		return integerTypeEClass;
 	}
@@ -1549,6 +1661,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getRealType() {
 		return realTypeEClass;
 	}
@@ -1558,6 +1671,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getBagType() {
 		return bagTypeEClass;
 	}
@@ -1567,6 +1681,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOrderedSetType() {
 		return orderedSetTypeEClass;
 	}
@@ -1576,6 +1691,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSequenceType() {
 		return sequenceTypeEClass;
 	}
@@ -1585,6 +1701,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getSetType() {
 		return setTypeEClass;
 	}
@@ -1594,6 +1711,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclAnyType() {
 		return oclAnyTypeEClass;
 	}
@@ -1603,6 +1721,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTupleType() {
 		return tupleTypeEClass;
 	}
@@ -1612,6 +1731,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTupleType_Attributes() {
 		return (EReference)tupleTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1621,6 +1741,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTupleTypeAttribute() {
 		return tupleTypeAttributeEClass;
 	}
@@ -1630,6 +1751,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTupleTypeAttribute_Type() {
 		return (EReference)tupleTypeAttributeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1639,6 +1761,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTupleTypeAttribute_TupleType() {
 		return (EReference)tupleTypeAttributeEClass.getEStructuralFeatures().get(1);
 	}
@@ -1648,6 +1771,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getTupleTypeAttribute_Name() {
 		return (EAttribute)tupleTypeAttributeEClass.getEStructuralFeatures().get(2);
 	}
@@ -1657,6 +1781,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclModelElement() {
 		return oclModelElementEClass;
 	}
@@ -1666,6 +1791,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclModelElement_Model() {
 		return (EReference)oclModelElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1675,6 +1801,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getMapType() {
 		return mapTypeEClass;
 	}
@@ -1684,6 +1811,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapType_ValueType() {
 		return (EReference)mapTypeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1693,6 +1821,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getMapType_KeyType() {
 		return (EReference)mapTypeEClass.getEStructuralFeatures().get(1);
 	}
@@ -1702,6 +1831,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclFeatureDefinition() {
 		return oclFeatureDefinitionEClass;
 	}
@@ -1711,6 +1841,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclFeatureDefinition_Feature() {
 		return (EReference)oclFeatureDefinitionEClass.getEStructuralFeatures().get(0);
 	}
@@ -1720,6 +1851,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclFeatureDefinition_Context_() {
 		return (EReference)oclFeatureDefinitionEClass.getEStructuralFeatures().get(1);
 	}
@@ -1729,6 +1861,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclContextDefinition() {
 		return oclContextDefinitionEClass;
 	}
@@ -1738,6 +1871,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclContextDefinition_Definition() {
 		return (EReference)oclContextDefinitionEClass.getEStructuralFeatures().get(0);
 	}
@@ -1747,6 +1881,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclContextDefinition_Context_() {
 		return (EReference)oclContextDefinitionEClass.getEStructuralFeatures().get(1);
 	}
@@ -1756,6 +1891,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclFeature() {
 		return oclFeatureEClass;
 	}
@@ -1765,6 +1901,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclFeature_Definition() {
 		return (EReference)oclFeatureEClass.getEStructuralFeatures().get(0);
 	}
@@ -1774,6 +1911,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getAttribute() {
 		return attributeEClass;
 	}
@@ -1783,6 +1921,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getAttribute_Name() {
 		return (EAttribute)attributeEClass.getEStructuralFeatures().get(0);
 	}
@@ -1792,6 +1931,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_InitExpression() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(1);
 	}
@@ -1801,6 +1941,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getAttribute_Type() {
 		return (EReference)attributeEClass.getEStructuralFeatures().get(2);
 	}
@@ -1810,6 +1951,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOperation() {
 		return operationEClass;
 	}
@@ -1819,6 +1961,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOperation_Name() {
 		return (EAttribute)operationEClass.getEStructuralFeatures().get(0);
 	}
@@ -1828,6 +1971,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperation_Parameters() {
 		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
@@ -1837,6 +1981,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperation_ReturnType() {
 		return (EReference)operationEClass.getEStructuralFeatures().get(2);
 	}
@@ -1846,6 +1991,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOperation_Body() {
 		return (EReference)operationEClass.getEStructuralFeatures().get(3);
 	}
@@ -1855,6 +2001,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getOclModel() {
 		return oclModelEClass;
 	}
@@ -1864,6 +2011,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getOclModel_Name() {
 		return (EAttribute)oclModelEClass.getEStructuralFeatures().get(0);
 	}
@@ -1873,6 +2021,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclModel_Metamodel() {
 		return (EReference)oclModelEClass.getEStructuralFeatures().get(1);
 	}
@@ -1882,6 +2031,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclModel_Elements() {
 		return (EReference)oclModelEClass.getEStructuralFeatures().get(2);
 	}
@@ -1891,6 +2041,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getOclModel_Model() {
 		return (EReference)oclModelEClass.getEStructuralFeatures().get(3);
 	}
@@ -1900,6 +2051,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getTypedElement() {
 		return typedElementEClass;
 	}
@@ -1909,6 +2061,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getTypedElement_InferredType() {
 		return (EReference)typedElementEClass.getEStructuralFeatures().get(0);
 	}
@@ -1918,6 +2071,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getResolveTempResolution() {
 		return resolveTempResolutionEClass;
 	}
@@ -1927,6 +2081,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EReference getResolveTempResolution_Element() {
 		return (EReference)resolveTempResolutionEClass.getEStructuralFeatures().get(0);
 	}
@@ -1936,6 +2091,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getJavaBody() {
 		return javaBodyEClass;
 	}
@@ -1945,6 +2101,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EClass getGetAppliedStereotypesBody() {
 		return getAppliedStereotypesBodyEClass;
 	}
@@ -1954,6 +2111,7 @@ public class OCLPackageImpl extends EPackageImpl implements OCLPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OCLFactory getOCLFactory() {
 		return (OCLFactory)getEFactoryInstance();
 	}

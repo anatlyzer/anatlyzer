@@ -10,11 +10,11 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.LetExp#getVariable <em>Variable</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.LetExp#getIn_ <em>In </em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getLetExp()
  * @model

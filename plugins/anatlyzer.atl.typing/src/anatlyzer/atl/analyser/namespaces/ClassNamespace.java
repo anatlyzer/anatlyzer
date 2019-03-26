@@ -291,10 +291,10 @@ public class ClassNamespace extends AbstractTypeNamespace implements IClassNames
 		if ( ! hasOperation ) {
 			// Similar to getOperation
 			// Not sure this is totally valid because of the traversal order
-			EList<EClass> supertypes = eClass.getESuperTypes();
+			EList<EClass> supertypes = eClass.getESuperTypes();			
 			for (EClass c : supertypes) {
 				if ( c.eIsProxy() ) continue; // proxies again...
-				ITypeNamespace n = metamodel.getClassifier(c.getName());
+				ITypeNamespace n = metamodel.getClass(c);
 				if ( n.hasOperation(operationName, arguments) ) {
 					hasOperation = true;
 					break;

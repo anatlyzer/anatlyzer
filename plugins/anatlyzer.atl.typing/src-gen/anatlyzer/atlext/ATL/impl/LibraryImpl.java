@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.LibraryImpl#getHelpers <em>Helpers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +66,7 @@ public class LibraryImpl extends UnitImpl implements Library {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Helper> getHelpers() {
 		if (helpers == null) {
 			helpers = new EObjectContainmentWithInverseEList<Helper>(Helper.class, this, ATLPackage.LIBRARY__HELPERS, ATLPackage.HELPER__LIBRARY);

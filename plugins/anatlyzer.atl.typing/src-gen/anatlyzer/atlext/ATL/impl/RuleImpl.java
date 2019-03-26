@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getOutPattern <em>Out Pattern</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getActionBlock <em>Action Block</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getVariables <em>Variables</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.RuleImpl#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -114,6 +114,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPattern getOutPattern() {
 		return outPattern;
 	}
@@ -138,6 +139,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutPattern(OutPattern newOutPattern) {
 		if (newOutPattern != outPattern) {
 			NotificationChain msgs = null;
@@ -157,6 +159,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public ActionBlock getActionBlock() {
 		return actionBlock;
 	}
@@ -181,6 +184,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setActionBlock(ActionBlock newActionBlock) {
 		if (newActionBlock != actionBlock) {
 			NotificationChain msgs = null;
@@ -200,6 +204,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RuleVariableDeclaration> getVariables() {
 		if (variables == null) {
 			variables = new EObjectContainmentWithInverseEList<RuleVariableDeclaration>(RuleVariableDeclaration.class, this, ATLPackage.RULE__VARIABLES, ATLPackage.RULE_VARIABLE_DECLARATION__RULE);
@@ -212,6 +217,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -221,6 +227,7 @@ public abstract class RuleImpl extends ModuleElementImpl implements Rule {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setName(String newName) {
 		String oldName = name;
 		name = newName;

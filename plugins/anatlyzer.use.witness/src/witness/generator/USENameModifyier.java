@@ -29,9 +29,25 @@ public class USENameModifyier {
 	public void adapt(EEnum c) {
 		for (EEnumLiteral lit : c.getELiterals()) {
 			if ( UseReservedWords.isReserved(lit.getName()) ) {
-				lit.setName(UseReservedWords.getReplacement(lit.getName()));
+				String newName = UseReservedWords.getReplacement(lit.getName());
+				String r = invalidLiteralOrNull(newName);
+				lit.setName(r == null ? newName : r);
+			} else {
+				String r = invalidLiteralOrNull(lit.getName());
+				if ( r != null ) {
+					lit.setName(r);
+				}
 			}
 		}
+	}
+	
+	public static String invalidLiteralOrNull(String literalName) {
+		// This looks like an USE internal error, but we bridge it like this
+		// This happens in ./dataset/repos/MDEGroup/QMM-COMLAN-data/validation-subjects/metamodels/abapmapping.ecore
+		if ( literalName.contains("_") ) {
+			return literalName.replaceAll("_", "o");
+		}
+		return null;
 	}
 	
 }

@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getValue <em>Value</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getOutPatternElement <em>Out Pattern Element</em>}</li>
@@ -42,7 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getLeftType <em>Left Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.BindingImpl#getResolvedBy <em>Resolved By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -151,6 +151,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getValue() {
 		return value;
 	}
@@ -175,6 +176,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setValue(OclExpression newValue) {
 		if (newValue != value) {
 			NotificationChain msgs = null;
@@ -194,6 +196,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OutPatternElement getOutPatternElement() {
 		if (eContainerFeatureID() != ATLPackage.BINDING__OUT_PATTERN_ELEMENT) return null;
 		return (OutPatternElement)eInternalContainer();
@@ -214,6 +217,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setOutPatternElement(OutPatternElement newOutPatternElement) {
 		if (newOutPatternElement != eInternalContainer() || (eContainerFeatureID() != ATLPackage.BINDING__OUT_PATTERN_ELEMENT && newOutPatternElement != null)) {
 			if (EcoreUtil.isAncestor(this, newOutPatternElement))
@@ -235,6 +239,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public String getPropertyName() {
 		return propertyName;
 	}
@@ -244,6 +249,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setPropertyName(String newPropertyName) {
 		String oldPropertyName = propertyName;
 		propertyName = newPropertyName;
@@ -256,6 +262,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsAssignment() {
 		return isAssignment;
 	}
@@ -265,6 +272,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsAssignment(boolean newIsAssignment) {
 		boolean oldIsAssignment = isAssignment;
 		isAssignment = newIsAssignment;
@@ -277,6 +285,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EObject getWrittenFeature() {
 		if (writtenFeature != null && writtenFeature.eIsProxy()) {
 			InternalEObject oldWrittenFeature = (InternalEObject)writtenFeature;
@@ -303,6 +312,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setWrittenFeature(EObject newWrittenFeature) {
 		EObject oldWrittenFeature = writtenFeature;
 		writtenFeature = newWrittenFeature;
@@ -315,6 +325,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getLeftType() {
 		if (leftType != null && leftType.eIsProxy()) {
 			InternalEObject oldLeftType = (InternalEObject)leftType;
@@ -341,6 +352,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setLeftType(Type newLeftType) {
 		Type oldLeftType = leftType;
 		leftType = newLeftType;
@@ -353,6 +365,7 @@ public class BindingImpl extends LocatedElementImpl implements Binding {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<RuleResolutionInfo> getResolvedBy() {
 		if (resolvedBy == null) {
 			resolvedBy = new EObjectContainmentEList<RuleResolutionInfo>(RuleResolutionInfo.class, this, ATLPackage.BINDING__RESOLVED_BY);

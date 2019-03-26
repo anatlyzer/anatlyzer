@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TypedElementImpl#getInferredType <em>Inferred Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -63,6 +63,7 @@ public abstract class TypedElementImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public Type getInferredType() {
 		if (inferredType != null && inferredType.eIsProxy()) {
 			InternalEObject oldInferredType = (InternalEObject)inferredType;
@@ -89,6 +90,7 @@ public abstract class TypedElementImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setInferredType(Type newInferredType) {
 		Type oldInferredType = inferredType;
 		inferredType = newInferredType;

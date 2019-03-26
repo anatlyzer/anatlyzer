@@ -10,10 +10,10 @@ package anatlyzer.atlext.OCL;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.TuplePart#getTuple <em>Tuple</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getTuplePart()
  * @model

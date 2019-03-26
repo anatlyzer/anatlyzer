@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleTypeImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +66,7 @@ public class TupleTypeImpl extends OclTypeImpl implements TupleType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<TupleTypeAttribute> getAttributes() {
 		if (attributes == null) {
 			attributes = new EObjectContainmentWithInverseEList<TupleTypeAttribute>(TupleTypeAttribute.class, this, OCLPackage.TUPLE_TYPE__ATTRIBUTES, OCLPackage.TUPLE_TYPE_ATTRIBUTE__TUPLE_TYPE);

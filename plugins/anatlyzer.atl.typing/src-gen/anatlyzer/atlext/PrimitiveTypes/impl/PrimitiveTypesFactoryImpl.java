@@ -181,6 +181,7 @@ public class PrimitiveTypesFactoryImpl extends EFactoryImpl implements Primitive
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public PrimitiveTypesPackage getPrimitiveTypesPackage() {
 		return (PrimitiveTypesPackage)getEPackage();
 	}

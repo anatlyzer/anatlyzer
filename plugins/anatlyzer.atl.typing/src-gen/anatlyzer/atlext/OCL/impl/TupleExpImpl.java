@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.TupleExpImpl#getTuplePart <em>Tuple Part</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -66,6 +66,7 @@ public class TupleExpImpl extends OclExpressionImpl implements TupleExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<TuplePart> getTuplePart() {
 		if (tuplePart == null) {
 			tuplePart = new EObjectContainmentWithInverseEList<TuplePart>(TuplePart.class, this, OCLPackage.TUPLE_EXP__TUPLE_PART, OCLPackage.TUPLE_PART__TUPLE);

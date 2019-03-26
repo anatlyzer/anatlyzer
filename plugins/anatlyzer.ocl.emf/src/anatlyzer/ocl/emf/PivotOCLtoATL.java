@@ -62,6 +62,7 @@ import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.CollectionExp;
 import anatlyzer.atlext.OCL.IntegerExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclAnyType;
 import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
@@ -82,12 +83,11 @@ import anatlyzer.atlext.OCL.VariableDeclaration;
 public class PivotOCLtoATL {
 
 	private TranslationContext ctx;
-	private String mmName;
 	private List<ContextHelper> translated = new ArrayList<ContextHelper>();
 	
 	
-	public List<ContextHelper> transform(String metamodelName, Model m) {
-		this.mmName = metamodelName;
+	public List<ContextHelper> transform(Model m) {
+		// this.mmName = metamodelName;
 		
 		new Visitor(null).visit(m);		
 		
@@ -95,15 +95,23 @@ public class PivotOCLtoATL {
 	}	
 
 	// TODO: Generalize this for operations, defined somehow!
-	public ContextHelper transform(String mmName, Constraint constraint) {
-		this.mmName = mmName;
-		return transform(constraint);
-	}
+//	public ContextHelper transform(String mmName, Constraint constraint) {
+//		this.mmName = mmName;
+//		return transform(constraint);
+//	}
 
 	protected ContextHelper transform(Property p) {		
 		ExpressionInOCL exp = getExpression(p.getOwnedExpression());
+		parseIfNeeded(exp);
+		if ( exp.getOwnedContext() == null ) {
+			System.out.println("Property without context: " + p);
+			throw new IllegalStateException("Property without context: " + p);
+		}
 		
 		Class context = (Class) exp.getOwnedContext().getType();
+		String mmName = context.getOwningPackage().getName();
+		if ( mmName == null )
+			throw new IllegalStateException();
 		this.ctx = new TranslationContext();
 		
 		String name = p.getName();
@@ -144,8 +152,12 @@ public class PivotOCLtoATL {
 
 	protected ContextHelper transform(org.eclipse.ocl.pivot.Operation pivotOperation) {
 		ExpressionInOCL exp = getExpression(pivotOperation.getBodyExpression());
+		parseIfNeeded(exp); 
 		
 		Class context = pivotOperation.getOwningClass();
+		String mmName = context.getOwningPackage().getName();
+		if ( mmName == null )
+			throw new IllegalStateException();
 		this.ctx = new TranslationContext();
 		String name = pivotOperation.getName();
 
@@ -153,22 +165,16 @@ public class PivotOCLtoATL {
 		operation.setName(name);		
 		operation.setReturnType( createType(pivotOperation.getType()) );
 
+		
+		// We have to bind the parameters which has been created as part of processing ExpressionInOCL.
+		// This processing may have happened before (e.g., it comes from an .ocl file) or as part of parsing the string
+		// Binding the variables in pivotOperation.getOwnedParameters() is not needed		
 		for (org.eclipse.ocl.pivot.Variable variable : exp.getOwnedParameters()) {
 			Parameter param = OCLFactory.eINSTANCE.createParameter();
 			param.setVarName(variable.getName());
 			param.setType(createType(variable.getType()));
 			operation.getParameters().add(param);
 			ctx.bind(variable, param);
-		}
-
-		if ( exp.getOwnedBody() == null ) {
-	        OCL ocl = OCL.newInstance(OCL.NO_PROJECTS, exp.eResource().getResourceSet());
-	        try {
-				ocl.parseSpecification(exp);
-			} catch (ParserException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
 		}
 		
 		OclExpression body = transformExpression(exp, exp.getOwnedBody());
@@ -199,9 +205,21 @@ public class PivotOCLtoATL {
 	protected ContextHelper transform(Constraint constraint) {		
 		
 		LanguageExpression spec = constraint.getOwnedSpecification();
-		ExpressionInOCL exp = (ExpressionInOCL) spec;
+		ExpressionInOCL exp = (ExpressionInOCL) spec;		
+		parseIfNeeded(exp);
 		
-		Class context = (Class) exp.getOwnedContext().getType();
+		Class context;
+		if ( exp.getOwnedContext() == null ) {
+			System.out.println("No context for: " + constraint);
+			// context = (Class) constraint.eContainer();
+			throw new IllegalStateException("No context for " + constraint);
+		} else { 		
+			context = (Class) exp.getOwnedContext().getType();
+		}
+		
+		String mmName = context.getOwningPackage().getName();
+		if ( mmName == null )
+			throw new IllegalStateException();
 		this.ctx = new TranslationContext();
 	
 		String name = constraint.getName();
@@ -226,7 +244,7 @@ public class PivotOCLtoATL {
 			operation.getParameters().add(param);
 			ctx.bind(variable, param);
 		}
-		
+        
 		OCLExpression originalBody = exp.getOwnedBody();
 		if ( originalBody instanceof OperationCallExp && 
 			((OperationCallExp) originalBody).getOwnedSource() instanceof VariableExp && 
@@ -256,6 +274,18 @@ public class PivotOCLtoATL {
 		
 
 		return helper;
+	}
+
+	private void parseIfNeeded(ExpressionInOCL exp) {
+		if ( exp.getOwnedBody() == null ) {
+	        OCL ocl = OCL.newInstance(OCL.NO_PROJECTS, exp.eResource().getResourceSet());
+	        try {
+				ocl.parseSpecification(exp);
+	        } catch (ParserException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	/*
@@ -546,6 +576,10 @@ public class PivotOCLtoATL {
 		} else if ( type instanceof EEnum ) {
 			// Not supported by ATL
 			return OCLFactory.eINSTANCE.createOclAnyType();
+		} else if ( type instanceof org.eclipse.ocl.pivot.Enumeration ) {
+			// This should be improved, but there is no support in bare-ATL
+			OclAnyType any = OCLFactory.eINSTANCE.createOclAnyType();
+			return any;				
 		} else if ( type instanceof DataType ){
 			DataType dt = (DataType) type;
 
@@ -562,11 +596,11 @@ public class PivotOCLtoATL {
 				return r;
 			}
 		} else if ( type instanceof Class ) {
-			return createType((Class) type, this.mmName);
+			return createType((Class) type, ((Class) type).getOwningPackage().getName());
 		    // TODO: set the model
 		}
 
-		throw new UnsupportedOperationException("Cannot create type for: " + type);
+		throw new UnsupportedOperationException("Cannot create type for: " + type + " - " + type.eClass().getName());
 	}
 
 	private OclType createPTypeFromName(String name) {
@@ -635,8 +669,10 @@ public class PivotOCLtoATL {
 		}
 		
 		public VariableDeclaration get(org.eclipse.ocl.pivot.VariableDeclaration v1) {
-			if ( ! vars.containsKey(v1))
+			if ( ! vars.containsKey(v1)) {
+				vars.keySet().forEach(System.out::println);
 				throw new IllegalStateException("No var: " + v1);
+			}
 			return vars.get(v1);
 		}
 		
@@ -676,6 +712,7 @@ public class PivotOCLtoATL {
 		@Override
 		public Void visitPackage(@NonNull Package object) {
 			safeVisit(object.getOwnedClasses());
+			safeVisit(object.getOwnedPackages());
 			return null;
 		}
 		

@@ -3,8 +3,6 @@ package anatlyzer.atl.analyser;
 import java.util.LinkedList;
 import java.util.List;
 
-import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.IClassNamespace;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
@@ -13,6 +11,7 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.CalledRule;
@@ -207,7 +206,7 @@ public class TopLevelTraversal extends AbstractAnalyserVisitor {
 			mm.getTransformationNamespace().attachRule(self.getName(), t, self);				
 			return;
 		}
-		throw new UnsupportedOperationException(USESerializer.gen(last.getExpression()) + " - " + self.getLocation());		
+		throw new UnsupportedOperationException(ATLSerializer.serialize(last.getExpression()) + " - " + self.getLocation());		
 	}
 
 	

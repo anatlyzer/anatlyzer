@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.SimpleOutPatternElementImpl#getReverseBindings <em>Reverse Bindings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -67,6 +67,7 @@ public class SimpleOutPatternElementImpl extends OutPatternElementImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<OclExpression> getReverseBindings() {
 		if (reverseBindings == null) {
 			reverseBindings = new EObjectContainmentEList<OclExpression>(OclExpression.class, this, ATLPackage.SIMPLE_OUT_PATTERN_ELEMENT__REVERSE_BINDINGS);

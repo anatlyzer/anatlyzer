@@ -29,12 +29,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getCondition <em>Condition</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getThenStatements <em>Then Statements</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.impl.IfStatImpl#getElseStatements <em>Else Statements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -93,6 +93,7 @@ public class IfStatImpl extends StatementImpl implements IfStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclExpression getCondition() {
 		return condition;
 	}
@@ -117,6 +118,7 @@ public class IfStatImpl extends StatementImpl implements IfStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setCondition(OclExpression newCondition) {
 		if (newCondition != condition) {
 			NotificationChain msgs = null;
@@ -136,6 +138,7 @@ public class IfStatImpl extends StatementImpl implements IfStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getThenStatements() {
 		if (thenStatements == null) {
 			thenStatements = new EObjectContainmentEList<Statement>(Statement.class, this, ATLPackage.IF_STAT__THEN_STATEMENTS);
@@ -148,6 +151,7 @@ public class IfStatImpl extends StatementImpl implements IfStat {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EList<Statement> getElseStatements() {
 		if (elseStatements == null) {
 			elseStatements = new EObjectContainmentEList<Statement>(Statement.class, this, ATLPackage.IF_STAT__ELSE_STATEMENTS);

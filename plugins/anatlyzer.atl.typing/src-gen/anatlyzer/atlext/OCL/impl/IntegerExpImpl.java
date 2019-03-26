@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.IntegerExpImpl#getIntegerSymbol <em>Integer Symbol</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -69,6 +69,7 @@ public class IntegerExpImpl extends NumericExpImpl implements IntegerExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public int getIntegerSymbol() {
 		return integerSymbol;
 	}
@@ -78,6 +79,7 @@ public class IntegerExpImpl extends NumericExpImpl implements IntegerExp {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIntegerSymbol(int newIntegerSymbol) {
 		int oldIntegerSymbol = integerSymbol;
 		integerSymbol = newIntegerSymbol;

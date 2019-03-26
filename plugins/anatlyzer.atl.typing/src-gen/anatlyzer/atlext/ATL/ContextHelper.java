@@ -14,11 +14,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.ATL.ContextHelper#getContextType <em>Context Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.ATL.ContextHelper#getPolymorphicCalledBy <em>Polymorphic Called By</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.ATL.ATLPackage#getContextHelper()
  * @model

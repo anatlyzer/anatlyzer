@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclContextDefinitionImpl#getDefinition <em>Definition</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.impl.OclContextDefinitionImpl#getContext_ <em>Context </em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -68,6 +68,7 @@ public class OclContextDefinitionImpl extends LocatedElementImpl implements OclC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclFeatureDefinition getDefinition() {
 		if (eContainerFeatureID() != OCLPackage.OCL_CONTEXT_DEFINITION__DEFINITION) return null;
 		return (OclFeatureDefinition)eInternalContainer();
@@ -88,6 +89,7 @@ public class OclContextDefinitionImpl extends LocatedElementImpl implements OclC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setDefinition(OclFeatureDefinition newDefinition) {
 		if (newDefinition != eInternalContainer() || (eContainerFeatureID() != OCLPackage.OCL_CONTEXT_DEFINITION__DEFINITION && newDefinition != null)) {
 			if (EcoreUtil.isAncestor(this, newDefinition))
@@ -109,6 +111,7 @@ public class OclContextDefinitionImpl extends LocatedElementImpl implements OclC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public OclType getContext_() {
 		return context_;
 	}
@@ -133,6 +136,7 @@ public class OclContextDefinitionImpl extends LocatedElementImpl implements OclC
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setContext_(OclType newContext_) {
 		if (newContext_ != context_) {
 			NotificationChain msgs = null;

@@ -11,12 +11,12 @@ import anatlyzer.atlext.ATL.LocatedElement;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link anatlyzer.atlext.OCL.TupleTypeAttribute#getType <em>Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.TupleTypeAttribute#getTupleType <em>Tuple Type</em>}</li>
  *   <li>{@link anatlyzer.atlext.OCL.TupleTypeAttribute#getName <em>Name</em>}</li>
  * </ul>
- * </p>
  *
  * @see anatlyzer.atlext.OCL.OCLPackage#getTupleTypeAttribute()
  * @model

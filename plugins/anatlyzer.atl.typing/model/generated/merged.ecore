@@ -537,4 +537,11 @@
     <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="int"/>
     <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
   </eSubpackages>
+  <eSubpackages name="OCL2" nsURI="http://anatlyzer/atl/ext/OCL2" nsPrefix="atl_ext_ocl2">
+    <eClassifiers xsi:type="ecore:EClass" name="SelectByKind" eSuperTypes="#//OCL/CollectionOperationCallExp">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isExact" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+          defaultValueLiteral="false"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: anatlyzer.atl.typing;singleton:=true
+Automatic-Module-Name: anatlyzer.atl.typing
 Bundle-Version: 0.7.1.qualifier
 Bundle-ClassPath: .,
  lib/guava-r05.jar
@@ -54,6 +55,9 @@ Export-Package: analyser.atl.problems,
  anatlyzer.atlext.OCL,
  anatlyzer.atlext.OCL.impl,
  anatlyzer.atlext.OCL.util,
+ anatlyzer.atlext.OCL2,
+ anatlyzer.atlext.OCL2.impl,
+ anatlyzer.atlext.OCL2.util,
  anatlyzer.atlext.PrimitiveTypes,
  anatlyzer.atlext.PrimitiveTypes.impl,
  anatlyzer.atlext.processing,

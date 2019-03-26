@@ -121,8 +121,11 @@ public class Analyser implements IAnalyserResult {
 				
 				stage++;
 				
-				if ( doErrorRefinement )
-					refineErrors();
+				if ( doErrorRefinement ) {
+					// This is to make sure that this doesn't take forever
+					if ( getErrors().getProblems().size() <= 100 ) 
+						refineErrors();
+				}
 				
 				mm.getMetamodels().forEach(m -> m.cacheResult());
 				

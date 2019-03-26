@@ -52,6 +52,9 @@ public class VariableScope {
 	}
 
 	public void putNotKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
+		if ( source.getInferredType() instanceof Unknown ) {
+			return;
+		}
 		currentKindOf.addNegatedOclKindOf(vd, source, typeOfType);
 		// This was wrong because it negates all the elements in the scope
 		// currentKindOf.addOclKindOf(vd, source, typeOfType);

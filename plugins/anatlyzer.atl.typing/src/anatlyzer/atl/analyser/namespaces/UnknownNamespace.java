@@ -1,6 +1,7 @@
 package anatlyzer.atl.analyser.namespaces;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.Rule;
@@ -82,4 +83,10 @@ public class UnknownNamespace extends AbstractTypeNamespace {
 		throw new UnsupportedOperationException();
 	}
 
+//	@Override
+//	public ITypeConstraint newTypeConstraint() {
+//		// We need to wire the globalnamespace here order to be able to do this properly
+//		return new ITypeConstraint.AllTypesConstraint();
+//	}
+	
 }

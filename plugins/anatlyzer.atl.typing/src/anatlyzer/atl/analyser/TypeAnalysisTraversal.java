@@ -836,6 +836,11 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		if ( self.getOperationName().equals("oclIsKindOf") || 
 			 self.getOperationName().equals("oclIsTypeOf") ) {
 				
+			if ( self.getInferredType() instanceof Unknown ) {
+				// Avoid reasoning for OclAny, which is not properly implemented
+				return;
+			}
+			
 			if ( arguments.length != 1 ) {
 				return;
 			}  else {
@@ -858,7 +863,6 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 				if ( ! hasNegation ) {
 					Type kindOfType = attr.typeOf(self.getArguments().get(0));
 					attr.getVarScope().putKindOf(ve.getReferredVariable(), self.getSource(), kindOfType);
-
 					// If something is confirmed at runtime to be "of type", then in cannot be undefined
 					attr.getVarScope().putIsNotUndefined(ve.getReferredVariable(), self.getSource());
 				} else {

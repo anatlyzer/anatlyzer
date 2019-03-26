@@ -1119,7 +1119,7 @@ public abstract class OclExpressionImpl extends LocatedElementImpl implements Oc
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (implicitlyCasted: ");
 		result.append(implicitlyCasted);
 		result.append(')');

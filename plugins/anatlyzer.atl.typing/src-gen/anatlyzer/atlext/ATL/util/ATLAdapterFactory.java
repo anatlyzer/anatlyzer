@@ -2,6 +2,7 @@
  */
 package anatlyzer.atlext.ATL.util;
 
+import anatlyzer.atlext.ATL.*;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
@@ -123,7 +124,7 @@ public class ATLAdapterFactory extends AdapterFactoryImpl {
 				return createQueryAdapter();
 			}
 			@Override
-			public Adapter caseModule(anatlyzer.atlext.ATL.Module object) {
+			public Adapter caseModule(Module object) {
 				return createModuleAdapter();
 			}
 			@Override

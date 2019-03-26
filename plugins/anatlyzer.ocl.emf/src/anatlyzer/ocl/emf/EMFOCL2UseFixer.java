@@ -7,12 +7,18 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ocl.pivot.CollectionKind;
 
+import anatlyzer.atl.analyser.generators.CSPModel;
+import anatlyzer.atl.analyser.generators.RetypingToSet;
+import anatlyzer.atl.analyser.namespaces.ClassNamespace;
 import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BagType;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OrderedSetType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
+import anatlyzer.atl.types.Type;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker.IOCLDialectTransformer;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
@@ -21,12 +27,16 @@ import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
 import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.PropertyCallExp;
 import anatlyzer.atlext.OCL.SetExp;
+import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.OCL2.OCL2Factory;
+import anatlyzer.atlext.OCL2.SelectByKind;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
 public class EMFOCL2UseFixer {
@@ -46,7 +56,19 @@ public class EMFOCL2UseFixer {
 				flatten.setOperationName("flatten");
 				EcoreUtil.replace(self, flatten);
 				flatten.setSource(self);
-			} 
+			}
+		}
+		
+		@Override
+		public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
+			if ( self.getOperationName().equals("selectByKind") || self.getOperationName().equals("selectByType") ) {
+				SelectByKind s = OCL2Factory.eINSTANCE.createSelectByKind();
+				s.setOperationName(self.getOperationName());
+				s.setIsExact(self.getOperationName().equals("selectByType"));
+				s.getArguments().addAll(self.getArguments());
+				s.setSource(self.getSource());
+				EcoreUtil.replace(self, s);
+			}
 		}
 		
 		// oclAsSet
@@ -109,6 +131,46 @@ public class EMFOCL2UseFixer {
 		@Override
 		public void inIteratorExp(IteratorExp self) {
 			handleCollectionKindMapping(self, self.getName());
+			
+			if ( self.isImplicitlyCasted() ) {
+				OclExpression source = self;
+				
+				Type t = self.getInferredType();
+				if ( t instanceof CollectionType ) {
+					t = ((CollectionType) t).getContainedType();				
+				}
+	 			
+				// Assume t is a class
+				String className = null;
+				String modelName = null;
+				if ( t instanceof Metaclass ) {
+					className = ((Metaclass) t).getName();
+					modelName = ((ClassNamespace) t.getMetamodelRef()).getMetamodelName();	
+				} else {
+					throw new UnsupportedOperationException("Type not supported " + t);
+				}
+			
+				CSPModel builder = new CSPModel();
+				IteratorExp collect = builder.createIterator(null, "collect");
+				VariableExp varRef = OCLFactory.eINSTANCE.createVariableExp();
+				varRef.setReferredVariable(collect.getIterators().get(0));
+
+				OperationCallExp oclAsType = RetypingToSet.createOclAsType(className, modelName, (Metaclass) t, varRef);
+				collect.setBody(oclAsType);
+
+				
+				// The new expression has 
+				// collect.setInferredType(self.getInferredType());
+				CSPModel.setInferredType(collect, self.getInferredType());
+				
+				EcoreUtil.replace(self, collect);
+				collect.setSource(self);
+				
+				// This is needed for coherence with the conversion at the beginning of the method 
+				// => any collect has to be turn into a set
+				// convertToSet(collect);
+			}
+			
 		}
 
 		private void handleCollectionKindMapping(PropertyCallExp self, String name) {
@@ -131,6 +193,15 @@ public class EMFOCL2UseFixer {
 				set.getElements().add(self.getSource());
 			} else if ( self.getOperationName().equals("allInstances") ) {
 				setColAttr(self, CollectionKind.SET);
+			} else if ( self.getOperationName().equals("oclIsKindOf") || self.getOperationName().equals("oclIsTypeOf") ) {
+				Type src = self.getSource().getInferredType();
+				Type arg = self.getArguments().get(0).getInferredType();
+				if ( ! TypingModel.isCompatible(arg, src) ) {
+					// This is doable, but if there is an oclAsType it is going to fail anyway, so maybe it is better
+					// to just signal de error
+					throw new InvalidOclProgramException("Invalid oclIsKindOf " + TypeUtils.typeToString(src) + " is not supertype of " + TypeUtils.typeToString(arg));
+					// EcoreUtil.replace(self, OCLFactory.eINSTANCE.createBooleanExp());
+				}
 			}
 		}
 		
@@ -146,7 +217,7 @@ public class EMFOCL2UseFixer {
 				EcoreUtil.replace(self, OCLFactory.eINSTANCE.createOclAnyType());
 			}
 		}
-		
+				
 		private CollectionKind toCollectionKind(CollectionType c) {
 			if ( c instanceof SequenceType ) 
 				return CollectionKind.SEQUENCE;

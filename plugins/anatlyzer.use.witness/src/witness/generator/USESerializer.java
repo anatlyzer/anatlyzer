@@ -50,6 +50,7 @@ import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.OCL2.SelectByKind;
 
 public class USESerializer {
 
@@ -276,9 +277,15 @@ public class USESerializer {
 			return receptor + "." + op + casting;
 		} else if (expr instanceof CollectionOperationCallExp) {
 			CollectionOperationCallExp call = (CollectionOperationCallExp) expr;
+			String name = call.getOperationName();
+			if ( expr instanceof SelectByKind ) {
+				SelectByKind s = (SelectByKind) expr;
+				name = s.isIsExact() ? "selectByType" : "selectByKind";
+			}
+			
 			// TODO: Collection adaptation for USE, should be done better
 			String prefix = "";
-			String postfix = "->" + call.getOperationName();
+			String postfix = "->" + name;
 			if ( call.getOperationName().equals("asSequence") && (
 				  call.getSource() instanceof NavigationOrAttributeCallExp ||
 				 (call.getSource() instanceof OperationCallExp && ((OperationCallExp) call.getSource()).getOperationName().equals("allInstances")) ) ) {
@@ -323,7 +330,7 @@ public class USESerializer {
 			String typeName = genAux(it.getResult().getType());
 			
 			return receptor + "->" + "iterate" + "(" + it.getIterators().get(0).getVarName() + ";" + it.getResult().getVarName() + " : " + typeName + " = " + genAux(it.getResult().getInitExpression()) + "|" +
-			genAux(it.getBody()) + ")";			
+			genAux(it.getBody()) + ")";
 		} else {
 			throw new UnsupportedOperationException(expr.toString());
 		}

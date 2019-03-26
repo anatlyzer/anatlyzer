@@ -4,6 +4,7 @@ package anatlyzer.atlext.OCL2;
 
 import anatlyzer.atlext.OCL.OCLPackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -355,13 +356,22 @@ public interface OCL2Package extends EPackage {
 	int SELECT_BY_KIND__RESOLVE_TEMP_RESOLVED_BY = OCLPackage.COLLECTION_OPERATION_CALL_EXP__RESOLVE_TEMP_RESOLVED_BY;
 
 	/**
+	 * The feature id for the '<em><b>Is Exact</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SELECT_BY_KIND__IS_EXACT = OCLPackage.COLLECTION_OPERATION_CALL_EXP_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Select By Kind</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SELECT_BY_KIND_FEATURE_COUNT = OCLPackage.COLLECTION_OPERATION_CALL_EXP_FEATURE_COUNT + 0;
+	int SELECT_BY_KIND_FEATURE_COUNT = OCLPackage.COLLECTION_OPERATION_CALL_EXP_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Select By Kind</em>' class.
@@ -382,6 +392,17 @@ public interface OCL2Package extends EPackage {
 	 * @generated
 	 */
 	EClass getSelectByKind();
+
+	/**
+	 * Returns the meta object for the attribute '{@link anatlyzer.atlext.OCL2.SelectByKind#isIsExact <em>Is Exact</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is Exact</em>'.
+	 * @see anatlyzer.atlext.OCL2.SelectByKind#isIsExact()
+	 * @see #getSelectByKind()
+	 * @generated
+	 */
+	EAttribute getSelectByKind_IsExact();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -415,6 +436,13 @@ public interface OCL2Package extends EPackage {
 		 * @generated
 		 */
 		EClass SELECT_BY_KIND = eINSTANCE.getSelectByKind();
+		/**
+		 * The meta object literal for the '<em><b>Is Exact</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SELECT_BY_KIND__IS_EXACT = eINSTANCE.getSelectByKind_IsExact();
 
 	}
 

@@ -33,7 +33,6 @@ import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.modeling.EMFUtils;
 import transML.utils.solver.use.Solver_use;
-import transML.utils.solver.use.StringAdapter;
 
 /**
  * This tries to add modifications to the original Solver_use while keeping
@@ -56,7 +55,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 	@Override
 	protected void transformEcore2use(EPackage metamodel, Writer out) throws IOException {
 	    if ( adapter == null )			          
-	    	adapter = new StringAdapter();               // adapter of constant-strings ('string0', 'string1', and so on)
+	    	adapter = new USEStringAdapter();               // adapter of constant-strings ('string0', 'string1', and so on)
 
 		List<EReference> references = new ArrayList<EReference>();
 		//int index = 0;
@@ -105,6 +104,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 						if      (EMFUtils.isInteger(att.getEType().getName()))  type = "Integer";
 						else if (EMFUtils.isBoolean(att.getEType().getName()))  type = "Boolean";
 						else if (EMFUtils.isFloating(att.getEType().getName())) type = "Real";
+						else if ("EBigDecimal".equals(att.getEType().getName())) type = "Real";
 						else if (att.getEType() instanceof EEnum)               type = att.getEType().getName();
 						out.write("  " + att.getName() + " : " + type + "\n");
 					}

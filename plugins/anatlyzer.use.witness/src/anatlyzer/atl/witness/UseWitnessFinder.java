@@ -638,9 +638,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// if a class can potentially be in more than two containers, add a constraint
 		for (Entry<String,List<EReference>> entry : containers.entrySet()) {
 			//if (entry.getValue().size()>1) {
-				constraints += "\n\ncontext " + entry.getKey() + " inv single_container_only_one_instance:\n";
-				for (EReference ref : entry.getValue()) 
-					constraints += "\t" + ref.getEContainingClass().getName() + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
+				String contextClassName = UseReservedWords.replacementOrSame(entry.getKey());
+				constraints += "\n\ncontext " + contextClassName + " inv single_container_only_one_instance:\n";
+				for (EReference ref : entry.getValue()) {
+					String containingClassName = UseReservedWords.replacementOrSame(ref.getEContainingClass().getName());
+					constraints += "\t" + containingClassName + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
+				}
 				// constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "<= 1";
 				// It must be in one container only!
 				constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "= 1";

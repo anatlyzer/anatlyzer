@@ -10,9 +10,10 @@ import anatlyzer.atl.witness.UseReservedWords;
 public class USENameModifyier {
 
 	public String adapt(EClass c, boolean modify) {
-		if ( c.getName().equals("Set") ) {
-			if ( modify ) c.setName("Set_");
-			return "Set_";
+		if ( UseReservedWords.isReserved(c.getName()) ) {
+			String newWord = UseReservedWords.getReplacement(c.getName());
+			if ( modify ) c.setName(newWord);
+			return newWord;
 		}
 		return c.getName();
 	}

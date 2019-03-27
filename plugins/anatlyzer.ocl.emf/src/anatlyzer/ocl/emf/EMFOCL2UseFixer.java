@@ -1,12 +1,16 @@
 package anatlyzer.ocl.emf;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ocl.pivot.CollectionKind;
-
+import witness.generator.USENameModifyier;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
@@ -18,8 +22,11 @@ import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.OrderedSetType;
 import anatlyzer.atl.types.SequenceType;
 import anatlyzer.atl.types.SetType;
+import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.types.TypesPackage;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker.IOCLDialectTransformer;
+import anatlyzer.atl.witness.UseReservedWords;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
@@ -81,14 +88,20 @@ public class EMFOCL2UseFixer {
 				self.setOperationName("asSet");
 			}
 		}
+		
 	}
 
 	public static class Post extends AbstractVisitor implements IOCLDialectTransformer { 
 	
 		private Map<EObject, CollectionKind> collectionAttr = new HashMap<>();
+		
+		private static Map<EClass, Set<String>> UnsupportedOperations = new HashMap<>();
 		private static final Map<String, CollectionKind> COL_MAPPING = new HashMap<String, CollectionKind>();
 		static {
 			COL_MAPPING.put("collect", CollectionKind.BAG);
+			
+			UnsupportedOperations.put(TypesPackage.Literals.STRING_TYPE, new HashSet<>(Arrays.asList("matches")));
+			UnsupportedOperations.put(TypesPackage.Literals.SET_TYPE, new HashSet<>(Arrays.asList("last"))); // this may happen when we use Set for Sequence
 		}
 		
 		@Override
@@ -203,6 +216,13 @@ public class EMFOCL2UseFixer {
 					// EcoreUtil.replace(self, OCLFactory.eINSTANCE.createBooleanExp());
 				}
 			}
+			
+			Type src = self.getSource().getInferredType();
+			if ( UnsupportedOperations.getOrDefault(src.eClass(), new HashSet<String>()).contains(self.getOperationName())) {
+				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
+			} else if ( self.getOperationName().equals("oclType") ) {
+				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
+			}
 		}
 		
 		/**
@@ -216,8 +236,19 @@ public class EMFOCL2UseFixer {
 			if ( self.getName().equals("OclElement")) {
 				EcoreUtil.replace(self, OCLFactory.eINSTANCE.createOclAnyType());
 			}
+
+			// This should be handled by AnATLyzer's normalisation??
+			String replacement = UseReservedWords.getReplacement(self.getName());
+			if ( replacement != null ) {
+				self.setName(replacement);
+				Type t = self.getInferredType();
+				if ( t instanceof Metaclass ) {
+					((Metaclass) t).setName(replacement);
+					((Metaclass) t).getKlass().setName(replacement);
+				}
+			}
 		}
-				
+
 		private CollectionKind toCollectionKind(CollectionType c) {
 			if ( c instanceof SequenceType ) 
 				return CollectionKind.SEQUENCE;

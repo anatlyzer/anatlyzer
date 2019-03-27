@@ -127,5 +127,9 @@ public class UseReservedWords {
 	public static String getReplacement(String word) {
 		return reserved.get(word);
 	}
+
+	public static String replacementOrSame(String name) {
+		return reserved.getOrDefault(name, name);
+	}
 	
 }

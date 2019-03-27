@@ -106,7 +106,7 @@ public class EcoreTypeConverter {
 				    c.getName().equals("UnlimitedNatural") ||
 				    c.getName().endsWith("Long") ) {
 			return typ.newIntegerType();
-		} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real")) {
+		} else if ( c.getName().contains("Double") || c.getName().contains("Float") || c.getName().contains("Real") || c.getName().contains("EBigDecimal")) {
 			return typ.newFloatType();
 		}
 	

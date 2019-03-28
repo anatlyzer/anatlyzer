@@ -83,6 +83,7 @@ import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.TupleType;
 import anatlyzer.atlext.OCL.TupleTypeAttribute;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.OCL2.SelectByKind;
 import anatlyzer.atlext.processing.AbstractVisitor;
 
 public class ATLSerializer extends AbstractVisitor {
@@ -967,7 +968,10 @@ public class ATLSerializer extends AbstractVisitor {
 
 	private static HashSet<String> reservedWords = new HashSet<String>();
 	static {
-		reservedWords.add("in");		
+		reservedWords.add("let");
+		reservedWords.add("in");
+		reservedWords.add("Sequence");
+		reservedWords.add("Set");
 		reservedWords.add("OclType");
 	}
 	

@@ -56,9 +56,9 @@ public class OCLtoATL {
 	private TranslationContext ctx;
 	private String mmName;
 
-	public ContextHelper transform(String mmName, EOperation eOperation, Constraint constraint) {
+	public ContextHelper transform(EOperation eOperation, Constraint constraint) {
 		EClass context = (EClass) constraint.getSpecification().getContextVariable().getType();
-		this.mmName = mmName;
+		this.mmName = context.getEPackage().getName();
 		this.ctx = new TranslationContext();
 	
 		String name = eOperation.getName();
@@ -107,9 +107,9 @@ public class OCLtoATL {
 		return helper;
 	}
 
-	public ContextHelper transform(String mmName, Constraint constraint) {
+	public ContextHelper transform(Constraint constraint) {
 		EClass context = (EClass) constraint.getSpecification().getContextVariable().getType();
-		this.mmName = mmName;
+		this.mmName = context.getEPackage().getName();
 		this.ctx = new TranslationContext();
 		
 		OclExpression body = transformConstraint(constraint, constraint.getSpecification().getBodyExpression());

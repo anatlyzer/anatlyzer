@@ -65,8 +65,8 @@ public class GenInvariantLibrary extends AbstractHandler {
 					EObject obj = it.next();
 					if ( obj instanceof EClass ) {
 						EClass c = (EClass) obj;
-						helpersInvariants.addAll(MetamodelInvariantsExtension.extractOclInvariants(mmName, c, true));
-						helpersOperations.addAll(MetamodelInvariantsExtension.extractOclOperations(mmName, c, true));
+						helpersInvariants.addAll(MetamodelInvariantsExtension.extractOclInvariants(c, true));
+						helpersOperations.addAll(MetamodelInvariantsExtension.extractOclOperations(c, true));
 					}
 				}
 				

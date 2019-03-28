@@ -680,7 +680,7 @@ public abstract class HelperImpl extends ModuleElementImpl implements Helper {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuilder result = new StringBuilder(super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (hasContext: ");
 		result.append(hasContext);
 		result.append(", isAttribute: ");

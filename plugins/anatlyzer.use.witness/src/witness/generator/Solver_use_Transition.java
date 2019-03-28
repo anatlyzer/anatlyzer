@@ -33,7 +33,6 @@ import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.modeling.EMFUtils;
 import transML.utils.solver.use.Solver_use;
-import transML.utils.solver.use.StringAdapter;
 
 /**
  * This tries to add modifications to the original Solver_use while keeping
@@ -56,7 +55,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 	@Override
 	protected void transformEcore2use(EPackage metamodel, Writer out) throws IOException {
 	    if ( adapter == null )			          
-	    	adapter = new StringAdapter();               // adapter of constant-strings ('string0', 'string1', and so on)
+	    	adapter = new USEStringAdapter();               // adapter of constant-strings ('string0', 'string1', and so on)
 
 		List<EReference> references = new ArrayList<EReference>();
 		//int index = 0;
@@ -105,6 +104,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 						if      (EMFUtils.isInteger(att.getEType().getName()))  type = "Integer";
 						else if (EMFUtils.isBoolean(att.getEType().getName()))  type = "Boolean";
 						else if (EMFUtils.isFloating(att.getEType().getName())) type = "Real";
+						else if ("EBigDecimal".equals(att.getEType().getName())) type = "Real";
 						else if (att.getEType() instanceof EEnum)               type = att.getEType().getName();
 						out.write("  " + att.getName() + " : " + type + "\n");
 					}
@@ -311,12 +311,17 @@ public abstract class Solver_use_Transition extends Solver_use {
 				String value = trim( attributes.get(attribute).toString() );
 				if (!value.equals("Undefined")) {
 					String values[] = {value};
-					if (value.startsWith("Set{")) values = value.substring(4,value.length()-1).split(",");
+					if      (value.startsWith("Set{")) values = value.substring(4,value.length()-1).split(",");
+					else if (value.startsWith("Bag{")) values = value.substring(4,value.length()-1).split(",");
+					
 					if  (EMFUtils.hasAttribute(object, field))
 						for (String v : values) EMFUtils.setAttribute(metamodel, object, field, adapter.adapt_use_string( v ));
 					else for (String v : values) {
 						if (!v.isEmpty()) {
-							EObject object2 = eobjects.get(v.substring(1));
+							// EObject object2 = eobjects.get(v.substring(1));
+							EObject object2 = eobjects.get(v);
+							if ( object2 == null )
+								throw new NullPointerException("Null object for " + v + ". Available: " + eobjects.keySet().stream().collect(Collectors.joining(", ")));
 							EMFUtils.setReference(metamodel, object, field, object2);
 							if (isContainment(object, field)) model.getContents().remove(object2);
 						}

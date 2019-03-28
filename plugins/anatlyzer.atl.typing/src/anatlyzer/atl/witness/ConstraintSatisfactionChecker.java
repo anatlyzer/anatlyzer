@@ -3,14 +3,12 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -27,7 +25,6 @@ import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
-import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
@@ -35,6 +32,7 @@ import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
@@ -57,6 +55,8 @@ public class ConstraintSatisfactionChecker {
 	private ProblemStatus finderResult;
 	private ATLModel model;
 	private Library library;
+	private List<IOCLDialectTransformer> preAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
+	private List<IOCLDialectTransformer> postAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
 	
 	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
 		this.expressions.addAll(expressions);
@@ -101,6 +101,10 @@ public class ConstraintSatisfactionChecker {
 		model.add(unit);
 		this.model = model;
 		
+		for (IOCLDialectTransformer t : preAdapters) {
+			t.adapt(unit);
+		}
+		
 		Analyser analyser = new Analyser(mm, model);
 		// This is to make sure that we do not inline eOperations which have already been handled by the OCL translator
 		analyser.withEOperationHandler(new IEOperationHandler() {			
@@ -111,7 +115,11 @@ public class ConstraintSatisfactionChecker {
 		});
 		
 		analyser.perform();
-		
+
+		for (IOCLDialectTransformer t : postAdapters) {
+			t.adapt(unit);
+		}
+
 		// Configure the finder
 		this.finderResult = finder.find(new ConstraintSatisfactionProblem(), new AnalysisResult(analyser));
 
@@ -139,6 +147,7 @@ public class ConstraintSatisfactionChecker {
 		List<Helper> helpers = ATLUtils.getAllHelpers(model).stream().
 				filter(h -> ! AnalyserUtils.isAddedEOperation(h)).
 				filter(h -> ! isPropertyRepresentation(h)).
+				filter(h -> ! isOperationImplementation(h)).
 				map(h -> {
 					if ( h instanceof ContextHelper ) {
 						return AnalyserUtils.convertContextInvariant((ContextHelper) h);
@@ -149,7 +158,6 @@ public class ConstraintSatisfactionChecker {
 				collect(Collectors.toList());
 		return helpers.stream().map(h -> ATLUtils.getBody(h)).collect(Collectors.toList());
 	}
-	
 
 	private List<ContextHelper> getDerivedPropertiesOrOperations() {
 		return ATLUtils.getAllHelpers(model).stream().			
@@ -175,7 +183,6 @@ public class ConstraintSatisfactionChecker {
 			
 			getExpressionsToBeChecked().forEach(e -> OclSlice.slice(slice, e));
 			getDerivedPropertiesOrOperations().forEach(h -> {
-				System.out.println("====> " + ATLUtils.getHelperName(h));
 				OclSlice.slice(slice, ATLUtils.getHelperBody(h));
 				slice.addHelper(h);	
 			});
@@ -189,7 +196,14 @@ public class ConstraintSatisfactionChecker {
 			if ( exprs.size() == 1 ) 
 				return exprs.get(0);
 			
-			OclExpression result = (OclExpression) ATLCopier.copySingleElement(exprs.get(0));
+			
+			OclExpression result;
+			if ( exprs.size() == 0 ) {
+				result = OCLFactory.eINSTANCE.createBooleanExp();
+				((BooleanExp) result).setBooleanSymbol(true);
+			} else {
+				result = (OclExpression) ATLCopier.copySingleElement(exprs.get(0));
+			}
 			for(int i = 1; i < exprs.size(); i++) {
 				OclExpression exp = exprs.get(i);
 				
@@ -218,6 +232,21 @@ public class ConstraintSatisfactionChecker {
 		
 	}
 
+	// This adapts the ATL representation for one OCL dialect to fit another OCL representation
+	// e.g., EMF/OCL to USE
+	public static interface IOCLDialectTransformer {
+		public void adapt(Unit u);			
+	}
 
-	
+	public ConstraintSatisfactionChecker withPreAnalysisAdapter(IOCLDialectTransformer fixer) {
+		preAdapters.add(fixer);
+		return this;
+	}
+
+	public ConstraintSatisfactionChecker withPostAnalysisAdapter(IOCLDialectTransformer fixer) {
+		postAdapters.add(fixer);
+		return this;
+	}
+
+
 }

@@ -137,6 +137,7 @@ package OCL2 {
 	
 	class SelectByKind extends OCL.CollectionOperationCallExp {
 		// arguments[0] = OclModelElement
+		attr boolean[1] isExact = false;
 	}
 	
 }

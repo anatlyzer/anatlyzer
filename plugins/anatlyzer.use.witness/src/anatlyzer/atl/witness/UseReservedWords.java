@@ -113,8 +113,7 @@ public class UseReservedWords {
 		// This is quite special because it is a problem of the
 		// properties file, which cannot have _min_min, max_max, etc.
 		reserved.put("min", "minimum");
-		reserved.put("max", "maximum");
-		
+		reserved.put("max", "maximum");		
 	}
 	
 	public static boolean isReserved(String word) {
@@ -127,6 +126,10 @@ public class UseReservedWords {
 
 	public static String getReplacement(String word) {
 		return reserved.get(word);
+	}
+
+	public static String replacementOrSame(String name) {
+		return reserved.getOrDefault(name, name);
 	}
 	
 }

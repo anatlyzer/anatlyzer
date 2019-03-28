@@ -10,9 +10,10 @@ import anatlyzer.atl.witness.UseReservedWords;
 public class USENameModifyier {
 
 	public String adapt(EClass c, boolean modify) {
-		if ( c.getName().equals("Set") ) {
-			if ( modify ) c.setName("Set_");
-			return "Set_";
+		if ( UseReservedWords.isReserved(c.getName()) ) {
+			String newWord = UseReservedWords.getReplacement(c.getName());
+			if ( modify ) c.setName(newWord);
+			return newWord;
 		}
 		return c.getName();
 	}
@@ -29,9 +30,25 @@ public class USENameModifyier {
 	public void adapt(EEnum c) {
 		for (EEnumLiteral lit : c.getELiterals()) {
 			if ( UseReservedWords.isReserved(lit.getName()) ) {
-				lit.setName(UseReservedWords.getReplacement(lit.getName()));
+				String newName = UseReservedWords.getReplacement(lit.getName());
+				String r = invalidLiteralOrNull(newName);
+				lit.setName(r == null ? newName : r);
+			} else {
+				String r = invalidLiteralOrNull(lit.getName());
+				if ( r != null ) {
+					lit.setName(r);
+				}
 			}
 		}
+	}
+	
+	public static String invalidLiteralOrNull(String literalName) {
+		// This looks like an USE internal error, but we bridge it like this
+		// This happens in ./dataset/repos/MDEGroup/QMM-COMLAN-data/validation-subjects/metamodels/abapmapping.ecore
+		if ( literalName.contains("_") ) {
+			return literalName.replaceAll("_", "o");
+		}
+		return null;
 	}
 	
 }

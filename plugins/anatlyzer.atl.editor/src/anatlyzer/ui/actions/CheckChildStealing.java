@@ -53,7 +53,7 @@ public class CheckChildStealing implements IEditorActionDelegate {
 	}
 
 	public List<PossibleStealingNode> performAction(AnalysisResult data, IProgressMonitor monitor) {
-		ChildStealingAnalysis analysis = new ChildStealingAnalysis(data.getATLModel(), data.getAnalyser());
+		ChildStealingAnalysis analysis = new ChildStealingAnalysis(data.getATLModel());
 		List<PossibleStealingNode> toBeChecked = analysis.perform();
 		int i = 0;
 		

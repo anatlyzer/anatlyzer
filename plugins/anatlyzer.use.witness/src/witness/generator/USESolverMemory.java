@@ -1,10 +1,12 @@
 package witness.generator;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringReader;
@@ -19,6 +21,14 @@ import kodkod.engine.Solution.Outcome;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
+import org.apache.log4j.Appender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.WriterAppender;
+import org.apache.log4j.spi.ErrorHandler;
+import org.apache.log4j.spi.Filter;
+import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -38,6 +48,7 @@ import org.tzi.use.api.UseModelApi;
 import org.tzi.use.api.UseSystemApi;
 import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.PluginModelFactory;
+import org.tzi.use.kodkod.transform.InvariantTransformator;
 import org.tzi.use.kodkod.transform.enrich.ModelEnricher;
 import org.tzi.use.kodkod.transform.enrich.ObjectDiagramModelEnricher;
 import org.tzi.use.main.Session;
@@ -189,10 +200,11 @@ public class USESolverMemory extends Solver_use_Transition {
 	
 	protected Pair<Outcome, Boolean> handleUSECall(InputStream iStream, StringReader metamodelBounds) throws ConfigurationException, transException {
 		MModel model = null;
-		// PrintWriter fLogWriter = new PrintWriter(System.out);
 		PrintWriter fLogWriter = new PrintWriter(System.out);
+		//ByteArrayOutputStream bs = new ByteArrayOutputStream();
+		//PrintWriter fLogWriter = new PrintWriter(bs);
 		// PrintWriter fLogWriter = new NullPrintWriter();
-        model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());
+        model = USECompiler.compileSpecification(iStream, "<generated>", fLogWriter, new ModelFactory());       
         
         MSystem system;
         if (model != null) {
@@ -214,9 +226,23 @@ public class USESolverMemory extends Solver_use_Transition {
 			partialModel.init(fSession);
 		}		
 		
+		ByteArrayOutputStream bs = new ByteArrayOutputStream();
+		Logger logger = org.apache.log4j.Logger.getLogger(InvariantTransformator.class);
+		WriterAppender appender = new WriterAppender(new SimpleLayout(), bs);
+		logger.addAppender(appender);
+		
         IModel kodkodModel = PluginModelFactory.INSTANCE.getModel(system.model());        
 		// ModelEnricher enricher = KodkodModelValidatorConfiguration.INSTANCE.getModelEnricher(); ==> Returns a NullModelEnricher
 		ModelEnricher enricher = new ObjectDiagramModelEnricher();
+
+		logger.removeAppender(appender);
+		String useOutput = bs.toString();
+        if ( useOutput.contains("Cannot transform invariant") ) {
+        	// This will end-up into a NOT_SUPPORTED_BY_USE
+        	return new Pair<Outcome, Boolean>(Outcome.UNSATISFIABLE, false);
+        }
+        
+        
 		
         kodkodModel.reset(); 		
 		// configure

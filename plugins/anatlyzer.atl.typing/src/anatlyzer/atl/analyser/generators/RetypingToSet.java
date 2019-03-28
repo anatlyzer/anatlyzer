@@ -699,7 +699,8 @@ public class RetypingToSet extends AbstractVisitor implements RetypingStrategy {
 		}
 	}
 
-	private OperationCallExp createOclAsType(String className, String modelName, Metaclass metaclass, OclExpression source) {
+	// To be used as an utility method by EMFOCL2UserFixer
+	public static OperationCallExp createOclAsType(String className, String modelName, Metaclass metaclass, OclExpression source) {
 		OclModelElement modelElement = OCLFactory.eINSTANCE.createOclModelElement();
 		modelElement.setName(className);
 

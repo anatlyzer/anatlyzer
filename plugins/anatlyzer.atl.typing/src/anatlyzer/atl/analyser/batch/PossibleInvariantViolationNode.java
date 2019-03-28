@@ -12,17 +12,16 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.IAnalyserResult;
+import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToATL;
 import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToUse;
 import anatlyzer.atl.analyser.batch.invariants.IInvariantNode;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator;
 import anatlyzer.atl.analyser.batch.invariants.InvariantGraphGenerator.TranslatedHelper;
-import anatlyzer.atl.analyser.batch.invariants.DenormalizeInvariantToATL;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.CSPModel2;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;

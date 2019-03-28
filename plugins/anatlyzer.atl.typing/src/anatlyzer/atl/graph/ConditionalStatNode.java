@@ -7,8 +7,8 @@ import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.PathIdStringVisitor;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.IfStat;
 import anatlyzer.atlext.ATL.Statement;
@@ -101,7 +101,7 @@ public class ConditionalStatNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, "if: " + USESerializer.gen(ifStat.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
+		gv.addNode(this, "if: " + ATLSerializer.serialize(ifStat.getCondition()) + " / " + (branch + "").toUpperCase(), leadsToExecution);
 	}
 
 	@Override

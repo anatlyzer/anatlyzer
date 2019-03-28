@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EReference;
 
-import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.util.ATLUtils;
@@ -24,11 +23,9 @@ import anatlyzer.atlext.ATL.MatchedRule;
 public class ChildStealingAnalysis {
 
 	private ATLModel model;
-	private IAnalyserResult analyser;
 
-	public ChildStealingAnalysis(ATLModel model, IAnalyserResult analyser) {
+	public ChildStealingAnalysis(ATLModel model) {
 		this.model = model;
-		this.analyser = analyser;
 	}
 	
 	public List<PossibleStealingNode> perform() {		

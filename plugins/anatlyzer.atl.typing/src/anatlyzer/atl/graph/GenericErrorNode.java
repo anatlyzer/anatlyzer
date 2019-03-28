@@ -10,8 +10,8 @@ import anatlyzer.atl.analyser.generators.GraphvizBuffer;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.VariableDeclaration;
@@ -54,7 +54,7 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
 		if ( element instanceof OclExpression ) { 
-			gv.addNode(this, USESerializer.gen((OclExpression) element).asString(), leadsToExecution);
+			gv.addNode(this, ATLSerializer.serialize((OclExpression) element), leadsToExecution);
 		}
 	}
 

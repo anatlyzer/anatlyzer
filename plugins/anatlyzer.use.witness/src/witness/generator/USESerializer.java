@@ -1,4 +1,4 @@
-package anatlyzer.atl.analyser.generators;
+package witness.generator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,14 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import analyser.atl.problems.IDetectedProblem;
+import anatlyzer.atl.analyser.generators.IObjectVisitor;
+import anatlyzer.atl.analyser.generators.Retyping;
+import anatlyzer.atl.analyser.generators.RetypingStrategy;
+import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.witness.USEValidityChecker;
+import anatlyzer.atl.witness.UseReservedWords;
 import anatlyzer.atlext.OCL.BagExp;
 import anatlyzer.atlext.OCL.BooleanExp;
 import anatlyzer.atlext.OCL.BooleanType;
@@ -44,6 +50,7 @@ import anatlyzer.atlext.OCL.StringType;
 import anatlyzer.atlext.OCL.TupleExp;
 import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableExp;
+import anatlyzer.atlext.OCL2.SelectByKind;
 
 public class USESerializer {
 
@@ -185,7 +192,13 @@ public class USESerializer {
 //			}
 			
 			EnumLiteralExp enuml = (EnumLiteralExp) expr;
-			return "#" + enuml.getName();
+			String name = enuml.getName();
+			String replacement = USENameModifyier.invalidLiteralOrNull(name);
+			if ( replacement != null ) {
+				name = replacement;
+			}
+			
+			return "#" + name;
 		} else if ( expr instanceof OclUndefinedExp ) {
 			return "oclUndefined(OclVoid)";
 			// return "OclUndefined";			
@@ -264,9 +277,15 @@ public class USESerializer {
 			return receptor + "." + op + casting;
 		} else if (expr instanceof CollectionOperationCallExp) {
 			CollectionOperationCallExp call = (CollectionOperationCallExp) expr;
+			String name = call.getOperationName();
+			if ( expr instanceof SelectByKind ) {
+				SelectByKind s = (SelectByKind) expr;
+				name = s.isIsExact() ? "selectByType" : "selectByKind";
+			}
+			
 			// TODO: Collection adaptation for USE, should be done better
 			String prefix = "";
-			String postfix = "->" + call.getOperationName();
+			String postfix = "->" + name;
 			if ( call.getOperationName().equals("asSequence") && (
 				  call.getSource() instanceof NavigationOrAttributeCallExp ||
 				 (call.getSource() instanceof OperationCallExp && ((OperationCallExp) call.getSource()).getOperationName().equals("allInstances")) ) ) {
@@ -311,7 +330,7 @@ public class USESerializer {
 			String typeName = genAux(it.getResult().getType());
 			
 			return receptor + "->" + "iterate" + "(" + it.getIterators().get(0).getVarName() + ";" + it.getResult().getVarName() + " : " + typeName + " = " + genAux(it.getResult().getInitExpression()) + "|" +
-			genAux(it.getBody()) + ")";			
+			genAux(it.getBody()) + ")";
 		} else {
 			throw new UnsupportedOperationException(expr.toString());
 		}

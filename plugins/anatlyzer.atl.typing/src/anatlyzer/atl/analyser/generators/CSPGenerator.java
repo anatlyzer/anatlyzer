@@ -1,13 +1,10 @@
 package anatlyzer.atl.analyser.generators;
 
-import java.util.List;
 import java.util.function.BiFunction;
 
-import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.graph.ExecutionNode;
 import anatlyzer.atl.graph.ProblemGraph;
 import anatlyzer.atl.graph.ProblemPath;
-import anatlyzer.atl.model.ErrorUtils;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OclExpression;
 
@@ -18,34 +15,6 @@ public class CSPGenerator {
 	public CSPGenerator(ProblemGraph g) {
 		this.graph = g;
 	}
-
-	public String generate() {
-		return generateLoc(null);
-	}
-	
-	/**
-	 * TODO: Remove this function, because it does not even apply retyping to USE constraints
-	 * 
-	 * @param location
-	 * @return
-	 */
-	public String generateLoc(String location) {
-		List<ProblemPath> sorted = graph.getSortedPathsByLocation();
-		
-		String s = "";
-		for(ProblemPath path : sorted) {
-			LocalProblem lp = (LocalProblem) path.getProblem();
-
-			if ( location != null && ! lp.getLocation().equals(location) ) 
-				continue;
-			
-			s += ErrorUtils.getErrorMessage(lp) + " (" + lp.getLocation() +"): \n";
-			s += USESerializer.gen(generateCSPCondition(path));
-			s += "\n\n";
-		}
-		return s;
-	}
-
 	
 	public static OclExpression generateCSPCondition(ProblemPath path) {		
 		return genCondition(path, true, "or", (node, model) -> node.genCSP(model, null));

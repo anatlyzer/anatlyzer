@@ -1,4 +1,4 @@
-package anatlyzer.atl.analyser.generators;
+package anatlyzer.atl.witness;
 
 import org.eclipse.emf.ecore.EObject;
 

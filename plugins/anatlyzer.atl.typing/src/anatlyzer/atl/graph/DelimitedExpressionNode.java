@@ -3,13 +3,13 @@ package anatlyzer.atl.graph;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.GraphvizBuffer;
-import anatlyzer.atl.analyser.generators.PathId;
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.generators.PathId;
 import anatlyzer.atl.analyser.generators.TransformationSlice;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.PrimitiveType;
+import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.CollectionOperationCallExp;
 import anatlyzer.atlext.OCL.OclExpression;
@@ -44,7 +44,7 @@ public class DelimitedExpressionNode extends AbstractDependencyNode {
 	@Override
 	public void genGraphviz(GraphvizBuffer gv) {
 		super.genGraphviz(gv);
-		gv.addNode(this, USESerializer.gen(start).asString(), leadsToExecution);
+		gv.addNode(this, ATLSerializer.serialize(start), leadsToExecution);
 	}
 
 

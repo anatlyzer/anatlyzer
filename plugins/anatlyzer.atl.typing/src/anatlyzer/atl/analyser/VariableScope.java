@@ -3,11 +3,9 @@ package anatlyzer.atl.analyser;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import anatlyzer.atl.analyser.generators.USESerializer;
 import anatlyzer.atl.analyser.namespaces.ITypeNamespace;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.analyser.typeconstraints.UndefinedTypeConstraint;
-import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.Unknown;
 import anatlyzer.atl.util.ATLSerializer;
@@ -52,6 +50,9 @@ public class VariableScope {
 	}
 
 	public void putNotKindOf(VariableDeclaration vd, OclExpression source, Type typeOfType) {
+		if ( source.getInferredType() instanceof Unknown ) {
+			return;
+		}
 		currentKindOf.addNegatedOclKindOf(vd, source, typeOfType);
 		// This was wrong because it negates all the elements in the scope
 		// currentKindOf.addOclKindOf(vd, source, typeOfType);

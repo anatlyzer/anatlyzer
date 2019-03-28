@@ -23,8 +23,10 @@ import org.tzi.use.parser.SrcPos;
 
 import witness.generator.TimeOutException;
 import witness.generator.USEResult;
+import witness.generator.USESerializer;
 import witness.generator.UseInputPartialModel;
 import witness.generator.WitnessGeneratorMemory;
+import witness.generator.USESerializer.USEConstraint;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -40,8 +42,6 @@ import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
-import anatlyzer.atl.analyser.generators.USESerializer;
-import anatlyzer.atl.analyser.generators.USESerializer.USEConstraint;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.errors.atl_error.LocalProblem;
@@ -88,6 +88,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
+	private boolean preferDeclaredTypes = false;
 	private int maxScope = 5;
 	
 	@Override
@@ -111,6 +112,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		return this;
 	}
 
+	public UseWitnessFinder setPreferDeclaredTypes(boolean preferDeclaredTypes) {
+		this.preferDeclaredTypes = preferDeclaredTypes;
+		return this;
+	}
+	
 	@Override
 	public IWitnessFinder checkDiscardCause(boolean b) {
 		this.checkDiscardCause  = b;
@@ -540,6 +546,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		Resource r = rs.createResource(URI.createURI(uri));
 		
 		ErrorSliceDataWrapper wrapper = new ErrorSliceDataWrapper(slice, srcMetamodels, problems);
+		wrapper.setPreferDeclaredTypes(preferDeclaredTypes );
 		wrapper.setDoUnfolding(doUnfolding);
 		wrapper.setStatsCollector(statsCollector);
 		wrapper.setRetypingStrategy(this.retypingStrategy);
@@ -631,9 +638,12 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		// if a class can potentially be in more than two containers, add a constraint
 		for (Entry<String,List<EReference>> entry : containers.entrySet()) {
 			//if (entry.getValue().size()>1) {
-				constraints += "\n\ncontext " + entry.getKey() + " inv single_container_only_one_instance:\n";
-				for (EReference ref : entry.getValue()) 
-					constraints += "\t" + ref.getEContainingClass().getName() + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
+				String contextClassName = UseReservedWords.replacementOrSame(entry.getKey());
+				constraints += "\n\ncontext " + contextClassName + " inv single_container_only_one_instance:\n";
+				for (EReference ref : entry.getValue()) {
+					String containingClassName = UseReservedWords.replacementOrSame(ref.getEContainingClass().getName());
+					constraints += "\t" + containingClassName + ".allInstances()->collect(o | o." + ref.getName() + ")->count(self) +\n";
+				}
 				// constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "<= 1";
 				// It must be in one container only!
 				constraints = constraints.substring(0, constraints.lastIndexOf("+")) + "= 1";

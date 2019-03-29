@@ -89,6 +89,16 @@ public class EMFOCL2UseFixer {
 			}
 		}
 		
+		@Override
+		public void inNavigationOrAttributeCallExp(NavigationOrAttributeCallExp self) {
+			if ( "oclContainer".equals(self.getName()) ) { 
+				OperationCallExp call = OCLFactory.eINSTANCE.createOperationCallExp();
+				call.setOperationName("refImmediateComposite");
+				call.setSource(self.getSource());
+				EcoreUtil.replace(self,  call);
+			}
+		}
+		
 	}
 
 	public static class Post extends AbstractVisitor implements IOCLDialectTransformer { 
@@ -101,7 +111,8 @@ public class EMFOCL2UseFixer {
 			COL_MAPPING.put("collect", CollectionKind.BAG);
 			
 			UnsupportedOperations.put(TypesPackage.Literals.STRING_TYPE, new HashSet<>(Arrays.asList("matches")));
-			UnsupportedOperations.put(TypesPackage.Literals.SET_TYPE, new HashSet<>(Arrays.asList("last"))); // this may happen when we use Set for Sequence
+			UnsupportedOperations.put(TypesPackage.Literals.SET_TYPE, new HashSet<>(Arrays.asList("last"))); // this may happen when we use Set for Sequence			
+			UnsupportedOperations.put(TypesPackage.Literals.SEQUENCE_TYPE, new HashSet<>(Arrays.asList("indexOf"))); 
 		}
 		
 		@Override
@@ -139,6 +150,11 @@ public class EMFOCL2UseFixer {
 		@Override
 		public void inCollectionOperationCallExp(CollectionOperationCallExp self) {
 			handleCollectionKindMapping(self, self.getOperationName());
+
+			Type src = self.getSource().getInferredType();
+			if ( UnsupportedOperations.getOrDefault(src.eClass(), new HashSet<String>()).contains(self.getOperationName())) {
+				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
+			}
 		}
 		
 		@Override
@@ -204,8 +220,10 @@ public class EMFOCL2UseFixer {
 				SetExp set = OCLFactory.eINSTANCE.createSetExp();
 				EcoreUtil.replace(self, set);			
 				set.getElements().add(self.getSource());
+				return;
 			} else if ( self.getOperationName().equals("allInstances") ) {
 				setColAttr(self, CollectionKind.SET);
+				return;
 			} else if ( self.getOperationName().equals("oclIsKindOf") || self.getOperationName().equals("oclIsTypeOf") ) {
 				Type src = self.getSource().getInferredType();
 				Type arg = self.getArguments().get(0).getInferredType();
@@ -215,6 +233,7 @@ public class EMFOCL2UseFixer {
 					throw new InvalidOclProgramException("Invalid oclIsKindOf " + TypeUtils.typeToString(src) + " is not supertype of " + TypeUtils.typeToString(arg));
 					// EcoreUtil.replace(self, OCLFactory.eINSTANCE.createBooleanExp());
 				}
+				return;
 			}
 			
 			Type src = self.getSource().getInferredType();

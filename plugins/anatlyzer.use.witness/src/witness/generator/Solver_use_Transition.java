@@ -102,6 +102,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 						
 						String type = "String";
 						if      (EMFUtils.isInteger(att.getEType().getName()))  type = "Integer";
+						else if ("EIntegerObject".equals(att.getEType().getName())) type = "Integer";
 						else if (EMFUtils.isBoolean(att.getEType().getName()))  type = "Boolean";
 						else if (EMFUtils.isFloating(att.getEType().getName())) type = "Real";
 						else if ("EBigDecimal".equals(att.getEType().getName())) type = "Real";

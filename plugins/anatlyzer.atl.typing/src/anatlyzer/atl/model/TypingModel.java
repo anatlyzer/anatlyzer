@@ -260,7 +260,7 @@ public class TypingModel {
 		// The "Metaclass" facet of the error must be filled as well
 		// There is no class to attach, so the error EClass is set as a representative of metaclass with errors
 		EClass t = TypesPackage.eINSTANCE.getUnresolvedTypeError();
-		impl.getContents().add(t);
+		// impl.getContents().add(t);
 		te.setKlass(t);
 		
 		return te;

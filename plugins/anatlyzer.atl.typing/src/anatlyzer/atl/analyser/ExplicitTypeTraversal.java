@@ -109,7 +109,7 @@ public class ExplicitTypeTraversal extends AbstractAnalyserVisitor {
 		
 		ITypeNamespace tspace = mmspace.getClassifier(self.getName());
 		if ( tspace == null ) {
-			if ( self.getName().equals("OclAny") ) {
+			if ( "OclAny".equals(self.getName()) ) {
 				attr.linkExprType(typ().newUnknownType());
 				return;
 			}

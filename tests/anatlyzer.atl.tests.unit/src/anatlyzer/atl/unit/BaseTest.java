@@ -114,22 +114,6 @@ public class BaseTest {
 				"tmp_/output.dot", location);
 	}
 
-	protected void generateCSP() throws IOException {
-		generateCSP(null);
-	}
-
-	protected void generateCSP(String location) throws IOException {
-		// if ( slice == null )
-		// throw new
-		// IllegalStateException("Error slice should be computed before generating CSP");
-		String s = new CSPGenerator(analyser.getDependencyGraph()).generateLoc(location);
-		if (location != null) {
-			// Debugging purposes
-			System.out.println(s);
-		}
-		printToErrorFile(s);
-	}
-
 	protected void generateErrorSlice(String metamodelName,
 			String errorSliceMMUri) throws IOException {
 		XMIResourceImpl r = new XMIResourceImpl(URI.createURI(errorSliceMMUri));

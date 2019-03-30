@@ -7,7 +7,7 @@ import anatlyzer.atl.types.Type;
 public class OclAnyTypeDef extends AtlTypeDef {
 	
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newUnknownType();
 	}
 

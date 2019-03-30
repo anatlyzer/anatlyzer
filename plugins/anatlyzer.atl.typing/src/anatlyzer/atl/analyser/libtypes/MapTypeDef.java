@@ -11,7 +11,7 @@ public class MapTypeDef extends AtlTypeDef {
 	}
 
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		throw new UnsupportedOperationException();
 	}
 

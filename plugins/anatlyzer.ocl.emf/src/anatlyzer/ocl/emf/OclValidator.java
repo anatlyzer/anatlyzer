@@ -34,6 +34,7 @@ import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.ocl.emf.scope.Bounds;
 import anatlyzer.ocl.emf.scope.ExplicitScopeCalculator;
+import anatlyzer.ocl.emf.stdlib.EMFOclStdLibrary;
 
 /**
  * This class implements the complete workflow to validate
@@ -144,8 +145,11 @@ public class OclValidator {
 		//mmResource.getContents().add(EcoreUtil.copy(packages.get(0)));
 		// mmResource = EcoreUtil.packages.get(0).eResource()
 		
+		
+		
 		ConstraintSatisfactionChecker checker = ConstraintSatisfactionChecker.
 				withLibrary(lib).
+				withOclStdLibrary(new EMFOclStdLibrary()).
 				withPreAnalysisAdapter(new EMFOCL2UseFixer.Pre()).
 				withPostAnalysisAdapter(new EMFOCL2UseFixer.Post()).
 				withFinder(finder);

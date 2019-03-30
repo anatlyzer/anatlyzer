@@ -31,7 +31,7 @@ public class SequenceTypeDef extends AtlTypeDef {
 	}
 
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newSequenceType(containedType.getAnalyserType());
 	}
 

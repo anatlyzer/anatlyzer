@@ -6,7 +6,7 @@ import anatlyzer.atl.types.Type;
 public class BooleanTypeDef extends AtlTypeDef {
 	
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newBooleanType();
 	}
 

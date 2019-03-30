@@ -118,7 +118,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 		
 	
 	public void perform() {
-		List<OclModelElement> l = model.allObjectsOf(OclModelElement.class);
+		
 		// 1. Get meta-model elements for the explicitly named types
 		explicitTypeTraversal();
 		

@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 import anatlyzer.atl.analyser.ExtendTransformation.IEOperationHandler;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis;
 import anatlyzer.atl.analyser.batch.RuleConflictAnalysis.OverlappingRules;
+import anatlyzer.atl.analyser.libtypes.AtlOclStandardLibrary;
+import anatlyzer.atl.analyser.libtypes.IOclStandardLibrary;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
@@ -48,6 +50,7 @@ public class Analyser implements IAnalyserResult {
 
 	private IEOperationHandler eOperationHandler;
 	protected ArrayList<AnalyserExtension> additional = new ArrayList<AnalyserExtension>();
+	private IOclStandardLibrary oclLibrary = new AtlOclStandardLibrary(); // default
 	
 	public Analyser(GlobalNamespace mm, ATLModel atlModel) {
 		this.mm    = mm;
@@ -58,6 +61,11 @@ public class Analyser implements IAnalyserResult {
 
 	public Analyser withEOperationHandler(IEOperationHandler eOperationHandler) {
 		this.eOperationHandler = eOperationHandler;
+		return this;
+	}
+	
+	public Analyser withOclLibrary(IOclStandardLibrary std) {
+		this.oclLibrary = std;
 		return this;
 	}
 	
@@ -74,6 +82,7 @@ public class Analyser implements IAnalyserResult {
 				AnalyserContext.setErrorModel(errors);
 				AnalyserContext.setTypingModel(typ);				
 				AnalyserContext.setGlobalNamespace(mm);
+				AnalyserContext.setStdLib(oclLibrary);
 				
 				stage++;
 				

@@ -11,6 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
@@ -71,6 +72,11 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		Type t = AnalyserContext.getOclAnyInheritedNamespace().getOperationType(operationName, arguments, node);
 		if ( t != null )
 			return t;
+		
+		AtlTypeDef typeDef = AnalyserContext.getStdLib().getTypeDefOf(this);
+		if ( typeDef != null ) {
+			return typeDef.getOperationReturnType(operationName);
+		}
 		
 		// TODO: Replace this for libtypes
 		if ( operationName.equals("oclIsUndefined") ) {

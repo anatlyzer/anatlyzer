@@ -19,6 +19,7 @@ import anatlyzer.atl.analyser.ExtendTransformation.IEOperationHandler;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
 import anatlyzer.atl.analyser.generators.OclSlice;
+import anatlyzer.atl.analyser.libtypes.IOclStandardLibrary;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
@@ -57,6 +58,7 @@ public class ConstraintSatisfactionChecker {
 	private Library library;
 	private List<IOCLDialectTransformer> preAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
 	private List<IOCLDialectTransformer> postAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
+	private IOclStandardLibrary stdLibrary;
 	
 	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
 		this.expressions.addAll(expressions);
@@ -113,6 +115,9 @@ public class ConstraintSatisfactionChecker {
 			@Override
 			public boolean canHandle(EClass c, EOperation op) { return true; }
 		});
+		
+		if ( stdLibrary != null )
+			analyser.withOclLibrary(this.stdLibrary);
 		
 		analyser.perform();
 
@@ -245,6 +250,11 @@ public class ConstraintSatisfactionChecker {
 
 	public ConstraintSatisfactionChecker withPostAnalysisAdapter(IOCLDialectTransformer fixer) {
 		postAdapters.add(fixer);
+		return this;
+	}
+
+	public ConstraintSatisfactionChecker withOclStdLibrary(IOclStandardLibrary stdLibrary) {
+		this.stdLibrary = stdLibrary;
 		return this;
 	}
 

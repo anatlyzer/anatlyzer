@@ -76,7 +76,7 @@ public class StringTypeDef extends AtlTypeDef {
 	}
 
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newStringType();
 	}
 

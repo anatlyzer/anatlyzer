@@ -2,6 +2,7 @@ package anatlyzer.atl.analyser;
 
 import java.util.HashSet;
 
+import anatlyzer.atl.analyser.libtypes.IOclStandardLibrary;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.analyser.namespaces.OclAnyInheritedNamespace;
 import anatlyzer.atl.model.ErrorModel;
@@ -12,6 +13,7 @@ public class AnalyserContext {
 	private static ThreadLocal<ErrorModel>  errorModelTL  = new ThreadLocal<ErrorModel>();
 	private static ThreadLocal<EcoreTypeConverter> converterTL  = new ThreadLocal<EcoreTypeConverter>();
 	private static ThreadLocal<GlobalNamespace> mmTL  = new ThreadLocal<GlobalNamespace>();
+	private static ThreadLocal<IOclStandardLibrary> stdLibTL  = new ThreadLocal<IOclStandardLibrary>();
 	private static ThreadLocal<OclAnyInheritedNamespace> oclAnyInheritedNamespace  = new ThreadLocal<OclAnyInheritedNamespace>();
 
 	private static boolean	isVarDclInferencePreferred = true;
@@ -21,6 +23,10 @@ public class AnalyserContext {
 		typingModelTL.set(value);
 		converterTL.set(new EcoreTypeConverter(value));
 		oclAnyInheritedNamespace.set(new OclAnyInheritedNamespace());
+	}
+	
+	public static IOclStandardLibrary getStdLib() {
+		return stdLibTL.get();
 	}
 	
 	public static TypingModel getTypingModel() {
@@ -34,6 +40,10 @@ public class AnalyserContext {
 
 	public static void setGlobalNamespace(GlobalNamespace mm) {
 		mmTL.set(mm);
+	}
+	
+	public static void setStdLib(IOclStandardLibrary std) {
+		stdLibTL.set(std);
 	}
 	
 	public static GlobalNamespace getGlobalNamespace() {

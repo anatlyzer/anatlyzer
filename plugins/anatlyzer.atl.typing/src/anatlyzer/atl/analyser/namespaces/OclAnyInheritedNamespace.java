@@ -3,6 +3,8 @@ package anatlyzer.atl.analyser.namespaces;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import anatlyzer.atl.analyser.AnalyserContext;
+import anatlyzer.atl.analyser.libtypes.AtlTypeDef;
 import anatlyzer.atl.analyser.typeconstraints.ITypeConstraint;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atlext.ATL.LocatedElement;
@@ -40,8 +42,9 @@ public class OclAnyInheritedNamespace implements ITypeNamespace {
 	@Override
 	public Type getOperationType(String operationName, Type[] arguments, LocatedElement node) {
 		VirtualFeature<OclAnyInheritedNamespace, Operation> r = operations.get(operationName);
-		if ( r == null )
+		if ( r == null ) {
 			return null;
+		}
 		return r.returnType;
 	}
 

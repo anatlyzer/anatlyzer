@@ -8,11 +8,11 @@ import anatlyzer.atl.types.Type;
 public class FloatTypeDef extends AtlTypeDef {
 	
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newFloatType();
 	}
 
-	public void init() {
+	protected void init() {
 		// Ocl operations
 		// Operators hard-coded in the integer namepace
 		// comparison operators: <, >, >=, <=;

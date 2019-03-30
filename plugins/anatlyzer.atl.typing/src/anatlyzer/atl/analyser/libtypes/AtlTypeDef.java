@@ -24,7 +24,7 @@ public abstract class AtlTypeDef {
 			// throw new IllegalArgumentException("No operation " + operationName + " " + this.getClass().getName());
 		}
 		
-		return op.getReturnType().getAnalyserType();
+		return op.getReturnType().apply(this).getAnalyserType();
 	}
 
 
@@ -45,6 +45,7 @@ public abstract class AtlTypeDef {
 		
 		return op.getParameterNames();
 	}
-	protected abstract Type getAnalyserType();
 	
+	public abstract Type getAnalyserType();
+
 }

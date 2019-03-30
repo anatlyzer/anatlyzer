@@ -10,7 +10,7 @@ public class OclTypeDef extends AtlTypeDef {
 	}
 
 	@Override
-	protected Type getAnalyserType() {
+	public Type getAnalyserType() {
 		return AnalyserContext.getTypingModel().newOclType();		
 	}
 }

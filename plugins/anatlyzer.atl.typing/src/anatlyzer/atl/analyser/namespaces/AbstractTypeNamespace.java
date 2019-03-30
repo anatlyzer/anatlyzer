@@ -72,12 +72,7 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		Type t = AnalyserContext.getOclAnyInheritedNamespace().getOperationType(operationName, arguments, node);
 		if ( t != null )
 			return t;
-		
-		AtlTypeDef typeDef = AnalyserContext.getStdLib().getTypeDefOf(this);
-		if ( typeDef != null ) {
-			return typeDef.getOperationReturnType(operationName);
-		}
-		
+				
 		// TODO: Replace this for libtypes
 		if ( operationName.equals("oclIsUndefined") ) {
 			checkArguments("oclIsUndefined", new Type[] {}, new String[] { }, arguments, node);
@@ -105,6 +100,13 @@ public abstract class AbstractTypeNamespace implements ITypeNamespace {
 		} else if ( operationName.equals("debug") ) {
 			return this.getType();
 		}
+ 
+		AtlTypeDef typeDef = AnalyserContext.getStdLib().getTypeDefOf(this);
+		if ( typeDef != null ) {
+			return typeDef.getOperationReturnType(operationName);
+		}
+
+		
 		return null;
 	}
 

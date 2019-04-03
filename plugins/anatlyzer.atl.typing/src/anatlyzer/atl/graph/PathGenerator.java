@@ -3,6 +3,7 @@ package anatlyzer.atl.graph;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
@@ -49,12 +50,16 @@ public class PathGenerator {
 	protected ProblemPath currentPath;
 
 	public ProblemPath generatePath(OclExpression expr) {
+		return generatePath(expr, GenericErrorNode::new);
+	}
+	
+	public ProblemPath generatePath(OclExpression expr, Function<FakeLocalProblem, ProblemNode> factory) {
 		currentPath = null;
 		
 		FakeLocalProblem p = new FakeLocalProblem();
 		p.setElement(expr);
 
-		generatePath_GenericError((LocalProblem) p);
+		generatePath_GenericError((LocalProblem) p, factory.apply(p));
 		
 		if ( currentPath == null )
 			throw new IllegalStateException();
@@ -62,7 +67,7 @@ public class PathGenerator {
 		return currentPath;
 	}
 
-	public class FakeLocalProblem extends LocalProblemImpl {
+	public static class FakeLocalProblem extends LocalProblemImpl {
 		
 	}
 
@@ -71,8 +76,7 @@ public class PathGenerator {
 	// Path computation methods
 	//
 	
-	protected void generatePath_GenericError(LocalProblem p) {
-		GenericErrorNode node = new GenericErrorNode(p);
+	protected void generatePath_GenericError(LocalProblem p, ProblemNode node) {
 		ProblemPath path = new ProblemPath(p, node);
 		LocatedElement elem = (LocatedElement) p.getElement();
 		generatePath(path, node, elem);

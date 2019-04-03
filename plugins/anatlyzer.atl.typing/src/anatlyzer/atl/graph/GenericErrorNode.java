@@ -75,7 +75,8 @@ public class GenericErrorNode extends AbstractDependencyNode implements ProblemN
 	
 	@Override
 	public boolean isVarRequiredByErrorPath(VariableDeclaration v) {		
-		return ATLUtils.findVariableReference(element, v) != null || getDepending().isVarRequiredByErrorPath(v);			
+		return ATLUtils.findVariableReference(element, v) != null || 
+				(getDepending() != null && getDepending().isVarRequiredByErrorPath(v));
 	}
 
 	@Override

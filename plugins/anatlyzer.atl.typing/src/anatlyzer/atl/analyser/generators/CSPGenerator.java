@@ -17,7 +17,11 @@ public class CSPGenerator {
 	}
 	
 	public static OclExpression generateCSPCondition(ProblemPath path) {		
-		return genCondition(path, true, "or", (node, model) -> node.genCSP(model, null));
+		return generateCSPCondition(path, true);
+	}
+	
+	public static OclExpression generateCSPCondition(ProblemPath path, boolean genThisModule) {		
+		return genCondition(path, genThisModule, "or", (node, model) -> node.genCSP(model, null));
 	}
 
 	public static OclExpression generateWeakestPrecondition(ProblemPath path) {

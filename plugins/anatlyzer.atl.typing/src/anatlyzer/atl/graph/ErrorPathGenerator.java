@@ -107,7 +107,7 @@ public class ErrorPathGenerator extends PathGenerator {
 			generatePath_AccessToUndefinedValue_ThroughEmptyCollection((AccessToUndefinedValue_ThroughEmptyCollection) p);
 		} else {			
 			if ( ! (p instanceof AtlParseError) )
-				generatePath_GenericError((LocalProblem) p);
+				generatePath_GenericError((LocalProblem) p, new GenericErrorNode(p));
 		}
 	
 		return currentPath;

@@ -99,7 +99,7 @@ public class UIUtils {
 		//BasicNewFileResourceWizard fr = new BasicNewFileResourceWizard();
 		//fr.init(workbench, currentSelection);
 		
-		FileDialog fd = new FileDialog(shell);
+		FileDialog fd = new FileDialog(shell, SWT.SAVE);
 		String f = fd.open();
 		
 		

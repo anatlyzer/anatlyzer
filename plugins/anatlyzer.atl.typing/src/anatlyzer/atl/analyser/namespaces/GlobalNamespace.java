@@ -90,17 +90,19 @@ public class GlobalNamespace {
 	}
 	
 	public Pair<EClassifier, MetamodelNamespace> resolve(EClassifier proxy) {
-		if ( rs == null )
-			return null;
-		
-		EClassifier c = (EClassifier) EcoreUtil.resolve(proxy, rs);
-		EPackage pkg = c.getEPackage();
-		for (MetamodelNamespace m : namesToMetamodels.values()) {
-			if ( m.loadedPackages.contains(pkg) ) {
-				return new Pair<EClassifier, MetamodelNamespace>(c, m);  
+		if ( rs != null ) {
+			return resolveOverRS(proxy, rs);
+		} else {
+			// In case this is a cross-reference which might be resolved in another way
+			Resource r = proxy.eResource();
+			if ( r != null && r.getResourceSet() != null) {
+				return resolveOverRS(proxy, r.getResourceSet());
 			}
 		}
+		
 		return null;
+		
+		
 		
 		
 //		for (MetamodelNamespace m : namesToMetamodels.values()) {
@@ -119,6 +121,17 @@ public class GlobalNamespace {
 //		}
 //		return null;
 //	}
+	}
+
+	private Pair<EClassifier, MetamodelNamespace> resolveOverRS(EClassifier proxy, ResourceSet resourceSet) {
+		EClassifier c = (EClassifier) EcoreUtil.resolve(proxy, resourceSet);
+		EPackage pkg = c.getEPackage();
+		for (MetamodelNamespace m : namesToMetamodels.values()) {
+			if ( m.loadedPackages.contains(pkg) ) {
+				return new Pair<EClassifier, MetamodelNamespace>(c, m);  
+			}
+		}
+		return null;
 	}
 	
 	public MetamodelNamespace getNamespace(String name) {

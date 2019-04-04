@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -365,7 +368,10 @@ public class ConstraintsComposite extends Composite {
 		IResource r = UIUtils.showChooseNewFileDialog(getShell());
 		if ( r != null ) {		
 			try {
-				m.getModel().getModelAsOriginal().save(new FileOutputStream(r.getFullPath().toOSString()), null);
+				Resource original = m.getModel().getModelAsOriginal();
+				Map<String, Object> options = new HashMap();
+				options.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+				original.save(new FileOutputStream(r.getFullPath().toOSString()), options);
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new RuntimeException(e);

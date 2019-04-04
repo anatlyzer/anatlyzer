@@ -1164,9 +1164,15 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			return;
 		}
 		
-		CollectionNamespace cspace = (CollectionNamespace) receptorType.getMetamodelRef();
-		Type iteratorType = cspace.newCollectionType(arguments[0]);
-		attr.linkExprType( iteratorType );
+		if ( receptorType.getMetamodelRef() instanceof CollectionNamespace ) {
+			CollectionNamespace cspace = (CollectionNamespace) receptorType.getMetamodelRef();
+			Type iteratorType = cspace.newCollectionType(arguments[0]);
+			attr.linkExprType( iteratorType );
+		} else {
+			// TODO: Create a proper error  
+			Type errorType = errors().signalCollectionOperationNotFound("selectByKind", self);
+			attr.linkExprType( errorType );
+		}
 	}
 	
 	@Override

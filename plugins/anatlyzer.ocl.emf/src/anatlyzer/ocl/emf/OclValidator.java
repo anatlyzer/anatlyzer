@@ -3,12 +3,15 @@ package anatlyzer.ocl.emf;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
@@ -138,7 +141,7 @@ public class OclValidator {
 		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_FULL_METAMODEL);
 		if ( finder instanceof UseWitnessFinder ) {
 			((UseWitnessFinder) finder).withRetyingStrategy(RetypingStrategy.NULL);
-			((UseWitnessFinder) finder).setPreferDeclaredTypes(true);
+			// ((UseWitnessFinder) finder).setPreferDeclaredTypes(true);
 		}
 		
 		//Resource mmResource = new EcoreResourceFactoryImpl().createResource(URI.createURI("validator:/internal/copy"));

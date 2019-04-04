@@ -152,7 +152,7 @@ public class EMFOCL2UseFixer {
 			handleCollectionKindMapping(self, self.getOperationName());
 
 			Type src = self.getSource().getInferredType();
-			if ( UnsupportedOperations.getOrDefault(src.eClass(), new HashSet<String>()).contains(self.getOperationName())) {
+			if ( src != null && UnsupportedOperations.getOrDefault(src.eClass(), new HashSet<String>()).contains(self.getOperationName())) {
 				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
 			}
 		}

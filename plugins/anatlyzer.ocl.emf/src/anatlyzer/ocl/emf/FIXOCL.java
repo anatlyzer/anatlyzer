@@ -135,9 +135,9 @@ public class FIXOCL {
 			} if ( cSuspicius.size() == 1 && pSuspicius.size() == 1 ) {
 				Property property = pSuspicius.get(0);
 				Constraint constraint = cSuspicius.get(0);
+				EcoreUtil.remove(constraint);
 				property.setIsDerived(true);
 				property.setOwnedExpression(constraint.getOwnedSpecification());
-				EcoreUtil.remove(constraint);
 				System.err.println("Tentative fix of derived property without expression: " + property.getName());
 			} else {
 				System.err.println("Properties without ownedExpression, cannot be fixed. Class " + object.getName());

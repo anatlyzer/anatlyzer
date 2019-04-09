@@ -49,15 +49,15 @@ public class PathGenerator {
 
 	protected ProblemPath currentPath;
 
-	public ProblemPath generatePath(OclExpression expr) {
-		return generatePath(expr, GenericErrorNode::new);
+	public ProblemPath generatePath(LocatedElement elem) {
+		return generatePath(elem, GenericErrorNode::new);
 	}
 	
-	public ProblemPath generatePath(OclExpression expr, Function<FakeLocalProblem, ProblemNode> factory) {
+	public ProblemPath generatePath(LocatedElement elem, Function<FakeLocalProblem, ProblemNode> factory) {
 		currentPath = null;
 		
 		FakeLocalProblem p = new FakeLocalProblem();
-		p.setElement(expr);
+		p.setElement(elem);
 
 		generatePath_GenericError((LocalProblem) p, factory.apply(p));
 		

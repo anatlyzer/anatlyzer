@@ -21,6 +21,10 @@ public class AnalysisLoader {
 	private GlobalNamespace globalNamespace;
 	private ATLModel atlTransformation;
 
+	private AnalysisLoader() { 
+		// Use static construction methods
+	}
+	
 	public static AnalysisLoader fromFilename(String trafoFilename, Object[] metamodels, String[] names) throws LoadException {
 		Resource atlTrafo = AtlLoader.load(trafoFilename);
 		AnalysisLoader loader = fromResource(atlTrafo, metamodels, names);
@@ -59,11 +63,16 @@ public class AnalysisLoader {
 		return new GlobalNamespace(resources, logicalNamesToResources);
 	}
 	
-	
-
-	public static AnalysisLoader fromATLModel(ATLModel trafo, Object[] metamodels, String[] names) {
+	public static AnalysisLoader fromATLModel(ATLModel trafo, GlobalNamespace namespace) {
 		AnalysisLoader result = new AnalysisLoader();
 		
+		result.globalNamespace = namespace;
+		result.atlTransformation = trafo;		
+		
+		return result;	
+	}
+
+	public static AnalysisLoader fromATLModel(ATLModel trafo, Object[] metamodels, String[] names) {
 		ResourceSet rs = new ResourceSetImpl();
 		int i = 0;
 		HashMap<String, Resource> logicalNamesToResources = new HashMap<String, Resource>();
@@ -82,10 +91,8 @@ public class AnalysisLoader {
 			i++;
 		}
 
-		result.globalNamespace = new GlobalNamespace(resources, logicalNamesToResources);		
-		result.atlTransformation = trafo;		
-		
-		return result;
+		GlobalNamespace ns = new GlobalNamespace(resources, logicalNamesToResources);		
+		return fromATLModel(trafo, ns);
 	}
 
 	public ATLModelTrace getTrace() {

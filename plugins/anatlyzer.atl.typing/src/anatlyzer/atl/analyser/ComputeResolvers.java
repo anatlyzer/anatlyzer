@@ -83,9 +83,6 @@ public class ComputeResolvers extends AbstractAnalyserVisitor {
 			self.setIsAttribute(true);
 		} else {
 			self.setIsAttribute(false);
-			if ( ATLUtils.getHelperName(self).equals("findType") ) {
-				System.out.println(self);
-			}
 			List<Parameter> params = ((Operation) self.getDefinition().getFeature()).getParameters();
 			for(int i = 0; i < params.size(); i++) {
 				self.getCallableParameters().add(createCallableParameter(params.get(i)));

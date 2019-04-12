@@ -775,7 +775,13 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			return;
 		} else if ( self.getOperationName().equals("oclAsType") ) {
 			// Special addition, not supported by ATL
-			attr.linkExprType(attr.typeOf( self.getArguments().get(0) ));
+			Type type;
+			if (self.getArguments().size() != 1) {
+				type = errors().signalInvalidArgument("oclAsType", "Required one parameter", self);
+			} else {
+				type = attr.typeOf( self.getArguments().get(0) );
+			}
+			attr.linkExprType(type);
 			return;
 		}
 		

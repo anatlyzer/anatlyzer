@@ -8,13 +8,20 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.pivot.Import;
 import org.eclipse.ocl.pivot.Namespace;
@@ -27,14 +34,22 @@ import org.eclipse.ocl.xtext.completeocl.utilities.CompleteOCLCSResource;
 import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
 import org.eclipse.ocl.xtext.completeoclcs.PackageDeclarationCS;
 
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.batch.invariants.LazyRulePathVisitor;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
+import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.IntegerType;
+import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.types.StringType;
+import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.util.ATLSerializer;
+import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker.IOCLDialectTransformer;
@@ -44,7 +59,11 @@ import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atl.witness.UseWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
+import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
+import anatlyzer.atlext.ATL.Module;
+import anatlyzer.atlext.ATL.Unit;
+import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.Iterator;
 import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LoopExp;
@@ -53,9 +72,12 @@ import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
+import anatlyzer.atlext.OCL.OclType;
+import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
 import anatlyzer.atlext.OCL.VariableExp;
 import anatlyzer.atlext.processing.AbstractVisitor;
 import anatlyzer.ocl.emf.scope.Bounds;
@@ -177,7 +199,7 @@ public class OclValidator {
 				withLibrary(lib).
 				withOclStdLibrary(new EMFOclStdLibrary()).
 				withPreAnalysisAdapter(new EMFOCL2UseFixer.Pre()).
-				withPreAnalysisAdapter(new TupleAdapter()).
+				withPostAnalysisAdapter(new TupleAdapter()).
 				withPostAnalysisAdapter(new EMFOCL2UseFixer.Post()).
 				withFinder(finder);
 		
@@ -279,31 +301,86 @@ public class OclValidator {
 
 		private OclModel tupleModel;
 		private EPackage extraPackage;
+		private MetaModel extraMetamodel;
+		private List<Runnable> pending = new ArrayList<Runnable>();
 		
 		@Override
-		public void adapt(ATLModel m) {
-			extraPackage = EcoreFactory.eINSTANCE.createEPackage();
-			extraPackage.setName("tuple_pkg");
-			
-			tupleModel = OCLFactory.eINSTANCE.createOclModel();
-			tupleModel.setName("TupleTypeModel");
+		public void adapt(ATLModel m, IAnalyserResult result) {
 			startVisiting(m.getRoot());
+			pending.forEach(r -> r.run());
+			
+			if ( result == null )
+				throw new IllegalStateException("This should be configured as post-transformer");
+
+			if (extraPackage != null ) {
+				Resource r = new EcoreResourceFactoryImpl().createResource(URI.createURI(extraPackage.getNsURI()));				
+				r.getContents().add(extraPackage);
+				result.getNamespaces().addMetamodel(extraPackage.getName(), r);
+			
+				Module mod = (Module) m.getRoot();
+			
+				OclModel extraModel = OCLFactory.eINSTANCE.createOclModel();
+				extraModel.setName("EXTRA_TUPLES");
+				OclModel mm = OCLFactory.eINSTANCE.createOclModel();
+				mm.setName(extraMetamodel.getName());
+				extraModel.setMetamodel(mm);
+				
+				mod.getInModels().add(extraModel);
+			}
+			
+			
+			System.out.println(ATLSerializer.serialize(m));
 		}		
 		
 		@Override
+		public void inTupleType(anatlyzer.atlext.OCL.TupleType tt) {
+			// I need to findout a better, unique tuple type name
+			String typeName = tt.getAttributes().stream().map(p -> "F" + p.getName()).sorted().collect(Collectors.joining(""));
+			
+			pending.add(() -> {
+				Metaclass m = getCreatedMetaclass(typeName);
+				// This is has to exists because we do metaclass creation at the TupleExp level
+				if ( m != null ) {
+					OclModelElement me = OCLFactory.eINSTANCE.createOclModelElement();
+					me.setName(m.getName());
+					me.setInferredType(m);
+					OclModel mm = OCLFactory.eINSTANCE.createOclModel();
+					mm.setName(extraMetamodel.getName());
+					me.setModel(mm);
+					
+					Helper h = ATLUtils.getContainer(tt, Helper.class);
+					if ( h != null ) {
+						Type existingType = h.getInferredReturnType();
+						if ( existingType instanceof CollectionType ) {
+							// TODO: Consider Set(Set(T)) for instance
+							((CollectionType) existingType).setContainedType(m);
+						} else {							
+							h.setInferredReturnType(m);
+						}
+					}
+
+					EcoreUtil.replace(tt, me);		
+				}
+			});
+		}
+		
+		@Override
 		public void inTupleExp(TupleExp self) {
-			String ruleName = self.getAnnotations().get(LazyRulePathVisitor.TUPLE_FOR_LAZY_CALL);
+			// String ruleName = self.getAnnotations().get(LazyRulePathVisitor.TUPLE_FOR_LAZY_CALL);
 			// TOOD: THIS!			
 			// List<OclModelElement> types = getLazyRuleTypes(self, ruleName);
-
-			String typeName = self.getTuplePart().stream().map(p -> p.getVarName()).collect(Collectors.joining("_"));
+			lazyInit();
+			
+			String typeName = self.getTuplePart().stream().map(p -> "F" + p.getVarName()).sorted().collect(Collectors.joining(""));
 			
 			OclModelElement newElement = OCLFactory.eINSTANCE.createOclModelElement();
 			newElement.setName(typeName);
 			newElement.setModel(tupleModel);
-			// TOOD: this!
-			//newElement.setInferredType(createMetaclass(self, (e) -> getLazyTupleClassName(e, ruleName), (e) -> getLazyRuleTypes(e, ruleName), (mm, i) -> self.getTuplePart().get(i).getVarName() ));
+
+			Metaclass mm = createMetaclass(self, typeName);
+			newElement.setInferredType(mm);
 			
+			// 
 			OperationCallExp allInstances = OCLFactory.eINSTANCE.createOperationCallExp();
 			allInstances.setOperationName("allInstances");
 			allInstances.setSource(newElement);
@@ -328,6 +405,11 @@ public class OclValidator {
 				vexp.setReferredVariable(it);
 				nav.setSource(vexp);
 				nav.setName(p.getVarName());
+				EStructuralFeature f = mm.getKlass().getEStructuralFeature(p.getVarName());
+				if ( f == null )
+					throw new IllegalStateException();
+				nav.setUsedFeature(f);
+				
 				
 				OperatorCallExp eq = OCLFactory.eINSTANCE.createOperatorCallExp();
 				eq.setOperationName("=");
@@ -346,6 +428,87 @@ public class OclValidator {
 			any.setBody(body.orElseThrow(() -> new IllegalStateException()));
 			
 			EcoreUtil.replace(self, any);			
+		}
+		
+		private void lazyInit() {
+			if ( extraPackage == null ) {
+				extraPackage = EcoreFactory.eINSTANCE.createEPackage();
+				extraPackage.setName("tuple_pkg");
+				extraPackage.setNsURI("tuple/internal/uri");
+				extraPackage.setNsPrefix("tuple_internal");
+				
+				MetaModel model = TypesFactory.eINSTANCE.createMetaModel();
+				model.setName(extraPackage.getName());
+				this.extraMetamodel = model;
+				
+				tupleModel = OCLFactory.eINSTANCE.createOclModel();
+				tupleModel.setName("TupleTypeModel");
+			}
+		}
+
+		private Metaclass getCreatedMetaclass(String typeName) {
+			for(EClassifier cl : extraPackage.getEClassifiers()) {
+				if ( cl.getName().equals(typeName) ) {
+					Metaclass mm = TypesFactory.eINSTANCE.createMetaclass();
+					mm.setKlass((EClass) cl);
+					mm.setName(typeName);
+					mm.setModel(extraMetamodel);
+					return mm;
+				}
+			}
+			return null;
+		}
+		
+		private Metaclass createMetaclass(TupleExp self, String typeName) {
+			Metaclass m = getCreatedMetaclass(typeName);
+			if ( m != null )
+				return m;
+
+			EClass c = EcoreFactory.eINSTANCE.createEClass();
+			EAnnotation ann = EcoreFactory.eINSTANCE.createEAnnotation();
+			ann.setSource(EXTRA_CLASS);
+			c.getEAnnotations().add(ann);
+			c.setName(typeName);
+
+			extraPackage.getEClassifiers().add(c);
+
+			Metaclass mm = TypesFactory.eINSTANCE.createMetaclass();
+			mm.setKlass(c);			
+			mm.setModel(extraMetamodel);
+			// mm.setKlass(getOrCreateEClass(self, classNameGetter, typeGetter, refNameGetter));
+			mm.setName(mm.getKlass().getName());
+			
+
+			for (int i = 0; i < self.getTuplePart().size(); i++) {
+				TuplePart tp = self.getTuplePart().get(i);
+				EStructuralFeature f;
+				
+				Type t = tp.getInferredType();
+				if ( t == null )
+					throw new IllegalStateException("Null inferred type for tuple part at " + tp.getLocation());
+				
+				if ( t instanceof IntegerType ) {
+					f = EcoreFactory.eINSTANCE.createEAttribute();
+					f.setEType(EcorePackage.Literals.EINT);
+				} else if ( t instanceof StringType ) {
+					f = EcoreFactory.eINSTANCE.createEAttribute();
+					f.setEType(EcorePackage.Literals.ESTRING);
+				} else if ( t instanceof Metaclass ) {
+					f = EcoreFactory.eINSTANCE.createEReference();
+					f.setEType(((Metaclass) t).getKlass());
+					((EReference) f).setContainment(false);
+				} else {
+					throw new UnsupportedOperationException("Type " + " not supported");
+				}			
+				
+				f.setName(tp.getVarName());
+				// ref.setContainment(true);
+				f.setLowerBound(1);
+				f.setUpperBound(1);
+				c.getEStructuralFeatures().add(f);
+			}
+			
+			return mm;
 		}
 		
 
@@ -388,6 +551,7 @@ public class OclValidator {
 			eClasses.put(name, c);
 			return c;
 		}
+
 
 	}
 	

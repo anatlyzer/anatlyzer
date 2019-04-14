@@ -19,6 +19,7 @@ import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
 import org.junit.Test;
 
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.tests.api.StandaloneUSEWitnessFinder;
 import anatlyzer.ocl.emf.OclValidator.ValidationResult;
 
 public class TestTuples {
@@ -41,7 +42,10 @@ public class TestTuples {
 		validator.addOclDefinition((CompleteOCLCSResource) doc.eResource());
 		List<EPackage> packages = OclValidator.getPackagesOfDocument(doc);
 		packages.forEach(validator::addMetamodel);
+		
+		validator.withWitnessFinder(new StandaloneUSEWitnessFinder());
 		validator.invoke();
+		
 		
 		ValidationResult result = validator.getResult();
 		assertEquals(ProblemStatus.ERROR_CONFIRMED, result.getStatus());

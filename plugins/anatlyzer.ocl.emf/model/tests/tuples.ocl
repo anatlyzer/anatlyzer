@@ -5,7 +5,9 @@ package extlibrary
 context Library
 	def: preferredItems : Set(Tuple (name : String, price : Integer)) =
 		self.stock
-			->selectByKind(extlibrary::Book)
+--			->selectByKind(extlibrary::Book)
+			->select(s | s.oclIsKindOf(extlibrary::Book))
+			->collect(s | s.oclAsType(extlibrary::Book))
 			->collect(b | Tuple { name = b.title, price = 2 * b.pages })->asSet()					
 	
 	inv atLeastSomethingILike: self.preferredItems->exists(t | t.name = 'The Silver Pigs')

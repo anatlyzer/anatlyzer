@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ocl.xtext.completeocl.ui,
  org.eclipse.ocl.pivot,
- anatlyzer.use.witness
+ anatlyzer.use.witness,
+ anatlyzer.atl.standalone.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.ocl.emf,

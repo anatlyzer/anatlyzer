@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.ocl.pivot.CollectionKind;
 import witness.generator.USENameModifyier;
+import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
@@ -52,7 +53,7 @@ public class EMFOCL2UseFixer {
 	public static class Pre extends AbstractVisitor implements IOCLDialectTransformer { 
 		
 		@Override
-		public void adapt(ATLModel m) {
+		public void adapt(ATLModel m, IAnalyserResult result) {
 			startVisiting(m.getRoot());
 		}
 	
@@ -117,7 +118,7 @@ public class EMFOCL2UseFixer {
 		}
 		
 		@Override
-		public void adapt(ATLModel m) {
+		public void adapt(ATLModel m, IAnalyserResult result) {
 			startVisiting(m.getRoot());
 		}
 	

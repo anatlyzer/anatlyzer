@@ -1433,6 +1433,7 @@ public class TypeAnalysisTraversal extends AbstractAnalyserVisitor {
 			} else {
 				attTypes[i] = attr.typeOf(tp.getInitExpression());				
 			}
+			tp.setInferredType(attTypes[i]);
 			attNames[i] = tp.getVarName();
 			i++;
 		}

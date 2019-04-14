@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -296,7 +297,7 @@ public abstract class Solver_use_Transition extends Solver_use {
 	
 	protected void parseOutput2EmfIntoResource(EPackage metamodel, Resource model) {
 		int i = 0;
-		Hashtable<String,EObject> eobjects  = new Hashtable<String,EObject>();
+		HashMap<String,EObject> eobjects  = new HashMap<String,EObject>();
 
 		// parse objects
 		for (MObject useObject : result.allObjects()) {
@@ -308,6 +309,9 @@ public abstract class Solver_use_Transition extends Solver_use {
 			// parse attributes
 			Map<MAttribute, Value> attributes = useObject.state(result).attributeValueMap();
 			for (MAttribute attribute : attributes.keySet()) {
+				if ( attribute.isDerived() )
+					continue;
+				
 				String field = attribute.name();
 				String value = trim( attributes.get(attribute).toString() );
 				if (!value.equals("Undefined")) {

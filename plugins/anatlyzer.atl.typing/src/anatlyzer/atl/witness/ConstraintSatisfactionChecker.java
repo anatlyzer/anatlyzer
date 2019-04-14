@@ -104,7 +104,7 @@ public class ConstraintSatisfactionChecker {
 		this.model = model;
 		
 		for (IOCLDialectTransformer t : preAdapters) {
-			t.adapt(model);
+			t.adapt(model, null);
 		}
 		
 		Analyser analyser = new Analyser(mm, model);
@@ -122,7 +122,7 @@ public class ConstraintSatisfactionChecker {
 		analyser.perform();
 
 		for (IOCLDialectTransformer t : postAdapters) {
-			t.adapt(model);
+			t.adapt(model, analyser);
 		}
 
 		// Configure the finder
@@ -184,7 +184,7 @@ public class ConstraintSatisfactionChecker {
 
 		@Override
 		public ErrorSlice getErrorSlice(IAnalyserResult result) {
-			ErrorSlice slice = new ErrorSlice(result, namesToResources.keySet(), this);
+			ErrorSlice slice = new ErrorSlice(result, result.getNamespaces().getLogicalNamesToMetamodels().keySet(), this);
 			
 			getExpressionsToBeChecked().forEach(e -> OclSlice.slice(slice, e));
 			getDerivedPropertiesOrOperations().forEach(h -> {
@@ -240,7 +240,8 @@ public class ConstraintSatisfactionChecker {
 	// This adapts the ATL representation for one OCL dialect to fit another OCL representation
 	// e.g., EMF/OCL to USE
 	public static interface IOCLDialectTransformer {
-		public void adapt(ATLModel model);			
+		/** If it is a a post transformer, it will receive an analysis result */
+		public void adapt(ATLModel model, IAnalyserResult result);			
 	}
 
 	public ConstraintSatisfactionChecker withPreAnalysisAdapter(IOCLDialectTransformer fixer) {

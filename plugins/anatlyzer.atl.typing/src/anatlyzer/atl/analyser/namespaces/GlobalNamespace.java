@@ -47,7 +47,7 @@ public class GlobalNamespace {
 			namesToMetamodels.put(key, new MetamodelNamespace(key, logicalNamesToMetamodels.get(key), metaMetamodel));
 		}
 		
-		this.logicalNamesToMetamodels = Collections.unmodifiableMap(logicalNamesToMetamodels);
+		this.logicalNamesToMetamodels = new HashMap<String, Resource>(logicalNamesToMetamodels);
 		
 	}
 
@@ -56,6 +56,14 @@ public class GlobalNamespace {
 		this.rs = nrs;
 	}
 
+	public MetamodelNamespace addMetamodel(String name, Resource r) {
+		resources.add(r);
+		MetamodelNamespace mn = new MetamodelNamespace(name, r, metaMetamodel);
+		namesToMetamodels.put(name, mn);
+		logicalNamesToMetamodels.put(name, r);
+		return mn;
+	}
+	
 	public MetamodelNamespace getMetaMetamodel() {
 		return metaMetamodel;
 	}
@@ -77,7 +85,7 @@ public class GlobalNamespace {
 
 	public Map<String, Resource> getLogicalNamesToMetamodels(boolean includeDeps) {
 		HashMap<String, Resource> res = new HashMap<String, Resource>(logicalNamesToMetamodels);
-		if ( includeDeps )
+		if ( includeDeps && metaMetamodel != null )
 			res.put(metaMetamodel.getName(), metaMetamodel.getResource());
 		return res;
 	}
@@ -167,7 +175,5 @@ public class GlobalNamespace {
 		subtypes.put(eClass, result);
 		return result;
 	}
-
-
 	
 }

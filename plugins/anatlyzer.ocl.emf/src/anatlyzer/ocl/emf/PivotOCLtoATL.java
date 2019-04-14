@@ -43,6 +43,8 @@ import org.eclipse.ocl.pivot.RealLiteralExp;
 import org.eclipse.ocl.pivot.SequenceType;
 import org.eclipse.ocl.pivot.SetType;
 import org.eclipse.ocl.pivot.StringLiteralExp;
+import org.eclipse.ocl.pivot.TupleLiteralExp;
+import org.eclipse.ocl.pivot.TupleLiteralPart;
 import org.eclipse.ocl.pivot.Type;
 import org.eclipse.ocl.pivot.TypeExp;
 import org.eclipse.ocl.pivot.Variable;
@@ -54,6 +56,7 @@ import org.eclipse.ocl.pivot.utilities.OCLHelper;
 import org.eclipse.ocl.pivot.utilities.ParserException;
 import org.eclipse.ocl.pivot.values.IntegerValue;
 
+import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.util.UnsupportedTranslation;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ContextHelper;
@@ -73,6 +76,9 @@ import anatlyzer.atlext.OCL.Operation;
 import anatlyzer.atlext.OCL.Parameter;
 import anatlyzer.atlext.OCL.RealExp;
 import anatlyzer.atlext.OCL.StringExp;
+import anatlyzer.atlext.OCL.TupleExp;
+import anatlyzer.atlext.OCL.TuplePart;
+import anatlyzer.atlext.OCL.TupleTypeAttribute;
 import anatlyzer.atlext.OCL.VariableDeclaration;
 
 /**
@@ -487,7 +493,19 @@ public class PivotOCLtoATL {
 				}
 			}
 			
-			return atl;
+		 	return atl;
+		} else if ( exp instanceof TupleLiteralExp ) {
+			TupleLiteralExp tl = (TupleLiteralExp) exp;
+			TupleExp tt = OCLFactory.eINSTANCE.createTupleExp();
+			
+			for(TupleLiteralPart p : tl.getOwnedParts()) {
+				TuplePart part = OCLFactory.eINSTANCE.createTuplePart();
+				part.setVarName(p.getName());
+				part.setInitExpression(transform(p.getOwnedInit()));
+				tt.getTuplePart().add(part);
+			}
+			
+			return tt;
 		}
 		
 		throw new UnsupportedTranslation("Not handled yet: " + exp + " : " + exp.eClass(), exp);
@@ -580,9 +598,19 @@ public class PivotOCLtoATL {
 			// This should be improved, but there is no support in bare-ATL
 			OclAnyType any = OCLFactory.eINSTANCE.createOclAnyType();
 			return any;				
+		} else	if ( type instanceof org.eclipse.ocl.pivot.TupleType ) {
+			org.eclipse.ocl.pivot.TupleType t = (org.eclipse.ocl.pivot.TupleType) type;
+			anatlyzer.atlext.OCL.TupleType r = OCLFactory.eINSTANCE.createTupleType();
+			for (Property property : t.getOwnedProperties()) {
+				TupleTypeAttribute att = OCLFactory.eINSTANCE.createTupleTypeAttribute();
+				att.setName(property.getName());
+				att.setType(createType(property.getType()));
+				r.getAttributes().add(att);
+			}
+			return r;					
 		} else if ( type instanceof DataType ){
-			DataType dt = (DataType) type;
-
+			DataType dt = (DataType) type;			
+			
 			OclType r = createPTypeFromName(dt.getName().toLowerCase());
 			if ( r != null ) {
 				return r;
@@ -598,7 +626,7 @@ public class PivotOCLtoATL {
 		} else if ( type instanceof Class ) {
 			return createType((Class) type, ((Class) type).getOwningPackage().getName());
 		    // TODO: set the model
-		}
+		} 
 
 		throw new UnsupportedOperationException("Cannot create type for: " + type + " - " + type.eClass().getName());
 	}

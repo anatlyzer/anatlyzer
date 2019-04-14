@@ -1,9 +1,12 @@
+import e : 'extlibrary.ecore'
+
 package extlibrary
 
 context Library
 -- we can define additional operations and attributes to assist
 -- in the formulation of our constraints
-def: unpublishedWriters : Set(Writer) = writers->select(books->isEmpty())
+def: unpublishedWriters : OrderedSet(Writer) = writers->select(books->isEmpty())
+
 -- so, here we use one such definition
 inv writers_have_written: unpublishedWriters->isEmpty()
 

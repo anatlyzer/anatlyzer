@@ -14,6 +14,7 @@ import witness.generator.USENameModifyier;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
 import anatlyzer.atl.analyser.namespaces.ClassNamespace;
+import anatlyzer.atl.model.ATLModel;
 import anatlyzer.atl.model.TypeUtils;
 import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.types.BagType;
@@ -51,8 +52,8 @@ public class EMFOCL2UseFixer {
 	public static class Pre extends AbstractVisitor implements IOCLDialectTransformer { 
 		
 		@Override
-		public void adapt(Unit u) {
-			startVisiting(u);
+		public void adapt(ATLModel m) {
+			startVisiting(m.getRoot());
 		}
 	
 		@Override
@@ -116,8 +117,8 @@ public class EMFOCL2UseFixer {
 		}
 		
 		@Override
-		public void adapt(Unit u) {
-			startVisiting(u);
+		public void adapt(ATLModel m) {
+			startVisiting(m.getRoot());
 		}
 	
 		@Override

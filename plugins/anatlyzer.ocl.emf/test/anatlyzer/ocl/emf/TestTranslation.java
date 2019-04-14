@@ -45,9 +45,9 @@ public class TestTranslation {
 				
 			}
 		}
-		
-		
 	}
+	
+	
 
 	private boolean isInvariant(Constraint constraint) {
 		return UMLReflection.INVARIANT.equals(constraint.getStereotype());

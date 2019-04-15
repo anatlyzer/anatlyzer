@@ -1,5 +1,6 @@
 package anatlyzer.ocl.emf.views;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -225,21 +226,29 @@ public class OclAnalysisView extends ViewPart {
 		}	
 	}
 	
-	protected void setOclResource(XtextResource r) {
+	protected void setOclResource(XtextResource r, IProject project) {
 		CompleteOCLDocumentCS doc = (CompleteOCLDocumentCS) r.getContents().get(0);
-		constraintsComposite.setInput(doc);
+		constraintsComposite.setInput(doc, project);
 	}
 
 	public void loadFromPart(IEditorPart p) {
 		if ( p instanceof CompleteOCLEditor ) {
 			//IXtextDocument xtextDocument = EditorUtils.getActiveXtextEditor().getDocument();
 			XtextEditor xtextEditor = EditorUtils.getXtextEditor(p);
+			
+			final IProject project;
+			if (xtextEditor.getResource() != null) {
+				project = xtextEditor.getResource().getProject();
+			} else {
+				project = null;
+			}
+			
 			if ( xtextEditor != null ) {
 				IXtextDocument xtextDocument = xtextEditor.getDocument();			
 				xtextDocument.readOnly(new IUnitOfWork<Void, XtextResource>() {
 					@Override
 					public java.lang.Void exec(XtextResource r) throws Exception {
-						setOclResource(r);
+						setOclResource(r, project);
 						return null;
 					}
 				 });	

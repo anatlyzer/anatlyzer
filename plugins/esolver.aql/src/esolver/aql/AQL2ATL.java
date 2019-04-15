@@ -2,6 +2,7 @@ package esolver.aql;
 
 import java.util.function.Supplier;
 
+import org.eclipse.acceleo.query.ast.And;
 import org.eclipse.acceleo.query.ast.Call;
 import org.eclipse.acceleo.query.ast.CallType;
 import org.eclipse.acceleo.query.ast.ErrorEClassifierTypeLiteral;
@@ -108,6 +109,16 @@ public class AQL2ATL {
 				me.setModel(m);
 				return me;
 			}
+		}
+		
+		// Could also be handled as part of Call
+		if ( expr instanceof org.eclipse.acceleo.query.ast.And ) {
+			// System.out.println(expr);
+			OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+			op.setOperationName("and");
+			op.setSource(toExpression(((And) expr).getArguments().get(0)));
+			op.getArguments().add(toExpression(((And) expr).getArguments().get(1)));
+			return op;
 		}
 		
 		throw new UnsupportedOperationException("Can't handle " + expr);

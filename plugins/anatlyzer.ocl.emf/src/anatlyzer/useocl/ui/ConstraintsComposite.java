@@ -1,6 +1,7 @@
 package anatlyzer.useocl.ui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -9,6 +10,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -67,6 +71,7 @@ public class ConstraintsComposite extends Composite {
 
 	private WitnessModelList witnessFoundList = new WitnessModelList();
 	private TreeViewer treeViewer;
+	private IProject project;
 	
 	
 	/**
@@ -262,8 +267,9 @@ public class ConstraintsComposite extends Composite {
 		// Disable the check that prevents subclassing of SWT components
 	}
 
-	public void setInput(CompleteOCLDocumentCS doc) {
+	public void setInput(CompleteOCLDocumentCS doc, IProject project) {
 		this.oclResource = doc;
+		this.project = project;
 		txtOclModel.setText(doc.eResource().getURI().toString());
 		tableViewer.setInput(new ConstraintsContentProvider.OclDocumentData(doc));
 		tableViewer.refresh();
@@ -315,10 +321,26 @@ public class ConstraintsComposite extends Composite {
 			ValidationResult result = validator.getResult();
 			if ( result.sat() ) {
 				showMessage("SAT!");
+				
+				Resource newModel = result.getWitnessModel().getModelAsOriginal();
+				if (project != null) {
+					IFolder outputs = project.getFolder("outputs-esolver");
+					if (! outputs.exists()) {
+						outputs.create(true, true, null);
+					}
+					
+					int size = new File(outputs.getLocation().toOSString()).list().length;
+					
+					IFile f = outputs.getFile("output." + (size + 1) + ".xmi");
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+					newModel.save(new FileOutputStream(f.getLocation().toOSString()), map);
+				}
+				
 				witnessFoundList.createModel(result.getWitnessModel());
 				this.tblViewerModel.setInput(witnessFoundList);
 				this.tblViewerModel.refresh();
-				this.treeViewer = UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null, this.treeViewer);
+				this.treeViewer = UIUtils.createModelViewer(cmpModelView, newModel, null, this.treeViewer);
 				// UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
 			} else if ( result.unsat() ) {
 				showMessage("UNSAT!");

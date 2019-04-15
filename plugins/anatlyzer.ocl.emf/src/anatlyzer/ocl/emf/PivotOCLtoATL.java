@@ -511,6 +511,8 @@ public class PivotOCLtoATL {
 		throw new UnsupportedTranslation("Not handled yet: " + exp + " : " + exp.eClass(), exp);
 	}
 
+	private static final int RANGE_LIMIT = 100;
+	
 	private void tryTransformRange(CollectionRange range, CollectionExp atl) {
 		OCLExpression first = range.getOwnedFirst();
 		OCLExpression last = range.getOwnedLast();
@@ -518,6 +520,9 @@ public class PivotOCLtoATL {
 		try {
 			int i1 = evaluateOCL(first);
 			int i2 = evaluateOCL(last);
+			if ( i2 > RANGE_LIMIT )
+				throw new UnsupportedTranslation("Collection range is to high:" + range + ". ");
+			
 			if ( i1 <= i2 ) {
 				for(int i = i1; i <= i2; i++) {
 					IntegerExp value = OCLFactory.eINSTANCE.createIntegerExp();
@@ -636,7 +641,7 @@ public class PivotOCLtoATL {
 			return OCLFactory.eINSTANCE.createIntegerType();
 		else if ( name.contains("string") ) 
 			return OCLFactory.eINSTANCE.createStringType();
-		else if ( name.contains("double") || name.contains("float") )
+		else if ( name.contains("double") || name.contains("float") || name.contains("real") )
 			return OCLFactory.eINSTANCE.createRealType();
 		else if ( name.contains("bool") ) 
 			return OCLFactory.eINSTANCE.createBooleanType();

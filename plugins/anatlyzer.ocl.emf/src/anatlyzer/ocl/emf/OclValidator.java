@@ -40,7 +40,10 @@ import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.namespaces.MetamodelNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypeUtils;
+import anatlyzer.atl.types.BooleanType;
 import anatlyzer.atl.types.CollectionType;
+import anatlyzer.atl.types.EnumType;
 import anatlyzer.atl.types.IntegerType;
 import anatlyzer.atl.types.MetaModel;
 import anatlyzer.atl.types.Metaclass;
@@ -194,6 +197,7 @@ public class OclValidator {
 		// mmResource = EcoreUtil.packages.get(0).eResource()
 		
 		
+		// finder.setDoUnfolding(true);
 		
 		ConstraintSatisfactionChecker checker = ConstraintSatisfactionChecker.
 				withLibrary(lib).
@@ -327,9 +331,6 @@ public class OclValidator {
 				
 				mod.getInModels().add(extraModel);
 			}
-			
-			
-			System.out.println(ATLSerializer.serialize(m));
 		}		
 		
 		@Override
@@ -487,24 +488,37 @@ public class OclValidator {
 				if ( t == null )
 					throw new IllegalStateException("Null inferred type for tuple part at " + tp.getLocation());
 				
-				if ( t instanceof IntegerType ) {
+				Type ut = TypeUtils.getUnderlyingType(t);
+				
+				if ( ut instanceof IntegerType ) {
 					f = EcoreFactory.eINSTANCE.createEAttribute();
 					f.setEType(EcorePackage.Literals.EINT);
-				} else if ( t instanceof StringType ) {
+				} else if ( ut instanceof BooleanType ) {
+					f = EcoreFactory.eINSTANCE.createEAttribute();
+					f.setEType(EcorePackage.Literals.EBOOLEAN);					
+				} else if ( ut instanceof StringType ) {
 					f = EcoreFactory.eINSTANCE.createEAttribute();
 					f.setEType(EcorePackage.Literals.ESTRING);
-				} else if ( t instanceof Metaclass ) {
+				} else if ( ut instanceof Metaclass ) {
 					f = EcoreFactory.eINSTANCE.createEReference();
 					f.setEType(((Metaclass) t).getKlass());
 					((EReference) f).setContainment(false);
+				} else if ( ut instanceof EnumType ) {
+					f = EcoreFactory.eINSTANCE.createEAttribute();					
+					f.setEType((EClassifier) ((EnumType) ut).getEenum());
 				} else {
-					throw new UnsupportedOperationException("Type " + " not supported");
+					throw new UnsupportedOperationException("Type " + t + " not supported");
 				}			
+
+				int upperBound = 1;
+				if ( t instanceof CollectionType ) {
+					upperBound = -1;
+				}
 				
 				f.setName(tp.getVarName());
 				// ref.setContainment(true);
 				f.setLowerBound(1);
-				f.setUpperBound(1);
+				f.setUpperBound(upperBound);
 				c.getEStructuralFeatures().add(f);
 			}
 			

@@ -902,14 +902,20 @@ public class ATLSerializer extends AbstractVisitor {
 	}
 	
 	protected String join(List<String> l, String separator) {
-		String r = "";
+		StringBuilder sb = new StringBuilder();
+		
 		for(int i = 0; i < l.size(); i++) {
-			r += l.get(i);
+			sb.append(l.get(i));
+			// To avoid extremely large lines
+			if ( i % 80 == 0 ) {
+				sb.append("\n");
+			}
 			if ( i + 1 < l.size() ) {
-				r += separator;
+				sb.append(separator);
 			}
 		}
-		return r;
+		
+		return sb.toString();
 	}
 	
 	

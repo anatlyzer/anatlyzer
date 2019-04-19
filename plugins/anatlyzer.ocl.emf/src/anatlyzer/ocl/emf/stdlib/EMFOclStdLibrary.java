@@ -144,6 +144,9 @@ public class EMFOclStdLibrary implements IOclStandardLibrary {
 			operation("toInteger").returnType(AtlTypes.integer());
 			operation("toReal").returnType(AtlTypes.float_());
 			
+			operation("toUpperCase").returnType(string());
+			operation("toLowerCase").returnType(string());
+			
 			// Hard-coded in the corresponding namespace...
 			// comparison operators: <, >, >=, <=;
 			// the string concatenation operator (+) can be used as a shortcut for the string concat() function; 

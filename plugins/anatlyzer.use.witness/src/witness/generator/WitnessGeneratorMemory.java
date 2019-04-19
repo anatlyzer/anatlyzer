@@ -74,6 +74,17 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 	}
 	
 	public USEResult generate(boolean isRetry) throws transException {		
+		return generate(isRetry, USESolverMemory.FindingMode.NORMAL);
+	}
+
+	public USEResult retryScrolling(USESolverMemory.FindingMode mode) throws transException {		
+		initialTime = -1; // to avoid a timeout
+		timeOut = Integer.MAX_VALUE; 	// This is a hack... but might be something like could be the expected behaviour: 
+						//we know there is a solution, so we wait
+		return generate(true, mode);
+	}
+	
+	public USEResult generate(boolean isRetry, USESolverMemory.FindingMode mode) throws transException {		
 		synchronized (index) {
 			WitnessGeneratorMemory.index += 1;			
 		}
@@ -110,6 +121,7 @@ public class WitnessGeneratorMemory extends WitnessGenerator {
 		} else {
 			USEResult r = null;
 			USESolverMemory solver = configureUseSolver(getTempDirectoryPath(), errorMM, oclConstraint, this.additionalConstraints);
+			solver.setMode(mode);
 			if ( partialModel != null ) {
 				solver.setPartialModel(partialModel);
 			}

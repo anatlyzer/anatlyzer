@@ -29,6 +29,7 @@ import org.tzi.use.uml.mm.MAttribute;
 import org.tzi.use.uml.ocl.value.Value;
 import org.tzi.use.uml.sys.MLink;
 import org.tzi.use.uml.sys.MObject;
+import org.tzi.use.uml.sys.MSystemState;
 
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
@@ -293,9 +294,11 @@ public abstract class Solver_use_Transition extends Solver_use {
 
 	
 	
-	
-	
 	protected void parseOutput2EmfIntoResource(EPackage metamodel, Resource model) {
+		parseOutput2EmfIntoResource(metamodel, model, this.result);
+	}	
+	
+	protected void parseOutput2EmfIntoResource(EPackage metamodel, Resource model, MSystemState result) {
 		int i = 0;
 		HashMap<String,EObject> eobjects  = new HashMap<String,EObject>();
 

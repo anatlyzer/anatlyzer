@@ -32,8 +32,18 @@ public interface IWitnessFinder {
 	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector);
 	
 	public IWitnessFinder setInputPartialModel(IInputPartialModel iim);
+
+	public IWitnessFinder setScrollingMode(ScrollingMode mode); 
 	
 	public IWitnessModel getFoundWitnessModel();
+	public IScrollingIterator getScrollingIterator();
+	
+	
+	public static enum ScrollingMode {
+		NONE,
+		ONE,
+		ALL
+	}
 	
 	
 	public static enum WitnessGenerationMode {

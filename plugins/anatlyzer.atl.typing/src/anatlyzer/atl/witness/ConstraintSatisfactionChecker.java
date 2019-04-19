@@ -127,7 +127,7 @@ public class ConstraintSatisfactionChecker {
 
 		// Configure the finder
 		this.finderResult = finder.find(new ConstraintSatisfactionProblem(), new AnalysisResult(analyser));
-
+		
 		return this;
 	}
 
@@ -137,6 +137,10 @@ public class ConstraintSatisfactionChecker {
 
 	public IWitnessModel getWitnessModel() {
 		return finder.getFoundWitnessModel();
+	}
+	
+	public IScrollingIterator getScrollingIterator() {
+		return finder.getScrollingIterator();
 	}
 	
 	private Unit constructTransformation() {

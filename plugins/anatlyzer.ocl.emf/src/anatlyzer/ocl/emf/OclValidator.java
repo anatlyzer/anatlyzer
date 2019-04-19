@@ -54,6 +54,7 @@ import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker;
 import anatlyzer.atl.witness.ConstraintSatisfactionChecker.IOCLDialectTransformer;
 import anatlyzer.atl.witness.IInputPartialModel;
+import anatlyzer.atl.witness.IScrollingIterator;
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atl.witness.IWitnessModel;
@@ -210,7 +211,7 @@ public class OclValidator {
 		
 		checker.check();
 		
-		this.result = new ValidationResult(checker.getFinderResult(), checker.getWitnessModel());
+		this.result = new ValidationResult(checker.getFinderResult(), checker.getWitnessModel(), checker.getScrollingIterator());
 		
 		return this;
 	}
@@ -232,14 +233,16 @@ public class OclValidator {
 	public static class ValidationResult {
 		private ProblemStatus status;
 		private IWitnessModel witnessModel;
+		private IScrollingIterator scrollingIterator;
 
 		public ValidationResult(ProblemStatus status) {
 			this.status = status;
 		}
 		
-		public ValidationResult(ProblemStatus status, IWitnessModel witnessModel) {
+		public ValidationResult(ProblemStatus status, IWitnessModel witnessModel, IScrollingIterator scrollingIterator) {
 			this(status);
 			this.witnessModel = witnessModel;
+			this.scrollingIterator = scrollingIterator;
 		}
 
 		public ProblemStatus getStatus() {
@@ -248,6 +251,10 @@ public class OclValidator {
 		
 		public IWitnessModel getWitnessModel() {
 			return witnessModel;
+		}
+		
+		public IScrollingIterator getScrollingIterator() {
+			return scrollingIterator;
 		}
 
 		public boolean sat() {

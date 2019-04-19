@@ -2,6 +2,7 @@ package anatlyzer.useocl.ui;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
@@ -14,6 +15,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -50,6 +52,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 
+import anatlyzer.atl.witness.IScrollingIterator;
+import anatlyzer.atl.witness.IWitnessFinder;
+import anatlyzer.atl.witness.IWitnessModel;
+import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.atl.witness.WitnessUtil;
 import anatlyzer.atl.witness.XMIPartialModel;
 import anatlyzer.ocl.emf.OclValidator;
 import anatlyzer.ocl.emf.OclValidator.ValidationResult;
@@ -72,6 +79,7 @@ public class ConstraintsComposite extends Composite {
 	private WitnessModelList witnessFoundList = new WitnessModelList();
 	private TreeViewer treeViewer;
 	private IProject project;
+	private boolean useScrolling;
 	
 	
 	/**
@@ -210,7 +218,16 @@ public class ConstraintsComposite extends Composite {
 			}
 		});
 		btnComplete.setText("Complete model");
-		
+
+		Button btnUseScrolling = new Button(composite, SWT.CHECK);
+		btnUseScrolling.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ConstraintsComposite.this.useScrolling = ((Button) e.getSource()).getSelection();				
+			}
+		});
+		btnUseScrolling.setText("Scrolling");
+
 		Button btnSaveToXmi = new Button(composite, SWT.NONE);
 		btnSaveToXmi.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -244,6 +261,10 @@ public class ConstraintsComposite extends Composite {
 			// UIUtils.createModelViewer(cmpModelView, m.getModel().getModelAsOriginal(), null);
 		}
 		
+	}
+	
+	private boolean isScrolling() {
+		return useScrolling;
 	}
 
 	//Creates the column
@@ -279,15 +300,19 @@ public class ConstraintsComposite extends Composite {
 	// Button actions
 	// 
     protected void generateExample() {
-    	generateExample(null);
+    	generateExample(null, isScrolling());
     }
 
-    protected void generateExample(XMIPartialModel partialModel) {
+    protected void generateExample(XMIPartialModel partialModel, boolean useScrolling) {
     	ConstraintsContentProvider.OclDocumentData data = (ConstraintsContentProvider.OclDocumentData) tableViewer.getInput();
     	// List<ConstraintCS> constraints = data.getInvariants().stream().map(i -> i.getConstraint()).collect(Collectors.toList());
     	
     	OclValidator validator = new OclValidator();
-    	
+    	IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
+    	validator.withWitnessFinder(wf);
+    	if ( isScrolling() ) {
+    		wf.setScrollingMode(UseWitnessFinder.ScrollingMode.ALL);
+    	}
     	
     	// Add the meta-models
 		CompleteOCLDocumentCS doc = data.getDoc();
@@ -322,26 +347,38 @@ public class ConstraintsComposite extends Composite {
 			if ( result.sat() ) {
 				showMessage("SAT!");
 				
-				Resource newModel = result.getWitnessModel().getModelAsOriginal();
-				if (project != null) {
-					IFolder outputs = project.getFolder("outputs-esolver");
-					if (! outputs.exists()) {
-						outputs.create(true, true, null);
+				if ( ! isScrolling() ) {
+					Resource newModel = result.getWitnessModel().getModelAsOriginal();
+					if (project != null) {
+						IFolder outputs = getOutputFolder();
+												
+						saveModelAutomatically(newModel, outputs, "output");
 					}
 					
-					int size = new File(outputs.getLocation().toOSString()).list().length;
+					witnessFoundList.createModel(result.getWitnessModel());
+					this.tblViewerModel.setInput(witnessFoundList);
+					this.tblViewerModel.refresh();
+					this.treeViewer = UIUtils.createModelViewer(cmpModelView, newModel, null, this.treeViewer);
+					// UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
+				} else {
+					if (project == null) {
+						showMessage("Can't find a project");
+						return;
+					}
 					
-					IFile f = outputs.getFile("output." + (size + 1) + ".xmi");
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
-					newModel.save(new FileOutputStream(f.getLocation().toOSString()), map);
+					IFolder outputs = getOutputFolder();
+					int i = 0;					
+					IScrollingIterator iterator = result.getScrollingIterator();
+					while ( iterator.hasNext() ) {
+						IWitnessModel model = iterator.next();
+						
+						saveModelAutomatically(model.getModelAsOriginal(), outputs, "scrolling");
+						i++;
+						if ( i > 5 ) {
+							break;
+						}
+					}
 				}
-				
-				witnessFoundList.createModel(result.getWitnessModel());
-				this.tblViewerModel.setInput(witnessFoundList);
-				this.tblViewerModel.refresh();
-				this.treeViewer = UIUtils.createModelViewer(cmpModelView, newModel, null, this.treeViewer);
-				// UIUtils.createModelViewer(cmpModelView, result.getWitnessModel().getModelAsOriginal(), null);
 			} else if ( result.unsat() ) {
 				showMessage("UNSAT!");
 			} else {
@@ -353,6 +390,25 @@ public class ConstraintsComposite extends Composite {
 		}
 	}
 
+	private void saveModelAutomatically(Resource newModel, IFolder outputs, String prefix)
+			throws IOException, FileNotFoundException {
+		
+		int size = new File(outputs.getLocation().toOSString()).list().length;
+
+		IFile f = outputs.getFile(prefix + "." + (size + 1) + ".xmi");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(XMIResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+		newModel.save(new FileOutputStream(f.getLocation().toOSString()), map);
+	}
+
+	private IFolder getOutputFolder() throws CoreException {
+		IFolder outputs = project.getFolder("outputs-esolver");
+		if (! outputs.exists()) {
+			outputs.create(true, true, null);
+		}
+		return outputs;
+	}
+
 
 	protected void completeModel() {
 		IResource r = UIUtils.showChooseChooseFileDialog(getShell());
@@ -360,7 +416,7 @@ public class ConstraintsComposite extends Composite {
 			ResourceSet rs = new ResourceSetImpl();
 			Resource model = rs.getResource(URI.createFileURI(r.getFullPath().toOSString()), true);
 			XMIPartialModel partialModel = new XMIPartialModel(model);
-			generateExample(partialModel);
+			generateExample(partialModel, isScrolling());
 		}		
 	}
     

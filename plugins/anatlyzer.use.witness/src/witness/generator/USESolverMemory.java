@@ -47,6 +47,8 @@ import org.tzi.use.api.UseApiException;
 import org.tzi.use.api.UseModelApi;
 import org.tzi.use.api.UseSystemApi;
 import org.tzi.use.kodkod.UseKodkodModelValidator;
+import org.tzi.use.kodkod.UseScrollingAllKodkodModelValidator;
+import org.tzi.use.kodkod.UseScrollingKodkodModelValidator;
 import org.tzi.use.kodkod.plugin.PluginModelFactory;
 import org.tzi.use.kodkod.transform.InvariantTransformator;
 import org.tzi.use.kodkod.transform.enrich.ModelEnricher;
@@ -74,13 +76,21 @@ public class USESolverMemory extends Solver_use_Transition {
 
     protected Session fSession;
 	protected String generatedMetamodelName = null;
-	private EPackage metamodel;
+	protected EPackage metamodel;
 	private String useSpecification;
 	private EClass root;
 	private IScopeCalculator scopeCalculator;
 
 	private boolean debug = true;
 	private UseInputPartialModel partialModel;
+	private FindingMode mode = FindingMode.NORMAL;
+	private InternallScrollingMV scrollingValidator;
+	
+	public static enum FindingMode {
+		NORMAL,
+		SCROLL,
+		SCROLL_ALL
+	}
 	
 	public USESolverMemory(EPackage metamodel, List<String> constraints) throws transException {
 		super();
@@ -112,6 +122,11 @@ public class USESolverMemory extends Solver_use_Transition {
 		this.scopeCalculator = scopeCalculator;
 	}
 
+
+	public void setMode(FindingMode mode) {
+		this.mode  = mode;
+	}
+	
 	/**
 	 * Implementation that skips files is not available.
 	 */
@@ -172,9 +187,13 @@ public class USESolverMemory extends Solver_use_Transition {
 				resourceSet.getPackageRegistry().put(metamodel.getNsURI(), metamodel);
 				Resource model  = resourceSet.createResource(URI.createFileURI(getGeneratedMetamodelName()));
 				
-				parseOutput2EmfIntoResource(metamodel, model);
+				parseOutput2EmfIntoResource(metamodel, model, this.result);
 				
-				return new USEResult(outcomePair._1, outcomePair._2, new UseFoundWitnessModel(metamodel.eResource(), model), scope);				
+				USEResult r = new USEResult(outcomePair._1, outcomePair._2, new UseFoundWitnessModel(metamodel.eResource(), model), scope);
+				if ( mode == FindingMode.SCROLL || mode == FindingMode.SCROLL_ALL ) {
+					r.setScrollingIterator(new USEResult.ScrollingIterator(this.scrollingValidator, this));
+				}
+				return r;
 			} else if ( outcomePair != null ) {
 				return new USEResult(outcomePair._1, outcomePair._2, null, scope);								
 			} else {
@@ -220,8 +239,18 @@ public class USESolverMemory extends Solver_use_Transition {
         
         PluginModelFactory.INSTANCE.registerForSession(fSession);
 		PluginModelFactory.INSTANCE.onClassInvariantUnloaded(null); // new in USE 4.1.1 (enforce model reload)
-		InternalUseValidator modelValidator = new InternalUseValidator(fSession);
+		UseKodkodModelValidator modelValidator = new InternalUseValidator(fSession);
         
+		if ( mode == FindingMode.SCROLL ) {
+			// modelValidator = new UseScrollingKodkodModelValidator(fSession);
+			modelValidator = new InternallScrollingMV(fSession);
+		} else if ( mode == FindingMode.SCROLL_ALL ) {
+			// modelValidator = new UseScrollingAllKodkodModelValidator(fSession);
+			modelValidator = new InternallScrollingMV(fSession);
+		}
+		
+		// UseScrollingKodkodModelValidator scrolling = new UseScrollingKodkodModelValidator(fSession);
+		
 		if ( partialModel != null ) {
 			partialModel.init(fSession);
 		}		
@@ -247,8 +276,6 @@ public class USESolverMemory extends Solver_use_Transition {
         kodkodModel.reset(); 		
 		// configure
 		org.apache.commons.configuration.Configuration config = extractConfigFromFile(metamodelBounds);
-		
-		//UseKodkodModelValidator validator = new UseKodkodModelValidator(fSession);
 		
 		
 		PropertyConfigurationVisitor newConfigurationVisitor = new PropertyConfigurationVisitor(config, fLogWriter);
@@ -287,10 +314,15 @@ public class USESolverMemory extends Solver_use_Transition {
 		// check whether the result satisfies all invariants
 		boolean     ok = result.check(fLogWriter, true, true, true, Collections.<String>emptyList()); 
 		this.result = result;
-		Outcome outcome = modelValidator.getSolution().outcome();
+		Outcome outcome = ((InternalSolutionGetter) modelValidator).getSolution().outcome();
 		if ( outcome == null )
 			return null;
-		return new Pair<Outcome, Boolean>(modelValidator.getSolution().outcome(), ok);	
+		
+		if ( ok && (outcome == Outcome.SATISFIABLE || outcome == Outcome.TRIVIALLY_SATISFIABLE) && (mode == FindingMode.SCROLL || mode == FindingMode.SCROLL_ALL) ) {
+			this.scrollingValidator = (InternallScrollingMV) modelValidator;
+		} 
+		
+		return new Pair<Outcome, Boolean>(outcome, ok);	
 	}
 
 	private void configureInvariantSettingsFromGenerator(IModel model, MModel mModel) {
@@ -322,8 +354,11 @@ public class USESolverMemory extends Solver_use_Transition {
 		}
 	}
 
+	public static interface InternalSolutionGetter {
+		public Solution getSolution();
+	}
 
-	public class InternalUseValidator extends UseKodkodModelValidator {
+	public class InternalUseValidator extends UseKodkodModelValidator implements InternalSolutionGetter {
 		public InternalUseValidator(Session session) {
 			super(session);
 
@@ -331,6 +366,33 @@ public class USESolverMemory extends Solver_use_Transition {
 		
 		public Solution getSolution() {
 			return solution;
+		}
+	}
+	
+	public class InternallScrollingMV extends UseScrollingKodkodModelValidator implements InternalSolutionGetter {
+
+		private boolean finished = false;
+		
+		public InternallScrollingMV(Session session) {
+			super(session);
+		}
+		
+		public Solution getSolution() {
+			return solution;
+		}		
+		
+		@Override
+		protected void unsatisfiable() {
+			finished = true;
+		}
+		
+		@Override
+		protected void trivially_unsatisfiable() {
+			finished = true;
+		}
+		
+		public boolean isFinished() {
+			return finished;
 		}
 	}
 

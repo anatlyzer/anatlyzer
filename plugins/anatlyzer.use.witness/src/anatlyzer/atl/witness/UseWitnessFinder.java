@@ -23,10 +23,12 @@ import org.tzi.use.parser.SrcPos;
 
 import witness.generator.TimeOutException;
 import witness.generator.USEResult;
+import witness.generator.USEResult.ScrollingIterator;
 import witness.generator.USESerializer;
 import witness.generator.UseInputPartialModel;
 import witness.generator.WitnessGeneratorMemory;
 import witness.generator.USESerializer.USEConstraint;
+import witness.generator.USESolverMemory;
 import witness.generator.mmext.ErrorPathMetamodelStrategy;
 import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
@@ -90,6 +92,8 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
 	private boolean preferDeclaredTypes = false;
 	private int maxScope = 5;
+	private ScrollingMode scrollingMode = ScrollingMode.NONE;
+	private IScrollingIterator scrollingIterator;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -168,6 +172,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder setInputPartialModel(IInputPartialModel iim) {
 		this.partialModel = iim;
+		return this;
+	}
+	
+	public IWitnessFinder setScrollingMode(ScrollingMode mode) {
+		this.scrollingMode = mode;
 		return this;
 	}
 	
@@ -472,6 +481,15 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 			if ( result.isDiscarded() ) {
 				return ProblemStatus.ERROR_DISCARDED;
 			} else if ( result.isSatisfiable() ){
+				// If we want all solutions, we ask for them again
+				if ( scrollingMode != ScrollingMode.NONE ) {
+					// Retry scrolling now that we have the actual bounds. This is not
+					// very efficient, but for the moment is the safest thing to do.
+					result = generator.retryScrolling(USESolverMemory.FindingMode.SCROLL);
+					this.scrollingIterator = result.getScrollingIterator();
+					this.scrollingIterator.setMetamodelRewritingData(srcMetamodels);
+				}
+				
 				this.foundScope = generator.getFoundScope();
 				this.foundModel = result.getModel();
 				if ( this.foundModel != null )
@@ -513,6 +531,11 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		});
 	
 		return list;
+	}
+	
+	@Override
+	public IScrollingIterator getScrollingIterator() {
+		return scrollingIterator;
 	}
 
 	public int getFoundScope() {

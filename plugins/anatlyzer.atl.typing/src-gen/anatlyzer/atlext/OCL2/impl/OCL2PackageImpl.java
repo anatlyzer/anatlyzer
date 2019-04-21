@@ -68,7 +68,7 @@ public class OCL2PackageImpl extends EPackageImpl implements OCL2Package {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link OCL2Package#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -82,7 +82,8 @@ public class OCL2PackageImpl extends EPackageImpl implements OCL2Package {
 		if (isInited) return (OCL2Package)EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI);
 
 		// Obtain or create and register package
-		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof OCL2PackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new OCL2PackageImpl());
+		Object registeredOCL2Package = EPackage.Registry.INSTANCE.get(eNS_URI);
+		OCL2PackageImpl theOCL2Package = registeredOCL2Package instanceof OCL2PackageImpl ? (OCL2PackageImpl)registeredOCL2Package : new OCL2PackageImpl();
 
 		isInited = true;
 
@@ -90,9 +91,12 @@ public class OCL2PackageImpl extends EPackageImpl implements OCL2Package {
 		TypesPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) : ATLPackage.eINSTANCE);
-		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) instanceof OCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) : OCLPackage.eINSTANCE);
-		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) instanceof PrimitiveTypesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) : PrimitiveTypesPackage.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
+		ATLPackageImpl theATLPackage = (ATLPackageImpl)(registeredPackage instanceof ATLPackageImpl ? registeredPackage : ATLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI);
+		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(registeredPackage instanceof OCLPackageImpl ? registeredPackage : OCLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
+		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(registeredPackage instanceof PrimitiveTypesPackageImpl ? registeredPackage : PrimitiveTypesPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theOCL2Package.createPackageContents();
@@ -109,7 +113,6 @@ public class OCL2PackageImpl extends EPackageImpl implements OCL2Package {
 		// Mark meta-data to indicate it can't be changed
 		theOCL2Package.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(OCL2Package.eNS_URI, theOCL2Package);
 		return theOCL2Package;
@@ -130,6 +133,7 @@ public class OCL2PackageImpl extends EPackageImpl implements OCL2Package {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public EAttribute getSelectByKind_IsExact() {
 		return (EAttribute)selectByKindEClass.getEStructuralFeatures().get(0);
 	}

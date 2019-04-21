@@ -28,7 +28,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.ocl.pivot.Import;
+import org.eclipse.ocl.pivot.Model;
+import org.eclipse.ocl.pivot.Namespace;
 import org.eclipse.ocl.pivot.resource.ASResource;
+import org.eclipse.ocl.xtext.basecs.ImportCS;
 import org.eclipse.ocl.xtext.completeocl.utilities.CompleteOCLCSResource;
 import org.eclipse.ocl.xtext.completeoclcs.CompleteOCLDocumentCS;
 import org.eclipse.ocl.xtext.completeoclcs.DefCS;
@@ -329,6 +333,20 @@ public class ConstraintsComposite extends Composite {
 		CompleteOCLCSResource r = (CompleteOCLCSResource) doc.eResource();
 		//@NonNull ASResource pivotResource = r.getCS2AS().getASResource();
 		validator.addOclDefinition(r);
+		
+		
+//		for (ImportCS i : doc.getOwnedImports()) {
+//			if ( i.getPivot() instanceof Import ) {
+//				Import imp = (Import) i.getPivot();
+//				Namespace ns = imp.getImportedNamespace();
+//				if ( ns instanceof Model ) {
+//					Model m = (Model) ns;
+//					System.out.println(m);
+//				}
+//			}
+//			System.out.println(i.getPivot());
+//			
+//		}
 		
 //		// Add the constraints
 //		for (InvariantData i : data.getInvariants()) {

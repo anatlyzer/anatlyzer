@@ -667,7 +667,7 @@ public class PivotOCLtoATL {
 		operators.add("implies");
 	}
 	
-	private boolean isOperator(OperationCallExp op) {
+	public static boolean isOperator(OperationCallExp op) {
 		return operators.contains(op.getReferredOperation().getName());
 	}
 

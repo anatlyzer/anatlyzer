@@ -495,7 +495,7 @@ public abstract class RuleWithPatternImpl extends RuleImpl implements RuleWithPa
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isAbstract: ");
 		result.append(isAbstract);
 		result.append(", isRefining: ");

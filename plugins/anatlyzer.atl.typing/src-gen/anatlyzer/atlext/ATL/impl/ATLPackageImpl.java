@@ -26,7 +26,6 @@ import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.LibraryRef;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.MatchedRule;
-import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleCallable;
 import anatlyzer.atlext.ATL.ModuleElement;
 import anatlyzer.atlext.ATL.OutPattern;
@@ -372,7 +371,7 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link ATLPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -386,7 +385,8 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		if (isInited) return (ATLPackage)EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
 
 		// Obtain or create and register package
-		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ATLPackageImpl());
+		Object registeredATLPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		ATLPackageImpl theATLPackage = registeredATLPackage instanceof ATLPackageImpl ? (ATLPackageImpl)registeredATLPackage : new ATLPackageImpl();
 
 		isInited = true;
 
@@ -394,9 +394,12 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		TypesPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) instanceof OCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) : OCLPackage.eINSTANCE);
-		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) instanceof PrimitiveTypesPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI) : PrimitiveTypesPackage.eINSTANCE);
-		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) instanceof OCL2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) : OCL2Package.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI);
+		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(registeredPackage instanceof OCLPackageImpl ? registeredPackage : OCLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
+		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(registeredPackage instanceof PrimitiveTypesPackageImpl ? registeredPackage : PrimitiveTypesPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI);
+		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(registeredPackage instanceof OCL2PackageImpl ? registeredPackage : OCL2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		theATLPackage.createPackageContents();
@@ -413,7 +416,6 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		// Mark meta-data to indicate it can't be changed
 		theATLPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(ATLPackage.eNS_URI, theATLPackage);
 		return theATLPackage;
@@ -1978,11 +1980,11 @@ public class ATLPackageImpl extends EPackageImpl implements ATLPackage {
 		initEReference(getQuery_Body(), theOCLPackage.getOclExpression(), null, "body", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getQuery_Helpers(), this.getHelper(), this.getHelper_Query(), "helpers", null, 0, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(moduleEClass, Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getModule_IsRefining(), thePrimitiveTypesPackage.getBoolean(), "isRefining", null, 1, 1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getModule_InModels(), theOCLPackage.getOclModel(), null, "inModels", null, 1, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModule_OutModels(), theOCLPackage.getOclModel(), null, "outModels", null, 1, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getModule_Elements(), this.getModuleElement(), null, "elements", null, 0, -1, Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(moduleEClass, anatlyzer.atlext.ATL.Module.class, "Module", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModule_IsRefining(), thePrimitiveTypesPackage.getBoolean(), "isRefining", null, 1, 1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getModule_InModels(), theOCLPackage.getOclModel(), null, "inModels", null, 1, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModule_OutModels(), theOCLPackage.getOclModel(), null, "outModels", null, 1, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getModule_Elements(), this.getModuleElement(), null, "elements", null, 0, -1, anatlyzer.atlext.ATL.Module.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(moduleElementEClass, ModuleElement.class, "ModuleElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

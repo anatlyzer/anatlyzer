@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -24,6 +25,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.ocl.ecore.Constraint;
 import org.eclipse.ocl.pivot.Import;
+import org.eclipse.ocl.pivot.Model;
 import org.eclipse.ocl.pivot.Namespace;
 import org.eclipse.ocl.pivot.Package;
 import org.eclipse.ocl.pivot.internal.ModelImpl;
@@ -167,6 +169,26 @@ public class OclValidator {
 		
 		for(CompleteOCLCSResource r : completeResources) {
 			translator.translate(r.getASResource());
+			
+//			EObject root = r.getContents().get(0);
+//			if (! (root instanceof CompleteOCLDocumentCS) ) {
+//				continue;
+//			}
+//			
+//			CompleteOCLDocumentCS doc = (CompleteOCLDocumentCS) root;
+//
+//			// Take into account imports
+//			for (ImportCS i : doc.getOwnedImports()) {
+//				if ( i.getPivot() instanceof Import ) {
+//					Import imp = (Import) i.getPivot();
+//					Namespace ns = imp.getImportedNamespace();
+//					if ( ns instanceof Model ) {
+//						Model m = (Model) ns;
+//						translator.translateModel(m);
+//					}
+//				}
+//			}
+			
 		}
 		
 		for(ASResource r : pivotResources) {

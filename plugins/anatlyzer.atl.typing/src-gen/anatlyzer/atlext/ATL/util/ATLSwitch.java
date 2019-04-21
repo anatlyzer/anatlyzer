@@ -2,7 +2,6 @@
  */
 package anatlyzer.atlext.ATL.util;
 
-import anatlyzer.atlext.ATL.*;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.ActionBlock;
 import anatlyzer.atlext.ATL.Binding;
@@ -136,7 +135,7 @@ public class ATLSwitch<T> extends Switch<T> {
 				return result;
 			}
 			case ATLPackage.MODULE: {
-				Module module = (Module)theEObject;
+				anatlyzer.atlext.ATL.Module module = (anatlyzer.atlext.ATL.Module)theEObject;
 				T result = caseModule(module);
 				if (result == null) result = caseUnit(module);
 				if (result == null) result = caseLocatedElement(module);
@@ -501,7 +500,7 @@ public class ATLSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseModule(Module object) {
+	public T caseModule(anatlyzer.atlext.ATL.Module object) {
 		return null;
 	}
 

@@ -2,7 +2,6 @@
  */
 package anatlyzer.atlext.ATL.impl;
 
-import anatlyzer.atlext.ATL.*;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.ActionBlock;
@@ -184,7 +183,7 @@ public class ATLFactoryImpl extends EFactoryImpl implements ATLFactory {
 	 * @generated
 	 */
 	@Override
-	public Module createModule() {
+	public anatlyzer.atlext.ATL.Module createModule() {
 		ModuleImpl module = new ModuleImpl();
 		return module;
 	}

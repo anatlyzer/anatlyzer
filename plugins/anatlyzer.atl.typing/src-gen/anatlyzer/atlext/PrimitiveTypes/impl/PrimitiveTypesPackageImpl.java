@@ -85,7 +85,7 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link PrimitiveTypesPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -99,7 +99,8 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 		if (isInited) return (PrimitiveTypesPackage)EPackage.Registry.INSTANCE.getEPackage(PrimitiveTypesPackage.eNS_URI);
 
 		// Obtain or create and register package
-		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = (PrimitiveTypesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof PrimitiveTypesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new PrimitiveTypesPackageImpl());
+		Object registeredPrimitiveTypesPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+		PrimitiveTypesPackageImpl thePrimitiveTypesPackage = registeredPrimitiveTypesPackage instanceof PrimitiveTypesPackageImpl ? (PrimitiveTypesPackageImpl)registeredPrimitiveTypesPackage : new PrimitiveTypesPackageImpl();
 
 		isInited = true;
 
@@ -107,9 +108,12 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 		TypesPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ATLPackageImpl theATLPackage = (ATLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) instanceof ATLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI) : ATLPackage.eINSTANCE);
-		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) instanceof OCLPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI) : OCLPackage.eINSTANCE);
-		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) instanceof OCL2PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI) : OCL2Package.eINSTANCE);
+		Object registeredPackage = EPackage.Registry.INSTANCE.getEPackage(ATLPackage.eNS_URI);
+		ATLPackageImpl theATLPackage = (ATLPackageImpl)(registeredPackage instanceof ATLPackageImpl ? registeredPackage : ATLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCLPackage.eNS_URI);
+		OCLPackageImpl theOCLPackage = (OCLPackageImpl)(registeredPackage instanceof OCLPackageImpl ? registeredPackage : OCLPackage.eINSTANCE);
+		registeredPackage = EPackage.Registry.INSTANCE.getEPackage(OCL2Package.eNS_URI);
+		OCL2PackageImpl theOCL2Package = (OCL2PackageImpl)(registeredPackage instanceof OCL2PackageImpl ? registeredPackage : OCL2Package.eINSTANCE);
 
 		// Create package meta-data objects
 		thePrimitiveTypesPackage.createPackageContents();
@@ -126,7 +130,6 @@ public class PrimitiveTypesPackageImpl extends EPackageImpl implements Primitive
 		// Mark meta-data to indicate it can't be changed
 		thePrimitiveTypesPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(PrimitiveTypesPackage.eNS_URI, thePrimitiveTypesPackage);
 		return thePrimitiveTypesPackage;

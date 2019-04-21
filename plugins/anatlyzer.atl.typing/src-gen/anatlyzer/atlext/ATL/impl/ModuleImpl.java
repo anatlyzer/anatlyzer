@@ -3,7 +3,6 @@
 package anatlyzer.atlext.ATL.impl;
 
 import anatlyzer.atlext.ATL.ATLPackage;
-import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.ModuleElement;
 
 import anatlyzer.atlext.OCL.OclModel;
@@ -39,7 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ModuleImpl extends UnitImpl implements Module {
+public class ModuleImpl extends UnitImpl implements anatlyzer.atlext.ATL.Module {
 	/**
 	 * The default value of the '{@link #isIsRefining() <em>Is Refining</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -290,7 +289,7 @@ public class ModuleImpl extends UnitImpl implements Module {
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isRefining: ");
 		result.append(isRefining);
 		result.append(')');

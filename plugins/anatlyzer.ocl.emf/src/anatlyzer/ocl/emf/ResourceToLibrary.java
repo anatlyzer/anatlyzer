@@ -93,10 +93,14 @@ public class ResourceToLibrary {
 
 	public void translate(@NonNull ASResource asResource) {
 		Model m = (Model) asResource.getContents().get(0);
+		translateModel(m);		
+	}
+
+	public void translateModel(Model m) {
 		new FIXOCL().tryToFix(m);
 		List<ContextHelper> helpers = new PivotOCLtoATL().transform(m);
 		
-		lib.getHelpers().addAll(helpers);		
+		lib.getHelpers().addAll(helpers);
 	}
 
 	public void translatePivot(@NonNull List<org.eclipse.ocl.pivot.Constraint> constraints) {

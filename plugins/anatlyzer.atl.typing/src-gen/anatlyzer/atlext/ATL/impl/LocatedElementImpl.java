@@ -432,7 +432,7 @@ public abstract class LocatedElementImpl extends MinimalEObjectImpl.Container im
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (location: ");
 		result.append(location);
 		result.append(", commentsBefore: ");

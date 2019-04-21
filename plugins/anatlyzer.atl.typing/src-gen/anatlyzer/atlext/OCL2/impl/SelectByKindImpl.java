@@ -68,6 +68,7 @@ public class SelectByKindImpl extends CollectionOperationCallExpImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public boolean isIsExact() {
 		return isExact;
 	}
@@ -77,6 +78,7 @@ public class SelectByKindImpl extends CollectionOperationCallExpImpl implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
 	public void setIsExact(boolean newIsExact) {
 		boolean oldIsExact = isExact;
 		isExact = newIsExact;
@@ -151,7 +153,7 @@ public class SelectByKindImpl extends CollectionOperationCallExpImpl implements 
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer(super.toString());
+		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (isExact: ");
 		result.append(isExact);
 		result.append(')');

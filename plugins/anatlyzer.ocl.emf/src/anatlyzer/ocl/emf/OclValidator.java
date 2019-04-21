@@ -189,7 +189,8 @@ public class OclValidator {
 		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_FULL_METAMODEL);
 		if ( finder instanceof UseWitnessFinder ) {
 			((UseWitnessFinder) finder).withRetyingStrategy(RetypingStrategy.NULL);
-			// ((UseWitnessFinder) finder).setPreferDeclaredTypes(true);
+			// This will not be needed with a very good collection converter, but this probably requires extendign AnAtlyzer
+			((UseWitnessFinder) finder).setPreferDeclaredTypes(true);
 		}
 		
 		//Resource mmResource = new EcoreResourceFactoryImpl().createResource(URI.createURI("validator:/internal/copy"));

@@ -33,6 +33,10 @@ public class GlobalNamespace {
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels) {
 		this(r, logicalNamesToMetamodels, true);
 	}
+
+	public GlobalNamespace copy() {
+		return new GlobalNamespace(resources, logicalNamesToMetamodels, metaMetamodel != null);
+	}
 	
 	public GlobalNamespace(Collection<Resource> r, Map<String, Resource> logicalNamesToMetamodels, boolean useMetaModel) {
 		this.metaMetamodel = useMetaModel ? 
@@ -175,5 +179,6 @@ public class GlobalNamespace {
 		subtypes.put(eClass, result);
 		return result;
 	}
+
 	
 }

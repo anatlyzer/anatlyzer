@@ -907,7 +907,7 @@ public class ATLSerializer extends AbstractVisitor {
 		for(int i = 0; i < l.size(); i++) {
 			sb.append(l.get(i));
 			// To avoid extremely large lines
-			if ( i % 80 == 0 ) {
+			if ( i > 0 && i % 80 == 0 ) {
 				sb.append("\n");
 			}
 			if ( i + 1 < l.size() ) {

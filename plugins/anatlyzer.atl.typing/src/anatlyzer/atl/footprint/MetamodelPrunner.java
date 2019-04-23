@@ -135,7 +135,7 @@ public class MetamodelPrunner extends FootprintComputation {
 		return type;
 	}
 
-	private EClass copyClass(EClass eClass) {
+	protected EClass copyClass(EClass eClass) {
 		if ( traceClass.containsKey(eClass) )
 			return traceClass.get(eClass);
 		

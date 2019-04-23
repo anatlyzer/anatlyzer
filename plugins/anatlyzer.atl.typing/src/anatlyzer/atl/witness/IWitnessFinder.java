@@ -26,6 +26,8 @@ public interface IWitnessFinder {
 	
 	
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode);
+	public IWitnessFinder setMetamodelView(IViewMetamodel view); // This only works with WitnessGenerationMode.VIEW_METAMODEL
+	
 	public IWitnessFinder setTimeOut(long millis);
 	public IWitnessFinder setCheckAllCompositeConstraints(boolean b);
 	
@@ -50,7 +52,8 @@ public interface IWitnessFinder {
 		ERROR_PATH,
 		MANDATORY_EFFECTIVE_METAMODEL,
 		MANDATORY_FULL_METAMODEL,
-		FULL_METAMODEL
+		FULL_METAMODEL,
+		VIEW_METAMODEL
 	}
 
 

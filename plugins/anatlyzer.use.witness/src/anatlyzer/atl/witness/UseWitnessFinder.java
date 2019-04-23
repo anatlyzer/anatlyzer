@@ -34,6 +34,7 @@ import witness.generator.mmext.FullMetamodelStrategy;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
 import witness.generator.mmext.MandatoryEffectiveMetamodelStrategy;
 import witness.generator.mmext.MandatoryFullMetamodelStrategy;
+import witness.generator.mmext.ViewMetamodelStrategy;
 import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
@@ -94,6 +95,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private int maxScope = 5;
 	private ScrollingMode scrollingMode = ScrollingMode.NONE;
 	private IScrollingIterator scrollingIterator;
+	private IViewMetamodel viewMetamodel;
 	
 	@Override
 	public ProblemStatus find(Problem problem, AnalysisResult r) {
@@ -244,10 +246,20 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		case MANDATORY_EFFECTIVE_METAMODEL: return new MandatoryEffectiveMetamodelStrategy();
 		case FULL_METAMODEL:
 			return new FullMetamodelStrategy();
+		case VIEW_METAMODEL:
+			if ( viewMetamodel == null )
+				throw new IllegalStateException();
+			return new ViewMetamodelStrategy(viewMetamodel);
 		}
 		return null;
 	}
 
+	@Override
+	public IWitnessFinder setMetamodelView(IViewMetamodel view) {
+		this.viewMetamodel = view;
+		return this;
+	}
+	
 	private OclExpression createTrue() {
 		BooleanExp lit = OCLFactory.eINSTANCE.createBooleanExp();
 		lit.setBooleanSymbol(true);

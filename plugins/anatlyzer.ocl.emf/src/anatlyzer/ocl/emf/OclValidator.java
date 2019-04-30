@@ -3,6 +3,8 @@ package anatlyzer.ocl.emf;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -53,6 +55,7 @@ import anatlyzer.atl.types.StringType;
 import anatlyzer.atl.types.TupleType;
 import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypesFactory;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -65,6 +68,8 @@ import anatlyzer.atl.witness.IWitnessFinder.WitnessGenerationMode;
 import anatlyzer.atl.witness.IWitnessModel;
 import anatlyzer.atl.witness.UseWitnessFinder;
 import anatlyzer.atl.witness.WitnessUtil;
+import anatlyzer.atlext.ATL.ATLFactory;
+import anatlyzer.atlext.ATL.ContextHelper;
 import anatlyzer.atlext.ATL.Helper;
 import anatlyzer.atlext.ATL.Library;
 import anatlyzer.atlext.ATL.Module;
@@ -75,7 +80,9 @@ import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OCLFactory;
+import anatlyzer.atlext.OCL.OclContextDefinition;
 import anatlyzer.atlext.OCL.OclExpression;
+import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.OclType;
@@ -210,6 +217,7 @@ public class OclValidator {
 		finder.setCheckAllCompositeConstraints(true);
 		// FULL_METAMODEL Works better than MANDATORY_FULL_METAMODEL in the presence of errors: 
 		finder.setWitnessGenerationModel(WitnessGenerationMode.MANDATORY_FULL_METAMODEL);
+		// finder.setWitnessGenerationModel(WitnessGenerationMode.FULL_METAMODEL);
 		if ( finder instanceof UseWitnessFinder ) {
 			((UseWitnessFinder) finder).withRetyingStrategy(RetypingStrategy.NULL);
 			// This will not be needed with a very good collection converter, but this probably requires extendign AnAtlyzer
@@ -360,7 +368,69 @@ public class OclValidator {
 				extraModel.setMetamodel(mm);
 				
 				mod.getInModels().add(extraModel);
+
+			
+				
+//				Operation operation = OCLFactory.eINSTANCE.createOperation();
+//				operation.setName("tuple_precondition");
+//				operation.setReturnType(OCLFactory.eINSTANCE.createBooleanType());
+//				
+//				OclFeatureDefinition def = OCLFactory.eINSTANCE.createOclFeatureDefinition();
+//				def.setFeature (operation);
+//				
+//				ContextHelper helper = ATLFactory.eINSTANCE.createContextHelper();
+//				helper.setDefinition(def);
+//
+//				helper.getCommentsBefore().add("-- @precondition");
+//				((Module) m.getRoot()).getElements().add(helper);
 			}
+
+
+			// tupleExp, context
+			Map<OclExpression, OclExpression> booleanContexts = new HashMap<>();
+			
+			List<OclExpression> allExpressions = m.allObjectsOf(OclExpression.class);
+			for (OclExpression exp : allExpressions) {
+				if ( exp.getInferredType() instanceof TupleType ) {
+					// find boolean context
+					EObject container = exp.eContainer();
+					while ( true ) {						
+						// An alternative is that it is in a collect, in which case we generate a select
+						if ( container instanceof OclExpression ) {
+							if ( ((OclExpression) container).getInferredType() instanceof BooleanType) {
+								if ( ! booleanContexts.containsKey(exp) ) { //&& booleanContexts.containsValue(container) )
+									booleanContexts.put(exp, (OclExpression) container);
+								}	
+								break;
+							}
+						} else {
+							break;
+						}
+						
+						container = container.eContainer();
+					}
+				}
+			}
+			
+
+			for(Entry<OclExpression, OclExpression> e : booleanContexts.entrySet()) {
+				OclExpression tupleExp = (OclExpression) ATLCopier.copySingleElement(e.getKey());
+								
+				OperationCallExp isUndefined = OCLFactory.eINSTANCE.createOperationCallExp();
+				isUndefined.setOperationName("oclIsUndefined");
+				isUndefined.setSource(tupleExp);
+				
+				OperatorCallExp not_ = OCLFactory.eINSTANCE.createOperatorCallExp();
+				not_.setOperationName("not");
+				not_.setSource(isUndefined);
+				
+				OperatorCallExp op = OCLFactory.eINSTANCE.createOperatorCallExp();
+				op.setOperationName("and");
+				op.setSource(not_);
+				EcoreUtil.replace(e.getValue(), op);
+				op.getArguments().add(e.getValue());
+			}
+
 		}		
 		
 		@Override

@@ -3,8 +3,10 @@ package anatlyzer.atl.witness;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -34,11 +36,15 @@ import anatlyzer.atlext.ATL.Module;
 import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.ATL.Unit;
 import anatlyzer.atlext.OCL.BooleanExp;
+import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.IteratorExp;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
+import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.Operation;
+import anatlyzer.atlext.OCL.OperationCallExp;
 import anatlyzer.atlext.OCL.OperatorCallExp;
 
 /**
@@ -51,6 +57,7 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
 public class ConstraintSatisfactionChecker {
 
 	private List<OclExpression> expressions = new ArrayList<OclExpression>();
+	private Set<Helper> requiredHelpers = new HashSet<Helper>();
 	private HashMap<String, Resource> namesToResources = new HashMap<String, Resource>();
 	private IWitnessFinder finder;
 	private ProblemStatus finderResult;
@@ -59,6 +66,7 @@ public class ConstraintSatisfactionChecker {
 	private List<IOCLDialectTransformer> preAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
 	private List<IOCLDialectTransformer> postAdapters = new ArrayList<ConstraintSatisfactionChecker.IOCLDialectTransformer>();
 	private IOclStandardLibrary stdLibrary;
+	private String globalAccessVariableName;
 	
 	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
 		this.expressions.addAll(expressions);
@@ -149,6 +157,8 @@ public class ConstraintSatisfactionChecker {
 		if ( library != null )
 			module.getElements().addAll(library.getHelpers());
 		
+		module.getElements().addAll(requiredHelpers);
+		
 		return module;
 	}
 
@@ -199,8 +209,37 @@ public class ConstraintSatisfactionChecker {
 			return slice;
 		}
 
+		
+		
 		@Override
 		public OclExpression getWitnessCondition() {
+			OclExpression witness = getWitnessConditionRaw(); 
+			if ( globalAccessVariableName != null ) {		
+				OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
+				m.setName(Analyser.USE_THIS_MODULE_CLASS);
+	
+				OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
+				op.setOperationName("allInstances");
+				op.setSource(m);
+				
+				IteratorExp exists = OCLFactory.eINSTANCE.createIteratorExp();
+				exists.setName("exists");
+				exists.setSource(op);
+				Iterator it = OCLFactory.eINSTANCE.createIterator();
+				it.setVarName("thisModule");
+				exists.getIterators().add(it);
+				
+				// Copy needed because the OCL slice wants to refer to the original element which
+				// used to be allocated into a helper, but if we don't copy it is no longer the case
+				exists.setBody((OclExpression) ATLCopier.copySingleElement(witness));
+				
+				witness = exists;
+			}
+			
+			return witness;
+		}
+		
+		public OclExpression getWitnessConditionRaw() {
 			List<OclExpression> exprs = getExpressionsToBeChecked();
 			if ( exprs.size() == 1 ) 
 				return exprs.get(0);
@@ -260,6 +299,16 @@ public class ConstraintSatisfactionChecker {
 
 	public ConstraintSatisfactionChecker withOclStdLibrary(IOclStandardLibrary stdLibrary) {
 		this.stdLibrary = stdLibrary;
+		return this;
+	}
+
+	public ConstraintSatisfactionChecker withRequiredHelpers(Set<Helper> helpers) {
+		this.requiredHelpers.addAll(helpers);
+		return this;
+	}
+
+	public ConstraintSatisfactionChecker withGlobal(String globalAccessVariableName) {
+		this.globalAccessVariableName = globalAccessVariableName;
 		return this;
 	}
 

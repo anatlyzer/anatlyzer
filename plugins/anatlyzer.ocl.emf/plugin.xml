@@ -87,7 +87,7 @@
       <view
             category="anatlyzer.view.category"
             class="anatlyzer.ocl.emf.views.OclAnalysisView"
-            icon="icons/ocl.gif"
+            icon="icons/ocl.png"
             id="anatlyzer.ocl.emf.views.OclAnalysisView"
             name="OCL Analysis View">
       </view>

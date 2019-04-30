@@ -208,8 +208,11 @@ public abstract class Solver_use_Transition extends Solver_use {
 	public static String computeAssociationName(EReference ref) {
 		// The xxx is added because it is historically used by parseOutput2EmfIntoResource to detect references
 		String src_role = ref.getEOpposite()==null ? "xxx" : ref.getEOpposite().getName();
-		
+
+		// This failed with the RelSchema example
+		// return src_role + "_" + ref.getEContainingClass().getName() + "_" + ref.getName();
 		return src_role + "_" + ref.getEContainingClass().getName() + "_" + ref.getName();
+		
 //		String src_role = ref.getEOpposite()==null ? "xxx"+(++index) : ref.getEOpposite().getName();
 //		return src_role + "_" + ref.getName();
 	}

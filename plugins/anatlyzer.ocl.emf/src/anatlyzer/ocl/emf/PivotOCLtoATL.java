@@ -1,12 +1,15 @@
 package anatlyzer.ocl.emf;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.ocl.pivot.BagType;
@@ -806,4 +809,11 @@ public class PivotOCLtoATL {
 				
 	}
 	
+	protected  void collectOclExpressions(EObject object, Collection<ExpressionInOCL> expressions) {
+        if (object instanceof ExpressionInOCL) {
+            expressions.add((ExpressionInOCL) object);
+        }
+
+        object.eContents().forEach(o -> collectOclExpressions(o, expressions));
+    }
 }

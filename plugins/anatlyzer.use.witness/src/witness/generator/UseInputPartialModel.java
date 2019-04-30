@@ -77,13 +77,21 @@ public class UseInputPartialModel {
 		EClass tgt = (EClass) rewrite.getTarget(c, (o1, o2) -> IMetamodelRewrite.nominalCheck(o1, o2));
 		Preconditions.checkState(tgt != null);
 
-		try {
+		//try {
 			for (EReference ref : c.getEAllReferences()) {
 				if ( ! obj.eIsSet(ref) )
 					continue;
 				
 				EReference tgtRef = (EReference) rewrite.getTarget(ref, (o1, o2) -> IMetamodelRewrite.nominalCheck(o1, o2));
 				String assocName = Solver_use_Transition.computeAssociationName(tgtRef);
+
+				// hack: see failure in RelSchema example
+				String alt2 = null;
+				if ( tgtRef.getEOpposite() != null ) {
+					String src_role = ref.getName(); 
+					alt2 = src_role + "_" + ref.getEOpposite().getEContainingClass().getName() + "_" + ref.getEOpposite().getName();
+					// alt2 = Solver_use_Transition.computeAssociationName(tgtRef);
+				}
 				
 				Object o = obj.eGet(ref);
 				String srcId = ecoreToUseId.get(obj);
@@ -104,18 +112,36 @@ public class UseInputPartialModel {
 					for(EObject eobj : (Collection<EObject>) o) {
 						String tgtId = ecoreToUseId.get(eobj);
 						Preconditions.checkNotNull(tgtId);
-						sysApi.createLink(assocName, srcId, tgtId);		
+//						sysApi.createLink(assocName, srcId, tgtId);		
+						try {
+							sysApi.createLink(assocName, srcId, tgtId);							
+						} catch ( Exception e ) { // UseApiException 
+							try {
+							sysApi.createLink(alt2, tgtId, srcId);
+							} catch ( Exception e2 ) {
+								// ignore... 
+							}
+						}
+						
 					}
 				} else {
 					String tgtId = ecoreToUseId.get((EObject) o);
 					Preconditions.checkNotNull(tgtId);
-					sysApi.createLink(assocName, srcId, tgtId);							
+					try {
+						sysApi.createLink(assocName, srcId, tgtId);							
+					} catch ( Exception e ) { // UseApiException 
+						try {
+						sysApi.createLink(alt2, tgtId, srcId);
+						} catch ( Exception e2 ) {
+							// ignore... 
+						}
+					}
 				}
 			}
 			
-		} catch (UseApiException e) {
-			throw new RuntimeException(e);
-		}		
+//		} catch (UseApiException e) {
+//			throw new RuntimeException(e);
+//		}		
 
 	}
 

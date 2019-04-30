@@ -91,6 +91,7 @@ public class USEResult {
 		@Override
 		public IWitnessModel next() {
 			counter++;
+			
 			scrollingValidator.nextSolution();
 			
 			ResourceSet resourceSet = new ResourceSetImpl();

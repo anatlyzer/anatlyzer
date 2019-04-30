@@ -104,8 +104,17 @@ public abstract class Solver_use_Transition extends Solver_use {
 						
 						String type = "String";
 						if      (EMFUtils.isInteger(att.getEType().getName()))  type = "Integer";
+						// Needed because sometimes names are rewritten to ecore_EInt...
+						else if ( "java.lang.Integer".equals(att.getEType().getInstanceClassName()) ) type = "Integer";
+						else if ( "int".equals(att.getEType().getInstanceClassName()) ) type = "Integer";
 						else if ("EIntegerObject".equals(att.getEType().getName())) type = "Integer";
+						else if ( "java.lang.Boolean".equals(att.getEType().getInstanceClassName()) ) type = "Boolean";
+						else if ( "boolean".equals(att.getEType().getInstanceClassName()) ) type = "Boolean";
 						else if (EMFUtils.isBoolean(att.getEType().getName()))  type = "Boolean";
+						else if ( "java.lang.Double".equals(att.getEType().getInstanceClassName()) ) type = "Real";
+						else if ( "double".equals(att.getEType().getInstanceClassName()) ) type = "Real";
+						else if ( "java.lang.Float".equals(att.getEType().getInstanceClassName()) ) type = "Real";
+						else if ( "float".equals(att.getEType().getInstanceClassName()) ) type = "Real";
 						else if (EMFUtils.isFloating(att.getEType().getName())) type = "Real";
 						else if ("EBigDecimal".equals(att.getEType().getName())) type = "Real";
 						else if (att.getEType() instanceof EEnum)               type = att.getEType().getName();

@@ -151,7 +151,7 @@ public class ConstraintsComposite extends Composite {
 		TableColumn tblclmnConstraint = tableViewerColumn.getColumn();
 		tblclmnConstraint.setWidth(100);
 		tblclmnConstraint.setResizable(true);
-		tblclmnConstraint.setText("Class");
+		tblclmnConstraint.setText("Constraint");
 		tableViewerColumn.setLabelProvider(new ConstraintsLabelProviders.FirstColumnViewLabelProvider());
 		// tableViewerColumn.setEditingSupport(new InvariantCheckEditingSupport(tableViewer));
 		
@@ -159,7 +159,7 @@ public class ConstraintsComposite extends Composite {
 		TableColumn tblclmnConstraint2 = tableViewerColumn2.getColumn();
 		tblclmnConstraint2.setWidth(100);
 		tblclmnConstraint2.setResizable(true);
-		tblclmnConstraint2.setText("Constraint");
+		tblclmnConstraint2.setText("Class");
 		tableViewerColumn2.setLabelProvider(new ConstraintsLabelProviders.SecondColumnViewLabelProvider());
 
 //		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
@@ -204,7 +204,17 @@ public class ConstraintsComposite extends Composite {
 		GridData gd_composite = new GridData(SWT.FILL, SWT.BOTTOM, false, false, 1, 1);
 		gd_composite.widthHint = 444;
 		composite.setLayoutData(gd_composite);
-		
+
+		Button btnVerifyConstraints = new Button(composite, SWT.NONE);
+		btnVerifyConstraints.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				// TODO: Use the different automatic bounds
+				generateExample(); 
+			}
+		});
+		btnVerifyConstraints.setText("Verify constraints");
+
 		Button btnGenExample = new Button(composite, SWT.NONE);
 		btnGenExample.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -232,14 +242,15 @@ public class ConstraintsComposite extends Composite {
 		});
 		btnUseScrolling.setText("Scrolling");
 
-		Button btnSaveToXmi = new Button(composite, SWT.NONE);
-		btnSaveToXmi.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				saveToXmi();
-			}
-		});
-		btnSaveToXmi.setText("Save to XMI");
+//		Button btnSaveToXmi = new Button(composite, SWT.NONE);
+//		btnSaveToXmi.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				saveToXmi();
+//			}
+//		});
+//		
+//		btnSaveToXmi.setText("Save to XMI");
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
 		
@@ -250,6 +261,15 @@ public class ConstraintsComposite extends Composite {
 		txtInfo = new StyledText(composite_1, SWT.BORDER);
 		new Label(this, SWT.NONE);
 		new Label(this, SWT.NONE);
+		Button errorDetails = new Button(composite_1, SWT.NONE);
+		errorDetails.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				saveToXmi();
+			}
+		});
+		
+		errorDetails.setText("Show errors");
 	 
 		
 		WitnessProvider wp = new WitnessProvider();
@@ -315,7 +335,7 @@ public class ConstraintsComposite extends Composite {
     	IWitnessFinder wf = WitnessUtil.getFirstWitnessFinder();
     	validator.withWitnessFinder(wf);
     	if ( isScrolling() ) {
-    		wf.setScrollingMode(UseWitnessFinder.ScrollingMode.ALL);
+    		wf.setScrollingMode(UseWitnessFinder.ScrollingMode.ONE);
     	}
     	
     	// Add the meta-models

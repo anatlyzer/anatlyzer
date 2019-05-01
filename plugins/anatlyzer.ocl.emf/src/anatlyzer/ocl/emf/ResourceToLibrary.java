@@ -14,6 +14,7 @@ import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
 import org.eclipse.ocl.ecore.OCL;
 import org.eclipse.ocl.ecore.OCL.Helper;
 import org.eclipse.ocl.pivot.Model;
+import org.eclipse.ocl.pivot.Operation;
 import org.eclipse.ocl.pivot.resource.ASResource;
 import org.eclipse.ocl.xtext.basecs.ConstraintCS;
 import org.eclipse.ocl.xtext.completeoclcs.ClassifierContextDeclCS;
@@ -101,6 +102,12 @@ public class ResourceToLibrary {
 		List<ContextHelper> helpers = new PivotOCLtoATL().transform(m);
 		
 		lib.getHelpers().addAll(helpers);
+	}
+	
+	public void translateOperation(Operation op) {
+		ContextHelper helper = new PivotOCLtoATL().transform(op);
+		
+		lib.getHelpers().add(helper);
 	}
 
 	public void translatePivot(@NonNull List<org.eclipse.ocl.pivot.Constraint> constraints) {

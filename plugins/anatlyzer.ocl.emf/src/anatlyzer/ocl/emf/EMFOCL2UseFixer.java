@@ -114,7 +114,7 @@ public class EMFOCL2UseFixer {
 			
 			UnsupportedOperations.put(TypesPackage.Literals.STRING_TYPE, new HashSet<>(Arrays.asList("matches")));
 			UnsupportedOperations.put(TypesPackage.Literals.SET_TYPE, new HashSet<>(Arrays.asList("last"))); // this may happen when we use Set for Sequence			
-			UnsupportedOperations.put(TypesPackage.Literals.SEQUENCE_TYPE, new HashSet<>(Arrays.asList("indexOf"))); 
+			UnsupportedOperations.put(TypesPackage.Literals.SEQUENCE_TYPE, new HashSet<>(Arrays.asList("last", "indexOf"))); 
 		}
 		
 		@Override
@@ -237,13 +237,18 @@ public class EMFOCL2UseFixer {
 				}
 				return;
 			}
-			
+						
 			Type src = self.getSource().getInferredType();
 			if ( UnsupportedOperations.getOrDefault(src.eClass(), new HashSet<String>()).contains(self.getOperationName())) {
 				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
 			} else if ( self.getOperationName().equals("oclType") ) {
 				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
 			}
+			
+			if ( self.getOperationName().equals("oclBadOperation") || self.getOperationName().equals("oclInvalid")) {
+				throw new UseUnsupportedOperationException("USE doesn't support: " + TypeUtils.typeToString(src) + "." + self.getOperationName());
+			}
+
 		}
 		
 		/**

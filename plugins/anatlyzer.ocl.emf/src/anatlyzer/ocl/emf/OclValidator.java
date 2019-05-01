@@ -109,6 +109,7 @@ public class OclValidator {
 	private List<ConstraintCS> constraints = new ArrayList<>();
 	private List<Constraint> constraintsEcore = new ArrayList<>();
 	private List<org.eclipse.ocl.pivot.Constraint> constraintsPivot = new ArrayList<>();
+	private List<org.eclipse.ocl.pivot.Operation> requiredOperations = new ArrayList<>();
 	
 	
 	private ValidationResult result;
@@ -194,8 +195,11 @@ public class OclValidator {
 //						translator.translateModel(m);
 //					}
 //				}
-//			}
-			
+//			}			
+		}
+		
+		for(org.eclipse.ocl.pivot.Operation op : requiredOperations) {
+			translator.translateOperation(op);
 		}
 		
 		for(ASResource r : pivotResources) {
@@ -667,6 +671,10 @@ public class OclValidator {
 		}
 
 
+	}
+
+	public void addRequiredOperation(org.eclipse.ocl.pivot.Operation o) {
+		this.requiredOperations.add(o);
 	}
 	
 

@@ -1,6 +1,7 @@
 package anatlyzer.atl.witness;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,7 +69,7 @@ public class ConstraintSatisfactionChecker {
 	private IOclStandardLibrary stdLibrary;
 	private String globalAccessVariableName;
 	
-	public ConstraintSatisfactionChecker(List<OclExpression> expressions) {
+	public ConstraintSatisfactionChecker(Collection<? extends OclExpression> expressions) {
 		this.expressions.addAll(expressions);
 	}
 	

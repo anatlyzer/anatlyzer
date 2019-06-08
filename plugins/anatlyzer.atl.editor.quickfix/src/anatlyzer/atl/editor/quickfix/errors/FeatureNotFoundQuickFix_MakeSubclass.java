@@ -7,10 +7,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.swt.graphics.Image;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
-import anatlyzer.atl.editor.quickfix.util.stringDistance.Levenshtein;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
 import anatlyzer.atl.quickfixast.ASTUtils;

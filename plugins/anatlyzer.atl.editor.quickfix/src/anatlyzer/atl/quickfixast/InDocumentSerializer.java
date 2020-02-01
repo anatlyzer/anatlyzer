@@ -24,12 +24,12 @@ import anatlyzer.atl.quickfixast.QuickfixApplication.InsertBeforeAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.PutInAction;
 import anatlyzer.atl.quickfixast.QuickfixApplication.ReplacementAction;
 import anatlyzer.atl.simplifier.IOclSimplifier;
+import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.SimpleOutPatternElement;
-import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 import anatlyzer.ui.util.ExtensionPointUtils;
 
@@ -81,10 +81,19 @@ public class InDocumentSerializer extends ATLSerializer {
 					IOclSimplifier simplifier = ExtensionPointUtils.getOclSimplifier();
 					if ( simplifier != null ) {
 						System.out.println(AnalyserUtils.toTree((LocatedElement) targetExpression));
-						
-						EObject result = simplifier.simplify(qfa.getAnalysis(), targetExpression);
-						if ( result != null ) {
-							targetExpression = result;
+						try {
+							// Do a copy in case the transformation fails at runtime we don't spoil the original expression
+							EObject copy = ATLCopier.copySingleElement(targetExpression);							
+							simplifier.simplify(qfa.getAnalysis(), copy);
+							
+							// Do it again, now that we that it works
+							EObject result = simplifier.simplify(qfa.getAnalysis(), targetExpression);
+							if ( result != null ) {
+								targetExpression = result;
+							}
+						} catch (Exception e) {
+							System.err.println("Can't optimise expression. Internal error: " + e.getMessage());
+							e.printStackTrace();
 						}
 					}					
 				}

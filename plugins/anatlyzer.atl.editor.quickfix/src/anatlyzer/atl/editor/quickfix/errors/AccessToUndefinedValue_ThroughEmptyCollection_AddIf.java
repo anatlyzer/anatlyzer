@@ -11,10 +11,10 @@ import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue_ThroughEmptyCollection;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ASTUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.OCL.LoopExp;
 import anatlyzer.atlext.OCL.OCLFactory;

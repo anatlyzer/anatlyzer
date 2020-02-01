@@ -15,9 +15,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ASTUtils;
 
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Button;

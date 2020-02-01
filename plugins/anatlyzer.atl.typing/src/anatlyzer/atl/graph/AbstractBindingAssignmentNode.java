@@ -49,7 +49,7 @@ public abstract class AbstractBindingAssignmentNode<P extends Problem> extends A
 	}
 
 	
-	protected static OclExpression genValueRightPart(CSPModel model, OclExpression originalValue) {
+	public static OclExpression genValueRightPart(CSPModel model, OclExpression originalValue) {
 		OclExpression value = model.gen(originalValue, new OclGeneratorAST.LazyRuleToDummyValue(model.getTargetDummyVariable()));
 		Type srcType = originalValue.getInferredType();
 		if ( TypeUtils.isCollection(srcType) ) {

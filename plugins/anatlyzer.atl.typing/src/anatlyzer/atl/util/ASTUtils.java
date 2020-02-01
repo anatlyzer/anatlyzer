@@ -1,4 +1,4 @@
-package anatlyzer.atl.quickfixast;
+package anatlyzer.atl.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +27,6 @@ import anatlyzer.atl.types.Type;
 import anatlyzer.atl.types.TypeError;
 import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.types.Unknown;
-import anatlyzer.atl.util.ATLCopier;
-import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLFactory;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;
@@ -551,6 +549,23 @@ public class ASTUtils {
 	private static boolean isOperation(OclExpression cond, String name) {
 		return cond instanceof OperationCallExp && 
 				((OperationCallExp) cond).getOperationName().equals(name);
+	}
+
+	public static OclExpression joinExpression(List<? extends OclExpression> expressions, String operatorName) {
+		if (expressions.size() == 0)
+			return null;
+	
+		OclExpression result = expressions.get(0);
+		for (int i = 1, size = expressions.size(); i < size; i++) {
+			OclExpression exp = expressions.get(i);
+			OperatorCallExp operator = OCLFactory.eINSTANCE.createOperatorCallExp();
+			operator.setOperationName(operatorName);
+			operator.setSource(result);
+			operator.getArguments().add(exp);
+			result = operator;
+		}
+		
+		return result;
 	}
 
 	

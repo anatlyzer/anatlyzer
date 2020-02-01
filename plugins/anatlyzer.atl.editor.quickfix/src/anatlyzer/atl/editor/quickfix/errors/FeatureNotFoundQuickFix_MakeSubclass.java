@@ -10,10 +10,10 @@ import org.eclipse.swt.graphics.Image;
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.editor.quickfix.util.stringDistance.LongestCommonSubstring;
 import anatlyzer.atl.errors.atl_error.FeatureNotFound;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ASTUtils;
 import anatlyzer.atlext.ATL.Binding;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 

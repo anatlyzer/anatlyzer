@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import anatlyzer.atl.editor.quickassist.AbstractAtlQuickAssist;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.simplifier.IOclSimplifier;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.ThisModuleType;
+import anatlyzer.atl.util.ASTUtils;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLSerializer;
 import anatlyzer.atl.util.ATLUtils;

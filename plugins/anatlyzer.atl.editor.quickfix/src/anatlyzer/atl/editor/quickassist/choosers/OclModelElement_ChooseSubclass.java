@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EClass;
 
 import anatlyzer.atl.editor.quickassist.AbstractQuickAssistSet;
 import anatlyzer.atl.editor.quickfix.AtlQuickAssist;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
 import anatlyzer.atl.types.Metaclass;
+import anatlyzer.atl.util.ASTUtils;
 import anatlyzer.atlext.OCL.OCLFactory;
 import anatlyzer.atlext.OCL.OclModelElement;
 

@@ -20,6 +20,7 @@ import anatlyzer.atlext.ATL.StaticHelper;
 import anatlyzer.atlext.OCL.Attribute;
 import anatlyzer.atlext.OCL.EnumLiteralExp;
 import anatlyzer.atlext.OCL.Iterator;
+import anatlyzer.atlext.OCL.LetExp;
 import anatlyzer.atlext.OCL.NavigationOrAttributeCallExp;
 import anatlyzer.atlext.OCL.OclModelElement;
 import anatlyzer.atlext.OCL.Operation;
@@ -248,6 +249,22 @@ public class ClassRenamingVisitor extends AbstractVisitor implements IObjectVisi
 	public void inVariableDeclaration(VariableDeclaration self) {
 		if ( UseReservedWords.isReserved(self.getVarName()) ) {
 			self.setVarName(UseReservedWords.getReplacement(self.getVarName()));
+		}
+	}
+	
+	@Override
+	public void inLetExp(LetExp self) {
+		Type t = self.getVariable().getInferredType();
+		if (t instanceof Metaclass) {
+			Metaclass m = (Metaclass) t;
+			EClass newClass = srcMetamodels.getTarget(m.getKlass());
+			if ( newClass != null ) {
+				m.setName(newClass.getName());
+			} else {
+				// This may happen if the helper has a return type a target element 
+				// (e.g., as a result of invoking a lazy rule or a resolveTemp)
+				System.err.println("Cannot find class " + m.getKlass().getName());
+			}
 		}
 	}
 	

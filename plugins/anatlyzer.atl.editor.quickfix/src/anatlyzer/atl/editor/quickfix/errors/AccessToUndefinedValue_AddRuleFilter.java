@@ -8,9 +8,9 @@ import org.eclipse.swt.graphics.Image;
 
 import anatlyzer.atl.editor.quickfix.QuickfixImages;
 import anatlyzer.atl.errors.atl_error.AccessToUndefinedValue;
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.quickfixast.InDocumentSerializer;
 import anatlyzer.atl.quickfixast.QuickfixApplication;
+import anatlyzer.atl.util.ASTUtils;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atlext.ATL.ATLPackage;
 import anatlyzer.atlext.ATL.Binding;

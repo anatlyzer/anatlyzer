@@ -15,9 +15,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 
-import anatlyzer.atl.quickfixast.ASTUtils;
 import anatlyzer.atl.types.Metaclass;
 import anatlyzer.atl.types.Type;
+import anatlyzer.atl.util.ASTUtils;
 
 public class AskClasses extends TitleAreaDialog {
 	

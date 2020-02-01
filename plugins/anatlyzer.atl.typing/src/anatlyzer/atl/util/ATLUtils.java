@@ -228,6 +228,7 @@ public class ATLUtils {
 	
 	/**
 	 * Returns whether t1 is compatible with t2.
+	 * This means, if t1 can be used as replacement of t2.
 	 * @param t1
 	 * @param t2
 	 * @return

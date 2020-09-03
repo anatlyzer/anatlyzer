@@ -3,6 +3,7 @@ package anatlyzer.ui.util;
 import java.io.ByteArrayInputStream;
 import java.util.function.Supplier;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
@@ -74,6 +75,27 @@ public class WorkbenchUtil {
 		return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(location));		
 	}
 
+	public static IFile getFile(IPath p) {
+		return ResourcesPlugin.getWorkspace().getRoot().getFile(p);		
+	}
+	
+	public static IFile mkDirs(IPath path) throws CoreException {
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+		createRecursively(file.getParent());
+		return file;
+	}
+	
+	public static void createRecursively(IContainer folder) throws CoreException {
+		if (folder instanceof IFolder) {
+			if (!folder.exists()) {
+				createRecursively(folder.getParent());
+				
+				((IFolder) folder).create(true, true, null);
+				folder.refreshLocal(1, null);
+			}
+		}
+	}
+	
 	public static IFolder getOrCreateFolder(IPath folderPath) throws CoreException {
 		IFolder folder = ResourcesPlugin.getWorkspace().getRoot().getFolder(folderPath);
 		if ( ! folder.exists() ) {

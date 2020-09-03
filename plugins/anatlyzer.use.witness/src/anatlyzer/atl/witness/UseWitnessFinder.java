@@ -71,15 +71,13 @@ import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
 
-public abstract class UseWitnessFinder implements IWitnessFinder {
+public abstract class UseWitnessFinder extends AbstractWitnessFinder implements IWitnessFinder {
 
 	private IAnalyserResult analyser;
 	private EPackage effective;
 	private EPackage errorSliceMM;
 	private boolean checkDiscardCause = false;
-	private boolean checkProblemsInPath;
 	private boolean checkPreconditions = true;
-	private boolean catchInternalErrors = false;
 	private boolean debugMode = false;
 	private boolean doUnfolding = true;
 	private long timeOut = -1;
@@ -88,7 +86,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IScopeCalculator scopeCalculator;
 	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
 	private IWitnessModel foundModel;
-	private IFinderStatsCollector statsCollector = new NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
 	private boolean preferDeclaredTypes = false;
@@ -96,16 +93,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private ScrollingMode scrollingMode = ScrollingMode.NONE;
 	private IScrollingIterator scrollingIterator;
 	private IViewMetamodel viewMetamodel;
-	
-	@Override
-	public ProblemStatus find(Problem problem, AnalysisResult r) {
-		ProblemPath path = AnalyserUtils.computeProblemPath((LocalProblem) problem, r.getAnalyser(), checkProblemsInPath);
-		if ( path == null ) {
-			return ProblemStatus.PROBLEMS_IN_PATH;
-		}
-		return find(path, r);
-	}
-	
+		
 	@Override
 	public IWitnessFinder setWitnessGenerationModel(WitnessGenerationMode mode) {
 		this.mode  = mode;
@@ -126,18 +114,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	@Override
 	public IWitnessFinder checkDiscardCause(boolean b) {
 		this.checkDiscardCause  = b;
-		return this;
-	}
-	
-	@Override
-	public IWitnessFinder checkProblemsInPath(boolean b) {
-		this.checkProblemsInPath  = b;
-		return this;
-	}
-	
-	@Override
-	public IWitnessFinder catchInternalErrors(boolean b) {
-		this.catchInternalErrors  = b;
 		return this;
 	}
 			
@@ -164,12 +140,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		this.scopeCalculator = calculator;
 		return this;
 	}
-
-	@Override
-	public IWitnessFinder setStatsCollector(IFinderStatsCollector collector) {
-		this.statsCollector = collector;
-		return this;
-	}
 	
 	@Override
 	public IWitnessFinder setInputPartialModel(IInputPartialModel iim) {
@@ -180,20 +150,6 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	public IWitnessFinder setScrollingMode(ScrollingMode mode) {
 		this.scrollingMode = mode;
 		return this;
-	}
-	
-	@Override
-	public ProblemStatus find(IDetectedProblem problem, AnalysisResult r) {
-		if ( catchInternalErrors ) {
-			try {
-				return findAux(problem, r);
-			} catch ( Throwable e ) {
-				e.printStackTrace();
-				return ProblemStatus.IMPL_INTERNAL_ERROR;
-			}
-		} else {
-			return findAux(problem, r);
-		}		
 	}
 
 	// This option is specific to USE

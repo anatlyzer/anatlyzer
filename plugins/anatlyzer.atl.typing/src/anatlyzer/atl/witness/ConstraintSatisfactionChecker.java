@@ -57,7 +57,7 @@ import anatlyzer.atlext.OCL.OperatorCallExp;
  */
 public class ConstraintSatisfactionChecker {
 
-	private List<OclExpression> expressions = new ArrayList<OclExpression>();
+	protected List<OclExpression> expressions = new ArrayList<OclExpression>();
 	private Set<Helper> requiredHelpers = new HashSet<Helper>();
 	private HashMap<String, Resource> namesToResources = new HashMap<String, Resource>();
 	private IWitnessFinder finder;

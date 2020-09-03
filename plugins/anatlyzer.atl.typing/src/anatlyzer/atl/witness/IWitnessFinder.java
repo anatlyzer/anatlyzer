@@ -4,6 +4,9 @@ import analyser.atl.problems.IDetectedProblem;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.errors.Problem;
 import anatlyzer.atl.errors.ProblemStatus;
+import anatlyzer.atl.errors.atl_error.LocalProblem;
+import anatlyzer.atl.graph.ProblemPath;
+import anatlyzer.atl.util.AnalyserUtils;
 
 /**
  * An interface for witness finders, typically using a constraint solving.
@@ -11,7 +14,8 @@ import anatlyzer.atl.errors.ProblemStatus;
  * @author jesus
  */
 public interface IWitnessFinder {
-	public ProblemStatus find(Problem p, AnalysisResult r);
+	
+	public ProblemStatus find(Problem problem, AnalysisResult r);
 	public ProblemStatus find(IDetectedProblem p, AnalysisResult r);
 	
 	public IWitnessFinder checkDiscardCause(boolean b);
@@ -69,4 +73,7 @@ public interface IWitnessFinder {
 //		PROBLEMS_IN_PATH
 //	}
 
+	public default String getName() {
+		return this.getClass().getName();
+	}
 }

@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 
 public class UiUtils {
 
-	public static IContentProvider getContentProviderForMetamodelViewer(Resource metamodelResource) {		
+	public static IContentProvider getContentProviderForModelViewer(Resource metamodelResource) {		
 		// From EcoreEditor
 	    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
@@ -24,7 +24,7 @@ public class UiUtils {
 	    
 	}
 	
-	public static ILabelProvider getLabelProviderForMetamodelViewer(Resource metamodelResource) {
+	public static ILabelProvider getLabelProviderForLabelViewer(Resource metamodelResource) {
 		// From EcoreEditor
 	    ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 

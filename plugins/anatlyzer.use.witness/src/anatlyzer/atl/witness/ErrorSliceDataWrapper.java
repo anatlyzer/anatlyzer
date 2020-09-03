@@ -58,7 +58,7 @@ public class ErrorSliceDataWrapper extends EffectiveMetamodelDataWrapper {
 	private boolean doUnfolding = true;
 	private ErrorSlice slice;
 	private Set<EStructuralFeature> targetClassesFeatures = new HashSet<EStructuralFeature>();
-	private IFinderStatsCollector statsCollector = new NullStatsCollector();
+	private IFinderStatsCollector statsCollector = new IFinderStatsCollector.NullStatsCollector();
 	private RetypingStrategy retypingStrategy;
 	private boolean preferDeclaredTypes;
 	

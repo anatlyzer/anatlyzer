@@ -1,12 +1,21 @@
-package anatlyzer.ide.dialogs;
+package anatlyzer.ide.interactive.views;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -31,6 +40,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -43,24 +53,29 @@ import org.eclipse.swt.widgets.Text;
 
 import anatlyzer.atlext.ATL.LocatedElement;
 import anatlyzer.atlext.ATL.RuleWithPattern;
-import anatlyzer.ide.dialogs.ITransformationMapping.MetamodelElementMapping;
+import anatlyzer.ide.interactive.editors.InteractiveTransformationEditor;
+import anatlyzer.ide.interactive.views.TestCaseMapping.EObjectMapping;
+import anatlyzer.ide.model.TestCase;
+import anatlyzer.ide.model.TestCaseState;
 import anatlyzer.ide.utils.UiUtils;
 import anatlyzer.ui.util.WorkbenchUtil;
 
-public class MappingComposite extends Composite {
+public class TestcaseComposite extends Composite {
 
 	private Composite cmpMapper;
-	private ITransformationMapping tm;
-	private TreeMapper<MetamodelElementMapping, EModelElement, EModelElement> mapper;
+	private TestCaseMapping tm;
+	private TreeMapper<EObjectMapping, EObject, EObject> mapper;
 	private Text text;
-	private Button btnClassClassMapping;
-	private Button btnFeatureClassMapping;
 	private StyledText styledTextInfo;
-	private MetamodelMappingViewSupport mappingViewSupport;
+	private ModelMappingViewSupport mappingViewSupport;
+	
+	@NonNull
+	private final InteractiveTransformationEditor editor;
+	private Button btnCommit;
 
-	public MappingComposite(Composite parent) {
+	public TestcaseComposite(Composite parent, InteractiveTransformationEditor editor) {
 		super(parent, SWT.NONE);
-		
+		this.editor = editor;
 		create();
 	}
 
@@ -70,7 +85,7 @@ public class MappingComposite extends Composite {
 		container.setLayout(new GridLayout(1, false));
 		
 		Composite cmpTop = new Composite(container, SWT.NONE);
-		cmpTop.setLayout(new RowLayout(SWT.HORIZONTAL));
+		cmpTop.setLayout(new GridLayout(4, false));
 		GridData gd_cmpTop = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
 		gd_cmpTop.heightHint = 34;
 		cmpTop.setLayoutData(gd_cmpTop);
@@ -80,39 +95,19 @@ public class MappingComposite extends Composite {
 		lblFilter.setText("Filter:");
 		
 		text = new Text(cmpTop, SWT.BORDER);
-		text.setLayoutData(new RowData(101, SWT.DEFAULT));
+		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
-		Label label = new Label(cmpTop, SWT.SEPARATOR | SWT.VERTICAL);
-		
-		Button btnCheckButton = new Button(cmpTop, SWT.CHECK);
-		btnCheckButton.addSelectionListener(new SelectionAdapter() {
+		btnCommit = new Button(cmpTop, SWT.CHECK);
+		btnCommit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				showAll(btnCheckButton);
+				commit(btnCommit);
 			}
 		});
-		btnCheckButton.setText("Show all");
+		btnCommit.setText("Valid");
 		
-		Label label_1 = new Label(cmpTop, SWT.SEPARATOR | SWT.VERTICAL);
-		
-		btnClassClassMapping = new Button(cmpTop, SWT.RADIO);
-		btnClassClassMapping.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				changeMappingKind();
-			}
-		});
-		btnClassClassMapping.setText("Class-Class");
-		btnClassClassMapping.setSelection(true);
-		
-		btnFeatureClassMapping = new Button(cmpTop, SWT.RADIO);
-		btnFeatureClassMapping.setText("Feature-Class");
-		btnFeatureClassMapping.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				changeMappingKind();
-			}
-		});
+		Label lblStatus = new Label(cmpTop, SWT.NONE);
+				
 		GridData gd_cmpMapper = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
 		gd_cmpMapper.widthHint = 174;
 		
@@ -137,8 +132,8 @@ public class MappingComposite extends Composite {
 		Color defaultColor = new Color(parent.getShell().getDisplay(), new RGB(247, 206, 206));
 		Color selectedColor = new Color(parent.getShell().getDisplay(), new RGB(147, 86, 111));
 		TreeMapperUIConfigProvider uiConfig = new TreeMapperUIConfigProvider(defaultColor, 1, selectedColor, 3);
-		mappingViewSupport = new MetamodelMappingViewSupport();
-		mapper = new TreeMapper<MetamodelElementMapping, EModelElement, EModelElement>(parent, mappingViewSupport, uiConfig);
+		mappingViewSupport = new ModelMappingViewSupport();
+		mapper = new TreeMapper<EObjectMapping, EObject, EObject>(parent, mappingViewSupport, uiConfig);
 		
 		mapper.getControl().setWeights(new int[] { 3, 1, 3 });
 		
@@ -153,7 +148,7 @@ public class MappingComposite extends Composite {
 					return;
 				}
 					
-				MetamodelElementMapping m = (MetamodelElementMapping) ((IStructuredSelection) event.getSelection()).getFirstElement();
+				EObjectMapping m = (EObjectMapping) ((IStructuredSelection) event.getSelection()).getFirstElement();
 				mapper.getLeftTreeViewer().setSelection(new StructuredSelection(m.left));
 				mapper.getRightTreeViewer().setSelection(new StructuredSelection(m.right));
 				
@@ -169,8 +164,8 @@ public class MappingComposite extends Composite {
 					return;
 				}
 
-				EModelElement elem = (EModelElement) ((IStructuredSelection) event.getSelection()).getFirstElement();
-				List<MetamodelElementMapping> maps = tm.getMappings().stream().filter(m -> m.right == elem).collect(Collectors.toList());
+				EObject elem = (EObject) ((IStructuredSelection) event.getSelection()).getFirstElement();
+				List<EObjectMapping> maps = tm.getMappings().stream().filter(m -> m.right == elem).collect(Collectors.toList());
 				mapper.highlightMapping(new StructuredSelection(maps));
 				
 				showRuleInfo(maps.stream().map(m -> m.rule).collect(Collectors.toSet()));
@@ -180,37 +175,50 @@ public class MappingComposite extends Composite {
 		mapper.getLeftTreeViewer().addSelectionChangedListener(new ISelectionChangedListener() {			
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				EModelElement elem = (EModelElement) ((IStructuredSelection) event.getSelection()).getFirstElement();
-				List<MetamodelElementMapping> maps = tm.getMappings().stream().filter(m -> m.left == elem).collect(Collectors.toList());
+				EObject elem = (EObject) ((IStructuredSelection) event.getSelection()).getFirstElement();
+				List<EObjectMapping> maps = tm.getMappings().stream().filter(m -> m.left == elem).collect(Collectors.toList());
 				mapper.highlightMapping(new StructuredSelection(maps));
 
-				showRuleInfo(maps.stream().map(m -> m.rule).collect(Collectors.toSet()));
+				showRuleInfo(maps.stream().filter(m -> m.rule != null).map(m -> m.rule).collect(Collectors.toSet()));
 			}
 		});
 
 		if ( tm != null ) {
-			setTransformationMapping(tm);
+			setExecutionMapping(tm);
 		}
 	}
 
-	public void setTransformationMapping(ITransformationMapping tm) {
+	public void setExecutionMapping(TestCaseMapping tm) {
 		this.tm = tm;
 		this.mappingViewSupport.setTransformationMapping(tm);
 		
-		IContentProvider srcContent = UiUtils.getContentProviderForModelViewer(tm.getInputMetamodel());
-		IContentProvider tgtContent = UiUtils.getContentProviderForModelViewer(tm.getOutputMetamodel());
+		btnCommit.setSelection(tm.getTestCase().getStatus() != TestCaseState.TOREVIEW);
+		
+		IContentProvider srcContent = UiUtils.getContentProviderForModelViewer(tm.getInputModel());
+		IContentProvider tgtContent = UiUtils.getContentProviderForModelViewer(tm.getOutputModel());
 
-		ILabelProvider srcLabel = UiUtils.getLabelProviderForLabelViewer(tm.getInputMetamodel());
-		ILabelProvider tgtLabel = UiUtils.getLabelProviderForLabelViewer(tm.getOutputMetamodel());
+		ILabelProvider srcLabel = UiUtils.getLabelProviderForLabelViewer(tm.getInputModel());
+		ILabelProvider tgtLabel = UiUtils.getLabelProviderForLabelViewer(tm.getOutputModel());
 
 		mapper.setContentProviders((ITreeContentProvider) srcContent, (ITreeContentProvider) tgtContent);
 		mapper.setLabelProviders(srcLabel, tgtLabel);
-		mapper.setInput(tm.getInputMetamodel(), tm.getOutputMetamodel(), tm.getMappings());
+		mapper.setInput(tm.getInputModel(), tm.getOutputModel(), tm.getMappings());
 		
-		IMappingFilter<MetamodelElementMapping> filter = tm.getMappingFilter();
+		IMappingFilter<EObjectMapping> filter = tm.getMappingFilter();
 		mapper.setMappingFilter(filter == null ? null : filter);
 
 		mapper.refresh();
+		
+		
+		String coverageText = "";
+		
+		String src = tm.getMappingModel().getSourceCoveredClasses().stream().map(c -> "   - " + c.getName()).collect(Collectors.joining("\n"));
+		String tgt = tm.getMappingModel().getTargetCoveredClasses().stream().map(c -> "   - " + c.getName()).collect(Collectors.joining("\n"));
+		
+		coverageText += "Dynamic coverage\nSource: \n" + src + "\n\n" + "Target: \n" + tgt;
+		
+		styledTextInfo.setText(coverageText);
+		styledTextInfo.setStyleRange(new StyleRange(0, 16, null, null, SWT.BOLD));
 	}
 	
 	protected void showRuleInfo(Set<RuleWithPattern> rules) {
@@ -258,47 +266,80 @@ public class MappingComposite extends Composite {
 	}
 
 	
-	public static class MetamodelMappingViewSupport implements ISemanticTreeMapperSupport<MetamodelElementMapping, EModelElement, EModelElement> {
+	public static class ModelMappingViewSupport implements ISemanticTreeMapperSupport<EObjectMapping, EObject, EObject> {
 
-		private ITransformationMapping tm;
+		private TestCaseMapping tm;
 
 		@Override
-		public MetamodelElementMapping createSemanticMappingObject(EModelElement leftItem, EModelElement rightItem) {
+		public EObjectMapping createSemanticMappingObject(EObject leftItem, EObject rightItem) {
 			if ( tm == null )
 				return null;
 			
-			if ( ! (leftItem instanceof EClass && rightItem instanceof EClass) ) {
+			if ( ! (leftItem instanceof EObject && rightItem instanceof EObject) ) {
 				return null;
 			}
 			
-			return tm.addMapping((EClass) leftItem, (EClass) rightItem); 
+			return tm.addMapping((EObject) leftItem, (EObject) rightItem); 
 			// return new MetamodelElementMapping(null, leftItem, rightItem);
 		}
 
-		public void setTransformationMapping(ITransformationMapping tm) {
+		public void setTransformationMapping(TestCaseMapping tm) {
 			this.tm = tm;
 		}
 
 		@Override
-		public EModelElement resolveLeftItem(MetamodelElementMapping semanticMappingObject) {
+		public EObject resolveLeftItem(EObjectMapping semanticMappingObject) {
 			return semanticMappingObject.left;
 		}
 
 		@Override
-		public EModelElement resolveRightItem(MetamodelElementMapping semanticMappingObject) {
+		public EObject resolveRightItem(EObjectMapping semanticMappingObject) {
 			return semanticMappingObject.right;
 		}
 		
 	}
 	
-	protected void showAll(Button btnCheckButton) {
-		tm.setRemoveNotUsed(! btnCheckButton.getSelection());
-		IMappingFilter<MetamodelElementMapping> filter = tm.getMappingFilter();
-		mapper.setMappingFilter(filter == null ? null : filter);
-		mapper.refresh();		
-	}
-
-	protected void changeMappingKind() {
+	protected void commit(Button btnCheckButton) {
+		boolean selection = btnCheckButton.getSelection();
+		TestCase testCase = tm.getTestCase();
 		
+		InteractiveProcess process = editor.getProcess();
+		IFolder expected;
+		try {
+			expected = WorkbenchUtil.getOrCreateFolder(new Path(process.getModel().getTestSuiteFolder() + "/expected"));
+		} catch (CoreException e1) {
+			e1.printStackTrace();
+			throw new RuntimeException(e1);
+		}
+		
+		if (selection) {
+			if (testCase.getStatus() == TestCaseState.TOREVIEW) {
+				// Copy outputs to expected, renaming as necesary
+				Resource outputModel = tm.getOutputModel();
+				// TODO: Get all output models somehow
+				
+				IFile outputFile = expected.getFile(testCase.getName() + "." + "OUT" + ".xmi");		
+				URI outputURI = URI.createPlatformResourceURI(outputFile.getFullPath().toOSString(), true);
+
+				outputModel.setURI(outputURI);
+				try {
+					outputModel.save(null);
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+				
+				testCase.setStatus(TestCaseState.VALID);
+				// TODO: Parameterize!!!
+				testCase.addExpected("OUT", outputFile.getFullPath().toOSString());
+			}			
+		} else {
+			testCase.setStatus(TestCaseState.TOREVIEW);
+		}
+		editor.markChanged();
+		
+		//tm.setRemoveNotUsed(! btnCheckButton.getSelection());
+		//IMappingFilter<EObjectMapping> filter = tm.getMappingFilter();
+		//mapper.setMappingFilter(filter == null ? null : filter);
+		//mapper.refresh();		
 	}
 }

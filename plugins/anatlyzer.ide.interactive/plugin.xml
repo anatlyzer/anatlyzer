@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            id="anatlyzer.ide.interactive.views.InteractiveView"
+            name="Transformation coverage"
+            icon="icons/umbrella.png"
+            class="anatlyzer.ide.interactive.views.InteractiveView"
+            category="anatlyzer.view.category"
+            inject="true">
+      </view>
+      <!--
+      <view
+            category="anatlyzer.view.category"
+            class="anatlyzer.ide.interactive.views.TestModelsView"
+            icon="icons/sample.png"
+            id="anatlyzer.ide.interactive.views.TestModelsView"
+            inject="true"
+            name="Test Models">
+      </view>
+      -->
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+
+
+   <extension point="org.eclipse.ui.bindings">
+		<key sequence="Ctrl+I"
+			commandId="anatlyzer.commands.interactiveTransformation"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+			/>
+			<!-- contextId="anatlyzer.atl.editor" /> --> <!-- "org.eclipse.m2m.atl.adt.editor"/> -->
+			
+	</extension>
+
+   <extension point="org.eclipse.ui.commands">
+      <category
+            id="anatlyzer.commands"
+            name="AnATLyzer">
+      </category>
+      <command
+            categoryId="anatlyzer.commands"
+            id="anatlyzer.commands.interactiveTransformation"
+            name="Interactive transformation wizard">
+      </command>
+	</extension>
+	
+	<extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="anatlyzer.ide.interactive.handlers.InteractiveTransformationHandler"
+            commandId="anatlyzer.commands.interactiveTransformation">
+      </handler>
+	</extension>
+ <extension
+       point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension
+          targetID="org.eclipse.jdt.ui.JavaPerspective">
+       <view
+             id="anatlyzer.ide.interactive.views.InteractiveView"
+             ratio="0.5"
+             relationship="right"
+             relative="org.eclipse.ui.views.ProblemView">
+       </view>
+    </perspectiveExtension>
+    <perspectiveExtension
+          targetID="org.eclipse.jdt.ui.JavaPerspective">
+       <view
+             id="anatlyzer.ide.interactive.views.TestModelsView"
+             ratio="0.5"
+             relationship="right"
+             relative="org.eclipse.ui.views.ProblemView">
+       </view>
+    </perspectiveExtension>
+ </extension>
+ <extension
+       point="org.eclipse.ui.editors">
+    <editor
+          class="anatlyzer.ide.interactive.editors.InteractiveTransformationEditor"
+          contributorClass="anatlyzer.ide.interactive.editors.InteractiveTransformationEditorContributor"
+          extensions="itrafo"
+          icon="icons/check_list.png"
+          id="anatlyzer.ide.interactive.editors.InteractiveTransformationEditor"
+          name="Interactive Transformation">
+    </editor>
+ </extension>
+</plugin>

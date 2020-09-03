@@ -15,6 +15,28 @@ public interface IFinderStatsCollector {
 	void withFrameCondition(OclExpression exp);
 	void withHelper(Helper helper);
 
+	public static class NullStatsCollector implements IFinderStatsCollector {
+
+		@Override
+		public void withMainConstraint(OclExpression constraint) { }
+
+		@Override
+		public void withPrecondition(OclExpression body) { }
+
+		@Override
+		public void withFrameCondition(OclExpression exp) { }
+
+		@Override
+		public void withHelper(Helper helper) { }
+
+		@Override
+		public void withSolvingTimeNanos(long solvingTime) { }
+
+		@Override
+		public long getSolvingTimeNanos() { return 0; }
+		
+	}
+	
 	public static class DefaultFinderStatsCollector implements IFinderStatsCollector {
 		public OclExpression mainConstraint;
 		public List<OclExpression> preconditions = new ArrayList<>();

@@ -8,7 +8,8 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.editor.builder.AnalyserExecutor;
@@ -17,7 +18,9 @@ import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.problemtracking.ProblemTracker;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
+import anatlyzer.ui.configuration.ConfigurationReader;
 import anatlyzer.ui.configuration.TransformationConfiguration;
+import anatlyzer.ui.util.WorkspaceLogger;
 
 /**
  * This class maintains a global index of the analysis already performed
@@ -107,11 +110,57 @@ public class AnalysisIndex {
 	
 	public TransformationConfiguration getConfiguration(IResource resource) {		
 		TransformationConfiguration r = confs.get(getFileId(resource));		
-//		if ( r == null )
-//			r = TransformationConfiguration.getDefault();
+		if ( r == null ) {
+			r = initConfigurationForAtl((IFile) resource);
+		}
 		return r;
 	}
 
+	/**
+	 * Reads the corresponding configuration file of a given transformation or
+	 * initializes a default value. In both cases the configuration is added to
+	 * the index.
+	 * 
+	 * @param atlFile
+	 * @return
+	 */
+	private TransformationConfiguration initConfigurationForAtl(IFile atlFile) {
+		IPath confPath = atlFile.getFullPath().removeFileExtension().addFileExtension("atlc");
+		IFile confFile = atlFile.getWorkspace().getRoot().getFile(confPath);
+		TransformationConfiguration c = readConfiguration(confFile, atlFile);		
+		if ( c == null ) {
+			c = TransformationConfiguration.getDefault();
+			AnalysisIndex.getInstance().register(atlFile, c);							
+		}
+		return c;
+	}
+	
+	private TransformationConfiguration readConfiguration(IFile file) {
+		IPath atlPath = file.getFullPath().removeFileExtension().addFileExtension("atl");
+		IFile atlFile = file.getWorkspace().getRoot().getFile(atlPath);
+		return readConfiguration(file, atlFile);
+	}
+
+
+	public void updateConfiguration(IResource resource) {
+		readConfiguration((IFile) resource);
+	}
+
+	private TransformationConfiguration readConfiguration(IFile confFile, IFile atlFile) {
+		try {
+			if ( confFile.exists() && atlFile.exists() ) {
+				TransformationConfiguration c = ConfigurationReader.read(confFile.getContents());
+				AnalysisIndex.getInstance().register(atlFile, c);				
+				return c;
+			}
+		} catch (IOException e) {
+			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
+		} catch (CoreException e) {
+			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
+		}		
+		return null;
+	}
+	
 	private boolean trackProblems(String location) {
 		TransformationConfiguration conf = confs.get(location);
 		return conf != null && conf.isContinousWitnessFinder();

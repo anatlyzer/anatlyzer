@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.eclipse.core.resources.IFile;
@@ -18,7 +16,6 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -45,7 +42,6 @@ import anatlyzer.atl.util.AnalyserUtils;
 import anatlyzer.atl.util.AnalyserUtils.CannotLoadMetamodel;
 import anatlyzer.atl.util.AnalyserUtils.PreconditionParseError;
 import anatlyzer.atlext.ATL.LocatedElement;
-import anatlyzer.ui.configuration.ConfigurationReader;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 import anatlyzer.ui.util.WorkspaceLogger;
@@ -254,15 +250,11 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 	protected void check(IResource resource,  Supplier<AtlNbCharFile> currentFileHelperCreator, Supplier<AnalyserData> analysisExecutor) {
 
 		if (resource instanceof IFile && resource.getName().endsWith(".atlc")) {
-			readConfiguration((IFile) resource);
+			AnalysisIndex.getInstance().updateConfiguration(resource);
 		}
 		else if (resource instanceof IFile && resource.getName().endsWith(".atl")) {
 			IFile file = (IFile) resource;
 			TransformationConfiguration c = AnalysisIndex.getInstance().getConfiguration(resource);
-			if ( c == null ) {
-				c = initConfigurationForAtl(file);
-			}
-			
 			deleteMarkers(file);
 
 			AtlNbCharFile help = null;
@@ -347,47 +339,6 @@ public class AnATLyzerBuilder extends IncrementalProjectBuilder {
 		WitnessFinderJob job = new WitnessFinderJob(f, data);
 		job.setPriority(Job.LONG);
 		job.schedule();		
-	}
-
-	/**
-	 * Reads the corresponding configuration file of a given transformation or
-	 * initializes a default value. In both cases the configuration is added to
-	 * the index.
-	 * 
-	 * @param atlFile
-	 * @return
-	 */
-	private TransformationConfiguration initConfigurationForAtl(IFile atlFile) {
-		IPath confPath = atlFile.getFullPath().removeFileExtension().addFileExtension("atlc");
-		IFile confFile = atlFile.getWorkspace().getRoot().getFile(confPath);
-		TransformationConfiguration c = readConfiguration(confFile, atlFile);		
-		if ( c == null ) {
-			c = TransformationConfiguration.getDefault();
-			AnalysisIndex.getInstance().register(atlFile, c);							
-		}
-		return c;
-	}
-	
-	private TransformationConfiguration readConfiguration(IFile file) {
-		IPath atlPath = file.getFullPath().removeFileExtension().addFileExtension("atl");
-		IFile atlFile = file.getWorkspace().getRoot().getFile(atlPath);
-		return readConfiguration(file, atlFile);
-	}
-	
-
-	private TransformationConfiguration readConfiguration(IFile confFile, IFile atlFile) {
-		try {
-			if ( confFile.exists() && atlFile.exists() ) {
-				TransformationConfiguration c = ConfigurationReader.read(confFile.getContents());
-				AnalysisIndex.getInstance().register(atlFile, c);				
-				return c;
-			}
-		} catch (IOException e) {
-			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
-		} catch (CoreException e) {
-			WorkspaceLogger.generateLogEntry(IStatus.ERROR, e);
-		}		
-		return null;
 	}
 
 	private static void addMarker(IResource file, AtlNbCharFile help, AnalysisResult data, Problem problem) throws CoreException {

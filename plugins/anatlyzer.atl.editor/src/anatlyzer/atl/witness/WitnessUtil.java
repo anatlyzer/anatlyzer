@@ -9,22 +9,33 @@ import anatlyzer.atl.editor.Activator;
 import anatlyzer.ui.configuration.TransformationConfiguration;
 
 public class WitnessUtil {
+	
 	public static IWitnessFinder getFirstWitnessFinder() {
+		return getFirstWitnessFinder("EclipseUseWitnessFinder");
+	}
+	
+	public static IWitnessFinder getFirstWitnessFinder(String nameHint) {
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		IConfigurationElement[] extensions = registry.getConfigurationElementsFor(Activator.ATL_WITNESSFINDER_EXTENSION_POINT);
 		// ArrayList<IWitnessFinder> finders = new ArrayList<IWitnessFinder>();
 		
+		IWitnessFinder first = null;
 		for (IConfigurationElement ce : extensions) {
 			IWitnessFinder wf;
 			try {
 				wf = (IWitnessFinder) ce.createExecutableExtension("finder");
-				return wf;
+				if (first == null)
+					first = wf;
+				
+				if (wf.getName().toLowerCase().contains(nameHint.toLowerCase()))
+					return wf;
+				
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return null;
+		return first;
 	}
 
 	public static IWitnessFinder getFirstWitnessFinder(TransformationConfiguration analysisConfiguration) {

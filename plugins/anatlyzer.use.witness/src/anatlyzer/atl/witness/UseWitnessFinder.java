@@ -88,7 +88,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 	private IScopeCalculator scopeCalculator;
 	private WitnessGenerationMode mode = WitnessGenerationMode.ERROR_PATH;
 	private IWitnessModel foundModel;
-	private IFinderStatsCollector statsCollector = new NullStatsCollector();
+	private IFinderStatsCollector statsCollector = new IFinderStatsCollector.NullStatsCollector();
 	private IInputPartialModel partialModel;
 	private RetypingStrategy retypingStrategy = new RetypingToSet();
 	private boolean preferDeclaredTypes = false;

@@ -1,0 +1,6 @@
+-- @path ABCD=/anatlyzer.atl.tests.unit/metamodels/ABCD.ecore
+-- @path WXYZ=/anatlyzer.atl.tests.unit/metamodels/WXYZ.ecore
+module constraints;
+create OUT : WXYZ from IN : ABCD;
+
+helper def : constraint1 : Boolean = ABCD!B.allInstances()->exists(a | a.aBooleanAttr = true);

@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AnATLyzer integration with EFinder
+Bundle-SymbolicName: anatlyzer.efinder.witness
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: anatlyzer.efinder.witness.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ efinder.core;bundle-version="1.0.0",
+ efinder.usemv;bundle-version="1.0.0",
+ anatlyzer.atl.typing
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: anatlyzer.efinder.witness
+Bundle-ActivationPolicy: lazy
+Export-Package: anatlyzer.efinder.witness

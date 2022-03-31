@@ -32,7 +32,7 @@ public class PerElementScopeCalculator implements IBoundsProvider {
 		for (EClass eClass : slice.getClasses()) {
 			perElement.addBound(eClass, 0, i);
 		}
-		List<EFClass> thisModule = model.getSpecification().getTemporary().stream().
+		List<EFClass> thisModule = model.getSpecification().getTemporary().getClasses().stream().
 				filter(c -> c.getKlass().getName().toLowerCase().equals("thismodule")).
 				collect(Collectors.toList());
 		thisModule.forEach((c) -> perElement.addBound(c.getKlass(), 1, 1));		

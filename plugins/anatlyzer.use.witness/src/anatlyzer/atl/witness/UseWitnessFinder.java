@@ -4,44 +4,25 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.tzi.use.parser.SrcPos;
 
-import witness.generator.TimeOutException;
-import witness.generator.USEResult;
-import witness.generator.USEResult.ScrollingIterator;
-import witness.generator.USESerializer;
-import witness.generator.UseInputPartialModel;
-import witness.generator.WitnessGeneratorMemory;
-import witness.generator.USESerializer.USEConstraint;
-import witness.generator.USESolverMemory;
-import witness.generator.mmext.ErrorPathMetamodelStrategy;
-import witness.generator.mmext.FullMetamodelStrategy;
-import witness.generator.mmext.IMetamodelExtensionStrategy;
-import witness.generator.mmext.MandatoryEffectiveMetamodelStrategy;
-import witness.generator.mmext.MandatoryFullMetamodelStrategy;
-import witness.generator.mmext.ViewMetamodelStrategy;
 import analyser.atl.problems.IDetectedProblem;
-import anatlyzer.atl.analyser.Analyser;
 import anatlyzer.atl.analyser.AnalysisResult;
 import anatlyzer.atl.analyser.IAnalyserResult;
 import anatlyzer.atl.analyser.generators.CSPModel;
 import anatlyzer.atl.analyser.generators.ErrorSlice;
-import anatlyzer.atl.analyser.generators.IObjectVisitor;
 import anatlyzer.atl.analyser.generators.OclSlice;
 import anatlyzer.atl.analyser.generators.RetypingStrategy;
 import anatlyzer.atl.analyser.generators.RetypingToSet;
@@ -52,8 +33,6 @@ import anatlyzer.atl.footprint.TrafoMetamodelData;
 import anatlyzer.atl.graph.FeatureNotSupported;
 import anatlyzer.atl.graph.ProblemPath;
 import anatlyzer.atl.model.ATLModel;
-import anatlyzer.atl.model.TypeUtils;
-import anatlyzer.atl.model.TypingModel;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -70,6 +49,19 @@ import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.atlext.OCL.OclFeatureDefinition;
 import anatlyzer.atlext.OCL.OclModel;
 import anatlyzer.footprint.EffectiveMetamodelBuilder;
+import witness.generator.TimeOutException;
+import witness.generator.USEResult;
+import witness.generator.USESerializer;
+import witness.generator.USESerializer.USEConstraint;
+import witness.generator.USESolverMemory;
+import witness.generator.UseInputPartialModel;
+import witness.generator.WitnessGeneratorMemory;
+import witness.generator.mmext.ErrorPathMetamodelStrategy;
+import witness.generator.mmext.FullMetamodelStrategy;
+import witness.generator.mmext.IMetamodelExtensionStrategy;
+import witness.generator.mmext.MandatoryEffectiveMetamodelStrategy;
+import witness.generator.mmext.MandatoryFullMetamodelStrategy;
+import witness.generator.mmext.ViewMetamodelStrategy;
 
 public abstract class UseWitnessFinder implements IWitnessFinder {
 
@@ -221,7 +213,7 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		}
 		
 		if ( constraint == null ) {
-			MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
+			onDeadCode(constraint);
 			return ProblemStatus.CANNOT_DETERMINE;
 		}
 
@@ -237,6 +229,10 @@ public abstract class UseWitnessFinder implements IWitnessFinder {
 		} 
 		
 		return result;
+	}
+
+	protected void onDeadCode(OclExpression constraint) {
+		System.out.println("Dead code. Could not create a path: " + constraint);
 	}
 
 	private IMetamodelExtensionStrategy getMetamodelStrategy() {

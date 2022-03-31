@@ -1,6 +1,5 @@
 package witness.generator.mmext;
 
-import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -17,7 +16,7 @@ import witness.generator.WitnessGenerator;
  *
  */
 public abstract class AbstractMetamodelExtension extends WitnessGenerator implements IMetamodelExtensionStrategy {
-	public Object execute(ExecutionEvent event) { throw new UnsupportedOperationException(); }
+	//public Object execute(ExecutionEvent event) { throw new UnsupportedOperationException(); }
 	protected String generateWitness(String path, org.eclipse.emf.ecore.EPackage metamodel, String ocl_constraint, int index) { throw new UnsupportedOperationException(); };
 	
 	@Override

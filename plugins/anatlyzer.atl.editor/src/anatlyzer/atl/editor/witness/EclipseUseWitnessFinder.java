@@ -1,10 +1,12 @@
 package anatlyzer.atl.editor.witness;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 
 import anatlyzer.atl.witness.IWitnessFinder;
 import anatlyzer.atl.witness.UseWitnessFinder;
+import anatlyzer.atlext.OCL.OclExpression;
 import anatlyzer.ui.preferences.AnATLyzerPreferenceInitializer;
 import anatlyzer.ui.util.WorkbenchUtil;
 import anatlyzer.ui.util.WorkspaceLogger;
@@ -27,6 +29,11 @@ public class EclipseUseWitnessFinder extends UseWitnessFinder implements IWitnes
 				WorkspaceLogger.writeLog(IStatus.ERROR, e.getMessage(), e);
 			}
 		});
+	}
+	
+	@Override
+	protected void onDeadCode(OclExpression constraint) {
+		MessageDialog.openWarning(null, "Error", "Dead code. Could not create a path");
 	}
 
 	private String tempDirectory = null;

@@ -26,6 +26,8 @@ import anatlyzer.atl.analyser.libtypes.IOclStandardLibrary;
 import anatlyzer.atl.analyser.namespaces.GlobalNamespace;
 import anatlyzer.atl.errors.ProblemStatus;
 import anatlyzer.atl.model.ATLModel;
+import anatlyzer.atl.model.TypingModel;
+import anatlyzer.atl.types.TypesFactory;
 import anatlyzer.atl.util.ATLCopier;
 import anatlyzer.atl.util.ATLUtils;
 import anatlyzer.atl.util.AnalyserUtils;
@@ -217,6 +219,7 @@ public class ConstraintSatisfactionChecker {
 			OclExpression witness = getWitnessConditionRaw(); 
 			if ( globalAccessVariableName != null ) {		
 				OclModelElement m = OCLFactory.eINSTANCE.createOclModelElement();
+				m.setInferredType(TypesFactory.eINSTANCE.createThisModuleType());
 				m.setName(Analyser.USE_THIS_MODULE_CLASS);
 	
 				OperationCallExp op = OCLFactory.eINSTANCE.createOperationCallExp();
@@ -228,6 +231,7 @@ public class ConstraintSatisfactionChecker {
 				exists.setSource(op);
 				Iterator it = OCLFactory.eINSTANCE.createIterator();
 				it.setVarName("thisModule");
+				it.setInferredType(TypesFactory.eINSTANCE.createThisModuleType());
 				exists.getIterators().add(it);
 				
 				// Copy needed because the OCL slice wants to refer to the original element which

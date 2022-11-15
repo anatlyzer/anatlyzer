@@ -9,9 +9,6 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,8 +23,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IModel;
 import org.eclipse.m2m.atl.core.IReferenceModel;
@@ -59,7 +54,7 @@ import witness.visualizer.EMFModelPlantUMLSerializer;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class WitnessGenerator extends AbstractHandler {
+public class WitnessGenerator {
 	
 	private transMLMessageConsoleMock console = new transMLMessageConsoleMock();
 	
@@ -73,6 +68,7 @@ public class WitnessGenerator extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
+	/*
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		
 		console.clear();
@@ -201,6 +197,7 @@ public class WitnessGenerator extends AbstractHandler {
 		
 		return null;
 	}
+	*/
 	
 //	public Object executeWithCompleteMetamodel(ExecutionEvent event) throws ExecutionException {
 //		console.clear();

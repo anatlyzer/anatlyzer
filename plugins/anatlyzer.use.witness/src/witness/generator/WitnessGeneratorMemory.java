@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import kodkod.engine.Solution.Outcome;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
@@ -15,12 +13,11 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import anatlyzer.atl.witness.IScopeCalculator;
-
+import kodkod.engine.Solution.Outcome;
 import transML.exceptions.transException;
 import transML.utils.transMLProperties;
 import transML.utils.solver.FactorySolver;
 import transML.utils.solver.SolverWrapper;
-import transML.utils.solver.use.Solver_use;
 import witness.generator.mmext.IMetamodelExtensionStrategy;
 import witness.generator.mmext.MandatoryFullMetamodelStrategy;
 import witness.visualizer.EMFModelPlantUMLSerializer;

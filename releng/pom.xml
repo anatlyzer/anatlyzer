@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>es.um.anatlyzer</groupId>
+        <groupId>io.github.anatlyzer</groupId>
         <artifactId>anatlyzer-parent</artifactId>
         <version>0.7.1-SNAPSHOT</version>
     </parent>

@@ -30,7 +30,7 @@ The build produces the following libraries that can be deployed to Maven reposit
 - **anatlyzer.atl.standalone.api** - Standalone API for programmatic usage
 
 All artifacts are built with:
-- Group ID: `es.um.anatlyzer`
+- Group ID: `io.github.anatlyzer`
 - Version: `0.7.1-SNAPSHOT`
 
 ## Build Configuration

@@ -14,5 +14,6 @@
     <packaging>eclipse-plugin</packaging>
 
     <name>AnATLyzer ATL UML</name>
+    <description>UML profile support for AnATLyzer</description>
 
 </project>

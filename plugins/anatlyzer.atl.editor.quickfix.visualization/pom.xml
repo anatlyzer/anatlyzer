@@ -14,6 +14,7 @@
     <packaging>eclipse-plugin</packaging>
 
     <name>AnATLyzer ATL Editor Quickfix Visualization</name>
+    <description>Visualization components for quick fix suggestions</description>
 
     <build>
         <plugins>

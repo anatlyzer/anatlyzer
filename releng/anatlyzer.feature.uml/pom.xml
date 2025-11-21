@@ -14,5 +14,6 @@
     <packaging>eclipse-feature</packaging>
 
     <name>AnATLyzer Feature UML</name>
+    <description>UML profile support feature for AnATLyzer</description>
 
 </project>

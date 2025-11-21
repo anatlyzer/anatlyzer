@@ -14,6 +14,7 @@
     <packaging>eclipse-plugin</packaging>
 
     <name>AnATLyzer ATL Optimizer</name>
+    <description>Optimizer for ATL transformations</description>
 
     <build>
         <plugins>

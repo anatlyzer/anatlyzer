@@ -14,6 +14,7 @@
     <packaging>eclipse-plugin</packaging>
 
     <name>AnATLyzer OCL EMF</name>
+    <description>OCL handling for EMF models</description>
 
     <build>
         <plugins>

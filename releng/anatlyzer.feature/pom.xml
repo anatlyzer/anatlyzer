@@ -14,5 +14,6 @@
     <packaging>eclipse-feature</packaging>
 
     <name>AnATLyzer Feature</name>
+    <description>Main Eclipse feature for AnATLyzer static analyzer</description>
 
 </project>

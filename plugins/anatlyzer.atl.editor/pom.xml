@@ -14,6 +14,7 @@
     <packaging>eclipse-plugin</packaging>
 
     <name>AnATLyzer ATL Editor</name>
+    <description>ATL editor extension with static analysis capabilities</description>
 
     <build>
         <plugins>

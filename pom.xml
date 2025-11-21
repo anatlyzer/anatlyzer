@@ -58,6 +58,63 @@
                     </environments>
                 </configuration>
             </plugin>
+
+	    <!-- Plugins for uploading to Maven Central -->
+	    <plugin>
+	      <groupId>org.sonatype.central</groupId>
+	      <artifactId>central-publishing-maven-plugin</artifactId>
+	      <version>0.5.0</version> <!-- check for the latest -->
+	      <extensions>true</extensions>
+	      <configuration>
+		<publishingServerId>central</publishingServerId>
+	      </configuration>
+	    </plugin>
+
+	    <!-- Required: sources + javadocs -->
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-source-plugin</artifactId>
+	      <version>3.2.1</version>
+	      <executions>
+		<execution>
+		  <id>attach-sources</id>
+		  <goals><goal>jar</goal></goals>
+		</execution>
+	      </executions>
+	    </plugin>
+
+	    <!--
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-javadoc-plugin</artifactId>
+	      <version>3.5.0</version>
+	      <executions>
+		<execution>
+		  <id>attach-javadocs</id>
+		  <goals><goal>jar</goal></goals>
+		</execution>
+	      </executions>
+	    </plugin>
+	    -->
+
+	    <!-- Required: signing -->
+	    <!-- To generate a gpg key (join the - -)
+		gpg - - full-generate-key
+		gpg - - keyserver keyserver.ubuntu.com - -send-keys YOUR_KEY_ID
+	    -->
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-gpg-plugin</artifactId>
+	      <version>3.2.2</version>
+	      <executions>
+		<execution>
+		  <id>sign-artifacts</id>
+		  <phase>verify</phase>
+		  <goals><goal>sign</goal></goals>
+		</execution>
+	      </executions>
+	    </plugin>
+	    
         </plugins>
     </build>
 

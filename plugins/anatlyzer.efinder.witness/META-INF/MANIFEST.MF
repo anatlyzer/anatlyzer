@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AnATLyzer integration with EFinder
 Bundle-SymbolicName: anatlyzer.efinder.witness
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0
 Bundle-Activator: anatlyzer.efinder.witness.Activator
 Require-Bundle: org.eclipse.core.runtime,
  efinder.core;bundle-version="1.0.0",

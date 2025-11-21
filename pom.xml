@@ -6,7 +6,7 @@
 
     <groupId>io.github.anatlyzer</groupId>
     <artifactId>anatlyzer-parent</artifactId>
-    <version>0.7.1-SNAPSHOT</version>
+    <version>0.8.0</version>
     <packaging>pom</packaging>
 
     <name>AnATLyzer Parent</name>

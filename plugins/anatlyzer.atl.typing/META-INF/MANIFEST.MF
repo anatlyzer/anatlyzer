@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: anatlyzer.atl.typing;singleton:=true
 Automatic-Module-Name: anatlyzer.atl.typing
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0
 Bundle-ClassPath: .,
  lib/guava-r05.jar
 Bundle-Vendor: %providerName

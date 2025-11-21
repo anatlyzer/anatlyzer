@@ -31,7 +31,7 @@ The build produces the following libraries that can be deployed to Maven reposit
 
 All artifacts are built with:
 - Group ID: `io.github.anatlyzer`
-- Version: `0.7.1-SNAPSHOT`
+- Version: `0.8.0`
 
 ## Build Configuration
 

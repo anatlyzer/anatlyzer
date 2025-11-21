@@ -11,10 +11,9 @@ Bundle-Localization: plugin
 Bundle-Activator: anatlyzer.atl.typing.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- anatlyzer.atl.typing;visibility:=reexport,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: analyser.atl.problems,
  anatlyzer.atl.analyser,
  anatlyzer.atl.analyser.batch,

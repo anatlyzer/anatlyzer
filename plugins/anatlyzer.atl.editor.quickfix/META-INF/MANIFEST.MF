@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore,
  org.eclipse.m2m.atl.adt.editor,
  org.eclipse.m2m.atl.engine
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Export-Package: anatlyzer.atl.editor.quickfix,
  anatlyzer.atl.editor.quickfix.dialog,

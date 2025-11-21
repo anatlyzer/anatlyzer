@@ -7,7 +7,8 @@ Bundle-Activator: anatlyzer.efinder.witness.Activator
 Require-Bundle: org.eclipse.core.runtime,
  efinder.core;bundle-version="1.0.0",
  efinder.usemv;bundle-version="1.0.0",
- anatlyzer.atl.typing
+ anatlyzer.atl.typing,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: anatlyzer.efinder.witness
 Bundle-ActivationPolicy: lazy

@@ -13,5 +13,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.editor;bundle-version="2.10.1",
  anatlyzer.use.witness,
  org.eclipse.emf.ecore
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy

@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.m2m.atl.engine;bundle-version="3.3.0",
  anatlyzer.atl.typing
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: lib/plantuml.jar,
  lib/dist/transml_use_complete.jar,
  .

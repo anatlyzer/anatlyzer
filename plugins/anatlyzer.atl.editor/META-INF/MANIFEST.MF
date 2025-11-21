@@ -22,7 +22,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench,
  org.eclipse.osgi
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: anatlyzer.atl.analysisext,
  anatlyzer.atl.editor,
  anatlyzer.atl.editor.builder,

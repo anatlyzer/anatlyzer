@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Aql
 Bundle-SymbolicName: efinder.aql
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.7.1.qualifier
 Automatic-Module-Name: esolver.aql
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: efinder.aql

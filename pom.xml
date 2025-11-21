@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.anatlyzer</groupId>
+    <artifactId>anatlyzer-parent</artifactId>
+    <version>0.8.0</version>
+    <packaging>pom</packaging>
+
+    <name>AnATLyzer Parent</name>
+    <description>Static analyzer for ATL model transformations</description>
+    <url>https://anatlyzer.github.io</url>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License - v 1.0</name>
+            <url>https://www.eclipse.org/legal/epl-v10.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>jesusc</id>
+            <name>Jesús Sánchez Cuadrado</name>
+            <email>jesusc@um.es</email>
+            <organization>Universidad de Murcia</organization>
+            <organizationUrl>https://www.um.es</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/anatlyzer/anatlyzer.git</connection>
+        <developerConnection>scm:git:ssh://github.com:anatlyzer/anatlyzer.git</developerConnection>
+        <url>https://github.com/anatlyzer/anatlyzer</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tycho.version>4.0.4</tycho.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>plugins</module>
+        <module>releng</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho.version}</version>
+                <configuration>
+                    <resolver>p2</resolver>
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                    </environments>
+                </configuration>
+            </plugin>
+
+	    <!-- Plugins for uploading to Maven Central -->
+	    <plugin>
+	      <groupId>org.sonatype.central</groupId>
+	      <artifactId>central-publishing-maven-plugin</artifactId>
+	      <version>0.5.0</version> <!-- check for the latest -->
+	      <extensions>true</extensions>
+	      <configuration>
+		<publishingServerId>central</publishingServerId>
+	      </configuration>
+	    </plugin>
+
+	    <!-- Required: sources + javadocs -->
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-source-plugin</artifactId>
+	      <version>3.2.1</version>
+	      <executions>
+		<execution>
+		  <id>attach-sources</id>
+		  <goals><goal>jar</goal></goals>
+		</execution>
+	      </executions>
+	    </plugin>
+
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-javadoc-plugin</artifactId>
+	      <version>3.5.0</version>
+	      <executions>
+		<execution>
+		  <id>attach-javadocs</id>
+		  <goals><goal>jar</goal></goals>
+		</execution>
+	      </executions>
+	      <configuration>
+		<doclint>none</doclint>
+		<failOnError>false</failOnError>
+	      </configuration>
+	    </plugin>
+
+	    <!-- Required: signing -->
+	    <!-- To generate a gpg key (join the - -)
+		gpg - - full-generate-key
+		gpg - - keyserver keyserver.ubuntu.com - -send-keys YOUR_KEY_ID
+	    -->
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-gpg-plugin</artifactId>
+	      <version>3.2.2</version>
+	      <executions>
+		<execution>
+		  <id>sign-artifacts</id>
+		  <phase>verify</phase>
+		  <goals><goal>sign</goal></goals>
+		</execution>
+	      </executions>
+	    </plugin>
+	    
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>eclipse-2023-03</id>
+            <layout>p2</layout>
+            <url>https://download.eclipse.org/releases/2023-03</url>
+        </repository>
+        <repository>
+            <id>eclipse-modeling-mmt</id>
+            <layout>p2</layout>
+            <url>https://download.eclipse.org/mmt/atl/updates/milestones/</url>
+        </repository>
+    </repositories>
+
+</project>
